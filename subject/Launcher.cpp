@@ -127,7 +127,7 @@ namespace goat {
 		bool prompt = true;
 
 		while (true) {
-			output->write(prompt ? L"? " : L"  ");
+			output->write(prompt ? (wchar*)L"? " : (wchar*)L"  ");
 			WideString line = console.read();
 			if (line != L"") {
 				if (line == L"exit") {
