@@ -1,0 +1,18 @@
+var f = function(n, ch) {
+	var i = 0;
+	while(i < n) {
+		i = i + 1;
+		print(ch);
+	}
+};
+
+var t0 = thread(){
+	f(1000, 'A');
+};
+
+var t1 = thread(){
+	f(1000, 'B');
+};
+
+t0.run();
+t1.run();
