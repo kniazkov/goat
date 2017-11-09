@@ -1,0 +1,12 @@
+var f = $() {
+	var v = 0;
+	return $() {
+		v = v + 1;
+		print(v);
+	};
+};
+
+var c = f();
+c();
+c();
+c();

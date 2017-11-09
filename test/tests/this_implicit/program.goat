@@ -1,0 +1,12 @@
+var val = 666;
+
+var obj = {
+	val : 13,
+
+	method : $() {
+		return val;
+	}
+};
+
+print(obj.method());
+

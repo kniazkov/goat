@@ -1,0 +1,6 @@
+var f = $() {
+	return { val : 13 };
+};
+
+print(f().val);
+

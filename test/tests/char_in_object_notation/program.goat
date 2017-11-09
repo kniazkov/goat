@@ -1,0 +1,2 @@
+var obj = {test : 'z'};
+print(obj);

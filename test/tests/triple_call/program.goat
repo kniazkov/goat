@@ -1,0 +1,10 @@
+var f = $() {
+	return $() {
+		return $() {
+			return 13;
+		};
+	};
+};
+
+print(f()()());
+

@@ -1,0 +1,20 @@
+var t0 = thread() {
+	var i = 0;
+	while (i < 1000) {
+		i = i + 1;
+		print('A');
+	}
+};
+
+var t1 = thread() {
+	var i = 0;
+	while (i < 1000) {
+		i = i + 1;
+		print('B');
+		print('C');
+	}
+};
+
+
+t0.run();
+t1.run();

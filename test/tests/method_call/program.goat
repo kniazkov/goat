@@ -1,0 +1,8 @@
+var obj = {
+	method : $() {
+		return 0;
+	}
+};
+
+print(obj.method());
+

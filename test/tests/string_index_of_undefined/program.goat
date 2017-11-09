@@ -1,0 +1,2 @@
+var obj = { first : 13, second : 666 };
+print(obj0["first"]);

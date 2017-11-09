@@ -1,0 +1,20 @@
+var foo = {
+	x : 13,
+	getX : $() {
+		return x;
+	},
+	y : 666,
+	getY : $() {
+		return y;
+	}
+};
+
+var bar = foo -> {
+	getY : $() {
+		return 0;
+	}
+};
+
+print(foo.getY());
+print("\n");
+print(bar.getY());

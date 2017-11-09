@@ -1,0 +1,14 @@
+var obj = {};
+
+obj[false] = true;
+obj[666] = 13;
+obj["test"] = "information";
+obj.field = "value";
+
+print(obj[false]);
+print("\n");
+print(obj[666]);
+print("\n");
+print(obj.test);
+print("\n");
+print(obj["field"]);

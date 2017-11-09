@@ -1,0 +1,5 @@
+var f = print;
+f({
+	a : 1,
+	b : "test"
+});

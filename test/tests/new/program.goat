@@ -1,0 +1,10 @@
+var Foo = {
+	y : 666,
+	getY : $() {
+		return y;
+	}
+};
+
+var obj = new Foo();
+
+print(obj.getY());

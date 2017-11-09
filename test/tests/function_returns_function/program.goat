@@ -1,0 +1,8 @@
+var f = $() {
+	return $(s) {
+		print(s);
+	};
+};
+
+var q = f();
+q("it works.");

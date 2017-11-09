@@ -1,0 +1,17 @@
+var v0 = 13;
+
+var f = $() {
+	var v1 = 666;
+	
+	return {
+		v2 : 0,
+		
+		method : $() {
+			print("" + v0 + "\n");
+			print("" + v1 + "\n");
+			print("" + v2 + "\n");
+		}
+	};
+};
+
+f().method();

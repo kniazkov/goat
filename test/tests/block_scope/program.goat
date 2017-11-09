@@ -1,0 +1,6 @@
+var a = 0;
+if (true) {
+	var a = 1;
+	print(a);
+}
+print(a);

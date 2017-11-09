@@ -1,0 +1,10 @@
+var obj = {
+	val : 13,
+
+	method : $() {
+		return this.val;
+	}
+};
+
+print(obj.method());
+

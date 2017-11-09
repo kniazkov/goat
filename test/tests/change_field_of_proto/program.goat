@@ -1,0 +1,10 @@
+var A = {
+	value : 13
+};
+
+var B = A -> {};
+B.value = 666;
+
+print(A);
+print("\n");
+print(B);

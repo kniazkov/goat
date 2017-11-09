@@ -1,0 +1,12 @@
+var obj = {
+	a : 0,
+	b : "test",
+	c : true,
+	d : 13,
+	e : 666
+};
+
+var cl = obj.clone();
+obj.b = "changed";
+
+print("" + obj + "\n" + cl);

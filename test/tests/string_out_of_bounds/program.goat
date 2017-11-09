@@ -1,0 +1,2 @@
+var s = "test";
+print(s[5]);

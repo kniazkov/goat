@@ -1,0 +1,3 @@
+var a, b = 2, c = "result";
+a = 3;
+print(c + " = " + (a + b));

@@ -1,0 +1,30 @@
+var A = {
+	init : $() {
+		this.x = 13;
+	},
+	getX : $() {
+		return x;
+	}
+};
+
+var B = A -> {
+	init : $() {
+		this.x = 666;
+	}
+};
+
+var C = B -> {
+	init : $(y) {
+		this.y = y;
+	},
+	getY : $() {
+		return y;
+	}
+};
+
+var obj = new C(1);
+
+print(obj.getX());
+print("\n");
+print(obj.getY());
+

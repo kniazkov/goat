@@ -1,0 +1,18 @@
+var foo = {
+	y : 666,
+	getY : $() {
+		return y;
+	}
+};
+
+var bar = foo -> {
+	getY : $() {
+		return 0;
+	}
+};
+
+var obj = {} -> bar;
+
+print(foo.getY());
+print("\n");
+print(obj.getY());

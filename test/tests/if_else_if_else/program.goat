@@ -1,0 +1,12 @@
+var f = $(v) {
+	if (v == 0)
+		return "zero";
+	else if (v == 1)
+		return "one";
+	else if (v == 2)
+		return "two";
+	else
+		return "very big";
+};
+
+print(f(0) + " " + f(1) + " " + f(2) + " " + f(3));
