@@ -24,6 +24,19 @@
 		<li>You can create object from more than one prototype.</li>
 	</ul>
 	<p>Some samples are below.</p>
+	
+	<h3>Primitive types</h3>
+	<blockquote>
+	<h4>JavaScript</h4>
+	<p>A primitive data type is data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol. All primitives are immutable.</p>
+	<h4>Goat</h4>
+	<p>There are no primitive types. All data represented as objects. Each object except <code>undefined</code> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: Char, String, Integer, <del>Real,</del> Boolean and Null.</p>
+	<p>For determine what the type (prototype) of expression, use <code>instanceOf()</code> method:</p>
+	<pre>
+	print(13.instanceOf(Integer)); // output: true
+	</pre>
+	
+	</blockquote>
 
 	<h3>Inheritance</h3>
 	<blockquote>
@@ -84,6 +97,7 @@
 	<p>The diamond problem: Goat uses the list of prototypes to inherit from as an ordered list. The interpreter uses the first method it finds by depth-first searching.</p>
 	</blockquote>
 
+	
 </blockquote>		
 </body>
 <html>
