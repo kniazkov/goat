@@ -1,0 +1,37 @@
+var A = {
+	init : $() {
+		print('A');
+	}
+};
+
+var B = A->{
+	init : $() {
+		print('B');
+	}
+};
+
+var C = B->{
+	init : $() {
+		print('C');
+	}
+};
+
+var D = A->{
+	init : $() {
+		print('D');
+	}
+};
+
+var E = [C, D]->{
+	init : $() {
+		print('E');
+	}
+};
+
+var F = E->{
+	init : $() {
+		print('F');
+	}
+};
+
+var obj = new F();
