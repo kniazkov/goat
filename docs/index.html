@@ -1,24 +1,89 @@
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>The Goat Programming Language Reference</title>
-	</head>
-	<body>
-		<h1>The Goat Programming Language Reference</h1>
-		<p>v0.1 "raw meat"</p>
-		<hr>
+<head>
+<meta charset="UTF-8">
+<title>The Goat Programming Language Reference</title>
+</head>
+<body>
+<h1>The Goat Programming Language Reference</h1>
+<p>v0.1 "raw meat"</p>
+<hr>
+	
+<h2>Introduction</h2>
+<blockquote>
+	<p>To be done.</p>
+</blockquote>
+
+<h2>In comparison with JavaScript</h2>
+<blockquote>
+	<p>The Goat programming language based in general on JavaScript, but it has some differences:</p>
+	<ul>
+		<li>Interpreter is very small program and can be compiled and started in different platforms. I tried  Windows and Linux (both x86 and ARM). All you need are C++11 compiler and standart C library (libc etc).</li>
+		<li>Programs starts not in browser, not in special environment (Node.js); you can write general-purpose applications. Easy to install: just copy the file with your code and interpreter and then start.</li>
+		<li>Syntax is more simple, object model is more unificated.</li>
+		<li>Goat language supports multi-threading and operators overloading.</li>
+		<li>You can create object from more than one prototype.</li>
+	</ul>
+	<p>Some samples are below.</p>
+
+	<h3>Inheritance</h3>
+	<blockquote>
+	<h4>JavaScript</h4>
+	<pre>
+	var A = function() {
+		this.x = 0;
+	};
+
+	var B = function() {
+		A.apply(this);
+		this.y = 1;
+	};
+	B.prototype = new A();
 		
-		<h2>Introduction</h2>
-		<p>To be done.</p>
-		
-		<h2>In comparison with JavaScript</h2>
-		<p>The Goat programming language based in general on JavaScript, but it has some differences:</p>
-		<ul>
-			<li>Interpreter is very small program and can be compiled and started in different platforms. I tried  Windows and Linux (both x86 and ARM). All you need are C++11 compiler and standart C library (libc etc).</li>
-			<li>Programs starts not in browser, not in special environment (Node.js); you can write general-purpose applications. Easy to install: just copy the file with your code and interpreter and then start.</li>
-			<li>Syntax is more simple, object model is more unificated.</li>
-			<li>Goat language supports multi-threading and operators overloading.</li>
-			<li>You can create object from more than one prototype.</li>
-		</ul>
-	</body>
+	var C = function() {
+		B.apply(this);
+		this.z = 2;
+	};
+	C.prototype = new B();
+	</pre>
+	<h4>Goat</h4>
+	<p>Use operator <code>-&gt;</code>:</p>
+	<pre>
+	var A = {
+		x : 0
+	};
+
+	var B = A -> {
+		y : 1
+	};
+
+	var C = B -> {
+		z : 2
+	};
+	</pre>
+	</blockquote>
+	
+	<h3>Multiple inheritance</h3>
+	<blockquote>
+	<h4>JavaScript</h4>
+	<p>Is not supported. You can use some tricks (say mixins) but it is not true multiple inheritance.</p>
+	<h4>Goat</h4>
+	<p>Why not.</p>
+	<pre>
+	var A = {
+		x : 0
+	};
+
+	var B = {
+		y : 1
+	};
+
+	var C = [A, B] -> {
+		z : 2
+	};
+	</pre>
+	<p>The diamond problem: Goat uses the list of prototypes to inherit from as an ordered list. The interpreter uses the first method it finds by depth-first searching.</p>
+	</blockquote>
+
+</blockquote>		
+</body>
 <html>
