@@ -526,8 +526,5 @@
     <Text Include="program.goat">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="text.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
   </ItemGroup>
 </Project>

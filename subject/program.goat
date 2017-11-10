@@ -1,20 +1,14 @@
-var t0 = thread() {
-	var i = 0;
-	while (i < 1000) {
-		i = i + 1;
-		print('A');
-	}
+var A = {
+	x : 0
 };
 
-var t1 = thread() {
-	var i = 0;
-	while (i < 1000) {
-		i = i + 1;
-		print('B');
-		print('C');
-	}
+var B = {
+	x : 1,
+	y : 2
 };
 
+var c = [A, B]->{ };
 
-t0.run();
-t1.run();
+print(c.x);
+print("\n");
+print(c.y);

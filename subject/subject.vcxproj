@@ -192,7 +192,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="program.goat" />
-    <Text Include="text.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

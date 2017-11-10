@@ -423,7 +423,7 @@ namespace goat {
 			step = DONE;
 			proto = scope->this_;
 			Object *blank = scope->arguments->vector[0];
-			Object *funcClone = scope->this_->find("clone");
+			Object *funcClone = blank->find("clone");
 			ObjectFunction *of = funcClone->toObjectFunction();
 			if (of) {
 				scope = of->context->clone();
@@ -443,7 +443,14 @@ namespace goat {
 			return throw_(new IsNotAFunction("clone"));
 		}
 		case DONE: {
-			cloned->proto[0] = proto;
+			ObjectArray *multi = proto->toObjectArray();
+			if (multi) {
+				cloned->proto.clean();
+				multi->vector.clone(cloned->proto);
+			}
+			else {
+				cloned->proto[0] = proto;
+			}
 			State *p = prev;
 			p->ret(cloned);
 			delete this;
