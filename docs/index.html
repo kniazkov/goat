@@ -27,77 +27,105 @@
 	
 	<h3>Primitive types</h3>
 	<blockquote>
-	<h4>JavaScript</h4>
-	<p>A primitive data type is data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol. All primitives are immutable.</p>
-	<h4>Goat</h4>
-	<p>There are no primitive types. All data represented as objects. Each object except <code>undefined</code> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: Char, String, Integer, <del>Real,</del> Boolean and Null.</p>
-	<p>For determine what the type (prototype) of expression, use <code>instanceOf()</code> method:</p>
-	<pre>
-	print(13.instanceOf(Integer)); // output: true
-	</pre>
-	
+		<h4>JavaScript</h4>
+		<p>A primitive data type is data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol. All primitives are immutable.</p>
+		<h4>Goat</h4>
+		<p>There are no primitive types. All data represented as objects. Each object except <code>undefined</code> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: Char, String, Integer, <del>Real,</del> Boolean and Null.</p>
+		<p>For determine what the type (prototype) of expression, use <code>instanceOf()</code> method:</p>
+		<pre>
+print(13.instanceOf(Integer)); // output: "true"
+		</pre>		
 	</blockquote>
 
+	<h3>Operators overloading</h3>
+	<blockquote>
+		<h4>JavaScript</h4>
+		<p>Doesn't support.</p>
+		<h4>Goat</h4>
+		<p>You can use operator as method name:</p>
+		<pre>
+var Vector = {
+	init : $(x, y) {
+		this.x = x; this.y = y
+	},
+	toString : $() {
+		return "X: " + x + ", Y: " + y;
+	},
+	"+" : $(vec) {
+		return new Vector(x + vec.x, y + vec.y);
+	},
+	"*" : $(val) {
+		return new Vector(x * val, y * val);
+	}
+};
+
+var v1 = new Vector(100, 200);
+var v2 = new Vector(200, 400);
+
+print((v1 + v2).toString()); // output: "X: 300, Y: 600"
+print(' ');
+print((v1 * 5).toString()); // output: "X: 500, Y: 1000"
+		</pre>
+	</blockquote>
+	
 	<h3>Inheritance</h3>
 	<blockquote>
-	<h4>JavaScript</h4>
-	<pre>
-	var A = function() {
-		this.x = 0;
-	};
+		<h4>JavaScript</h4>
+		<pre>
+var A = function() {
+	this.x = 0;
+};
 
-	var B = function() {
-		A.apply(this);
-		this.y = 1;
-	};
-	B.prototype = new A();
-		
-	var C = function() {
-		B.apply(this);
-		this.z = 2;
-	};
-	C.prototype = new B();
-	</pre>
-	<h4>Goat</h4>
-	<p>Use operator <code>-&gt;</code>:</p>
-	<pre>
-	var A = {
-		x : 0
-	};
+var B = function() {
+	A.apply(this);
+	this.y = 1;
+};
+B.prototype = new A();
 
-	var B = A -> {
-		y : 1
-	};
+var C = function() {
+	B.apply(this);
+	this.z = 2;
+};
+C.prototype = new B();
+		</pre>
+		<h4>Goat</h4>
+		<p>Use operator <code>-&gt;</code>:</p>
+		<pre>
+var A = {
+	x : 0
+};
 
-	var C = B -> {
-		z : 2
-	};
-	</pre>
+var B = A -> {
+	y : 1
+};
+
+var C = B -> {
+	z : 2
+};
+		</pre>
 	</blockquote>
 	
 	<h3>Multiple inheritance</h3>
 	<blockquote>
-	<h4>JavaScript</h4>
-	<p>Is not supported. You can use some tricks (say mixins) but it is not true multiple inheritance.</p>
-	<h4>Goat</h4>
-	<p>Why not.</p>
-	<pre>
-	var A = {
-		x : 0
-	};
+		<h4>JavaScript</h4>
+		<p>Is not supported. You can use some tricks (say mixins) but it is not true multiple inheritance.</p>
+		<h4>Goat</h4>
+		<p>Why not.</p>
+		<pre>
+var A = {
+	x : 0
+};
 
-	var B = {
-		y : 1
-	};
+var B = {
+	y : 1
+};
 
-	var C = [A, B] -> {
-		z : 2
-	};
-	</pre>
-	<p>The diamond problem: Goat uses the list of prototypes to inherit from as an ordered list. The interpreter uses the first method it finds by depth-first searching.</p>
+var C = [A, B] -> {
+	z : 2
+};
+		</pre>
+		<p>The diamond problem: Goat uses the list of prototypes to inherit from as an ordered list. The interpreter uses the first method it finds by depth-first searching.</p>
 	</blockquote>
-
-	
 </blockquote>		
 </body>
 <html>
