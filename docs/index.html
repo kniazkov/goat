@@ -35,8 +35,8 @@
 		<pre>
 print(13.instanceOf(Integer)); // output: "true"
 		</pre>		
-	</blockquote>
-
+	</blockquote>	
+	
 	<h3>Operators overloading</h3>
 	<blockquote>
 		<h4>JavaScript</h4>
@@ -91,6 +91,40 @@ t0.run();
 t1.run();
 
 // Output: "ABABABABABABAB...."
+		</pre>
+	</blockquote>
+
+	<h3><code>new</code> keyword and constructors</h3>
+	<blockquote>
+		<h4>JavaScript</h4>
+		<p>Constructors are like regular functions, but we use them with the <code>new</code> keyword. If you inherit your object and the parent has a constructor, you need to call parent constructor to perform initialization logic.</p>
+		<pre>
+var A = function() {
+	// init something...
+};
+
+var B = function() {
+	A.apply(this);
+	// init something else...
+};
+B.prototype = new A();
+		</pre>
+		<h4>Goat</h4>
+		<p>There is special method <code>init()</code>. If method defined, interpreter call it. If method also defined in base object, interpreter call it first (order of calling constructors as in C++).</p>
+		<pre>
+var A = {
+	init : $() {
+		// init something...
+	}
+};
+
+var B = A -> {
+	init : $() {
+		// init something else...
+	}
+};
+
+var obj = new B(); // both init method will be called, first from A, second from B
 		</pre>
 	</blockquote>
 
