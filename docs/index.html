@@ -37,6 +37,33 @@ print(13.instanceOf(Integer)); // output: "true"
 		</pre>		
 	</blockquote>	
 	
+	<h3>Scope</h3>
+	<blockquote>
+		<h4>JavaScript</h4>
+		<p>There are two types of scopes: global and local. Variables defined inside a function are in the local scope. Variables defined inside of a block statement will remain in the scope they were already in. ECMAScript 6 introduced the <code>let</code> keyword. Contrary to the <code>var</code> keyword, the <code>let</code> keyword support the declaration of local scope inside block statements.</p>
+		<pre>
+var func = function() {
+	var v = 0;
+	// do something...
+	if (true) {
+		let v = 1; // local declaration
+	}
+};
+		</pre>		
+		<h4>Goat</h4>
+		<p>There is no global scope. You can re-declare variable with the same name in block statement, it will be used only in this block.</p>
+		<pre>
+var func = $() {
+	var v = 0;
+	if (true) {
+		var v = 1;
+		print(v); // output: "1"
+	}
+	print(v); // output: "0"
+}
+		</pre>		
+	</blockquote>	
+	
 	<h3>Operators overloading</h3>
 	<blockquote>
 		<h4>JavaScript</h4>
