@@ -68,6 +68,32 @@ print((v1 * 5).toString()); // output: "X: 500, Y: 1000"
 		</pre>
 	</blockquote>
 	
+	<h3>Multithreading</h3>
+	<blockquote>
+		<h4>JavaScript</h4>
+		<p>Doesn't support. There are some workarounds, say web workers, and, of course, functions <code>setTimeout()</code> and <code>setInterval()</code>.</p>
+		<h4>Goat</h4>
+		<p>There is <code>thread</code> keyword. It possible to declare any function as separate thread.</p>
+		<pre>
+var t0 = thread(){
+	while(true) {
+		print('A');
+	}
+};
+
+var t1 = thread(){
+	while(true) {
+		print('B');
+	}
+};
+
+t0.run();
+t1.run();
+
+// Output: "ABABABABABABAB...."
+		</pre>
+	</blockquote>
+
 	<h3>Inheritance</h3>
 	<blockquote>
 		<h4>JavaScript</h4>
