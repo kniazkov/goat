@@ -76,6 +76,15 @@ namespace goat {
 						}
 					}
 				}
+				else if (c == '/') {
+					c = next();
+					while (c != '\0' && c != '\n' && c != '\r') {
+						c = next();
+					}
+					while (isSpace(c)) {
+						c = next();
+					}
+				}
 				else {
 					unget(c);
 					c = '/';
