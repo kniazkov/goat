@@ -42,6 +42,7 @@ namespace goat {
 
 	Scanner::Scanner(Source *_src) {
 		src = _src;
+		c1 = '\0';
 	}
 
 	Token * Scanner::getToken(Location **loc) {
@@ -49,6 +50,41 @@ namespace goat {
 
 		while (isSpace(c)) {
 			c = next();
+		}
+
+		while (true) {
+			if (c == '/') {
+				c = next();
+				if (c == '*') {
+					c = next();
+					while (true) {
+						if (!c) {
+							throw UnexpectedEnd(src->location());
+						}
+						if (c == '*') {
+							c = next();
+							if (c == '/') {
+								c = next();
+								while (isSpace(c)) {
+									c = next();
+								}
+								break;
+							}
+						}
+						else {
+							c = next();
+						}
+					}
+				}
+				else {
+					unget(c);
+					c = '/';
+					break;
+				}
+			}
+			else {
+				break;
+			}
 		}
 
 		*loc = src->location();
@@ -195,13 +231,15 @@ namespace goat {
 		return tok;
 	}
 
-	Scanner::UnknownSymbol::UnknownSymbol(Location *_loc, char _symbol)
-		: loc(_loc->toString()), symbol(_symbol) {
+	RawString Scanner::ScanError::toRawString() {
+		return (WideStringBuilder() << loc << ", scan error: " << message()).toRawString();
 	}
 
-	RawString Scanner::UnknownSymbol::toRawString() {
-		WideStringBuilder b;
-		b << loc << ": unknown symbol " << (wchar)(symbol >= ' ' ? symbol : '?')  << " (" << (int)symbol << ")";
-		return b.toRawString();
+	WideString Scanner::UnknownSymbol::message() {
+		return (WideStringBuilder() << "unknown symbol " << (wchar)(symbol >= ' ' ? symbol : '?') << " (" << (int)symbol << ")").toWideString();
+	}
+
+	WideString Scanner::UnexpectedEnd::message() {
+		return L"unexpected end of file";
 	}
 }

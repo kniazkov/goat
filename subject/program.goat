@@ -1,14 +1,1 @@
-var A = {
-	x : 0
-};
-
-var B = {
-	x : 1,
-	y : 2
-};
-
-var c = [A, B]->{ };
-
-print(c.x);
-print("\n");
-print(c.y);
+print(256 / 2);

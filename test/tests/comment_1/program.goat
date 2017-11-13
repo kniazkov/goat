@@ -1,0 +1,10 @@
+var s = "works";
+
+/* This is a comment */
+/* blah blah blah blah blah blah blah blah blah blah 
+  blah blah blah blah blah blah blah blah */
+
+print("it " /* blah blah blah */ + s);
+
+/******************************/
+

@@ -25,14 +25,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Token.h"
 #include "Source.h"
 #include "Exception.h"
+#include "Assert.h"
 
 namespace goat {
 
 	class Scanner {
 	protected:
 		Source *src;
+		char c1;
 
 		inline char get();
+		inline void unget(char c);
 		inline char next();
 		static inline bool isSpace(char c);
 		static inline bool isLetter(char c);
@@ -44,22 +47,51 @@ namespace goat {
 		Scanner(Source *_src);
 		Token * getToken();
 
-		class UnknownSymbol : public Exception {
+		class ScanError : public Exception {
 		public:
 			String loc;
+
+			ScanError(Location* _loc) : loc(_loc->toString()) {
+			}
+
+			RawString toRawString() override;
+			virtual WideString message() = 0;
+		};
+
+		class UnknownSymbol : public ScanError {
+		public:
 			char symbol;
 
-			UnknownSymbol(Location *_loc, char _symbol);
-			RawString toRawString() override;
+			UnknownSymbol(Location *_loc, char _symbol) : ScanError(_loc), symbol(_symbol) {
+			};
+			WideString message() override;
+		};
+
+		class UnexpectedEnd : public ScanError {
+		public:
+			UnexpectedEnd(Location *_loc) : ScanError(_loc) {
+			};
+			WideString message() override;
 		};
 	};
 
 	char Scanner::get() {
-		return src->get();
+		return c1 != '\0' ? c1 : src->get();
+	}
+
+	void Scanner::unget(char c) {
+		assert(c1 == '\0');
+		c1 = c;
 	}
 
 	char Scanner::next() {
-		return src->next();
+		if (c1 != '\0') {
+			char c = c1;
+			c1 = '\0';
+			return c;
+		}
+		else
+			return src->next();
 	}
 
 	bool Scanner::isSpace(char c) {
