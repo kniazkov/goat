@@ -1,4 +1,1 @@
-var i = 256; // this is comment
-print(i / 2);
-// another comment
-//third comment
+print("привет");

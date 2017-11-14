@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Platform.h"
 #include "WideStringBuilder.h"
 #include "Utils.h"
+#include "Unicode.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -91,8 +92,17 @@ namespace goat {
 	}
 #endif
 
-	void Platform::putChar(wchar ch) {
-		std::putchar(ch < 128 ? ch : '?');
+	void Platform::putChar(wchar w) {
+#if 0
+		std::putchar(w < 128 ? w : '?');
+#else
+		char c[4];
+		unsigned int i,
+			n = Unicode::UTF8EncodeChar(w, c);
+		for (i = 0; i < n; i++) {
+			std::putchar(c[i]);
+		}
+#endif
 	}
 
 	void Platform::putCharErr(wchar ch) {

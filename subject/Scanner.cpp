@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Scanner.h"
 #include "StringBuilder.h"
 #include "WideStringBuilder.h"
+#include "Unicode.h"
 #include "Identifier.h"
 #include "Bracket.h"
 #include "StaticString.h"
@@ -169,26 +170,26 @@ namespace goat {
 		if (c == '\"') {
 			// TODO: errors ???
 			c = next();
-			WideStringBuilder w;
+			StringBuilder s;
 			while (c != '\"') {
 				if (c == '\\') {
 					c = next();
 					switch (c) {
-					case 'n': w << (wchar)'\n'; break;
-					case 'r': w << (wchar)'\r'; break;
-					case 't': w << (wchar)'\t'; break;
-					case '\"': w << (wchar)'\"'; break;
-					case '\\': w << (wchar)'\\'; break;
+					case 'n': s << '\n'; break;
+					case 'r': s << '\r'; break;
+					case 't': s << '\t'; break;
+					case '\"': s << '\"'; break;
+					case '\\': s << '\\'; break;
 					default : break;
 					}
 				}
 				else
-					w << (wchar)c;
+					s << c;
 				c = next();
 			}
 			c = next();
 			StaticString *ss = new StaticString();
-			ss->text = w.toWideString();
+			ss->text = Unicode::UTF8Decode(s.toString());
 			return ss;
 		}
 		if (c == '\'') {
