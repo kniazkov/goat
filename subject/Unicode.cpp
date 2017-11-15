@@ -22,12 +22,24 @@ namespace goat {
 				if (i + 1 >= len) {
 					throw BadUTF8();
 				}
-				unsigned char c1 = (unsigned char)s[i+1];
+				unsigned char c1 = (unsigned char)s[i + 1];
 				if ((c1 & 0xC0) != 0x80) {
 					throw BadUTF8();
 				}
 				w = ((c0 & 0x1F) << 6) + (c1 & 0x3F);
 				i += 2;
+			}
+			else if ((c0 & 0xF0) == 0xE0) {
+				if (i + 2 >= len) {
+					throw BadUTF8();
+				}
+				unsigned char c1 = (unsigned char)s[i + 1];
+				unsigned char c2 = (unsigned char)s[i + 2];
+				if ((c1 & 0xC0) != 0x80 || (c2 & 0xC0) != 0x80) {
+					throw BadUTF8();
+				}
+				w = ((c0 & 0xF) << 12) + ((c1 & 0x3F) << 6) + (c2 & 0x3F);
+				i += 3;
 			}
 			else {
 				throw BadUTF8();
@@ -46,6 +58,12 @@ namespace goat {
 			c[0] = (char)((w & 0x7C0) >> 6) + 0xC0;
 			c[1] = (char)(w & 0x3F) + 0x80;
 			return 2;
+		}
+		if (w < 0x10000) {
+			c[0] = (char)((w & 0xF000) >> 12) + 0xE0;
+			c[1] = (char)((w & 0xFC0) >> 6) + 0x80;
+			c[2] = (char)(w & 0x3F) + 0x80;
+			return 3;
 		}
 		return 0;
 	}
