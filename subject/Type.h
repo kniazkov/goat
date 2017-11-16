@@ -29,4 +29,11 @@ namespace goat {
 
 	typedef wchar_t wchar;
 	typedef size_t MemorySize;
+
+#if WCHAR_MAX > 0xFFFF
+#define WCHAR_32
+#else
+#define WCHAR_16
+#endif
+
 }
