@@ -168,7 +168,6 @@ namespace goat {
 			return new Operator(b.toString());
 		}
 		if (c == '\"') {
-			// TODO: errors ???
 			c = next();
 			StringBuilder s;
 			while (c != '\"') {
@@ -182,6 +181,9 @@ namespace goat {
 					case '\\': s << '\\'; break;
 					default : throw IncorrectSequence(src->location(), c);
 					}
+				}
+				else if (c == '\0') {
+					throw UnexpectedEnd(src->location());
 				}
 				else
 					s << c;
