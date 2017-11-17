@@ -180,7 +180,7 @@ namespace goat {
 					case 't': s << '\t'; break;
 					case '\"': s << '\"'; break;
 					case '\\': s << '\\'; break;
-					default : break;
+					default : throw IncorrectSequence(src->location(), c);
 					}
 				}
 				else
@@ -247,6 +247,10 @@ namespace goat {
 
 	WideString Scanner::UnknownSymbol::message() {
 		return (WideStringBuilder() << "unknown symbol " << (wchar)(symbol >= ' ' ? symbol : '?') << " (" << (int)symbol << ")").toWideString();
+	}
+
+	WideString Scanner::IncorrectSequence::message() {
+		return (WideStringBuilder() << "incorrect char sequence \\" << (wchar)(symbol >= ' ' ? symbol : '?') << " (" << (int)symbol << ")").toWideString();
 	}
 
 	WideString Scanner::UnexpectedEnd::message() {

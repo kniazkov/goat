@@ -73,6 +73,15 @@ namespace goat {
 			};
 			WideString message() override;
 		};
+
+		class IncorrectSequence : public ScanError {
+		public:
+			char symbol;
+
+			IncorrectSequence(Location *_loc, char _symbol) : ScanError(_loc), symbol(_symbol) {
+			};
+			WideString message() override;
+		};
 	};
 
 	char Scanner::get() {

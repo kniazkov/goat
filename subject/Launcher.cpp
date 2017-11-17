@@ -39,7 +39,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	static const long long threshold = 16 * 1024 * 1024;
+	static const long long threshold = 16 * 1024;
 
 	int Launcher::run(Source *src, Environment *env, Scope *scope, Root **proot) {
 		Scanner scan(src);
