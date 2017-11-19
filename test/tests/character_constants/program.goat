@@ -1,0 +1,7 @@
+print('a');
+print('\n');
+print('\r');
+print('\t');
+print('\\');
+print('\'');
+print('\"');
