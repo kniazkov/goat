@@ -176,6 +176,9 @@ namespace goat {
 		if (c == '\'') {
 			WideString w = parseString('\'');
 			Char * tc = new Char();
+			if (w.len() != 1) {
+				throw IncorrectCharConst(src->location());
+			}
 			tc->value = w[0];
 			return tc;
 		}
@@ -259,5 +262,9 @@ namespace goat {
 
 	WideString Scanner::UnexpectedEnd::message() {
 		return L"unexpected end of file";
+	}
+
+	WideString Scanner::IncorrectCharConst::message() {
+		return L"incorrect character constant";
 	}
 }

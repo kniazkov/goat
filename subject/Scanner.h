@@ -83,6 +83,13 @@ namespace goat {
 			};
 			WideString message() override;
 		};
+
+		class IncorrectCharConst : public ScanError {
+		public:
+			IncorrectCharConst(Location *_loc) : ScanError(_loc) {
+			};
+			WideString message() override;
+		};
 	};
 
 	char Scanner::get() {
