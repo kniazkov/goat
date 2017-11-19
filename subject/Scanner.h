@@ -42,6 +42,7 @@ namespace goat {
 		static inline bool isDigit(char c);
 		static inline bool isOperator(char c);
 		Token * getToken(Location **loc);
+		WideString parseString(char separator);
 
 	public:
 		Scanner(Source *_src);

@@ -168,31 +168,10 @@ namespace goat {
 			return new Operator(b.toString());
 		}
 		if (c == '\"') {
-			c = next();
-			StringBuilder s;
-			while (c != '\"') {
-				if (c == '\\') {
-					c = next();
-					switch (c) {
-					case 'n': s << '\n'; break;
-					case 'r': s << '\r'; break;
-					case 't': s << '\t'; break;
-					case '\"': s << '\"'; break;
-					case '\\': s << '\\'; break;
-					default : throw IncorrectSequence(src->location(), c);
-					}
-				}
-				else if (c == '\0') {
-					throw UnexpectedEnd(src->location());
-				}
-				else
-					s << c;
-				c = next();
-			}
-			c = next();
-			StaticString *ss = new StaticString();
-			ss->text = Unicode::UTF8Decode(s.toString());
-			return ss;
+			WideString w = parseString('\"');
+			StaticString *s = new StaticString();
+			s->text = w;
+			return s;
 		}
 		if (c == '\'') {
 			// TODO: errors ???
@@ -232,6 +211,33 @@ namespace goat {
 		}
 
 		throw UnknownSymbol(*loc, c);
+	}
+
+	WideString Scanner::parseString(char separator) {
+		char c = next();
+		StringBuilder s;
+		while (c != separator) {
+			if (c == '\\') {
+				c = next();
+				switch (c) {
+				case 'n': s << '\n'; break;
+				case 'r': s << '\r'; break;
+				case 't': s << '\t'; break;
+				case '\"': s << '\"'; break;
+				case '\'': s << '\''; break;
+				case '\\': s << '\\'; break;
+				default : throw IncorrectSequence(src->location(), c);
+				}
+			}
+			else if (c == '\0') {
+				throw UnexpectedEnd(src->location());
+			}
+			else
+				s << c;
+			c = next();
+		}
+		c = next();
+		return Unicode::UTF8Decode(s.toString());
 	}
 
 	Token * Scanner::getToken() {
