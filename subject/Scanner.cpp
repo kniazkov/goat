@@ -174,13 +174,9 @@ namespace goat {
 			return s;
 		}
 		if (c == '\'') {
-			// TODO: errors ???
-			c = next();
-			wchar wc = (wchar)c;
-			next();
-			next();
+			WideString w = parseString('\'');
 			Char * tc = new Char();
-			tc->value = wc;
+			tc->value = w[0];
 			return tc;
 		}
 		if (c == '(' || c == ')' || c == '{' || c == '}' || c == '[' || c == ']') {
