@@ -22,57 +22,28 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "Object.h"
-#include "Type.h"
-#include "Exception.h"
-#include "Scope.h"
-
+#include "Statement.h"
+#include "Keyword.h"
 
 namespace goat {
 
-	class State {
-	public:
-		enum Mode {
-			RUN,
-			EXCEPTION,
-			RETURN,
-			BREAK
-		};
-
-		Mode mode;
-		Object *thru;
-		State *prev;
-		Scope *scope;
-
-		State(State *_prev);
-		virtual ~State() {}
-		virtual State *execute();
+	class Break : public Statement {
 	protected:
-		virtual State *next() = 0;
-	public:
-		virtual void ret(Object *obj);
-		void mark(bool deep);
-		virtual void trace();
-		State * throw_(Object *obj);
-		State * return_(Object *obj);
-		State * break_();
-
-		void * operator new(MemorySize size);
-		void operator delete(void *ptr);
-
-		class NotImplemented : public Exception {
+		class StateImpl : public State {
 		public:
-			RawString toRawString() override;
-		};
+			Break *expr;
 
-		class UncaughtException : public Exception {
-		public:
-			Object *obj;
-
-			UncaughtException(Object *_obj) : obj(_obj) {
+			StateImpl(State *_prev, Break *_expr) : State(_prev), expr(_expr) {
 			}
-			RawString toRawString() override;
+			State * next() override;
 		};
+
+	public:
+		Expression *expr;
+
+		Break(Keyword *_kw);
+		Break *toBreak() override;
+		State * createState(State *_prev) override;
 	};
 
 }

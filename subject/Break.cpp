@@ -20,32 +20,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "Token.h"
+#include "Break.h"
 
 namespace goat {
 
-	class Keyword : public Token {
-	public:
-		enum Type {
-			VAR,
-			FUNCTION,
-			RETURN,
-			IF,
-			ELSE,
-			FOR,
-			DO,
-			WHILE,
-			NEW,
-			THREAD,
-			BREAK,
-			UNKNOWN
-		};
-		Type type;
+	Break::Break(Keyword *_kw) {
+		loc = _kw->loc;
+	}
 
-		Keyword(Type _type);
-		Keyword *toKeyword() override;
-	};
+	Break * Break::toBreak() {
+		return this;
+	}
 
+	State * Break::createState(State *_prev) {
+		return new StateImpl(_prev, this);
+	}
+
+	State * Break::StateImpl::next() {
+		return break_();
+	}
 }

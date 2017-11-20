@@ -27,6 +27,7 @@
     <ClCompile Include="Bracket.cpp" />
     <ClCompile Include="BracketExpresion.cpp" />
     <ClCompile Include="Brackets.cpp" />
+    <ClCompile Include="Break.cpp" />
     <ClCompile Include="BuiltIn.cpp" />
     <ClCompile Include="Char.cpp" />
     <ClCompile Include="Colon.cpp" />
@@ -105,6 +106,7 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="Boolean.h" />
     <ClInclude Include="BracketExpression.h" />
+    <ClInclude Include="Break.h" />
     <ClInclude Include="BuiltIn.h" />
     <ClInclude Include="Char.h" />
     <ClInclude Include="Colon.h" />

@@ -145,6 +145,9 @@ namespace goat {
 			if (s == "thread") {
 				return new Keyword(Keyword::THREAD);
 			}
+			if (s == "break") {
+				return new Keyword(Keyword::BREAK);
+			}
 			Identifier *i = new Identifier();
 			i->name = s;
 			return i;

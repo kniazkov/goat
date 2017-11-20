@@ -51,6 +51,8 @@ namespace goat {
 			return throw_(thru);
 		case RETURN:
 			return return_(thru);
+		case BREAK:
+			return break_();
 		default:
 			throw NotImplemented();
 		}
@@ -95,6 +97,18 @@ namespace goat {
 			State *p = prev;
 			p->mode = RETURN;
 			p->thru = obj;
+			delete this;
+			return p;
+		}
+		else {
+			throw NotImplemented();
+		}
+	}
+
+	State * State::break_() {
+		if (prev) {
+			State *p = prev;
+			p->mode = BREAK;
 			delete this;
 			return p;
 		}

@@ -52,6 +52,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "TokenArray.h"
 #include "Index.h"
 #include "While.h"
+#include "Break.h"
 
 namespace goat {
 
@@ -94,6 +95,7 @@ namespace goat {
 			parse2ndList(oper_ASSIGN, &Parser::parseAssign, true);
 			parse2ndList(fcall, &Parser::parseFunctionCallArgs, false);
 			parse2ndList(keyword[Keyword::RETURN], &Parser::parseReturn, false);
+			parse2ndList(keyword[Keyword::BREAK], &Parser::parseBreak, false);
 			parse2ndList(expression, &Parser::parseStatementExpression, false);
 			parse2ndList(semicolon, &Parser::parseNop, false);
 			parse2ndList(keyword[Keyword::IF], &Parser::parseIf, true);
@@ -981,7 +983,7 @@ namespace goat {
 	}
 
 	/*
-	@while @( EXPRESSION ) STATEMENT => WHILE
+	  @while @( EXPRESSION ) STATEMENT => WHILE
 	*/
 
 	void Parser::parseWhile(Token *tok) {
@@ -1016,6 +1018,34 @@ namespace goat {
 
 		While *w = new While(expr, stmt);
 		kw->replace(stmt, w);
+		kw->remove_2nd();
+	}
+
+	/*
+	  @break [ @; ] => BREAK
+	*/
+
+	void Parser::parseBreak(Token *tok) {
+		Keyword *kw = tok->toKeyword();
+		assert(kw != nullptr && kw->type == Keyword::BREAK);
+
+		Semicolon *semicolon = nullptr;
+
+		if (kw->next) {
+			semicolon = kw->next->toSemicolon();
+			if (!semicolon) {
+				throw ExpectedSemicolon(kw->next);
+			}
+		}
+
+		Break *brk = new Break(kw);
+		if (semicolon) {
+			kw->replace(semicolon, brk);
+			semicolon->remove_2nd();
+		}
+		else {
+			kw->replace(brk);
+		}
 		kw->remove_2nd();
 	}
 
@@ -1081,5 +1111,9 @@ namespace goat {
 
 	WideString Parser::ExpectedNameWithArguments::message() {
 		return L"incorrect 'new' syntax, expected name of a variable with parameters";
+	}
+
+	WideString Parser::ExpectedSemicolon::message() {
+		return L"here should be a separator (semicolon)";
 	}
 }

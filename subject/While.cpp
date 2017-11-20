@@ -44,6 +44,25 @@ namespace goat {
 		return new StateImpl(_prev, this);
 	}
 
+	State * While::StateImpl::execute() {
+		switch (mode)
+		{
+		case RUN:
+			return next();
+		case EXCEPTION:
+			return throw_(thru);
+		case RETURN:
+			return return_(thru);
+		case BREAK: {
+			State *p = prev;
+			delete this;
+			return p;
+		}
+		default:
+			throw NotImplemented();
+		}
+	}
+
 	State * While::StateImpl::next() {
 		switch (step) {
 		case CHECK_CONDITION:

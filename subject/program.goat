@@ -1,1 +1,18 @@
-print("𦈘");
+var i = 0;
+while(true) {
+	if (i == 1000) {
+		break;
+	}
+	i = i + 1;
+}
+print(i);
+var cnt = 1000;
+var f = $(x) {
+	if (x.val != cnt) {
+		return f({val: x.val + 1});
+	};
+	return x;
+};
+
+var r = f({val : 0});
+print(r.val == cnt);

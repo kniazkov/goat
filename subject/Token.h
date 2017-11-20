@@ -67,6 +67,7 @@ namespace goat {
 	class Index;
 	class Char;
 	class While;
+	class Break;
 
 	class Token : public Node {
 	protected:
@@ -124,6 +125,7 @@ namespace goat {
 		virtual Index *toIndex();
 		virtual Char *toChar();
 		virtual While *toWhile();
+		virtual Break *toBreak();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {

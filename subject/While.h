@@ -43,6 +43,7 @@ namespace goat {
 			StateImpl(State *_prev, While *_stmt) : State(_prev), stmt(_stmt), condition(nullptr), step(CHECK_CONDITION) {
 			}
 			State * next() override;
+			State * execute() override;
 			void ret(Object *obj) override;
 			void trace() override;
 		};
