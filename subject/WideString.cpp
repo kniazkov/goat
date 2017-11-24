@@ -41,6 +41,10 @@ namespace goat {
 		}
 	}
 
+	WideString::WideString(unsigned int len) {
+		buff = len > 0 ? new Buffer(len) : nullptr;
+	}
+
 	WideString::WideString(const wchar *cwstr, unsigned int len) {
 		if (len > 0) {
 			buff = new Buffer(len);

@@ -111,8 +111,7 @@ namespace goat {
 
 	class CanNotReadPropertyOfUndefined : public ObjectException {
 	public:
-		String name;
-		Object *obj;
+		WideString prop;
 
 		CanNotReadPropertyOfUndefined(Object *_obj);
 		CanNotReadPropertyOfUndefined(String _name);

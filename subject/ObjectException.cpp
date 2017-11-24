@@ -157,13 +157,12 @@ namespace goat {
 	}
 
 	CanNotReadPropertyOfUndefined::CanNotReadPropertyOfUndefined(Object *_obj) {
-		obj = _obj;
+		prop = _obj->toWideString();
 		proto.pushBack(Proto::getInstance());
 	}
 
 	CanNotReadPropertyOfUndefined::CanNotReadPropertyOfUndefined(String _name) {
-		name = _name;
-		obj = nullptr;
+		prop = _name.toWideString();
 		proto.pushBack(Proto::getInstance());
 	}
 
@@ -178,10 +177,7 @@ namespace goat {
 	}
 
 	WideString CanNotReadPropertyOfUndefined::toWideString() {
-		if (obj)
-			return (WideStringBuilder() << "cannot read propery \'" << obj->toWideString() << "\' of undefined").toWideString();
-		else
-			return (WideStringBuilder() << "cannot read propery \'" << name << "\' of undefined").toWideString();
+		return (WideStringBuilder() << "cannot read propery \'" << prop << "\' of undefined").toWideString();
 	}
 
 	CanNotWritePropertyOfUndefined::CanNotWritePropertyOfUndefined(Object *_obj) {

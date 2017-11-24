@@ -76,6 +76,7 @@ namespace goat {
 		};
 
 		static String valueOf(int val);
+		WideString toWideString();
 	};
 
 }

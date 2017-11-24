@@ -50,6 +50,7 @@ namespace goat {
 
 	TokenObject::StateImpl::StateImpl(State *_prev, TokenObject *_expr) : State(_prev), expr(_expr) {
 		item = expr->items->first;
+		objKey = nullptr;
 		result = new Object();
 		step = GET_LEFT;
 	}

@@ -46,6 +46,8 @@ namespace goat {
 
 		Buffer *buff;
 
+		WideString(unsigned int len);
+
 	public:
 		WideString();
 		WideString(const wchar *cwstr);

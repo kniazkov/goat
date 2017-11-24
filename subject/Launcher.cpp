@@ -46,19 +46,21 @@ namespace goat {
 		bool errors = false;
 		long long prevAlloc = totalAlloc;
 		long long prevObjMem = totalObjMem;
+		long long steps = 0;
 		try {
 			Root* root = Parser::parse(&scan, *proot);
 			*proot = root;
 			new Thread(root, scope);
 			while (Thread::current != nullptr) {
 				if (Thread::current->step()) {
+					steps++;
 					// garbage collection if needed
-					if (totalAlloc - prevAlloc > threshold || totalObjMem - prevObjMem > threshold) {
+					//if (totalAlloc - prevAlloc > threshold || totalObjMem - prevObjMem > threshold) {
 						ThreadList::global.mark();
 						ObjectList::global.sweep();
 						prevAlloc = totalAlloc;
 						prevObjMem = totalObjMem;
-					}
+					//}
 					// next thread
 					Thread::current = Thread::current->next;
 					if (Thread::current == nullptr) {

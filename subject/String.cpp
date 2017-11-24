@@ -194,6 +194,17 @@ namespace goat {
 		return String(ptr);
 	}
 
+	WideString String::toWideString() {
+		if (buff) {
+			WideString w(buff->len);
+			for (unsigned int i = 0; i < buff->len; i++) {
+				w.buff->data[i] = (wchar)(buff->data[i]);
+			}
+			return w;
+		}
+		return nullptr;
+	}
+
 	RawString String::OutOfBounds::toRawString() {
 		return L"string: index out of bounds";
 	}
