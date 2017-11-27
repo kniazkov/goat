@@ -46,6 +46,7 @@ namespace goat {
 			ObjectArray *arguments;
 			Vector<Object* > chain;
 			unsigned int index;
+			Scope *oldScope;
 
 			StateImpl(State *_prev, New *_expr);
 			State *next() override;

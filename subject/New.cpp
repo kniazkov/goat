@@ -61,6 +61,7 @@ namespace goat {
 			arg = nullptr;
 		}
 		index = 0;
+		oldScope = nullptr;
 	}
 
 	State * New::StateImpl::next() {
@@ -93,6 +94,7 @@ namespace goat {
 				Object *init = chain[index];
 				ObjectFunction *objf = init->toObjectFunction();
 				if (objf) {
+					oldScope = scope;
 					scope = objf->context->clone();
 					if (index == chain.len() - 1) {
 						scope->arguments = arguments;
@@ -145,6 +147,9 @@ namespace goat {
 		arguments->mark();
 		if (retObj) {
 			retObj->mark();
+		}
+		if (oldScope) {
+			oldScope->mark();
 		}
 	}
 }

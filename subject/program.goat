@@ -1,3 +1,8 @@
+var Foo = { 
+	init : $() {
+	}
+};
+
 var MyClass = {
 	value : 0,
 	init : $(value) {
@@ -6,14 +11,18 @@ var MyClass = {
 };
 
 MyClass["+"] = function(obj) {
-	return new MyClass(value + obj.value);
+//	return new MyClass(value + obj.value);
+	var i =  new Foo();
+//	return 0;
 };
 
 var a = new MyClass(1),
 	b = new MyClass(2);
 	
-var x = a + b;
+//var x = a + b;
 
-/*
-print(x.value);
-*/
+//print(x.value);
+//print(x);
+
+var i = new Foo();
+
