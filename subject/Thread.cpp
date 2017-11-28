@@ -62,7 +62,7 @@ namespace goat {
 	void ThreadList::mark() {
 		forEach([](Thread *th) {
 			if (th->state) {
-				th->state->mark(true);
+				th->state->mark();
 			}
 		});
 	}

@@ -147,6 +147,7 @@
     <ClInclude Include="Bracket.h" />
     <ClInclude Include="BracketExpression.h" />
     <ClInclude Include="Brackets.h" />
+    <ClInclude Include="Break.h" />
     <ClInclude Include="BuiltIn.h" />
     <ClInclude Include="Char.h" />
     <ClInclude Include="Colon.h" />
@@ -223,6 +224,7 @@
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Type.h" />
     <ClInclude Include="Undefined.h" />
+    <ClInclude Include="Unicode.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Variable.h" />
     <ClInclude Include="Vector.h" />
@@ -239,6 +241,7 @@
     <ClCompile Include="Bracket.cpp" />
     <ClCompile Include="BracketExpresion.cpp" />
     <ClCompile Include="Brackets.cpp" />
+    <ClCompile Include="Break.cpp" />
     <ClCompile Include="BuiltIn.cpp" />
     <ClCompile Include="Char.cpp" />
     <ClCompile Include="Colon.cpp" />
@@ -304,11 +307,15 @@
     <ClCompile Include="TokenArray.cpp" />
     <ClCompile Include="TokenObject.cpp" />
     <ClCompile Include="Undefined.cpp" />
+    <ClCompile Include="Unicode.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Variable.cpp" />
     <ClCompile Include="While.cpp" />
     <ClCompile Include="WideString.cpp" />
     <ClCompile Include="WideStringBuilder.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="program.goat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

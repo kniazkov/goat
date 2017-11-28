@@ -51,7 +51,7 @@ namespace goat {
 		virtual State *next() = 0;
 	public:
 		virtual void ret(Object *obj);
-		void mark(bool deep);
+		void mark();
 		virtual void trace();
 		State * throw_(Object *obj);
 		State * return_(Object *obj);

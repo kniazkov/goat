@@ -1,28 +1,10 @@
-var Foo = { 
-	init : $() {
-	}
+var cnt = 10000;
+var f = $(x) {
+	if (x.val != cnt) {
+		return f({val: x.val + 1});
+	};
+	return x;
 };
 
-var MyClass = {
-	value : 0,
-	init : $(value) {
-		this.value = value;
-	}
-};
-
-MyClass["+"] = function(obj) {
-//	return new MyClass(value + obj.value);
-	var i =  new Foo();
-//	return 0;
-};
-
-var a = new MyClass(1),
-	b = new MyClass(2);
-	
-//var x = a + b;
-
-//print(x.value);
-//print(x);
-
-var i = new Foo();
-
+var r = f({val : 0});
+print(r.val == cnt);

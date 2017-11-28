@@ -75,6 +75,7 @@ namespace goat {
 		Object(Object *_proto);
 		virtual ~Object();
 		void mark();
+		void mark_2();
 		virtual void trace();
 		Object *find(String key);
 		Object *find(WideString key);
@@ -111,6 +112,8 @@ namespace goat {
 	class ObjectList : public MultiList<Object, &Object::prev, &Object::next, &Object::list> {
 	public:
 		static ObjectList global;
+		static ObjectList forMarking;
+		void mark_2();
 		void sweep();
 	};
 

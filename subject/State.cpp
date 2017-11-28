@@ -62,16 +62,22 @@ namespace goat {
 		throw NotImplemented();
 	}
 
-	void State::mark(bool deep) {
-		if (deep && scope) {
+	void State::mark() {
+		if (scope) {
 			scope->mark();
 		}
 		if (thru) {
 			thru->mark();
 		}
 		trace();
-		if (prev) {
-			prev->mark(false);
+
+		State *st = prev;
+		while (st) {
+			if (st->thru) {
+				st->thru->mark();
+			}
+			st->trace();
+			st = st->prev;
 		}
 	}
 

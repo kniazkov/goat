@@ -34,6 +34,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace goat {
 
 	ObjectList ObjectList::global;
+	ObjectList ObjectList::forMarking;
 
 	Object::Object() {
 		status = UNMARKED;
@@ -62,22 +63,27 @@ namespace goat {
 	void Object::mark() {
 		if (status == UNMARKED) {
 			status = MARKED;
-			objects.forEach([](String key, Object *obj) {
-				if (obj)
-					obj->mark();
-			});
-			chain.forEach([](Pair &pair) {
-				if (pair.key)
-					pair.key->mark();
-				if (pair.value)
-					pair.value->mark();
-			});
-			proto.forEach([](Object *obj) {
-				if (obj)
-					obj->mark();
-			});
-			trace();
+			ObjectList::forMarking.pushBack(this);
 		}
+	}
+
+	void Object::mark_2() {
+		objects.forEach([](String key, Object *obj) {
+			if (obj)
+				obj->mark();
+		});
+		chain.forEach([](Pair &pair) {
+			if (pair.key)
+				pair.key->mark();
+			if (pair.value)
+				pair.value->mark();
+		});
+		proto.forEach([](Object *obj) {
+			if (obj)
+				obj->mark();
+		});
+		trace();
+		ObjectList::global.pushBack(this);
 	}
 
 	void Object::trace() {
@@ -300,6 +306,14 @@ namespace goat {
 
 	ObjectChar * Object::toObjectChar() {
 		return nullptr;
+	}
+
+	void ObjectList::mark_2() {
+		while(count > 0) {
+			forEach([](Object *obj) {
+				obj->mark_2();
+			});
+		}
 	}
 
 	void ObjectList::sweep() {

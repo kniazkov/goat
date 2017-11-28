@@ -57,6 +57,7 @@ namespace goat {
 					// garbage collection if needed
 					//if (totalAlloc - prevAlloc > threshold || totalObjMem - prevObjMem > threshold) {
 						ThreadList::global.mark();
+						ObjectList::forMarking.mark_2();
 						ObjectList::global.sweep();
 						prevAlloc = totalAlloc;
 						prevObjMem = totalObjMem;
