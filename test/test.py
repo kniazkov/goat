@@ -31,12 +31,15 @@ print("testing...")
 interpreter = sys.argv[1]
 all = False
 showFail = False
+gcDebug = False
 if len(sys.argv) > 2 :
 	for i in range(2, len(sys.argv)) :
 		if sys.argv[i] == "-all" :
 			all = True
 		if sys.argv[i] == "-failed" :
 			showFail = True
+		if sys.argv[i] == "-gcdebug" :
+			gcDebug = True
 
 if os.path.isfile(interpreter) != True :
     print("file not exists: " + interpreter);
@@ -64,7 +67,10 @@ for dir in ([os.path.join(d, o) for o in os.listdir(d) if (o[0] != '_' or all) a
 			err_0 = "nothing"
 		equal = True
 		begin = time.time()
-		proc = subprocess.Popen([interpreter, prog], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		if gcDebug :
+			proc = subprocess.Popen([interpreter, prog, "--gcdebug"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		else :
+			proc = subprocess.Popen([interpreter, prog], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		out_1, err_1 = proc.communicate()
 		ret = proc.wait()
 		end = time.time()

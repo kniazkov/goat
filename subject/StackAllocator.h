@@ -29,7 +29,7 @@ namespace goat {
 	class StackAllocator {
 	private:
 		static const unsigned int chunkSize = 65536 - 1024;
-		static const unsigned int maxObjectSize = 16 * sizeof(void*);
+		static const unsigned int maxObjectSize = 32 * sizeof(void*);
 
 		class Chunk {
 		public:

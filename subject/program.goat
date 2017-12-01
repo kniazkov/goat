@@ -1,4 +1,4 @@
-var cnt = 10000;
+var cnt = 1000;
 var f = $(x) {
 	if (x.val != cnt) {
 		return f({val: x.val + 1});

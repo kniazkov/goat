@@ -30,9 +30,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace goat {
 
 	class Launcher {
+	protected:
+		class Options {
+		public:
+			bool gcDebug;
 
+			Options() :
+				gcDebug(false) {
+			}
+		};
 	public:
-		static int run(Source *src, Environment *env, Scope *scope, Root **proot);
+		static int run(Source *src, Environment *env, Scope *scope, Root **proot, Options *opt);
 		static int runCmdLine(int argc, char **argv);
 		static int interactive();
 	};

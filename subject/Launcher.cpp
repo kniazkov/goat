@@ -41,7 +41,7 @@ namespace goat {
 
 	static const long long threshold = 16 * 1024;
 
-	int Launcher::run(Source *src, Environment *env, Scope *scope, Root **proot) {
+	int Launcher::run(Source *src, Environment *env, Scope *scope, Root **proot, Options *opt) {
 		Scanner scan(src);
 		bool errors = false;
 		long long prevAlloc = totalAlloc;
@@ -55,7 +55,7 @@ namespace goat {
 				if (Thread::current->step()) {
 					steps++;
 					// garbage collection if needed
-					if (totalAlloc - prevAlloc > threshold || totalObjMem - prevObjMem > threshold) {
+					if (totalAlloc - prevAlloc > threshold || totalObjMem - prevObjMem > threshold || opt->gcDebug) {
 						ThreadList::global.mark();
 						ObjectList::forMarking.mark_2();
 						ObjectList::global.sweep();
@@ -90,19 +90,40 @@ namespace goat {
 	}
 
 	int Launcher::runCmdLine(int argc, char **argv) {
-		if (argc < 2) {
+		Options opt;
+		char *program = nullptr;
+		int i;
+		
+		for (i = 1; i < argc; i++) {
+			char *arg = argv[i];
+			if (arg[0] == '-' && arg[1] == '-') {
+				// argument for interpreter
+				if (Utils::strCmp(arg + 2, "gcdebug") == 0) {
+					opt.gcDebug = true;
+				}
+			}
+			else {
+				if (arg[0] != '-' && program == nullptr) {
+					program = arg;
+				}
+			}
+		}
+
+		if (program == nullptr) {
 			Utils::printErr(L"no input file.\n");
 			return 1;
 		}
+
 		int ret = 1;
 		Root *root = nullptr;
+
 		try {
-			Platform::FileReader reader(argv[1]);
+			Platform::FileReader reader(program);
 			SourceStream source(&reader);
 			Environment env;
 			env.out = StandartOutputStream::getInstance();
 			env.err = StandartErrorStream::getInstance();
-			ret = run(&source, &env, BuiltIn::create(&env)->clone(), &root);
+			ret = run(&source, &env, BuiltIn::create(&env)->clone(), &root, &opt);
 		}
 		catch (Exception &ex) {
 			RawString error = ex.toRawString();
@@ -128,6 +149,7 @@ namespace goat {
 		Root *root = nullptr;
 		WideStringBuilder program;
 		bool prompt = true;
+		Options opt;
 
 		while (true) {
 			output->write(prompt ? (wchar*)L"? " : (wchar*)L"  ");
@@ -145,7 +167,7 @@ namespace goat {
 					SourceString source(program.toWideString().toString());
 					program.clear();
 					prompt = true;
-					run(&source, &env, scope, &root);
+					run(&source, &env, scope, &root, &opt);
 					output->write(L'\n');
 				}
 			}
