@@ -53,6 +53,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Index.h"
 #include "While.h"
 #include "Break.h"
+#include "Continue.h"
 
 namespace goat {
 
@@ -96,6 +97,7 @@ namespace goat {
 			parse2ndList(fcall, &Parser::parseFunctionCallArgs, false);
 			parse2ndList(keyword[Keyword::RETURN], &Parser::parseReturn, false);
 			parse2ndList(keyword[Keyword::BREAK], &Parser::parseBreak, false);
+			parse2ndList(keyword[Keyword::CONTINUE], &Parser::parseContinue, false);
 			parse2ndList(expression, &Parser::parseStatementExpression, false);
 			parse2ndList(semicolon, &Parser::parseNop, false);
 			parse2ndList(keyword[Keyword::IF], &Parser::parseIf, true);
@@ -1045,6 +1047,34 @@ namespace goat {
 		}
 		else {
 			kw->replace(brk);
+		}
+		kw->remove_2nd();
+	}
+
+	/*
+	  @continue [ @; ] => CONTINUE
+	*/
+
+	void Parser::parseContinue(Token *tok) {
+		Keyword *kw = tok->toKeyword();
+		assert(kw != nullptr && kw->type == Keyword::CONTINUE);
+
+		Semicolon *semicolon = nullptr;
+
+		if (kw->next) {
+			semicolon = kw->next->toSemicolon();
+			if (!semicolon) {
+				throw ExpectedSemicolon(kw->next);
+			}
+		}
+
+		Continue *con = new Continue(kw);
+		if (semicolon) {
+			kw->replace(semicolon, con);
+			semicolon->remove_2nd();
+		}
+		else {
+			kw->replace(con);
 		}
 		kw->remove_2nd();
 	}

@@ -20,28 +20,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "Statement.h"
-#include "Keyword.h"
+#include "Continue.h"
 
 namespace goat {
 
-	class Break : public Statement {
-	protected:
-		class StateImpl : public State {
-		public:
-			Break *expr;
+	Continue::Continue(Keyword *_kw) {
+		loc = _kw->loc;
+	}
 
-			StateImpl(State *_prev, Break *_expr) : State(_prev), expr(_expr) {
-			}
-			State * next() override;
-		};
+	Continue * Continue::toContinue() {
+		return this;
+	}
 
-	public:
-		Break(Keyword *_kw);
-		Break *toBreak() override;
-		State * createState(State *_prev) override;
-	};
+	State * Continue::createState(State *_prev) {
+		return new StateImpl(_prev, this);
+	}
 
+	State * Continue::StateImpl::next() {
+		return continue_();
+	}
 }

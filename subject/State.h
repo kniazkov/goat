@@ -36,7 +36,8 @@ namespace goat {
 			RUN,
 			EXCEPTION,
 			RETURN,
-			BREAK
+			BREAK,
+			CONTINUE
 		};
 
 		Mode mode;
@@ -59,6 +60,7 @@ namespace goat {
 		State * throw_(Object *obj);
 		State * return_(Object *obj);
 		State * break_();
+		State * continue_();
 
 		void * operator new(MemorySize size);
 		void operator delete(void *ptr);

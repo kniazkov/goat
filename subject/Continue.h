@@ -27,20 +27,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	class Break : public Statement {
+	class Continue : public Statement {
 	protected:
 		class StateImpl : public State {
 		public:
-			Break *expr;
+			Continue *expr;
 
-			StateImpl(State *_prev, Break *_expr) : State(_prev), expr(_expr) {
+			StateImpl(State *_prev, Continue *_expr) : State(_prev), expr(_expr) {
 			}
 			State * next() override;
 		};
 
 	public:
-		Break(Keyword *_kw);
-		Break *toBreak() override;
+		Continue(Keyword *_kw);
+		Continue *toContinue() override;
 		State * createState(State *_prev) override;
 	};
 

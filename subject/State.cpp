@@ -53,6 +53,8 @@ namespace goat {
 			return return_(thru);
 		case BREAK:
 			return break_();
+		case CONTINUE:
+			return continue_();
 		default:
 			throw NotImplemented();
 		}
@@ -121,6 +123,18 @@ namespace goat {
 		if (prev) {
 			State *p = prev;
 			p->mode = BREAK;
+			delete this;
+			return p;
+		}
+		else {
+			throw NotImplemented();
+		}
+	}
+
+	State * State::continue_() {
+		if (prev) {
+			State *p = prev;
+			p->mode = CONTINUE;
 			delete this;
 			return p;
 		}

@@ -148,6 +148,9 @@ namespace goat {
 			if (s == "break") {
 				return new Keyword(Keyword::BREAK);
 			}
+			if (s == "continue") {
+				return new Keyword(Keyword::CONTINUE);
+			}
 			Identifier *i = new Identifier();
 			i->name = s;
 			return i;

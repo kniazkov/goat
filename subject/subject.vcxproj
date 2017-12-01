@@ -33,6 +33,7 @@
     <ClCompile Include="Colon.cpp" />
     <ClCompile Include="Comma.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Continue.cpp" />
     <ClCompile Include="CreateFunction.cpp" />
     <ClCompile Include="DeclareVariable.cpp" />
     <ClCompile Include="Dot.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="Colon.h" />
     <ClInclude Include="Comma.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="Continue.h" />
     <ClInclude Include="CreateFunction.h" />
     <ClInclude Include="DeclareVariable.h" />
     <ClInclude Include="Dot.h" />

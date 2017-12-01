@@ -58,6 +58,9 @@ namespace goat {
 			delete this;
 			return p;
 		}
+		case CONTINUE:
+			step = CHECK_CONDITION;
+			return stmt->expr->createState(this); // see below : case CHECK_CONDITION
 		default:
 			throw NotImplemented();
 		}
