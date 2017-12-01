@@ -66,6 +66,9 @@ namespace goat {
 		if (scope) {
 			scope->mark();
 		}
+		old.forEach([](Scope *o) {
+			o->mark();
+		});
 		if (thru) {
 			thru->mark();
 		}
@@ -76,6 +79,9 @@ namespace goat {
 			if (st->thru) {
 				st->thru->mark();
 			}
+			st->old.forEach([](Scope *o) {
+				o->mark();
+			});
 			st->trace();
 			st = st->prev;
 		}

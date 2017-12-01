@@ -55,13 +55,13 @@ namespace goat {
 				if (Thread::current->step()) {
 					steps++;
 					// garbage collection if needed
-					//if (totalAlloc - prevAlloc > threshold || totalObjMem - prevObjMem > threshold) {
+					if (totalAlloc - prevAlloc > threshold || totalObjMem - prevObjMem > threshold) {
 						ThreadList::global.mark();
 						ObjectList::forMarking.mark_2();
 						ObjectList::global.sweep();
 						prevAlloc = totalAlloc;
 						prevObjMem = totalObjMem;
-					//}
+					}
 					// next thread
 					Thread::current = Thread::current->next;
 					if (Thread::current == nullptr) {

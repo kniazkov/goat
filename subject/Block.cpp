@@ -50,7 +50,7 @@ namespace goat {
 	}
 
 	Block::StateImpl::StateImpl(State *_prev, Block *_block) : State(_prev), block(_block), tok(_block->tokens->first) {
-		scope = scope->clone();
+		cloneScope();
 	}
 
 	State * Block::StateImpl::next() {

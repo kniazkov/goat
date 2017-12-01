@@ -440,7 +440,7 @@ namespace goat {
 			Object *funcClone = blank->find("clone");
 			ObjectFunction *of = funcClone->toObjectFunction();
 			if (of) {
-				scope = of->context->clone();
+				changeScope(of->context->clone());
 				scope->arguments = nullptr;
 				scope->this_ = blank;
 				scope->proto.pushBack(scope->proto[0]);
@@ -449,7 +449,7 @@ namespace goat {
 			}
 			ObjectBuiltIn * obi = funcClone->toObjectBuiltIn();
 			if (obi) {
-				scope = scope->clone();
+				cloneScope();
 				scope->arguments = nullptr;
 				scope->this_ = blank;
 				return obi->createState(this);

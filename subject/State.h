@@ -43,6 +43,7 @@ namespace goat {
 		Object *thru;
 		State *prev;
 		Scope *scope;
+		Vector<Scope*> old;
 
 		State(State *_prev);
 		virtual ~State() {}
@@ -53,6 +54,8 @@ namespace goat {
 		virtual void ret(Object *obj);
 		void mark();
 		virtual void trace();
+		inline void changeScope(Scope *_scope);
+		inline void cloneScope();
 		State * throw_(Object *obj);
 		State * return_(Object *obj);
 		State * break_();
@@ -74,5 +77,14 @@ namespace goat {
 			RawString toRawString() override;
 		};
 	};
+
+	void State::changeScope(Scope *_scope) {
+		old.pushBack(scope);
+		scope = _scope;
+	}
+
+	void State::cloneScope() {
+		changeScope(scope->clone());
+	}
 
 }

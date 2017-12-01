@@ -67,7 +67,7 @@ namespace goat {
 			}
 			ObjectFunction *of = obj->toObjectFunction();
 			if (of) {
-				scope = of->context->clone();
+				changeScope(of->context->clone());
 				scope->this_ = left;
 				scope->arguments = new ObjectArray();
 				scope->arguments->vector.pushBack(right);
@@ -87,7 +87,7 @@ namespace goat {
 			}
 			ObjectBuiltIn *obi = obj->toObjectBuiltIn();
 			if (obi) {
-				scope = scope->clone();
+				cloneScope();
 				scope->this_ = left;
 				scope->arguments = new ObjectArray();
 				scope->arguments->vector.pushBack(right);

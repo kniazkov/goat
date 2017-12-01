@@ -94,7 +94,7 @@ namespace goat {
 			}
 			ObjectFunction *of = funcObj->toObjectFunction();
 			if (of) {
-				scope = of->context->clone();
+				changeScope(of->context->clone());
 				scope->arguments = arguments;
 				scope->this_ = thisObj;
 				scope->objects.insert(Resource::arguments, scope->arguments);
@@ -115,7 +115,7 @@ namespace goat {
 			}
 			ObjectBuiltIn * obi = funcObj->toObjectBuiltIn();
 			if (obi) {
-				scope = scope->clone();
+				cloneScope();
 				scope->arguments = arguments;
 				scope->this_ = thisObj;
 				return obi->createState(this);
