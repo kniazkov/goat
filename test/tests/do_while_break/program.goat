@@ -1,0 +1,28 @@
+var toString = $(v) {
+	var s = "unknown";
+	do {
+		if (v == 0) {
+			s = "zero";
+			break;
+		}
+		if (v == 1) {
+			s = "one";
+			break;
+		}
+		if (v == 2) {
+			s = "two";
+			break;
+		}
+		if (v == 3) {
+			s = "three";
+			break;
+		}
+	} while(false)
+	return s;
+};
+
+print(toString(0) + "\n");
+print(toString(1) + "\n");
+print(toString(2) + "\n");
+print(toString(3) + "\n");
+print(toString(666) + "\n");
