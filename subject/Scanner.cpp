@@ -139,6 +139,12 @@ namespace goat {
 			if (s == "new") {
 				return new Keyword(Keyword::NEW);
 			}
+			if (s == "for") {
+				return new Keyword(Keyword::FOR);
+			}
+			if (s == "do") {
+				return new Keyword(Keyword::DO);
+			}
 			if (s == "while") {
 				return new Keyword(Keyword::WHILE);
 			}
