@@ -60,8 +60,8 @@ namespace goat {
 		}
 		case CONTINUE:
 			mode = RUN;
-			step = EXECUTE;
-			return stmt->expr->createState(this); // see below : case CHECK_CONDITION
+			step = CHECK_CONDITION;
+			return stmt->stmt->createState(this); // see below : case EXECUTE
 		default:
 			throw NotImplemented();
 		}
