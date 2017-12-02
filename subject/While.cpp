@@ -59,6 +59,7 @@ namespace goat {
 			return p;
 		}
 		case CONTINUE:
+			mode = RUN;
 			step = CHECK_CONDITION;
 			return stmt->expr->createState(this); // see below : case CHECK_CONDITION
 		default:
