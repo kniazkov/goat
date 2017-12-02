@@ -54,6 +54,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "While.h"
 #include "Break.h"
 #include "Continue.h"
+#include "DoWhile.h"
 
 namespace goat {
 
@@ -101,6 +102,7 @@ namespace goat {
 			parse2ndList(expression, &Parser::parseStatementExpression, false);
 			parse2ndList(semicolon, &Parser::parseNop, false);
 			parse2ndList(keyword[Keyword::IF], &Parser::parseIf, true);
+			parse2ndList(keyword[Keyword::DO], &Parser::parseDoWhile, true);
 			parse2ndList(keyword[Keyword::WHILE], &Parser::parseWhile, true);
 			parse2ndList(index, &Parser::parseIndexBody, false);
 			parse2ndList(block, &Parser::parseBlockBody, false);
@@ -976,7 +978,7 @@ namespace goat {
 	void Parser::parseIndexBody(Token *tok) {
 		Index *index = tok->toIndex();
 		assert(index != nullptr);
-		
+
 		if (index->tokens->count != 1 || !index->tokens->first->toExpression()) {
 			throw ExpectedExpression(index);
 		}
@@ -1077,6 +1079,56 @@ namespace goat {
 			kw->replace(con);
 		}
 		kw->remove_2nd();
+	}
+
+	/*
+	  @do STATEMENT @while @( EXPRESSION ) => DO_WHILE
+	*/
+
+	void Parser::parseDoWhile(Token *tok) {
+		Keyword *kwDo = tok->toKeyword();
+		assert(kwDo != nullptr && kwDo->type == Keyword::DO);
+
+		assert(kwDo->next);
+		if (!kwDo->next) {
+			return;
+		}
+
+		Statement *stmt = kwDo->next->toStatement();
+		assert(stmt);
+		if (!stmt) {
+			return;
+		}
+
+		assert(stmt->next);
+		if (!stmt->next) {
+			return;
+		}
+
+		Keyword *kwWhile = stmt->next->toKeyword();
+		assert(kwWhile);
+		assert(kwWhile->type == Keyword::WHILE);
+		if (!kwWhile || kwWhile->type != Keyword::WHILE) {
+			return;
+		}
+
+		Brackets *brackets = kwWhile->next->toBrackets();
+		assert(brackets != nullptr);
+		assert(brackets->symbol == '(');
+		assert(brackets->tokens->count == 1);
+		if (!brackets || brackets->symbol != '(' || brackets->tokens->count != 1) {
+			assert(false);
+		}
+
+		Expression *expr = brackets->tokens->first->toExpression();
+		if (!expr) {
+			return;
+		}
+
+		DoWhile *dw = new DoWhile(expr, stmt);
+		kwDo->replace(brackets, dw);
+		kwDo->remove_2nd();
+		kwWhile->remove_2nd();
 	}
 
 	RawString Parser::ParseError::toRawString() {

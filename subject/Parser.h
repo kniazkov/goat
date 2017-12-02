@@ -90,6 +90,7 @@ namespace goat {
 		void parseWhile(Token *tok);
 		void parseBreak(Token *tok);
 		void parseContinue(Token *tok);
+		void parseDoWhile(Token *tok);
 
 	public:
 		static Root* parse(Scanner *scan, Root *prev);

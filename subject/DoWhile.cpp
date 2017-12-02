@@ -26,7 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace goat {
 
 	DoWhile::DoWhile(Expression *_expr, Statement *_stmt) {
-		loc = _expr->loc;
+		loc = _stmt->loc;
 		expr = _expr;
 		stmt = _stmt;
 	}
