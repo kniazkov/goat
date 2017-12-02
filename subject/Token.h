@@ -69,6 +69,7 @@ namespace goat {
 	class While;
 	class Break;
 	class Continue;
+	class DoWhile;
 
 	class Token : public Node {
 	protected:
@@ -128,6 +129,7 @@ namespace goat {
 		virtual While *toWhile();
 		virtual Break *toBreak();
 		virtual Continue *toContinue();
+		virtual DoWhile *toDoWhile();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {
