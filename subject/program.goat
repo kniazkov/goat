@@ -1,10 +1,5 @@
-var cnt = 1000;
-var f = $(x) {
-	if (x.val != cnt) {
-		return f({val: x.val + 1});
-	};
-	return x;
-};
+var i;
 
-var r = f({val : 0});
-print(r.val == cnt);
+for (i = 0; i < 10; i = i + 1) {
+	print(i);
+}

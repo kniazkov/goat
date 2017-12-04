@@ -55,6 +55,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Break.h"
 #include "Continue.h"
 #include "DoWhile.h"
+#include "For.h"
 
 namespace goat {
 
@@ -104,6 +105,7 @@ namespace goat {
 			parse2ndList(keyword[Keyword::IF], &Parser::parseIf, true);
 			parse2ndList(keyword[Keyword::DO], &Parser::parseDoWhile, true);
 			parse2ndList(keyword[Keyword::WHILE], &Parser::parseWhile, true);
+			parse2ndList(keyword[Keyword::FOR], &Parser::parseFor, true);
 			parse2ndList(index, &Parser::parseIndexBody, false);
 			parse2ndList(block, &Parser::parseBlockBody, false);
 			parse2ndList(function, &Parser::parseFunctionBody, false);
@@ -452,6 +454,7 @@ namespace goat {
 		}
 
 		Binary *bin = new Binary(oper, left, right);
+		expression.pushBack(bin);
 		left->replace(right, bin);
 		oper->remove_2nd();
 		if (left->list_2nd == &expression)
@@ -999,9 +1002,6 @@ namespace goat {
 		}
 
 		Brackets *brackets = kw->next->toBrackets();
-		assert(brackets != nullptr);
-		assert(brackets->symbol == '(');
-		assert(brackets->tokens->count == 1);
 		if (!brackets || brackets->symbol != '(' || brackets->tokens->count != 1) {
 			assert(false);
 		}
@@ -1089,33 +1089,25 @@ namespace goat {
 		Keyword *kwDo = tok->toKeyword();
 		assert(kwDo != nullptr && kwDo->type == Keyword::DO);
 
-		assert(kwDo->next);
 		if (!kwDo->next) {
 			return;
 		}
 
 		Statement *stmt = kwDo->next->toStatement();
-		assert(stmt);
 		if (!stmt) {
 			return;
 		}
 
-		assert(stmt->next);
 		if (!stmt->next) {
 			return;
 		}
 
 		Keyword *kwWhile = stmt->next->toKeyword();
-		assert(kwWhile);
-		assert(kwWhile->type == Keyword::WHILE);
 		if (!kwWhile || kwWhile->type != Keyword::WHILE) {
 			return;
 		}
 
 		Brackets *brackets = kwWhile->next->toBrackets();
-		assert(brackets != nullptr);
-		assert(brackets->symbol == '(');
-		assert(brackets->tokens->count == 1);
 		if (!brackets || brackets->symbol != '(' || brackets->tokens->count != 1) {
 			assert(false);
 		}
@@ -1129,6 +1121,64 @@ namespace goat {
 		kwDo->replace(brackets, dw);
 		kwDo->remove_2nd();
 		kwWhile->remove_2nd();
+	}
+
+	/*
+	  @for @( STATEMENT_EXPRESSION STATEMENT_EXPRESSION EXPRESSION ) => FOR
+	*/
+
+	void Parser::parseFor(Token *tok) {
+		Keyword *kw = tok->toKeyword();
+		assert(kw != nullptr && kw->type == Keyword::FOR);
+
+		if (!kw->next) {
+			return;
+		}
+
+		Brackets *parameters = kw->next->toBrackets();
+		if (!parameters || parameters->symbol != '(') {
+			assert(false);
+		}
+		
+		if (!parameters->tokens->first) {
+			return;
+		}
+
+		StatementExpression *init = parameters->tokens->first->toStatementExpression();
+		if (!init) {
+			return;
+		}
+
+		if (!init->next) {
+			return;
+		}
+
+		StatementExpression *condition = init->next->toStatementExpression();
+		if (!condition) {
+			return;
+		}
+
+		if (!condition->next) {
+			return;
+		}
+
+		Expression * increment = condition->next->toExpression();
+		if (!increment) {
+			return;
+		}
+
+		if (!parameters->next) {
+			return;
+		}
+
+		Statement *body = parameters->next->toStatement();
+		if (!body) {
+			return;
+		}
+
+		For *f = new For(kw, init, condition->expr, new StatementExpression(increment), body);
+		kw->replace(body, f);
+		kw->remove_2nd();
 	}
 
 	RawString Parser::ParseError::toRawString() {
