@@ -243,6 +243,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	For * Token::toFor() {
+		return nullptr;
+	}
+
 	void TokenList::mark() {
 		forEach([](Token* tok) {
 			tok->mark();

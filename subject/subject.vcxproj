@@ -37,9 +37,11 @@
     <ClCompile Include="CreateFunction.cpp" />
     <ClCompile Include="DeclareVariable.cpp" />
     <ClCompile Include="Dot.cpp" />
+    <ClCompile Include="DoWhile.cpp" />
     <ClCompile Include="Executable.cpp" />
     <ClCompile Include="Expression.cpp" />
     <ClCompile Include="Field.cpp" />
+    <ClCompile Include="For.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="FunctionCall.cpp" />
     <ClCompile Include="Identifier.cpp" />
@@ -117,9 +119,11 @@
     <ClInclude Include="CreateFunction.h" />
     <ClInclude Include="DeclareVariable.h" />
     <ClInclude Include="Dot.h" />
+    <ClInclude Include="DoWhile.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="Executable.h" />
     <ClInclude Include="Field.h" />
+    <ClInclude Include="For.h" />
     <ClInclude Include="If.h" />
     <ClInclude Include="Index.h" />
     <ClInclude Include="InputStream.h" />
