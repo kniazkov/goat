@@ -1135,7 +1135,7 @@ namespace goat {
 			return;
 		}
 
-		Brackets *parameters = kw->next->toBrackets();
+ 		Brackets *parameters = kw->next->toBrackets();
 		if (!parameters || parameters->symbol != '(') {
 			assert(false);
 		}
@@ -1144,7 +1144,7 @@ namespace goat {
 			return;
 		}
 
-		StatementExpression *init = parameters->tokens->first->toStatementExpression();
+		Statement *init = parameters->tokens->first->toStatement();
 		if (!init) {
 			return;
 		}
