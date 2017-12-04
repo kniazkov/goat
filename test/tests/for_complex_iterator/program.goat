@@ -1,0 +1,20 @@
+var data = {
+	v : 0,
+	
+	get : $() {
+		return v;
+	},
+	
+	next : $(){
+		v = v + 1;
+	},
+	
+	end : $(){
+		if (v < 10) return true;
+		return false;
+	}
+};
+
+for (; data.end(); data.next()) {
+	print(data.get());
+}
