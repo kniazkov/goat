@@ -65,7 +65,7 @@ namespace goat {
 		case CONTINUE:
 			mode = RUN;
 			step = CHECK_CONDITION;
-			return stmt->condition->createState(this); // see below : case CHECK_CONDITION
+			return stmt->increment->createState(this); // see below : case INCREMENT
 		default:
 			throw NotImplemented();
 		}

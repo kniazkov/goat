@@ -25,7 +25,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace goat {
 
 	Nop::Nop(Semicolon *semicolon) {
-		loc = semicolon->loc;
+		if (semicolon)
+			loc = semicolon->loc;
+		else
+			loc = nullptr;
 	}
 
 	Nop * Nop::toNop() {

@@ -56,6 +56,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Continue.h"
 #include "DoWhile.h"
 #include "For.h"
+#include "Boolean.h"
 
 namespace goat {
 
@@ -1153,18 +1154,31 @@ namespace goat {
 			return;
 		}
 
-		StatementExpression *condition = init->next->toStatementExpression();
+		Expression *condition = nullptr;
+		StatementExpression *stmtExprCondition = init->next->toStatementExpression();
+		if (stmtExprCondition) {
+			condition = stmtExprCondition->expr;
+		}
+		else {
+			Nop *nop = init->next->toNop();
+			if (nop) {
+				condition = new Boolean(true);
+			}
+		}
 		if (!condition) {
 			return;
 		}
 
-		if (!condition->next) {
-			return;
-		}
-
-		Expression * increment = condition->next->toExpression();
-		if (!increment) {
-			return;
+		Statement *stmtIncrement;
+		if (init->next->next) {
+			Expression *  increment = init->next->next->toExpression();
+			if (!increment) {
+				return;
+			}
+			stmtIncrement = new StatementExpression(increment);
+			}
+		else {
+			stmtIncrement = new Nop(nullptr);
 		}
 
 		if (!parameters->next) {
@@ -1176,7 +1190,7 @@ namespace goat {
 			return;
 		}
 
-		For *f = new For(kw, init, condition->expr, new StatementExpression(increment), body);
+		For *f = new For(kw, init, condition, stmtIncrement, body);
 		kw->replace(body, f);
 		kw->remove_2nd();
 	}
