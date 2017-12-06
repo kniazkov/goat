@@ -48,6 +48,10 @@ namespace goat {
 		return new StateImpl(_prev, this);
 	}
 
+	For::StateImpl::StateImpl(State *_prev, For *_stmt) : State(_prev), stmt(_stmt), condition(nullptr), step(INIT) {
+		cloneScope();
+	}
+
 	State * For::StateImpl::execute() {
 		switch (mode)
 		{

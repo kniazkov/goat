@@ -43,8 +43,7 @@ namespace goat {
 			Object *condition;
 			Step step;
 
-			StateImpl(State *_prev, For *_stmt) : State(_prev), stmt(_stmt), condition(nullptr), step(INIT) {
-			}
+			StateImpl(State *_prev, For *_stmt);
 			State * next() override;
 			State * execute() override;
 			void ret(Object *obj) override;
