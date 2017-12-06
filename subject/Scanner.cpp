@@ -157,6 +157,9 @@ namespace goat {
 			if (s == "continue") {
 				return new Keyword(Keyword::CONTINUE);
 			}
+			if (s == "in") {
+				return new Keyword(Keyword::IN);
+			}
 			Identifier *i = new Identifier();
 			i->name = s;
 			return i;

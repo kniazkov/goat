@@ -41,6 +41,7 @@ namespace goat {
 			THREAD,
 			BREAK,
 			CONTINUE,
+			IN,
 			UNKNOWN
 		};
 		Type type;
