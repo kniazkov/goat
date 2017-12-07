@@ -88,6 +88,7 @@ namespace goat {
 		bool instanceOf(Object *_obj);
 		void findAll(String key, Vector<Object *> *vector);
 		void findUnique(String key, Vector<Object *> *vector);
+		void enumerate(Vector<Pair> *vector);
 
 		virtual WideString toWideString();
 		virtual WideString toWideStringNotation();

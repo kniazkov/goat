@@ -42,6 +42,7 @@
     <ClCompile Include="Expression.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="For.cpp" />
+    <ClCompile Include="ForIn.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="FunctionCall.cpp" />
     <ClCompile Include="Identifier.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="Executable.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="For.h" />
+    <ClInclude Include="ForIn.h" />
     <ClInclude Include="If.h" />
     <ClInclude Include="In.h" />
     <ClInclude Include="Index.h" />

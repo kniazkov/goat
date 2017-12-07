@@ -218,6 +218,21 @@ namespace goat {
 		}
 	}
 
+	void Object::enumerate(Vector<Pair> *vector) {
+		objects.forEach([&](String key, Object *obj) {
+			vector->pushBack(Pair(new ObjectString(key.toWideString()), obj));
+		});
+
+		chain.forEach([&](Pair pair) {
+			vector->pushBack(pair);
+		});
+
+		proto.forEach([&](Object *pobj)
+		{
+			pobj->enumerate(vector);
+		});
+	}
+
 	void Object::clone(Object *_clone) {
 		objects.clone(_clone->objects);
 		_clone->proto.clean();

@@ -72,6 +72,7 @@ namespace goat {
 	class DoWhile;
 	class For;
 	class In;
+	class ForIn;
 
 	class Token : public Node {
 	protected:
@@ -134,6 +135,7 @@ namespace goat {
 		virtual DoWhile *toDoWhile();
 		virtual For *toFor();
 		virtual In *toIn();
+		virtual ForIn *toForIn();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {
