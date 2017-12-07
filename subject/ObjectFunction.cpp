@@ -34,6 +34,10 @@ namespace goat {
 		return this;
 	}
 
+	WideString ObjectFunction::toWideString() {
+		return L"Function";
+	}
+
 	void ObjectFunction::trace() {
 		if (context) {
 			context->mark();

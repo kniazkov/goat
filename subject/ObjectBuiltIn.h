@@ -32,6 +32,7 @@ namespace goat {
 	public:
 		ObjectBuiltIn();
 		ObjectBuiltIn * toObjectBuiltIn() override;
+		WideString toWideString() override;
 		virtual Object *run(Scope *scope) = 0;
 		virtual State * createState(State *_prev);
 

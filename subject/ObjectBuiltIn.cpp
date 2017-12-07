@@ -32,6 +32,10 @@ namespace goat {
 		return this;
 	}
 
+	WideString ObjectBuiltIn::toWideString() {
+		return L"Function";
+	}
+
 	State * ObjectBuiltIn::createState(State *prev) {
 		return new StateImpl(prev, this);;
 	}

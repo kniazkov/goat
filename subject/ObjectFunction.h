@@ -35,6 +35,7 @@ namespace goat {
 
 		ObjectFunction(Function *_function, Scope *_context);
 		ObjectFunction * toObjectFunction() override;
+		WideString toWideString() override;
 		void trace() override;
 
 		class Proto : public Object {
