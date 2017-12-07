@@ -44,7 +44,7 @@ namespace goat {
 		Object *thru;
 		State *prev;
 		Scope *scope;
-		Vector<Scope*> old;
+		PlainVector<Scope*> old;
 
 		State(State *_prev);
 		virtual ~State() {}

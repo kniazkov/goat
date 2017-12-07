@@ -44,7 +44,7 @@ namespace goat {
 			Token *arg;
 			Object *retObj;
 			ObjectArray *arguments;
-			Vector<Object* > chain;
+			PlainVector<Object* > chain;
 			unsigned int index;
 
 			StateImpl(State *_prev, New *_expr);

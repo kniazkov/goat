@@ -23,13 +23,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "Object.h"
-#include "Vector.h"
+#include "PlainVector.h"
 
 namespace goat {
 
 	class ObjectArray : public Object {
 	public:
-		Vector<Object *> vector;
+		PlainVector<Object *> vector;
 
 		ObjectArray();
 		ObjectArray * toObjectArray() override;

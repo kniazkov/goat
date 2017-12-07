@@ -23,7 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "Map.h"
-#include "Vector.h"
+#include "PlainVector.h"
 #include "String.h"
 #include "WideString.h"
 #include "RawBuffer.h"
@@ -68,7 +68,7 @@ namespace goat {
 		Status status;
 		Map<String, Object*> objects;
 		List<Pair> chain;
-		Vector<Object *> proto;
+		PlainVector<Object *> proto;
 
 		Object();
 		Object(bool builtIn);
@@ -86,9 +86,9 @@ namespace goat {
 		void clone(Object *_clone);
 		virtual bool equals(Object *_obj);
 		bool instanceOf(Object *_obj);
-		void findAll(String key, Vector<Object *> *vector);
-		void findUnique(String key, Vector<Object *> *vector);
-		void enumerate(Vector<Pair> *vector);
+		void findAll(String key, PlainVector<Object *> *vector);
+		void findUnique(String key, PlainVector<Object *> *vector);
+		void enumerate(PlainVector<Pair> *vector);
 
 		virtual WideString toWideString();
 		virtual WideString toWideStringNotation();

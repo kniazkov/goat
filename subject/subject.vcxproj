@@ -199,6 +199,7 @@
     <ClInclude Include="Unicode.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Variable.h" />
+    <ClInclude Include="PlainVector.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="While.h" />
     <ClInclude Include="WideString.h" />

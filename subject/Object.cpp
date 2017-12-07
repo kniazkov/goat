@@ -193,7 +193,7 @@ namespace goat {
 		return false;
 	}
 
-	void Object::findAll(String key, Vector<Object *> *vector) {
+	void Object::findAll(String key, PlainVector<Object *> *vector) {
 		Object *found = nullptr;
 		if (objects.find(key, &found)) {
 			vector->pushBack(found);
@@ -203,8 +203,8 @@ namespace goat {
 		}
 	}
 
-	void Object::findUnique(String key, Vector<Object *> *result) {
-		Vector<Object *> tmp;
+	void Object::findUnique(String key, PlainVector<Object *> *result) {
+		PlainVector<Object *> tmp;
 		findAll(key, &tmp);
 		int l = (int)tmp.len();
 		if (l > 0) {
@@ -218,7 +218,7 @@ namespace goat {
 		}
 	}
 
-	void Object::enumerate(Vector<Pair> *vector) {
+	void Object::enumerate(PlainVector<Pair> *vector) {
 		objects.forEach([&](String key, Object *obj) {
 			vector->pushBack(Pair(new ObjectString(key.toWideString()), obj));
 		});
