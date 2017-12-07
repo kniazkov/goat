@@ -152,7 +152,7 @@ namespace goat {
 		class OutOfBounds : public Exception {
 		public:
 			RawString toRawString() override {
-				return L"vector: index out of bounds";
+				return L"plain vector: index out of bounds";
 			}
 		};
 	};

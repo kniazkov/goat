@@ -58,6 +58,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "For.h"
 #include "Boolean.h"
 #include "In.h"
+#include "ForIn.h"
 
 namespace goat {
 
@@ -564,7 +565,7 @@ namespace goat {
 	}
 
 	/*
-	  (@return || OPERATOR | @; | @: | @, | @. | @{} | NULL) IDENTIFIER (OPERATOR | @; | , | . | [] | NULL) => VARIABLE
+	  (@return || OPERATOR | @; | @: | @, | @. | @{} | IN | NULL) IDENTIFIER (OPERATOR | @; | , | . | [] | NULL) => VARIABLE
 	*/
 	void Parser::parseVariable(Token *tok) {
 		Identifier *name = tok->toIdentifier();
@@ -573,7 +574,7 @@ namespace goat {
 		Token *p = tok->prev,
 			*n = tok->next;
 
-		if ((!p || p->toOperator() || p->toSemicolon() || p->toColon() || p->toDot() || p->toComma() || p->toKeyword() || p->toBrackets(true, true, false)) 
+		if ((!p || p->toOperator() || p->toSemicolon() || p->toColon() || p->toDot() || p->toComma() || p->toKeyword() || p->toBrackets(true, true, false) || p->toIn()) 
 			&& (!n || n->toOperator() || n->toSemicolon() || n->toColon() || n->toDot() || n->toComma() || n->toBrackets())) {
 			Variable *var = new Variable(name);
 			tok->replace(var);
@@ -1142,7 +1143,16 @@ namespace goat {
 		if (!parameters || parameters->symbol != '(') {
 			assert(false);
 		}
-		
+
+		if (!parameters->next) {
+			return;
+		}
+
+		Statement *body = parameters->next->toStatement();
+		if (!body) {
+			return;
+		}
+
 		if (!parameters->tokens->first) {
 			return;
 		}
@@ -1154,6 +1164,15 @@ namespace goat {
 				return; // error?..
 			}
 
+			Expression *object = varin->next->toExpression();
+			if (!object) {
+				return; // error again?
+			}
+
+			ForIn *fi = new ForIn(kw, varin, object, body);
+			kw->replace(body, fi);
+			kw->remove_2nd();
+			return;
 		}
 
 		if (!init->next) {
@@ -1185,15 +1204,6 @@ namespace goat {
 			}
 		else {
 			stmtIncrement = new Nop(nullptr);
-		}
-
-		if (!parameters->next) {
-			return;
-		}
-
-		Statement *body = parameters->next->toStatement();
-		if (!body) {
-			return;
 		}
 
 		For *f = new For(kw, init, condition, stmtIncrement, body);

@@ -40,7 +40,7 @@ namespace goat {
 			};
 
 			ForIn *stmt;
-			//PlainVector<Object::Pair> vector;
+			Vector<Object::Pair> vector;
 			unsigned int index;
 			Step step;
 

@@ -80,24 +80,16 @@ namespace goat {
 		switch (step) {
 		case GET_OBJECT:
 			return stmt->obj->createState(this);
-			/*
-		case CHECK_CONDITION:
-			return stmt->condition->createState(this);
 		case EXECUTE:
-			if (condition->toObjectBoolean()->value) {
-				condition = nullptr;
-				step = INCREMENT;
+			if (index < vector.len()) {
+				Object::Pair pair = vector[index];
+				index++;
+				scope->replace(stmt->in->name->name, pair.key);
 				return stmt->body->createState(this);
 			}
 			else {
-				State *p = prev;
-				delete this;
-				return p;
+				step = DONE;
 			}
-		case INCREMENT:
-			step = CHECK_CONDITION;
-			return stmt->increment->createState(this);
-			*/
 		case DONE: {
 			State *p = prev;
 			delete this;
@@ -112,7 +104,7 @@ namespace goat {
 		switch (step) {
 		case GET_OBJECT:
 			if (obj) {
-				//obj->enumerate(&vector);
+				obj->enumerate(&vector);
 			}
 			step = EXECUTE;
 			break;
@@ -122,13 +114,11 @@ namespace goat {
 	}
 
 	void ForIn::StateImpl::trace() {
-		/*
 		vector.forEach([](Object::Pair &pair) {
 			if (pair.key)
 				pair.key->mark();
 			if (pair.value)
 				pair.value->mark();
 		});
-		*/
 	}
 }

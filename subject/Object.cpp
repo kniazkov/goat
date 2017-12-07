@@ -218,7 +218,7 @@ namespace goat {
 		}
 	}
 
-	void Object::enumerate(PlainVector<Pair> *vector) {
+	void Object::enumerate(Vector<Pair> *vector) {
 		objects.forEach([&](String key, Object *obj) {
 			vector->pushBack(Pair(new ObjectString(key.toWideString()), obj));
 		});

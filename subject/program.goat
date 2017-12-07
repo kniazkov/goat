@@ -7,5 +7,6 @@ var obj = {
 
 var key;
 for (key in obj) {
-	print(obj[key]);
+	print(key + ": " + obj[key] + "\n");
 };
+
