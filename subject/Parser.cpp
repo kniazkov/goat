@@ -57,6 +57,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "DoWhile.h"
 #include "For.h"
 #include "Boolean.h"
+#include "In.h"
 
 namespace goat {
 
@@ -75,6 +76,7 @@ namespace goat {
 		root = new Root(prev);
 		try {
 			parseBrackets(root->raw, '\0');
+			parse2ndList(keyword[Keyword::IN], &Parser::parseIn, false);
 			parse2ndList(identifier, &Parser::parseVariable, false);
 			parse2ndList(keyword[Keyword::FUNCTION], &Parser::parseFunction, false);
 			parse2ndList(keyword[Keyword::THREAD], &Parser::parseFunction, false);
@@ -1147,7 +1149,11 @@ namespace goat {
 
 		Statement *init = parameters->tokens->first->toStatement();
 		if (!init) {
-			return;
+			In *varin = parameters->tokens->first->toIn();
+			if (!varin) {
+				return; // error?..
+			}
+
 		}
 
 		if (!init->next) {
@@ -1193,6 +1199,43 @@ namespace goat {
 		For *f = new For(kw, init, condition, stmtIncrement, body);
 		kw->replace(body, f);
 		kw->remove_2nd();
+	}
+
+	/*
+	  [@var] IDENTIFIER @in => IN
+	*/
+
+	void Parser::parseIn(Token *tok) {
+		Keyword *kwIn = tok->toKeyword();
+		assert(kwIn != nullptr && kwIn->type == Keyword::IN);
+
+		if (!kwIn->prev) {
+			return;
+		}
+
+		Identifier *name = kwIn->prev->toIdentifier();
+		if (!name) {
+			return;
+		}
+
+		Keyword *kwVar = nullptr;
+		if (name->prev) {
+			kwVar = name->prev->toKeyword();
+			if (!kwVar || kwVar->type != Keyword::VAR) {
+				return;
+			}
+		}
+
+		In *in = new In(kwVar != nullptr, name);
+		if (kwVar) {
+			kwVar->replace(kwIn, in);
+			kwVar->remove_2nd();
+		}
+		else {
+			name->replace(kwIn, in);
+		}
+		name->remove_2nd();
+		kwIn->remove_2nd();
 	}
 
 	RawString Parser::ParseError::toRawString() {
