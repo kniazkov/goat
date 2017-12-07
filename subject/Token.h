@@ -71,6 +71,7 @@ namespace goat {
 	class Continue;
 	class DoWhile;
 	class For;
+	class In;
 
 	class Token : public Node {
 	protected:
@@ -132,6 +133,7 @@ namespace goat {
 		virtual Continue *toContinue();
 		virtual DoWhile *toDoWhile();
 		virtual For *toFor();
+		virtual In *toIn();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {

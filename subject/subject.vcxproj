@@ -46,6 +46,7 @@
     <ClCompile Include="FunctionCall.cpp" />
     <ClCompile Include="Identifier.cpp" />
     <ClCompile Include="If.cpp" />
+    <ClCompile Include="In.cpp" />
     <ClCompile Include="Index.cpp" />
     <ClCompile Include="Integer.cpp" />
     <ClCompile Include="Keyword.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="For.h" />
     <ClInclude Include="If.h" />
+    <ClInclude Include="In.h" />
     <ClInclude Include="Index.h" />
     <ClInclude Include="InputStream.h" />
     <ClInclude Include="Integer.h" />
