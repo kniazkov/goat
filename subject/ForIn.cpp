@@ -70,7 +70,7 @@ namespace goat {
 		case CONTINUE:
 			mode = RUN;
 			step = EXECUTE;
-			return stmt->body->createState(this);
+			return next();
 		default:
 			throw NotImplemented();
 		}

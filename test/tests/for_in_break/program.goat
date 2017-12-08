@@ -1,14 +1,14 @@
 var obj = {};
 
 obj[0] = 13;
-obj[1] = "string data";
-obj[2] = 666;
+obj[1] = 666;
+obj[2] = "string data";
 
 
 for (var key in obj) {
 	var value = obj[key];
 	if (value.instanceOf(String)) {
-		continue;
+		break;
 	}
 	print("" + key + ": " + value + "\n");
 };
