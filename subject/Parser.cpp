@@ -737,7 +737,7 @@ namespace goat {
 	}
 
 	/*
-	   @return [ EXPRESSION ]; => RETURN
+	   @return [ EXPRESSION ] [@;] => RETURN
 	*/
 
 	void Parser::parseReturn(Token *tok) {
@@ -745,22 +745,45 @@ namespace goat {
 		assert(kw != nullptr && kw->type == Keyword::RETURN);
 
 		if (!kw->next) {
+			Return *ret = new Return(kw, nullptr);
+			kw->replace(ret);
+			kw->remove_2nd();
+			return;
+		}
+
+		Semicolon *semicolon = kw->next->toSemicolon();
+		if (semicolon) {
+			Return *ret = new Return(kw, nullptr);
+			kw->replace(semicolon, ret);
+			kw->remove_2nd();
+			semicolon->remove_2nd();
 			return;
 		}
 
 		Expression *expr = kw->next->toExpression();
 		if (!expr) {
+			throw ExpectedExpression(kw->next);
+		}
+
+		if (!expr->next) {
+			Return *ret = new Return(kw, expr);
+			kw->replace(expr, ret);
+			kw->remove_2nd();
+			expr->remove_2nd();
 			return;
 		}
 
-		assert(expr->next);
-		Semicolon *semicolon = expr->next->toSemicolon();
-
-		Return *ret = new Return(expr);
-		kw->replace(semicolon, ret);
-		kw->remove_2nd();
-		expr->remove_2nd();
-		semicolon->remove_2nd();
+		semicolon = expr->next->toSemicolon();
+		if (!semicolon) {
+			throw ExpectedSemicolon(expr->next);
+		}
+		else {
+			Return *ret = new Return(kw, expr);
+			kw->replace(semicolon, ret);
+			kw->remove_2nd();
+			expr->remove_2nd();
+			semicolon->remove_2nd();
+		}
 	}
 
 	/*

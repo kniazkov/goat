@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Statement.h"
 #include "Expression.h"
+#include "Keyword.h"
 
 namespace goat {
 
@@ -45,7 +46,7 @@ namespace goat {
 	public:
 		Expression *expr;
 
-		Return(Expression *_expr);
+		Return(Keyword *_kw, Expression *_expr);
 		void trace() override;
 		Return *toReturn() override;
 		State * createState(State *_prev) override;

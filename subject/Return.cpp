@@ -24,13 +24,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	Return::Return(Expression *_expr) {
-		loc = _expr->loc;
+	Return::Return(Keyword *_kw, Expression *_expr) {
+		loc = _kw->loc;
 		expr = _expr;
 	}
 
 	void Return::trace() {
-		expr->mark();
+		if (expr) {
+			expr->mark();
+		}
 	}
 
 	Return * Return::toReturn() {
