@@ -89,6 +89,7 @@ namespace goat {
 		bool instanceOf(Object *_obj);
 		void findAll(String key, PlainVector<Object *> *vector);
 		void findUnique(String key, PlainVector<Object *> *vector);
+		virtual void flat(Object *fobj);
 		void enumerate(Vector<Pair> *vector);
 
 		virtual WideString toWideString();
@@ -123,6 +124,7 @@ namespace goat {
 	public:
 		SuperObject();
 		static Object *getInstance();
+		void flat(Object *fobj) override;
 	};
 
 }

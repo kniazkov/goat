@@ -218,18 +218,30 @@ namespace goat {
 		}
 	}
 
-	void Object::enumerate(Vector<Pair> *vector) {
+	void Object::flat(Object *fobj) {
+		proto.forEachReverse([&](Object *pobj) {
+			pobj->flat(fobj);
+		});
+
 		objects.forEach([&](String key, Object *obj) {
-			vector->pushBack(Pair(new ObjectString(key.toWideString()), obj));
+			fobj->insert(key, obj);
 		});
 
 		chain.forEach([&](Pair pair) {
-			vector->pushBack(pair);
+			fobj->insert(pair.key, pair.value);
+		});
+	}
+
+	void Object::enumerate(Vector<Pair> *vector) {
+		Object *fobj = new Object();
+		flat(fobj);
+
+		fobj->objects.forEach([&](String key, Object *obj) {
+			vector->pushBack(Pair(new ObjectString(key.toWideString()), obj));
 		});
 
-		proto.forEach([&](Object *pobj)
-		{
-			pobj->enumerate(vector);
+		fobj->chain.forEach([&](Pair pair) {
+			vector->pushBack(pair);
 		});
 	}
 
@@ -511,4 +523,7 @@ namespace goat {
 		return &__this;
 	}
 
+	void SuperObject::flat(Object *fobj) {
+		// do nothing
+	}
 }

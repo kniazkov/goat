@@ -124,6 +124,16 @@ namespace goat {
 			}
 		}
 
+		template <typename Function> void forEachReverse(Function func) {
+			Type *data = size < 3 ? b.s : b.d.data;
+			Type *item = data + size,
+				*begin = data;
+			while (item != begin) {
+				func(*(item - 1));
+				item--;
+			}
+		}
+
 		bool indexOf(Type &item, unsigned int *index = nullptr) {
 			unsigned int k = 0;
 			if (size < 3) {

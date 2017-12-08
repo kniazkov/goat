@@ -1,12 +1,21 @@
-var obj = {
+var p0 = {
+	value0 : '#',
+	value1 : '&'
+};
+
+var p1 = {
+	value1 : '$',
+	value2 : '%'
+};
+
+var obj = [p0, p1] -> {
 	zero : 0,
 	one : 1,
 	two : 2,
 	three : 3
 };
 
-var key;
-for (key in obj) {
+//var key;
+for (var key in obj) {
 	print(key + ": " + obj[key] + "\n");
 };
-
