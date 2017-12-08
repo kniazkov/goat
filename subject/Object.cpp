@@ -512,8 +512,28 @@ namespace goat {
 		cloned = obj;
 	}
 
+
+	class Flat : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
+
+	Object * Flat::run(Scope *scope) {
+		Object *fobj = new Object();
+		scope->this_->flat(fobj);
+		return fobj;
+	}
+
+	Object * Flat::getInstance() {
+		static Flat __this;
+		return &__this;
+	}
+
+
 	SuperObject::SuperObject() : Object(true) {
 		objects.insert("clone", Clone::getInstance());
+		objects.insert("flat", Flat::getInstance());
 		objects.insert("instanceOf", InstanceOf::getInstance());
 		objects.insert("->", Inherit::getInstance());
 	}

@@ -1,6 +1,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Goat Programming Language Reference</title>
 </head>
 <body>
@@ -218,6 +219,17 @@ var C = [A, B] -> {
 };
 		</pre>
 		<p>The diamond problem: Goat uses the list of prototypes to inherit from as an ordered list. The interpreter uses the first method it finds by depth-first searching.</p>
+	</blockquote>
+</blockquote>
+<p>...</p>
+<p>Be sure, there must be some text here. But not now. Maybe later.</p>
+<h2>Inheritance</h2>
+<blockquote>
+	<h3>Root object</h3>
+	<blockquote>
+		<p>If do not specify the prototype(s) of the object, then the object will still have one prototype. This is a special root object. It has no name. This object contains some useful methods. Thus, each object has access to such methods, if they have not been redefined.</p>
+		<h4><code>flat()</code></h4>
+		<p>Returns a "flat" object, that is, an object that contains all the properties (fields) from the source object, as well as all the properties from all the prototypes of the source object, taken according to the override rules. The new object will not have prototypes (except for the root object).</p>
 	</blockquote>
 </blockquote>		
 </body>
