@@ -160,6 +160,27 @@ namespace goat {
 			if (s == "in") {
 				return new Keyword(Keyword::IN);
 			}
+			if (s == "switch") {
+				return new Keyword(Keyword::SWITCH);
+			}
+			if (s == "case") {
+				return new Keyword(Keyword::CASE);
+			}
+			if (s == "default") {
+				return new Keyword(Keyword::DEFAULT);
+			}
+			if (s == "try") {
+				return new Keyword(Keyword::TRY);
+			}
+			if (s == "catch") {
+				return new Keyword(Keyword::CATCH);
+			}
+			if (s == "finally") {
+				return new Keyword(Keyword::FINALLY);
+			}
+			if (s == "throw") {
+				return new Keyword(Keyword::THROW);
+			}
 			Identifier *i = new Identifier();
 			i->name = s;
 			return i;

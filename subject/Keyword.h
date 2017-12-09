@@ -42,6 +42,13 @@ namespace goat {
 			BREAK,
 			CONTINUE,
 			IN,
+			SWITCH,
+			CASE,
+			DEFAULT,
+			TRY,
+			CATCH,
+			FINALLY,
+			THROW,
 			UNKNOWN
 		};
 		Type type;
