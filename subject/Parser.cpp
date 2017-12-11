@@ -59,6 +59,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Boolean.h"
 #include "In.h"
 #include "ForIn.h"
+#include "Case.h"
 
 namespace goat {
 
@@ -95,6 +96,7 @@ namespace goat {
 			parse2ndList(oper_PLUS_MINUS, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_EQ_NEQ, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_LESS_GREATER, &Parser::parseBinaryOperator, false);
+			parse2ndList(keyword[Keyword::CASE], &Parser::parseCase, false);
 			parse2ndList(colon, &Parser::parsePair, false);
 			parse2ndList(object, &Parser::parseObjectBody, false);
 			parse2ndList(array, &Parser::parseArrayBody, false);
@@ -1271,6 +1273,49 @@ namespace goat {
 		kwIn->remove_2nd();
 	}
 
+	/*
+	  case EXPRESSION @: => CASE
+	*/
+
+	void Parser::parseCase(Token *tok) {
+		Keyword *kw = tok->toKeyword();
+		assert(kw != nullptr && kw->type == Keyword::CASE);
+
+		if (!kw->next) {
+			throw ExpectedExpression(kw);
+		}
+
+		Expression *condition = kw->next->toExpression();
+		if (!condition) {
+			throw ExpectedExpression(kw->next);
+		}
+
+		if (!condition->next) {
+			throw ExpectedColon(condition);
+		}
+
+		Colon *colon = condition->next->toColon();
+		if (!colon) {
+			throw ExpectedColon(condition->next);
+		}
+
+		Token *instr = colon->next,
+			*next;
+		Case *cas = new Case(kw, condition);
+		kw->replace(colon, cas);
+		kw->remove_2nd();
+		colon->remove_2nd();
+		while (instr) {
+			next = instr->next;
+			Keyword *kwNext = instr->toKeyword();
+			if (kwNext && (kwNext->type == Keyword::CASE || kwNext->type == Keyword::DEFAULT)) {
+				break;
+			}
+			cas->tokens->pushBack(instr);
+			instr = next;
+		}
+	}
+
 	RawString Parser::ParseError::toRawString() {
 		return (WideStringBuilder () << loc << ", parse error: " << message()).toRawString();
 	}
@@ -1337,5 +1382,9 @@ namespace goat {
 
 	WideString Parser::ExpectedSemicolon::message() {
 		return L"here should be a separator (semicolon)";
+	}
+
+	WideString Parser::ExpectedColon::message() {
+		return L"here should be a separator (colon)";
 	}
 }

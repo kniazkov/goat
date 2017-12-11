@@ -255,6 +255,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	Case * Token::toCase() {
+		return nullptr;
+	}
+
 	void TokenList::mark() {
 		forEach([](Token* tok) {
 			tok->mark();

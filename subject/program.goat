@@ -1,10 +1,19 @@
 var f = $(v) {
-	if (v == 3) {
-		return;
+	switch(v) {
+		case 0 :
+			print("case 0... ");
+			return "zero";
+		case 1:
+			return "one";
+		case 2:
+			break;
+		default:
+			return "other";
 	}
-	print(v);
+
+	return "two";
 };
 
-for (var i = 0; i < 10; i = i + 1) {
-	f(i);
+for (var i = 0; i < 5; i = i + 1) {
+	print(f(i) + "\n");
 }

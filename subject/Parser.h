@@ -93,6 +93,7 @@ namespace goat {
 		void parseDoWhile(Token *tok);
 		void parseFor(Token *tok);
 		void parseIn(Token *tok);
+		void parseCase(Token *tok);
 
 	public:
 		static Root* parse(Scanner *scan, Root *prev);
@@ -236,6 +237,14 @@ namespace goat {
 		class ExpectedSemicolon : public ParseError {
 		public:
 			ExpectedSemicolon(Token* _tok) : ParseError(_tok) {
+			}
+
+			WideString message() override;
+		};
+
+		class ExpectedColon : public ParseError {
+		public:
+			ExpectedColon(Token* _tok) : ParseError(_tok) {
 			}
 
 			WideString message() override;
