@@ -157,6 +157,7 @@
     <ClInclude Include="Continue.h" />
     <ClInclude Include="CreateFunction.h" />
     <ClInclude Include="DeclareVariable.h" />
+    <ClInclude Include="Default.h" />
     <ClInclude Include="Dot.h" />
     <ClInclude Include="DoWhile.h" />
     <ClInclude Include="Environment.h" />
@@ -257,6 +258,7 @@
     <ClCompile Include="Continue.cpp" />
     <ClCompile Include="CreateFunction.cpp" />
     <ClCompile Include="DeclareVariable.cpp" />
+    <ClCompile Include="Default.cpp" />
     <ClCompile Include="Dot.cpp" />
     <ClCompile Include="DoWhile.cpp" />
     <ClCompile Include="Executable.cpp" />

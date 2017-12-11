@@ -94,6 +94,7 @@ namespace goat {
 		void parseFor(Token *tok);
 		void parseIn(Token *tok);
 		void parseCase(Token *tok);
+		void parseDefault(Token *tok);
 
 	public:
 		static Root* parse(Scanner *scan, Root *prev);
@@ -245,6 +246,14 @@ namespace goat {
 		class ExpectedColon : public ParseError {
 		public:
 			ExpectedColon(Token* _tok) : ParseError(_tok) {
+			}
+
+			WideString message() override;
+		};
+
+		class OnlyOneDefault : public ParseError {
+		public:
+			OnlyOneDefault(Token* _tok) : ParseError(_tok) {
 			}
 
 			WideString message() override;

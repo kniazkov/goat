@@ -60,6 +60,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "In.h"
 #include "ForIn.h"
 #include "Case.h"
+#include "Default.h"
 
 namespace goat {
 
@@ -97,6 +98,7 @@ namespace goat {
 			parse2ndList(oper_EQ_NEQ, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_LESS_GREATER, &Parser::parseBinaryOperator, false);
 			parse2ndList(keyword[Keyword::CASE], &Parser::parseCase, false);
+			parse2ndList(keyword[Keyword::DEFAULT], &Parser::parseDefault, false);
 			parse2ndList(colon, &Parser::parsePair, false);
 			parse2ndList(object, &Parser::parseObjectBody, false);
 			parse2ndList(array, &Parser::parseArrayBody, false);
@@ -1274,7 +1276,7 @@ namespace goat {
 	}
 
 	/*
-	  case EXPRESSION @: => CASE
+	  @case EXPRESSION @: => CASE
 	*/
 
 	void Parser::parseCase(Token *tok) {
@@ -1312,6 +1314,45 @@ namespace goat {
 				break;
 			}
 			cas->tokens->pushBack(instr);
+			instr = next;
+		}
+	}
+
+	/*
+	  @default @: => DEFAULT
+	*/
+
+	void Parser::parseDefault(Token *tok) {
+		Keyword *kw = tok->toKeyword();
+		assert(kw != nullptr && kw->type == Keyword::DEFAULT);
+
+		if (!kw->next) {
+			throw ExpectedColon(kw);
+		}
+
+		Colon *colon = kw->next->toColon();
+		if (!colon) {
+			throw ExpectedColon(kw->next);
+		}
+
+		Token *instr = colon->next,
+			*next;
+		Default *def = new Default(kw);
+		kw->replace(colon, def);
+		kw->remove_2nd();
+		colon->remove_2nd();
+		while (instr) {
+			next = instr->next;
+			Keyword *kwNext = instr->toKeyword();
+			if (kwNext) {
+				if (kwNext->type == Keyword::CASE) {
+					break;
+				}
+				if (kwNext->type == Keyword::DEFAULT) {
+					throw OnlyOneDefault(kwNext);
+				}
+			}
+			def->tokens->pushBack(instr);
 			instr = next;
 		}
 	}
@@ -1386,5 +1427,9 @@ namespace goat {
 
 	WideString Parser::ExpectedColon::message() {
 		return L"here should be a separator (colon)";
+	}
+
+	WideString Parser::OnlyOneDefault::message() {
+		return L"switch statements may only contain one default";
 	}
 }
