@@ -61,6 +61,7 @@ namespace goat {
 		block = stmt->blocks->count > 0 ? stmt->blocks->first->toCase() : nullptr;
 		step = GET_OBJECT;
 		tok = nullptr;
+		execDef = false;
 	}
 
 	State * Switch::StateImpl::execute() {
@@ -92,6 +93,7 @@ namespace goat {
 				if (!block) {
 					if (stmt->def) {
 						tok = stmt->def->tokens->first;
+						execDef = true;
 					}
 					step = EXECUTE;
 				}
@@ -105,6 +107,16 @@ namespace goat {
 					return st;
 				}
 				else {
+					if (block && block->next) {
+						block = block->next->toCase();
+						tok = block->tokens->first;
+						return this;
+					}
+					else if (stmt->def && !execDef) {
+						tok = stmt->def->tokens->first;
+						execDef = true;
+						return this;
+					}
 					State *p = prev;
 					delete this;
 					return p;
@@ -132,6 +144,7 @@ namespace goat {
 					else {
 						if (stmt->def) {
 							tok = stmt->def->tokens->first;
+							execDef = true;
 						}
 						step = EXECUTE;
 					}

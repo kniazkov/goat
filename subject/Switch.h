@@ -46,6 +46,7 @@ namespace goat {
 			Case *block;
 			Step step;
 			Token *tok;
+			bool execDef;
 
 			StateImpl(State *_prev, Switch *_stmt);
 			State * next() override;
