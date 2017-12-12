@@ -1,0 +1,12 @@
+var f = $(v) {
+	switch(v) {
+		case undefined:
+			return "is not defined";
+		default:
+			return "defined";
+	}
+};
+
+print(f(undefined) + "\n");
+print(f('q') + "\n");
+print(f(666) + "\n");
