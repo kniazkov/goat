@@ -29,6 +29,7 @@
     <ClCompile Include="Brackets.cpp" />
     <ClCompile Include="Break.cpp" />
     <ClCompile Include="BuiltIn.cpp" />
+    <ClCompile Include="Case.cpp" />
     <ClCompile Include="Char.cpp" />
     <ClCompile Include="Colon.cpp" />
     <ClCompile Include="Comma.cpp" />
@@ -36,6 +37,7 @@
     <ClCompile Include="Continue.cpp" />
     <ClCompile Include="CreateFunction.cpp" />
     <ClCompile Include="DeclareVariable.cpp" />
+    <ClCompile Include="Default.cpp" />
     <ClCompile Include="Dot.cpp" />
     <ClCompile Include="DoWhile.cpp" />
     <ClCompile Include="Executable.cpp" />
@@ -92,6 +94,7 @@
     <ClCompile Include="StaticString.cpp" />
     <ClCompile Include="String.cpp" />
     <ClCompile Include="StringBuilder.cpp" />
+    <ClCompile Include="Switch.cpp" />
     <ClCompile Include="This.cpp" />
     <ClCompile Include="Thread.cpp" />
     <ClCompile Include="Token.cpp" />
@@ -113,6 +116,7 @@
     <ClInclude Include="BracketExpression.h" />
     <ClInclude Include="Break.h" />
     <ClInclude Include="BuiltIn.h" />
+    <ClInclude Include="Case.h" />
     <ClInclude Include="Char.h" />
     <ClInclude Include="Colon.h" />
     <ClInclude Include="Comma.h" />
@@ -120,6 +124,7 @@
     <ClInclude Include="Continue.h" />
     <ClInclude Include="CreateFunction.h" />
     <ClInclude Include="DeclareVariable.h" />
+    <ClInclude Include="Default.h" />
     <ClInclude Include="Dot.h" />
     <ClInclude Include="DoWhile.h" />
     <ClInclude Include="Environment.h" />
@@ -188,6 +193,7 @@
     <ClInclude Include="StaticString.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="StringBuilder.h" />
+    <ClInclude Include="Switch.h" />
     <ClInclude Include="This.h" />
     <ClInclude Include="Thread.h" />
     <ClInclude Include="Token.h" />

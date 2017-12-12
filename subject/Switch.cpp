@@ -58,7 +58,7 @@ namespace goat {
 
 	Switch::StateImpl::StateImpl(State *_prev, Switch *_stmt) : State(_prev), stmt(_stmt) {
 		objSwitch = nullptr;
-		block = stmt->blocks->first->toCase();
+		block = stmt->blocks->count > 0 ? stmt->blocks->first->toCase() : nullptr;
 		step = GET_OBJECT;
 		tok = nullptr;
 	}
