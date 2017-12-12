@@ -39,6 +39,13 @@ namespace goat {
 				gcDebug(false) {
 			}
 		};
+
+		enum CollectionStage {
+			MARK_ROOT,
+			MARK,
+			SWEEP
+		};
+
 	public:
 		static int run(Source *src, Environment *env, Scope *scope, Root **proot, Options *opt);
 		static int runCmdLine(int argc, char **argv);

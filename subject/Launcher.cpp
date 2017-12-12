@@ -47,6 +47,12 @@ namespace goat {
 		long long prevAlloc = totalAlloc;
 		long long prevObjMem = totalObjMem;
 		long long steps = 0;
+
+		CollectionStage stage = MARK_ROOT;
+		int i;
+		Object *obj,
+			*nextObj;
+
 		try {
 			Root* root = Parser::parse(&scan, *proot);
 			*proot = root;
@@ -54,7 +60,8 @@ namespace goat {
 			while (Thread::current != nullptr) {
 				if (Thread::current->step()) {
 					steps++;
-					// garbage collection if needed
+					// garbage collection
+					/*
 					if (totalAlloc - prevAlloc > threshold || totalObjMem - prevObjMem > threshold || opt->gcDebug) {
 						ThreadList::global.mark();
 						ObjectList::forMarking.mark_2();
@@ -62,6 +69,40 @@ namespace goat {
 						prevAlloc = totalAlloc;
 						prevObjMem = totalObjMem;
 					}
+					*/
+					switch (stage) {
+						case MARK_ROOT:
+							ThreadList::global.mark();
+							stage = MARK;
+							break;
+						case MARK:
+							for (i = 0; i < 2; i++) {
+								if (ObjectList::forMarking.mark_2()) {
+									stage = SWEEP;
+									obj = ObjectList::global.first;
+									break;
+								}
+							}
+							break;
+						case SWEEP:
+							for (i = 0; i < 2; i++) {
+								if (obj) {
+									nextObj = obj->next;
+									if (obj->status == Object::UNMARKED) {
+										delete obj;
+									}
+									else if (obj->status == Object::MARKED) {
+										obj->status = Object::UNMARKED;
+									}
+									obj = nextObj;
+								}
+								else {
+									stage = MARK_ROOT;
+								}
+							}
+							break;
+					}
+
 					// next thread
 					Thread::current = Thread::current->next;
 					if (Thread::current == nullptr) {

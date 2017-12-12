@@ -37,7 +37,7 @@ namespace goat {
 	ObjectList ObjectList::forMarking;
 
 	Object::Object() {
-		status = UNMARKED;
+		status = MARKED;
 		list = nullptr;
 		ObjectList::global.pushBack(this);
 		proto.pushBack(SuperObject::getInstance());
@@ -48,7 +48,7 @@ namespace goat {
 	}
 
 	Object::Object(Object *_proto) : Object() {
-		status = UNMARKED;
+		status = MARKED;
 		list = nullptr;
 		ObjectList::global.pushBack(this);
 		proto.pushBack(_proto);
@@ -350,12 +350,14 @@ namespace goat {
 		return nullptr;
 	}
 
-	void ObjectList::mark_2() {
-		while(count > 0) {
+	bool ObjectList::mark_2() {
+		if(count > 0) {
 			forEach([](Object *obj) {
 				obj->mark_2();
 			});
+			return false;
 		}
+		return true;
 	}
 
 	void ObjectList::sweep() {
