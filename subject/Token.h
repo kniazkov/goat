@@ -75,6 +75,7 @@ namespace goat {
 	class ForIn;
 	class Case;
 	class Default;
+	class Switch;
 
 	class Token : public Node {
 	protected:
@@ -140,6 +141,7 @@ namespace goat {
 		virtual ForIn *toForIn();
 		virtual Case *toCase();
 		virtual Default *toDefault();
+		virtual Switch *toSwitch();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {

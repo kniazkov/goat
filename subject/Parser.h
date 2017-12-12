@@ -258,6 +258,14 @@ namespace goat {
 
 			WideString message() override;
 		};
+
+		class DefaultShouldBeLast : public ParseError {
+		public:
+			DefaultShouldBeLast(Token* _tok) : ParseError(_tok) {
+			}
+
+			WideString message() override;
+		};
 	};
 
 }

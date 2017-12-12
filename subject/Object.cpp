@@ -255,6 +255,21 @@ namespace goat {
 		return this == _obj;
 	}
 
+	bool Object::equals(Object *first, Object *second) {
+		if (first) {
+			if (second) {
+				return first->equals(second);
+			}
+			return false;    // object != undefined 
+		}
+		else {
+			if (!second) {
+				return true; // undefined == undefined
+			}
+			return false;    // undefined != object
+		}
+	}
+
 	bool Object::instanceOf(Object *_obj) {
 		if (_obj == this) {
 			return true;

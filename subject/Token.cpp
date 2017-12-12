@@ -263,6 +263,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	Switch * Token::toSwitch() {
+		return nullptr;
+	}
+
 	void TokenList::mark() {
 		forEach([](Token* tok) {
 			tok->mark();

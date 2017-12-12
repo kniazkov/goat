@@ -223,6 +223,7 @@
     <ClInclude Include="StaticString.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="StringBuilder.h" />
+    <ClInclude Include="Switch.h" />
     <ClInclude Include="This.h" />
     <ClInclude Include="Thread.h" />
     <ClInclude Include="Token.h" />
@@ -315,6 +316,7 @@
     <ClCompile Include="StaticString.cpp" />
     <ClCompile Include="String.cpp" />
     <ClCompile Include="StringBuilder.cpp" />
+    <ClCompile Include="Switch.cpp" />
     <ClCompile Include="This.cpp" />
     <ClCompile Include="Thread.cpp" />
     <ClCompile Include="Token.cpp" />

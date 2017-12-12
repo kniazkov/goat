@@ -312,6 +312,9 @@
     <ClInclude Include="Default.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="Switch.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Assert.cpp">
@@ -573,6 +576,9 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Default.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Switch.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

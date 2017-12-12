@@ -1346,7 +1346,7 @@ namespace goat {
 			Keyword *kwNext = instr->toKeyword();
 			if (kwNext) {
 				if (kwNext->type == Keyword::CASE) {
-					break;
+					throw DefaultShouldBeLast(kwNext);;
 				}
 				if (kwNext->type == Keyword::DEFAULT) {
 					throw OnlyOneDefault(kwNext);
@@ -1431,5 +1431,9 @@ namespace goat {
 
 	WideString Parser::OnlyOneDefault::message() {
 		return L"switch statements may only contain one default";
+	}
+
+	WideString Parser::DefaultShouldBeLast::message() {
+		return L"default block should be last";
 	}
 }

@@ -86,6 +86,7 @@ namespace goat {
 		bool replace(String key, Object *repl);
 		void clone(Object *_clone);
 		virtual bool equals(Object *_obj);
+		static bool equals(Object *first, Object *second);
 		bool instanceOf(Object *_obj);
 		void findAll(String key, PlainVector<Object *> *vector);
 		void findUnique(String key, PlainVector<Object *> *vector);
