@@ -26,7 +26,7 @@ namespace goat {
 
 	Case::Case(Keyword *_kw, Expression *_condition) {
 		loc = _kw->loc;
-		_condition = _condition;
+		condition = _condition;
 		tokens = new TokenList();
 	}
 
@@ -39,6 +39,7 @@ namespace goat {
 	}
 
 	void Case::trace() {
+		condition->mark();
 		tokens->mark();
 	}
 

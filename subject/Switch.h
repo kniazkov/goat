@@ -25,7 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Statement.h"
 #include "Expression.h"
 #include "Keyword.h"
-#include "Brackets.h"
+#include "Block.h"
 #include "Case.h"
 #include "Default.h"
 
@@ -49,6 +49,7 @@ namespace goat {
 
 			StateImpl(State *_prev, Switch *_stmt);
 			State * next() override;
+			State * execute() override;
 			void ret(Object *obj) override;
 			void trace() override;
 		};
@@ -58,7 +59,7 @@ namespace goat {
 		TokenList *blocks;
 		Default *def;
 
-		Switch(Keyword *_kw, Expression *_expr, Brackets *_body);
+		Switch(Keyword *_kw, Expression *_expr, Block *_body);
 		void trace() override;
 		Switch *toSwitch() override;
 		State * createState(State *_prev) override;

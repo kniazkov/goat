@@ -95,6 +95,7 @@ namespace goat {
 		void parseIn(Token *tok);
 		void parseCase(Token *tok);
 		void parseDefault(Token *tok);
+		void parseSwitch(Token *tok);
 
 	public:
 		static Root* parse(Scanner *scan, Root *prev);

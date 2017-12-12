@@ -61,6 +61,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ForIn.h"
 #include "Case.h"
 #include "Default.h"
+#include "Switch.h"
 
 namespace goat {
 
@@ -114,6 +115,7 @@ namespace goat {
 			parse2ndList(keyword[Keyword::DO], &Parser::parseDoWhile, true);
 			parse2ndList(keyword[Keyword::WHILE], &Parser::parseWhile, true);
 			parse2ndList(keyword[Keyword::FOR], &Parser::parseFor, true);
+			parse2ndList(keyword[Keyword::SWITCH], &Parser::parseSwitch, false);
 			parse2ndList(index, &Parser::parseIndexBody, false);
 			parse2ndList(block, &Parser::parseBlockBody, false);
 			parse2ndList(function, &Parser::parseFunctionBody, false);
@@ -276,7 +278,7 @@ namespace goat {
 	}
 
 	/*
-	  EXPRESSION @( TOKEN [@, TOKEN ...] ) => FUNCTION_CALL
+		EXPRESSION @( TOKEN [@, TOKEN ...] ) => FUNCTION_CALL
 	*/
 	void Parser::parseFunctionCall(Token *tok) {
 		Expression *expr = tok->toExpression();
@@ -326,7 +328,7 @@ namespace goat {
 	}
 
 	/*
-	  EXPRESSION @; => STATEMENT_EXPRESSION
+		EXPRESSION @; => STATEMENT_EXPRESSION
 	*/
 
 	void Parser::parseStatementExpression(Token *tok) {
@@ -349,7 +351,7 @@ namespace goat {
 	}
 
 	/*
-	  @function @( ... ) @{ ... } => FUNCTION
+		@function @( ... ) @{ ... } => FUNCTION
 	*/
 	void Parser::parseFunction(Token *tok) {
 		Keyword *kw = tok->toKeyword();
@@ -435,7 +437,7 @@ namespace goat {
 	}
 
 	/*
-	  EXPRESSION OPERATOR EXPRESSION => BINARY_OPERATOR
+		EXPRESSION OPERATOR EXPRESSION => BINARY_OPERATOR
 	*/
 
 	void Parser::parseBinaryOperator(Token *tok) {
@@ -472,7 +474,7 @@ namespace goat {
 	}
 
 	/*
-	  (NULL || OPERATOR) @( TOKEN ) (NULL || OPERATOR) => BRACKET_EXPRESSION
+		(NULL || OPERATOR) @( TOKEN ) (NULL || OPERATOR) => BRACKET_EXPRESSION
 	*/
 	void Parser::parseBracketExpression(Token *tok) {
 		Brackets *brackets = tok->toBrackets();
@@ -490,7 +492,7 @@ namespace goat {
 	}
 
 	/*
-	  @var IDENTIFIER [= EXPRESSION] [, IDENTIFIER [= EXPRESSION] ...] @; => DECLARE_VARIABLE [, DECLARE_VARIABLE]
+		@var IDENTIFIER [= EXPRESSION] [, IDENTIFIER [= EXPRESSION] ...] @; => DECLARE_VARIABLE [, DECLARE_VARIABLE]
 	*/
 	void Parser::parseDeclareVariable(Token *tok) {
 		Keyword *kw = tok->toKeyword();
@@ -569,7 +571,7 @@ namespace goat {
 	}
 
 	/*
-	  (@return || OPERATOR | @; | @: | @, | @. | @{} | IN | NULL) IDENTIFIER (OPERATOR | @; | , | . | [] | NULL) => VARIABLE
+		(@return || OPERATOR | @; | @: | @, | @. | @{} | IN | NULL) IDENTIFIER (OPERATOR | @; | , | . | [] | NULL) => VARIABLE
 	*/
 	void Parser::parseVariable(Token *tok) {
 		Identifier *name = tok->toIdentifier();
@@ -588,7 +590,7 @@ namespace goat {
 	}
 
 	/*
-	  LEFT_EXPRESSION = EXPRESSION => ASSIGN
+		LEFT_EXPRESSION = EXPRESSION => ASSIGN
 	*/
 
 	void Parser::parseAssign(Token *tok) {
@@ -623,7 +625,7 @@ namespace goat {
 	}
 
 	/*
-	  @{ TOKEN } => OBJECT
+		@{ TOKEN } => OBJECT
 	*/
 	void Parser::parseObject(Token *tok) {
 		Brackets *brackets = tok->toBrackets();
@@ -662,7 +664,7 @@ namespace goat {
 	}
 
 	/*
-	  IDENTIFIER @: EXPRESSION => PAIR
+		IDENTIFIER @: EXPRESSION => PAIR
 	*/
 	void Parser::parsePair(Token *tok) {
 		Colon *colon = tok->toColon();
@@ -693,7 +695,7 @@ namespace goat {
 	}
 
 	/*
-	  EXPRESSION @. VARIABLE => FIELD
+		EXPRESSION @. VARIABLE => FIELD
 	*/
 	void Parser::parseField(Token *tok) {
 		Dot *dot = tok->toDot();
@@ -741,7 +743,7 @@ namespace goat {
 	}
 
 	/*
-	   @return [ EXPRESSION ] [@;] => RETURN
+		@return [ EXPRESSION ] [@;] => RETURN
 	*/
 
 	void Parser::parseReturn(Token *tok) {
@@ -791,7 +793,7 @@ namespace goat {
 	}
 
 	/*
-	   @if @( EXPRESSION ) STATEMENT => IF
+		@if @( EXPRESSION ) STATEMENT => IF
 	*/
 
 	void Parser::parseIf(Token *tok) {
@@ -846,7 +848,7 @@ namespace goat {
 	}
 
 	/*
-   	  @; => NOP
+		@; => NOP
 	*/
 
 	void Parser::parseNop(Token *tok) {
@@ -859,7 +861,7 @@ namespace goat {
 	}
 
 	/*
-	  @{ TOKEN } => BLOCK
+		@{ TOKEN } => BLOCK
 	*/
 	void Parser::parseBlock(Token *tok) {
 		Brackets *brackets = tok->toBrackets();
@@ -921,7 +923,7 @@ namespace goat {
 	}
 
 	/*
-	  @new FUNCTION_CALL => NEW
+		@new FUNCTION_CALL => NEW
 	*/
 
 	void Parser::parseNew(Token *tok) {
@@ -943,7 +945,7 @@ namespace goat {
 	}
 
 	/*
-	  @[ TOKEN ] => ARRAY
+		@[ TOKEN ] => ARRAY
 	*/
 	void Parser::parseArray(Token *tok) {
 		Brackets *brackets = tok->toBrackets();
@@ -986,7 +988,7 @@ namespace goat {
 	}
 
 	/*
-	  EXPRESSION @[ TOKENS ] => INDEX
+		EXPRESSION @[ TOKENS ] => INDEX
 	*/
 	void Parser::parseIndex(Token *tok) {
 		Brackets *brackets = tok->toBrackets();
@@ -1021,7 +1023,7 @@ namespace goat {
 	}
 
 	/*
-	  @while @( EXPRESSION ) STATEMENT => WHILE
+		@while @( EXPRESSION ) STATEMENT => WHILE
 	*/
 
 	void Parser::parseWhile(Token *tok) {
@@ -1057,7 +1059,7 @@ namespace goat {
 	}
 
 	/*
-	  @break [ @; ] => BREAK
+		@break [ @; ] => BREAK
 	*/
 
 	void Parser::parseBreak(Token *tok) {
@@ -1085,7 +1087,7 @@ namespace goat {
 	}
 
 	/*
-	  @continue [ @; ] => CONTINUE
+		@continue [ @; ] => CONTINUE
 	*/
 
 	void Parser::parseContinue(Token *tok) {
@@ -1113,7 +1115,7 @@ namespace goat {
 	}
 
 	/*
-	  @do STATEMENT @while @( EXPRESSION ) => DO_WHILE
+		@do STATEMENT @while @( EXPRESSION ) => DO_WHILE
 	*/
 
 	void Parser::parseDoWhile(Token *tok) {
@@ -1155,7 +1157,7 @@ namespace goat {
 	}
 
 	/*
-	  @for @( STATEMENT_EXPRESSION STATEMENT_EXPRESSION EXPRESSION ) => FOR
+		@for @( STATEMENT_EXPRESSION STATEMENT_EXPRESSION EXPRESSION ) => FOR
 	*/
 
 	void Parser::parseFor(Token *tok) {
@@ -1239,7 +1241,7 @@ namespace goat {
 	}
 
 	/*
-	  [@var] IDENTIFIER @in => IN
+		[@var] IDENTIFIER @in => IN
 	*/
 
 	void Parser::parseIn(Token *tok) {
@@ -1276,7 +1278,7 @@ namespace goat {
 	}
 
 	/*
-	  @case EXPRESSION @: => CASE
+		@case EXPRESSION @: => CASE
 	*/
 
 	void Parser::parseCase(Token *tok) {
@@ -1319,7 +1321,7 @@ namespace goat {
 	}
 
 	/*
-	  @default @: => DEFAULT
+		@default @: => DEFAULT
 	*/
 
 	void Parser::parseDefault(Token *tok) {
@@ -1355,6 +1357,52 @@ namespace goat {
 			def->tokens->pushBack(instr);
 			instr = next;
 		}
+	}
+
+	/*
+		@switch @( EXPRESSION ) @{ CASE [CASE] DEFAULT } => SWITCH
+	*/
+
+	void Parser::parseSwitch(Token *tok) {
+		Keyword *kw = tok->toKeyword();
+		assert(kw != nullptr && kw->type == Keyword::SWITCH);
+
+		if (!kw->next) {
+			return; // error ?
+		}
+
+		Brackets *brackets = kw->next->toBrackets();
+		assert(brackets != nullptr);
+		assert(brackets->symbol == '(');
+		assert(brackets->tokens->count == 1);
+		if (!brackets || brackets->symbol != '(' || brackets->tokens->count != 1) {
+			assert(false);
+		}
+
+		Expression *expr = brackets->tokens->first->toExpression();
+		if (!expr) {
+			return;
+		}
+
+		if (!brackets->next) {
+			return; // error again ?..
+		}
+
+		Block *body = brackets->next->toBlock();
+		if (!body) {
+			return;
+		}
+
+		body->tokens->forEach([&](Token *tok) {
+			if (!tok->toCase() && !(tok == body->tokens->last && tok->toDefault())) {
+				throw UnparsedSequence(tok);
+			}
+		});
+
+		Switch *sw = new Switch(kw, expr, body);
+		kw->replace(body, sw);
+		kw->remove_2nd();
+		body->remove_2nd();
 	}
 
 	RawString Parser::ParseError::toRawString() {

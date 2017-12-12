@@ -25,7 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	Switch::Switch(Keyword *_kw, Expression *_expr, Brackets *_body) {
+	Switch::Switch(Keyword *_kw, Expression *_expr, Block *_body) {
 		loc = _kw->loc;
 		expr = _expr;
 		blocks = _body->tokens;
@@ -61,6 +61,27 @@ namespace goat {
 		block = stmt->blocks->first->toCase();
 		step = GET_OBJECT;
 		tok = nullptr;
+	}
+
+	State * Switch::StateImpl::execute() {
+		switch (mode)
+		{
+			case RUN:
+				return next();
+			case EXCEPTION:
+				return throw_(thru);
+			case RETURN:
+				return return_(thru);
+			case BREAK: {
+				State *p = prev;
+				delete this;
+				return p;
+			}
+			case CONTINUE:
+				return continue_();
+			default:
+				throw NotImplemented();
+			}
 	}
 
 	State * Switch::StateImpl::next() {
@@ -105,7 +126,15 @@ namespace goat {
 					step = EXECUTE;
 				}
 				else {
-					block = block->next->toCase();
+					if (block->next) {
+						block = block->next->toCase();
+					}
+					else {
+						if (stmt->def) {
+							tok = stmt->def->tokens->first;
+						}
+						step = EXECUTE;
+					}
 				}
 				return;
 			case EXECUTE:
