@@ -1,0 +1,14 @@
+var f = $(v) {
+	switch(v) {
+		case 0:
+			return "zero";
+		case 1:
+			return "one";
+	}
+	
+	return "other";
+};
+
+for (var i = 0; i < 5; i = i + 1) {
+	print(f(i) + "\n");
+}

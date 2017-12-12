@@ -1,0 +1,10 @@
+var f = $(v) {
+	switch(v) {
+		default:
+			return 666;
+	}
+	
+	return 13;
+};
+
+print(f(0));
