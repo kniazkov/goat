@@ -1,0 +1,132 @@
+var f0 = true;
+var i0 = 0;
+
+var t0 = thread() {
+	for (i0 = 0; i0 < 1000; i0 = i0 + 1) {
+	}
+	f0 = false;
+};
+
+var f1 = true;
+var i1 = 0;
+
+var t1 = thread() {
+	for (i1 = 0; i1 < 1000; i1 = i1 + 1) {
+	}
+	f1 = false;
+};
+
+var f2 = true;
+var i2 = 0;
+
+var t2 = thread() {
+	for (i2 = 0; i2 < 1000; i2 = i2 + 1) {
+	}
+	f2 = false;
+};
+
+var f3 = true;
+var i3 = 0;
+
+var t3 = thread() {
+	for (i3 = 0; i3 < 1000; i3 = i3 + 1) {
+	}
+	f3 = false;
+};
+
+var f4 = true;
+var i4 = 0;
+
+var t4 = thread() {
+	for (i4 = 0; i4 < 1000; i4 = i4 + 1) {
+	}
+	f4 = false;
+};
+
+var f5 = true;
+var i5 = 0;
+
+var t5 = thread() {
+	for (i5 = 0; i5 < 1000; i5 = i5 + 1) {
+	}
+	f5 = false;
+};
+
+var f6 = true;
+var i6 = 0;
+
+var t6 = thread() {
+	for (i6 = 0; i6 < 1000; i6 = i6 + 1) {
+	}
+	f6 = false;
+};
+
+var f7 = true;
+var i7 = 0;
+
+var t7 = thread() {
+	for (i7 = 0; i7 < 1000; i7 = i7 + 1) {
+	}
+	f7 = false;
+};
+
+var f8 = true;
+var i8 = 0;
+
+var t8 = thread() {
+	for (i8 = 0; i8 < 1000; i8 = i8 + 1) {
+	}
+	f8 = false;
+};
+
+var f9 = true;
+var i9 = 0;
+
+var t9 = thread() {
+	for (i9 = 0; i9 < 1000; i9 = i9 + 1) {
+	}
+	f9 = false;
+};
+
+t0.run();
+t1.run();
+t2.run();
+t3.run();
+t4.run();
+t5.run();
+t6.run();
+t7.run();
+t8.run();
+t9.run();
+
+while(f0) {;
+}
+while(f1) {;
+}
+while(f2) {;
+}
+while(f3) {;
+}
+while(f4) {;
+}
+while(f5) {;
+}
+while(f6) {;
+}
+while(f7) {;
+}
+while(f8) {;
+}
+while(f9) {;
+}
+
+print("" + i0 + "\n");
+print("" + i1 + "\n");
+print("" + i2 + "\n");
+print("" + i3 + "\n");
+print("" + i4 + "\n");
+print("" + i5 + "\n");
+print("" + i6 + "\n");
+print("" + i7 + "\n");
+print("" + i8 + "\n");
+print("" + i9 + "\n");
