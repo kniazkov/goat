@@ -39,19 +39,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	static const long long threshold = 16 * 1024;
-
 	int Launcher::run(Source *src, Environment *env, Scope *scope, Root **proot, Options *opt) {
 		Scanner scan(src);
 		bool errors = false;
-		long long prevAlloc = totalAlloc;
-		long long prevObjMem = totalObjMem;
 		long long steps = 0;
-
-		CollectionStage stage = MARK_ROOT;
-		int i;
-		Object *obj,
-			*nextObj;
 
 		try {
 			Root* root = Parser::parse(&scan, *proot);
@@ -61,48 +52,7 @@ namespace goat {
 				if (Thread::current->step()) {
 					steps++;
 					// garbage collection
-					/*
-					if (totalAlloc - prevAlloc > threshold || totalObjMem - prevObjMem > threshold || opt->gcDebug) {
-						ThreadList::global.mark();
-						ObjectList::forMarking.mark_2();
-						ObjectList::global.sweep();
-						prevAlloc = totalAlloc;
-						prevObjMem = totalObjMem;
-					}
-					*/
-					switch (stage) {
-						case MARK_ROOT:
-							ThreadList::global.mark();
-							stage = MARK;
-							break;
-						case MARK:
-							for (i = 0; i < 2; i++) {
-								if (ObjectList::forMarking.mark_2()) {
-									stage = SWEEP;
-									obj = ObjectList::global.first;
-									break;
-								}
-							}
-							break;
-						case SWEEP:
-							for (i = 0; i < 2; i++) {
-								if (obj) {
-									nextObj = obj->next;
-									if (obj->status == Object::UNMARKED) {
-										delete obj;
-									}
-									else if (obj->status == Object::MARKED) {
-										obj->status = Object::UNMARKED;
-									}
-									obj = nextObj;
-								}
-								else {
-									stage = MARK_ROOT;
-								}
-							}
-							break;
-					}
-
+					opt->gc->collect();
 					// next thread
 					Thread::current = Thread::current->next;
 					if (Thread::current == nullptr) {
@@ -132,6 +82,7 @@ namespace goat {
 
 	int Launcher::runCmdLine(int argc, char **argv) {
 		Options opt;
+
 		char *program = nullptr;
 		int i;
 		
@@ -139,8 +90,17 @@ namespace goat {
 			char *arg = argv[i];
 			if (arg[0] == '-' && arg[1] == '-') {
 				// argument for interpreter
-				if (Utils::strCmp(arg + 2, "gcdebug") == 0) {
-					opt.gcDebug = true;
+				if (Utils::strCmp(arg + 2, "gc=", 3) == 0) {
+					// choose garbage collector
+					if (Utils::strCmp(arg + 5, "debug") == 0) {
+						opt.gc = GarbageCollector::debug();
+					}
+					else if (Utils::strCmp(arg + 5, "serial") == 0) {
+						opt.gc = GarbageCollector::serial();
+					}
+					else if (Utils::strCmp(arg + 5, "parallel") == 0) {
+						opt.gc = GarbageCollector::parallel();
+					}
 				}
 			}
 			else {
@@ -148,6 +108,10 @@ namespace goat {
 					program = arg;
 				}
 			}
+		}
+
+		if (!opt.gc) {
+			opt.gc = GarbageCollector::parallel();
 		}
 
 		if (program == nullptr) {
@@ -182,15 +146,23 @@ namespace goat {
 		InputStream<wchar> *input = StandartInputStream::getInstance();
 		OutputStream<wchar> *output = StandartOutputStream::getInstance();
 		OutputStream<wchar> *errors = StandartErrorStream::getInstance();
+		
 		Console console(input, output, L'\n', L"\r");
+		
 		Environment env;
 		env.out = output;
 		env.err = errors;
+		
 		Scope *scope = BuiltIn::create(&env)->clone();
+		
 		Root *root = nullptr;
+		
 		WideStringBuilder program;
+		
 		bool prompt = true;
+
 		Options opt;
+		opt.gc = GarbageCollector::debug();
 
 		while (true) {
 			output->write(prompt ? (wchar*)L"? " : (wchar*)L"  ");

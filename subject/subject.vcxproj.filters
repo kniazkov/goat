@@ -279,6 +279,9 @@
     <ClCompile Include="Default.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="GarbageCollector.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StackAllocator.h">
@@ -582,6 +585,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="Switch.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="GarbageCollector.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

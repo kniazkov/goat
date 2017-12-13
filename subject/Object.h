@@ -117,6 +117,7 @@ namespace goat {
 	public:
 		static ObjectList global;
 		static ObjectList forMarking;
+		void unmark();
 		bool mark_2();
 		void sweep();
 	};

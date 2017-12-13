@@ -58,6 +58,29 @@ namespace goat {
 		return *a < *b ? -1 : 1;
 	}
 
+	int Utils::strCmp(const char *a, const char *b, unsigned int n) {
+		if (a == nullptr || !*a) {
+			if (b == nullptr || !*b) {
+				return 0;
+			}
+			return -1;
+		}
+
+		if (b == nullptr || !*b) {
+			return 1;
+		}
+
+		while ((*a || *b) && *a == *b && n--) {
+			a++;
+			b++;
+		}
+
+		if (!n || *a == *b)
+			return 0;
+
+		return *a < *b ? -1 : 1;
+	}
+
 	unsigned int Utils::wstrLen(const wchar *cwstr) {
 		if (cwstr) {
 			const wchar *begin = cwstr;

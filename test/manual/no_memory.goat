@@ -1,0 +1,8 @@
+var a = [],
+	i = 0;
+
+while(true) {
+	a.push(i);
+	print("" + i + "\n");
+	i = i + 1;
+}

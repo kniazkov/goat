@@ -47,6 +47,7 @@
     <ClCompile Include="ForIn.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="FunctionCall.cpp" />
+    <ClCompile Include="GarbageCollector.cpp" />
     <ClCompile Include="Identifier.cpp" />
     <ClCompile Include="If.cpp" />
     <ClCompile Include="In.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="For.h" />
     <ClInclude Include="ForIn.h" />
+    <ClInclude Include="GarbageCollector.h" />
     <ClInclude Include="If.h" />
     <ClInclude Include="In.h" />
     <ClInclude Include="Index.h" />

@@ -68,6 +68,7 @@ namespace goat {
 
 		static unsigned int strLen(const char *cstr);
 		static int strCmp(const char *a, const char *b);
+		static int strCmp(const char *a, const char *b, unsigned int n);
 		static unsigned int wstrLen(const wchar *cwstr);
 		static int wstrCmp(const wchar *a, const wchar *b);
 		static int strWstrCmp(const char *a, const wchar *b);

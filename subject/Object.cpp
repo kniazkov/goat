@@ -350,6 +350,14 @@ namespace goat {
 		return nullptr;
 	}
 
+	void ObjectList::unmark() {
+		forEach([](Object *obj) {
+			if (obj->status == Object::MARKED) {
+				obj->status = Object::UNMARKED;
+			}
+		});
+	}
+
 	bool ObjectList::mark_2() {
 		if(count > 0) {
 			forEach([](Object *obj) {

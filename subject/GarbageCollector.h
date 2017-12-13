@@ -22,28 +22,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "Environment.h"
-#include "Source.h"
-#include "Scope.h"
-#include "Root.h"
-#include "GarbageCollector.h"
-
 namespace goat {
 
-	class Launcher {
-	protected:
-		class Options {
-		public:
-			GarbageCollector *gc;
-
-			Options() : gc(nullptr) {
-			}
-		};
-
+	class GarbageCollector {
 	public:
-		static int run(Source *src, Environment *env, Scope *scope, Root **proot, Options *opt);
-		static int runCmdLine(int argc, char **argv);
-		static int interactive();
+		virtual void collect() = 0;
+
+		static GarbageCollector * debug();
+		static GarbageCollector * serial();
+		static GarbageCollector * parallel();
 	};
 
 }
