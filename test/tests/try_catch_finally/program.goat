@@ -6,4 +6,7 @@ try {
 catch(e) {
 	print("catch \'" + e + "\'...\n");
 }
+finally {
+	print("finally...\n");
+}
 print("no problems!\n");
