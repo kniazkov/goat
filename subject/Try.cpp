@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Try.h"
+#include "Assert.h"
 
 namespace goat {
 
@@ -30,6 +31,7 @@ namespace goat {
 		varName = _varName;
 		stmtCatch = _stmtCatch;
 		stmtFinally = _stmtFinally;
+		assert(stmtCatch != nullptr || stmtFinally != nullptr);
 	}
 
 	void Try::trace() {
@@ -60,7 +62,7 @@ namespace goat {
 				return next();
 			case EXCEPTION:
 				mode = RUN;
-				step = CATCH;
+				step = stmt->stmtCatch ? CATCH : FINALLY;
 				return next();
 			case RETURN:
 				return return_(thru);
