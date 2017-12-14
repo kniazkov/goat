@@ -76,6 +76,7 @@ namespace goat {
 	class Case;
 	class Default;
 	class Switch;
+	class Try;
 
 	class Token : public Node {
 	protected:
@@ -142,6 +143,7 @@ namespace goat {
 		virtual Case *toCase();
 		virtual Default *toDefault();
 		virtual Switch *toSwitch();
+		virtual Try *toTry();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {

@@ -1,85 +1,11 @@
+var v;
 
-var func_1 = $() {
-	func_2();
-	func_2();
-	func_2();
-	func_2();
-	func_2();
-	func_2();
-	func_2();
-	func_2();
-	func_2();
-	func_2();
-};
-
-var func_2 = $() {
-	func_3();
-	func_3();
-	func_3();
-	func_3();
-	func_3();
-	func_3();
-	func_3();
-	func_3();
-	func_3();
-	func_3();
-};
-
-var func_3 = $() {
-	func_4();
-	func_4();
-	func_4();
-	func_4();
-	func_4();
-	func_4();
-	func_4();
-	func_4();
-	func_4();
-	func_4();
-};
-
-var func_4 = $() {
-	func_5();
-	func_5();
-	func_5();
-	func_5();
-	func_5();
-	func_5();
-	func_5();
-	func_5();
-	func_5();
-	func_5();
-};
-
-var func_5 = $() {
-	func_6();
-	func_6();
-	func_6();
-	func_6();
-	func_6();
-	func_6();
-	func_6();
-	func_6();
-	func_6();
-	func_6();
-};
-
-var func_6 = $() {
-	func_7();
-	func_7();
-	func_7();
-	func_7();
-	func_7();
-	func_7();
-	func_7();
-	func_7();
-	func_7();
-	func_7();
-};
-
-var func_7 = $() {
-	print("");
-};
-
-func_1();
-print("it works.");
+try {
+	v = 1/0;
+}
+catch(e) {
+	print(e);
+}
+finally {
+	print("\nno problems!\n");
+}

@@ -101,6 +101,7 @@
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="TokenArray.cpp" />
     <ClCompile Include="TokenObject.cpp" />
+    <ClCompile Include="Try.cpp" />
     <ClCompile Include="Undefined.cpp" />
     <ClCompile Include="Unicode.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="TokenArray.h" />
     <ClInclude Include="TokenObject.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="Try.h" />
     <ClInclude Include="Type.h" />
     <ClInclude Include="Undefined.h" />
     <ClInclude Include="Unicode.h" />

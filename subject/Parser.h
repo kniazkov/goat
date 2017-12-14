@@ -96,6 +96,7 @@ namespace goat {
 		void parseCase(Token *tok);
 		void parseDefault(Token *tok);
 		void parseSwitch(Token *tok);
+		void parseTry(Token *tok);
 
 	public:
 		static Root* parse(Scanner *scan, Root *prev);
@@ -263,6 +264,22 @@ namespace goat {
 		class DefaultShouldBeLast : public ParseError {
 		public:
 			DefaultShouldBeLast(Token* _tok) : ParseError(_tok) {
+			}
+
+			WideString message() override;
+		};
+
+		class ExpectedStatement : public ParseError {
+		public:
+			ExpectedStatement(Token* _tok) : ParseError(_tok) {
+			}
+
+			WideString message() override;
+		};
+
+		class ExpectedCatchFinally : public ParseError {
+		public:
+			ExpectedCatchFinally(Token* _tok) : ParseError(_tok) {
 			}
 
 			WideString message() override;

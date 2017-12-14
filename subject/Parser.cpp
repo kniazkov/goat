@@ -62,6 +62,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Case.h"
 #include "Default.h"
 #include "Switch.h"
+#include "Try.h"
 
 namespace goat {
 
@@ -116,6 +117,7 @@ namespace goat {
 			parse2ndList(keyword[Keyword::WHILE], &Parser::parseWhile, true);
 			parse2ndList(keyword[Keyword::FOR], &Parser::parseFor, true);
 			parse2ndList(keyword[Keyword::SWITCH], &Parser::parseSwitch, false);
+			parse2ndList(keyword[Keyword::TRY], &Parser::parseTry, false);
 			parse2ndList(index, &Parser::parseIndexBody, false);
 			parse2ndList(block, &Parser::parseBlockBody, false);
 			parse2ndList(function, &Parser::parseFunctionBody, false);
@@ -874,7 +876,7 @@ namespace goat {
 			}
 
 			Keyword *kw = tok->prev->toKeyword();
-			if (kw && kw->type == Keyword::DO) {
+			if (kw && (kw->type == Keyword::DO || kw->type == Keyword::TRY || kw->type == Keyword::FINALLY)) {
 				f = true;
 				break;
 			}
@@ -1405,6 +1407,102 @@ namespace goat {
 		body->remove_2nd();
 	}
 
+	/*
+		@try STATEMENT [ @catch @( IDENTIFIER ) STATEMENT ] [ @finally STATEMENT ] => TRY
+	*/
+
+	void Parser::parseTry(Token *tok) {
+		Keyword *kwTry = tok->toKeyword();
+		assert(kwTry != nullptr && kwTry->type == Keyword::TRY);
+
+		if (!kwTry->next) {
+			throw ExpectedStatement(kwTry);
+		}
+
+		Statement *stmtTry = kwTry->next->toStatement();
+		if (!stmtTry) {
+			throw ExpectedStatement(kwTry->next);
+		}
+
+		do {
+			if (!stmtTry->next) {
+				break;
+			}
+
+			Keyword *kw = stmtTry->next->toKeyword();
+			if (!kw) {
+				break;
+			}
+
+			Identifier *varName = nullptr;
+			Statement *stmtCatch = nullptr;
+			Keyword *kwCatch = nullptr;
+			if (kw->type == Keyword::CATCH) {
+				if (!kw->next) {
+					throw ExpectedIdentifier(kw);
+				}
+
+				kwCatch = kw;
+				Brackets *brackets = kw->next->toBrackets();
+				if (!brackets || brackets->symbol != '(' || brackets->tokens->count != 1) {
+					throw ExpectedIdentifier(kw);
+				}
+				
+				varName = brackets->tokens->first->toIdentifier();
+				if (!varName) {
+					throw ExpectedIdentifier(brackets->tokens->first);
+				}
+				
+				if (!brackets->next) {
+					throw ExpectedStatement(brackets);
+				}
+
+				stmtCatch = brackets->next->toStatement();
+				if (!stmtCatch) {
+					throw ExpectedStatement(brackets->next);
+				}
+
+				if (!stmtCatch->next) {
+					kw = nullptr;
+				}
+				else {
+					kw = stmtCatch->next->toKeyword();
+				}
+			}
+
+			Statement *stmtFinally = nullptr;
+			Keyword *kwFinally = nullptr;
+			if (kw && kw->type == Keyword::FINALLY) {
+				if (!kw->next) {
+					throw ExpectedStatement(kw);
+				}
+
+				kwFinally = kw;
+				stmtFinally = kw->next->toStatement();
+				if (!stmtFinally) {
+					throw ExpectedStatement(kw->next);
+				}
+			}
+
+			if (!stmtCatch && !stmtFinally) {
+				break;
+			}
+
+			Try *tr = new Try(kwTry, stmtTry, varName, stmtCatch, stmtFinally);
+			kwTry->replace(stmtFinally ? stmtFinally : stmtCatch, tr);
+			kwTry->remove_2nd();
+			if (kwCatch) {
+				kwCatch->remove_2nd();
+			}
+			if (kwFinally) {
+				kwFinally->remove_2nd();
+			}
+			return;
+		} while (false);
+
+		throw ExpectedCatchFinally(kwTry);
+	}
+
 	RawString Parser::ParseError::toRawString() {
 		return (WideStringBuilder () << loc << ", parse error: " << message()).toRawString();
 	}
@@ -1484,4 +1582,13 @@ namespace goat {
 	WideString Parser::DefaultShouldBeLast::message() {
 		return L"default block should be last";
 	}
+
+	WideString Parser::ExpectedStatement::message() {
+		return L"expected a statement";
+	}
+
+	WideString Parser::ExpectedCatchFinally::message() {
+		return L"should be 'catch' or (and) 'finally' block after 'try' block";
+	}
+
 }
