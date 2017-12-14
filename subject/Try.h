@@ -32,11 +32,20 @@ namespace goat {
 	protected:
 		class StateImpl : public State {
 		public:
-			Try * stmt;
+			enum Step {
+				TRY,
+				CATCH,
+				FINALLY,
+				DONE
+			};
 
-			StateImpl(State *_prev, Try *_stmt) : State(_prev), stmt(_stmt) {
+			Try * stmt;
+			Step step;
+
+			StateImpl(State *_prev, Try *_stmt) : State(_prev), stmt(_stmt), step(TRY) {
 			}
 			State * next() override;
+			State * execute() override;
 			void ret(Object *obj) override;
 			void trace() override;
 		};

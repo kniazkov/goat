@@ -53,8 +53,47 @@ namespace goat {
 		return new StateImpl(_prev, this);
 	}
 
+	State * Try::StateImpl::execute() {
+		switch (mode)
+		{
+			case RUN:
+				return next();
+			case EXCEPTION:
+				mode = RUN;
+				step = CATCH;
+				return next();
+			case RETURN:
+				return return_(thru);
+			case BREAK:
+				return break_();
+			case CONTINUE:
+				return continue_();
+			default:
+				throw NotImplemented();
+		}
+	}
+
 	State * Try::StateImpl::next() {
-		return nullptr;
+		switch (step) {
+			case TRY:
+				step = stmt->stmtFinally ? FINALLY : DONE;
+				return stmt->stmtTry->createState(this);
+			case CATCH:
+				step = stmt->stmtFinally ? FINALLY : DONE;
+				cloneScope();
+				scope->objects.insert(stmt->varName->name, thru);
+				return stmt->stmtCatch->createState(this);
+			case FINALLY:
+				step = DONE;
+				return stmt->stmtFinally->createState(this);
+			case DONE: {
+				State *p = prev;
+				delete this;
+				return p;
+			}
+			default:
+				throw NotImplemented();
+		}
 	}
 
 	void Try::StateImpl::ret(Object *obj) {
