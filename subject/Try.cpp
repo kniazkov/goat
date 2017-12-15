@@ -65,6 +65,9 @@ namespace goat {
 				step = stmt->stmtCatch ? CATCH : FINALLY;
 				return next();
 			case RETURN:
+				if (step == FINALLY) {
+					return next();
+				}
 				return return_(thru);
 			case BREAK:
 				return break_();

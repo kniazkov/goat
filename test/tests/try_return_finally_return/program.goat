@@ -1,0 +1,17 @@
+var f = $(v) {
+	try {
+		return 1023 / v;
+	}
+	catch(e) {
+		return 0;
+	}
+	finally {
+		if (v > 0) {
+			return v;
+		}
+	}
+};
+
+for (var i = 0 - 9; i < 10; i = i + 1) {
+	print("" + f(i) + "\n");
+}
