@@ -41,8 +41,9 @@ namespace goat {
 
 			Try * stmt;
 			Step step;
+			bool catched;
 
-			StateImpl(State *_prev, Try *_stmt) : State(_prev), stmt(_stmt), step(TRY) {
+			StateImpl(State *_prev, Try *_stmt) : State(_prev), stmt(_stmt), step(TRY), catched(false) {
 			}
 			State * next() override;
 			State * execute() override;

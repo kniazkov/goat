@@ -61,9 +61,13 @@ namespace goat {
 			case RUN:
 				return next();
 			case EXCEPTION:
-				mode = RUN;
-				step = stmt->stmtCatch ? CATCH : FINALLY;
-				return next();
+				if (!catched) {
+					catched = true;
+					mode = RUN;
+					step = stmt->stmtCatch ? CATCH : FINALLY;
+					return next();
+				}
+				return throw_(thru);
 			case RETURN:
 				if (step == FINALLY) {
 					return next();

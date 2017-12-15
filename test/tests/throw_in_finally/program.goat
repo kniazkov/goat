@@ -1,0 +1,23 @@
+var f = $() {
+	var v;
+	try {
+		v = 1/0;
+	}
+	catch(e) {
+		// just ignore the error
+	}
+	finally {
+		throw 666;
+	}
+};
+
+try {
+	f();
+}
+catch(e) {
+	print("exception: \'" + e + "\'\n");
+}
+finally {
+	print("finally...\n");
+}
+print("no problems!\n");

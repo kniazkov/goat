@@ -1,0 +1,3 @@
+exception: '666'
+finally...
+no problems!

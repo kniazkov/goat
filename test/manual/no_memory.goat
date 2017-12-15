@@ -3,6 +3,6 @@ var a = [],
 
 while(true) {
 	a.push(i);
-	print("" + i + "\n");
 	i = i + 1;
+	if (i % 1000000 == 0) print("" + i + "\n");;
 }
