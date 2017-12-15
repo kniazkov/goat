@@ -70,6 +70,7 @@
     <ClCompile Include="ObjectException.cpp" />
     <ClCompile Include="ObjectFunction.cpp" />
     <ClCompile Include="ObjectInteger.cpp" />
+    <ClCompile Include="ObjectReal.cpp" />
     <ClCompile Include="ObjectString.cpp" />
     <ClCompile Include="ObjectThread.cpp" />
     <ClCompile Include="Operator.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="ObjectException.h" />
     <ClInclude Include="ObjectFunction.h" />
     <ClInclude Include="ObjectInteger.h" />
+    <ClInclude Include="ObjectReal.h" />
     <ClInclude Include="ObjectString.h" />
     <ClInclude Include="ObjectThread.h" />
     <ClInclude Include="Operator.h" />

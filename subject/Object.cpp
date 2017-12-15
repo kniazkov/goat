@@ -338,6 +338,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	ObjectReal * Object::toObjectReal() {
+		return nullptr;
+	}
+
 	ObjectException * Object::toObjectException() {
 		return nullptr;
 	}

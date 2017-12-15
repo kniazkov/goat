@@ -41,6 +41,7 @@ namespace goat {
 	class ObjectArray;
 	class ObjectBuiltIn;
 	class ObjectInteger;
+	class ObjectReal;
 	class ObjectException;
 	class ObjectBoolean;
 	class ObjectChar;
@@ -103,6 +104,7 @@ namespace goat {
 		virtual ObjectArray * toObjectArray();
 		virtual ObjectBuiltIn * toObjectBuiltIn();
 		virtual ObjectInteger * toObjectInteger();
+		virtual ObjectReal * toObjectReal();
 		virtual ObjectException *toObjectException();
 		virtual ObjectBoolean *toObjectBoolean();
 		virtual ObjectChar *toObjectChar();
