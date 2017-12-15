@@ -22,6 +22,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "State.h"
 #include "Thread.h"
+#include "ObjectArray.h"
+#include "ObjectString.h"
+#include "Resource.h"
 
 namespace goat {
 
@@ -94,6 +97,22 @@ namespace goat {
 	}
 
 	State * State::throw_(Object *obj) {
+		if (obj) {
+			Location *l = location();
+			if (l) {
+				// write stack trace information
+				ObjectArray *t = nullptr;
+				Object *f = obj->find(Resource::trace);
+				if (f) {
+					t = f->toObjectArray();
+				}
+				if (!t) {
+					t = new ObjectArray();
+					obj->insert(Resource::trace, t);
+				}
+				t->vector.pushBack(new ObjectString(l->toString().toWideString()));
+			}
+		}
 		if (prev) {
 			State *p = prev;
 			p->mode = EXCEPTION;
@@ -141,6 +160,10 @@ namespace goat {
 		else {
 			throw NotImplemented();
 		}
+	}
+
+	Location * State::location() {
+		return nullptr;
 	}
 
 	RawString State::NotImplemented::toRawString() {

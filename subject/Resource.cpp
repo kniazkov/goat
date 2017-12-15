@@ -26,5 +26,5 @@ namespace goat {
 
 	String Resource::arguments = "arguments";
 	String Resource::init = "init";
-
+	String Resource::trace = "trace";
 }

@@ -22,33 +22,22 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "Statement.h"
 #include "Expression.h"
-#include "String.h"
-#include "Identifier.h"
-#include "Brackets.h"
-#include "ObjectArray.h"
+#include "Keyword.h"
 
 namespace goat {
 
-	class FunctionCall : public Expression {
+	class Throw : public Statement {
 	protected:
 		class StateImpl : public State {
 		public:
-			enum Step {
-				GET_FUNC_OBJECT,
-				GET_ARGUMENTS,
-				DONE
-			};
+			Throw * stmt;
+			Object *obj;
+			bool executed;
 
-			FunctionCall *fcall;
-			Object *funcObj;
-			Token *arg;
-			Step step;
-			Object *retObj;
-			Object *thisObj;
-			ObjectArray *arguments;
-
-			StateImpl(State *_prev, FunctionCall *_fcall);
+			StateImpl(State *_prev, Throw *_stmt) : State(_prev), stmt(_stmt), obj(nullptr), executed(false) {
+			}
 			State * next() override;
 			void ret(Object *obj) override;
 			void trace() override;
@@ -56,14 +45,11 @@ namespace goat {
 		};
 
 	public:
-		Expression *func;
-		TokenList* args;
-		bool method;
+		Expression * expr;
 
-		FunctionCall(Expression *tokFunc, Brackets *tokArgs);
-		~FunctionCall();
-		FunctionCall *toFunctionCall() override;
+		Throw(Keyword *_kw, Expression *_expr);
 		void trace() override;
+		Throw *toThrow() override;
 		State * createState(State *_prev) override;
 	};
 

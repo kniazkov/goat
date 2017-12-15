@@ -20,17 +20,50 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "String.h"
+#include "Throw.h"
 
 namespace goat {
 
-	class Resource {
-	public:
-		static String arguments;
-		static String init;
-		static String trace;
-	};
+	Throw::Throw(Keyword *_kw, Expression *_expr) {
+		loc = _kw->loc;
+		expr = _expr;
+	}
 
+	void Throw::trace() {
+		if (expr) {
+			expr->mark();
+		}
+	}
+
+	Throw * Throw::toThrow() {
+		return this;
+	}
+
+	State * Throw::createState(State *_prev) {
+		return new StateImpl(_prev, this);
+	}
+
+	State * Throw::StateImpl::next() {
+		if (!executed) {
+			executed = true;
+			return stmt->expr->createState(this);
+		}
+		else {
+			return throw_(obj);
+		}
+	}
+
+	void Throw::StateImpl::ret(Object *obj) {
+		this->obj = obj;
+	}
+
+	void Throw::StateImpl::trace() {
+		if (obj) {
+			obj->mark();
+		}
+	}
+
+	Location * Throw::StateImpl::location() {
+		return stmt->loc;
+	}
 }
