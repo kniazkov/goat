@@ -63,6 +63,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Default.h"
 #include "Switch.h"
 #include "Try.h"
+#include "Throw.h"
 
 namespace goat {
 
@@ -108,6 +109,7 @@ namespace goat {
 			parse2ndList(oper_ASSIGN, &Parser::parseAssign, true);
 			parse2ndList(fcall, &Parser::parseFunctionCallArgs, false);
 			parse2ndList(keyword[Keyword::RETURN], &Parser::parseReturn, false);
+			parse2ndList(keyword[Keyword::THROW], &Parser::parseThrow, false);
 			parse2ndList(keyword[Keyword::BREAK], &Parser::parseBreak, false);
 			parse2ndList(keyword[Keyword::CONTINUE], &Parser::parseContinue, false);
 			parse2ndList(expression, &Parser::parseStatementExpression, false);
@@ -1501,6 +1503,44 @@ namespace goat {
 		} while (false);
 
 		throw ExpectedCatchFinally(kwTry);
+	}
+
+	/*
+		@throw EXPRESSION [@;] => THROW
+	*/
+
+	void Parser::parseThrow(Token *tok) {
+		Keyword *kw = tok->toKeyword();
+		assert(kw != nullptr && kw->type == Keyword::THROW);
+
+		if (!kw->next) {
+			throw ExpectedExpression(kw);
+		}
+
+		Expression *expr = kw->next->toExpression();
+		if (!expr) {
+			throw ExpectedExpression(kw->next);
+		}
+
+		if (!expr->next) {
+			Throw *thrw = new Throw(kw, expr);
+			kw->replace(expr, thrw);
+			kw->remove_2nd();
+			expr->remove_2nd();
+			return;
+		}
+
+		Semicolon *semicolon = expr->next->toSemicolon();
+		if (!semicolon) {
+			throw ExpectedSemicolon(expr->next);
+		}
+		else {
+			Throw *thrw = new Throw(kw, expr);
+			kw->replace(semicolon, thrw);
+			kw->remove_2nd();
+			expr->remove_2nd();
+			semicolon->remove_2nd();
+		}
 	}
 
 	RawString Parser::ParseError::toRawString() {

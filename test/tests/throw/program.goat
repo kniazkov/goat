@@ -1,0 +1,14 @@
+var f = $() {
+	throw false;
+};
+
+try {
+	f();
+}
+catch(e) {
+	print("exception: \'" + e + "\'\n");
+}
+finally {
+	print("finally...\n");
+}
+print("no problems!\n");

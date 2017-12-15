@@ -98,6 +98,7 @@
     <ClCompile Include="Switch.cpp" />
     <ClCompile Include="This.cpp" />
     <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="Throw.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="TokenArray.cpp" />
     <ClCompile Include="TokenObject.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="Switch.h" />
     <ClInclude Include="This.h" />
     <ClInclude Include="Thread.h" />
+    <ClInclude Include="Throw.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="TokenArray.h" />
     <ClInclude Include="TokenObject.h" />
