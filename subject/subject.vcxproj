@@ -78,6 +78,7 @@
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Pool.cpp" />
+    <ClCompile Include="Real.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Return.cpp" />
     <ClCompile Include="Root.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="Pool.h" />
     <ClInclude Include="RawBuffer.h" />
+    <ClInclude Include="Real.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Return.h" />
     <ClInclude Include="Root.h" />

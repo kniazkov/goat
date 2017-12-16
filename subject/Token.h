@@ -78,6 +78,7 @@ namespace goat {
 	class Switch;
 	class Try;
 	class Throw;
+	class Real;
 
 	class Token : public Node {
 	protected:
@@ -146,6 +147,7 @@ namespace goat {
 		virtual Switch *toSwitch();
 		virtual Try *toTry();
 		virtual Throw *toThrow();
+		virtual Real *toReal();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {

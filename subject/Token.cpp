@@ -275,6 +275,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	Real * Token::toReal() {
+		return nullptr;
+	}
+
 	void TokenList::mark() {
 		forEach([](Token* tok) {
 			tok->mark();
