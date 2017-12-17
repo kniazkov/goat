@@ -201,6 +201,26 @@ namespace goat {
 		return WideString(ptr);
 	}
 
+	WideString WideString::valueOf(long double val) {
+		bool neg = false;
+		if (val < 0) {
+			neg = true;
+			val = -val;
+		}
+		wchar buff[32];
+		wchar *ptr = &buff[31];
+		*ptr = '\0';
+		long long int ival = (long long int)val;
+		do {
+			*--ptr = (char)(ival % 10) + '0';
+			ival /= 10;
+		} while (ival);
+		if (neg) {
+			*--ptr = '-';
+		}
+		return WideString(ptr);
+	}
+
 	RawString WideString::toRawString() {
 		RawString rs;
 		if (buff) {

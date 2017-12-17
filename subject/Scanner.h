@@ -26,13 +26,14 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Source.h"
 #include "Exception.h"
 #include "Assert.h"
+#include "FixedStack.h"
 
 namespace goat {
 
 	class Scanner {
 	protected:
 		Source *src;
-		char c1;
+		FixedStack <char, 3> stack;
 
 		inline char get();
 		inline void unget(char c);
@@ -93,22 +94,23 @@ namespace goat {
 	};
 
 	char Scanner::get() {
-		return c1 != '\0' ? c1 : src->get();
+		return stack.size() > 0 ? stack.top() : src->get();
 	}
 
 	void Scanner::unget(char c) {
-		assert(c1 == '\0');
-		c1 = c;
+		stack.push(c);
 	}
 
 	char Scanner::next() {
-		if (c1 != '\0') {
-			char c = c1;
-			c1 = '\0';
-			return c;
+		unsigned int n = stack.size();
+		if (n > 1) {
+			stack.pop();
+			return stack.top();
 		}
-		else
-			return src->next();
+		if (n > 0) {
+			stack.pop();
+		}
+		return src->next();
 	}
 
 	bool Scanner::isSpace(char c) {

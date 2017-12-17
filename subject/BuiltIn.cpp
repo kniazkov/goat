@@ -30,6 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectFunction.h"
 #include "ObjectThread.h"
 #include "ObjectChar.h"
+#include "ObjectReal.h"
 
 namespace goat {
 
@@ -44,6 +45,7 @@ namespace goat {
 		s->objects.insert("Array", ObjectArray::Proto::getInstance());
 		s->objects.insert("Function", ObjectFunction::Proto::getInstance());
 		s->objects.insert("Thread", ObjectThread::Proto::getInstance());
+		s->objects.insert("Real", ObjectReal::Proto::getInstance());
 		return s;
 	}
 

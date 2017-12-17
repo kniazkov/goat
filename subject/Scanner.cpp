@@ -38,12 +38,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Boolean.h"
 #include "This.h"
 #include "Char.h"
+#include "Real.h"
 
 namespace goat {
 
 	Scanner::Scanner(Source *_src) {
 		src = _src;
-		c1 = '\0';
 	}
 
 	Token * Scanner::getToken(Location **loc) {
@@ -88,6 +88,7 @@ namespace goat {
 				}
 				else {
 					unget(c);
+					unget('/');
 					c = '/';
 					break;
 				}
@@ -186,14 +187,35 @@ namespace goat {
 			return i;
 		}
 		if (isDigit(c)) {
-			long long int v = 0;
+			long long int iv = 0;
 			do {
-				v = v * 10 + c - '0';
+				iv = iv * 10 + c - '0';
 				c = next();
 			} while (isDigit(c));
-			Integer *i = new Integer();
-			i->value = v;
-			return  i;
+			if (c != '.') {
+				Integer *i = new Integer();
+				i->value = iv;
+				return  i;
+			}
+			// c == '.' and then digit => real value
+			c = next();
+			if (!isDigit(c)) {
+				unget(c);
+				unget('.');
+				Integer *i = new Integer();
+				i->value = iv;
+				return  i;
+			}
+			long long int fv = 0,
+				m = 1;
+			do {
+				m = m * 10;
+				fv = fv * 10 + c - '0';
+				c = next();
+			} while (isDigit(c));
+			Real *r = new Real();
+			r->value = (long double)iv + (long double)fv / (long double)m;
+			return  r;
 		}
 		if (isOperator(c)) {
 			StringBuilder b;

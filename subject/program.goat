@@ -1,11 +1,10 @@
+var v;
+
 try {
-	var f = $() {
-		throw "surprise! :)";
-	};
-	f();
+	v = 1/1;
 }
 catch(e) {
-	print("catch \'" + e.trace + ": " + e + "\'...\n");
+	print("catch \'" + e + "\'...\n");
 }
 finally {
 	print("finally...\n");

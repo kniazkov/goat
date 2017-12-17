@@ -135,6 +135,7 @@
     <ClInclude Include="Environment.h" />
     <ClInclude Include="Executable.h" />
     <ClInclude Include="Field.h" />
+    <ClInclude Include="FixedStack.h" />
     <ClInclude Include="For.h" />
     <ClInclude Include="ForIn.h" />
     <ClInclude Include="GarbageCollector.h" />
