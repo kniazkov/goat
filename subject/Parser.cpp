@@ -101,7 +101,7 @@ namespace goat {
 			parse2ndList(oper_PLUS_MINUS, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_EQ_NEQ, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_LESS_GREATER, &Parser::parseBinaryOperator, false);
-			parse2ndList(oper_QUESTION, &Parser::parseInlineIf, false);
+			parse2ndList(oper_QUESTION, &Parser::parseInlineIf, true);
 			parse2ndList(keyword[Keyword::CASE], &Parser::parseCase, false);
 			parse2ndList(keyword[Keyword::DEFAULT], &Parser::parseDefault, false);
 			parse2ndList(colon, &Parser::parsePair, false);

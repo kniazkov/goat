@@ -1,0 +1,7 @@
+var compare = $(a, b) {
+	return a > b ? 1 : a < b ? 0 - 1 : 0;
+};
+
+for(var i = 0 - 9; i < 10; i = i + 1) {
+	print(String.valueOf(i) + ' ' + String.valueOf(compare(i, 2)) + "\n");
+}
