@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "String.h"
+#include "WideString.h"
 
 namespace goat {
 
@@ -31,6 +32,7 @@ namespace goat {
 		static String arguments;
 		static String init;
 		static String trace;
+		static WideString w_undefined;
 	};
 
 }

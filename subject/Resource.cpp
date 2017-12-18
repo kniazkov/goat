@@ -27,4 +27,5 @@ namespace goat {
 	String Resource::arguments = "arguments";
 	String Resource::init = "init";
 	String Resource::trace = "trace";
+	WideString Resource::w_undefined = L"undefined";
 }

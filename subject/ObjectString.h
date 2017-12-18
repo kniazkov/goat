@@ -60,6 +60,12 @@ namespace goat {
 				Object * run(Scope *scope) override;
 				static Object *getInstance();
 			};
+
+			class ValueOf : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
 		};
 	};
 

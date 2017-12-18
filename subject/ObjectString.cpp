@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectString.h"
 #include "ObjectInteger.h"
 #include "WideStringBuilder.h"
+#include "Resource.h"
 
 namespace goat {
 
@@ -74,6 +75,7 @@ namespace goat {
 		objects.insert("+", OperatorPlus::getInstance());
 		objects.insert("length", Length::getInstance());
 		objects.insert("clone", Clone::getInstance());
+		objects.insert("valueOf", ValueOf::getInstance());
 	}
 
 	Object * ObjectString::Proto::getInstance() {
@@ -121,4 +123,17 @@ namespace goat {
 		return &__this;
 	}
 
+
+	Object * ObjectString::Proto::ValueOf::run(Scope *scope) {
+		Object *arg = scope->arguments->vector[0];
+		if (!arg) {
+			return new ObjectString(Resource::w_undefined);
+		}
+		return new ObjectString(arg->toWideString());
+	}
+
+	Object * ObjectString::Proto::ValueOf::getInstance() {
+		static ValueOf __this;
+		return &__this;
+	}
 }
