@@ -1,12 +1,8 @@
-var v;
+/*
+var r = 0.0;
 
-try {
-	v = 1/1;
-}
-catch(e) {
-	print("catch \'" + e + "\'...\n");
-}
-finally {
-	print("finally...\n");
-}
-print("no problems!\n");
+for (r = 0.0; r < 10.0; r = r + 0.1)
+	print("" + r + "\n");
+
+*/
+print(2.0 / 3.0);

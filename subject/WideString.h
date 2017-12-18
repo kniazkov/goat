@@ -90,7 +90,7 @@ namespace goat {
 		};
 
 		static WideString valueOf(long long int val);
-		static WideString valueOf(long double val);
+		static WideString valueOf(long double val, unsigned int precision, bool trim);
 	};
 
 

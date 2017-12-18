@@ -37,7 +37,7 @@ namespace goat {
 	}
 
 	WideString ObjectReal::toWideString() {
-		return WideString::valueOf(value);
+		return WideString::valueOf(value, 8, true);
 	}
 
 	bool ObjectReal::equals(Object *_obj) {

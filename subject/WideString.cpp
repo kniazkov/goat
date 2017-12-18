@@ -201,24 +201,63 @@ namespace goat {
 		return WideString(ptr);
 	}
 
-	WideString WideString::valueOf(long double val) {
+	WideString WideString::valueOf(long double val, unsigned int precision, bool trim) {
+		if (precision < 1) {
+			precision = 1;
+		}
 		bool neg = false;
 		if (val < 0) {
 			neg = true;
 			val = -val;
 		}
 		wchar buff[32];
-		wchar *ptr = &buff[31];
-		*ptr = '\0';
+		wchar *fptr = &buff[31];
+		*fptr = '\0';
+		wchar *iptr = fptr - precision - 1;
+		*iptr = '.';
 		long long int ival = (long long int)val;
+		auto tail = val - (long double)ival;
+		long long int fval = (long long int)(tail * Utils::pow10(precision + 1));
+		auto lastDigit = fval % 10;
+		fval /= 10;
+		if (lastDigit >= 5) {
+			fval++;
+			if (fval >= Utils::pow10(precision)) {
+				fval = 0;
+				ival++;
+			}
+		}
+		if (fval > 0) {
+			bool zero = true;
+			for (unsigned int k = 0; k < precision; k++) {
+				auto digit = fval % 10;
+				if (digit == 0) {
+					if (zero && trim) {
+						*--fptr = '\0';
+					}
+					else {
+						*--fptr = '0';
+					}
+				}
+				else {
+					zero = false;
+					*--fptr = (char)(digit)+'0';
+				}
+				fval /= 10;
+			}
+		}
+		else {
+			*(iptr + 1) = '0';
+			*(iptr + 2) = '\0';
+		}
 		do {
-			*--ptr = (char)(ival % 10) + '0';
+			*--iptr = (char)(ival % 10) + '0';
 			ival /= 10;
 		} while (ival);
 		if (neg) {
-			*--ptr = '-';
+			*--iptr = '-';
 		}
-		return WideString(ptr);
+		return WideString(iptr);
 	}
 
 	RawString WideString::toRawString() {
