@@ -1,8 +1,3 @@
-/*
-var r = 0.0;
 
-for (r = 0.0; r < 10.0; r = r + 0.1)
-	print("" + r + "\n");
+print(2 < 1 ? "okay" : "not okay");
 
-*/
-print(2.0 / 3.0);

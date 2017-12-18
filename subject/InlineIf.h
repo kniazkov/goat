@@ -20,55 +20,40 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "Operator.h"
+#pragma once
+
+#include "Expression.h"
 
 namespace goat {
 
-	Operator::Operator(String _value) {
-		value = _value;
-		if (value == "+") {
-			type = PLUS;
-		}
-		else if (value == "-") {
-			type = MINUS;
-		}
-		else if (value == "*") {
-			type = MUL;
-		}
-		else if (value == "/") {
-			type = DIV;
-		}
-		else if (value == "%") {
-			type = MOD;
-		}
-		else if (value == "=") {
-			type = ASSIGN;
-		}
-		else if (value == "==") {
-			type = EQUAL;
-		}
-		else if (value == "!=") {
-			type = NOT_EQUAL;
-		}
-		else if (value == "->") {
-			type = INHERIT;
-		}
-		else if (value == "<") {
-			type = LESS;
-		}
-		else if (value == ">") {
-			type = GREATER;
-		}
-		else if (value == "?") {
-			type = QUESTION;
-		}
-		else {
-			type = UNKNOWN;
-		}
-	}
+	class InlineIf : public Expression {
+	protected:
+		class StateImpl : public State {
+		public:
+			enum Step {
+				CHECK_CONDITION,
+				EXECUTE,
+				DONE
+			};
 
-	Operator * Operator::toOperator() {
-		return this;
-	}
+			InlineIf * expr;
+			Object *condition;
+			Step step;
+
+			StateImpl(State *_prev, InlineIf *_expr) : State(_prev), expr(_expr), condition(nullptr), step(CHECK_CONDITION) {
+			}
+			State * next() override;
+			void ret(Object *obj) override;
+			void trace() override;
+		};
+
+	public:
+		Expression * condition, *exprIf, *exprElse;
+
+		InlineIf(Expression *_condition, Expression *_exprIf, Expression *_exprElse);
+		void trace() override;
+		InlineIf *toInlineIf() override;
+		State * createState(State *_prev) override;
+	};
 
 }

@@ -79,6 +79,7 @@ namespace goat {
 	class Try;
 	class Throw;
 	class Real;
+	class InlineIf;
 
 	class Token : public Node {
 	protected:
@@ -148,6 +149,7 @@ namespace goat {
 		virtual Try *toTry();
 		virtual Throw *toThrow();
 		virtual Real *toReal();
+		virtual InlineIf *toInlineIf();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {

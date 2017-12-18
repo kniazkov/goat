@@ -52,6 +52,7 @@
     <ClCompile Include="If.cpp" />
     <ClCompile Include="In.cpp" />
     <ClCompile Include="Index.cpp" />
+    <ClCompile Include="InlineIf.cpp" />
     <ClCompile Include="Integer.cpp" />
     <ClCompile Include="Keyword.cpp" />
     <ClCompile Include="Launcher.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="If.h" />
     <ClInclude Include="In.h" />
     <ClInclude Include="Index.h" />
+    <ClInclude Include="InlineIf.h" />
     <ClInclude Include="InputStream.h" />
     <ClInclude Include="Integer.h" />
     <ClInclude Include="Keyword.h" />

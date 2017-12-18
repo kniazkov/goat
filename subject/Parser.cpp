@@ -64,6 +64,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Switch.h"
 #include "Try.h"
 #include "Throw.h"
+#include "InlineIf.h"
 
 namespace goat {
 
@@ -100,6 +101,7 @@ namespace goat {
 			parse2ndList(oper_PLUS_MINUS, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_EQ_NEQ, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_LESS_GREATER, &Parser::parseBinaryOperator, false);
+			parse2ndList(oper_QUESTION, &Parser::parseInlineIf, false);
 			parse2ndList(keyword[Keyword::CASE], &Parser::parseCase, false);
 			parse2ndList(keyword[Keyword::DEFAULT], &Parser::parseDefault, false);
 			parse2ndList(colon, &Parser::parsePair, false);
@@ -228,6 +230,9 @@ namespace goat {
 			case Operator::LESS:
 			case Operator::GREATER:
 				oper_LESS_GREATER.pushBack(tok);
+				break;
+			case Operator::QUESTION:
+				oper_QUESTION.pushBack(tok);
 				break;
 			default:
 				break;
@@ -1541,6 +1546,54 @@ namespace goat {
 			expr->remove_2nd();
 			semicolon->remove_2nd();
 		}
+	}
+
+	/*
+		EXPRESSION @? EXPRESSION @: EXPRESSION => INLINE_IF
+	*/
+
+	void Parser::parseInlineIf(Token *tok) {
+		Operator *oper = tok->toOperator();
+		assert(oper != nullptr && oper->type == Operator::QUESTION);
+
+		if (!oper->prev || !oper->next) {
+			throw ExpectedExpression(oper);
+		}
+
+		Expression *condition = oper->prev->toExpression();
+		if (!condition) {
+			throw ExpectedExpression(oper->prev);
+		}
+
+		Expression *ifExpr = oper->next->toExpression();
+		if (!ifExpr) {
+			throw ExpectedExpression(oper->next);
+		}
+
+		if (!ifExpr->next) {
+			throw ExpectedColon(ifExpr);
+		}
+
+		Colon *colon = ifExpr->next->toColon();
+		if (!colon) {
+			throw ExpectedColon(ifExpr->next);
+		}
+
+		if (!colon->next) {
+			throw ExpectedExpression(colon);
+		}
+
+		Expression *elseExpr = colon->next->toExpression();
+		if (!elseExpr) {
+			throw ExpectedExpression(colon->next);
+		}
+
+		InlineIf *iif = new InlineIf(condition, ifExpr, elseExpr);
+		condition->replace(elseExpr, iif);
+		oper->remove_2nd();
+		colon->remove_2nd();
+		ifExpr->remove_2nd();
+		elseExpr->remove_2nd();
 	}
 
 	RawString Parser::ParseError::toRawString() {

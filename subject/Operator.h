@@ -40,6 +40,7 @@ namespace goat {
 			INHERIT,
 			LESS,
 			GREATER,
+			QUESTION,
 			UNKNOWN
 		};
 		String value;
