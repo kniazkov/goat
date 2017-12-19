@@ -291,6 +291,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	PrefixIncrement * Token::toPrefixIncrement() {
+		return nullptr;
+	}
+
 	void TokenList::mark() {
 		forEach([](Token* tok) {
 			tok->mark();

@@ -65,6 +65,12 @@ namespace goat {
 		else if (value == "!") {
 			type = NOT;
 		}
+		else if (value == "++") {
+			type = INCREMENT;
+		}
+		else if (value == "--") {
+			type = DECREMENT;
+		}
 		else {
 			type = UNKNOWN;
 		}

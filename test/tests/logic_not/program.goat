@@ -1,0 +1,6 @@
+var f = $(v) {
+	print(String.valueOf(!v) + "\n");
+};
+
+f(true);
+f(false);

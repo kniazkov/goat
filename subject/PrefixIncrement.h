@@ -22,35 +22,43 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "Token.h"
+#include "LeftExpression.h"
+#include "Operator.h"
 
 namespace goat {
 
-	class Operator : public Token {
-	public:
-		enum Type {
-			PLUS,
-			MINUS,
-			MUL,
-			DIV,
-			MOD,
-			ASSIGN,
-			EQUAL,
-			NOT_EQUAL,
-			INHERIT,
-			LESS,
-			GREATER,
-			QUESTION,
-			NOT,
-			INCREMENT,
-			DECREMENT,
-			UNKNOWN
-		};
-		String value;
-		Type type;
+	class PrefixIncrement : public Expression {
+	protected:
+		class StateImpl : public State {
+		public:
+			enum Step {
+				GET_RIGHT,
+				EXECUTE,
+				SET_RIGHT,
+				DONE
+			};
 
-		Operator(String _value);
-		Operator *toOperator() override;
+			PrefixIncrement *expr;
+			Object *oldValue,
+				*newValue;
+			Step step;
+
+			StateImpl(State *_prev, PrefixIncrement *_expr) :
+				State(_prev), expr(_expr), oldValue(nullptr), newValue(nullptr), step(GET_RIGHT) {
+			}
+			State *next() override;
+			void ret(Object *obj) override;
+			void trace() override;
+		};
+
+	public:
+		Operator * oper;
+		LeftExpression *right;
+
+		PrefixIncrement(Operator *_oper, LeftExpression *_right);
+		PrefixIncrement *toPrefixIncrement() override;
+		void trace() override;
+		State * createState(State *_prev) override;
 	};
 
 }

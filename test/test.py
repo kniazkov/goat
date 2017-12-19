@@ -91,10 +91,10 @@ for dir in ([os.path.join(d, o) for o in os.listdir(d) if (o[0] != '_' or all) a
 			equal = False
 		if equal :
 			if not showFail :
-				print("[" + "\033[92m" + " ok " + "\033[0m" + "] " + strTime + " " + dir)
+				print("[" + " ok " + "] " + strTime + " " + dir)
 			passed = passed + 1
 		else :
-			print("[" + "\033[91m" + "fail" + "\033[0m" + "] " + strTime + " " + dir)
+			print("[" + "fail" + "] " + strTime + " " + dir)
 			failed = failed + 1
   
 print("done.")

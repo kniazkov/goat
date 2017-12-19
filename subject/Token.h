@@ -82,6 +82,7 @@ namespace goat {
 	class InlineIf;
 	class Null;
 	class Prefix;
+	class PrefixIncrement;
 
 	class Token : public Node {
 	protected:
@@ -154,6 +155,7 @@ namespace goat {
 		virtual InlineIf *toInlineIf();
 		virtual Null *toNull();
 		virtual Prefix *toPrefix();
+		virtual PrefixIncrement *toPrefixIncrement();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {

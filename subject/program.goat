@@ -1,6 +1,6 @@
-var f = $(v) {
-	print(String.valueOf(! !v) + "\n");
-};
+var v = 1;
 
-f(true);
-f(false);
+print(++v);
+print(" ");
+print(v);
+

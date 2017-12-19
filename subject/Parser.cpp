@@ -66,6 +66,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Throw.h"
 #include "InlineIf.h"
 #include "Prefix.h"
+#include "PrefixIncrement.h"
 
 namespace goat {
 
@@ -97,6 +98,7 @@ namespace goat {
 			parse2ndList(dot, &Parser::parseField, false);
 			parse2ndList(fcall, &Parser::parseFunctionCall, false);
 			parse2ndList(squareBracket, &Parser::parseIndex, false);
+			parse2ndList(oper_INCR_DECR, &Parser::parsePrefixIncrement, false);
 			parse2ndList(oper_NOT, &Parser::parsePrefixOperator, true);
 			parse2ndList(oper_INHERIT, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_MUL_DIV_MOD, &Parser::parseBinaryOperator, false);
@@ -238,6 +240,10 @@ namespace goat {
 				break;
 			case Operator::NOT:
 				oper_NOT.pushBack(tok);
+				break;
+			case Operator::INCREMENT:
+			case Operator::DECREMENT:
+				oper_INCR_DECR.pushBack(tok);
 				break;
 			default:
 				break;
@@ -1622,6 +1628,31 @@ namespace goat {
 		Prefix *po = new Prefix(oper, right);
 		expression.pushBack(po);
 		oper->replace(right, po);
+		oper->remove_2nd();
+		if (right->list_2nd == &expression)
+			right->remove_2nd();
+	}
+
+	/*
+		( @++ | @-- ) EXPRESSION => PREFIX_INCREMENT
+	*/
+
+	void Parser::parsePrefixIncrement(Token *tok) {
+		Operator *oper = tok->toOperator();
+		assert(oper != nullptr && (oper->type == Operator::INCREMENT || oper->type == Operator::DECREMENT));
+
+		if (!oper->next) {
+			return;
+		}
+
+		LeftExpression *right = oper->next->toLeftExpression();
+		if (!right) {
+			return;
+		}
+
+		PrefixIncrement *pi = new PrefixIncrement(oper, right);
+		expression.pushBack(pi);
+		oper->replace(right, pi);
 		oper->remove_2nd();
 		if (right->list_2nd == &expression)
 			right->remove_2nd();
