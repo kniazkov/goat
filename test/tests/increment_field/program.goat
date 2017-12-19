@@ -1,0 +1,3 @@
+var obj = {value : 1};
+++obj.value;
+print(obj);
