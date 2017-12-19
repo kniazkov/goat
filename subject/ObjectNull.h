@@ -27,10 +27,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
+	class ObjectBoolean;
+
 	class ObjectNull : public Object {
 	public:
 		ObjectNull();
 		ObjectNull * toObjectNull() override;
+		ObjectBoolean * toObjectBoolean() override;
 		WideString toWideString() override;
 		static Object *getInstance();
 	};

@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "ObjectNull.h"
+#include "ObjectBoolean.h"
 #include "Resource.h"
 
 namespace goat {
@@ -31,6 +32,10 @@ namespace goat {
 
 	ObjectNull * ObjectNull::toObjectNull() {
 		return this;
+	}
+
+	ObjectBoolean * ObjectNull::toObjectBoolean() {
+		return new ObjectBoolean(false);
 	}
 
 	WideString ObjectNull::toWideString() {
