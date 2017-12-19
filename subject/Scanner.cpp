@@ -190,6 +190,40 @@ namespace goat {
 			i->name = s;
 			return i;
 		}
+		if (c == '0') {
+			c = next();
+			if (c == 'x') {
+				c = next();
+				if (!isHexDigit(c)) {
+					throw ExpechedHexDigit(src->location());
+				}
+				long long int hv = 0;
+				do {
+					hv = hv * 16 + hexToInt(c);
+					c = next();
+				} while (isHexDigit(c));
+				Integer *i = new Integer();
+				i->value = hv;
+				return  i;
+			}
+			if (c == 'b') {
+				c = next();
+				if (c != '0' && c != '1') {
+					throw ExpechedBooleanDigit(src->location());
+				}
+				long long int bv = 0;
+				do {
+					bv = (bv << 1) + (c - '0');
+					c = next();
+				} while (c == '0' || c == '1');
+				Integer *i = new Integer();
+				i->value = bv;
+				return  i;
+			}
+			unget(c);
+			unget('0');
+			c = '0';
+		}
 		if (isDigit(c)) {
 			long long int iv = 0;
 			do {
@@ -328,5 +362,13 @@ namespace goat {
 
 	WideString Scanner::IncorrectCharConst::message() {
 		return L"incorrect character constant";
+	}
+
+	WideString Scanner::ExpechedHexDigit::message() {
+		return L"expected hexadecimal digit";
+	}
+
+	WideString Scanner::ExpechedBooleanDigit::message() {
+		return L"expected boolean digit";
 	}
 }

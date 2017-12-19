@@ -41,7 +41,9 @@ namespace goat {
 		static inline bool isSpace(char c);
 		static inline bool isLetter(char c);
 		static inline bool isDigit(char c);
+		static inline bool isHexDigit(char c);
 		static inline bool isOperator(char c);
+		static inline int hexToInt(char c);
 		Token * getToken(Location **loc);
 		WideString parseString(char separator);
 
@@ -91,6 +93,20 @@ namespace goat {
 			};
 			WideString message() override;
 		};
+
+		class ExpechedHexDigit : public ScanError {
+		public:
+			ExpechedHexDigit(Location *_loc) : ScanError(_loc) {
+			};
+			WideString message() override;
+		};
+
+		class ExpechedBooleanDigit : public ScanError {
+		public:
+			ExpechedBooleanDigit(Location *_loc) : ScanError(_loc) {
+			};
+			WideString message() override;
+		};
 	};
 
 	char Scanner::get() {
@@ -134,6 +150,10 @@ namespace goat {
 		return c >= '0' && c <= '9';
 	}
 
+	bool Scanner::isHexDigit(char c) {
+		return (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f') || (c >= '0' && c <= '9');
+	}
+
 	bool Scanner::isOperator(char c) {
 		switch (c)
 		{
@@ -151,5 +171,15 @@ namespace goat {
 		default:
 			return false;
 		}
+	}
+
+	int Scanner::hexToInt(char c) {
+		if (c >= 'A' && c <= 'F') {
+			return (int)(c - 'A' + 10);
+		}
+		if (c >= 'a' && c <= 'f') {
+			return (int)(c - 'a' + 10);
+		}
+		return c - '0';
 	}
 }
