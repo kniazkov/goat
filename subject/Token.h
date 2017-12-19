@@ -80,6 +80,7 @@ namespace goat {
 	class Throw;
 	class Real;
 	class InlineIf;
+	class Null;
 
 	class Token : public Node {
 	protected:
@@ -150,6 +151,7 @@ namespace goat {
 		virtual Throw *toThrow();
 		virtual Real *toReal();
 		virtual InlineIf *toInlineIf();
+		virtual Null *toNull();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {

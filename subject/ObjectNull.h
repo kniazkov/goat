@@ -22,19 +22,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "String.h"
-#include "WideString.h"
+#include "Object.h"
+#include "ObjectBuiltIn.h"
 
 namespace goat {
 
-	class Resource {
+	class ObjectNull : public Object {
 	public:
-		static String arguments;
-		static String init;
-		static String trace;
-
-		static WideString w_undefined;
-		static WideString w_null;
+		ObjectNull();
+		ObjectNull * toObjectNull() override;
+		WideString toWideString() override;
+		static Object *getInstance();
 	};
 
 }

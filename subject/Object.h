@@ -45,6 +45,7 @@ namespace goat {
 	class ObjectException;
 	class ObjectBoolean;
 	class ObjectChar;
+	class ObjectNull;
 
 	class Object {
 	public:
@@ -108,6 +109,7 @@ namespace goat {
 		virtual ObjectException *toObjectException();
 		virtual ObjectBoolean *toObjectBoolean();
 		virtual ObjectChar *toObjectChar();
+		virtual ObjectNull *toObjectNull();
 
 		void *operator new (MemorySize size);
 		void operator delete (void *ptr);

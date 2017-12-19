@@ -20,21 +20,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "String.h"
-#include "WideString.h"
+#include "Null.h"
+#include "ObjectNull.h"
 
 namespace goat {
 
-	class Resource {
-	public:
-		static String arguments;
-		static String init;
-		static String trace;
+	Null * Null::toNull() {
+		return this;
+	}
 
-		static WideString w_undefined;
-		static WideString w_null;
-	};
+	State * Null::createState(State *prev) {
+		return new StateImpl(prev);
+	}
+
+	State * Null::StateImpl::next() {
+		State *p = prev;
+		p->ret(ObjectNull::getInstance());
+		delete this;
+		return p;
+	}
 
 }

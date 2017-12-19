@@ -39,6 +39,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "This.h"
 #include "Char.h"
 #include "Real.h"
+#include "Null.h"
 
 namespace goat {
 
@@ -112,6 +113,9 @@ namespace goat {
 			String s = b.toString();
 			if (s == "undefined") {
 				return new Undefined();
+			}
+			if (s == "null") {
+				return new Null();
 			}
 			if (s == "true") {
 				return new Boolean(true);
