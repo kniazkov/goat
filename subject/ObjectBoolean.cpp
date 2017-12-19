@@ -46,6 +46,7 @@ namespace goat {
 		status = PERMANENT;
 
 		objects.insert("clone", Clone::getInstance());
+		objects.insert("!", OperatorNot::getInstance());
 	}
 
 	Object * ObjectBoolean::Proto::getInstance() {
@@ -53,6 +54,7 @@ namespace goat {
 		return &__this;
 	}
 
+	
 	Object * ObjectBoolean::Proto::Clone::run(Scope *scope) {
 		ObjectBoolean *this_ = scope->this_->toObjectBoolean();
 		ObjectBoolean *obj = new ObjectBoolean(this_->value);
@@ -62,6 +64,17 @@ namespace goat {
 
 	Object * ObjectBoolean::Proto::Clone::getInstance() {
 		static Clone __this;
+		return &__this;
+	}
+
+
+	Object * ObjectBoolean::Proto::OperatorNot::run(Scope *scope) {
+		ObjectBoolean *this_ = scope->this_->toObjectBoolean();
+		return new ObjectBoolean(!this_->value);
+	}
+
+	Object * ObjectBoolean::Proto::OperatorNot::getInstance() {
+		static OperatorNot __this;
 		return &__this;
 	}
 

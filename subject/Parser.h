@@ -47,6 +47,7 @@ namespace goat {
 		Token2ndList oper_INHERIT;
 		Token2ndList oper_LESS_GREATER;
 		Token2ndList oper_QUESTION;
+		Token2ndList oper_NOT;
 		Token2ndList parenthesis;
 		Token2ndList keyword[Keyword::UNKNOWN];
 		Token2ndList curveBracket;
@@ -100,6 +101,7 @@ namespace goat {
 		void parseTry(Token *tok);
 		void parseThrow(Token *tok);
 		void parseInlineIf(Token *tok);
+		void parsePrefixOperator(Token *tok);
 
 	public:
 		static Root* parse(Scanner *scan, Root *prev);

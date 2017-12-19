@@ -46,6 +46,13 @@ namespace goat {
 				Object * run(Scope *scope) override;
 				static Object *getInstance();
 			};
+
+			class OperatorNot : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
+
 		};
 	};
 

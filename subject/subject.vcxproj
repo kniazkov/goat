@@ -81,6 +81,7 @@
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Pool.cpp" />
+    <ClCompile Include="Prefix.cpp" />
     <ClCompile Include="Real.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Return.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="Pool.h" />
+    <ClInclude Include="Prefix.h" />
     <ClInclude Include="RawBuffer.h" />
     <ClInclude Include="Real.h" />
     <ClInclude Include="Resource.h" />

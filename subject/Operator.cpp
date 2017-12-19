@@ -62,6 +62,9 @@ namespace goat {
 		else if (value == "?") {
 			type = QUESTION;
 		}
+		else if (value == "!") {
+			type = NOT;
+		}
 		else {
 			type = UNKNOWN;
 		}

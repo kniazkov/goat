@@ -65,6 +65,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Try.h"
 #include "Throw.h"
 #include "InlineIf.h"
+#include "Prefix.h"
 
 namespace goat {
 
@@ -96,6 +97,7 @@ namespace goat {
 			parse2ndList(dot, &Parser::parseField, false);
 			parse2ndList(fcall, &Parser::parseFunctionCall, false);
 			parse2ndList(squareBracket, &Parser::parseIndex, false);
+			parse2ndList(oper_NOT, &Parser::parsePrefixOperator, true);
 			parse2ndList(oper_INHERIT, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_MUL_DIV_MOD, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_PLUS_MINUS, &Parser::parseBinaryOperator, false);
@@ -233,6 +235,9 @@ namespace goat {
 				break;
 			case Operator::QUESTION:
 				oper_QUESTION.pushBack(tok);
+				break;
+			case Operator::NOT:
+				oper_NOT.pushBack(tok);
 				break;
 			default:
 				break;
@@ -1594,6 +1599,32 @@ namespace goat {
 		colon->remove_2nd();
 		ifExpr->remove_2nd();
 		elseExpr->remove_2nd();
+	}
+
+	/*
+		OPERATOR EXPRESSION => PREFIX
+	*/
+
+	void Parser::parsePrefixOperator(Token *tok) {
+		Operator *oper = tok->toOperator();
+		assert(oper != nullptr);
+
+		if (!oper->next) {
+			// error ?
+			return;
+		}
+
+		Expression *right = oper->next->toExpression();
+		if (!right) {
+			return;
+		}
+
+		Prefix *po = new Prefix(oper, right);
+		expression.pushBack(po);
+		oper->replace(right, po);
+		oper->remove_2nd();
+		if (right->list_2nd == &expression)
+			right->remove_2nd();
 	}
 
 	RawString Parser::ParseError::toRawString() {

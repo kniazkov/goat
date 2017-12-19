@@ -287,6 +287,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	Prefix * Token::toPrefix() {
+		return nullptr;
+	}
+
 	void TokenList::mark() {
 		forEach([](Token* tok) {
 			tok->mark();

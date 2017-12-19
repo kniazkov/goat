@@ -81,6 +81,7 @@ namespace goat {
 	class Real;
 	class InlineIf;
 	class Null;
+	class Prefix;
 
 	class Token : public Node {
 	protected:
@@ -152,6 +153,7 @@ namespace goat {
 		virtual Real *toReal();
 		virtual InlineIf *toInlineIf();
 		virtual Null *toNull();
+		virtual Prefix *toPrefix();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {
