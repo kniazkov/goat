@@ -41,9 +41,10 @@ namespace goat {
 			LESS,
 			GREATER,
 			QUESTION,
-			NOT,
+			LOGICAL_NOT,
 			INCREMENT,
 			DECREMENT,
+			BITWISE_NOT,
 			UNKNOWN
 		};
 		String value;

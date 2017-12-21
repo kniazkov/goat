@@ -63,13 +63,16 @@ namespace goat {
 			type = QUESTION;
 		}
 		else if (value == "!") {
-			type = NOT;
+			type = LOGICAL_NOT;
 		}
 		else if (value == "++") {
 			type = INCREMENT;
 		}
 		else if (value == "--") {
 			type = DECREMENT;
+		}
+		else if (value == "~") {
+			type = BITWISE_NOT;
 		}
 		else {
 			type = UNKNOWN;

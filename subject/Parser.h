@@ -47,7 +47,8 @@ namespace goat {
 		Token2ndList oper_INHERIT;
 		Token2ndList oper_LESS_GREATER;
 		Token2ndList oper_QUESTION;
-		Token2ndList oper_NOT;
+		Token2ndList oper_LOGICAL_NOT;
+		Token2ndList oper_BITWISE_NOT;
 		Token2ndList oper_INCR_DECR;
 		Token2ndList parenthesis;
 		Token2ndList keyword[Keyword::UNKNOWN];

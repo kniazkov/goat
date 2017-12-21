@@ -60,6 +60,7 @@ namespace goat {
 		objects.insert(">", OperatorGreater::getInstance());
 		objects.insert("++", OperatorIncrement::getInstance());
 		objects.insert("--", OperatorDecrement::getInstance());
+		objects.insert("~", OperatorNot::getInstance());
 	}
 
 	Object * ObjectInteger::Proto::getInstance() {
@@ -232,6 +233,17 @@ namespace goat {
 
 	Object * ObjectInteger::Proto::OperatorDecrement::getInstance() {
 		static OperatorDecrement __this;
+		return &__this;
+	}
+
+
+	Object * ObjectInteger::Proto::OperatorNot::run(Scope *scope) {
+		ObjectInteger *this_ = scope->this_->toObjectInteger();
+		return new ObjectInteger(~this_->value);
+	}
+
+	Object * ObjectInteger::Proto::OperatorNot::getInstance() {
+		static OperatorNot __this;
 		return &__this;
 	}
 
