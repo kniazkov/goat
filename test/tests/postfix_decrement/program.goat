@@ -1,0 +1,4 @@
+var v = 14;
+
+print(v--);
+print("\n" + v);

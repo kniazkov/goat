@@ -81,6 +81,7 @@
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Pool.cpp" />
+    <ClCompile Include="PostfixIncrement.cpp" />
     <ClCompile Include="Prefix.cpp" />
     <ClCompile Include="PrefixIncrement.cpp" />
     <ClCompile Include="Real.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="Pool.h" />
+    <ClInclude Include="PostfixIncrement.h" />
     <ClInclude Include="Prefix.h" />
     <ClInclude Include="PrefixIncrement.h" />
     <ClInclude Include="RawBuffer.h" />

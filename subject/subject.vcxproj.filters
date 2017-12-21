@@ -309,6 +309,9 @@
     <ClCompile Include="PrefixIncrement.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="PostfixIncrement.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StackAllocator.h">
@@ -645,6 +648,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="PrefixIncrement.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="PostfixIncrement.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

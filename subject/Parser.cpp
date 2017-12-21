@@ -67,6 +67,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "InlineIf.h"
 #include "Prefix.h"
 #include "PrefixIncrement.h"
+#include "PostfixIncrement.h"
 
 namespace goat {
 
@@ -99,6 +100,7 @@ namespace goat {
 			parse2ndList(fcall, &Parser::parseFunctionCall, false);
 			parse2ndList(squareBracket, &Parser::parseIndex, false);
 			parse2ndList(oper_INCR_DECR, &Parser::parsePrefixIncrement, false);
+			parse2ndList(oper_INCR_DECR, &Parser::parsePostfixIncrement, false);
 			parse2ndList(oper_NOT, &Parser::parsePrefixOperator, true);
 			parse2ndList(oper_INHERIT, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_MUL_DIV_MOD, &Parser::parseBinaryOperator, false);
@@ -1634,7 +1636,7 @@ namespace goat {
 	}
 
 	/*
-		( @++ | @-- ) EXPRESSION => PREFIX_INCREMENT
+	( @++ | @-- ) EXPRESSION => PREFIX_INCREMENT
 	*/
 
 	void Parser::parsePrefixIncrement(Token *tok) {
@@ -1656,6 +1658,31 @@ namespace goat {
 		oper->remove_2nd();
 		if (right->list_2nd == &expression)
 			right->remove_2nd();
+	}
+
+	/*
+		EXPRESSION ( @++ | @-- ) => POSTFIX_INCREMENT
+	*/
+
+	void Parser::parsePostfixIncrement(Token *tok) {
+		Operator *oper = tok->toOperator();
+		assert(oper != nullptr && (oper->type == Operator::INCREMENT || oper->type == Operator::DECREMENT));
+
+		if (!oper->prev) {
+			return;
+		}
+
+		LeftExpression *left = oper->prev->toLeftExpression();
+		if (!left) {
+			return;
+		}
+
+		PostfixIncrement *pi = new PostfixIncrement(oper, left);
+		expression.pushBack(pi);
+		left->replace(oper, pi);
+		oper->remove_2nd();
+		if (left->list_2nd == &expression)
+			left->remove_2nd();
 	}
 
 	RawString Parser::ParseError::toRawString() {

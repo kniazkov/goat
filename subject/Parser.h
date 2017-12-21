@@ -104,6 +104,7 @@ namespace goat {
 		void parseInlineIf(Token *tok);
 		void parsePrefixOperator(Token *tok);
 		void parsePrefixIncrement(Token *tok);
+		void parsePostfixIncrement(Token *tok);
 
 	public:
 		static Root* parse(Scanner *scan, Root *prev);
