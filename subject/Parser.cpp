@@ -104,6 +104,7 @@ namespace goat {
 			parse2ndList(oper_INCR_DECR, &Parser::parsePostfixIncrement, false);
 			parse2ndList(oper_LOGICAL_NOT, &Parser::parsePrefixOperator, true);
 			parse2ndList(oper_BITWISE_NOT, &Parser::parsePrefixOperator, true);
+			parse2ndList(oper_PLUS_MINUS, &Parser::parsePrefixOperator, true);
 			parse2ndList(oper_INHERIT, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_MUL_DIV_MOD, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_PLUS_MINUS, &Parser::parseBinaryOperator, false);
@@ -1625,6 +1626,12 @@ namespace goat {
 	void Parser::parsePrefixOperator(Token *tok) {
 		Operator *oper = tok->toOperator();
 		assert(oper != nullptr);
+
+		if (oper->prev) {
+			if (!oper->prev->toOperator()) {
+				return;
+			}
+		}
 
 		if (!oper->next) {
 			// error ?
