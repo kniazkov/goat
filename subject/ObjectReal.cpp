@@ -68,12 +68,17 @@ namespace goat {
 
 	Object * ObjectReal::Proto::OperatorPlus::run(Scope *scope) {
 		ObjectReal *this_ = scope->this_->toObjectReal();
-		ObjectReal *operand = scope->arguments->vector[0]->toObjectReal();
-		if (!operand) {
-			// should be exception
-			return nullptr;
+		ObjectReal *operand = nullptr;
+		if (scope->arguments && scope->arguments->vector.len() > 0) {
+			operand = scope->arguments->vector[0]->toObjectReal();
+			if (!operand) {
+				return new IllegalArgument();
+			}
+			return new ObjectReal(this_->value + operand->value);
 		}
-		return new ObjectReal(this_->value + operand->value);
+		else {
+			return new ObjectReal(this_->value);
+		}
 	}
 
 	Object * ObjectReal::Proto::OperatorPlus::getInstance() {
@@ -84,12 +89,17 @@ namespace goat {
 
 	Object * ObjectReal::Proto::OperatorMinus::run(Scope *scope) {
 		ObjectReal *this_ = scope->this_->toObjectReal();
-		ObjectReal *operand = scope->arguments->vector[0]->toObjectReal();
-		if (!operand) {
-			// should be exception
-			return nullptr;
+		ObjectReal *operand = nullptr;
+		if (scope->arguments && scope->arguments->vector.len() > 0) {
+			operand = scope->arguments->vector[0]->toObjectReal();
+			if (!operand) {
+				return new IllegalArgument();
+			}
+			return new ObjectReal(this_->value - operand->value);
 		}
-		return new ObjectReal(this_->value - operand->value);
+		else {
+			return new ObjectReal(-this_->value);
+		}
 	}
 
 	Object * ObjectReal::Proto::OperatorMinus::getInstance() {
