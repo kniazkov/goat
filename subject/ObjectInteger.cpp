@@ -93,12 +93,18 @@ namespace goat {
 
 	Object * ObjectInteger::Proto::OperatorMinus::run(Scope *scope) {
 		ObjectInteger *this_ = scope->this_->toObjectInteger();
-		ObjectInteger *operand = scope->arguments->vector[0]->toObjectInteger();
-		if (!operand) {
-			// should be exception
-			return nullptr;
+		ObjectInteger *operand = nullptr;
+		if (scope->arguments && scope->arguments->vector.len() > 0) {
+			operand = scope->arguments->vector[0]->toObjectInteger();
+			if (!operand) {
+				// should be exception
+				return nullptr;
+			}
+			return new ObjectInteger(this_->value - operand->value);
 		}
-		return new ObjectInteger(this_->value - operand->value);
+		else {
+			return new ObjectInteger(-this_->value);
+		}
 	}
 
 	Object * ObjectInteger::Proto::OperatorMinus::getInstance() {
