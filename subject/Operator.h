@@ -45,6 +45,7 @@ namespace goat {
 			INCREMENT,
 			DECREMENT,
 			BITWISE_NOT,
+			ASSIGN_BY_SUM,
 			UNKNOWN
 		};
 		String value;

@@ -68,6 +68,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Prefix.h"
 #include "PrefixIncrement.h"
 #include "PostfixIncrement.h"
+#include "AssignBy.h"
 
 namespace goat {
 
@@ -115,6 +116,7 @@ namespace goat {
 			parse2ndList(object, &Parser::parseObjectBody, false);
 			parse2ndList(array, &Parser::parseArrayBody, false);
 			parse2ndList(keyword[Keyword::VAR], &Parser::parseDeclareVariable, false);
+			parse2ndList(oper_ASSIGN_BY, &Parser::parseAssignBy, true);
 			parse2ndList(oper_ASSIGN, &Parser::parseAssign, true);
 			parse2ndList(fcall, &Parser::parseFunctionCallArgs, false);
 			parse2ndList(keyword[Keyword::RETURN], &Parser::parseReturn, false);
@@ -250,6 +252,9 @@ namespace goat {
 				break;
 			case Operator::BITWISE_NOT:
 				oper_BITWISE_NOT.pushBack(tok);
+				break;
+			case Operator::ASSIGN_BY_SUM:
+				oper_ASSIGN_BY.pushBack(tok);
 				break;
 			default:
 				break;
@@ -1687,6 +1692,43 @@ namespace goat {
 		oper->remove_2nd();
 		if (left->list_2nd == &expression)
 			left->remove_2nd();
+	}
+
+	/*
+		LEFT_EXPRESSION OPERATOR EXPRESSION => ASSIGN_BY
+	*/
+
+	void Parser::parseAssignBy(Token *tok) {
+		Operator *oper = tok->toOperator();
+		assert(oper != nullptr);
+
+		if (!oper->prev) {
+			return;
+		}
+
+		LeftExpression *left = oper->prev->toLeftExpression();
+		if (!left) {
+			return;
+		}
+
+		if (!oper->next) {
+			// error ?
+			return;
+		}
+
+		Expression *right = oper->next->toExpression();
+		if (!right) {
+			return;
+		}
+
+		AssignBy *ab = new AssignBy(oper, left, right);
+		expression.pushBack(ab);
+		left->replace(right, ab);
+		oper->remove_2nd();
+		if (left->list_2nd == &expression)
+			left->remove_2nd();
+		if (right->list_2nd == &expression)
+			right->remove_2nd();
 	}
 
 	RawString Parser::ParseError::toRawString() {

@@ -74,6 +74,9 @@ namespace goat {
 		else if (value == "~") {
 			type = BITWISE_NOT;
 		}
+		else if (value == "+=") {
+			type = ASSIGN_BY_SUM;
+		}
 		else {
 			type = UNKNOWN;
 		}

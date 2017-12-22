@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Assert.cpp" />
     <ClCompile Include="Assign.cpp" />
+    <ClCompile Include="AssignBy.cpp" />
     <ClCompile Include="Binary.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Boolean.cpp" />
@@ -121,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assign.h" />
+    <ClInclude Include="AssignBy.h" />
     <ClInclude Include="Binary.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Boolean.h" />

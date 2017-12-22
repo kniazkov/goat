@@ -50,6 +50,7 @@ namespace goat {
 		Token2ndList oper_LOGICAL_NOT;
 		Token2ndList oper_BITWISE_NOT;
 		Token2ndList oper_INCR_DECR;
+		Token2ndList oper_ASSIGN_BY;
 		Token2ndList parenthesis;
 		Token2ndList keyword[Keyword::UNKNOWN];
 		Token2ndList curveBracket;
@@ -106,6 +107,7 @@ namespace goat {
 		void parsePrefixOperator(Token *tok);
 		void parsePrefixIncrement(Token *tok);
 		void parsePostfixIncrement(Token *tok);
+		void parseAssignBy(Token *tok);
 
 	public:
 		static Root* parse(Scanner *scan, Root *prev);

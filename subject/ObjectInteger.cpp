@@ -50,6 +50,7 @@ namespace goat {
 
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("+", OperatorPlus::getInstance());
+		objects.insert("+=", OperatorPlus::getInstance());
 		objects.insert("-", OperatorMinus::getInstance());
 		objects.insert("*", OperatorMul::getInstance());
 		objects.insert("/", OperatorDiv::getInstance());
