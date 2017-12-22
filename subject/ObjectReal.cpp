@@ -57,6 +57,8 @@ namespace goat {
 		objects.insert("!=", OperatorNotEqual::getInstance());
 		objects.insert("<", OperatorLess::getInstance());
 		objects.insert(">", OperatorGreater::getInstance());
+		objects.insert("++", OperatorIncrement::getInstance());
+		objects.insert("--", OperatorDecrement::getInstance());
 	}
 
 	Object * ObjectReal::Proto::getInstance() {
@@ -191,6 +193,28 @@ namespace goat {
 
 	Object * ObjectReal::Proto::OperatorGreater::getInstance() {
 		static OperatorGreater __this;
+		return &__this;
+	}
+
+
+	Object * ObjectReal::Proto::OperatorIncrement::run(Scope *scope) {
+		ObjectReal *this_ = scope->this_->toObjectReal();
+		return new ObjectReal(this_->value + 1);
+	}
+
+	Object * ObjectReal::Proto::OperatorIncrement::getInstance() {
+		static OperatorIncrement __this;
+		return &__this;
+	}
+
+
+	Object * ObjectReal::Proto::OperatorDecrement::run(Scope *scope) {
+		ObjectReal *this_ = scope->this_->toObjectReal();
+		return new ObjectReal(this_->value - 1);
+	}
+
+	Object * ObjectReal::Proto::OperatorDecrement::getInstance() {
+		static OperatorDecrement __this;
 		return &__this;
 	}
 

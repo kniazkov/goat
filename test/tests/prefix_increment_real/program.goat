@@ -1,0 +1,4 @@
+var r = 1.5;
+print(++r);
+print("\n");
+print(r);

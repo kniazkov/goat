@@ -1,0 +1,3 @@
+for (var c = 'a'; c != 'r'; c++)
+	print(c);
+

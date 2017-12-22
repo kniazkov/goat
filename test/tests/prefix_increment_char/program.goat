@@ -1,0 +1,5 @@
+ 
+var c = 'A';
+print(++c);
+print("\n");
+print(c);

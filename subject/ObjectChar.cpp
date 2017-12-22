@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "ObjectChar.h"
+#include "ObjectBoolean.h"
 #include "WideStringBuilder.h"
 
 namespace goat {
@@ -51,12 +52,71 @@ namespace goat {
 		status = PERMANENT;
 
 		objects.insert("clone", Clone::getInstance());
+		objects.insert("==", OperatorEqual::getInstance());
+		objects.insert("!=", OperatorNotEqual::getInstance());
+		objects.insert("++", OperatorIncrement::getInstance());
+		objects.insert("--", OperatorDecrement::getInstance());
 	}
 
 	Object * ObjectChar::Proto::getInstance() {
 		static Proto __this;
 		return &__this;
 	}
+
+
+	Object * ObjectChar::Proto::OperatorEqual::run(Scope *scope) {
+		ObjectChar *this_ = scope->this_->toObjectChar();
+		ObjectChar *operand = scope->arguments->vector[0]->toObjectChar();
+		if (!operand) {
+			// should be exception
+			return nullptr;
+		}
+		return new ObjectBoolean(this_->value == operand->value);
+	}
+
+	Object * ObjectChar::Proto::OperatorEqual::getInstance() {
+		static OperatorEqual __this;
+		return &__this;
+	}
+
+
+	Object * ObjectChar::Proto::OperatorNotEqual::run(Scope *scope) {
+		ObjectChar *this_ = scope->this_->toObjectChar();
+		ObjectChar *operand = scope->arguments->vector[0]->toObjectChar();
+		if (!operand) {
+			// should be exception
+			return nullptr;
+		}
+		return new ObjectBoolean(this_->value != operand->value);
+	}
+
+	Object * ObjectChar::Proto::OperatorNotEqual::getInstance() {
+		static OperatorNotEqual __this;
+		return &__this;
+	}
+
+
+	Object * ObjectChar::Proto::OperatorIncrement::run(Scope *scope) {
+		ObjectChar *this_ = scope->this_->toObjectChar();
+		return new ObjectChar(this_->value + 1);
+	}
+
+	Object * ObjectChar::Proto::OperatorIncrement::getInstance() {
+		static OperatorIncrement __this;
+		return &__this;
+	}
+
+
+	Object * ObjectChar::Proto::OperatorDecrement::run(Scope *scope) {
+		ObjectChar *this_ = scope->this_->toObjectChar();
+		return new ObjectChar(this_->value - 1);
+	}
+
+	Object * ObjectChar::Proto::OperatorDecrement::getInstance() {
+		static OperatorDecrement __this;
+		return &__this;
+	}
+
 
 	Object * ObjectChar::Proto::Clone::run(Scope *scope) {
 		ObjectChar *this_ = scope->this_->toObjectChar();
