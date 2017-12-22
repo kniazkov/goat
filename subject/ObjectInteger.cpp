@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ObjectInteger.h"
 #include "ObjectBoolean.h"
+#include "ObjectString.h"
 #include "Assert.h"
 #include "ObjectException.h"
 
@@ -49,6 +50,7 @@ namespace goat {
 		status = PERMANENT;
 
 		objects.insert("clone", Clone::getInstance());
+		objects.insert("toString", ToString::getInstance());
 		objects.insert("+", OperatorPlus::getInstance());
 		objects.insert("+=", OperatorPlus::getInstance());
 		objects.insert("-", OperatorMinus::getInstance());
@@ -273,4 +275,14 @@ namespace goat {
 		return &__this;
 	}
 
+
+	Object * ObjectInteger::Proto::ToString::run(Scope *scope) {
+		ObjectInteger *this_ = scope->this_->toObjectInteger();
+		return new ObjectString(WideString::valueOf(this_->value));
+	}
+
+	Object * ObjectInteger::Proto::ToString::getInstance() {
+		static ToString __this;
+		return &__this;
+	}
 }
