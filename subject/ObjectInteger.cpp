@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectInteger.h"
 #include "ObjectBoolean.h"
 #include "ObjectString.h"
+#include "ObjectReal.h"
 #include "Assert.h"
 #include "ObjectException.h"
 
@@ -115,10 +116,14 @@ namespace goat {
 
 	Object * ObjectInteger::Proto::OperatorMul::run(Scope *scope) {
 		ObjectInteger *this_ = scope->this_->toObjectInteger();
-		ObjectInteger *operand = scope->arguments->vector[0]->toObjectInteger();
+		Object *arg = scope->arguments->vector[0];
+		ObjectReal *operReal = arg->toObjectReal();
+		if (operReal) {
+			return new ObjectReal(((long double)this_->value) * operReal->value);
+		}
+		ObjectInteger *operand = arg->toObjectInteger();
 		if (!operand) {
-			// should be exception
-			return nullptr;
+			return new IllegalArgument();
 		}
 		return new ObjectInteger(this_->value * operand->value);
 	}

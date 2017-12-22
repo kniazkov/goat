@@ -27,6 +27,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
+	class ObjectReal;
+
 	class ObjectInteger : public Object {
 	public:
 		long long int value;

@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "ObjectReal.h"
+#include "ObjectInteger.h"
 #include "ObjectBoolean.h"
 #include "Assert.h"
 #include "ObjectException.h"
@@ -110,10 +111,14 @@ namespace goat {
 
 	Object * ObjectReal::Proto::OperatorMul::run(Scope *scope) {
 		ObjectReal *this_ = scope->this_->toObjectReal();
-		ObjectReal *operand = scope->arguments->vector[0]->toObjectReal();
+		Object *arg = scope->arguments->vector[0];
+		ObjectInteger *operInt = arg->toObjectInteger();
+		if (operInt) {
+			return new ObjectReal(this_->value * ((long double)operInt->value));
+		}
+		ObjectReal *operand = arg->toObjectReal();
 		if (!operand) {
-			// should be exception
-			return nullptr;
+			return new IllegalArgument();
 		}
 		return new ObjectReal(this_->value * operand->value);
 	}
