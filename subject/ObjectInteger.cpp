@@ -77,8 +77,7 @@ namespace goat {
 		if (scope->arguments && scope->arguments->vector.len() > 0) {
 			operand = scope->arguments->vector[0]->toObjectInteger();
 			if (!operand) {
-				// should be exception
-				return nullptr;
+				return new IllegalArgument();
 			}
 			return new ObjectInteger(this_->value + operand->value);
 		}
@@ -99,8 +98,7 @@ namespace goat {
 		if (scope->arguments && scope->arguments->vector.len() > 0) {
 			operand = scope->arguments->vector[0]->toObjectInteger();
 			if (!operand) {
-				// should be exception
-				return nullptr;
+				return new IllegalArgument();
 			}
 			return new ObjectInteger(this_->value - operand->value);
 		}

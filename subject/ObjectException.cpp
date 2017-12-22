@@ -55,6 +55,7 @@ namespace goat {
 		objects.insert("DivisionByZero", DivisionByZero::Proto::getInstance());
 		objects.insert("IncorrectIndex", IncorrectIndex::Proto::getInstance());
 		objects.insert("OutOfBounds", OutOfBounds::Proto::getInstance());
+		objects.insert("IllegalArgument", IllegalArgument::Proto::getInstance());
 	}
 
 	Object * ObjectException::Proto::getInstance() {
@@ -62,6 +63,7 @@ namespace goat {
 		__this.init();
 		return &__this;
 	}
+
 
 	NameIsNotDefined::NameIsNotDefined(String _name) {
 		name = _name;
@@ -72,6 +74,7 @@ namespace goat {
 		return (WideStringBuilder() << "name \'" << name << "\' is not defined").toWideString();
 	}
 
+
 	NameIsNotDefined::Proto::Proto() {
 		status = PERMANENT;
 		proto.pushBack(ObjectException::Proto::getInstance());
@@ -81,6 +84,7 @@ namespace goat {
 		static Proto __this;
 		return &__this;
 	}
+
 
 	IsNotAFunction::IsNotAFunction(String _name) {
 		name = _name;
@@ -101,6 +105,7 @@ namespace goat {
 		return &__this;
 	}
 
+
 	OperatorIsNotDefined::OperatorIsNotDefined(String _name) {
 		name = _name;
 		proto.pushBack(Proto::getInstance());
@@ -120,6 +125,7 @@ namespace goat {
 		return &__this;
 	}
 
+
 	CanNotCallUndefined::CanNotCallUndefined() {
 		proto.pushBack(Proto::getInstance());
 	}
@@ -138,6 +144,7 @@ namespace goat {
 		return &__this;
 	}
 
+
 	CanNotCallExpression::CanNotCallExpression() {
 		proto.pushBack(Proto::getInstance());
 	}
@@ -155,6 +162,7 @@ namespace goat {
 		static Proto __this;
 		return &__this;
 	}
+
 
 	CanNotReadPropertyOfUndefined::CanNotReadPropertyOfUndefined(Object *_obj) {
 		prop = _obj->toWideString();
@@ -179,6 +187,7 @@ namespace goat {
 	WideString CanNotReadPropertyOfUndefined::toWideString() {
 		return (WideStringBuilder() << "cannot read propery \'" << prop << "\' of undefined").toWideString();
 	}
+
 
 	CanNotWritePropertyOfUndefined::CanNotWritePropertyOfUndefined(Object *_obj) {
 		obj = _obj;
@@ -208,6 +217,7 @@ namespace goat {
 		return &__this;
 	}
 
+
 	CanNotReadOperatorOfUndefined::CanNotReadOperatorOfUndefined(String _name) {
 		name = _name;
 		proto.pushBack(Proto::getInstance());
@@ -227,6 +237,7 @@ namespace goat {
 		return &__this;
 	}
 
+
 	DivisionByZero::DivisionByZero() {
 		proto.pushBack(Proto::getInstance());
 	}
@@ -244,6 +255,7 @@ namespace goat {
 		static Proto __this;
 		return &__this;
 	}
+
 
 	IncorrectIndex::IncorrectIndex() {
 		proto.pushBack(Proto::getInstance());
@@ -263,6 +275,7 @@ namespace goat {
 		return &__this;
 	}
 
+
 	OutOfBounds::OutOfBounds() {
 		proto.pushBack(Proto::getInstance());
 	}
@@ -277,6 +290,25 @@ namespace goat {
 	}
 
 	Object * OutOfBounds::Proto::getInstance() {
+		static Proto __this;
+		return &__this;
+	}
+
+
+	IllegalArgument::IllegalArgument() {
+		proto.pushBack(Proto::getInstance());
+	}
+
+	WideString IllegalArgument::toWideString() {
+		return L"illegal argument";
+	}
+
+	IllegalArgument::Proto::Proto() {
+		status = PERMANENT;
+		proto.pushBack(ObjectException::Proto::getInstance());
+	}
+
+	Object * IllegalArgument::Proto::getInstance() {
 		static Proto __this;
 		return &__this;
 	}

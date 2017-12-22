@@ -190,5 +190,16 @@ namespace goat {
 		};
 	};
 
- 
+	class IllegalArgument : public ObjectException {
+	public:
+		IllegalArgument();
+		WideString toWideString() override;
+
+		class Proto : public ObjectException {
+		public:
+			Proto();
+			static Object *getInstance();
+		};
+	};
+
 }
