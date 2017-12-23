@@ -131,10 +131,17 @@ namespace goat {
 
 	Object * ObjectReal::Proto::OperatorDiv::run(Scope *scope) {
 		ObjectReal *this_ = scope->this_->toObjectReal();
-		ObjectReal *operand = scope->arguments->vector[0]->toObjectReal();
+		Object *arg = scope->arguments->vector[0];
+		ObjectInteger *operInt = arg->toObjectInteger();
+		if (operInt) {
+			if (operInt->value == 0) {
+				return new DivisionByZero();
+			}
+			return new ObjectReal(this_->value / ((long double)operInt->value));
+		}
+		ObjectReal *operand = arg->toObjectReal();
 		if (!operand) {
-			// should be exception
-			return nullptr;
+			return new IllegalArgument();
 		}
 		if (operand->value == 0) {
 			return new DivisionByZero();
