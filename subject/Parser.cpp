@@ -108,6 +108,7 @@ namespace goat {
 			parse2ndList(oper_INHERIT, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_MUL_DIV_MOD, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_PLUS_MINUS, &Parser::parseBinaryOperator, false);
+			parse2ndList(oper_SHIFT, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_EQ_NEQ, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_LESS_GREATER, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_QUESTION, &Parser::parseInlineIf, true);
@@ -256,6 +257,11 @@ namespace goat {
 				break;
 			case Operator::ASSIGN_BY_SUM:
 				oper_ASSIGN_BY.pushBack(tok);
+				break;
+			case Operator::LEFT_SHIFT:
+			case Operator::SIGNED_RIGHT_SHIFT:
+			case Operator::UNSIGNED_RIGHT_SHIFT:
+				oper_SHIFT.pushBack(tok);
 				break;
 			default:
 				break;

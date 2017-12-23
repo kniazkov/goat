@@ -65,6 +65,9 @@ namespace goat {
 		objects.insert("++", OperatorIncrement::getInstance());
 		objects.insert("--", OperatorDecrement::getInstance());
 		objects.insert("~", OperatorNot::getInstance());
+		objects.insert("<<", OperatorLeftShift::getInstance());
+		objects.insert(">>", OperatorSignedRightShift::getInstance());
+		objects.insert(">>>", OperatorZeroFillRightShift::getInstance());
 	}
 
 	Object * ObjectInteger::Proto::getInstance() {
@@ -276,6 +279,51 @@ namespace goat {
 
 	Object * ObjectInteger::Proto::OperatorNot::getInstance() {
 		static OperatorNot __this;
+		return &__this;
+	}
+
+
+	Object * ObjectInteger::Proto::OperatorLeftShift::run(Scope *scope) {
+		ObjectInteger *this_ = scope->this_->toObjectInteger();
+		ObjectInteger *operand = scope->arguments->vector[0]->toObjectInteger();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectInteger(this_->value << operand->value);
+	}
+
+	Object * ObjectInteger::Proto::OperatorLeftShift::getInstance() {
+		static OperatorLeftShift __this;
+		return &__this;
+	}
+
+
+	Object * ObjectInteger::Proto::OperatorSignedRightShift::run(Scope *scope) {
+		ObjectInteger *this_ = scope->this_->toObjectInteger();
+		ObjectInteger *operand = scope->arguments->vector[0]->toObjectInteger();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectInteger(this_->value >> operand->value);
+	}
+
+	Object * ObjectInteger::Proto::OperatorSignedRightShift::getInstance() {
+		static OperatorSignedRightShift __this;
+		return &__this;
+	}
+
+
+	Object * ObjectInteger::Proto::OperatorZeroFillRightShift::run(Scope *scope) {
+		ObjectInteger *this_ = scope->this_->toObjectInteger();
+		ObjectInteger *operand = scope->arguments->vector[0]->toObjectInteger();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectInteger(this_->value >> operand->value);
+	}
+
+	Object * ObjectInteger::Proto::OperatorZeroFillRightShift::getInstance() {
+		static OperatorZeroFillRightShift __this;
 		return &__this;
 	}
 

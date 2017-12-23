@@ -77,6 +77,15 @@ namespace goat {
 		else if (value == "+=") {
 			type = ASSIGN_BY_SUM;
 		}
+		else if (value == "<<") {
+			type = LEFT_SHIFT;
+		}
+		else if (value == ">>") {
+			type = SIGNED_RIGHT_SHIFT;
+		}
+		else if (value == ">>>") {
+			type = UNSIGNED_RIGHT_SHIFT;
+		}
 		else {
 			type = UNKNOWN;
 		}

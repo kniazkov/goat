@@ -46,6 +46,9 @@ namespace goat {
 			DECREMENT,
 			BITWISE_NOT,
 			ASSIGN_BY_SUM,
+			LEFT_SHIFT,
+			SIGNED_RIGHT_SHIFT,
+			UNSIGNED_RIGHT_SHIFT,
 			UNKNOWN
 		};
 		String value;
