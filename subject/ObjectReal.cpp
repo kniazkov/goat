@@ -76,7 +76,6 @@ namespace goat {
 				return new ObjectReal(this_->value + ((long double)operInt->value));
 			}
 			ObjectReal *operand = arg->toObjectReal();
-			operand = scope->arguments->vector[0]->toObjectReal();
 			if (!operand) {
 				return new IllegalArgument();
 			}
@@ -95,9 +94,13 @@ namespace goat {
 
 	Object * ObjectReal::Proto::OperatorMinus::run(Scope *scope) {
 		ObjectReal *this_ = scope->this_->toObjectReal();
-		ObjectReal *operand = nullptr;
 		if (scope->arguments && scope->arguments->vector.len() > 0) {
-			operand = scope->arguments->vector[0]->toObjectReal();
+			Object *arg = scope->arguments->vector[0];
+			ObjectInteger *operInt = arg->toObjectInteger();
+			if (operInt) {
+				return new ObjectReal(this_->value - ((long double)operInt->value));
+			}
+			ObjectReal *operand = arg->toObjectReal();
 			if (!operand) {
 				return new IllegalArgument();
 			}

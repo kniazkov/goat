@@ -99,9 +99,13 @@ namespace goat {
 
 	Object * ObjectInteger::Proto::OperatorMinus::run(Scope *scope) {
 		ObjectInteger *this_ = scope->this_->toObjectInteger();
-		ObjectInteger *operand = nullptr;
 		if (scope->arguments && scope->arguments->vector.len() > 0) {
-			operand = scope->arguments->vector[0]->toObjectInteger();
+			Object *arg = scope->arguments->vector[0];
+			ObjectReal *operReal = arg->toObjectReal();
+			if (operReal) {
+				return new ObjectReal(((long double)this_->value) - operReal->value);
+			}
+			ObjectInteger *operand = arg->toObjectInteger();
 			if (!operand) {
 				return new IllegalArgument();
 			}
