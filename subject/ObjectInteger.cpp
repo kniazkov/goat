@@ -319,7 +319,8 @@ namespace goat {
 		if (!operand) {
 			return new IllegalArgument();
 		}
-		return new ObjectInteger(this_->value >> operand->value);
+		unsigned long long int value = (unsigned long long)this_->value >> operand->value;
+		return new ObjectInteger((long long int)value);
 	}
 
 	Object * ObjectInteger::Proto::OperatorZeroFillRightShift::getInstance() {

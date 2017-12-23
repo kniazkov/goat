@@ -1,0 +1,10 @@
+var v = 0xFFFFFFFF;
+var u, s;
+var i = 0;
+
+do {
+	u = v >>> i;
+	s = v >> i;
+	print("" + i + ": " + s + ", " + u + "\n");
+	i++;
+} while(s > 0);
