@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ObjectChar.h"
 #include "ObjectBoolean.h"
+#include "ObjectException.h"
 #include "WideStringBuilder.h"
 
 namespace goat {
@@ -56,10 +57,26 @@ namespace goat {
 		objects.insert("!=", OperatorNotEqual::getInstance());
 		objects.insert("++", OperatorIncrement::getInstance());
 		objects.insert("--", OperatorDecrement::getInstance());
+		objects.insert("<", OperatorLess::getInstance());
 	}
 
 	Object * ObjectChar::Proto::getInstance() {
 		static Proto __this;
+		return &__this;
+	}
+
+
+	Object * ObjectChar::Proto::OperatorLess::run(Scope *scope) {
+		ObjectChar *this_ = scope->this_->toObjectChar();
+		ObjectChar *operand = scope->arguments->vector[0]->toObjectChar();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectBoolean(this_->value < operand->value);
+	}
+
+	Object * ObjectChar::Proto::OperatorLess::getInstance() {
+		static OperatorLess __this;
 		return &__this;
 	}
 
