@@ -74,9 +74,13 @@ namespace goat {
 
 	Object * ObjectInteger::Proto::OperatorPlus::run(Scope *scope) {
 		ObjectInteger *this_ = scope->this_->toObjectInteger();
-		ObjectInteger *operand = nullptr;
 		if (scope->arguments && scope->arguments->vector.len() > 0) {
-			operand = scope->arguments->vector[0]->toObjectInteger();
+			Object *arg = scope->arguments->vector[0];
+			ObjectReal *operReal = arg->toObjectReal();
+			if (operReal) {
+				return new ObjectReal(((long double)this_->value) + operReal->value);
+			}
+			ObjectInteger *operand = arg->toObjectInteger();
 			if (!operand) {
 				return new IllegalArgument();
 			}
@@ -164,8 +168,7 @@ namespace goat {
 		ObjectInteger *this_ = scope->this_->toObjectInteger();
 		ObjectInteger *operand = scope->arguments->vector[0]->toObjectInteger();
 		if (!operand) {
-			// should be exception
-			return nullptr;
+			return new IllegalArgument();
 		}
 		return new ObjectInteger(this_->value % operand->value);
 	}
