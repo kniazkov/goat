@@ -49,6 +49,12 @@ namespace goat {
 				static Object *getInstance();
 			};
 
+			class OperatorLess : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
+
 			class Length : public ObjectBuiltIn {
 			public:
 				Object * run(Scope *scope) override;

@@ -22,6 +22,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ObjectString.h"
 #include "ObjectInteger.h"
+#include "ObjectBoolean.h"
+#include "ObjectException.h"
 #include "WideStringBuilder.h"
 #include "Resource.h"
 
@@ -73,6 +75,7 @@ namespace goat {
 		status = PERMANENT;
 
 		objects.insert("+", OperatorPlus::getInstance());
+		objects.insert("<", OperatorLess::getInstance());
 		objects.insert("length", Length::getInstance());
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("valueOf", ValueOf::getInstance());
@@ -96,6 +99,21 @@ namespace goat {
 
 	Object * ObjectString::Proto::OperatorPlus::getInstance() {
 		static OperatorPlus __this;
+		return &__this;
+	}
+
+
+	Object * ObjectString::Proto::OperatorLess::run(Scope *scope) {
+		ObjectString *this_ = scope->this_->toObjectString();
+		ObjectString *operand = scope->arguments->vector[0]->toObjectString();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectBoolean(this_->value < operand->value);
+	}
+
+	Object * ObjectString::Proto::OperatorLess::getInstance() {
+		static OperatorLess __this;
 		return &__this;
 	}
 
