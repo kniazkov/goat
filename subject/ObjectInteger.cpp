@@ -220,10 +220,14 @@ namespace goat {
 
 	Object * ObjectInteger::Proto::OperatorLess::run(Scope *scope) {
 		ObjectInteger *this_ = scope->this_->toObjectInteger();
-		ObjectInteger *operand = scope->arguments->vector[0]->toObjectInteger();
+		Object *arg = scope->arguments->vector[0];
+		ObjectReal *operReal = arg->toObjectReal();
+		if (operReal) {
+			return new ObjectBoolean(((long double)this_->value) < operReal->value);
+		}
+		ObjectInteger *operand = arg->toObjectInteger();
 		if (!operand) {
-			// should be exception
-			return nullptr;
+			return new IllegalArgument();
 		}
 		return new ObjectBoolean(this_->value < operand->value);
 	}
