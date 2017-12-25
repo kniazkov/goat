@@ -1,0 +1,5 @@
+print(2.0 <= 3);
+print(' ');
+print(3.0 <= 3);
+print(' ');
+print(4.0 <= 3); 

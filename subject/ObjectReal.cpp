@@ -57,6 +57,7 @@ namespace goat {
 		objects.insert("==", OperatorEqual::getInstance());
 		objects.insert("!=", OperatorNotEqual::getInstance());
 		objects.insert("<", OperatorLess::getInstance());
+		objects.insert("<=", OperatorLessEqual::getInstance());
 		objects.insert(">", OperatorGreater::getInstance());
 		objects.insert("++", OperatorIncrement::getInstance());
 		objects.insert("--", OperatorDecrement::getInstance());
@@ -211,6 +212,26 @@ namespace goat {
 
 	Object * ObjectReal::Proto::OperatorLess::getInstance() {
 		static OperatorLess __this;
+		return &__this;
+	}
+
+
+	Object * ObjectReal::Proto::OperatorLessEqual::run(Scope *scope) {
+		ObjectReal *this_ = scope->this_->toObjectReal();
+		Object *arg = scope->arguments->vector[0];
+		ObjectInteger *operInt = arg->toObjectInteger();
+		if (operInt) {
+			return new ObjectBoolean(this_->value <= ((long double)operInt->value));
+		}
+		ObjectReal *operand = arg->toObjectReal();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectBoolean(this_->value <= operand->value);
+	}
+
+	Object * ObjectReal::Proto::OperatorLessEqual::getInstance() {
+		static OperatorLessEqual __this;
 		return &__this;
 	}
 
