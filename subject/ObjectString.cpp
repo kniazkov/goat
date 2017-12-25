@@ -77,6 +77,8 @@ namespace goat {
 		objects.insert("+", OperatorPlus::getInstance());
 		objects.insert("<", OperatorLess::getInstance());
 		objects.insert("<=", OperatorLessEqual::getInstance());
+		objects.insert(">", OperatorGreater::getInstance());
+		objects.insert(">=", OperatorGreaterEqual::getInstance());
 		objects.insert("length", Length::getInstance());
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("valueOf", ValueOf::getInstance());
@@ -130,6 +132,36 @@ namespace goat {
 
 	Object * ObjectString::Proto::OperatorLessEqual::getInstance() {
 		static OperatorLessEqual __this;
+		return &__this;
+	}
+
+
+	Object * ObjectString::Proto::OperatorGreater::run(Scope *scope) {
+		ObjectString *this_ = scope->this_->toObjectString();
+		ObjectString *operand = scope->arguments->vector[0]->toObjectString();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectBoolean(this_->value > operand->value);
+	}
+
+	Object * ObjectString::Proto::OperatorGreater::getInstance() {
+		static OperatorGreater __this;
+		return &__this;
+	}
+
+
+	Object * ObjectString::Proto::OperatorGreaterEqual::run(Scope *scope) {
+		ObjectString *this_ = scope->this_->toObjectString();
+		ObjectString *operand = scope->arguments->vector[0]->toObjectString();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectBoolean(this_->value >= operand->value);
+	}
+
+	Object * ObjectString::Proto::OperatorGreaterEqual::getInstance() {
+		static OperatorGreaterEqual __this;
 		return &__this;
 	}
 
