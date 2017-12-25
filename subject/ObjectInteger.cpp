@@ -76,6 +76,8 @@ namespace goat {
 		objects.insert(">>", OperatorSignedRightShift::getInstance());
 		objects.insert(">>>", OperatorZeroFillRightShift::getInstance());
 		objects.insert("&", OperatorAnd::getInstance());
+		objects.insert("^", OperatorXor::getInstance());
+		objects.insert("|", OperatorOr::getInstance());
 	}
 
 	Object * ObjectInteger::Proto::getInstance() {
@@ -364,6 +366,36 @@ namespace goat {
 
 	Object * ObjectInteger::Proto::OperatorAnd::getInstance() {
 		static OperatorAnd __this;
+		return &__this;
+	}
+
+
+	Object * ObjectInteger::Proto::OperatorXor::run(Scope *scope) {
+		ObjectInteger *this_ = scope->this_->toObjectInteger();
+		ObjectInteger *operand = scope->arguments->vector[0]->toObjectInteger();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectInteger(this_->value ^ operand->value);
+	}
+
+	Object * ObjectInteger::Proto::OperatorXor::getInstance() {
+		static OperatorXor __this;
+		return &__this;
+	}
+
+
+	Object * ObjectInteger::Proto::OperatorOr::run(Scope *scope) {
+		ObjectInteger *this_ = scope->this_->toObjectInteger();
+		ObjectInteger *operand = scope->arguments->vector[0]->toObjectInteger();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectInteger(this_->value | operand->value);
+	}
+
+	Object * ObjectInteger::Proto::OperatorOr::getInstance() {
+		static OperatorOr __this;
 		return &__this;
 	}
 

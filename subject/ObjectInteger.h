@@ -139,6 +139,18 @@ namespace goat {
 				static Object *getInstance();
 			};
 
+			class OperatorXor : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
+
+			class OperatorOr : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
+
 			class Clone : public ObjectBuiltIn {
 			public:
 				Object * run(Scope *scope) override;
