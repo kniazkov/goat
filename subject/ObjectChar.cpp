@@ -58,6 +58,7 @@ namespace goat {
 		objects.insert("++", OperatorIncrement::getInstance());
 		objects.insert("--", OperatorDecrement::getInstance());
 		objects.insert("<", OperatorLess::getInstance());
+		objects.insert("<=", OperatorLessEqual::getInstance());
 	}
 
 	Object * ObjectChar::Proto::getInstance() {
@@ -77,6 +78,21 @@ namespace goat {
 
 	Object * ObjectChar::Proto::OperatorLess::getInstance() {
 		static OperatorLess __this;
+		return &__this;
+	}
+
+
+	Object * ObjectChar::Proto::OperatorLessEqual::run(Scope *scope) {
+		ObjectChar *this_ = scope->this_->toObjectChar();
+		ObjectChar *operand = scope->arguments->vector[0]->toObjectChar();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectBoolean(this_->value <= operand->value);
+	}
+
+	Object * ObjectChar::Proto::OperatorLessEqual::getInstance() {
+		static OperatorLessEqual __this;
 		return &__this;
 	}
 
