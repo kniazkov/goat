@@ -133,8 +133,7 @@ namespace goat {
 		ObjectChar *this_ = scope->this_->toObjectChar();
 		ObjectChar *operand = scope->arguments->vector[0]->toObjectChar();
 		if (!operand) {
-			// should be exception
-			return nullptr;
+			return new IllegalArgument();
 		}
 		return new ObjectBoolean(this_->value == operand->value);
 	}
@@ -149,8 +148,7 @@ namespace goat {
 		ObjectChar *this_ = scope->this_->toObjectChar();
 		ObjectChar *operand = scope->arguments->vector[0]->toObjectChar();
 		if (!operand) {
-			// should be exception
-			return nullptr;
+			return new IllegalArgument();
 		}
 		return new ObjectBoolean(this_->value != operand->value);
 	}
