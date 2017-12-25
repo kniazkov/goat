@@ -59,6 +59,7 @@ namespace goat {
 		objects.insert("<", OperatorLess::getInstance());
 		objects.insert("<=", OperatorLessEqual::getInstance());
 		objects.insert(">", OperatorGreater::getInstance());
+		objects.insert(">=", OperatorGreaterEqual::getInstance());
 		objects.insert("++", OperatorIncrement::getInstance());
 		objects.insert("--", OperatorDecrement::getInstance());
 	}
@@ -238,16 +239,40 @@ namespace goat {
 
 	Object * ObjectReal::Proto::OperatorGreater::run(Scope *scope) {
 		ObjectReal *this_ = scope->this_->toObjectReal();
-		ObjectReal *operand = scope->arguments->vector[0]->toObjectReal();
+		Object *arg = scope->arguments->vector[0];
+		ObjectInteger *operInt = arg->toObjectInteger();
+		if (operInt) {
+			return new ObjectBoolean(this_->value > ((long double)operInt->value));
+		}
+		ObjectReal *operand = arg->toObjectReal();
 		if (!operand) {
-			// should be exception
-			return nullptr;
+			return new IllegalArgument();
 		}
 		return new ObjectBoolean(this_->value > operand->value);
 	}
 
 	Object * ObjectReal::Proto::OperatorGreater::getInstance() {
 		static OperatorGreater __this;
+		return &__this;
+	}
+
+
+	Object * ObjectReal::Proto::OperatorGreaterEqual::run(Scope *scope) {
+		ObjectReal *this_ = scope->this_->toObjectReal();
+		Object *arg = scope->arguments->vector[0];
+		ObjectInteger *operInt = arg->toObjectInteger();
+		if (operInt) {
+			return new ObjectBoolean(this_->value >= ((long double)operInt->value));
+		}
+		ObjectReal *operand = arg->toObjectReal();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectBoolean(this_->value >= operand->value);
+	}
+
+	Object * ObjectReal::Proto::OperatorGreaterEqual::getInstance() {
+		static OperatorGreaterEqual __this;
 		return &__this;
 	}
 

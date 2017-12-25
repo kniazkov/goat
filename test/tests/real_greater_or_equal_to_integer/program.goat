@@ -1,0 +1,6 @@
+print(4.1 >= 3);
+print(' ');
+print(3.0 >= 3);
+print(' ');
+print(2.1 >= 3);
+ 
