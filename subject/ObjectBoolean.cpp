@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "ObjectBoolean.h"
+#include "ObjectException.h"
 
 namespace goat {
 
@@ -47,6 +48,8 @@ namespace goat {
 
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("!", OperatorNot::getInstance());
+		objects.insert("&&", OperatorAnd::getInstance());
+		objects.insert("||", OperatorOr::getInstance());
 	}
 
 	Object * ObjectBoolean::Proto::getInstance() {
@@ -54,7 +57,7 @@ namespace goat {
 		return &__this;
 	}
 
-	
+
 	Object * ObjectBoolean::Proto::Clone::run(Scope *scope) {
 		ObjectBoolean *this_ = scope->this_->toObjectBoolean();
 		ObjectBoolean *obj = new ObjectBoolean(this_->value);
@@ -75,6 +78,36 @@ namespace goat {
 
 	Object * ObjectBoolean::Proto::OperatorNot::getInstance() {
 		static OperatorNot __this;
+		return &__this;
+	}
+
+
+	Object * ObjectBoolean::Proto::OperatorAnd::run(Scope *scope) {
+		ObjectBoolean *this_ = scope->this_->toObjectBoolean();
+		ObjectBoolean *operand = scope->arguments->vector[0]->toObjectBoolean();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectBoolean(this_->value && operand->value);
+	}
+
+	Object * ObjectBoolean::Proto::OperatorAnd::getInstance() {
+		static OperatorAnd __this;
+		return &__this;
+	}
+
+
+	Object * ObjectBoolean::Proto::OperatorOr::run(Scope *scope) {
+		ObjectBoolean *this_ = scope->this_->toObjectBoolean();
+		ObjectBoolean *operand = scope->arguments->vector[0]->toObjectBoolean();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectBoolean(this_->value || operand->value);
+	}
+
+	Object * ObjectBoolean::Proto::OperatorOr::getInstance() {
+		static OperatorOr __this;
 		return &__this;
 	}
 
