@@ -1,0 +1,16 @@
+print(1 == 'a');
+print(' ');
+print(1 == "a");
+print(' ');
+print(1 == 1);
+print(' ');
+print(1 == 1.0);
+print(' ');
+print(1 == true);
+print(' ');
+print(1 == {});
+print(' ');
+print(1 == null);
+print(' ');
+print(1 == undefined);
+ 

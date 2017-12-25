@@ -42,8 +42,15 @@ namespace goat {
 	}
 
 	bool ObjectReal::equals(Object *_obj) {
-		ObjectReal *obj = _obj->toObjectReal();
-		return obj && obj->value == value;
+		ObjectInteger *objInt = _obj->toObjectInteger();
+		if (objInt) {
+			return objInt->value == value;
+		}
+		ObjectReal *objReal = _obj->toObjectReal();
+		if (objReal) {
+			return objReal->value == value;
+		}
+		return false;
 	}
 
 	ObjectReal::Proto::Proto() {
@@ -54,8 +61,6 @@ namespace goat {
 		objects.insert("-", OperatorMinus::getInstance());
 		objects.insert("*", OperatorMul::getInstance());
 		objects.insert("/", OperatorDiv::getInstance());
-		objects.insert("==", OperatorEqual::getInstance());
-		objects.insert("!=", OperatorNotEqual::getInstance());
 		objects.insert("<", OperatorLess::getInstance());
 		objects.insert("<=", OperatorLessEqual::getInstance());
 		objects.insert(">", OperatorGreater::getInstance());
@@ -161,38 +166,6 @@ namespace goat {
 
 	Object * ObjectReal::Proto::OperatorDiv::getInstance() {
 		static OperatorDiv __this;
-		return &__this;
-	}
-
-
-	Object * ObjectReal::Proto::OperatorEqual::run(Scope *scope) {
-		ObjectReal *this_ = scope->this_->toObjectReal();
-		ObjectReal *operand = scope->arguments->vector[0]->toObjectReal();
-		if (!operand) {
-			// should be exception
-			return nullptr;
-		}
-		return new ObjectBoolean(this_->value == operand->value);
-	}
-
-	Object * ObjectReal::Proto::OperatorEqual::getInstance() {
-		static OperatorEqual __this;
-		return &__this;
-	}
-
-
-	Object * ObjectReal::Proto::OperatorNotEqual::run(Scope *scope) {
-		ObjectReal *this_ = scope->this_->toObjectReal();
-		ObjectReal *operand = scope->arguments->vector[0]->toObjectReal();
-		if (!operand) {
-			// should be exception
-			return nullptr;
-		}
-		return new ObjectBoolean(this_->value != operand->value);
-	}
-
-	Object * ObjectReal::Proto::OperatorNotEqual::getInstance() {
-		static OperatorNotEqual __this;
 		return &__this;
 	}
 

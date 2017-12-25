@@ -1,0 +1,15 @@
+print(true == 'a');
+print(' ');
+print(true == "a");
+print(' ');
+print(true == 1);
+print(' ');
+print(true == 1.0);
+print(' ');
+print(true == true);
+print(' ');
+print(true == {});
+print(' ');
+print(true == null);
+print(' ');
+print(true == undefined);

@@ -564,11 +564,53 @@ namespace goat {
 	}
 
 
+	class BaseEqual : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
+
+	Object * BaseEqual::run(Scope *scope) {
+		Object *operand = scope->arguments->vector[0];
+		if (!operand) {
+			return new ObjectBoolean(false);
+		}
+		return new ObjectBoolean(scope->this_->equals(operand));
+	}
+
+	Object * BaseEqual::getInstance() {
+		static BaseEqual __this;
+		return &__this;
+	}
+
+
+	class BaseNotEqual : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
+
+	Object * BaseNotEqual::run(Scope *scope) {
+		Object *operand = scope->arguments->vector[0];
+		if (!operand) {
+			return new ObjectBoolean(true);
+		}
+		return new ObjectBoolean(!scope->this_->equals(operand));
+	}
+
+	Object * BaseNotEqual::getInstance() {
+		static BaseNotEqual __this;
+		return &__this;
+	}
+
+
 	SuperObject::SuperObject() : Object(true) {
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("flat", Flat::getInstance());
 		objects.insert("instanceOf", InstanceOf::getInstance());
 		objects.insert("->", Inherit::getInstance());
+		objects.insert("==", BaseEqual::getInstance());
+		objects.insert("!=", BaseNotEqual::getInstance());
 	}
 
 	Object * SuperObject::getInstance() {

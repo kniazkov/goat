@@ -53,8 +53,6 @@ namespace goat {
 		status = PERMANENT;
 
 		objects.insert("clone", Clone::getInstance());
-		objects.insert("==", OperatorEqual::getInstance());
-		objects.insert("!=", OperatorNotEqual::getInstance());
 		objects.insert("++", OperatorIncrement::getInstance());
 		objects.insert("--", OperatorDecrement::getInstance());
 		objects.insert("<", OperatorLess::getInstance());
@@ -125,36 +123,6 @@ namespace goat {
 
 	Object * ObjectChar::Proto::OperatorGreaterEqual::getInstance() {
 		static OperatorGreaterEqual __this;
-		return &__this;
-	}
-
-
-	Object * ObjectChar::Proto::OperatorEqual::run(Scope *scope) {
-		ObjectChar *this_ = scope->this_->toObjectChar();
-		ObjectChar *operand = scope->arguments->vector[0]->toObjectChar();
-		if (!operand) {
-			return new IllegalArgument();
-		}
-		return new ObjectBoolean(this_->value == operand->value);
-	}
-
-	Object * ObjectChar::Proto::OperatorEqual::getInstance() {
-		static OperatorEqual __this;
-		return &__this;
-	}
-
-
-	Object * ObjectChar::Proto::OperatorNotEqual::run(Scope *scope) {
-		ObjectChar *this_ = scope->this_->toObjectChar();
-		ObjectChar *operand = scope->arguments->vector[0]->toObjectChar();
-		if (!operand) {
-			return new IllegalArgument();
-		}
-		return new ObjectBoolean(this_->value != operand->value);
-	}
-
-	Object * ObjectChar::Proto::OperatorNotEqual::getInstance() {
-		static OperatorNotEqual __this;
 		return &__this;
 	}
 
