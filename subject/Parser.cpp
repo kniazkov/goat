@@ -240,6 +240,8 @@ namespace goat {
 				break;
 			case Operator::LESS:
 			case Operator::GREATER:
+			case Operator::LESS_EQUAL:
+			case Operator::GREATER_EQUAL:
 				oper_LESS_GREATER.pushBack(tok);
 				break;
 			case Operator::QUESTION:

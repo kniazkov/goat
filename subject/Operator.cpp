@@ -86,6 +86,12 @@ namespace goat {
 		else if (value == ">>>") {
 			type = UNSIGNED_RIGHT_SHIFT;
 		}
+		else if (value == "<=") {
+			type = LESS_EQUAL;
+		}
+		else if (value == ">=") {
+			type = GREATER_EQUAL;
+		}
 		else {
 			type = UNKNOWN;
 		}

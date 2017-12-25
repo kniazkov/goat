@@ -137,6 +137,10 @@ namespace goat {
 		return Utils::wstrCmp(buff ? buff->data : nullptr, wstr.buff ? wstr.buff->data : nullptr) < 0;
 	}
 
+	bool WideString::operator<=(const WideString &wstr) {
+		return Utils::wstrCmp(buff ? buff->data : nullptr, wstr.buff ? wstr.buff->data : nullptr) <= 0;
+	}
+
 	bool WideString::operator==(const String &str) {
 		return Utils::strWstrCmp(str.buff ? str.buff->data : nullptr, buff ? buff->data : nullptr) == 0;
 	}

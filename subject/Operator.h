@@ -49,6 +49,8 @@ namespace goat {
 			LEFT_SHIFT,
 			SIGNED_RIGHT_SHIFT,
 			UNSIGNED_RIGHT_SHIFT,
+			LESS_EQUAL,
+			GREATER_EQUAL,
 			UNKNOWN
 		};
 		String value;

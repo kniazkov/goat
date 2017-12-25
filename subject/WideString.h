@@ -68,6 +68,7 @@ namespace goat {
 		bool operator==(const WideString &wstr);
 		bool operator!=(const WideString &wstr);
 		bool operator<(const WideString &wstr);
+		bool operator<=(const WideString &wstr);
 		bool operator==(const String &str);
 		bool operator!=(const String &str);
 		bool operator<(const String &str);
