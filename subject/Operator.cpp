@@ -92,6 +92,21 @@ namespace goat {
 		else if (value == ">=") {
 			type = GREATER_EQUAL;
 		}
+		else if (value == "|") {
+			type = BITWISE_OR;
+		}
+		else if (value == "&") {
+			type = BITWISE_AND;
+		}
+		else if (value == "^") {
+			type = BITWISE_XOR;
+		}
+		else if (value == "||") {
+			type = LOGICAL_OR;
+		}
+		else if (value == "&&") {
+			type = LOGICAL_AND;
+		}
 		else {
 			type = UNKNOWN;
 		}

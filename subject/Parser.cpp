@@ -109,6 +109,11 @@ namespace goat {
 			parse2ndList(oper_MUL_DIV_MOD, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_PLUS_MINUS, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_SHIFT, &Parser::parseBinaryOperator, false);
+			parse2ndList(oper_BITWISE_AND, &Parser::parseBinaryOperator, false);
+			parse2ndList(oper_BITWISE_XOR, &Parser::parseBinaryOperator, false);
+			parse2ndList(oper_BITWISE_OR, &Parser::parseBinaryOperator, false);
+			parse2ndList(oper_LOGICAL_AND, &Parser::parseBinaryOperator, false);
+			parse2ndList(oper_LOGICAL_OR, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_EQ_NEQ, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_LESS_GREATER, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_QUESTION, &Parser::parseInlineIf, true);
@@ -264,6 +269,21 @@ namespace goat {
 			case Operator::SIGNED_RIGHT_SHIFT:
 			case Operator::UNSIGNED_RIGHT_SHIFT:
 				oper_SHIFT.pushBack(tok);
+				break;
+			case Operator::BITWISE_AND:
+				oper_BITWISE_AND.pushBack(tok);
+				break;
+			case Operator::BITWISE_XOR:
+				oper_BITWISE_XOR.pushBack(tok);
+				break;
+			case Operator::BITWISE_OR:
+				oper_BITWISE_OR.pushBack(tok);
+				break;
+			case Operator::LOGICAL_AND:
+				oper_LOGICAL_AND.pushBack(tok);
+				break;
+			case Operator::LOGICAL_OR:
+				oper_LOGICAL_OR.pushBack(tok);
 				break;
 			default:
 				break;

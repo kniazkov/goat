@@ -133,6 +133,12 @@ namespace goat {
 				static Object *getInstance();
 			};
 
+			class OperatorAnd : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
+
 			class Clone : public ObjectBuiltIn {
 			public:
 				Object * run(Scope *scope) override;

@@ -51,6 +51,11 @@ namespace goat {
 			UNSIGNED_RIGHT_SHIFT,
 			LESS_EQUAL,
 			GREATER_EQUAL,
+			BITWISE_AND,
+			BITWISE_XOR,
+			BITWISE_OR,
+			LOGICAL_AND,
+			LOGICAL_OR,
 			UNKNOWN
 		};
 		String value;

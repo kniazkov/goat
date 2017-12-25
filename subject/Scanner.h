@@ -168,6 +168,9 @@ namespace goat {
 		case '<':
 		case '?':
 		case '~':
+		case '|':
+		case '&':
+		case '^':
 			return true;
 		default:
 			return false;

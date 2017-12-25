@@ -75,6 +75,7 @@ namespace goat {
 		objects.insert("<<", OperatorLeftShift::getInstance());
 		objects.insert(">>", OperatorSignedRightShift::getInstance());
 		objects.insert(">>>", OperatorZeroFillRightShift::getInstance());
+		objects.insert("&", OperatorAnd::getInstance());
 	}
 
 	Object * ObjectInteger::Proto::getInstance() {
@@ -348,6 +349,21 @@ namespace goat {
 
 	Object * ObjectInteger::Proto::OperatorZeroFillRightShift::getInstance() {
 		static OperatorZeroFillRightShift __this;
+		return &__this;
+	}
+
+
+	Object * ObjectInteger::Proto::OperatorAnd::run(Scope *scope) {
+		ObjectInteger *this_ = scope->this_->toObjectInteger();
+		ObjectInteger *operand = scope->arguments->vector[0]->toObjectInteger();
+		if (!operand) {
+			return new IllegalArgument();
+		}
+		return new ObjectInteger(this_->value & operand->value);
+	}
+
+	Object * ObjectInteger::Proto::OperatorAnd::getInstance() {
+		static OperatorAnd __this;
 		return &__this;
 	}
 
