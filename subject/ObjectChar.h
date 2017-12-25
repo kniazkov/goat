@@ -54,6 +54,18 @@ namespace goat {
 				static Object *getInstance();
 			};
 
+			class OperatorGreater : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
+
+			class OperatorGreaterEqual : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
+
 			class OperatorEqual : public ObjectBuiltIn {
 			public:
 				Object * run(Scope *scope) override;
