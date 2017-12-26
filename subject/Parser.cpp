@@ -263,6 +263,16 @@ namespace goat {
 				oper_BITWISE_NOT.pushBack(tok);
 				break;
 			case Operator::ASSIGN_BY_SUM:
+			case Operator::ASSIGN_BY_DIFF:
+			case Operator::ASSIGN_BY_PRODUCT:
+			case Operator::ASSIGN_BY_QUOTIENT:
+			case Operator::ASSIGN_BY_REMAINDER:
+			case Operator::ASSIGN_BY_LSHIFT:
+			case Operator::ASSIGN_BY_SIGN_RSHIFT:
+			case Operator::ASSIGN_BY_UNSIGN_RSHIFT:
+			case Operator::ASSIGN_BY_AND:
+			case Operator::ASSIGN_BY_XOR:
+			case Operator::ASSIGN_BY_OR:
 				oper_ASSIGN_BY.pushBack(tok);
 				break;
 			case Operator::LEFT_SHIFT:

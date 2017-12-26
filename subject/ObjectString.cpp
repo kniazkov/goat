@@ -75,6 +75,7 @@ namespace goat {
 		status = PERMANENT;
 
 		objects.insert("+", OperatorPlus::getInstance());
+		objects.insert("+=", OperatorPlus::getInstance());
 		objects.insert("<", OperatorLess::getInstance());
 		objects.insert("<=", OperatorLessEqual::getInstance());
 		objects.insert(">", OperatorGreater::getInstance());

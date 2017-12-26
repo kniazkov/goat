@@ -1,0 +1,17 @@
+var a;
+
+a = 1.0;
+print(a += 1);
+print("\n"); 
+
+a = 1.0;
+print(a -= 1);
+print("\n"); 
+
+a = 2.0;
+print(a *= 3.3);
+print("\n"); 
+
+a = 11.0;
+print(a /= 2);
+print("\n"); 

@@ -62,9 +62,13 @@ namespace goat {
 		objects.insert("+", OperatorPlus::getInstance());
 		objects.insert("+=", OperatorPlus::getInstance());
 		objects.insert("-", OperatorMinus::getInstance());
+		objects.insert("-=", OperatorMinus::getInstance());
 		objects.insert("*", OperatorMul::getInstance());
+		objects.insert("*=", OperatorMul::getInstance());
 		objects.insert("/", OperatorDiv::getInstance());
+		objects.insert("/=", OperatorDiv::getInstance());
 		objects.insert("%", OperatorMod::getInstance());
+		objects.insert("%=", OperatorMod::getInstance());
 		objects.insert("<", OperatorLess::getInstance());
 		objects.insert("<=", OperatorLessEqual::getInstance());
 		objects.insert(">", OperatorGreater::getInstance());
@@ -73,11 +77,17 @@ namespace goat {
 		objects.insert("--", OperatorDecrement::getInstance());
 		objects.insert("~", OperatorNot::getInstance());
 		objects.insert("<<", OperatorLeftShift::getInstance());
+		objects.insert("<<=", OperatorLeftShift::getInstance());
 		objects.insert(">>", OperatorSignedRightShift::getInstance());
+		objects.insert(">>=", OperatorSignedRightShift::getInstance());
 		objects.insert(">>>", OperatorZeroFillRightShift::getInstance());
+		objects.insert(">>>=", OperatorZeroFillRightShift::getInstance());
 		objects.insert("&", OperatorAnd::getInstance());
+		objects.insert("&=", OperatorAnd::getInstance());
 		objects.insert("^", OperatorXor::getInstance());
+		objects.insert("^=", OperatorXor::getInstance());
 		objects.insert("|", OperatorOr::getInstance());
+		objects.insert("|=", OperatorOr::getInstance());
 	}
 
 	Object * ObjectInteger::Proto::getInstance() {

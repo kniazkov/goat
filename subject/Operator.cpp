@@ -107,6 +107,36 @@ namespace goat {
 		else if (value == "&&") {
 			type = LOGICAL_AND;
 		}
+		else if (value == "-=") {
+			type = ASSIGN_BY_DIFF;
+		}
+		else if (value == "*=") {
+			type = ASSIGN_BY_PRODUCT;
+		}
+		else if (value == "/=") {
+			type = ASSIGN_BY_QUOTIENT;
+		}
+		else if (value == "%=") {
+			type = ASSIGN_BY_REMAINDER;
+		}
+		else if (value == "<<=") {
+			type = ASSIGN_BY_LSHIFT;
+		}
+		else if (value == ">>=") {
+			type = ASSIGN_BY_SIGN_RSHIFT;
+		}
+		else if (value == ">>>=") {
+			type = ASSIGN_BY_UNSIGN_RSHIFT;
+		}
+		else if (value == "&=") {
+			type = ASSIGN_BY_SUM;
+		}
+		else if (value == "^=") {
+			type = ASSIGN_BY_XOR;
+		}
+		else if (value == "|=") {
+			type = ASSIGN_BY_OR;
+		}
 		else {
 			type = UNKNOWN;
 		}

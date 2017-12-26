@@ -162,7 +162,7 @@ namespace goat {
 		bool prompt = true;
 
 		Options opt;
-		opt.gc = GarbageCollector::debug();
+		opt.gc = GarbageCollector::parallel();
 
 		while (true) {
 			output->write(prompt ? (wchar*)L"? " : (wchar*)L"  ");
