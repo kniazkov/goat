@@ -32,6 +32,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectChar.h"
 #include "ObjectReal.h"
 #include "ObjectNull.h"
+#include "ObjectFile.h"
 
 namespace goat {
 
@@ -48,6 +49,7 @@ namespace goat {
 		s->objects.insert("Thread", ObjectThread::Proto::getInstance());
 		s->objects.insert("Real", ObjectReal::Proto::getInstance());
 		s->objects.insert("Null", ObjectNull::getInstance());
+		s->objects.insert("File", ObjectFile::Proto::getInstance());
 		return s;
 	}
 

@@ -23,6 +23,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectFile.h"
 #include "ObjectBuiltIn.h"
 #include "Resource.h"
+#include "ObjectInteger.h"
+#include "ObjectConstInteger.h"
 
 namespace goat {
 
@@ -56,10 +58,10 @@ namespace goat {
 
 	ObjectFile::Proto::Proto() {
 		status = PERMANENT;
-		proto[0] = ObjectFile::Proto::getInstance();
 
 		objects.insert("clone", ObjFileClone::getInstance());
 		objects.insert("read", ObjFileRead::getInstance());
+		objects.insert("MODE_READ", ObjectConstInteger<0>::getInstance());
 	}
 
 	Object * ObjectFile::Proto::getInstance() {

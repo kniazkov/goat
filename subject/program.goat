@@ -1,5 +1,1 @@
-print('a' <= 'b');
-print(' ');
-print('c' <= 'c');
-print(' ');
-print('d' <= 'c'); 
+print(File.MODE_READ);

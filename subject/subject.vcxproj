@@ -179,6 +179,7 @@
     <ClInclude Include="ObjectBoolean.h" />
     <ClInclude Include="ObjectBuiltIn.h" />
     <ClInclude Include="ObjectChar.h" />
+    <ClInclude Include="ObjectConstInteger.h" />
     <ClInclude Include="ObjectException.h" />
     <ClInclude Include="ObjectFile.h" />
     <ClInclude Include="ObjectFunction.h" />
