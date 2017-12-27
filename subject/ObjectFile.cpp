@@ -24,12 +24,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectBuiltIn.h"
 #include "Resource.h"
 #include "ObjectInteger.h"
+#include "ObjectChar.h"
+#include "ObjectBoolean.h"
 #include "ObjectConstInteger.h"
 
 namespace goat {
 
-	ObjectFile::ObjectFile() {
+	ObjectFile::ObjectFile(Platform::File *_file) {
+		file = _file;
 		proto[0] = Proto::getInstance();
+	}
+
+	ObjectFile::~ObjectFile() {
+		delete file;
 	}
 
 	ObjectFile * ObjectFile::toObjectFile() {
@@ -55,13 +62,27 @@ namespace goat {
 		static Object *getInstance();
 	};
 
+	class ObjFileEof : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
+
+
+	class ObjFileMode : public Object {
+	public:
+		ObjFileMode();
+		static Object *getInstance();
+	};
+
 
 	ObjectFile::Proto::Proto() {
 		status = PERMANENT;
 
 		objects.insert("clone", ObjFileClone::getInstance());
 		objects.insert("read", ObjFileRead::getInstance());
-		objects.insert("MODE_READ", ObjectConstInteger<0>::getInstance());
+		objects.insert("eof", ObjFileEof::getInstance());
+		objects.insert("Mode", ObjFileMode::getInstance());
 	}
 
 	Object * ObjectFile::Proto::getInstance() {
@@ -81,11 +102,35 @@ namespace goat {
 
 
 	Object * ObjFileRead::run(Scope *scope) {
-		return nullptr;
+		ObjectFile *this_ = scope->this_->toObjectFile();
+		return new ObjectChar((wchar)this_->file->read());
 	}
 
 	Object *ObjFileRead::getInstance() {
 		static ObjFileRead __this;
+		return &__this;
+	}
+
+
+	Object * ObjFileEof::run(Scope *scope) {
+		ObjectFile *this_ = scope->this_->toObjectFile();
+		return new ObjectBoolean(this_->file->eof());
+	}
+
+	Object *ObjFileEof::getInstance() {
+		static ObjFileEof __this;
+		return &__this;
+	}
+
+
+	ObjFileMode::ObjFileMode() : Object(true) {
+		objects.insert("READ", ObjectConstInteger<0>::getInstance());
+		objects.insert("WRITE", ObjectConstInteger<1>::getInstance());
+		objects.insert("APPEND", ObjectConstInteger<2>::getInstance());
+	}
+
+	Object *ObjFileMode::getInstance() {
+		static ObjFileMode __this;
 		return &__this;
 	}
 }

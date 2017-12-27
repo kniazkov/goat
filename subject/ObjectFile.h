@@ -23,12 +23,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "Object.h"
+#include "Platform.h"
 
 namespace goat {
 
 	class ObjectFile : public Object {
 	public:
-		ObjectFile();
+		Platform::File *file;
+
+		ObjectFile(Platform::File *_file);
+		~ObjectFile();
 		ObjectFile * toObjectFile() override;
 		WideString toWideString() override;
 		void trace() override;

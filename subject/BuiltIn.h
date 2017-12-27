@@ -42,5 +42,10 @@ namespace goat {
 		Object *run(Scope *scope) override;
 	};
 
+	class Open : public ObjectBuiltIn {
+	public:
+		Object *run(Scope *scope) override;
+		static Object *getInstance();
+	};
 
 }

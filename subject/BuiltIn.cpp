@@ -39,6 +39,8 @@ namespace goat {
 	Scope * BuiltIn::create(Environment *env) {
 		Scope *s = new Scope();
 		s->objects.insert("print", new Print(env->out));
+		s->objects.insert("open", Open::getInstance());
+
 		s->objects.insert("String", ObjectString::Proto::getInstance());
 		s->objects.insert("Integer", ObjectInteger::Proto::getInstance());
 		s->objects.insert("Exception", ObjectException::Proto::getInstance());
@@ -74,6 +76,30 @@ namespace goat {
 
 		// not enough arguments, exception ??
 		return nullptr;
+	}
+
+	Object * Open::run(Scope *scope) {
+		ObjectArray * args = scope->arguments;
+		if (args->vector.len() == 2) {
+			ObjectString *fname = args->vector[0]->toObjectString();
+			ObjectInteger *mode = args->vector[1]->toObjectInteger();
+			if (fname && mode) {
+				Platform::File *file = Platform::File::open(fname->value.toString().cstr(), (Platform::File::Mode)mode->value);
+				if (!file) {
+					return nullptr;
+				}
+				else {
+					return new ObjectFile(file);
+				}
+			}
+		}
+
+		return new IllegalArgument();
+	}
+
+	Object * Open::getInstance() {
+		static Open __this;
+		return &__this;
 	}
 
 }
