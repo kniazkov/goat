@@ -163,4 +163,43 @@ namespace goat {
 		return Utils::fileNameFromFullPath(fname);
 	}
 
+	Platform::File * Platform::File::open(const char *_fname, Mode _mode) {
+		if (!_fname || !*_fname) {
+			return nullptr;
+		}
+		FILE *stream = nullptr;
+		switch (_mode) {
+			case READ:
+				stream = std::fopen(_fname, "r");
+				break;
+			case WRITE:
+				stream = std::fopen(_fname, "w");
+				break;
+			case APPEND:
+				stream = std::fopen(_fname, "a");
+				break;
+			default:
+				break;
+		}
+		if (!stream) {
+			return nullptr;
+		}
+
+		File *file = new File();
+		file->descriptor = (void*)stream;
+		return file;
+	}
+
+	Platform::File::~File() {
+		std::fclose((FILE*)descriptor);
+	}
+
+	bool Platform::File::eof() {
+		return std::feof((FILE*)descriptor) != 0;
+	}
+
+	char Platform::File::read() {
+		return (char)std::fgetc((FILE*)descriptor);
+	}
+
 }

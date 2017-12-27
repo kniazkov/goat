@@ -71,6 +71,31 @@ namespace goat {
 			bool hasData() override;
 			const char *name() override;
 		};
+
+		class File {
+		protected:
+			void * descriptor;
+
+			File(const File &) {
+			}
+
+			void operator=(const File &) {
+			}
+
+		public:
+			enum Mode {
+				READ = 0,
+				WRITE,
+				APPEND
+			};
+
+			static File * open(const char *_fname, Mode _mode);
+			File() : descriptor(nullptr) {
+			}
+			~File();
+			bool eof();
+			char read();
+		};
 	};
 
 }
