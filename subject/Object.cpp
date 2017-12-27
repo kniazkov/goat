@@ -358,6 +358,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	ObjectFile * Object::toObjectFile() {
+		return nullptr;
+	}
+
 	void ObjectList::unmark() {
 		forEach([](Object *obj) {
 			if (obj->status == Object::MARKED) {

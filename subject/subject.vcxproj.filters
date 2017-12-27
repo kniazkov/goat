@@ -315,6 +315,9 @@
     <ClCompile Include="AssignBy.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectFile.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StackAllocator.h">
@@ -657,6 +660,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="AssignBy.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectFile.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

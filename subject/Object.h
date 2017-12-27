@@ -46,6 +46,7 @@ namespace goat {
 	class ObjectBoolean;
 	class ObjectChar;
 	class ObjectNull;
+	class ObjectFile;
 
 	class Object {
 	public:
@@ -110,6 +111,7 @@ namespace goat {
 		virtual ObjectBoolean *toObjectBoolean();
 		virtual ObjectChar *toObjectChar();
 		virtual ObjectNull *toObjectNull();
+		virtual ObjectFile *toObjectFile();
 
 		void *operator new (MemorySize size);
 		void operator delete (void *ptr);

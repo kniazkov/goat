@@ -71,6 +71,7 @@
     <ClCompile Include="ObjectBuiltIn.cpp" />
     <ClCompile Include="ObjectChar.cpp" />
     <ClCompile Include="ObjectException.cpp" />
+    <ClCompile Include="ObjectFile.cpp" />
     <ClCompile Include="ObjectFunction.cpp" />
     <ClCompile Include="ObjectInteger.cpp" />
     <ClCompile Include="ObjectNull.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="ObjectBuiltIn.h" />
     <ClInclude Include="ObjectChar.h" />
     <ClInclude Include="ObjectException.h" />
+    <ClInclude Include="ObjectFile.h" />
     <ClInclude Include="ObjectFunction.h" />
     <ClInclude Include="ObjectInteger.h" />
     <ClInclude Include="ObjectNull.h" />
