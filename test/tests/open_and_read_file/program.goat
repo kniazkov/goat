@@ -1,0 +1,4 @@
+var file = open("tests/open_and_read_file/program.goat", File.Mode.READ);
+while (!file.eof()) {
+	print(file.read());
+}
