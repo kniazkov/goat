@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ObjectChar.h"
 #include "ObjectBoolean.h"
+#include "ObjectInteger.h"
 #include "ObjectException.h"
 #include "WideStringBuilder.h"
 
@@ -53,6 +54,7 @@ namespace goat {
 		status = PERMANENT;
 
 		objects.insert("clone", Clone::getInstance());
+		objects.insert("valueOf", ValueOf::getInstance());
 		objects.insert("++", OperatorIncrement::getInstance());
 		objects.insert("--", OperatorDecrement::getInstance());
 		objects.insert("<", OperatorLess::getInstance());
@@ -158,6 +160,27 @@ namespace goat {
 
 	Object * ObjectChar::Proto::Clone::getInstance() {
 		static Clone __this;
+		return &__this;
+	}
+
+
+	Object * ObjectChar::Proto::ValueOf::run(Scope *scope) {
+		Object *arg = scope->arguments->vector[0];
+		if (arg) {
+			ObjectChar *argChar = arg->toObjectChar();
+			if (argChar) {
+				return new ObjectChar(argChar->value);
+			}
+			ObjectInteger *argInt = arg->toObjectInteger();
+			if (argInt && argInt->value > 0 && argInt->value < 0x10FFFF) {
+				return new ObjectChar((wchar)argInt->value);
+			}
+		}
+		return new ObjectChar(L'\0');
+	}
+
+	Object * ObjectChar::Proto::ValueOf::getInstance() {
+		static ValueOf __this;
 		return &__this;
 	}
 }

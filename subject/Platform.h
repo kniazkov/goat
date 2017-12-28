@@ -94,7 +94,7 @@ namespace goat {
 			}
 			~File();
 			bool eof();
-			char read();
+			int read();
 		};
 	};
 

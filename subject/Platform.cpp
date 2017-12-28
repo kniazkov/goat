@@ -198,9 +198,9 @@ namespace goat {
 		return std::feof((FILE*)descriptor) != 0;
 	}
 
-	char Platform::File::read() {
+	int Platform::File::read() {
 		int ch = std::fgetc((FILE*)descriptor);
-		return ch != EOF ? (char)ch : 0;
+		return ch != EOF ? (char)ch : -1;
 	}
 
 }

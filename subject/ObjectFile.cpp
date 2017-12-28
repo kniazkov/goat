@@ -103,7 +103,7 @@ namespace goat {
 
 	Object * ObjFileRead::run(Scope *scope) {
 		ObjectFile *this_ = scope->this_->toObjectFile();
-		return new ObjectChar((wchar)this_->file->read());
+		return new ObjectInteger(this_->file->read());
 	}
 
 	Object *ObjFileRead::getInstance() {

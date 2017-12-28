@@ -1,4 +1,8 @@
 var file = open("tests/open_and_read_file/program.goat", File.Mode.READ);
-while (!file.eof()) {
-	print(file.read());
+while (true) {
+	var byte = file.read();
+	if (byte < 0) {
+		break;
+	}
+	print(Char.valueOf(byte));
 }
