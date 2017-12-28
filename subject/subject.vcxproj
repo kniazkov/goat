@@ -77,6 +77,7 @@
     <ClCompile Include="ObjectNull.cpp" />
     <ClCompile Include="ObjectReal.cpp" />
     <ClCompile Include="ObjectString.cpp" />
+    <ClCompile Include="ObjectStringBuilder.cpp" />
     <ClCompile Include="ObjectThread.cpp" />
     <ClCompile Include="Operator.cpp" />
     <ClCompile Include="Pair.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="ObjectNull.h" />
     <ClInclude Include="ObjectReal.h" />
     <ClInclude Include="ObjectString.h" />
+    <ClInclude Include="ObjectStringBuilder.h" />
     <ClInclude Include="ObjectThread.h" />
     <ClInclude Include="Operator.h" />
     <ClInclude Include="OutputStream.h" />

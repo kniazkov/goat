@@ -362,6 +362,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	ObjectStringBuilder * Object::toObjectStringBuilder() {
+		return nullptr;
+	}
+
 	void ObjectList::unmark() {
 		forEach([](Object *obj) {
 			if (obj->status == Object::MARKED) {

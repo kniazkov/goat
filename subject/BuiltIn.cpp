@@ -33,8 +33,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectReal.h"
 #include "ObjectNull.h"
 #include "ObjectFile.h"
+#include "ObjectStringBuilder.h"
 
 namespace goat {
+
+	class Print : public ObjectBuiltIn {
+	protected:
+		OutputStream<wchar> *out;
+
+	public:
+		Print(OutputStream<wchar> *_out);
+		Object *run(Scope *scope) override;
+	};
+
+	class Open : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
 
 	Scope * BuiltIn::create(Environment *env) {
 		Scope *s = new Scope();
@@ -52,6 +68,7 @@ namespace goat {
 		s->objects.insert("Real", ObjectReal::Proto::getInstance());
 		s->objects.insert("Null", ObjectNull::getInstance());
 		s->objects.insert("File", ObjectFile::Proto::getInstance());
+		s->objects.insert("StringBuilder", ObjectStringBuilder::Proto::getInstance());
 		return s;
 	}
 
@@ -77,6 +94,7 @@ namespace goat {
 		// not enough arguments, exception ??
 		return nullptr;
 	}
+
 
 	Object * Open::run(Scope *scope) {
 		ObjectArray * args = scope->arguments;

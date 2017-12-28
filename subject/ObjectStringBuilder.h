@@ -22,15 +22,43 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "Scope.h"
-#include "Environment.h"
+#include "Object.h"
 #include "ObjectBuiltIn.h"
+#include "WideStringBuilder.h"
 
 namespace goat {
 
-	class BuiltIn {
+	class ObjectStringBuilder : public Object {
 	public:
-		static Scope * create(Environment *env);
+		WideStringBuilder builder;
+
+		ObjectStringBuilder();
+		ObjectStringBuilder * toObjectStringBuilder() override;
+		WideString toWideString() override;
+
+		class Proto : public Object {
+		public:
+			Proto();
+			static Object *getInstance();
+
+			class Clone : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
+
+			class ToString : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
+
+			class Append : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
+		};
 	};
 
 }
