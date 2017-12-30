@@ -366,6 +366,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	ObjectByteArray * Object::toObjectByteArray() {
+		return nullptr;
+	}
+
 	void ObjectList::unmark() {
 		forEach([](Object *obj) {
 			if (obj->status == Object::MARKED) {

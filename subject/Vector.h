@@ -60,6 +60,16 @@ namespace goat {
 			}
 		}
 
+		void clone(Vector &v) {
+			assert(v.size == 0);
+			if (size > 0) {
+				v.data = new Type[size];
+				Utils::memCopy(v.data, data, size);
+				v.capacity = size;
+				v.size = size;
+			}
+		}
+
 		class OutOfBounds : public Exception {
 		public:
 			RawString toRawString() override {

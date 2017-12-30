@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectInteger.h"
 #include "ObjectFunction.h"
 #include "ObjectStringBuilder.h"
+#include "ObjectByteArray.h"
 #include "Resource.h"
 
 namespace goat {
@@ -84,6 +85,9 @@ namespace goat {
 			}
 			else if (proto == ObjectStringBuilder::Proto::getInstance()) {
 				retObj = new ObjectStringBuilder();
+			}
+			else if (proto == ObjectByteArray::Proto::getInstance()) {
+				retObj = new ObjectByteArray();
 			}
 			else {
 				retObj = new Object();

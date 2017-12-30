@@ -48,6 +48,7 @@ namespace goat {
 	class ObjectNull;
 	class ObjectFile;
 	class ObjectStringBuilder;
+	class ObjectByteArray;
 
 	class Object {
 	public:
@@ -114,6 +115,7 @@ namespace goat {
 		virtual ObjectNull *toObjectNull();
 		virtual ObjectFile *toObjectFile();
 		virtual ObjectStringBuilder *toObjectStringBuilder();
+		virtual ObjectByteArray * toObjectByteArray();
 
 		void *operator new (MemorySize size);
 		void operator delete (void *ptr);

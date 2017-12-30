@@ -34,6 +34,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectNull.h"
 #include "ObjectFile.h"
 #include "ObjectStringBuilder.h"
+#include "ObjectByteArray.h"
 
 namespace goat {
 
@@ -69,6 +70,7 @@ namespace goat {
 		s->objects.insert("Null", ObjectNull::getInstance());
 		s->objects.insert("File", ObjectFile::Proto::getInstance());
 		s->objects.insert("StringBuilder", ObjectStringBuilder::Proto::getInstance());
+		s->objects.insert("ByteArray", ObjectByteArray::Proto::getInstance());
 		return s;
 	}
 
