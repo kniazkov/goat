@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectInteger.h"
 #include "ObjectString.h"
 #include "ObjectChar.h"
+#include "ObjectByteArray.h"
 
 namespace goat {
 
@@ -71,6 +72,21 @@ namespace goat {
 						return throw_(new OutOfBounds());
 					}
 					Object *value = objArr->vector[(unsigned int)intIdx->value];
+					State *p = prev;
+					p->ret(value);
+					delete this;
+					return p;
+				}
+				ObjectByteArray *objByteArr = left->toObjectByteArray();
+				if (objByteArr) {
+					ObjectInteger *intIdx = index ? index->toObjectInteger() : nullptr;
+					if (!intIdx) {
+						return throw_(new IncorrectIndex());
+					}
+					if (intIdx->value < 0 || intIdx->value >= objByteArr->vector.len()) {
+						return throw_(new OutOfBounds());
+					}
+					Object *value = new ObjectInteger(objByteArr->vector[(unsigned int)intIdx->value]);
 					State *p = prev;
 					p->ret(value);
 					delete this;
@@ -147,6 +163,25 @@ namespace goat {
 						return throw_(new OutOfBounds());
 					}
 					objArr->vector[(unsigned int)intIdx->value] = obj;
+					State *p = prev;
+					p->ret(obj);
+					delete this;
+					return p;
+				}
+				ObjectByteArray *objByteArr = left->toObjectByteArray();
+				if (objByteArr) {
+					ObjectInteger *intIdx = index ? index->toObjectInteger() : nullptr;
+					if (!intIdx) {
+						return throw_(new IncorrectIndex());
+					}
+					if (intIdx->value < 0 || intIdx->value >= objByteArr->vector.len()) {
+						return throw_(new OutOfBounds());
+					}
+					ObjectInteger *intObj = obj ? obj->toObjectInteger() : nullptr;
+					if (!intObj || intObj->value < 0 || intObj->value > 255) {
+						return throw_(new IllegalArgument());
+					}
+					objByteArr->vector[(unsigned int)intIdx->value] = (unsigned char)intObj->value;
 					State *p = prev;
 					p->ret(obj);
 					delete this;
