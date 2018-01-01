@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017 Ivan Kniazkov
+Copyright (C) 2017, 2018 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
