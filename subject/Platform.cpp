@@ -203,4 +203,19 @@ namespace goat {
 		return ch != EOF ? (char)ch : -1;
 	}
 
+	long int Platform::File::position() {
+		return std::ftell((FILE*)descriptor);
+	}
+
+	bool Platform::File::seek(long int offset, Origin origin) {
+		switch (origin) {
+			case BEGIN:
+				return fseek((FILE*)descriptor, offset, SEEK_SET) == 0;
+			case END:
+				return fseek((FILE*)descriptor, offset, SEEK_END) == 0;
+			case CURRENT:
+				return fseek((FILE*)descriptor, offset, SEEK_CUR) == 0;
+		}
+		return false;
+	}
 }

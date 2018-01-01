@@ -89,12 +89,20 @@ namespace goat {
 				APPEND
 			};
 
+			enum Origin {
+				BEGIN = 0,
+				END,
+				CURRENT
+			};
+
 			static File * open(const char *_fname, Mode _mode);
 			File() : descriptor(nullptr) {
 			}
 			~File();
 			bool eof();
 			int read();
+			long int position();
+			bool seek(long int offset, Origin origin);
 		};
 	};
 

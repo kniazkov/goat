@@ -1,8 +1,5 @@
-var a = new ByteArray();
-for (var b = 0; b < 256; b++) {
-	a.push(b);
-}
-for (var i = 0; i < a.length(); i++) {
-	a[i] = 255 - a[i];
-}
-print(a);
+var file = open("program.goat", File.Mode.READ);
+file.seek(0, File.Origin.END);
+var len = file.position();
+file.seek(0, File.Origin.BEGIN);
+print(len);

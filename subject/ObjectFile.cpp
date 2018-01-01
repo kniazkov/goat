@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectChar.h"
 #include "ObjectBoolean.h"
 #include "ObjectConstInteger.h"
+#include "ObjectException.h"
 
 namespace goat {
 
@@ -68,10 +69,27 @@ namespace goat {
 		static Object *getInstance();
 	};
 
+	class ObjFilePosition : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
+
+	class ObjFileSeek : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
 
 	class ObjFileMode : public Object {
 	public:
 		ObjFileMode();
+		static Object *getInstance();
+	};
+
+	class ObjFileOrigin : public Object {
+	public:
+		ObjFileOrigin();
 		static Object *getInstance();
 	};
 
@@ -82,7 +100,10 @@ namespace goat {
 		objects.insert("clone", ObjFileClone::getInstance());
 		objects.insert("read", ObjFileRead::getInstance());
 		objects.insert("eof", ObjFileEof::getInstance());
+		objects.insert("position", ObjFilePosition::getInstance());
+		objects.insert("seek", ObjFileSeek::getInstance());
 		objects.insert("Mode", ObjFileMode::getInstance());
+		objects.insert("Origin", ObjFileOrigin::getInstance());
 	}
 
 	Object * ObjectFile::Proto::getInstance() {
@@ -123,14 +144,68 @@ namespace goat {
 	}
 
 
+	Object * ObjFilePosition::run(Scope *scope) {
+		ObjectFile *this_ = scope->this_->toObjectFile();
+		return new ObjectInteger(this_->file->position());
+	}
+
+	Object *ObjFilePosition::getInstance() {
+		static ObjFilePosition __this;
+		return &__this;
+	}
+
+
+	Object * ObjFileSeek::run(Scope *scope) {
+		ObjectFile *this_ = scope->this_->toObjectFile();
+		ObjectArray * args = scope->arguments;
+		if (args->vector.len() == 2) {
+			ObjectInteger *offset = args->vector[0]->toObjectInteger();
+			ObjectInteger *origin = args->vector[1]->toObjectInteger();
+			if (offset && origin) {
+				switch (origin->value) {
+					case Platform::File::Origin::BEGIN:
+					case Platform::File::Origin::END:
+					case Platform::File::Origin::CURRENT:
+						return new ObjectInteger(
+							this_->file->seek(
+								(long int)offset->value,
+								(Platform::File::Origin)origin->value
+							)
+						);
+					default:
+						break;
+				}
+			}
+		}
+		return new IllegalArgument();
+	}
+
+	Object *ObjFileSeek::getInstance() {
+		static ObjFileSeek __this;
+		return &__this;
+	}
+
+
 	ObjFileMode::ObjFileMode() : Object(true) {
-		objects.insert("READ", ObjectConstInteger<0>::getInstance());
-		objects.insert("WRITE", ObjectConstInteger<1>::getInstance());
-		objects.insert("APPEND", ObjectConstInteger<2>::getInstance());
+		objects.insert("READ", ObjectConstInteger<Platform::File::Mode::READ>::getInstance());
+		objects.insert("WRITE", ObjectConstInteger<Platform::File::Mode::WRITE>::getInstance());
+		objects.insert("APPEND", ObjectConstInteger<Platform::File::Mode::APPEND>::getInstance());
 	}
 
 	Object *ObjFileMode::getInstance() {
 		static ObjFileMode __this;
+		return &__this;
+	}
+
+
+	ObjFileOrigin::ObjFileOrigin() : Object(true) {
+		objects.insert("BEGIN", ObjectConstInteger<Platform::File::Origin::BEGIN>::getInstance());
+		objects.insert("END", ObjectConstInteger<Platform::File::Origin::END>::getInstance());
+		objects.insert("CURRENT", ObjectConstInteger<Platform::File::Origin::CURRENT>::getInstance());
+	}
+
+	Object *ObjFileOrigin::getInstance() {
+		static ObjFileOrigin __this;
 		return &__this;
 	}
 }
