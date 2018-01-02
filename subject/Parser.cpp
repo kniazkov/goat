@@ -69,24 +69,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "PrefixIncrement.h"
 #include "PostfixIncrement.h"
 #include "AssignBy.h"
+#include "StaticString.h"
+#include "Platform.h"
+#include "SourceStream.h"
 
 namespace goat {
 
 	Root* Parser::parse(Scanner *scan, Root *prev) {
-		Parser p(scan);
-		p.parse(prev);
+		Parser p;
+		p._parse(scan, prev);
 		return p.root;
 	}
 
-	Parser::Parser(Scanner *_scan) {
-		scan = _scan;
+	Parser::Parser() {
 		root = nullptr;
 	}
 
-	void Parser::parse(Root *prev) {
+	void Parser::_parse(Scanner *scan, Root *prev) {
 		root = new Root(prev);
 		try {
-			parseBrackets(root->raw, '\0');
+			parseBrackets(scan, root->raw, '\0');
 			parse2ndList(keyword[Keyword::IN], &Parser::parseIn, false);
 			parse2ndList(identifier, &Parser::parseVariable, false);
 			parse2ndList(keyword[Keyword::FUNCTION], &Parser::parseFunction, false);
@@ -151,60 +153,88 @@ namespace goat {
 		}
 	}
 
-	void Parser::parseBrackets(TokenList *list, char closed) {
+	void Parser::parseBrackets(Scanner *scan, TokenList *list, char closed) {
 		Token* prev;
 		while (true) {
 			Token* tok = scan->getToken();
 			if (tok) {
-				Bracket *br = tok->toBracket();
-				if (br) {
-					bool open = false;
-					char rev = 0;
-					switch (br->symbol)
-					{
-					case '{':
-						open = true; rev = '}'; break;
-					case '(':
-						open = true; rev = ')'; break;
-					case '[':
-						open = true; rev = ']'; break;
-					case '}':
-						rev = '{'; break;
-					case ')':
-						rev = '('; break;
-					case ']':
-						rev = '['; break;
-					default:
+				do {
+					Bracket *br = tok->toBracket();
+					if (br) {
+						bool open = false;
+						char rev = 0;
+						switch (br->symbol)
+						{
+						case '{':
+							open = true; rev = '}'; break;
+						case '(':
+							open = true; rev = ')'; break;
+						case '[':
+							open = true; rev = ']'; break;
+						case '}':
+							rev = '{'; break;
+						case ')':
+							rev = '('; break;
+						case ']':
+							rev = '['; break;
+						default:
+							break;
+						}
+						if (open) {
+							Brackets *bs = new Brackets(br);
+							list->pushBack(bs);
+							if (br->symbol == '(') {
+								parenthesis.pushBack(bs);
+							}
+							else if (br->symbol == '{') {
+								curveBracket.pushBack(bs);
+							}
+							else if (br->symbol == '[') {
+								squareBracket.pushBack(bs);
+							}
+							parseBrackets(scan, bs->tokens, rev);
+						}
+						else {
+							if (closed != br->symbol) {
+								if (closed != '\0')
+									throw BracketDoesNotMatch(tok, rev, br->symbol);
+								else
+									throw MissingOpeningBracket(tok, rev);
+							}
+							return;
+						}
 						break;
 					}
-					if (open) {
-						Brackets *bs = new Brackets(br);
-						list->pushBack(bs);
-						if (br->symbol == '(') {
-							parenthesis.pushBack(bs);
+					
+					Keyword *kw = tok->toKeyword();
+					if (kw && kw->type == Keyword::IMPORT) {
+						Token *tokFileName = scan->getToken();
+						if (!tokFileName) {
+							throw ExpectedFileName(kw);
 						}
-						else if (br->symbol == '{') {
-							curveBracket.pushBack(bs);
+						StaticString *fileName = tokFileName->toStaticString();
+						if (!fileName) {
+							throw ExpectedFileName(tokFileName);
 						}
-						else if (br->symbol == '[') {
-							squareBracket.pushBack(bs);
+						Token *tokSemicolon = scan->getToken();
+						if (!tokSemicolon) {
+							throw ExpectedSemicolon(tokFileName);
 						}
-						parseBrackets(bs->tokens, rev);
+						Semicolon *semicolon = tokSemicolon->toSemicolon();
+						if (!semicolon) {
+							throw ExpectedSemicolon(tokSemicolon);
+						}
+						WideString imported = fileName->text;
+						Platform::FileReader reader(imported.toString().cstr());
+						SourceStream src(&reader);
+						Scanner iscan(&src);
+						parseBrackets(&iscan, list, closed);
+						break;
 					}
-					else {
-						if (closed != br->symbol) {
-							if (closed != '\0')
-								throw BracketDoesNotMatch(tok, rev, br->symbol);
-							else
-								throw MissingOpeningBracket(tok, rev);
-						}
-						return;
-					}
-				}
-				else {
+
 					list->pushBack(tok);
 					pushToAppropriate2ndList(tok);
-				}
+				} while (false);
 			}
 			else {
 				if (closed != '\0') {
@@ -1864,4 +1894,7 @@ namespace goat {
 		return L"should be 'catch' or (and) 'finally' block after 'try' block";
 	}
 
+	WideString Parser::ExpectedFileName::message() {
+		return L"expected file name";
+	}
 }

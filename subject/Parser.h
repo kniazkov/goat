@@ -34,7 +34,6 @@ namespace goat {
 	class Parser {
 	protected:
 		Root *root;
-		Scanner *scan;
 
 		Token2ndList identifier;
 		Token2ndList fcall;
@@ -69,9 +68,9 @@ namespace goat {
 		Token2ndList array;
 		Token2ndList index;
 
-		Parser(Scanner *_scan);
-		void parse(Root *prev);
-		void parseBrackets(TokenList *list, char closed);
+		Parser();
+		void _parse(Scanner *scan, Root *prev);
+		void parseBrackets(Scanner *scan, TokenList *list, char closed);
 		void pushToAppropriate2ndList(Token *tok);
 		void parse2ndList(Token2ndList &list, void (Parser::*rule)(Token *), bool right2left);
 		void parseFunctionCall(Token *tok);
@@ -297,6 +296,14 @@ namespace goat {
 		class ExpectedCatchFinally : public ParseError {
 		public:
 			ExpectedCatchFinally(Token* _tok) : ParseError(_tok) {
+			}
+
+			WideString message() override;
+		};
+
+		class ExpectedFileName : public ParseError {
+		public:
+			ExpectedFileName(Token* _tok) : ParseError(_tok) {
 			}
 
 			WideString message() override;

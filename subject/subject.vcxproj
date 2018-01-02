@@ -246,6 +246,9 @@
   <ItemGroup>
     <Text Include="program.goat" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="library.goat" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{AFAC1074-F0F2-4057-B270-E3A1C60AEC6D}</ProjectGuid>

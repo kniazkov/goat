@@ -1,6 +1,3 @@
-var file = open("program.goat", File.Mode.READ);
-file.seek(0, File.Origin.END);
-var len = file.position();
-file.seek(0, File.Origin.BEGIN);
-var data = file.read(len);
-print(data.decodeUTF8());
+import "library.goat";
+
+print(doSomething());

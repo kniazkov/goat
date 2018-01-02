@@ -49,6 +49,7 @@ namespace goat {
 			CATCH,
 			FINALLY,
 			THROW,
+			IMPORT,
 			UNKNOWN
 		};
 		Type type;

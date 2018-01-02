@@ -686,4 +686,9 @@
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="library.goat">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+  </ItemGroup>
 </Project>
