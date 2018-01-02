@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectInteger.h"
 #include "WideStringBuilder.h"
 #include "ObjectException.h"
+#include "Unicode.h"
 
 namespace goat {
 
@@ -69,12 +70,19 @@ namespace goat {
 		static Object *getInstance();
 	};
 
+	class ByteArrayDecodeUTF8 : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
+
 	ObjectByteArray::Proto::Proto() {
 		status = PERMANENT;
 
 		objects.insert("clone", ByteArrayClone::getInstance());
 		objects.insert("length", ByteArrayLength::getInstance());
 		objects.insert("push", ByteArrayPush::getInstance());
+		objects.insert("decodeUTF8", ByteArrayDecodeUTF8::getInstance());
 	}
 
 	Object * ObjectByteArray::Proto::getInstance() {
@@ -123,6 +131,18 @@ namespace goat {
 
 	Object *ByteArrayPush::getInstance() {
 		static ByteArrayPush __this;
+		return &__this;
+	}
+
+
+	Object * ByteArrayDecodeUTF8::run(Scope *scope) {
+		ObjectByteArray *this_ = scope->this_->toObjectByteArray();
+		String raw((char*)&this_->vector[0], this_->vector.len());
+		return new ObjectString(Unicode::UTF8Decode(raw));
+	}
+
+	Object *ByteArrayDecodeUTF8::getInstance() {
+		static ByteArrayDecodeUTF8 __this;
 		return &__this;
 	}
 }

@@ -1,4 +1,4 @@
-var file = open("program.goat", File.Mode.READ);
+var file = open("tests/byte_array_decode_UTF8/program.goat", File.Mode.READ);
 file.seek(0, File.Origin.END);
 var len = file.position();
 file.seek(0, File.Origin.BEGIN);
