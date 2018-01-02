@@ -203,6 +203,10 @@ namespace goat {
 		return ch != EOF ? (char)ch : -1;
 	}
 
+	long int Platform::File::read(unsigned char *buff, long int count) {
+		return (long int)std::fread(buff, 1, (size_t)count, (FILE*)descriptor);
+	}
+
 	long int Platform::File::position() {
 		return std::ftell((FILE*)descriptor);
 	}

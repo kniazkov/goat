@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectBoolean.h"
 #include "ObjectConstInteger.h"
 #include "ObjectException.h"
+#include "ObjectByteArray.h"
 
 namespace goat {
 
@@ -124,7 +125,25 @@ namespace goat {
 
 	Object * ObjFileRead::run(Scope *scope) {
 		ObjectFile *this_ = scope->this_->toObjectFile();
-		return new ObjectInteger(this_->file->read());
+		ObjectArray * args = scope->arguments;
+		unsigned int argsCount = args->vector.len();
+		if (argsCount == 1) {
+			ObjectInteger *count = args->vector[0]->toObjectInteger();
+			if (count && count->value >= 0) {
+				ObjectByteArray *result = new ObjectByteArray();
+				if (count->value > 0) {
+					unsigned char *buff = new unsigned char[count->value];
+					long int fact = this_->file->read(buff, (long int)count->value);
+					result->vector.pushBack(buff, fact);
+					delete[] buff;
+				}
+				return result;
+			}
+		}
+		else if (argsCount == 0) {
+			return new ObjectInteger(this_->file->read());
+		}
+		return new IllegalArgument();
 	}
 
 	Object *ObjFileRead::getInstance() {

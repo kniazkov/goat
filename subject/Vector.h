@@ -59,6 +59,21 @@ namespace goat {
 			data[size++] = item;
 		}
 
+		void pushBack(Type *items, unsigned int count) {
+			unsigned int newSize = size + count;
+			if (newSize > capacity) {
+				Type *tmp = new Type[newSize];
+				if (data) {
+					Utils::memCopy(tmp, data, size);
+					delete[] data;
+				}
+				data = tmp;
+				capacity = newSize;
+			}
+			Utils::memCopy(data + size, items, count);
+			size = newSize;
+		}
+
 		Type &operator[](unsigned int idx) {
 			if (idx >= size) {
 				throw OutOfBounds();

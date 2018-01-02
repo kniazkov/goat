@@ -101,6 +101,7 @@ namespace goat {
 			~File();
 			bool eof();
 			int read();
+			long int read(unsigned char *buff, long int ñount);
 			long int position();
 			bool seek(long int offset, Origin origin);
 		};
