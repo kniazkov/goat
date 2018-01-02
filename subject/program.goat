@@ -1,3 +1,8 @@
+var X = 0;
+
+import "library.goat";
 import "library.goat";
 
 print(doSomething());
+print(' ');
+print( X );

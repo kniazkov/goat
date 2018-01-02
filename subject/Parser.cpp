@@ -155,6 +155,7 @@ namespace goat {
 
 	void Parser::parseBrackets(Scanner *scan, TokenList *list, char closed) {
 		Token* prev;
+		Map<WideString, bool> imported;
 		while (true) {
 			Token* tok = scan->getToken();
 			if (tok) {
@@ -224,11 +225,13 @@ namespace goat {
 						if (!semicolon) {
 							throw ExpectedSemicolon(tokSemicolon);
 						}
-						WideString imported = fileName->text;
-						Platform::FileReader reader(imported.toString().cstr());
-						SourceStream src(&reader);
-						Scanner iscan(&src);
-						parseBrackets(&iscan, list, closed);
+						if (!imported.find(fileName->text)) {
+							imported.insert(fileName->text, true);
+							Platform::FileReader reader(fileName->text.toString().cstr());
+							SourceStream src(&reader);
+							Scanner iscan(&src);
+							parseBrackets(&iscan, list, closed);
+						}
 						break;
 					}
 

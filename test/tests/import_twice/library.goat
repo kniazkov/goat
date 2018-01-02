@@ -1,4 +1,4 @@
-X++;
+print("included\n");
 
 var doSomething = $() {
 	return 666;
