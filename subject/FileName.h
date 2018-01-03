@@ -22,17 +22,22 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "InputStream.h"
-#include "Type.h"
+#include "String.h"
 
 namespace goat {
 
-	class StandartInputStream : public InputStream<wchar> {
+	class FileName {
 	public:
-		wchar read() override;
-		bool hasData() override;
-		String name() override;
-		static InputStream<wchar> *getInstance();
+#ifdef _WIN32
+		static inline String normalize(String fullName) {
+			return fullName.replace('/', '\\');
+		}
+#else
+		static inline String normalize(String name) {
+			return fullName.replace('\\', '/');
+		}
+#endif
+		static String extractName(String fullName);
 	};
 
 }

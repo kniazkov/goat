@@ -69,6 +69,9 @@ namespace goat {
 		bool operator!=(const WideString &wstr);
 		bool operator<(const WideString &wstr);
 		void *getHash() const;
+		String replace(char from, char to);
+		String substr(unsigned int start);
+		String substr(unsigned int start, unsigned int count);
 
 		class OutOfBounds : public Exception {
 		public:

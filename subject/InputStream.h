@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "Exception.h"
+#include "String.h"
 
 namespace goat {
 
@@ -31,7 +32,7 @@ namespace goat {
 		virtual ~InputStream() { };
 		virtual Type read() = 0;
 		virtual bool hasData() = 0;
-		virtual const char *name() = 0;
+		virtual String name() = 0;
 
 		class NoData : public Exception {
 		public:

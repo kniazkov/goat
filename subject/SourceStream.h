@@ -31,16 +31,16 @@ namespace goat {
 	protected:
 		class LocationImpl : public Location {
 		protected:
-			const char *name;
+			String name;
 			int row,
 				column;
 		public:
-			LocationImpl(const char *_name, int _row, int _column);
+			LocationImpl(String _name, int _row, int _column);
 			String toString() override;
 		};
 
 		InputStream<char> *stream;
-		const char *stname;
+		String stname;
 		int row,
 			column;
 		bool end;

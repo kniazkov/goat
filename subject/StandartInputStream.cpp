@@ -38,7 +38,7 @@ namespace goat {
 		return true;
 	}
 
-	const char * StandartInputStream::name() {
+	String StandartInputStream::name() {
 		return "stdin";
 	}
 

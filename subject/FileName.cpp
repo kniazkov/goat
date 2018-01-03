@@ -20,19 +20,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "InputStream.h"
-#include "Type.h"
+#include "FileName.h"
 
 namespace goat {
 
-	class StandartInputStream : public InputStream<wchar> {
-	public:
-		wchar read() override;
-		bool hasData() override;
-		String name() override;
-		static InputStream<wchar> *getInstance();
-	};
+	String FileName::extractName(String fullName) {
+		int i, len = (int)fullName.len();
+		for (i = len - 1; i >= 0; i--) {
+			char c = fullName[i];
+			if (c == '\\' || c == '/') {
+				break;
+			}
+		}
+		return fullName.substr(i + 1);
+	}
 
 }

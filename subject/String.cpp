@@ -158,6 +158,49 @@ namespace goat {
 		return (void*)buff;
 	}
 
+	String String::replace(char from, char to) {
+		if (buff) {
+			String ret(buff->len);
+			for (unsigned int i = 0; i < buff->len; i++) {
+				char ch = buff->data[i];
+				ret.buff->data[i] = ch == from ? to : ch;
+			}
+			return ret;
+		}
+		else {
+			return nullptr;
+		}
+	}
+
+	String String::substr(unsigned int start) {
+		if (buff && buff->len > start) {
+			if (start == 0) {
+				return *this;
+			}
+			String ret(buff->len - start);
+			Utils::memCopy(ret.buff->data, buff->data + start, buff->len - start);
+			return ret;
+		}
+		else {
+			return nullptr;
+		}
+	}
+
+	String String::substr(unsigned int start, unsigned int count) {
+		if (buff && buff->len > start) {
+			if (start == 0 && count == buff->len) {
+				return *this;
+			}
+			count = Utils::min(count, buff->len - start);
+			String ret(count);
+			Utils::memCopy(ret.buff->data, buff->data + start, count);
+			return ret;
+		}
+		else {
+			return nullptr;
+		}
+	}
+
 	String::Buffer::Buffer(unsigned int len) {
 		refs = 1;
 		data = new char[len + 1];

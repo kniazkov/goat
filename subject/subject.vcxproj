@@ -44,6 +44,7 @@
     <ClCompile Include="Executable.cpp" />
     <ClCompile Include="Expression.cpp" />
     <ClCompile Include="Field.cpp" />
+    <ClCompile Include="FileName.cpp" />
     <ClCompile Include="For.cpp" />
     <ClCompile Include="ForIn.cpp" />
     <ClCompile Include="Function.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="OutputStream.h" />
     <ClInclude Include="Pair.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="FileName.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Pointer.h" />
     <ClInclude Include="Pool.h" />

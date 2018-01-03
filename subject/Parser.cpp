@@ -227,7 +227,7 @@ namespace goat {
 						}
 						if (!imported.find(fileName->text)) {
 							imported.insert(fileName->text, true);
-							Platform::FileReader reader(fileName->text.toString().cstr());
+							Platform::FileReader reader(fileName->text.toString());
 							SourceStream src(&reader);
 							Scanner iscan(&src);
 							parseBrackets(&iscan, list, closed);

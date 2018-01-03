@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "WideStringBuilder.h"
 #include "Utils.h"
 #include "Unicode.h"
+#include "FileName.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -117,7 +118,7 @@ namespace goat {
 		return (wchar)c;
 	}
 	
-	Platform::FileNotFound::FileNotFound(const char *_fname) : fname(Utils::fileNameFromFullPath(_fname)) {
+	Platform::FileNotFound::FileNotFound(String _fname) : fname(FileName::extractName(_fname)) {
 	}
 
 	RawString Platform::FileNotFound::toRawString() {
@@ -128,9 +129,9 @@ namespace goat {
 		return L"memory corruption";
 	}
 
-	Platform::FileReader::FileReader(const char *_fname) {
+	Platform::FileReader::FileReader(String _fname) {
 		fname = _fname;
-		FILE *stream = std::fopen(fname, "rb");
+		FILE *stream = std::fopen(fname.cstr(), "rb");
 		if (!stream) {
 			throw Platform::FileNotFound(fname);
 		}
@@ -159,8 +160,8 @@ namespace goat {
 		return eof == false;
 	}
 
-	const char *Platform::FileReader::name() {
-		return Utils::fileNameFromFullPath(fname);
+	String Platform::FileReader::name() {
+		return FileName::extractName(fname);
 	}
 
 	Platform::File * Platform::File::open(const char *_fname, Mode _mode) {

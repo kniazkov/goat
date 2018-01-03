@@ -25,7 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	SourceStream::LocationImpl::LocationImpl(const char *_name, int _row, int _column) 
+	SourceStream::LocationImpl::LocationImpl(String _name, int _row, int _column) 
 		: name(_name), row(_row), column(_column) {
 	}
 

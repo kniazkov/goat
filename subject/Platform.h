@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Exception.h"
 #include "Type.h"
 #include "InputStream.h"
+#include "String.h"
 
 namespace goat {
 
@@ -40,9 +41,9 @@ namespace goat {
 
 		class FileNotFound : public Exception {
 		protected:
-			const char *fname;
+			String fname;
 		public:
-			FileNotFound(const char *_fname);
+			FileNotFound(String _fname);
 			RawString toRawString() override;
 		};
 
@@ -53,7 +54,7 @@ namespace goat {
 
 		class FileReader : public InputStream<char> {
 		protected:
-			const char *fname;
+			String fname;
 			void * descriptor;
 			int C;
 			bool eof;
@@ -65,11 +66,11 @@ namespace goat {
 			}
 
 		public:
-			FileReader(const char *_fname);
+			FileReader(String _fname);
 			~FileReader();
 			char read() override;
 			bool hasData() override;
-			const char *name() override;
+			String name() override;
 		};
 
 		class File {

@@ -66,6 +66,11 @@ namespace goat {
 			return a > b ? a : b;
 		}
 
+		template <typename Type>
+		static Type min(Type a, Type b) {
+			return a < b ? a : b;
+		}
+
 		static unsigned int strLen(const char *cstr);
 		static int strCmp(const char *a, const char *b);
 		static int strCmp(const char *a, const char *b, unsigned int n);
