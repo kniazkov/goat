@@ -96,7 +96,7 @@ namespace goat {
 				CURRENT
 			};
 
-			static File * open(const char *_fname, Mode _mode);
+			static File * open(String fname, Mode mode);
 			File() : descriptor(nullptr) {
 			}
 			~File();

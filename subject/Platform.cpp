@@ -130,7 +130,7 @@ namespace goat {
 	}
 
 	Platform::FileReader::FileReader(String _fname) {
-		fname = _fname;
+		fname = FileName::normalize(_fname);
 		FILE *stream = std::fopen(fname.cstr(), "rb");
 		if (!stream) {
 			throw Platform::FileNotFound(fname);
@@ -164,20 +164,21 @@ namespace goat {
 		return FileName::extractName(fname);
 	}
 
-	Platform::File * Platform::File::open(const char *_fname, Mode _mode) {
-		if (!_fname || !*_fname) {
+	Platform::File * Platform::File::open(String fname, Mode mode) {
+		if (fname.len() == 0) {
 			return nullptr;
 		}
+		fname = FileName::normalize(fname);
 		FILE *stream = nullptr;
-		switch (_mode) {
+		switch (mode) {
 			case READ:
-				stream = std::fopen(_fname, "r");
+				stream = std::fopen(fname.cstr(), "r");
 				break;
 			case WRITE:
-				stream = std::fopen(_fname, "w");
+				stream = std::fopen(fname.cstr(), "w");
 				break;
 			case APPEND:
-				stream = std::fopen(_fname, "a");
+				stream = std::fopen(fname.cstr(), "a");
 				break;
 			default:
 				break;

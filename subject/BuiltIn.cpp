@@ -104,7 +104,7 @@ namespace goat {
 			ObjectString *fname = args->vector[0]->toObjectString();
 			ObjectInteger *mode = args->vector[1]->toObjectInteger();
 			if (fname && mode) {
-				Platform::File *file = Platform::File::open(fname->value.toString().cstr(), (Platform::File::Mode)mode->value);
+				Platform::File *file = Platform::File::open(fname->value.toString(), (Platform::File::Mode)mode->value);
 				if (!file) {
 					return nullptr;
 				}
