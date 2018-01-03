@@ -230,7 +230,7 @@ namespace goat {
 							Platform::FileReader reader(fileName->text.toString());
 							SourceStream src(&reader);
 							Scanner iscan(&src);
-							parseBrackets(&iscan, list, closed);
+							parseBrackets(&iscan, list, '\0');
 						}
 						break;
 					}
