@@ -35,6 +35,7 @@ namespace goat {
 		class Options {
 		public:
 			GarbageCollector *gc;
+			String path;
 
 			Options() : gc(nullptr) {
 			}

@@ -1,6 +1,6 @@
 var f = $() {
-	import "tests/import_in_block/library.goat";
-	import "tests/import_in_block/library.goat";
+	import "library.goat";
+	import "library.goat";
 	
 	return getValue() + 0.13;
 };

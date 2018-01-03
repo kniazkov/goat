@@ -35,4 +35,14 @@ namespace goat {
 		return fullName.substr(i + 1);
 	}
 
+	String FileName::extractPath(String fullName) {
+		int i, len = (int)fullName.len();
+		for (i = len - 1; i >= 0; i--) {
+			char c = fullName[i];
+			if (c == '\\' || c == '/') {
+				break;
+			}
+		}
+		return i > 0 ? fullName.substr(0, i) : nullptr;
+	}
 }

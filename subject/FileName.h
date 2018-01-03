@@ -38,6 +38,7 @@ namespace goat {
 		}
 #endif
 		static String extractName(String fullName);
+		static String extractPath(String fullname);
 	};
 
 }

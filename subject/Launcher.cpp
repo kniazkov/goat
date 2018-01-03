@@ -36,6 +36,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Console.h"
 #include "SourceString.h"
 #include "WideStringBuilder.h"
+#include "FileName.h"
 
 namespace goat {
 
@@ -45,7 +46,9 @@ namespace goat {
 		long long steps = 0;
 
 		try {
-			Root* root = Parser::parse(&scan, *proot);
+			Parser::Options popt;
+			popt.path = opt->path;
+			Root* root = Parser::parse(&scan, *proot, &popt);
 			*proot = root;
 			new Thread(root, scope);
 			while (Thread::current != nullptr) {
@@ -83,7 +86,7 @@ namespace goat {
 	int Launcher::runCmdLine(int argc, char **argv) {
 		Options opt;
 
-		char *program = nullptr;
+		String program;
 		int i;
 		
 		for (i = 1; i < argc; i++) {
@@ -114,13 +117,15 @@ namespace goat {
 			opt.gc = GarbageCollector::parallel();
 		}
 
-		if (program == nullptr) {
+		if (program == "") {
 			Utils::printErr(L"no input file.\n");
 			return 1;
 		}
 
 		int ret = 1;
 		Root *root = nullptr;
+
+		opt.path = FileName::extractPath(program);
 
 		try {
 			Platform::FileReader reader(program);

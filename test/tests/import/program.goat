@@ -1,3 +1,3 @@
-import "tests/import/library.goat";
+import "library.goat";
 
 print(doSomething());

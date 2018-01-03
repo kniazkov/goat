@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Parser.h"
+#include "StringBuilder.h"
 #include "WideStringBuilder.h"
 #include "Assert.h"
 #include "Bracket.h"
@@ -72,12 +73,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "StaticString.h"
 #include "Platform.h"
 #include "SourceStream.h"
+#include "FileName.h"
 
 namespace goat {
 
-	Root* Parser::parse(Scanner *scan, Root *prev) {
+	Root* Parser::parse(Scanner *scan, Root *prev, Options *opt) {
 		Parser p;
-		p._parse(scan, prev);
+		p._parse(scan, prev, opt);
 		return p.root;
 	}
 
@@ -85,10 +87,10 @@ namespace goat {
 		root = nullptr;
 	}
 
-	void Parser::_parse(Scanner *scan, Root *prev) {
+	void Parser::_parse(Scanner *scan, Root *prev, Options *opt) {
 		root = new Root(prev);
 		try {
-			parseBrackets(scan, root->raw, '\0');
+			parseBracketsAndIncludes(scan, root->raw, '\0', opt);
 			parse2ndList(keyword[Keyword::IN], &Parser::parseIn, false);
 			parse2ndList(identifier, &Parser::parseVariable, false);
 			parse2ndList(keyword[Keyword::FUNCTION], &Parser::parseFunction, false);
@@ -153,7 +155,7 @@ namespace goat {
 		}
 	}
 
-	void Parser::parseBrackets(Scanner *scan, TokenList *list, char closed) {
+	void Parser::parseBracketsAndIncludes(Scanner *scan, TokenList *list, char closed, Options *opt) {
 		Token* prev;
 		Map<WideString, bool> imported;
 		while (true) {
@@ -193,7 +195,7 @@ namespace goat {
 							else if (br->symbol == '[') {
 								squareBracket.pushBack(bs);
 							}
-							parseBrackets(scan, bs->tokens, rev);
+							parseBracketsAndIncludes(scan, bs->tokens, rev, opt);
 						}
 						else {
 							if (closed != br->symbol) {
@@ -227,10 +229,11 @@ namespace goat {
 						}
 						if (!imported.find(fileName->text)) {
 							imported.insert(fileName->text, true);
-							Platform::FileReader reader(fileName->text.toString());
+							String fullName = (StringBuilder() << opt->path << '/' << fileName->text.toString()).toString();
+							Platform::FileReader reader(fullName);
 							SourceStream src(&reader);
 							Scanner iscan(&src);
-							parseBrackets(&iscan, list, '\0');
+							parseBracketsAndIncludes(&iscan, list, '\0', opt);
 						}
 						break;
 					}

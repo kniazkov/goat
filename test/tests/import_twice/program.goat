@@ -1,4 +1,4 @@
-import "tests/import_twice/library.goat";
-import "tests/import_twice/library.goat";
+import "library.goat";
+import "library.goat";
 
 print(doSomething());

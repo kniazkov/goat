@@ -32,6 +32,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace goat {
 
 	class Parser {
+	public:
+		class Options {
+		public:
+			String path;
+		};
+
 	protected:
 		Root *root;
 
@@ -69,8 +75,8 @@ namespace goat {
 		Token2ndList index;
 
 		Parser();
-		void _parse(Scanner *scan, Root *prev);
-		void parseBrackets(Scanner *scan, TokenList *list, char closed);
+		void _parse(Scanner *scan, Root *prev, Options *opt);
+		void parseBracketsAndIncludes(Scanner *scan, TokenList *list, char closed, Options *opt);
 		void pushToAppropriate2ndList(Token *tok);
 		void parse2ndList(Token2ndList &list, void (Parser::*rule)(Token *), bool right2left);
 		void parseFunctionCall(Token *tok);
@@ -115,7 +121,7 @@ namespace goat {
 		void parseAssignBy(Token *tok);
 
 	public:
-		static Root* parse(Scanner *scan, Root *prev);
+		static Root* parse(Scanner *scan, Root *prev, Options *opt);
 
 		class ParseError : public Exception {
 		public:
