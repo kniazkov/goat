@@ -28,15 +28,14 @@ namespace goat {
 
 	class FileName {
 	public:
-#ifdef _WIN32
 		static inline String normalize(String fullName) {
+#ifdef _WIN32
 			return fullName.replace('/', '\\');
-		}
 #else
-		static inline String normalize(String name) {
 			return fullName.replace('\\', '/');
-		}
 #endif
+		}
+
 		static String extractName(String fullName);
 		static String extractPath(String fullname);
 	};
