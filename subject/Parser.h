@@ -39,6 +39,11 @@ namespace goat {
 			Vector<String> *libs;
 		};
 
+		class ImportData {
+		public:
+			Map<String, bool> imported;
+		};
+
 	protected:
 		Root *root;
 
@@ -77,7 +82,7 @@ namespace goat {
 
 		Parser();
 		void _parse(Scanner *scan, Root *prev, Options *opt);
-		void parseBracketsAndIncludes(Scanner *scan, TokenList *list, char closed, Options *opt);
+		void parseBracketsAndIncludes(Scanner *scan, TokenList *list, char closed, Options *opt, ImportData *data);
 		void pushToAppropriate2ndList(Token *tok);
 		void parse2ndList(Token2ndList &list, void (Parser::*rule)(Token *), bool right2left);
 		void parseFunctionCall(Token *tok);

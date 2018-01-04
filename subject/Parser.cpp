@@ -90,7 +90,8 @@ namespace goat {
 	void Parser::_parse(Scanner *scan, Root *prev, Options *opt) {
 		root = new Root(prev);
 		try {
-			parseBracketsAndIncludes(scan, root->raw, '\0', opt);
+			ImportData id;
+			parseBracketsAndIncludes(scan, root->raw, '\0', opt, &id);
 			parse2ndList(keyword[Keyword::IN], &Parser::parseIn, false);
 			parse2ndList(identifier, &Parser::parseVariable, false);
 			parse2ndList(keyword[Keyword::FUNCTION], &Parser::parseFunction, false);
@@ -155,9 +156,8 @@ namespace goat {
 		}
 	}
 
-	void Parser::parseBracketsAndIncludes(Scanner *scan, TokenList *list, char closed, Options *opt) {
+	void Parser::parseBracketsAndIncludes(Scanner *scan, TokenList *list, char closed, Options *opt, ImportData *data) {
 		Token* prev;
-		Map<String, bool> imported;
 		while (true) {
 			Token* tok = scan->getToken();
 			if (tok) {
@@ -195,7 +195,8 @@ namespace goat {
 							else if (br->symbol == '[') {
 								squareBracket.pushBack(bs);
 							}
-							parseBracketsAndIncludes(scan, bs->tokens, rev, opt);
+							ImportData data2;
+							parseBracketsAndIncludes(scan, bs->tokens, rev, opt, &data2);
 						}
 						else {
 							if (closed != br->symbol) {
@@ -228,8 +229,8 @@ namespace goat {
 							throw ExpectedSemicolon(tokSemicolon);
 						}
 						String fileName = tokStrFileName->text.toString();
-						if (!imported.find(fileName)) {
-							imported.insert(fileName, true);
+						if (!data->imported.find(fileName)) {
+							data->imported.insert(fileName, true);
 							bool found = false;
 							String fullName = FileName::normalize((StringBuilder() << opt->path << '/' << fileName).toString());
 							if (Platform::fileExist(fullName)) {
@@ -249,7 +250,7 @@ namespace goat {
 							Platform::FileReader reader(fullName);
 							SourceStream src(&reader);
 							Scanner iscan(&src);
-							parseBracketsAndIncludes(&iscan, list, '\0', opt);
+							parseBracketsAndIncludes(&iscan, list, '\0', opt, data);
 						}
 						break;
 					}
