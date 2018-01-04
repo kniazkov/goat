@@ -1,0 +1,5 @@
+import "sub_library.goat";
+
+var calculate = $() {
+	return getValue() + 0.13;
+};
