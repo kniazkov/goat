@@ -68,9 +68,9 @@ for dir in ([os.path.join(d, o) for o in os.listdir(d) if (o[0] != '_' or all) a
 		equal = True
 		begin = time.time()
 		if gcDebug :
-			proc = subprocess.Popen([interpreter, prog, "--gc=debug"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			proc = subprocess.Popen([interpreter, prog, "--gc=debug", "--lib=../lib"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		else :
-			proc = subprocess.Popen([interpreter, prog], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			proc = subprocess.Popen([interpreter, prog, "--lib=../lib"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		out_1, err_1 = proc.communicate()
 		ret = proc.wait()
 		end = time.time()
