@@ -1,3 +1,11 @@
-import "library.goat";
+import "xml.goat";
 
-print( X );
+var elem = new XMLElement();
+
+elem.tag = "root";
+elem.attrib = {};
+elem.attrib["first"] = 1;
+elem.attrib["second"] = "2nd";
+elem.content = "content";
+
+print(elem.toString());

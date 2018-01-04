@@ -997,7 +997,11 @@ namespace goat {
 			}
 
 			Keyword *kw = tok->prev->toKeyword();
-			if (kw && (kw->type == Keyword::DO || kw->type == Keyword::TRY || kw->type == Keyword::FINALLY)) {
+			if (kw && (kw->type == Keyword::DO ||
+				kw->type == Keyword::TRY ||
+				kw->type == Keyword::FINALLY ||
+				kw->type == Keyword::ELSE
+			)) {
 				f = true;
 				break;
 			}
