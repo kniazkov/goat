@@ -1,5 +1,1 @@
-X++;
-
-var doSomething = $() {
-	return 666;
-};
+var X = 0;

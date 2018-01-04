@@ -157,7 +157,7 @@ namespace goat {
 
 	void Parser::parseBracketsAndIncludes(Scanner *scan, TokenList *list, char closed, Options *opt) {
 		Token* prev;
-		Map<WideString, bool> imported;
+		Map<String, bool> imported;
 		while (true) {
 			Token* tok = scan->getToken();
 			if (tok) {
@@ -215,8 +215,8 @@ namespace goat {
 						if (!tokFileName) {
 							throw ExpectedFileName(kw);
 						}
-						StaticString *fileName = tokFileName->toStaticString();
-						if (!fileName) {
+						StaticString *tokStrFileName = tokFileName->toStaticString();
+						if (!tokStrFileName) {
 							throw ExpectedFileName(tokFileName);
 						}
 						Token *tokSemicolon = scan->getToken();
@@ -227,9 +227,25 @@ namespace goat {
 						if (!semicolon) {
 							throw ExpectedSemicolon(tokSemicolon);
 						}
-						if (!imported.find(fileName->text)) {
-							imported.insert(fileName->text, true);
-							String fullName = (StringBuilder() << opt->path << '/' << fileName->text.toString()).toString();
+						String fileName = tokStrFileName->text.toString();
+						if (!imported.find(fileName)) {
+							imported.insert(fileName, true);
+							bool found = false;
+							String fullName = FileName::normalize((StringBuilder() << opt->path << '/' << fileName).toString());
+							if (Platform::fileExist(fullName)) {
+								found = true;
+							}
+							else {
+								for (unsigned int i = 0, l = opt->libs->len(); !found && i < l; i++) {
+									fullName = FileName::normalize((StringBuilder() << opt->libs->get(i) << '/' << fileName).toString());
+									if (Platform::fileExist(fullName)) {
+										found = true;
+									}
+								}
+							}
+							if (!found) {
+								throw Platform::FileNotFound(fileName);
+							}
 							Platform::FileReader reader(fullName);
 							SourceStream src(&reader);
 							Scanner iscan(&src);

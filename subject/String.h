@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "Exception.h"
+#include "Vector.h"
 
 namespace goat {
 
@@ -72,6 +73,7 @@ namespace goat {
 		String replace(char from, char to);
 		String substr(unsigned int start);
 		String substr(unsigned int start, unsigned int count);
+		void split(char ch, Vector<String> &vec);
 
 		class OutOfBounds : public Exception {
 		public:

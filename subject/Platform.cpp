@@ -130,7 +130,7 @@ namespace goat {
 	}
 
 	Platform::FileReader::FileReader(String _fname) {
-		fname = FileName::normalize(_fname);
+		fname = _fname;
 		FILE *stream = std::fopen(fname.cstr(), "rb");
 		if (!stream) {
 			throw Platform::FileNotFound(fname);
@@ -162,6 +162,15 @@ namespace goat {
 
 	String Platform::FileReader::name() {
 		return FileName::extractName(fname);
+	}
+
+	bool Platform::fileExist(String fname) {
+		FILE *stream = std::fopen(fname.cstr(), "rb");
+		if (stream) {
+			std::fclose(stream);
+			return true;
+		}
+		return false;
 	}
 
 	Platform::File * Platform::File::open(String fname, Mode mode) {

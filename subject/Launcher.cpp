@@ -48,6 +48,7 @@ namespace goat {
 		try {
 			Parser::Options popt;
 			popt.path = opt->path;
+			popt.libs = &opt->libs;
 			Root* root = Parser::parse(&scan, *proot, &popt);
 			*proot = root;
 			new Thread(root, scope);
@@ -105,6 +106,11 @@ namespace goat {
 						opt.gc = GarbageCollector::parallel();
 					}
 				}
+				else if (Utils::strCmp(arg + 2, "lib=", 4) == 0) {
+					// parse library path
+					String libs = arg + 6;
+					libs.split(';', opt.libs);
+				}
 			}
 			else {
 				if (arg[0] != '-' && program == nullptr) {
@@ -125,6 +131,7 @@ namespace goat {
 		int ret = 1;
 		Root *root = nullptr;
 
+		program = FileName::normalize(program);
 		opt.path = FileName::extractPath(program);
 
 		try {

@@ -82,6 +82,14 @@ namespace goat {
 			return data[idx];
 		}
 
+		Type & get(unsigned int idx) {
+			if (idx >= size) {
+				throw OutOfBounds();
+			}
+
+			return data[idx];
+		}
+
 		unsigned int len() {
 			return size;
 		}

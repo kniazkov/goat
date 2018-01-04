@@ -73,6 +73,8 @@ namespace goat {
 			String name() override;
 		};
 
+		static bool fileExist(String _fname);
+
 		class File {
 		protected:
 			void * descriptor;

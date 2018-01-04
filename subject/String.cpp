@@ -201,6 +201,20 @@ namespace goat {
 		}
 	}
 
+	void String::split(char ch, Vector<String> &vec) {
+		if (buff->len > 0) {
+			unsigned int end = 0, begin = 0;
+			while (end < buff->len) {
+				if (buff->data[end] == ch) {
+					vec.pushBack(substr(begin, end - begin));
+					begin = end + 1;
+				}
+				end++;
+			}
+			vec.pushBack(substr(begin, end - begin));
+		}
+	}
+
 	String::Buffer::Buffer(unsigned int len) {
 		refs = 1;
 		data = new char[len + 1];

@@ -36,6 +36,7 @@ namespace goat {
 		class Options {
 		public:
 			String path;
+			Vector<String> *libs;
 		};
 
 	protected:

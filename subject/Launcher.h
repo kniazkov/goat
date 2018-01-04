@@ -36,6 +36,7 @@ namespace goat {
 		public:
 			GarbageCollector *gc;
 			String path;
+			Vector<String> libs;
 
 			Options() : gc(nullptr) {
 			}
