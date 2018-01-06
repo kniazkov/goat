@@ -1,11 +1,16 @@
 import "xml.goat";
 
-var elem = new XMLElement();
+var child = new XML.Element();
+
+child.tag = "child";
+child.content = "content";
+
+var elem = new XML.Element();
 
 elem.tag = "root";
 elem.attrib = {};
 elem.attrib["first"] = 1;
 elem.attrib["second"] = "2nd";
-elem.content = "content";
+elem.content = child;
 
 print(elem.toString());

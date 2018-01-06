@@ -74,28 +74,8 @@ namespace goat {
 				return st;
 			}
 			step = CREATE_OBJECT;
-		case CREATE_OBJECT: {
-			Identifier *ident = expr->fcall->func->toIdentifier();
-			Object *proto = scope->find(ident->name);
-			if (!proto) {
-				return throw_(new NameIsNotDefined(ident->name));
-			}
-			if (proto == ObjectInteger::Proto::getInstance()) {
-				retObj = new ObjectInteger(0);
-			}
-			else if (proto == ObjectStringBuilder::Proto::getInstance()) {
-				retObj = new ObjectStringBuilder();
-			}
-			else if (proto == ObjectByteArray::Proto::getInstance()) {
-				retObj = new ObjectByteArray();
-			}
-			else {
-				retObj = new Object();
-				retObj->proto[0] = proto;
-			}
-			proto->findUnique(Resource::init, &chain);
-			step = INIT_OBJECT;
-		}
+		case CREATE_OBJECT:
+			return expr->fcall->func->createState(this);
 		case INIT_OBJECT:
 			if (index < chain.len()) {
 				Object *init = chain[index];
@@ -138,14 +118,36 @@ namespace goat {
 
 	void New::StateImpl::ret(Object *obj) {
 		switch (step) {
-		case GET_ARGUMENTS:
-			arguments->vector.pushBack(obj);
-			return;
-		case DONE:
-			// ignore return object from constructor
-			return;
-		default:
-			throw NotImplemented();
+			case CREATE_OBJECT: {
+				Object *proto = obj;
+				if (!proto) {
+					return;
+				}
+				if (proto == ObjectInteger::Proto::getInstance()) {
+					retObj = new ObjectInteger(0);
+				}
+				else if (proto == ObjectStringBuilder::Proto::getInstance()) {
+					retObj = new ObjectStringBuilder();
+				}
+				else if (proto == ObjectByteArray::Proto::getInstance()) {
+					retObj = new ObjectByteArray();
+				}
+				else {
+					retObj = new Object();
+					retObj->proto[0] = proto;
+				}
+				proto->findUnique(Resource::init, &chain);
+				step = INIT_OBJECT;
+				return;
+			}
+			case GET_ARGUMENTS:
+				arguments->vector.pushBack(obj);
+				return;
+			case DONE:
+				// ignore return object from constructor
+				return;
+			default:
+				throw NotImplemented();
 		}
 	}
 

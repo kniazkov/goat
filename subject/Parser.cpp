@@ -98,12 +98,12 @@ namespace goat {
 			parse2ndList(keyword[Keyword::THREAD], &Parser::parseFunction, false);
 			parse2ndList(parenthesis, &Parser::parseBracketExpression, false);
 			parse2ndList(expression, &Parser::parseFunctionCall, false);
-			parse2ndList(keyword[Keyword::NEW], &Parser::parseNew, false);
 			parse2ndList(curveBracket, &Parser::parseBlock, false);
 			parse2ndList(curveBracket, &Parser::parseObject, false);
 			parse2ndList(squareBracket, &Parser::parseArray, false);
 			parse2ndList(dot, &Parser::parseField, false);
 			parse2ndList(fcall, &Parser::parseFunctionCall, false);
+			parse2ndList(keyword[Keyword::NEW], &Parser::parseNew, false);
 			parse2ndList(squareBracket, &Parser::parseIndex, false);
 			parse2ndList(oper_INCR_DECR, &Parser::parsePrefixIncrement, false);
 			parse2ndList(oper_INCR_DECR, &Parser::parsePostfixIncrement, false);

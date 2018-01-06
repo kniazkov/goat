@@ -21,36 +21,34 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 var XML = {
-
 	
 	parse : $(str) {
 		return null;
-	}
+	},
 
-};
-
-var	XMLElement = {
-	tag : null,
-	attrib : {},
-	content: null,
-		
-	toString : $() {
-		var b = new StringBuilder();
-		b << '<' << tag;
-		for (var a in attrib) {
-			b << ' ' << a << "=\"" << attrib[a] << '\"'; 
-		}
-		if (content == null) {
-			b << "/>";
-		} else {
-			b << '>';
-			if (content.instanceOf(XMLElement)) {
-				b << content.toString();
-			} else {
-				b << content;
+	Element : {
+		tag : null,
+		attrib : {},
+		content: null,
+			
+		toString : $() {
+			var b = new StringBuilder();
+			b << '<' << tag;
+			for (var a in attrib) {
+				b << ' ' << a << "=\"" << attrib[a] << '\"'; 
 			}
-			b << "</" << tag << '>';
+			if (content == null) {
+				b << "/>";
+			} else {
+				b << '>';
+				if (content.instanceOf(XML.Element)) {
+					b << content.toString();
+				} else {
+					b << content;
+				}
+				b << "</" << tag << '>';
+			}
+			return b.toString();
 		}
-		return b.toString();
 	}
 };
