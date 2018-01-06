@@ -32,23 +32,36 @@ var XML = {
 		content: null,
 			
 		toString : $() {
-			var b = new StringBuilder();
-			b << '<' << tag;
-			for (var a in attrib) {
-				b << ' ' << a << "=\"" << attrib[a] << '\"'; 
+			var res = new StringBuilder();
+			res << '<' << tag;
+			for (var key in attrib) {
+				res << ' ' << key << "=\"" << attrib[key] << '\"'; 
 			}
 			if (content == null) {
-				b << "/>";
+				res << "/>";
 			} else {
-				b << '>';
+				res << '>';
 				if (content.instanceOf(XML.Element)) {
-					b << content.toString();
-				} else {
-					b << content;
+					res << content.toString();
 				}
-				b << "</" << tag << '>';
+				else if (content.instanceOf(Array)) {
+					var i,
+						len = content.length();
+					for (i = 0; i < len; i++) {
+						var child = content[i];
+						if (child.instanceOf(XML.Element)) {
+							res << child.toString();
+						} else {
+							res << child;
+						}
+					}
+				}
+				else {
+					res << content;
+				}
+				res << "</" << tag << '>';
 			}
-			return b.toString();
+			return res.toString();
 		}
 	}
 };
