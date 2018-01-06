@@ -27,37 +27,34 @@ var XML = {
 	},
 
 	Element : {
-		tag : null,
+		tag : "",
 		attrib : {},
-		content: null,
-			
+		content : [],
+		
+		init : $(tag) {
+			this.tag = tag;
+			this.attrib = {};
+			this.content = [];
+		},
+		
 		toString : $() {
 			var res = new StringBuilder();
 			res << '<' << tag;
 			for (var key in attrib) {
 				res << ' ' << key << "=\"" << attrib[key] << '\"'; 
 			}
-			if (content == null) {
+			var len = content.length();
+			if (len == 0) {
 				res << "/>";
 			} else {
 				res << '>';
-				if (content.instanceOf(XML.Element)) {
-					res << content.toString();
-				}
-				else if (content.instanceOf(Array)) {
-					var i,
-						len = content.length();
-					for (i = 0; i < len; i++) {
-						var child = content[i];
-						if (child.instanceOf(XML.Element)) {
-							res << child.toString();
-						} else {
-							res << child;
-						}
+				for (var i = 0; i < len; i++) {
+					var child = content[i];
+					if (child.instanceOf(XML.Element)) {
+						res << child.toString();
+					} else {
+						res << child;
 					}
-				}
-				else {
-					res << content;
 				}
 				res << "</" << tag << '>';
 			}

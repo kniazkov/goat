@@ -1,23 +1,17 @@
 import "xml.goat";
 
-var elem = new XML.Element();
-elem.tag = "root";
-elem.content = [];
+var elem = new XML.Element("root");
 
-var child = new XML.Element();
-child.tag = "empty";
-child.attrib = {};
+var child = new XML.Element("empty");
 child.attrib.first = 1;
 child.attrib.second = "2nd";
 elem.content.push(child);
 
 elem.content.push("Text element");
 
-child = new XML.Element();
-child.tag = "non_empty";
-child.attrib = {};
+child = new XML.Element("non_empty");
 child.attrib.symbol = '$';
-child.content = "data";
+child.content.push("data");
 elem.content.push(child);
 
 print(elem.toString());
