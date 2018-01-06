@@ -1,0 +1,5 @@
+var b = new StringBuilder();
+b << 'A';
+b.append('B', 3);
+b.append("CD", 5);
+print(b.toString());

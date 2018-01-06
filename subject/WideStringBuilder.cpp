@@ -87,6 +87,12 @@ namespace goat {
 		}
 	}
 
+	void WideStringBuilder::reserve(unsigned int len) {
+		if (size + len < capacity) {
+			expand(len);
+		}
+	}
+
 	WideStringBuilder & WideStringBuilder::operator<<(wchar ch) {
 		append(&ch, 1);
 		return *this;

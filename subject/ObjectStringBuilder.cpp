@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectStringBuilder.h"
 #include "ObjectException.h"
 #include "ObjectString.h"
+#include "ObjectInteger.h"
 
 namespace goat {
 
@@ -80,11 +81,31 @@ namespace goat {
 
 	Object * ObjectStringBuilder::Proto::Append::run(Scope *scope) {
 		ObjectStringBuilder *this_ = scope->this_->toObjectStringBuilder();
+		unsigned int argsCount = scope->arguments->vector.len();
+		if (argsCount == 0) {
+			return new IllegalArgument();
+		}
 		Object *operand = scope->arguments->vector[0];
 		if (!operand) {
 			return new IllegalArgument();
 		}
-		this_->builder << operand->toWideString();
+		WideString wstr = operand->toWideString();
+		if (argsCount == 1) {
+			this_->builder << wstr;
+		}
+		else {
+			ObjectInteger *objRepeat = scope->arguments->vector[1]->toObjectInteger();
+			if (objRepeat && objRepeat->value >= 0) {
+				unsigned int repeat = (unsigned int)objRepeat->value;
+				this_->builder.reserve(wstr.len() * repeat);
+				for (unsigned int i = 0; i < repeat; i++) {
+					this_->builder << wstr;
+				}
+			}
+			else {
+				this_->builder << wstr;
+			}
+		}
 		return this_;
 	}
 

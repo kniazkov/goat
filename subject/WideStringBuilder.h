@@ -47,10 +47,11 @@ namespace goat {
 		WideStringBuilder();
 		~WideStringBuilder();
 		WideString toWideString();
-
+	
 		void clear();
 		void write(wchar ch) override;
 		void print();
+		void reserve(unsigned int len);
 		RawString toRawString();
 		WideStringBuilder & operator<<(wchar ch);
 		WideStringBuilder & operator<<(const wchar *cwstr);
