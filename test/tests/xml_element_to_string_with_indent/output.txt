@@ -1,0 +1,10 @@
+<root>
+| <empty first="1" second="2nd"/>
+| Text element
+| <non_empty symbol="$">data</non_empty>
+| <has_subchild>
+| | <step>one</step>
+| | <step>two</step>
+| | <step>three</step>
+| </has_subchild>
+</root>

@@ -31,13 +31,24 @@ var XML = {
 		attrib : {},
 		content : [],
 		
-		init : $(tag) {
+		init : $(tag, data) {
 			this.tag = tag;
 			this.attrib = {};
 			this.content = [];
+			
+			if (defined(data)) {
+				content.push(data);
+			}
 		},
 		
-		toString : $() {
+		toString : $(indent) {
+			if (!defined(indent)) {
+				return this.toSimpleString();
+			}
+			return this.toIndentedString(indent, 0);
+		},
+		
+		toSimpleString : $() {
 			var res = new StringBuilder();
 			res << '<' << tag;
 			for (var key in attrib) {
@@ -51,7 +62,7 @@ var XML = {
 				for (var i = 0; i < len; i++) {
 					var child = content[i];
 					if (child.instanceOf(XML.Element)) {
-						res << child.toString();
+						res << child.toSimpleString();
 					} else {
 						res << child;
 					}
@@ -59,6 +70,42 @@ var XML = {
 				res << "</" << tag << '>';
 			}
 			return res.toString();
+		},
+		
+		toIndentedString : $(indent, level) {
+			var res = new StringBuilder();
+			res.append(indent, level);
+			res << '<' << tag;
+			for (var key in attrib) {
+				res << ' ' << key << "=\"" << attrib[key] << '\"'; 
+			}
+			var len = content.length();
+			do {
+				if (len == 0) {
+					res << "/>\n";
+					break;
+				}
+				if (len == 1) {
+					var child = content[0];
+					if (child.instanceOf(String)) {
+						res << '>' << child << "</" << tag << ">\n";
+						break;
+					}
+				}
+				res << ">\n";
+				for (var i = 0; i < len; i++) {
+					var child = content[i];
+					if (child.instanceOf(XML.Element)) {
+						res << child.toIndentedString(indent, level + 1);
+					} else {
+						res.append(indent, level + 1);
+						res << child << '\n';
+					}
+				}
+				res.append(indent, level);
+				res << "</" << tag << ">\n";
+			} while(false);
+			return res.toString();			
 		}
 	}
 };

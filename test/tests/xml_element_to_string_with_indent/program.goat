@@ -14,4 +14,10 @@ child.attrib.symbol = '$';
 child.content.push("data");
 elem.content.push(child);
 
-print(elem.toString("  "));
+child = new XML.Element("has_subchild");
+child.content.push(new XML.Element("step", "one"));
+child.content.push(new XML.Element("step", "two"));
+child.content.push(new XML.Element("step", "three"));
+elem.content.push(child);
+
+print(elem.toString("| "));

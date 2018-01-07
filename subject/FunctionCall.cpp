@@ -105,8 +105,8 @@ namespace goat {
 				if (of->function->args) {
 					unsigned int i = 0, count = scope->arguments->vector.len();
 					Token *name = of->function->args->first;
-					while (name && i < count) {
-						scope->objects.insert(name->toIdentifier()->name, scope->arguments->vector[i]);
+					while (name) {
+						scope->objects.insert(name->toIdentifier()->name, i < count ? scope->arguments->vector[i] : nullptr);
 						i++;
 						name = name->next;
 					}

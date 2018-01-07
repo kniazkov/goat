@@ -53,10 +53,17 @@ namespace goat {
 		static Object *getInstance();
 	};
 
+	class Defined : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
+
 	Scope * BuiltIn::create(Environment *env) {
 		Scope *s = new Scope();
 		s->objects.insert("print", new Print(env->out));
 		s->objects.insert("open", Open::getInstance());
+		s->objects.insert("defined", Defined::getInstance());
 
 		s->objects.insert("String", ObjectString::Proto::getInstance());
 		s->objects.insert("Integer", ObjectInteger::Proto::getInstance());
@@ -122,4 +129,18 @@ namespace goat {
 		return &__this;
 	}
 
+
+	Object * Defined::run(Scope *scope) {
+		ObjectArray * args = scope->arguments;
+		if (args->vector.len() > 0) {
+			Object *obj = args->vector[0];
+			return new ObjectBoolean(obj != nullptr);
+		}
+		return new IllegalArgument();
+	}
+
+	Object * Defined::getInstance() {
+		static Defined __this;
+		return &__this;
+	}
 }
