@@ -109,6 +109,24 @@ var XML = {
 		}
 	},
 	
+	Token : {
+		type : null,
+		index : null,
+		data : null,
+		
+		init : $(type, index, data) {
+			this.type = type;
+			this.index = index;
+			this.data = data;
+		},
+		
+		OPEN_BRACKET : '<',
+		CLOSE_BRACKET : '>',
+		SLASH : '/',
+		IDENTIFIER : "IDENTIFIER",
+		TEXT : "TEXT"
+	},
+	
 	Scanner : {
 		data : "",
 		index : 0,
@@ -128,6 +146,31 @@ var XML = {
 		next : $() {
 			index++;
 			return index < length ? data[index] : null;			
+		},
+		
+		Mode : {
+			TAG : 0,
+			DATA : 1,
+		},
+		
+		token : $(mode) {
+			var c = this.get();
+			
+			while(c == ' ' || c == '\n' || c == '\r' || c == '\t') {
+				c = this.next();
+			}
+			
+			var i = index;
+			
+			switch(c) {
+				case null:
+					return null;
+					
+				case '<':
+					return new XML.Token(XML.Token.OPEN_BRACKET, i);
+			}
+			
+			return null;
 		}
 	}
 };

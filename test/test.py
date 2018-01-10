@@ -32,6 +32,7 @@ interpreter = sys.argv[1]
 all = False
 showFail = False
 gcDebug = False
+select = False
 if len(sys.argv) > 2 :
 	for i in range(2, len(sys.argv)) :
 		if sys.argv[i] == "-all" :
@@ -40,7 +41,9 @@ if len(sys.argv) > 2 :
 			showFail = True
 		if sys.argv[i] == "-gcdebug" :
 			gcDebug = True
-
+		if sys.argv[i].startswith("-select=") :
+			select = sys.argv[i][8:]
+			
 if os.path.isfile(interpreter) != True :
     print("file not exists: " + interpreter);
     exit()
@@ -48,7 +51,7 @@ if os.path.isfile(interpreter) != True :
 d = 'tests'
 passed = 0
 failed = 0
-for dir in ([os.path.join(d, o) for o in os.listdir(d) if (o[0] != '_' or all) and os.path.isdir(os.path.join(d, o))]):
+for dir in ([os.path.join(d, o) for o in os.listdir(d) if ((select == False and (o[0] != '_' or all)) or (select != False and select in o)) and os.path.isdir(os.path.join(d, o))]):
 	prog = os.path.join(dir, "program.goat")
 	if os.path.isfile(prog) :
 		out = False

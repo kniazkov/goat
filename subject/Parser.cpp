@@ -117,10 +117,10 @@ namespace goat {
 			parse2ndList(oper_BITWISE_AND, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_BITWISE_XOR, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_BITWISE_OR, &Parser::parseBinaryOperator, false);
-			parse2ndList(oper_LOGICAL_AND, &Parser::parseBinaryOperator, false);
-			parse2ndList(oper_LOGICAL_OR, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_EQ_NEQ, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_LESS_GREATER, &Parser::parseBinaryOperator, false);
+			parse2ndList(oper_LOGICAL_AND, &Parser::parseBinaryOperator, false);
+			parse2ndList(oper_LOGICAL_OR, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_QUESTION, &Parser::parseInlineIf, true);
 			parse2ndList(keyword[Keyword::CASE], &Parser::parseCase, false);
 			parse2ndList(keyword[Keyword::DEFAULT], &Parser::parseDefault, false);
@@ -770,13 +770,13 @@ namespace goat {
 			Token *next = item->next;
 			if (even) {
 				if (!item->toComma()) {
-					throw ExpectedComma(tok);
+					throw ExpectedComma(item);
 				}
 				item->remove();
 			}
 			else {
 				if (!item->toPair()) {
-					throw ExpectedPair(tok);
+					throw ExpectedPair(item);
 				}
 			}
 			item = next;
