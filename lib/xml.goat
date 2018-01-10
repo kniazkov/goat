@@ -153,10 +153,66 @@ var XML = {
 			DATA : 1,
 		},
 		
+		isSpace : $(c) {
+			switch(c) {
+				case ' ':
+				case '\n':
+				case '\r':
+				case '\t':
+					return true;
+				default:
+					return false;
+			}
+		},
+		
+		isSymbolOfIdentifier : $(c) {
+			if (this.isSpace(c)) {
+				return false;
+			}
+			
+			switch(c) {
+				case '!':
+				case '\"':
+				case '$':
+				case '%':
+				case '&':
+				case '\'':
+				case '(':
+				case ')':
+				case '*':
+				case '+':
+				case ',':
+				case '/':
+				case ';':
+				case '<':
+				case '>':
+				case '?':
+				case '@':
+				case '[':
+				case ']':
+				case '^':
+				case '{':
+				case '|':
+				case '}':
+				case '~':
+					return false;
+				default:
+					return true;
+			}
+		},
+		
+		isBeginOfIdentifier : $(c) {
+			if (!this.isSymbolOfIdentifier(c) || (c >= '0' && c <= '9') || c == '.' || c == '-') {
+				return false;
+			}
+			
+			return true;
+		},
+		
 		token : $(mode) {
 			var c = this.get();
 			
-			while(c == ' ' || c == '\n' || c == '\r' || c == '\t') {
+			while(this.isSpace(c)) {
 				c = this.next();
 			}
 			
@@ -164,10 +220,33 @@ var XML = {
 			
 			switch(c) {
 				case null:
-					return null;
-					
+					return null;					
 				case '<':
+					this.next();
 					return new XML.Token(XML.Token.OPEN_BRACKET, i);
+				case '>':
+					this.next();
+					return new XML.Token(XML.Token.CLOSE_BRACKET, i);
+			}
+			
+			switch(mode) {
+				case XML.Scanner.Mode.TAG:
+					if (c ==  '/') {
+						this.next();
+						return new XML.Token(XML.Token.SLASH, i);
+					}
+					if (this.isBeginOfIdentifier(c)) {
+						var b = new StringBuilder();
+						do {
+							b << c;
+							c = this.next();
+						} while(this.isSymbolOfIdentifier(c));
+						return new XML.Token(XML.Token.IDENTIFIER, i, b.toString());
+					}
+					break;
+					
+				case XML.Scanner.Mode.DATA:
+					break;
 			}
 			
 			return null;
