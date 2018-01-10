@@ -23,7 +23,11 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 var XML = {
 	
 	parse : $(str) {
-		return null;
+		var elem = new XML.Element(null);
+		var scan = new XML.Scanner(str);
+		var parser = new XML.Parser(scan);
+		parser.parseContent(elem);
+		return elem.content.length() > 0 ? elem.content[0] : null;
 	},
 
 	Element : {
@@ -255,6 +259,36 @@ var XML = {
 			}
 			
 			return null;
+		}
+	},
+	
+	Parser : {
+		scan : null,
+		
+		init : $(scan) {
+			this.scan = scan;
+		},
+
+		parseContent : $(elem) {
+			var tok = scan.token();
+			elem.content.push("test...");
+			/*
+			while(true) {
+				var tok = scan.token();
+				
+				if (tok == null) {
+					return;
+				}
+				
+				if (tok.type == XML.Token.OPEN_BRACKET) {
+					var child == this.parseTag(
+				}
+			}
+			*/
+		},
+		
+		parseTag : $() {
+			
 		}
 	}
 };
