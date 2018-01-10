@@ -1,0 +1,9 @@
+import "xml.goat";
+
+var scan = new XML.Scanner(" <root>Data</root>");
+
+var t = scan.token(XML.Scanner.Mode.TAG);
+t = scan.token(XML.Scanner.Mode.TAG);
+t = scan.token(XML.Scanner.Mode.TAG);
+t = scan.token(XML.Scanner.Mode.DATA);
+print(t);

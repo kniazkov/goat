@@ -246,7 +246,12 @@ var XML = {
 					break;
 					
 				case XML.Scanner.Mode.DATA:
-					break;
+					var b = new StringBuilder();
+					do {
+						b << c;
+						c = this.next();
+					} while(c != '<' && c != '>' && c != null);
+					return new XML.Token(XML.Token.TEXT, i, b.toString());
 			}
 			
 			return null;
