@@ -107,5 +107,27 @@ var XML = {
 			} while(false);
 			return res.toString();			
 		}
+	},
+	
+	Scanner : {
+		data : "",
+		index : 0,
+		length : 0,
+		
+		init : $(data) {
+			if (data.instanceOf(String)) {
+				this.data = data;
+				this.length = data.length();
+			}
+		},
+		
+		get : $() {
+			return index < length ? data[index] : null;
+		},
+		
+		next : $() {
+			index++;
+			return index < length ? data[index] : null;			
+		}
 	}
 };

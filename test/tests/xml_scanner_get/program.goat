@@ -1,0 +1,6 @@
+import "xml.goat";
+
+var scan = new XML.Scanner("<root>Data</root>");
+
+var c = scan.get();
+print(c);
