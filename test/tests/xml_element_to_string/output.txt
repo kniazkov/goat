@@ -1,1 +1,0 @@
-<root><empty first="1" second="2nd"/>Text element<non_empty symbol="$">data</non_empty></root>

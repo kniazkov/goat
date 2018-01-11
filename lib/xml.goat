@@ -2,7 +2,7 @@
 
 Copyright (C) 2017, 2018 Ivan Kniazkov
 
-This file is part of standart library for programming language
+This file is part of standard library for programming language
 codenamed "Goat" ("Goat standard library").
 
 Goat standard library is free software: you can redistribute it and/or
@@ -111,6 +111,19 @@ var XML = {
 			} while(false);
 			return res.toString();			
 		}
+	},
+	
+	Error : Exception -> {
+		type : null,
+		index : null,
+		
+		init : $(type, index) {
+			this.type = type;
+			this.index = index;
+		},
+		
+		INVALID_TOKEN : "INVALID_TOKEN",
+		EXPECTED_TAG_NAME : "EXPECTED_TAG_NAME"
 	},
 	
 	Token : {
@@ -270,25 +283,37 @@ var XML = {
 		},
 
 		parseContent : $(elem) {
-			var tok = scan.token();
-			elem.content.push("test...");
-			/*
 			while(true) {
-				var tok = scan.token();
+				var tok = scan.token(XML.Scanner.Mode.DATA);
 				
 				if (tok == null) {
 					return;
 				}
-				
-				if (tok.type == XML.Token.OPEN_BRACKET) {
-					var child == this.parseTag(
+				else if (tok.type == XML.Token.OPEN_BRACKET) {
+					tok = scan.token(XML.Scanner.Mode.TAG);
+					if (tok.type == XML.Token.IDENTIFIER) {
+						elem.content.push(this.parseTag(tok.data));
+					}
+					else if (tok.type == XML.Token.SLASH) {
+						scan.token(XML.Scanner.Mode.TAG);
+						scan.token(XML.Scanner.Mode.TAG);
+					}
+				}
+				else if (tok.type == XML.Token.TEXT) {
+					elem.content.push(tok.data);
+				}
+				else {
+					throw new XML.Error(XML.Error.INVALID_TOKEN, tok.index);
 				}
 			}
-			*/
 		},
 		
-		parseTag : $() {
+		parseTag : $(name) {
+			var elem = new XML.Element(name);
 			
+			scan.token(XML.Scanner.Mode.TAG);
+			this.parseContent(elem);
+			return elem;
 		}
 	}
 };

@@ -1,1 +1,0 @@
-{data:null,index:1,type:'<'}{data:"root",index:2,type:"IDENTIFIER"}{data:null,index:6,type:'>'}
