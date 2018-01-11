@@ -1,7 +1,7 @@
 import "xml.goat";
 
 var xml = "<root>Data</root>";
-var result = XML.parse("<root>Data</root>");
+var result = XML.parse(xml);
 
 if (result == null) {
 	print("nothing");
