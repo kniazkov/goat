@@ -288,8 +288,12 @@ namespace goat {
 		if (buff) {
 			String s(buff->len);
 			for (unsigned int i = 0; i < buff->len; i++) {
-				wchar c = buff->data[i];
-				s.buff->data[i] = c > 127 ? '?' : (char)c;
+				wchar w = buff->data[i];
+				char c = w > 127 ? '?' : (char)w;
+				s.buff->data[i] = c;
+#ifdef STRING_HASH
+				s.buff->hash += c;
+#endif
 			}
 			return s;
 		}
