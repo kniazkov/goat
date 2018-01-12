@@ -57,6 +57,7 @@ namespace goat {
 		objects.insert("valueOf", ValueOf::getInstance());
 		objects.insert("++", OperatorIncrement::getInstance());
 		objects.insert("--", OperatorDecrement::getInstance());
+		objects.insert("!", OperatorNot::getInstance());
 		objects.insert("<", OperatorLess::getInstance());
 		objects.insert("<=", OperatorLessEqual::getInstance());
 		objects.insert(">", OperatorGreater::getInstance());
@@ -147,6 +148,17 @@ namespace goat {
 
 	Object * ObjectChar::Proto::OperatorDecrement::getInstance() {
 		static OperatorDecrement __this;
+		return &__this;
+	}
+
+
+	Object * ObjectChar::Proto::OperatorNot::run(Scope *scope) {
+		ObjectChar *this_ = scope->this_->toObjectChar();
+		return new ObjectBoolean(this_->value == 0);
+	}
+
+	Object * ObjectChar::Proto::OperatorNot::getInstance() {
+		static OperatorNot __this;
 		return &__this;
 	}
 

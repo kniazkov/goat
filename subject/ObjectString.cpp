@@ -80,6 +80,7 @@ namespace goat {
 		objects.insert("<=", OperatorLessEqual::getInstance());
 		objects.insert(">", OperatorGreater::getInstance());
 		objects.insert(">=", OperatorGreaterEqual::getInstance());
+		objects.insert("!", OperatorNot::getInstance());
 		objects.insert("length", Length::getInstance());
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("valueOf", ValueOf::getInstance());
@@ -163,6 +164,17 @@ namespace goat {
 
 	Object * ObjectString::Proto::OperatorGreaterEqual::getInstance() {
 		static OperatorGreaterEqual __this;
+		return &__this;
+	}
+
+
+	Object * ObjectString::Proto::OperatorNot::run(Scope *scope) {
+		ObjectString *this_ = scope->this_->toObjectString();
+		return new ObjectBoolean(this_->value.len() == 0);
+	}
+
+	Object * ObjectString::Proto::OperatorNot::getInstance() {
+		static OperatorNot __this;
 		return &__this;
 	}
 

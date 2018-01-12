@@ -76,6 +76,7 @@ namespace goat {
 		objects.insert("++", OperatorIncrement::getInstance());
 		objects.insert("--", OperatorDecrement::getInstance());
 		objects.insert("~", OperatorNot::getInstance());
+		objects.insert("!", OperatorLogicalNot::getInstance());
 		objects.insert("<<", OperatorLeftShift::getInstance());
 		objects.insert("<<=", OperatorLeftShift::getInstance());
 		objects.insert(">>", OperatorSignedRightShift::getInstance());
@@ -315,6 +316,17 @@ namespace goat {
 
 	Object * ObjectInteger::Proto::OperatorNot::getInstance() {
 		static OperatorNot __this;
+		return &__this;
+	}
+
+
+	Object * ObjectInteger::Proto::OperatorLogicalNot::run(Scope *scope) {
+		ObjectInteger *this_ = scope->this_->toObjectInteger();
+		return new ObjectBoolean(this_->value == 0);
+	}
+
+	Object * ObjectInteger::Proto::OperatorLogicalNot::getInstance() {
+		static OperatorLogicalNot __this;
 		return &__this;
 	}
 

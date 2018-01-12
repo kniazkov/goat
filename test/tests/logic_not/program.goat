@@ -1,6 +1,16 @@
 var f = $(v) {
-	print(String.valueOf(!v) + "\n");
+	print(String.valueOf(v) + ": " + String.valueOf(!v) + "\n");
 };
 
 f(true);
 f(false);
+f(null);
+f(0);
+f(0.0);
+f(1);
+f(0.1);
+f({});
+f("");
+f("text");
+f('c');
+f(Char.valueOf(0));

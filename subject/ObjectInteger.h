@@ -115,6 +115,12 @@ namespace goat {
 				static Object *getInstance();
 			};
 
+			class OperatorLogicalNot : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
+
 			class OperatorLeftShift : public ObjectBuiltIn {
 			public:
 				Object * run(Scope *scope) override;
