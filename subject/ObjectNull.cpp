@@ -26,8 +26,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	ObjectNull::ObjectNull() {
-		status = PERMANENT;
+	ObjectNull::ObjectNull() : Object(true) {
+		objects.insert("!", OperatorNot::getInstance());
+
+		proto.pushBack(SuperObject::getInstance());
 	}
 
 	ObjectNull * ObjectNull::toObjectNull() {
@@ -44,6 +46,16 @@ namespace goat {
 
 	Object *  ObjectNull::getInstance() {
 		static ObjectNull __this;
+		return &__this;
+	}
+
+
+	Object * ObjectNull::OperatorNot::run(Scope *scope) {
+		return new ObjectBoolean(true);
+	}
+
+	Object * ObjectNull::OperatorNot::getInstance() {
+		static OperatorNot __this;
 		return &__this;
 	}
 }

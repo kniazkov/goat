@@ -616,6 +616,22 @@ namespace goat {
 	}
 
 
+	class BaseNot : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
+
+	Object * BaseNot::run(Scope *scope) {
+		return new ObjectBoolean(false);
+	}
+
+	Object * BaseNot::getInstance() {
+		static BaseNot __this;
+		return &__this;
+	}
+
+
 	SuperObject::SuperObject() : Object(true) {
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("flat", Flat::getInstance());
@@ -623,6 +639,7 @@ namespace goat {
 		objects.insert("->", Inherit::getInstance());
 		objects.insert("==", BaseEqual::getInstance());
 		objects.insert("!=", BaseNotEqual::getInstance());
+		objects.insert("!", BaseNot::getInstance());
 	}
 
 	Object * SuperObject::getInstance() {

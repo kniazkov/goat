@@ -11,7 +11,6 @@ try {
 	else {
 		var str = result.toString();
 		if (str != xml) {
-			print(result.debug);
 			print("failed, expected: \n\n" + xml + "\n\nactual:\n\n" + str + "\n");
 		}
 		else {

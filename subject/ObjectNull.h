@@ -36,6 +36,12 @@ namespace goat {
 		ObjectBoolean * toObjectBoolean() override;
 		WideString toWideString() override;
 		static Object *getInstance();
+
+		class OperatorNot : public ObjectBuiltIn {
+		public:
+			Object * run(Scope *scope) override;
+			static Object *getInstance();
+		};
 	};
 
 }

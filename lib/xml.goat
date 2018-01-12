@@ -27,7 +27,14 @@ var XML = {
 		var scan = new XML.Scanner(str);
 		var parser = new XML.Parser(scan);
 		parser.parseContent(elem);
-		return elem.content.length() > 0 ? elem.content[0] : null;
+		if (elem.content.length() > 0) {
+			elem = elem.content[0];
+			elem.debug = parser.log.toString();
+			return elem;
+		}
+		else {
+			return null;
+		}
 	},
 
 	Element : {
@@ -111,19 +118,6 @@ var XML = {
 			} while(false);
 			return res.toString();			
 		}
-	},
-	
-	Error : Exception -> {
-		type : null,
-		index : null,
-		
-		init : $(type, index) {
-			this.type = type;
-			this.index = index;
-		},
-		
-		INVALID_TOKEN : "INVALID_TOKEN",
-		EXPECTED_TAG_NAME : "EXPECTED_TAG_NAME"
 	},
 	
 	Token : {
@@ -275,28 +269,56 @@ var XML = {
 		}
 	},
 	
+	Error : Exception -> {
+		type : null,
+		index : null,
+		
+		init : $(type, index) {
+			this.type = type;
+			this.index = index;
+		},
+		
+		INVALID_TOKEN : "invalid token",
+		EXPECTED_TAG_NAME : "expected tag name",
+		UNEXPECTED_END : "unexpected end",
+		END_TAG_MISMATCH : "end tag does not match the start tag"
+	},
+	
 	Parser : {
 		scan : null,
+		log : null,
 		
 		init : $(scan) {
 			this.scan = scan;
+			this.log = new StringBuilder();
 		},
+		
+//		debug : $(message) {
+//			log << message << "\n";
+//		},
 
 		parseContent : $(elem) {
 			while(true) {
 				var tok = scan.token(XML.Scanner.Mode.DATA);
 				
-				if (tok == null) {
+				if (!tok) {
+					if (elem.tag != null) {
+						throw new XML.Error(XML.Error.UNEXPECTED_END, scan.index);
+					}
 					return;
 				}
-				else if (tok.type == XML.Token.OPEN_BRACKET) {
-					tok = scan.token(XML.Scanner.Mode.TAG);
-					if (tok.type == XML.Token.IDENTIFIER) {
-						elem.content.push(this.parseTag(tok.data));
+				else if (tok.type == XML.Token.OPEN_BRACKET) {		// <
+					var next = scan.token(XML.Scanner.Mode.TAG); 
+					if (next.type == XML.Token.IDENTIFIER) {		// <tag
+						elem.content.push(this.parseTag(next.data));
 					}
-					else if (tok.type == XML.Token.SLASH) {
+					else if (next.type == XML.Token.SLASH) {		// </
+						var tag = scan.token(XML.Scanner.Mode.TAG);
+						//if (!tag) {
+						//	
+						//}
 						scan.token(XML.Scanner.Mode.TAG);
-						scan.token(XML.Scanner.Mode.TAG);
+						return;
 					}
 				}
 				else if (tok.type == XML.Token.TEXT) {
@@ -311,7 +333,8 @@ var XML = {
 		parseTag : $(name) {
 			var elem = new XML.Element(name);
 			
-			scan.token(XML.Scanner.Mode.TAG);
+			var tok = scan.token(XML.Scanner.Mode.TAG);
+			
 			this.parseContent(elem);
 			return elem;
 		}
