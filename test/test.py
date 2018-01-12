@@ -51,6 +51,7 @@ if os.path.isfile(interpreter) != True :
 d = 'tests'
 passed = 0
 failed = 0
+totalTime = 0
 for dir in ([os.path.join(d, o) for o in os.listdir(d) if ((select == False and (o[0] != '_' or all)) or (select != False and select in o)) and os.path.isdir(os.path.join(d, o))]):
 	prog = os.path.join(dir, "program.goat")
 	if os.path.isfile(prog) :
@@ -77,6 +78,7 @@ for dir in ([os.path.join(d, o) for o in os.listdir(d) if ((select == False and 
 		out_1, err_1 = proc.communicate()
 		ret = proc.wait()
 		end = time.time()
+		totalTime = totalTime + (end - begin)
 		strTime = ("%.3f" % (end - begin))
 		if (out and (out_0 != out_1)) or (out != True and len(out_1) > 0):
 			print("out 0: " + str(out_0))
@@ -99,6 +101,7 @@ for dir in ([os.path.join(d, o) for o in os.listdir(d) if ((select == False and 
 		else :
 			print("[" + "fail" + "] " + strTime + " " + dir)
 			failed = failed + 1
-  
-print("done.")
+
+strTime = ("%.3f" % totalTime)
+print(strTime + " seconds, done.")
 print("total " + str(passed + failed) + ", passed " + str(passed) + ", failed " + str(failed))
