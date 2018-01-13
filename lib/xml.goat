@@ -333,6 +333,9 @@ var XML = {
 						}
 						return;
 					}
+					else {
+						throw new XML.Error(XML.Error.INVALID_TOKEN, next.index);
+					}
 				}
 				else if (tok.type == XML.Token.TEXT) {
 					elem.content.push(tok.data);
@@ -346,10 +349,29 @@ var XML = {
 		parseTag : $(name) {
 			var elem = new XML.Element(name);
 			
-			var tok = scan.token(XML.Scanner.Mode.TAG);
-			
-			this.parseContent(elem);
-			return elem;
+			while(true) {
+				var tok = scan.token(XML.Scanner.Mode.TAG);
+				if (!tok) {
+					throw new XML.Error(XML.Error.UNEXPECTED_END, scan.index);
+				}
+				if (tok.type == XML.Token.CLOSE_BRACKET) {
+					this.parseContent(elem);
+					return elem;
+				}
+				else if (tok.type == XML.Token.SLASH) {
+					var bracket = scan.token(XML.Scanner.Mode.TAG);
+					if (!bracket) {
+						throw new XML.Error(XML.Error.UNCLOSED_END_TAG, scan.index);
+					}
+					if (bracket.type != XML.Token.CLOSE_BRACKET) {
+						throw new XML.Error(XML.Error.UNCLOSED_END_TAG, bracket.index);
+					}
+					return elem;
+				}
+				else {
+					throw new XML.Error(XML.Error.INVALID_TOKEN, tok.index);
+				}				
+			}
 		}
 	}
 };
