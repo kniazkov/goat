@@ -281,7 +281,8 @@ var XML = {
 		INVALID_TOKEN : "invalid token",
 		EXPECTED_TAG_NAME : "expected tag name",
 		UNEXPECTED_END : "unexpected end",
-		END_TAG_MISMATCH : "end tag does not match the start tag"
+		END_TAG_MISMATCH : "end tag does not match the start tag",
+		UNCLOSED_END_TAG : "end element was missing the character \'>\'"
 	},
 	
 	Parser : {
@@ -313,11 +314,23 @@ var XML = {
 						elem.content.push(this.parseTag(next.data));
 					}
 					else if (next.type == XML.Token.SLASH) {		// </
-						var tag = scan.token(XML.Scanner.Mode.TAG);
-						//if (!tag) {
-						//	
-						//}
-						scan.token(XML.Scanner.Mode.TAG);
+						var ident = scan.token(XML.Scanner.Mode.TAG);
+						if (!ident) {
+							throw new XML.Error(XML.Error.EXPECTED_TAG_NAME, scan.index);
+						}
+						if (ident.type != XML.Token.IDENTIFIER) {
+							throw new XML.Error(XML.Error.EXPECTED_TAG_NAME, ident.index);
+						}
+						if (ident.data != elem.tag) {
+							throw new XML.Error(XML.Error.END_TAG_MISMATCH, ident.index);
+						}
+						var bracket = scan.token(XML.Scanner.Mode.TAG);
+						if (!bracket) {
+							throw new XML.Error(XML.Error.UNCLOSED_END_TAG, scan.index);
+						}
+						if (bracket.type != XML.Token.CLOSE_BRACKET) {
+							throw new XML.Error(XML.Error.UNCLOSED_END_TAG, bracket.index);
+						}
 						return;
 					}
 				}
