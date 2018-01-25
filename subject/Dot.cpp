@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Dot.h"
+#include "Resource.h"
 
 namespace goat {
 
@@ -28,4 +29,7 @@ namespace goat {
 		return this;
 	}
 
+	String Dot::toString() {
+		return Resource::s_dot;
+	}
 }

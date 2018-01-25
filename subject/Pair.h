@@ -37,6 +37,7 @@ namespace goat {
 		Pair(Expression *tokLeft, Expression *tokRight);
 		Pair * toPair() override;
 		void trace() override;
+		String toString() override;
 	};
 
 }

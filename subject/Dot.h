@@ -29,6 +29,7 @@ namespace goat {
 	class Dot : public Token {
 	public:
 		Dot * toDot() override;
+		String toString() override;
 	};
 
 }

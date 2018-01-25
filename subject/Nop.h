@@ -40,6 +40,7 @@ namespace goat {
 		Nop(Semicolon *semicolon);
 		Nop *toNop() override;
 		State * createState(State *_prev) override;
+		String toString() override;
 	};
 
 }

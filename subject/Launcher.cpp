@@ -111,6 +111,10 @@ namespace goat {
 					String libs = arg + 6;
 					libs.split(';', opt.libs);
 				}
+				else if (Utils::strCmp(arg + 2, "debug") == 0) {
+					// debug mode
+					opt.debug = true;
+				}
 			}
 			else {
 				if (arg[0] != '-' && program == nullptr) {

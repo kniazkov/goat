@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Null.h"
 #include "ObjectNull.h"
+#include "Resource.h"
 
 namespace goat {
 
@@ -40,4 +41,7 @@ namespace goat {
 		return p;
 	}
 
+	String Null::toString() {
+		return Resource::s_null;
+	}
 }

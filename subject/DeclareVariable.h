@@ -50,6 +50,7 @@ namespace goat {
 		void trace() override;
 		DeclareVariable *toDeclareVariable() override;
 		State * createState(State *_prev) override;
+		String toString() override;
 	};
 
 }

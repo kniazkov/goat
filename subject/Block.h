@@ -46,6 +46,8 @@ namespace goat {
 		void trace() override;
 		Block *toBlock() override;
 		State * createState(State *_prev) override;
+		String toString() override;
+		String toFullString() override;
 	};
 
 }

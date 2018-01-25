@@ -43,7 +43,7 @@ namespace goat {
 
 		StaticString *toStaticString() override;
 		State * createState(State *_prev) override;
-
+		String toString() override;
 	};
 
 }

@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Boolean.h"
 #include "ObjectBoolean.h"
+#include "Resource.h"
 
 namespace goat {
 	Boolean::Boolean(bool _value) : value(_value) {
@@ -42,4 +43,7 @@ namespace goat {
 		return p;
 	}
 
+	String Boolean::toString() {
+		return value ? Resource::s_true : Resource::s_false;
+	}
 }

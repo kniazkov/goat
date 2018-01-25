@@ -265,7 +265,7 @@ namespace goat {
 		}
 	}
 
-	String String::valueOf(int val) {
+	String String::valueOf(long long int val) {
 		bool neg = false;
 		if (val < 0) {
 			neg = true;
@@ -282,6 +282,65 @@ namespace goat {
 			*--ptr = '-';
 		}
 		return String(ptr);
+	}
+
+	String String::valueOf(long double val, unsigned int precision, bool trim) {
+		if (precision < 1) {
+			precision = 1;
+		}
+		bool neg = false;
+		if (val < 0) {
+			neg = true;
+			val = -val;
+		}
+		char buff[32];
+		char *fptr = &buff[31];
+		*fptr = '\0';
+		char *iptr = fptr - precision - 1;
+		*iptr = '.';
+		long long int ival = (long long int)val;
+		auto tail = val - (long double)ival;
+		long long int fval = (long long int)(tail * Utils::pow10(precision + 1));
+		auto lastDigit = fval % 10;
+		fval /= 10;
+		if (lastDigit >= 5) {
+			fval++;
+			if (fval >= Utils::pow10(precision)) {
+				fval = 0;
+				ival++;
+			}
+		}
+		if (fval > 0) {
+			bool zero = true;
+			for (unsigned int k = 0; k < precision; k++) {
+				auto digit = fval % 10;
+				if (digit == 0) {
+					if (zero && trim) {
+						*--fptr = '\0';
+					}
+					else {
+						*--fptr = '0';
+					}
+				}
+				else {
+					zero = false;
+					*--fptr = (char)(digit)+'0';
+				}
+				fval /= 10;
+			}
+		}
+		else {
+			*(iptr + 1) = '0';
+			*(iptr + 2) = '\0';
+		}
+		do {
+			*--iptr = (char)(ival % 10) + '0';
+			ival /= 10;
+		} while (ival);
+		if (neg) {
+			*--iptr = '-';
+		}
+		return String(iptr);
 	}
 
 	WideString String::toWideString() {

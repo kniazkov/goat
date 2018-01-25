@@ -22,6 +22,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Char.h"
 #include "ObjectChar.h"
+#include "StringBuilder.h"
+#include "Unicode.h"
 
 namespace goat {
 
@@ -38,6 +40,12 @@ namespace goat {
 		p->ret(new ObjectChar(expr->value));
 		delete this;
 		return p;
+	}
+
+	String Char::toString() {
+		char buff[5] = { 0, 0, 0, 0, 0 };
+		Unicode::UTF8EncodeChar(value, buff);
+		return (StringBuilder() << '\'' << buff << '\'').toString();
 	}
 
 }

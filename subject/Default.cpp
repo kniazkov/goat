@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Default.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -39,6 +40,15 @@ namespace goat {
 
 	void Default::trace() {
 		tokens->mark();
+	}
+
+	String Default::toString() {
+		StringBuilder b;
+		b << "default:";
+		tokens->forEach([&](Token *tok) {
+			b << ' ' << tok->toFullString();
+		});
+		return b.toString();
 	}
 
 }

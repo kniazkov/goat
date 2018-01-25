@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Throw.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -65,5 +66,9 @@ namespace goat {
 
 	Location * Throw::StateImpl::location() {
 		return stmt->loc;
+	}
+
+	String Throw::toString() {
+		return (StringBuilder() << "throw " << expr->toString() << ';').toString();
 	}
 }

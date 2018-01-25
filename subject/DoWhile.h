@@ -55,6 +55,7 @@ namespace goat {
 		void trace() override;
 		DoWhile *toDoWhile() override;
 		State * createState(State *_prev) override;
+		String toString() override;
 	};
 
 }

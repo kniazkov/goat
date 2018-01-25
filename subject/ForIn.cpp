@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "ForIn.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -120,5 +121,10 @@ namespace goat {
 			if (pair.value)
 				pair.value->mark();
 		});
+	}
+
+	String ForIn::toString() {
+		return (StringBuilder() << "for (" << in->toString() << " in " << 
+			obj->toString() << ") " << body->toString()).toString();
 	}
 }

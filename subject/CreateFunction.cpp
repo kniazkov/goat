@@ -54,4 +54,8 @@ namespace goat {
 		return p;
 	}
 
+	String CreateFunction::toString() {
+		return func->toString();
+	}
+
 }

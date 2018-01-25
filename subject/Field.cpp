@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Field.h"
 #include "Assert.h"
 #include "ObjectException.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -113,4 +114,7 @@ namespace goat {
 		}
 	}
 
+	String Field::toString() {
+		return (StringBuilder() << left->toString() << '.' << name).toString();
+	}
 }

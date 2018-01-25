@@ -35,10 +35,11 @@ namespace goat {
 		class Options {
 		public:
 			GarbageCollector *gc;
+			bool debug;
 			String path;
 			Vector<String> libs;
 
-			Options() : gc(nullptr) {
+			Options() : gc(nullptr), debug(false) {
 			}
 		};
 

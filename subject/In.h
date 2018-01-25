@@ -35,6 +35,7 @@ namespace goat {
 		In(bool _declVar, Identifier *_name);
 		In * toIn() override;
 		void trace() override;
+		String toString() override;
 	};
 
 }

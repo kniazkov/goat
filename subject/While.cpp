@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "While.h"
 #include "ObjectBoolean.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -101,5 +102,9 @@ namespace goat {
 		if (condition) {
 			condition->mark();
 		}
+	}
+
+	String While::toString() {
+		return (StringBuilder() << "while (" << expr->toString() << ") " << stmt->toString()).toString();
 	}
 }

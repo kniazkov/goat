@@ -21,11 +21,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Semicolon.h"
+#include "Resource.h"
 
 namespace goat {
 
 	Semicolon * Semicolon::toSemicolon() {
 		return this;
+	}
+
+	String Semicolon::toString() {
+		return Resource::s_semicolon;
 	}
 
 }

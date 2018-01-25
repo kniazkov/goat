@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Case.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -41,6 +42,15 @@ namespace goat {
 	void Case::trace() {
 		condition->mark();
 		tokens->mark();
+	}
+
+	String Case::toString() {
+		StringBuilder b;
+		b << "case " << condition->toString() << ':';
+		tokens->forEach([&](Token *tok) {
+			b << ' ' << tok->toFullString();
+		});
+		return b.toString();
 	}
 
 }

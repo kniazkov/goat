@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "If.h"
 #include "ObjectBoolean.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -82,5 +83,14 @@ namespace goat {
 		if (result) {
 			result->mark();
 		}
+	}
+
+	String If::toString() {
+		StringBuilder b;
+		b << "if (" << expr->toString() << ") " << stmtIf->toString();
+		if (stmtElse) {
+			b << " else " << stmtElse->toString();
+		}
+		return b.toString();
 	}
 }

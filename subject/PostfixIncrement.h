@@ -59,6 +59,7 @@ namespace goat {
 		PostfixIncrement *toPostfixIncrement() override;
 		void trace() override;
 		State * createState(State *_prev) override;
+		String toString() override;
 	};
 
 }

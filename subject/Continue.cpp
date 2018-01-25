@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Continue.h"
+#include "Resource.h"
 
 namespace goat {
 
@@ -38,5 +39,9 @@ namespace goat {
 
 	State * Continue::StateImpl::next() {
 		return continue_();
+	}
+
+	String Continue::toString() {
+		return Resource::s_continueStmt;
 	}
 }

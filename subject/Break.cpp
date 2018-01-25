@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Break.h"
+#include "Resource.h"
 
 namespace goat {
 
@@ -38,5 +39,9 @@ namespace goat {
 
 	State * Break::StateImpl::next() {
 		return break_();
+	}
+
+	String Break::toString() {
+		return Resource::s_breakStmt;
 	}
 }

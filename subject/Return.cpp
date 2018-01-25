@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Return.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -64,5 +65,15 @@ namespace goat {
 		if (obj) {
 			obj->mark();
 		}
+	}
+
+	String Return::toString() {
+		StringBuilder b;
+		b << "return";
+		if (expr) {
+			b << ' ' << expr->toString();
+		}
+		b << ';';
+		return b.toString();
 	}
 }

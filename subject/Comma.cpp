@@ -21,11 +21,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Comma.h"
+#include "Resource.h"
 
 namespace goat {
 
 	Comma * Comma::toComma() {
 		return this;
+	}
+
+	String Comma::toString() {
+		return Resource::s_comma;
 	}
 
 }

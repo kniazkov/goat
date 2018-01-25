@@ -73,6 +73,7 @@ namespace goat {
 
 		Operator(String _value);
 		Operator *toOperator() override;
+		String toString() override;
 	};
 
 }

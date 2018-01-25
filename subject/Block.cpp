@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Block.h"
 #include "Assert.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -66,4 +67,17 @@ namespace goat {
 		}
 	}
 
+	String Block::toString() {
+		return "{ }";
+	};
+
+	String Block::toFullString() {
+		StringBuilder b;
+		b << '{';
+		tokens->forEach([&](Token *tok) {
+			b << ' ' << tok->toFullString();
+		});
+		b << " }";
+		return b.toString();
+	}
 }

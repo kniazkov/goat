@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Undefined.h"
+#include "Resource.h"
 
 namespace goat {
 
@@ -39,4 +40,7 @@ namespace goat {
 		return p;
 	}
 
+	String Undefined::toString() {
+		return Resource::s_undefined;
+	}
 }

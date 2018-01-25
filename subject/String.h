@@ -85,7 +85,8 @@ namespace goat {
 			RawString toRawString() override;
 		};
 
-		static String valueOf(int val);
+		static String valueOf(long long int val);
+		static String valueOf(long double val, unsigned int precision, bool trim);
 		WideString toWideString();
 	};
 

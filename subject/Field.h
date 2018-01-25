@@ -69,6 +69,7 @@ namespace goat {
 		State * createState(State *_prev, Object **_context);
 		State * createStateAssign(State *_prev, Object *_obj) override;
 		void trace() override;
+		String toString() override;
 	};
 
 }

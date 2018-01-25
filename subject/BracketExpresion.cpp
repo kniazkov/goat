@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Assert.h"
 #include "BracketExpression.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -68,4 +69,13 @@ namespace goat {
 		prev->ret(obj);
 	}
 
+	String BracketExpression::toString() {
+		StringBuilder b;
+		b << '(';
+		tokens->forEach([&](Token *tok) {
+			b << tok->toString();
+		});
+		b << ')';
+		return b.toString();
+	}
 }

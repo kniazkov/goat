@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectString.h"
 #include "ObjectChar.h"
 #include "ObjectByteArray.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -227,6 +228,16 @@ namespace goat {
 		if (index) {
 			index->mark();
 		}
+	}
+
+	String Index::toString() {
+		StringBuilder b;
+		b << left->toString() << '[';
+		tokens->forEach([&](Token *tok) {
+			b << tok->toString();
+		});
+		b << ']';
+		return b.toString();
 	}
 
 }

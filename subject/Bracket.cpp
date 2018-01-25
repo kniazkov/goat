@@ -28,4 +28,8 @@ namespace goat {
 		return this;
 	}
 
+	String Bracket::toString() {
+		return String(&symbol, 1);
+	}
+
 }

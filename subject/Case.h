@@ -37,6 +37,7 @@ namespace goat {
 		~Case();
 		Case * toCase() override;
 		void trace() override;
+		String toString() override;
 	};
 
 }

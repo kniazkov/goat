@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Pair.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -39,4 +40,7 @@ namespace goat {
 		right->mark();
 	}
 
+	String Pair::toString() {
+		return (StringBuilder() << left->toString() << " : " << right->toString()).toString();
+	}
 }

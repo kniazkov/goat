@@ -29,6 +29,7 @@ namespace goat {
 	class Comma : public Token {
 	public:
 		Comma * toComma() override;
+		String toString() override;
 	};
 
 }

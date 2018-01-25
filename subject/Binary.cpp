@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectException.h"
 #include "Resource.h"
 #include "Identifier.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -128,5 +129,9 @@ namespace goat {
 		if (right) {
 			right->mark();
 		}
+	}
+
+	String Binary::toString() {
+		return (StringBuilder() << left->toString() << ' ' << oper->value << ' ' << right->toString()).toString();
 	}
 }

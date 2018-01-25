@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "DoWhile.h"
 #include "ObjectBoolean.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -95,5 +96,9 @@ namespace goat {
 		default:
 			throw NotImplemented();
 		}
+	}
+
+	String DoWhile::toString() {
+		return (StringBuilder() << "do " << stmt->toString() << " while(" << expr->toString() << ')').toString();
 	}
 }

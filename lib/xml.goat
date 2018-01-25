@@ -135,7 +135,9 @@ var XML = {
 		CLOSE_BRACKET : '>',
 		SLASH : '/',
 		IDENTIFIER : "IDENTIFIER",
-		TEXT : "TEXT"
+		TEXT : "TEXT",
+		STRING : "STRING",
+		ASSIGN : '='
 	},
 	
 	Scanner : {
@@ -246,6 +248,10 @@ var XML = {
 						this.next();
 						return new XML.Token(XML.Token.SLASH, i);
 					}
+					if (c ==  '=') {
+						this.next();
+						return new XML.Token(XML.Token.ASSIGN, i);
+					}
 					if (this.isBeginOfIdentifier(c)) {
 						var b = new StringBuilder();
 						do {
@@ -253,6 +259,16 @@ var XML = {
 							c = this.next();
 						} while(this.isSymbolOfIdentifier(c));
 						return new XML.Token(XML.Token.IDENTIFIER, i, b.toString());
+					}
+					if (c == '\"') {
+						var b = new StringBuilder();
+						c = this.next();
+						while(c != '\"') {
+							b << c;
+							c = this.next();
+						}
+						this.next();
+						return new XML.Token(XML.Token.STRING, i, b.toString());
 					}
 					break;
 					
@@ -367,6 +383,11 @@ var XML = {
 						throw new XML.Error(XML.Error.UNCLOSED_END_TAG, bracket.index);
 					}
 					return elem;
+				}
+				else if (tok.type == XML.Token.IDENTIFIER) {
+					var oper = scan.token(XML.Scanner.Mode.TAG);
+					var value = scan.token(XML.Scanner.Mode.TAG);
+					//elem.attrib[tok.data] = value.data;
 				}
 				else {
 					throw new XML.Error(XML.Error.INVALID_TOKEN, tok.index);

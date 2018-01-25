@@ -63,6 +63,7 @@ namespace goat {
 		State * break_();
 		State * continue_();
 		virtual Location * location();
+		virtual String toString();
 
 		void * operator new(MemorySize size);
 		void operator delete(void *ptr);

@@ -97,6 +97,8 @@ namespace goat {
 
 		Token();
 		virtual ~Token() {}
+		virtual String toString() = 0;
+		virtual String toFullString();
 		void mark() override;
 		void remove();
 		void replace(Token *repl);

@@ -42,6 +42,7 @@ namespace goat {
 		Break(Keyword *_kw);
 		Break *toBreak() override;
 		State * createState(State *_prev) override;
+		String toString() override;
 	};
 
 }

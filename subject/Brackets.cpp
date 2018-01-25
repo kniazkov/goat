@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Brackets.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -42,4 +43,23 @@ namespace goat {
 		tokens->mark();
 	}
 
+	String Brackets::toString() {
+		StringBuilder b;
+		b << symbol;
+		tokens->forEach([&](Token *tok) {
+			b << tok->toString();
+		});
+		switch (symbol) {
+			case '(':
+				b << ')';
+				break;
+			case '[':
+				b << ']';
+				break;
+			case '{':
+				b << '}';
+				break;
+		}
+		return b.toString();
+	}
 }

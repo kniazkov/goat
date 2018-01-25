@@ -35,6 +35,7 @@ namespace goat {
 		~Default();
 		Default * toDefault() override;
 		void trace() override;
+		String toString() override;
 	};
 
 }

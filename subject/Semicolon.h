@@ -29,6 +29,7 @@ namespace goat {
 	class Semicolon : public Token {
 	public:
 		Semicolon * toSemicolon() override;
+		String toString() override;
 	};
 
 }

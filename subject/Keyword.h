@@ -56,6 +56,7 @@ namespace goat {
 
 		Keyword(Type _type);
 		Keyword *toKeyword() override;
+		String toString() override;
 	};
 
 }

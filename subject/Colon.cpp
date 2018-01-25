@@ -21,11 +21,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Colon.h"
+#include "Resource.h"
 
 namespace goat {
 
 	Colon * Colon::toColon() {
 		return this;
+	}
+
+	String Colon::toString() {
+		return Resource::s_colon;
 	}
 
 }

@@ -146,4 +146,7 @@ namespace goat {
 		return this;
 	}
 
+	String Operator::toString() {
+		return value;
+	}
 }

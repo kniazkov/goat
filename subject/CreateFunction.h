@@ -46,7 +46,7 @@ namespace goat {
 		CreateFunction *toCreateFunction() override;
 		State * createState(State *_prev) override;
 		void trace() override;
-
+		String toString() override;
 	};
 
 }

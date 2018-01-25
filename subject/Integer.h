@@ -42,7 +42,7 @@ namespace goat {
 
 		Integer *toInteger() override;
 		State * createState(State *_prev) override;
-
+		String toString() override;
 	};
 
 }

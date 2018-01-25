@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "TokenArray.h"
 #include "Assert.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -74,5 +75,20 @@ namespace goat {
 
 	void TokenArray::StateImpl::trace() {
 		result->mark();
+	}
+
+	String TokenArray::toString() {
+		StringBuilder b;
+		b << '[';
+		int k;
+		items->forEach([&](Token *tok) {
+			if (k) {
+				b << ", ";
+			}
+			k++;
+			b << tok->toString();
+		});
+		b << " ]";
+		return b.toString();
 	}
 }

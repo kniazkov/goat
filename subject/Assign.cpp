@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Assign.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -71,5 +72,9 @@ namespace goat {
 		if (right) {
 			right->mark();
 		}
+	}
+
+	String Assign::toString() {
+		return (StringBuilder() << left->toString() << " = " << right->toString()).toString();
 	}
 }

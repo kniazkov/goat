@@ -36,6 +36,6 @@ namespace goat {
 		~Brackets();
 		Brackets * toBrackets() override;
 		void trace() override;
+		String toString() override;
 	};
-
 }

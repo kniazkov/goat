@@ -42,6 +42,7 @@ namespace goat {
 		Continue(Keyword *_kw);
 		Continue *toContinue() override;
 		State * createState(State *_prev) override;
+		String toString() override;
 	};
 
 }

@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "StatementExpression.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -55,5 +56,9 @@ namespace goat {
 
 	void StatementExpression::StateImpl::ret(Object *obj) {
 		// just ignore the object
+	}
+
+	String StatementExpression::toString() {
+		return (StringBuilder() << expr->toString() << ';').toString();
 	}
 }

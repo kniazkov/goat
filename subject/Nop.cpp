@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Nop.h"
+#include "Resource.h"
 
 namespace goat {
 
@@ -43,5 +44,9 @@ namespace goat {
 		State *p = prev;
 		delete this;
 		return p;
+	}
+
+	String Nop::toString() {
+		return Resource::s_semicolon;
 	}
 }

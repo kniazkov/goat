@@ -43,7 +43,7 @@ namespace goat {
 		Boolean(bool _value);
 		Boolean *toBoolean() override;
 		State * createState(State *_prev) override;
-
+		String toString() override;
 	};
 
 }

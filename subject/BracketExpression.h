@@ -48,6 +48,7 @@ namespace goat {
 		void trace() override;
 		BracketExpression *toBracketExpression() override;
 		State * createState(State *_prev) override;
+		String toString() override;
 	};
 
 }

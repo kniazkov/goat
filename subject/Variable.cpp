@@ -71,4 +71,7 @@ namespace goat {
 		}
 	}
 
+	String Variable::toString() {
+		return name;
+	}
 }

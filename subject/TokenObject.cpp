@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "TokenObject.h"
 #include "Pair.h"
 #include "Assert.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -114,5 +115,20 @@ namespace goat {
 		if (objKey)
 			objKey->mark();
 		result->mark();
+	}
+
+	String TokenObject::toString() {
+		StringBuilder b;
+		b << '{';
+		int k;
+		items->forEach([&](Token *tok) {
+			if (k) {
+				b << ", ";
+			}
+			k++;
+			b << tok->toString();
+		});
+		b << " }";
+		return b.toString();
 	}
 }

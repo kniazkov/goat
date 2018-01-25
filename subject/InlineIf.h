@@ -54,6 +54,7 @@ namespace goat {
 		void trace() override;
 		InlineIf *toInlineIf() override;
 		State * createState(State *_prev) override;
+		String toString() override;
 	};
 
 }

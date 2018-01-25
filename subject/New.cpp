@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectStringBuilder.h"
 #include "ObjectByteArray.h"
 #include "Resource.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -156,5 +157,9 @@ namespace goat {
 		if (retObj) {
 			retObj->mark();
 		}
+	}
+
+	String New::toString() {
+		return (StringBuilder() << "new " << fcall->toString()).toString();
 	}
 }

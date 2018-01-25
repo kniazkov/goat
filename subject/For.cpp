@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "For.h"
 #include "ObjectBoolean.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -116,5 +117,10 @@ namespace goat {
 		if (condition) {
 			condition->mark();
 		}
+	}
+
+	String For::toString() {
+		return (StringBuilder() << "for (" << init->toString() << ' ' << condition->toString() <<
+			' ' << increment->toString() << ") " << body->toString()).toString();
 	}
 }

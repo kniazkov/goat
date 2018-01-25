@@ -28,4 +28,7 @@ namespace goat {
 		return this;
 	}
 
+	String Identifier::toString() {
+		return name;
+	}
 }

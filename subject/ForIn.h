@@ -60,6 +60,7 @@ namespace goat {
 		void trace() override;
 		ForIn *toForIn() override;
 		State * createState(State *_prev) override;
+		String toString() override;
 	};
 
 }

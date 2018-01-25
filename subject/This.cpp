@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "This.h"
+#include "Resource.h"
 
 namespace goat {
 
@@ -39,4 +40,7 @@ namespace goat {
 		return p;
 	}
 
+	String This::toString() {
+		return Resource::s_this;
+	}
 }

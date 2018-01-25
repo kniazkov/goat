@@ -31,6 +31,7 @@ namespace goat {
 		String name;
 
 		Identifier *toIdentifier() override;
+		String toString() override;
 	};
 
 }

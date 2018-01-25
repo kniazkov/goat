@@ -40,4 +40,8 @@ namespace goat {
 		return p;
 	}
 
+	String Integer::toString() {
+		return String::valueOf(value);
+	}
+
 }

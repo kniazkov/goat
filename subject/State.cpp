@@ -166,6 +166,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	String State::toString() {
+		return nullptr;
+	}
+
 	RawString State::NotImplemented::toRawString() {
 		return L"state is not implemented";
 	}

@@ -35,6 +35,10 @@ namespace goat {
 		next_2nd = nullptr;
 	}
 
+	String Token::toFullString() {
+		return toString();
+	}
+
 	void Token::mark() {
 		if (!marked) {
 			marked = true;

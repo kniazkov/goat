@@ -65,6 +65,7 @@ namespace goat {
 		FunctionCall *toFunctionCall() override;
 		void trace() override;
 		State * createState(State *_prev) override;
+		String toString() override;
 	};
 
 }

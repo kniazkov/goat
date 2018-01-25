@@ -31,6 +31,7 @@ namespace goat {
 		char symbol;
 
 		Bracket * toBracket() override;
+		String toString() override;
 	};
 
 }

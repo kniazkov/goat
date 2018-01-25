@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Variable.h"
 #include "Resource.h"
 #include "Field.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -52,6 +53,21 @@ namespace goat {
 	void FunctionCall::trace() {
 		func->mark();
 		args->mark();
+	}
+
+	String FunctionCall::toString() {
+		StringBuilder b;
+		b << func->toString() << '(';
+		int k = 0;
+		args->forEach([&](Token *tok) {
+			if (k) {
+				b << ", ";
+			}
+			k++;
+			b << tok->toString();
+		});
+		b << ')';
+		return b.toString();
 	}
 
 	State * FunctionCall::createState(State *_prev) {

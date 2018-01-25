@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Try.h"
 #include "Assert.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -111,5 +112,17 @@ namespace goat {
 
 	void Try::StateImpl::trace() {
 
+	}
+
+	String Try::toString() {
+		StringBuilder b;
+		b << "try " << stmtTry->toString();
+		if (stmtCatch) {
+			b << " catch (" << varName->name << ") " << stmtCatch->toString();
+		}
+		if (stmtFinally) {
+			b << " finally " << stmtFinally->toString();
+		}
+		return b.toString();
 	}
 }

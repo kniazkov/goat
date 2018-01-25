@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "InlineIf.h"
 #include "ObjectBoolean.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -87,5 +88,10 @@ namespace goat {
 		if (condition) {
 			condition->mark();
 		}
+	}
+
+	String InlineIf::toString() {
+		return (StringBuilder() << condition->toString() << " ? " << exprIf->toString() << " : " <<
+			exprElse->toString()).toString();
 	}
 }

@@ -38,6 +38,7 @@ namespace goat {
 	public:
 		Undefined *toUndefined() override;
 		State * createState(State *_prev) override;
+		String toString() override;
 	};
 
 }

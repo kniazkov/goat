@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "In.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -36,5 +37,14 @@ namespace goat {
 
 	void In::trace() {
 		name->mark();
+	}
+
+	String In::toString() {
+		if (declVar) {
+			return (StringBuilder() << "var " << name->name << " in").toString();
+		}
+		else {
+			return (StringBuilder() << name->name << " in").toString();
+		}
 	}
 }

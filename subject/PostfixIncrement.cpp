@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectException.h"
 #include "Resource.h"
 #include "Identifier.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -123,5 +124,9 @@ namespace goat {
 		if (newValue) {
 			newValue->mark();
 		}
+	}
+
+	String PostfixIncrement::toString() {
+		return (StringBuilder() << left->toString() << oper->value).toString();
 	}
 }

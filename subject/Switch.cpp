@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Switch.h"
 #include "ObjectBoolean.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -161,5 +162,18 @@ namespace goat {
 		if (objSwitch) {
 			objSwitch->mark();
 		}
+	}
+
+	String Switch::toString() {
+		StringBuilder b;
+		b << "switch (" << expr->toString() << ") {";
+		blocks->forEach([&](Token *tok) {
+			b << ' ' << tok->toString();
+		});
+		if (def) {
+			b << ' ' << def->toString();
+		}
+		b << " }";
+		return b.toString();
 	}
 }

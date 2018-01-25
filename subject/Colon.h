@@ -29,6 +29,7 @@ namespace goat {
 	class Colon : public Token {
 	public:
 		Colon * toColon() override;
+		String toString() override;
 	};
 
 }

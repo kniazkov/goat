@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Function.h"
 #include "Assert.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -95,5 +96,20 @@ namespace goat {
 
 	void Function::StateImpl::ret(Object *obj) {
 		prev->ret(obj);
+	}
+
+	String Function::toString() {
+		StringBuilder b;
+		b << "$(";
+		int k = 0;
+		args->forEach([&](Token *tok) {
+			if (k) {
+				b << ", ";
+			}
+			k++;
+			b << tok->toString();
+		});
+		b << ") { }";
+		return b.toString();
 	}
 }

@@ -42,6 +42,6 @@ namespace goat {
 
 		Real *toReal() override;
 		State * createState(State *_prev) override;
-
+		String toString() override;
 	};
 }

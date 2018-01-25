@@ -39,4 +39,8 @@ namespace goat {
 		delete this;
 		return p;
 	}
+
+	String Real::toString() {
+		return String::valueOf(value, 16, true);
+	}
 }

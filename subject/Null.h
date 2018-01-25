@@ -38,6 +38,7 @@ namespace goat {
 	public:
 		Null * toNull() override;
 		State * createState(State *_prev) override;
+		String toString() override;
 	};
 
 }

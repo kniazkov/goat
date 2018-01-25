@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "DeclareVariable.h"
+#include "StringBuilder.h"
 
 namespace goat {
 
@@ -69,5 +70,15 @@ namespace goat {
 		if (init) {
 			init->mark();
 		}
+	}
+
+	String DeclareVariable::toString() {
+		StringBuilder b;
+		b << "var " << name;
+		if (init) {
+			b << " = " << init->toString();
+		}
+		b << ';';
+		return b.toString();
 	}
 }
