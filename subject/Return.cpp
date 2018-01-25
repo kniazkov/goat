@@ -76,4 +76,8 @@ namespace goat {
 		b << ';';
 		return b.toString();
 	}
+
+	Token * Return::StateImpl::token() {
+		return expr;
+	}
 }

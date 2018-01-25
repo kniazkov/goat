@@ -57,12 +57,20 @@ namespace goat {
 		return p;
 	}
 
+	Token * Variable::StateImpl::token() {
+		return var;
+	}
+
 	State * Variable::StateAssignImpl::next() {
 		State *p = prev;
 		scope->replace(var->name, obj);
 		p->ret(obj);
 		delete this;
 		return p;
+	}
+
+	Token * Variable::StateAssignImpl::token() {
+		return var;
 	}
 
 	void Variable::StateAssignImpl::trace() {

@@ -43,4 +43,8 @@ namespace goat {
 	String Real::toString() {
 		return String::valueOf(value, 16, true);
 	}
+
+	Token * Real::StateImpl::token() {
+		return expr;
+	}
 }

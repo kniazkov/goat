@@ -118,4 +118,8 @@ namespace goat {
 	String Prefix::toString() {
 		return (StringBuilder() << oper->value << right->toString()).toString();
 	}
+
+	Token * Prefix::StateImpl::token() {
+		return expr;
+	}
 }

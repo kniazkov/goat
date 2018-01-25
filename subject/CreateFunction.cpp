@@ -58,4 +58,8 @@ namespace goat {
 		return func->toString();
 	}
 
+	Token * CreateFunction::StateImpl::token() {
+		return expr;
+	}
+
 }

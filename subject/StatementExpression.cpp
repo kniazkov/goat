@@ -61,4 +61,8 @@ namespace goat {
 	String StatementExpression::toString() {
 		return (StringBuilder() << expr->toString() << ';').toString();
 	}
+
+	Token * StatementExpression::StateImpl::token() {
+		return stexpr;
+	}
 }

@@ -36,6 +36,7 @@ namespace goat {
 			StateImpl(State *_prev, Variable *_var) : State(_prev), var(_var) {
 			}
 			State *next() override;
+			Token *token() override;
 		};
 
 		class StateAssignImpl : public State {
@@ -47,6 +48,7 @@ namespace goat {
 			}
 			State *next() override;
 			void trace() override;
+			Token *token() override;
 		};
 
 	public:

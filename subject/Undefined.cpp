@@ -43,4 +43,8 @@ namespace goat {
 	String Undefined::toString() {
 		return Resource::s_undefined;
 	}
+
+	Token * Undefined::StateImpl::token() {
+		return nullptr;
+	}
 }

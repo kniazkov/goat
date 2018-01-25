@@ -94,4 +94,8 @@ namespace goat {
 		return (StringBuilder() << condition->toString() << " ? " << exprIf->toString() << " : " <<
 			exprElse->toString()).toString();
 	}
+
+	Token * InlineIf::StateImpl::token() {
+		return expr;
+	}
 }

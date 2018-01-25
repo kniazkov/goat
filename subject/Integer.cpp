@@ -44,4 +44,8 @@ namespace goat {
 		return String::valueOf(value);
 	}
 
+	Token * Integer::StateImpl::token() {
+		return expr;
+	}
+
 }

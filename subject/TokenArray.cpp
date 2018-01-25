@@ -91,4 +91,8 @@ namespace goat {
 		b << " ]";
 		return b.toString();
 	}
+
+	Token * TokenArray::StateImpl::token() {
+		return expr;
+	}
 }

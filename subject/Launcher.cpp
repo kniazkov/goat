@@ -53,6 +53,14 @@ namespace goat {
 			*proot = root;
 			new Thread(root, scope);
 			while (Thread::current != nullptr) {
+				if (opt->debug) {
+					if (Thread::current->state) {
+						Token *tok = Thread::current->state->token();
+						if (tok) {
+							Utils::printErr((WideStringBuilder() << tok->toString() << "\n").toWideString().cwstr());
+						}
+					}
+				}
 				if (Thread::current->step()) {
 					steps++;
 					// garbage collection

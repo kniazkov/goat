@@ -93,4 +93,8 @@ namespace goat {
 		}
 		return b.toString();
 	}
+
+	Token * If::StateImpl::token() {
+		return stmt;
+	}
 }

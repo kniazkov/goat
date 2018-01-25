@@ -102,14 +102,20 @@ namespace goat {
 		StringBuilder b;
 		b << "$(";
 		int k = 0;
-		args->forEach([&](Token *tok) {
-			if (k) {
-				b << ", ";
-			}
-			k++;
-			b << tok->toString();
-		});
+		if (args) {
+			args->forEach([&](Token *tok) {
+				if (k) {
+					b << ", ";
+				}
+				k++;
+				b << tok->toString();
+			});
+		}
 		b << ") { }";
 		return b.toString();
+	}
+
+	Token * Function::StateImpl::token() {
+		return func;
 	}
 }

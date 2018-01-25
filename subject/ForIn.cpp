@@ -127,4 +127,8 @@ namespace goat {
 		return (StringBuilder() << "for (" << in->toString() << " in " << 
 			obj->toString() << ") " << body->toString()).toString();
 	}
+
+	Token * ForIn::StateImpl::token() {
+		return stmt;
+	}
 }

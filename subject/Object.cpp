@@ -482,6 +482,7 @@ namespace goat {
 			State *next() override;
 			void trace() override;
 			void ret(Object *obj) override;
+			Token * token() override;
 		};
 
 	public:
@@ -551,6 +552,10 @@ namespace goat {
 		if (cloned) {
 			cloned->mark();
 		}
+	}
+
+	Token * Inherit::StateImpl::token() {
+		return nullptr;
 	}
 
 	void Inherit::StateImpl::ret(Object *obj) {

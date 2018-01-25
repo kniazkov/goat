@@ -176,4 +176,8 @@ namespace goat {
 		b << " }";
 		return b.toString();
 	}
+
+	Token * Switch::StateImpl::token() {
+		return stmt;
+	}
 }

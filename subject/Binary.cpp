@@ -134,4 +134,8 @@ namespace goat {
 	String Binary::toString() {
 		return (StringBuilder() << left->toString() << ' ' << oper->value << ' ' << right->toString()).toString();
 	}
+
+	Token * Binary::StateImpl::token() {
+		return expr;
+	}
 }

@@ -101,4 +101,8 @@ namespace goat {
 	String DoWhile::toString() {
 		return (StringBuilder() << "do " << stmt->toString() << " while(" << expr->toString() << ')').toString();
 	}
+
+	Token * DoWhile::StateImpl::token() {
+		return stmt;
+	}
 }

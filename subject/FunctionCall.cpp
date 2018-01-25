@@ -186,7 +186,7 @@ namespace goat {
 		prev->scope->mark();
 	}
 
-	Location * FunctionCall::StateImpl::location() {
-		return fcall->loc;
+	Token * FunctionCall::StateImpl::token() {
+		return fcall;
 	}
 }

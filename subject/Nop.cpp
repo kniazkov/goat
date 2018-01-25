@@ -49,4 +49,8 @@ namespace goat {
 	String Nop::toString() {
 		return Resource::s_semicolon;
 	}
+
+	Token * Nop::StateImpl::token() {
+		return nullptr;
+	}
 }

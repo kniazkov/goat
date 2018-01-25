@@ -131,4 +131,8 @@ namespace goat {
 		b << " }";
 		return b.toString();
 	}
+
+	Token * TokenObject::StateImpl::token() {
+		return expr;
+	}
 }

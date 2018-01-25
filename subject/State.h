@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Exception.h"
 #include "Scope.h"
 #include "Location.h"
+#include "Token.h"
 
 
 namespace goat {
@@ -63,7 +64,7 @@ namespace goat {
 		State * break_();
 		State * continue_();
 		virtual Location * location();
-		virtual String toString();
+		virtual Token * token() = 0;
 
 		void * operator new(MemorySize size);
 		void operator delete(void *ptr);

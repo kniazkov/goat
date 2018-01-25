@@ -77,4 +77,8 @@ namespace goat {
 	String Assign::toString() {
 		return (StringBuilder() << left->toString() << " = " << right->toString()).toString();
 	}
+
+	Token * Assign::StateImpl::token() {
+		return expr;
+	}
 }

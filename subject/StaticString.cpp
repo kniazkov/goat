@@ -68,4 +68,8 @@ namespace goat {
 		b << '\"';
 		return b.toString();
 	}
+
+	Token * StaticString::StateImpl::token() {
+		return expr;
+	}
 }

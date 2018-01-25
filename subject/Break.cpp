@@ -44,4 +44,8 @@ namespace goat {
 	String Break::toString() {
 		return Resource::s_breakStmt;
 	}
+
+	Token * Break::StateImpl::token() {
+		return expr;
+	}
 }

@@ -64,11 +64,11 @@ namespace goat {
 		}
 	}
 
-	Location * Throw::StateImpl::location() {
-		return stmt->loc;
-	}
-
 	String Throw::toString() {
 		return (StringBuilder() << "throw " << expr->toString() << ';').toString();
+	}
+
+	Token * Throw::StateImpl::token() {
+		return stmt;
 	}
 }

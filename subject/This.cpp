@@ -43,4 +43,8 @@ namespace goat {
 	String This::toString() {
 		return Resource::s_this;
 	}
+
+	Token * This::StateImpl::token() {
+		return nullptr;
+	}
 }

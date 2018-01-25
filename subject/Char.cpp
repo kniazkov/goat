@@ -48,4 +48,7 @@ namespace goat {
 		return (StringBuilder() << '\'' << buff << '\'').toString();
 	}
 
+	Token * Char::StateImpl::token() {
+		return expr;
+	}
 }

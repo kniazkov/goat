@@ -162,4 +162,8 @@ namespace goat {
 	String New::toString() {
 		return (StringBuilder() << "new " << fcall->toString()).toString();
 	}
+
+	Token * New::StateImpl::token() {
+		return expr;
+	}
 }

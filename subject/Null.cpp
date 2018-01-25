@@ -44,4 +44,8 @@ namespace goat {
 	String Null::toString() {
 		return Resource::s_null;
 	}
+
+	Token * Null::StateImpl::token() {
+		return nullptr;
+	}
 }

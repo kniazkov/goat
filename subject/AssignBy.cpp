@@ -144,4 +144,8 @@ namespace goat {
 	String AssignBy::toString() {
 		return (StringBuilder() << left->toString() << ' ' << oper->value << ' ' << right->toString()).toString();
 	}
+
+	Token * AssignBy::StateImpl::token() {
+		return expr;
+	}
 }

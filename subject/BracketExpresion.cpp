@@ -78,4 +78,8 @@ namespace goat {
 		b << ')';
 		return b.toString();
 	}
+
+	Token * BracketExpression::StateImpl::token() {
+		return expr;
+	}
 }

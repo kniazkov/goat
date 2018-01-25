@@ -163,11 +163,8 @@ namespace goat {
 	}
 
 	Location * State::location() {
-		return nullptr;
-	}
-
-	String State::toString() {
-		return nullptr;
+		Token *tok = token();
+		return tok ? tok->loc : nullptr;
 	}
 
 	RawString State::NotImplemented::toRawString() {

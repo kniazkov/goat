@@ -80,4 +80,8 @@ namespace goat {
 		b << " }";
 		return b.toString();
 	}
+
+	Token * Block::StateImpl::token() {
+		return block;
+	}
 }

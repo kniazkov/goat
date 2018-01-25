@@ -107,4 +107,8 @@ namespace goat {
 	String While::toString() {
 		return (StringBuilder() << "while (" << expr->toString() << ") " << stmt->toString()).toString();
 	}
+
+	Token * While::StateImpl::token() {
+		return stmt;
+	}
 }

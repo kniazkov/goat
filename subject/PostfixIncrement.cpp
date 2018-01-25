@@ -129,4 +129,8 @@ namespace goat {
 	String PostfixIncrement::toString() {
 		return (StringBuilder() << left->toString() << oper->value).toString();
 	}
+
+	Token * PostfixIncrement::StateImpl::token() {
+		return expr;
+	}
 }

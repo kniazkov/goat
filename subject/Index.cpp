@@ -146,6 +146,10 @@ namespace goat {
 		}
 	}
 
+	Token * Index::StateImpl::token() {
+		return expr;
+	}
+
 	State * Index::StateAssignImpl::next() {
 		switch (step) {
 		case GET_LEFT_OBJECT:
@@ -228,6 +232,10 @@ namespace goat {
 		if (index) {
 			index->mark();
 		}
+	}
+
+	Token * Index::StateAssignImpl::token() {
+		return expr;
 	}
 
 	String Index::toString() {

@@ -1,25 +1,3 @@
-import "xml.goat";
-
-var xml = "<root><step>First</step><step>Second</step><step>Third</step></root>";
-
-var result = null;
-try {
-	result = XML.parse(xml);
-	if (result == null) {
-		print("nothing");
-	}
-	else {
-		var str = result.toString();
-		if (str != xml) {
-			print("failed, expected: \n\n" + xml + "\n\nactual:\n\n" + str + "\n");
-		}
-		else {
-			print("passed");
-		}
-	}
-} catch(e) {
-	if (e.instanceOf(XML.Error))
-		print("error, position: " + e.index + ", type: " + e.type);
-	else
-		print(e.trace);
-}
+var i;
+for (i = 0; i < 10; i++)
+	print(i);

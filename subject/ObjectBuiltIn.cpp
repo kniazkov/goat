@@ -55,6 +55,10 @@ namespace goat {
 		obj->mark();
 	}
 
+	Token * ObjectBuiltIn::StateImpl::token() {
+		return nullptr;
+	}
+
 	class BuiltInClone : public ObjectBuiltIn {
 	public:
 		Object * run(Scope *scope) override;

@@ -48,6 +48,7 @@ namespace goat {
 			State *next() override;
 			void ret(Object *obj) override;
 			void trace() override;
+			Token * token() override;
 		};
 
 		class StateAssignImpl : public State {
@@ -70,6 +71,7 @@ namespace goat {
 			State *next() override;
 			void ret(Object *obj) override;
 			void trace() override;
+			Token * token() override;
 		};
 
 	public:

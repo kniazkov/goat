@@ -125,4 +125,8 @@ namespace goat {
 		}
 		return b.toString();
 	}
+
+	Token * Try::StateImpl::token() {
+		return stmt;
+	}
 }

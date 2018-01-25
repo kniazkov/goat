@@ -34,6 +34,7 @@ namespace goat {
 			StateImpl(State *_prev) : State(_prev) {
 			}
 			State * next() override;
+			Token * token() override;
 		};
 
 	public:

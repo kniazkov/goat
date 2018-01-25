@@ -81,4 +81,8 @@ namespace goat {
 		b << ';';
 		return b.toString();
 	}
+
+	Token * DeclareVariable::StateImpl::token() {
+		return decl;
+	}
 }

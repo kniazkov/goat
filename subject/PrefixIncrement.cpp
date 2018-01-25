@@ -129,4 +129,8 @@ namespace goat {
 	String PrefixIncrement::toString() {
 		return (StringBuilder() << oper->value << right->toString()).toString();
 	}
+
+	Token * PrefixIncrement::StateImpl::token() {
+		return expr;
+	}
 }

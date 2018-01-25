@@ -44,6 +44,7 @@ namespace goat {
 			}
 			State *next() override;
 			void trace() override;
+			Token *token() override;
 		};
 
 		class Proto : public Object {

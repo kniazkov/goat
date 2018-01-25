@@ -82,6 +82,10 @@ namespace goat {
 		}
 	}
 
+	Token * Field::StateImpl::token() {
+		return field;
+	}
+
 	State * Field::StateAssignImpl::next() {
 		if (!executed) {
 			if (!left) {
@@ -112,6 +116,10 @@ namespace goat {
 		if (left) {
 			left->mark();
 		}
+	}
+
+	Token * Field::StateAssignImpl::token() {
+		return field;
 	}
 
 	String Field::toString() {

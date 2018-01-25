@@ -44,4 +44,8 @@ namespace goat {
 	String Continue::toString() {
 		return Resource::s_continueStmt;
 	}
+
+	Token * Continue::StateImpl::token() {
+		return expr;
+	}
 }

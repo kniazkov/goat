@@ -46,4 +46,8 @@ namespace goat {
 	String Boolean::toString() {
 		return value ? Resource::s_true : Resource::s_false;
 	}
+
+	Token * Boolean::StateImpl::token() {
+		return expr;
+	}
 }
