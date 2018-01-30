@@ -56,4 +56,16 @@ namespace goat {
 
 		return result.toWideString();
 	}
+
+	void Console::write(wchar c) {
+		output->write(c);
+	}
+
+	void Console::write(const wchar *s) {
+		output->write(s);
+	}
+
+	void Console::write(WideString ws) {
+		output->write(ws.cwstr());
+	}
 }

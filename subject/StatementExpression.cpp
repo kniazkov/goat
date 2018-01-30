@@ -65,4 +65,8 @@ namespace goat {
 	Token * StatementExpression::StateImpl::token() {
 		return stexpr;
 	}
+
+	bool StatementExpression::StateImpl::stop() {
+		return !executed;
+	}
 }

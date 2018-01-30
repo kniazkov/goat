@@ -39,6 +39,7 @@ namespace goat {
 			State * next() override;
 			void ret(Object *obj) override;
 			Token * token() override;
+			bool stop() override;
 		};
 
 	public:

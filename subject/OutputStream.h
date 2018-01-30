@@ -29,7 +29,7 @@ namespace goat {
 		virtual ~OutputStream() { }
 		virtual void write(Type ch) = 0;
 
-		void write(Type *s) {
+		void write(const Type *s) {
 			while (*s) {
 				write(*s);
 				s++;

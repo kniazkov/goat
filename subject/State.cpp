@@ -39,9 +39,11 @@ namespace goat {
 	State::State(State *_prev) : mode(RUN), thru(nullptr), prev(_prev) {
 		if (prev) {
 			scope = prev->scope;
+			level = prev->level;
 		}
 		else {
 			scope = nullptr;
+			level = 0;
 		}
 	}
 
@@ -165,6 +167,10 @@ namespace goat {
 	Location * State::location() {
 		Token *tok = token();
 		return tok ? tok->loc : nullptr;
+	}
+
+	bool State::stop() {
+		return false;
 	}
 
 	RawString State::NotImplemented::toRawString() {

@@ -42,6 +42,9 @@ namespace goat {
 		}
 
 		WideString read();
+		void write(wchar c);
+		void write(const wchar *s);
+		void write(WideString ws);
 	};
 
 }

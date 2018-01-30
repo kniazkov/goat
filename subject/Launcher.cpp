@@ -52,27 +52,53 @@ namespace goat {
 			Root* root = Parser::parse(&scan, *proot, &popt);
 			*proot = root;
 			new Thread(root, scope);
-			while (Thread::current != nullptr) {
-				if (opt->debug) {
-					if (Thread::current->state) {
-						Token *tok = Thread::current->state->token();
-						if (tok) {
-							Utils::printErr((WideStringBuilder() << tok->toString() << "\n").toWideString().cwstr());
+
+			if (!opt->debug) {
+				while (Thread::current != nullptr) {
+					if (Thread::current->step()) {
+						steps++;
+						// garbage collection
+						opt->gc->collect();
+						// next thread
+						Thread::current = Thread::current->next;
+						if (Thread::current == nullptr) {
+							Thread::current = ThreadList::global.first;
 						}
 					}
-				}
-				if (Thread::current->step()) {
-					steps++;
-					// garbage collection
-					opt->gc->collect();
-					// next thread
-					Thread::current = Thread::current->next;
-					if (Thread::current == nullptr) {
-						Thread::current = ThreadList::global.first;
+					else {
+						delete Thread::current;
 					}
 				}
-				else {
-					delete Thread::current;
+			}
+			else {
+				InputStream<wchar> *input = StandartInputStream::getInstance();
+				OutputStream<wchar> *output = StandartOutputStream::getInstance();
+				Console console(input, output, L'\n', L"\r");
+
+				while (Thread::current != nullptr) {
+					if (Thread::current->state) {
+						if (Thread::current->state->stop()) {
+							Token *tok = Thread::current->state->token();
+							if (tok) {
+								console.write((WideStringBuilder() <<
+									L"\n> " << tok->loc->toString() << L": " << tok->toString() << L"\n? "
+									).toWideString());
+								console.read();
+							}
+						}
+						Thread::current->step();
+						steps++;
+						// garbage collection
+						opt->gc->collect();
+						// next thread
+						Thread::current = Thread::current->next;
+						if (Thread::current == nullptr) {
+							Thread::current = ThreadList::global.first;
+						}
+					}
+					else {
+						delete Thread::current;
+					}
 				}
 			}
 		}
@@ -189,7 +215,7 @@ namespace goat {
 		opt.gc = GarbageCollector::parallel();
 
 		while (true) {
-			output->write(prompt ? (wchar*)L"? " : (wchar*)L"  ");
+			console.write(prompt ? (wchar*)L"? " : (wchar*)L"  ");
 			WideString line = console.read();
 			if (line != L"") {
 				if (line == L"exit") {
@@ -205,7 +231,7 @@ namespace goat {
 					program.clear();
 					prompt = true;
 					run(&source, &env, scope, &root, &opt);
-					output->write(L'\n');
+					console.write(L'\n');
 				}
 			}
 		}

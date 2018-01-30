@@ -47,6 +47,7 @@ namespace goat {
 		State *prev;
 		Scope *scope;
 		PlainVector<Scope*> old;
+		unsigned int level;
 
 		State(State *_prev);
 		virtual ~State() {}
@@ -65,6 +66,7 @@ namespace goat {
 		State * continue_();
 		virtual Location * location();
 		virtual Token * token() = 0;
+		virtual bool stop();
 
 		void * operator new(MemorySize size);
 		void operator delete(void *ptr);
