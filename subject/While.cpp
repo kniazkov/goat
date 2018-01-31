@@ -111,4 +111,9 @@ namespace goat {
 	Token * While::StateImpl::token() {
 		return stmt;
 	}
+
+	bool While::StateImpl::stop() {
+		return step == CHECK_CONDITION;
+	}
+
 }
