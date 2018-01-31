@@ -31,10 +31,13 @@ namespace goat {
 	protected:
 		class StateImpl : public State {
 		public:
-			StateImpl(State *_prev) : State(_prev) {
+			Debug * stmt;
+
+			StateImpl(State *_prev, Debug *_stmt) : State(_prev), stmt(_stmt) {
 			}
 			State * next() override;
 			Token * token() override;
+			DebugMode stop() override;
 		};
 
 	public:

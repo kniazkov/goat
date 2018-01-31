@@ -38,6 +38,7 @@ namespace goat {
 		if (creator != nullptr) {
 			current = creator;
 		}
+		mode = State::DebugMode::BREAKPOINT;
 	}
 
 	Thread::~Thread() {

@@ -112,8 +112,8 @@ namespace goat {
 		return stmt;
 	}
 
-	bool While::StateImpl::stop() {
-		return step == CHECK_CONDITION;
+	State::DebugMode While::StateImpl::stop() {
+		return step == CHECK_CONDITION ? STEP_OVER : SKIP;
 	}
 
 }

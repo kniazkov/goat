@@ -169,8 +169,8 @@ namespace goat {
 		return tok ? tok->loc : nullptr;
 	}
 
-	bool State::stop() {
-		return false;
+	State::DebugMode State::stop() {
+		return SKIP;
 	}
 
 	RawString State::NotImplemented::toRawString() {

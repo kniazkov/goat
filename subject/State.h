@@ -42,6 +42,13 @@ namespace goat {
 			CONTINUE
 		};
 
+		enum DebugMode {
+			SKIP = 0,
+			STEP_INTO,
+			STEP_OVER,
+			BREAKPOINT
+		};
+
 		Mode mode;
 		Object *thru;
 		State *prev;
@@ -66,7 +73,7 @@ namespace goat {
 		State * continue_();
 		virtual Location * location();
 		virtual Token * token() = 0;
-		virtual bool stop();
+		virtual DebugMode stop();
 
 		void * operator new(MemorySize size);
 		void operator delete(void *ptr);

@@ -42,6 +42,7 @@ namespace goat {
 		Thread *prev, *next;
 		StackAllocator allocator;
 		State *state;
+		State::DebugMode mode;
 		static Thread *current;
 
 		Thread(Function *func, Scope *scope);

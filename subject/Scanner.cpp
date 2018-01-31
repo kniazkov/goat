@@ -189,6 +189,9 @@ namespace goat {
 			if (s == "import") {
 				return new Keyword(Keyword::IMPORT);
 			}
+			if (s == "debug") {
+				return new Keyword(Keyword::DEBUG);
+			}
 			Identifier *i = new Identifier();
 			i->name = s;
 			return i;

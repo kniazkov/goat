@@ -66,7 +66,7 @@ namespace goat {
 		return stexpr;
 	}
 
-	bool StatementExpression::StateImpl::stop() {
-		return !executed;
+	State::DebugMode StatementExpression::StateImpl::stop() {
+		return executed ? SKIP : STEP_OVER;
 	}
 }

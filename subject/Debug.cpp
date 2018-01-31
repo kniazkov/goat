@@ -34,7 +34,7 @@ namespace goat {
 	}
 
 	State * Debug::createState(State *_prev) {
-		return new StateImpl(_prev);
+		return new StateImpl(_prev, this);
 	}
 
 	State * Debug::StateImpl::next() {
@@ -48,6 +48,10 @@ namespace goat {
 	}
 
 	Token * Debug::StateImpl::token() {
-		return nullptr;
+		return stmt;
+	}
+
+	State::DebugMode Debug::StateImpl::stop() {
+		return BREAKPOINT;
 	}
 }

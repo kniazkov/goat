@@ -77,7 +77,12 @@ namespace goat {
 
 				while (Thread::current != nullptr) {
 					if (Thread::current->state) {
-						if (Thread::current->state->stop()) {
+						State::DebugMode mode = Thread::current->state->stop();
+						if (Thread::current->mode <= mode) {
+							switch (mode) {
+								case State::DebugMode::BREAKPOINT:
+									Thread::current->mode = State::DebugMode::STEP_OVER;
+							}
 							Token *tok = Thread::current->state->token();
 							if (tok) {
 								console.write((WideStringBuilder() <<
