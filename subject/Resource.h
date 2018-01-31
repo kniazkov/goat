@@ -60,6 +60,8 @@ namespace goat {
 		static String s_throw;
 		static String s_import;
 		static String s_this;
+		static String s_debug;
+		static String s_debugStmt;
 
 		static String s_colon;
 		static String s_semicolon;

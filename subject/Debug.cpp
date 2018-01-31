@@ -20,44 +20,34 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "Token.h"
+#include "Debug.h"
+#include "Resource.h"
 
 namespace goat {
 
-	class Keyword : public Token {
-	public:
-		enum Type {
-			VAR,
-			FUNCTION,
-			RETURN,
-			IF,
-			ELSE,
-			FOR,
-			DO,
-			WHILE,
-			NEW,
-			THREAD,
-			BREAK,
-			CONTINUE,
-			IN,
-			SWITCH,
-			CASE,
-			DEFAULT,
-			TRY,
-			CATCH,
-			FINALLY,
-			THROW,
-			IMPORT,
-			DEBUG,
-			UNKNOWN
-		};
-		Type type;
+	Debug::Debug(Keyword *kw) {
+		loc = kw->loc;
+	}
 
-		Keyword(Type _type);
-		Keyword *toKeyword() override;
-		String toString() override;
-	};
+	Debug * Debug::toDebug() {
+		return this;
+	}
 
+	State * Debug::createState(State *_prev) {
+		return new StateImpl(_prev);
+	}
+
+	State * Debug::StateImpl::next() {
+		State *p = prev;
+		delete this;
+		return p;
+	}
+
+	String Debug::toString() {
+		return Resource::s_debugStmt;
+	}
+
+	Token * Debug::StateImpl::token() {
+		return nullptr;
+	}
 }

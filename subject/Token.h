@@ -85,6 +85,7 @@ namespace goat {
 	class PrefixIncrement;
 	class PostfixIncrement;
 	class AssignBy;
+	class Debug;
 
 	class Token : public Node {
 	protected:
@@ -162,6 +163,7 @@ namespace goat {
 		virtual PrefixIncrement *toPrefixIncrement();
 		virtual PostfixIncrement *toPostfixIncrement();
 		virtual AssignBy *toAssignBy();
+		virtual Debug *toDebug();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {

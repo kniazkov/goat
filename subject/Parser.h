@@ -125,6 +125,7 @@ namespace goat {
 		void parsePrefixIncrement(Token *tok);
 		void parsePostfixIncrement(Token *tok);
 		void parseAssignBy(Token *tok);
+		void parseDebug(Token *tok);
 
 	public:
 		static Root* parse(Scanner *scan, Root *prev, Options *opt);

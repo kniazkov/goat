@@ -307,6 +307,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	Debug * Token::toDebug() {
+		return nullptr;
+	}
+
 	void TokenList::mark() {
 		forEach([](Token* tok) {
 			tok->mark();

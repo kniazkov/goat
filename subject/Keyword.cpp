@@ -56,6 +56,7 @@ namespace goat {
 			case FINALLY: return Resource::s_finally;
 			case THROW: return Resource::s_throw;
 			case IMPORT: return Resource::s_import;
+			case DEBUG: return Resource::s_debug;
 			default:
 				assert(false);
 				return nullptr;

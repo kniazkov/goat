@@ -22,42 +22,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "Token.h"
+#include "Statement.h"
+#include "Keyword.h"
 
 namespace goat {
 
-	class Keyword : public Token {
-	public:
-		enum Type {
-			VAR,
-			FUNCTION,
-			RETURN,
-			IF,
-			ELSE,
-			FOR,
-			DO,
-			WHILE,
-			NEW,
-			THREAD,
-			BREAK,
-			CONTINUE,
-			IN,
-			SWITCH,
-			CASE,
-			DEFAULT,
-			TRY,
-			CATCH,
-			FINALLY,
-			THROW,
-			IMPORT,
-			DEBUG,
-			UNKNOWN
+	class Debug : public Statement {
+	protected:
+		class StateImpl : public State {
+		public:
+			StateImpl(State *_prev) : State(_prev) {
+			}
+			State * next() override;
+			Token * token() override;
 		};
-		Type type;
 
-		Keyword(Type _type);
-		Keyword *toKeyword() override;
+	public:
+		Debug(Keyword *kw);
+		Debug *toDebug() override;
+		State * createState(State *_prev) override;
 		String toString() override;
 	};
-
 }

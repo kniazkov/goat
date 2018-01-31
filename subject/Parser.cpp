@@ -74,6 +74,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Platform.h"
 #include "SourceStream.h"
 #include "FileName.h"
+#include "Debug.h"
 
 namespace goat {
 
@@ -131,6 +132,7 @@ namespace goat {
 			parse2ndList(oper_ASSIGN_BY, &Parser::parseAssignBy, true);
 			parse2ndList(oper_ASSIGN, &Parser::parseAssign, true);
 			parse2ndList(fcall, &Parser::parseFunctionCallArgs, false);
+			parse2ndList(keyword[Keyword::DEBUG], &Parser::parseDebug, false);
 			parse2ndList(keyword[Keyword::RETURN], &Parser::parseReturn, false);
 			parse2ndList(keyword[Keyword::THROW], &Parser::parseThrow, false);
 			parse2ndList(keyword[Keyword::BREAK], &Parser::parseBreak, false);
@@ -1831,6 +1833,34 @@ namespace goat {
 			left->remove_2nd();
 		if (right->list_2nd == &expression)
 			right->remove_2nd();
+	}
+
+	/*
+		@debug [ @; ] => DEBUG
+	*/
+
+	void Parser::parseDebug(Token *tok) {
+		Keyword *kw = tok->toKeyword();
+		assert(kw != nullptr && kw->type == Keyword::DEBUG);
+
+		Semicolon *semicolon = nullptr;
+
+		if (kw->next) {
+			semicolon = kw->next->toSemicolon();
+			if (!semicolon) {
+				throw ExpectedSemicolon(kw->next);
+			}
+		}
+
+		Debug *dbg = new Debug(kw);
+		if (semicolon) {
+			kw->replace(semicolon, dbg);
+			semicolon->remove_2nd();
+		}
+		else {
+			kw->replace(dbg);
+		}
+		kw->remove_2nd();
 	}
 
 	RawString Parser::ParseError::toRawString() {

@@ -37,6 +37,7 @@
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="Continue.cpp" />
     <ClCompile Include="CreateFunction.cpp" />
+    <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DeclareVariable.cpp" />
     <ClCompile Include="Default.cpp" />
     <ClCompile Include="Dot.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="Console.h" />
     <ClInclude Include="Continue.h" />
     <ClInclude Include="CreateFunction.h" />
+    <ClInclude Include="Debug.h" />
     <ClInclude Include="DeclareVariable.h" />
     <ClInclude Include="Default.h" />
     <ClInclude Include="Dot.h" />

@@ -55,6 +55,8 @@ namespace goat {
 	String Resource::s_throw = "throw";
 	String Resource::s_import = "import";
 	String Resource::s_this = "this";
+	String Resource::s_debug = "debug";
+	String Resource::s_debugStmt = "debug;";
 
 	String Resource::s_colon = ":";
 	String Resource::s_semicolon = ";";
