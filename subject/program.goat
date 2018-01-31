@@ -1,8 +1,8 @@
-var i = 0;
+var i = {val : 0};
 debug;
-while (i < 10) {
+while (i.val < 10) {
 	print(i);
-	i = i + 1;
+	i.val = i.val + 1;
 }
 debug;
 print(13.0);

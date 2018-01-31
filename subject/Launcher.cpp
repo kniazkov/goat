@@ -99,7 +99,14 @@ namespace goat {
 								).toWideString());
 
 								WideString cmd = console.read();
-								if (cmd == Resource::w_continue || cmd == L"c") {
+								if (cmd.len() > 1 && cmd[0] == L'$') {
+									String name = cmd.subString(1, cmd.len() - 1).toString();
+									Object *obj = Thread::current->state->scope->find(name);
+									if (obj) {
+										console.write(obj->toWideStringNotation());
+									}
+								}
+								else if (cmd == Resource::w_continue || cmd == L"c") {
 									Thread::current->mode = State::DebugMode::BREAKPOINT;
 								}
 							}
