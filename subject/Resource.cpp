@@ -66,4 +66,9 @@ namespace goat {
 	WideString Resource::w_undefined = L"undefined";
 	WideString Resource::w_null = L"null";
 	WideString Resource::w_File = L"File";
+
+	WideString Resource::w_continue = L"continue";
+	WideString Resource::w_step = L"step";
+	WideString Resource::w_into = L"into";
+	WideString Resource::w_out = L"out";
 }

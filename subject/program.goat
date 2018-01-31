@@ -1,6 +1,8 @@
 var i = 0;
+debug;
 while (i < 10) {
-	debug;
 	print(i);
 	i = i + 1;
 }
+debug;
+print(13.0);

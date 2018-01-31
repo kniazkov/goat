@@ -37,6 +37,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "SourceString.h"
 #include "WideStringBuilder.h"
 #include "FileName.h"
+#include "Resource.h"
 
 namespace goat {
 
@@ -79,16 +80,28 @@ namespace goat {
 					if (Thread::current->state) {
 						State::DebugMode mode = Thread::current->state->stop();
 						if (Thread::current->mode <= mode) {
-							switch (mode) {
-								case State::DebugMode::BREAKPOINT:
-									Thread::current->mode = State::DebugMode::STEP_OVER;
-							}
 							Token *tok = Thread::current->state->token();
 							if (tok) {
+								WideString strMode;
+								switch (mode) {
+									case State::DebugMode::BREAKPOINT:
+										Thread::current->mode = State::DebugMode::STEP_OVER;
+										strMode = Resource::w_step;
+										break;
+									case State::DebugMode::STEP_OVER:
+										strMode = Resource::w_step;
+										break;
+								}
+
 								console.write((WideStringBuilder() <<
-									L"\n> " << tok->loc->toString() << L": " << tok->toString() << L"\n? "
-									).toWideString());
-								console.read();
+									L"\n> " << tok->loc->toString() << L": " << tok->toString() << 
+									L"\n[" << strMode << L"] ? "
+								).toWideString());
+
+								WideString cmd = console.read();
+								if (cmd == Resource::w_continue || cmd == L"c") {
+									Thread::current->mode = State::DebugMode::BREAKPOINT;
+								}
 							}
 						}
 						Thread::current->step();
