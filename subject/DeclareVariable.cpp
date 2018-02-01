@@ -85,4 +85,11 @@ namespace goat {
 	Token * DeclareVariable::StateImpl::token() {
 		return decl;
 	}
+
+	State::DebugMode DeclareVariable::StateImpl::stop() {
+		if (decl->init != nullptr) {
+			return init ? SKIP : OVER;
+		}
+		return SKIP;
+	}
 }

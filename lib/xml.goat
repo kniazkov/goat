@@ -207,6 +207,7 @@ var XML = {
 				case '|':
 				case '}':
 				case '~':
+				case '=':
 					return false;
 				default:
 					return true;
@@ -380,7 +381,7 @@ var XML = {
 				else if (tok.type == XML.Token.IDENTIFIER) {
 					var oper = scan.token(XML.Scanner.Mode.TAG);
 					var value = scan.token(XML.Scanner.Mode.TAG);
-					//elem.attrib[tok.data] = value.data;
+					elem.attrib[tok.data] = value.data;
 				}
 				else {
 					throw new XML.Error(XML.Error.INVALID_TOKEN, tok.index);
