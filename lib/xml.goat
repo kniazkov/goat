@@ -62,7 +62,7 @@ var XML = {
 			var res = new StringBuilder();
 			res << '<' << tag;
 			for (var key in attrib) {
-				res << ' ' << key << "=\"" << attrib[key] << '\"'; 
+				res << ' ' << key << "=\"" << escapeEntities(attrib[key]) << '\"'; 
 			}
 			var len = content.length();
 			if (len == 0) {
@@ -87,7 +87,7 @@ var XML = {
 			res.append(indent, level);
 			res << '<' << tag;
 			for (var key in attrib) {
-				res << ' ' << key << "=\"" << attrib[key] << '\"'; 
+				res << ' ' << key << "=\"" << escapeEntities(attrib[key]) << '\"'; 
 			}
 			var len = content.length();
 			do {
@@ -116,6 +116,35 @@ var XML = {
 				res << "</" << tag << ">\n";
 			} while(false);
 			return res.toString();			
+		},
+		
+		escapeEntities : $(s) {
+			var b = new StringBuilder();
+			var i, l = s.length();
+			for (i = 0; i < l; i++) {
+				var c = s[i];
+				switch(c) {
+					case '<':
+						b << "&lt;";
+						break;
+					case '>':
+						b << "&gt;";
+						break;
+					case '&':
+						b << "&amp;";
+						break;
+					case '\"':
+						b << "&quot;";
+						break;
+					case '\'':
+						b << "&apos;";
+						break;
+					default:
+						b << c;
+						break;
+				}
+			}
+			return b.toString();
 		}
 	},
 	
