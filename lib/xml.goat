@@ -270,6 +270,16 @@ var XML = {
 						this.next();
 						return new XML.Token(XML.Token.STRING, i, b.toString());
 					}
+					if (c == '\'') {
+						var b = new StringBuilder();
+						c = this.next();
+						while(c != '\'') {
+							b << c;
+							c = this.next();
+						}
+						this.next();
+						return new XML.Token(XML.Token.STRING, i, b.toString());
+					}
 					break;
 					
 				case XML.Scanner.Mode.DATA:
