@@ -78,36 +78,99 @@ namespace goat {
 
 				while (Thread::current != nullptr) {
 					if (Thread::current->state) {
-						State::DebugMode mode = Thread::current->state->stop();
-						if (Thread::current->mode <= mode) {
-							Token *tok = Thread::current->state->token();
-							if (tok) {
-								WideString strMode;
-								switch (mode) {
-									case State::DebugMode::BREAKPOINT:
-										Thread::current->mode = State::DebugMode::STEP_OVER;
+						Token *tok = Thread::current->state->token();
+						if (tok) {
+							WideString strMode;
+							bool stop = false;
+							State::DebugMode mode = Thread::current->state->stop();
+							switch (Thread::current->mode) {
+								case State::DebugMode::SKIP:
+									break;
+								case State::DebugMode::OUT:
+									if (mode == State::DebugMode::BREAKPOINT) {
+										Thread::current->mode = State::DebugMode::OVER;
 										strMode = Resource::w_step;
-										break;
-									case State::DebugMode::STEP_OVER:
+										stop = true;
+									}
+									else if ((mode == State::DebugMode::OVER || mode == State::DebugMode::INTO) && Thread::current->level > Thread::current->state->level) {
+										strMode = Resource::w_out;
+										stop = true;
+									}
+									break;
+								case State::DebugMode::INTO:
+									if (mode == State::DebugMode::BREAKPOINT) {
+										Thread::current->mode = State::DebugMode::OVER;
 										strMode = Resource::w_step;
-										break;
-								}
+										stop = true;
+									}
+									else if (mode == State::DebugMode::OVER) {
+										strMode = Resource::w_into;
+										stop = true;
+									}
+									else if (mode == State::DebugMode::INTO) {
+										Thread::current->mode = State::DebugMode::OVER;
+										Thread::current->level++;
+									}
+									break;
+								case State::DebugMode::OVER:
+									if (mode == State::DebugMode::BREAKPOINT ||
+										(mode == State::DebugMode::OVER && Thread::current->level >= Thread::current->state->level))
+									{
+										strMode = Resource::w_step;
+										stop = true;
+									}
+									break;
+								case State::DebugMode::BREAKPOINT:
+									if (mode == State::DebugMode::BREAKPOINT) {
+										Thread::current->mode = State::DebugMode::OVER;
+										strMode = Resource::w_step;
+										stop = true;
+									}
+									break;
+							}
 
+							if (stop) {
+								Thread::current->level = Thread::current->state->level;
 								console.write((WideStringBuilder() <<
 									L"\n> " << tok->loc->toString() << L": " << tok->toString() << 
-									L"\n[" << strMode << L"] ? "
+									L"\n[" << strMode << L"] "
 								).toWideString());
 
-								WideString cmd = console.read();
-								if (cmd.len() > 1 && cmd[0] == L'$') {
-									String name = cmd.subString(1, cmd.len() - 1).toString();
-									Object *obj = Thread::current->state->scope->find(name);
-									if (obj) {
-										console.write(obj->toWideStringNotation());
+								while (true) {
+									console.write(L"? ");
+									WideString cmd = console.read();
+									unsigned int len = cmd.len();
+									if (len == 0) {
+										break;
 									}
-								}
-								else if (cmd == Resource::w_continue || cmd == L"c") {
-									Thread::current->mode = State::DebugMode::BREAKPOINT;
+									else if (cmd.len() > 1 && cmd[0] == L'$') {
+										String name = cmd.subString(1, len - 1).toString();
+										Object *obj = Thread::current->state->scope->find(name);
+										if (obj) {
+											console.write((WideStringBuilder() << 
+												name << L": " << obj->toWideStringNotation() << L'\n'
+											).toWideString());
+										}
+									}
+									else if (cmd == Resource::w_continue || cmd == L"c") {
+										Thread::current->mode = State::DebugMode::BREAKPOINT;
+										break;
+									}
+									else if (cmd == Resource::w_step || cmd == L"s") {
+										Thread::current->mode = State::DebugMode::OVER;
+										break;
+									}
+									else if (cmd == Resource::w_into || cmd == L"i") {
+										Thread::current->mode = State::DebugMode::INTO;
+										break;
+									}
+									else if (cmd == Resource::w_out || cmd == L"o") {
+										Thread::current->mode = State::DebugMode::OUT;
+										break;
+									}
+									else {
+										console.write(L"unknown command.\n");
+									}
 								}
 							}
 						}

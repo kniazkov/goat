@@ -43,9 +43,10 @@ namespace goat {
 		};
 
 		enum DebugMode {
-			SKIP = 0,
-			STEP_INTO,
-			STEP_OVER,
+			SKIP,
+			OUT,
+			INTO,
+			OVER,
 			BREAKPOINT
 		};
 

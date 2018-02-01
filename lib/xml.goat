@@ -29,7 +29,6 @@ var XML = {
 		parser.parseContent(elem);
 		if (elem.content.length() > 0) {
 			elem = elem.content[0];
-			elem.debug = parser.log.toString();
 			return elem;
 		}
 		else {
@@ -303,17 +302,11 @@ var XML = {
 	
 	Parser : {
 		scan : null,
-		log : null,
 		
 		init : $(scan) {
 			this.scan = scan;
-			this.log = new StringBuilder();
 		},
 		
-//		debug : $(message) {
-//			log << message << "\n";
-//		},
-
 		parseContent : $(elem) {
 			while(true) {
 				var tok = scan.token(XML.Scanner.Mode.DATA);

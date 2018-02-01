@@ -745,7 +745,8 @@ namespace goat {
 		left->replace(right, assign);
 		oper->remove_2nd();
 		left->remove_2nd();
-		right->remove_2nd();
+		if (!right->toFunctionCall())
+			right->remove_2nd();
 		expression.pushBack(assign);
 	}
 

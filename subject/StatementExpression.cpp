@@ -67,6 +67,6 @@ namespace goat {
 	}
 
 	State::DebugMode StatementExpression::StateImpl::stop() {
-		return executed ? SKIP : STEP_OVER;
+		return executed ? SKIP : OVER;
 	}
 }

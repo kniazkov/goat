@@ -39,6 +39,7 @@ namespace goat {
 			current = creator;
 		}
 		mode = State::DebugMode::BREAKPOINT;
+		level = 0;
 	}
 
 	Thread::~Thread() {

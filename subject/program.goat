@@ -1,8 +1,32 @@
-var i = {val : 0};
 debug;
-while (i.val < 10) {
-	print(i);
-	i.val = i.val + 1;
-}
-debug;
-print(13.0);
+
+var _plus = $(a, b){
+	var x;
+	debug;
+	x = a + b;
+	x = a + b;
+	x = a + b;
+	x = a + b;
+	return x;
+};
+
+
+var plus = $(a, b){
+	var x;
+	x = _plus(a, b);
+	return x;
+};
+
+var mul = $(a, b){
+	var x;
+	x = a * b;
+	return x;
+};
+
+var a, b, c, d;
+a = 2;
+b = 3;
+c = plus(a, b);
+d = mul(a, b);
+print(String.valueOf(c) + '\n');
+print(d);

@@ -42,6 +42,7 @@ namespace goat {
 			void ret(Object *obj) override;
 			void trace() override;
 			Token * token() override;
+			DebugMode stop() override;
 		};
 
 	public:

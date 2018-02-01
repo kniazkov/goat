@@ -81,6 +81,7 @@ namespace goat {
 		retObj = nullptr;
 		thisObj = nullptr;
 		arguments = new ObjectArray();
+		level++;
 	}
 
 	State * FunctionCall::StateImpl::next() {
@@ -188,5 +189,9 @@ namespace goat {
 
 	Token * FunctionCall::StateImpl::token() {
 		return fcall;
+	}
+
+	State::DebugMode FunctionCall::StateImpl::stop() {
+		return step == GET_FUNC_OBJECT ? INTO : SKIP;
 	}
 }

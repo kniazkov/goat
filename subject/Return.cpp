@@ -80,4 +80,8 @@ namespace goat {
 	Token * Return::StateImpl::token() {
 		return expr;
 	}
+
+	State::DebugMode Return::StateImpl::stop() {
+		return executed ? SKIP : OVER;
+	}
 }
