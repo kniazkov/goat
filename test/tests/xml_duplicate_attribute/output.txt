@@ -1,0 +1,1 @@
+error, position: 24, type: duplicate attribute

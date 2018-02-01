@@ -298,7 +298,10 @@ var XML = {
 		EXPECTED_TAG_NAME : "expected tag name",
 		UNEXPECTED_END : "unexpected end",
 		END_TAG_MISMATCH : "end tag does not match the start tag",
-		UNCLOSED_END_TAG : "end element was missing the character \'>\'"
+		UNCLOSED_END_TAG : "end element was missing the character \'>\'",
+		MISSING_EQUALS : "missing \'=\' sign between attribute and attribute value",
+		MISSING_STRING : "a string literal was expected",
+		DUPLICATE_ATTRIBUTE: "duplicate attribute"
 	},
 	
 	Parser : {
@@ -380,7 +383,22 @@ var XML = {
 				}
 				else if (tok.type == XML.Token.IDENTIFIER) {
 					var oper = scan.token(XML.Scanner.Mode.TAG);
+					if (!oper) {
+						throw new XML.Error(XML.Error.MISSING_EQUALS, scan.index);
+					}
+					if (oper.type != XML.Token.ASSIGN) {
+						throw new XML.Error(XML.Error.MISSING_EQUALS, oper.index);
+					}
 					var value = scan.token(XML.Scanner.Mode.TAG);
+					if (!value) {
+						throw new XML.Error(XML.Error.MISSING_STRING, scan.index);
+					}
+					if (value.type != XML.Token.STRING) {
+						throw new XML.Error(XML.Error.MISSING_STRING, value.index);
+					}
+					if (defined(elem.attrib[tok.data])) {
+						throw new XML.Error(XML.Error.DUPLICATE_ATTRIBUTE, tok.index);
+					}
 					elem.attrib[tok.data] = value.data;
 				}
 				else {

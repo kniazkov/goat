@@ -1,0 +1,1 @@
+error, position: 17, type: a string literal was expected
