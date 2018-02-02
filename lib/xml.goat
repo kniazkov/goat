@@ -74,7 +74,7 @@ var XML = {
 					if (child.instanceOf(XML.Element)) {
 						res << child.toSimpleString();
 					} else {
-						res << child;
+						res << escapeEntities(child);
 					}
 				}
 				res << "</" << tag << '>';
@@ -109,7 +109,7 @@ var XML = {
 						res << child.toIndentedString(indent, level + 1);
 					} else {
 						res.append(indent, level + 1);
-						res << child << '\n';
+						res << escapeEntities(child) << '\n';
 					}
 				}
 				res.append(indent, level);
@@ -251,6 +251,42 @@ var XML = {
 			return true;
 		},
 		
+		parseEntity : $() {
+			debug;
+			var c = this.next();
+			var b = new StringBuilder();
+			do {
+				if (c == ';') {
+					break;
+				}
+				if (c == null) {
+					throw new XML.Error(XML.Error.UNEXPECTED_END, index);
+				}
+				if (this.isSymbolOfIdentifier(c)) {
+					b << c;
+				}
+				else {
+					throw new XML.Error(XML.Error.INVALID_CHARACTER, index);
+				}
+				c = this.next();
+			} while(true);
+			var e = b.toString();
+			switch(e) {
+				case "lt":
+					return '<';
+				case "gt":
+					return '>';
+				case "amp":
+					return '&';
+				case "apos":
+					return '\'';
+				case "quot":
+					return '\"';
+				default:
+					throw new XML.Error(XML.Error.UNKNOWN_ENTITY, index);
+			}
+		},
+		
 		token : $(mode) {
 			var c = this.get();
 			
@@ -314,13 +350,17 @@ var XML = {
 				case XML.Scanner.Mode.DATA:
 					var b = new StringBuilder();
 					do {
-						b << c;
+						if (c == '&') {
+							b << this.parseEntity();
+						} else {
+							b << c;
+						}
 						c = this.next();
 					} while(c != '<' && c != '>' && c != null);
 					return new XML.Token(XML.Token.TEXT, i, b.toString());
 			}
 			
-			return null;
+			throw new XML.Error(XML.Error.INVALID_CHARACTER, index);
 		}
 	},
 	
@@ -340,7 +380,9 @@ var XML = {
 		UNCLOSED_END_TAG : "end element was missing the character \'>\'",
 		MISSING_EQUALS : "missing \'=\' sign between attribute and attribute value",
 		MISSING_STRING : "a string literal was expected",
-		DUPLICATE_ATTRIBUTE: "duplicate attribute"
+		DUPLICATE_ATTRIBUTE: "duplicate attribute",
+		UNKNOWN_ENTITY: "unknown entity",
+		INVALID_CHARACTER: "invalid charecter"
 	},
 	
 	Parser : {
