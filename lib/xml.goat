@@ -329,7 +329,14 @@ var XML = {
 						var b = new StringBuilder();
 						c = this.next();
 						while(c != '\"') {
-							b << c;
+							if (c == null) {
+								throw new XML.Error(XML.Error.UNEXPECTED_END, index);
+							}
+							if (c == '&') {
+								b << this.parseEntity();
+							} else {
+								b << c;
+							}
 							c = this.next();
 						}
 						this.next();
@@ -339,7 +346,14 @@ var XML = {
 						var b = new StringBuilder();
 						c = this.next();
 						while(c != '\'') {
-							b << c;
+							if (c == null) {
+								throw new XML.Error(XML.Error.UNEXPECTED_END, index);
+							}
+							if (c == '&') {
+								b << this.parseEntity();
+							} else {
+								b << c;
+							}
 							c = this.next();
 						}
 						this.next();
