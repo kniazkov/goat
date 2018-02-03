@@ -300,8 +300,61 @@ var XML = {
 				case null:
 					return null;					
 				case '<':
-					this.next();
-					return new XML.Token(XML.Token.OPEN_BRACKET, i);
+					c = this.next();
+					if (c == '!') { // <![CDATA[ ?
+						i = index;
+						c = this.next();
+						var b = new StringBuilder();
+						do {
+							b << c;
+							c = this.next();
+						} while(c != '[' && c != null);
+						if (c == null) {
+							throw new XML.Error(XML.Error.UNEXPECTED_END, index);
+						}
+						if (b.toString() != "[CDATA") {
+							return new XML.Token(XML.Token.EXPECTED_CDATA_SEQUENCE, i);
+						}
+						i = index;
+						b = new StringBuilder();
+						while(true) {
+							var c0 = this.next();
+							if (c0 == null) {
+								throw new XML.Error(XML.Error.UNEXPECTED_END, index);
+							}
+							else if (c0 != ']') {
+								b << c0;
+							}
+							else {
+								var c1 = this.next();
+								if (c1 == null) {
+									throw new XML.Error(XML.Error.UNEXPECTED_END, index);
+								}
+								else if (c1 != ']') {
+									b << c0;
+									b << c1;
+								}
+								else {
+									var c2 = this.next();
+									if (c2 == null) {
+										throw new XML.Error(XML.Error.UNEXPECTED_END, index);
+									}
+									else if (c2 != '>') {
+										b << c0;
+										b << c1;
+										b << c2;
+									}
+									else {
+										this.next();
+										return new XML.Token(XML.Token.TEXT, i, b.toString());
+									}
+								}
+							}
+						}
+					}
+					else {
+						return new XML.Token(XML.Token.OPEN_BRACKET, i);
+					}
 				case '>':
 					this.next();
 					return new XML.Token(XML.Token.CLOSE_BRACKET, i);
@@ -396,7 +449,8 @@ var XML = {
 		MISSING_STRING : "a string literal was expected",
 		DUPLICATE_ATTRIBUTE: "duplicate attribute",
 		UNKNOWN_ENTITY: "unknown entity",
-		INVALID_CHARACTER: "invalid charecter"
+		INVALID_CHARACTER: "invalid character",
+		EXPECTED_CDATA_SEQUENCE: "expected <![CDATA[ sequence"
 	},
 	
 	Parser : {
