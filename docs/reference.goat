@@ -1,0 +1,79 @@
+/*
+
+Copyright (C) 2017, 2018 Ivan Kniazkov
+
+This file is part of interpreter of programming language
+codenamed "Goat" ("Goat interpreter").
+
+Goat interpreter is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat interpreter is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+import "xml.goat";
+
+/*
+	Read XML file
+*/
+var file = open("reference.xml", File.Mode.READ);
+debug;
+file.seek(0, File.Origin.END);
+var len = file.position();
+file.seek(0, File.Origin.BEGIN);
+var raw = file.read(len);
+var xml = raw.decodeUTF8();
+
+/*
+	Parse XML and generate HTML
+*/
+var parseSection = $(src, num, dst) {
+	var i, l = src.content.length();
+	for (i = 0; i < l; i++) {
+		var child = src.content[i];
+		if (child.instanceOf(XML.Element)) {
+			if (child.tag == "section") {
+				dst.content.push(num + (i + 1) + ". " + child.attrib.name);
+				var section = new XML.Element("div");
+				dst.content.push(section);
+				parseSection(child, "" + (i + 1) + '.', section);
+			}
+			else if (child.tag == "p") {
+				dst.content.push("" + child.content[0]);
+			}
+			else if (child.tag == "url") {
+				var href = new XML.Element("a");
+				href.attrib["href"] = child.content[0];
+				href.content.push("" + child.content[0]);
+				dst.content.push(href);
+			}
+		}
+		else if (child.instanceOf(String)) {
+			dst.content.push(child);
+		}
+	}
+};
+
+var root = null;
+try {
+	var html = new XML.Element("html");
+	var body = new XML.Element("body");
+	html.content.push(body);
+	root = XML.parse(xml);
+	parseSection(root, "", body);
+	print(html.toString("  "));
+} catch(e) {
+	if (e.instanceOf(XML.Error))
+		print("error, position: " + e.index + ", type: " + e.type);
+	else
+		print(e.trace);
+}

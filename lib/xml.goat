@@ -252,7 +252,6 @@ var XML = {
 		},
 		
 		parseEntity : $() {
-			debug;
 			var c = this.next();
 			var b = new StringBuilder();
 			do {

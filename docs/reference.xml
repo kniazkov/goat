@@ -1,0 +1,13 @@
+<goat>
+	<section name="Introduction">
+		<section name="First">
+			<p>Blah blah blah</p>
+		</section>
+		<section name="Second">
+			<p>Blah blah blah blah</p>
+		</section>
+	</section>
+	<section name="Where to download the latest release?">
+		On GitHub: <url>https://github.com/kniazkov/goat/releases/latest</url>.
+	</section>
+</goat>
