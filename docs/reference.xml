@@ -1,13 +1,30 @@
 <goat>
 	<section name="Introduction">
 		<section name="First">
-			<p>Blah blah blah</p>
+			<p>Goat is a high-level, dynamic, weakly typed, prototype-based, multi-paradigm, and interpreted programming language, based on JavaScript. It supports the basic functionality of JavaScript, but in addition, it adds support for multithreading, multiple inheritance, operator overloading (all as in C ++), simplified syntax, and so on.</p>
+			<p>Why "Goat"? At first I wanted to name this programming language as "Go", but unfortunately, some little-known company (it seems "Google" or something like that) has already developed a programming language with that name. After a while, when I programmed this interpreter on a laptop lying in a hammock, I was suddenly bitten by my goat. I thought that once the name "Go" is occupied, then perhaps the name "Goat" is no worse. I immediately named the project folder this name and since then it has not changed.</p>
 		</section>
 		<section name="Second">
 			<p>Blah blah blah blah</p>
 		</section>
 	</section>
 	<section name="Where to download the latest release?">
-		On GitHub: <url>https://github.com/kniazkov/goat/releases/latest</url>.
+		<p>On GitHub: <url>https://github.com/kniazkov/goat/releases/latest</url>.</p>
+		<section name="Sample">
+			<p>Blah blah blah</p>
+		</section>
+		<section name="Sample 2">
+			<section name="Something">
+				<section name="Testing">
+					<p>Blah blah blah blah</p>
+				</section>
+				<section name="Another Testing">
+					<p>Blah blah blah blah</p>
+				</section>
+			</section>
+			<section name="Something else">
+				<p>Blah blah blah blah</p>
+			</section>
+		</section>		
 	</section>
 </goat>

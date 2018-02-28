@@ -36,19 +36,25 @@ var xml = raw.decodeUTF8();
 /*
 	Parse XML and generate HTML
 */
-var parseSection = $(src, num, dst) {
+var parseSection = $(src, level, prefix, dst) {
 	var i, l = src.content.length();
+	var k = 1;
 	for (i = 0; i < l; i++) {
 		var child = src.content[i];
 		if (child.instanceOf(XML.Element)) {
 			if (child.tag == "section") {
-				dst.content.push(num + (i + 1) + ". " + child.attrib.name);
+				var title = new XML.Element("div", prefix + k + ". " + child.attrib.name);
+				title.attrib["style"] = "font-size: " + level2FontSize(level) + "pt; font-weight: bold;";
+				dst.content.push(title);
 				var section = new XML.Element("div");
 				dst.content.push(section);
-				parseSection(child, "" + (i + 1) + '.', section);
+				section.attrib["style"] = "margin-left: 30px;";
+				parseSection(child, level + 1, prefix + k + '.', section);
+				k++;
 			}
 			else if (child.tag == "p") {
-				dst.content.push("" + child.content[0]);
+				var para = new XML.Element("div", "" + child.content[0]);
+				dst.content.push(para);
 			}
 			else if (child.tag == "url") {
 				var href = new XML.Element("a");
@@ -63,13 +69,37 @@ var parseSection = $(src, num, dst) {
 	}
 };
 
+var level2FontSize = $(level) {
+	switch(level) {
+		case 0:
+			return 18;
+		case 1:
+			return 16;
+		case 2:
+			return 14;
+		default:
+			return 12;
+	}
+};
+
 var root = null;
 try {
 	var html = new XML.Element("html");
+	var head = new XML.Element("head");
+	html.content.push(head);
+	var title = new XML.Element("title", "The Goat Programming Language Reference");
+	head.content.push(title);
+	var font = new XML.Element("link");
+	head.content.push(font);
+	font.attrib["href"] = "https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed";
+	font.attrib["rel"] = "stylesheet";
+	var style = new XML.Element("style");
+	head.content.push(style);
+	style.content.push("body { font-family: \'Barlow Semi Condensed\', sans-serif; font-size: 12 pt}");
 	var body = new XML.Element("body");
 	html.content.push(body);
 	root = XML.parse(xml);
-	parseSection(root, "", body);
+	parseSection(root, 0, "", body);
 	print(html.toString("  "));
 } catch(e) {
 	if (e.instanceOf(XML.Error))
