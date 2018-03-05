@@ -81,6 +81,12 @@ var parseSection = $(src, level, prefix, dst) {
 				dst.content.push(para);
 				parseParagraph(child, para);
 			}
+			else if (child.tag == "code") {
+				var code = new XML.Element("div");
+				code.attrib["class"] = "code";
+				dst.content.push(code);
+				parseCode(child, code);
+			}
 		}
 		else if (child.instanceOf(String)) {
 			dst.content.push(child);
@@ -116,6 +122,73 @@ var parseParagraph = $(src, dst) {
 	}
 };
 
+var parseCode = $(src, dst) {
+	var str = src.content[0];
+	var b = new StringBuilder();
+	for (var i = 0; i < str.length(); i++) {
+		switch(str[i]) {
+			case '\r':
+				break;
+			case '\t':
+				b.append("  ");
+				break;
+			default:
+				b << str[i];
+				break;
+		}
+	}
+	var lines = b.toString().split('\n');
+	var k = 0;
+	var offset = null;
+	var line;
+	while(k < lines.length()) {
+		line = lines[k];
+		if (line.length() == 0) {
+			k++;
+			continue;
+		}
+		for (var i = 0; i < line.length(); i++) {
+			if (line[i] != ' ') {
+				offset = i;
+				break;
+			}
+		}
+		if (offset != null) {
+			break;
+		}
+		k++;
+	}
+	if (offset == null) {
+		dst.content.push(lines[0]);
+		return;
+	}
+	line = lines[k];
+	dst.content.push(line.subString(offset));
+	dst.content.push(new XML.Element("br"));
+	k++;
+	for (; k < lines.length(); k++) {
+		line = lines[k];
+		line = line.subString(offset);
+		var i = 0;
+		var b = new StringBuilder();
+		for (; i < line.length(); i++) {
+			if (line[i] == ' ') {
+				b << "&nbsp;";
+			}
+			else {
+				break;
+			}
+		}
+		var nbsp = b.toString();
+		if (nbsp.length() > 0) {
+			nbsp.noEscape = true;
+			dst.content.push(nbsp);
+		}
+		dst.content.push(line.subString(i));
+		dst.content.push(new XML.Element("br"));
+	}
+};
+
 var level2FontSize = $(level) {
 	switch(level) {
 		case 0:
@@ -138,15 +211,16 @@ try {
 	head.content.push(title);
 	var font = new XML.Element("link");
 	head.content.push(font);
-	font.attrib["href"] = "https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed";
+	font.attrib["href"] = "https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed|Overpass+Mono";
 	font.attrib["rel"] = "stylesheet";
 	var style = new XML.Element("style");
 	head.content.push(style);
 	style.content.push("body { font-family: Barlow Semi Condensed, sans-serif; font-size: 12pt;}");
+	style.content.push(".code { font-family: Overpass Mono, monospace; font-size: 10pt; padding-top: 10px; }");
 	style.content.push("a { color: blue; text-decoration: underline;}");
 	style.content.push(".section { margin-left: 30px; }");
-	style.content.push(".para { padding-top: 5px; }");
-	style.content.push(".header { font-weight: bold; padding-top: 10px;}");
+	style.content.push(".para { padding-top: 10px; }");
+	style.content.push(".header { font-weight: bold; padding-top: 15px;}");
 	var body = new XML.Element("body");
 	html.content.push(body);
 	var tocHdr = new XML.Element("div", "Table of contents");

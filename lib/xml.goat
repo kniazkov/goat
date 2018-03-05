@@ -73,8 +73,11 @@ var XML = {
 					var child = content[i];
 					if (child.instanceOf(XML.Element)) {
 						res << child.toSimpleString();
-					} else {
-						res << escapeEntities(child);
+					} else if (child.instanceOf(String)) {
+						if (defined(child.noEscape))
+							res << child;
+						else
+							res << escapeEntities(child);
 					}
 				}
 				res << "</" << tag << '>';
@@ -98,18 +101,29 @@ var XML = {
 				if (len == 1) {
 					var child = content[0];
 					if (child.instanceOf(String)) {
-						res << '>' << escapeEntities(child) << "</" << tag << ">\n";
+						if (defined(child.noEscape))
+							res << '>' << child << "</" << tag << '>';
+						else
+							res << '>' << escapeEntities(child) << "</" << tag << ">\n";
 						break;
 					}
 				}
 				res << ">\n";
+				var noEscape = false;
 				for (var i = 0; i < len; i++) {
 					var child = content[i];
 					if (child.instanceOf(XML.Element)) {
 						res << child.toIndentedString(indent, level + 1);
-					} else {
-						res.append(indent, level + 1);
-						res << escapeEntities(child) << '\n';
+					} else if (child.instanceOf(String)) {
+						if (!noEscape)
+							res.append(indent, level + 1);
+						noEscape = false;
+						if (defined(child.noEscape)) {
+							res << child;
+							noEscape = true;
+						}
+						else
+							res << escapeEntities(child) << '\n';
 					}
 				}
 				res.append(indent, level);

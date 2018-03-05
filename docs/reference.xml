@@ -6,7 +6,7 @@
 		</s>
 		<s name="Second">
 			<p>Blah blah blah blah</p>
-			<p><![CDATA[
+			<code><![CDATA[
 				var t0 = thread(){
 					while(true) {
 						print('A');
@@ -22,8 +22,9 @@
 				t0.run();
 				t1.run();
 
-				// Output: "ABABABABABABAB...."
-			]]></p>
+				// Output: "ABABABABABABAB...."]]>
+			</code>
+			<p>That's all</p>
 		</s>
 	</s>
 	<s name="Where to download the latest release?">
