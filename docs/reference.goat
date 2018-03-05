@@ -36,31 +36,78 @@ var xml = raw.decodeUTF8();
 /*
 	Parse XML and generate HTML
 */
+
+var toc = null; // for table of contents
+
 var parseSection = $(src, level, prefix, dst) {
 	var i, l = src.content.length();
 	var k = 1;
 	for (i = 0; i < l; i++) {
 		var child = src.content[i];
 		if (child.instanceOf(XML.Element)) {
-			if (child.tag == "section") {
-				var title = new XML.Element("div", prefix + k + ". " + child.attrib.name);
-				title.attrib["style"] = "font-size: " + level2FontSize(level) + "pt; font-weight: bold;";
+			if (child.tag == "s" || child.tag == "section") {
+				var name = prefix + k + ". " + child.attrib.name;
+				if (level == 0 && toc != null) {
+					var href = new XML.Element("a", name);
+					href.attrib["href"] = "#s_" + k;
+					toc.content.push(href);
+					toc.content.push(new XML.Element("br"));
+					var anch = new XML.Element("a", " ");
+					anch.attrib["name"] = "s_" + k;
+					dst.content.push(anch);
+				}
+				var title = new XML.Element("div", name);
+				title.attrib["class"] = "header";
+				title.attrib["style"] = "font-size: " + level2FontSize(level) + "pt;";
 				dst.content.push(title);
 				var section = new XML.Element("div");
 				dst.content.push(section);
-				section.attrib["style"] = "margin-left: 30px;";
+				section.attrib["class"] = "section";
 				parseSection(child, level + 1, prefix + k + '.', section);
 				k++;
 			}
-			else if (child.tag == "p") {
-				var para = new XML.Element("div", "" + child.content[0]);
+			else if (child.tag == "h") {
+				var title = new XML.Element("div", child.attrib.name);
+				title.attrib["class"] = "header";
+				dst.content.push(title);
+				var para = new XML.Element("div");
+				para.attrib["class"] = "para";
 				dst.content.push(para);
+				parseParagraph(child, para);
 			}
-			else if (child.tag == "url") {
+			else if (child.tag == "p") {
+				var para = new XML.Element("div");
+				para.attrib["class"] = "para";
+				dst.content.push(para);
+				parseParagraph(child, para);
+			}
+		}
+		else if (child.instanceOf(String)) {
+			dst.content.push(child);
+		}
+	}
+};
+
+var parseParagraph = $(src, dst) {
+	var i, l = src.content.length();
+	for (i = 0; i < l; i++) {
+		var child = src.content[i];
+		if (child.instanceOf(XML.Element)) {
+			if (child.tag == "url") {
 				var href = new XML.Element("a");
 				href.attrib["href"] = child.content[0];
 				href.content.push("" + child.content[0]);
 				dst.content.push(href);
+			}
+			else if (child.tag == "b") {
+				var b = new XML.Element("b");
+				dst.content.push(b);
+				parseParagraph(child, b);
+			}
+			else if (child.tag == "i") {
+				var i = new XML.Element("i");
+				dst.content.push(i);
+				parseParagraph(child, i);
 			}
 		}
 		else if (child.instanceOf(String)) {
@@ -95,9 +142,20 @@ try {
 	font.attrib["rel"] = "stylesheet";
 	var style = new XML.Element("style");
 	head.content.push(style);
-	style.content.push("body { font-family: \'Barlow Semi Condensed\', sans-serif; font-size: 12 pt}");
+	style.content.push("body { font-family: Barlow Semi Condensed, sans-serif; font-size: 12pt;}");
+	style.content.push("a { color: blue; text-decoration: underline;}");
+	style.content.push(".section { margin-left: 30px; }");
+	style.content.push(".para { padding-top: 5px; }");
+	style.content.push(".header { font-weight: bold; padding-top: 10px;}");
 	var body = new XML.Element("body");
 	html.content.push(body);
+	var tocHdr = new XML.Element("div", "Table of contents");
+	tocHdr.attrib["class"] = "header";
+	tocHdr.attrib["style"] = "font-size: 18pt;";
+	body.content.push(tocHdr);
+	toc = new XML.Element("div");
+	toc.attrib["class"] = "section";
+	body.content.push(toc);
 	root = XML.parse(xml);
 	parseSection(root, 0, "", body);
 	print(html.toString("  "));
