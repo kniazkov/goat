@@ -102,6 +102,12 @@ namespace goat {
 				Object * run(Scope *scope) override;
 				static Object *getInstance();
 			};
+
+			class Split : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
 		};
 	};
 

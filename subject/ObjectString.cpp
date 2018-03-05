@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectString.h"
 #include "ObjectInteger.h"
 #include "ObjectBoolean.h"
+#include "ObjectChar.h"
 #include "ObjectException.h"
 #include "WideStringBuilder.h"
 #include "Resource.h"
@@ -85,6 +86,7 @@ namespace goat {
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("valueOf", ValueOf::getInstance());
 		objects.insert("subString", SubString::getInstance());
+		objects.insert("split", Split::getInstance());
 	}
 
 	Object * ObjectString::Proto::getInstance() {
@@ -250,4 +252,34 @@ namespace goat {
 		return &__this;
 	}
 
+
+	Object * ObjectString::Proto::Split::run(Scope *scope) {
+		ObjectString *this_ = scope->this_->toObjectString();
+		if (scope->arguments->vector.len() < 1) {
+			return new IllegalArgument();
+		}
+		ObjectChar *chSeparator = scope->arguments->vector[0]->toObjectChar();
+		if (chSeparator) {
+			ObjectArray *result = new ObjectArray();
+			unsigned int len = this_->value.len(),
+				end = 0,
+				begin = 0;
+			while (end < len) {
+				if (this_->value[end] == chSeparator->value) {
+					result->vector.pushBack(new ObjectString((this_->value.subString(begin, end - begin))));
+					begin = end + 1;
+				}
+				end++;
+			}
+			result->vector.pushBack(new ObjectString((this_->value.subString(begin, end - begin))));
+			return result;
+		}
+
+		return new IllegalArgument();
+	}
+
+	Object * ObjectString::Proto::Split::getInstance() {
+		static Split __this;
+		return &__this;
+	}
 }
