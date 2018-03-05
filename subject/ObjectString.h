@@ -96,6 +96,12 @@ namespace goat {
 				Object * run(Scope *scope) override;
 				static Object *getInstance();
 			};
+
+			class SubString : public ObjectBuiltIn {
+			public:
+				Object * run(Scope *scope) override;
+				static Object *getInstance();
+			};
 		};
 	};
 

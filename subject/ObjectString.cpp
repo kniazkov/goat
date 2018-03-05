@@ -84,6 +84,7 @@ namespace goat {
 		objects.insert("length", Length::getInstance());
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("valueOf", ValueOf::getInstance());
+		objects.insert("subString", SubString::getInstance());
 	}
 
 	Object * ObjectString::Proto::getInstance() {
@@ -215,4 +216,38 @@ namespace goat {
 		static ValueOf __this;
 		return &__this;
 	}
+
+
+	Object * ObjectString::Proto::SubString::run(Scope *scope) {
+		ObjectString *this_ = scope->this_->toObjectString();
+		if (scope->arguments->vector.len() < 1) {
+			return new IllegalArgument();
+		}
+		ObjectInteger *start = scope->arguments->vector[0]->toObjectInteger();
+		if (!start || start->value < 0) {
+			return new IllegalArgument();
+		}
+		ObjectInteger *count = nullptr;
+		if (scope->arguments->vector.len() > 1) {
+			count = scope->arguments->vector[1]->toObjectInteger();
+		}
+		unsigned int start_ = (unsigned int)start->value,
+			count_;
+		if (count) {
+			if (count->value < 0) {
+				return new IllegalArgument();
+			}
+			count_ = (unsigned int)count->value;
+		}
+		else {
+			count_ = this_->value.len() - start_;
+		}
+		return new ObjectString(this_->value.subString(start_, count_));
+	}
+
+	Object * ObjectString::Proto::SubString::getInstance() {
+		static SubString __this;
+		return &__this;
+	}
+
 }

@@ -98,7 +98,7 @@ var XML = {
 				if (len == 1) {
 					var child = content[0];
 					if (child.instanceOf(String)) {
-						res << '>' << child << "</" << tag << ">\n";
+						res << '>' << escapeEntities(child) << "</" << tag << ">\n";
 						break;
 					}
 				}
