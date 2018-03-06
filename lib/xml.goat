@@ -159,6 +159,19 @@ var XML = {
 				}
 			}
 			return b.toString();
+		},
+		
+		findFirstChild : $(tag) {
+			var i, len = content.length();
+			for (i = 0; i < len; i++) {
+				var child = content[i];
+				if (child.instanceOf(XML.Element)) {
+					if (child.tag == tag) {
+						return child;
+					}
+				}
+			}
+			return null;
 		}
 	},
 	

@@ -88,6 +88,12 @@ var parseSection = $(src, level, prefix, dst) {
 				dst.content.push(code);
 				parseCode(child, code);
 			}
+			else if (child.tag == "list" || child.tag == "l") {
+				var list = new XML.Element("ul");
+				list.attrib["class"] = "para";
+				dst.content.push(list);
+				parseList(child, list);
+			}
 		}
 		else if (child.instanceOf(String)) {
 			dst.content.push(child);
@@ -196,6 +202,20 @@ var parseCode = $(src, dst) {
 	}
 };
 
+var parseList = $(src, dst) {
+	var i, l = src.content.length();
+	for (i = 0; i < l; i++) {
+		var child = src.content[i];
+		if (child.instanceOf(XML.Element)) {
+			if (child.tag == "item" || child.tag == "i") {
+				var li = new XML.Element("li");
+				dst.content.push(li);
+				parseParagraph(child, li);
+			}
+		}
+	}
+};
+
 var level2FontSize = $(level) {
 	switch(level) {
 		case 0:
@@ -211,6 +231,7 @@ var level2FontSize = $(level) {
 
 var root = null;
 try {
+	root = XML.parse(xml);
 	var html = new XML.Element("html");
 	var head = new XML.Element("head");
 	html.content.push(head);
@@ -226,11 +247,27 @@ try {
 	style.content.push(".code { font-family: Overpass Mono, monospace; font-size: 11pt; padding-top: 10px; margin-left: 30px; }");
 	style.content.push("a { color: blue; text-decoration: underline;}");
 	style.content.push(".section { margin-left: 30px; }");
-	style.content.push(".para { padding-top: 10px; }");
+	style.content.push(".para { padding-top: 10px; margin-top: 0px; margin-bottom: 0px}");
 	style.content.push(".header { font-weight: bold; padding-top: 15px;}");
 	style.content.push(".inline { font-family: Overpass Mono, monospace; font-size: 11pt; background-color: khaki; padding: 1px 2px;}");
 	var body = new XML.Element("body");
 	html.content.push(body);
+	var docHdr = new XML.Element("div", "The Goat Programming Language Reference");
+	docHdr.attrib["style"] = "font-weight: bold; font-size: 24pt;";
+	body.content.push(docHdr);
+	var ver = root.findFirstChild("v");
+	if (ver != null) {
+		var verElem = new XML.Element("div", "Version: " + ver.attrib["value"] + '.');
+		verElem.attrib["class"] = "para";
+		body.content.push(verElem);
+	}
+	var license = new XML.Element("div");
+	license.attrib["class"] = "para";
+	var copyright = "Copyright &copy; 2017, 2018 Ivan Kniazkov. See <a href=\"https://www.gnu.org/licenses/fdl-1.3-standalone.html\">license</a> for copying conditions.";
+	copyright.noEscape = true;
+	license.content.push(copyright);
+	body.content.push(license);
+	body.content.push(new XML.Element("hr"));
 	var tocHdr = new XML.Element("div", "Table of contents");
 	tocHdr.attrib["class"] = "header";
 	tocHdr.attrib["style"] = "font-size: 18pt;";
@@ -238,7 +275,6 @@ try {
 	toc = new XML.Element("div");
 	toc.attrib["class"] = "section";
 	body.content.push(toc);
-	root = XML.parse(xml);
 	parseSection(root, 0, "", body);
 	print(html.toString("  "));
 } catch(e) {
