@@ -1,49 +1,30 @@
 <goat>
 	<s name="Introduction">
-		<s name="First">
-			<p><b>Goat</b>  is a high-level, dynamic, weakly typed, prototype-based, multi-paradigm, and interpreted programming language, based on JavaScript. It supports the basic functionality of JavaScript, but in addition, it adds support for multithreading, multiple inheritance, operator overloading (all as in C ++), simplified syntax, and so on.</p>
-			<p>Why "Goat"? At first I wanted to name this programming language as "Go", but unfortunately, some little-known company (it seems "Google" or something like that) has already developed a programming language with that name. After a while, when I programmed this interpreter on a laptop lying in a hammock, <i>I was <b>suddenly</b> bitten by my goat</i>. I thought that once the name "Go" is occupied, then perhaps the name "Goat" is no worse. I immediately named the project folder this name and since then it has not changed.</p>
-		</s>
-		<s name="Second">
-			<p>Blah blah blah blah</p>
-			<code><![CDATA[
-				var t0 = thread(){
-					while(true) {
-						print('A');
-					}
-				};
-
-				var t1 = thread(){
-					while(true) {
-						print('B');
-					}
-				};
-
-				t0.run();
-				t1.run();
-
-				// Output: "ABABABABABABAB...."]]>
-			</code>
-			<p>That's all</p>
-		</s>
+		<p><b>Goat</b> is a high-level, dynamic, weakly typed, prototype-based, multi-paradigm, and interpreted programming language, based on JavaScript. It supports the basic functionality of JavaScript, but in addition, it adds support for multithreading, multiple inheritance, operator overloading (all as in C ++), simplified syntax, and so on.</p>
+		<p>Why "Goat"? At first I wanted to name this programming language as "Go", but unfortunately, some little-known company (it seems "Google" or something like that) has already developed a programming language with that name. After a while, when I programmed this interpreter on a laptop lying in a hammock, I was suddenly bitten by my goat. I thought that once the name "Go" is occupied, then perhaps the name "Goat" is no worse. I immediately named the project folder this name and since then it has not changed.</p>
 	</s>
 	<s name="Where to download the latest release?">
 		<p>On GitHub: <url>https://github.com/kniazkov/goat/releases/latest</url>.</p>
-		<s name="Sample">
-			<p>Blah blah blah</p>
+	</s>
+	<s name="In comparison with JavaScript">
+		<p>The Goat programming language based in general on JavaScript, but it has some differences.</p>
+		<p>The interpreter (engine) of the programming language is not a complement to the existing solutions, say, V8. It is completely developed from scratch. The interpreter is very small program and can be compiled and started in different platforms. I tried  Windows and Linux (both x86 and ARM). All you need are C++11 compiler and standart C library (libc etc).</p>
+		<p>Programs starts not in browser, not in special environment (Node.js); you can write general-purpose applications. Easy to install: just copy the file with your code and interpreter and then start.</p>
+		<p>Syntax is more simple, object model is more unificated.</p>
+		<p>Goat language supports multi-threading and operators overloading.</p>
+		<p>You can create object from more than one prototype.</p>
+		<p>Some samples are below.</p>
+		<s name="Primitive types">
+			<h name="JavaScript">
+				A primitive data type is data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol. All primitives are immutable.
+			</h>
+			<h name="Goat">
+				<p>There are no primitive types. All data represented as objects. Each object except <c>undefined</c> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: <c>Char</c>, <c>String</c>, <c>Integer</c>, <c>Real</c>, <c>Boolean</c> and <c>Null</c>.</p>
+				<p>For determine what the type (prototype) of expression, use <c>instanceOf()</c> method:</p>
+				<code>
+					print(13.instanceOf(Integer)); // output: "true"
+				</code>			
+			</h>
 		</s>
-		<s name="Sample 2">
-			<s name="Something">
-				<h name="Testing">
-					Blah blah blah blah
-				</h>
-				<h name="Another Testing">
-					Blah blah blah blah
-				</h>
-			</s>
-			<s name="Something else">
-				<p>Blah blah blah blah</p>
-			</s>
-		</s>		
 	</s>
 </goat>

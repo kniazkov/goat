@@ -73,7 +73,8 @@ var parseSection = $(src, level, prefix, dst) {
 				var para = new XML.Element("div");
 				para.attrib["class"] = "para";
 				dst.content.push(para);
-				parseParagraph(child, para);
+				//parseParagraph(child, para);
+				parseSection(child, level, prefix, para);
 			}
 			else if (child.tag == "p") {
 				var para = new XML.Element("div");
@@ -81,7 +82,7 @@ var parseSection = $(src, level, prefix, dst) {
 				dst.content.push(para);
 				parseParagraph(child, para);
 			}
-			else if (child.tag == "code") {
+			else if (child.tag == "code" || child.tag == "c") {
 				var code = new XML.Element("div");
 				code.attrib["class"] = "code";
 				dst.content.push(code);
@@ -114,6 +115,12 @@ var parseParagraph = $(src, dst) {
 				var i = new XML.Element("i");
 				dst.content.push(i);
 				parseParagraph(child, i);
+			}
+			else if (child.tag == "code" || child.tag == "c") {
+				var s = new XML.Element("span");
+				s.attrib["class"] = "inline";
+				dst.content.push(s);
+				parseParagraph(child, s);
 			}
 		}
 		else if (child.instanceOf(String)) {
@@ -216,11 +223,12 @@ try {
 	var style = new XML.Element("style");
 	head.content.push(style);
 	style.content.push("body { font-family: Barlow Semi Condensed, sans-serif; font-size: 12pt;}");
-	style.content.push(".code { font-family: Overpass Mono, monospace; font-size: 10pt; padding-top: 10px; }");
+	style.content.push(".code { font-family: Overpass Mono, monospace; font-size: 11pt; padding-top: 10px; margin-left: 30px; }");
 	style.content.push("a { color: blue; text-decoration: underline;}");
 	style.content.push(".section { margin-left: 30px; }");
 	style.content.push(".para { padding-top: 10px; }");
 	style.content.push(".header { font-weight: bold; padding-top: 15px;}");
+	style.content.push(".inline { font-family: Overpass Mono, monospace; font-size: 11pt; background-color: khaki; padding: 1px 2px;}");
 	var body = new XML.Element("body");
 	html.content.push(body);
 	var tocHdr = new XML.Element("div", "Table of contents");
