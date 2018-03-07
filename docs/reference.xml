@@ -5,7 +5,7 @@
 		<p>Why "Goat"? At first, I wanted to name this programming language as "Go", but unfortunately, some little-known company (it seems "Google" or something like that) has already developed a programming language with that name. After a while, when I programmed this interpreter on a laptop lying in a hammock, I was suddenly bitten by my goat. I thought that once the name "Go" is occupied, then perhaps the name "Goat" is no worse. I immediately named the project folder this name and since then it has not changed.</p>
 	</s>
 	
-	<s name="Where to download the latest release?">
+	<s name="Where to download the latest release">
 		<p>On GitHub: <url>https://github.com/kniazkov/goat/releases/latest</url>.</p>
 	</s>
 	
@@ -27,14 +27,62 @@
 			<h name="--lib">
 				<p>Path (paths) to external libraries (to importable files). For example, a path to the Goat standard library. Several paths can be separated by a semicolon.</p>
 				<c>goat.exe program.goat --lib=c:\goat\lib;c:\project</c>
+				<p>Note about path delimiting character, this is most commonly the slash ("/") or the backslash  ("\"). While the interpreter parsed paths, it changes delimiting characters to the character used in the current platform. Say, for Windows, all delimiter characters replaced to the backslash, and for Linux (Unix) - to slash. So path <c>--lib=..\folder\lib</c> interpreted as well as path <c>--lib=../folder/lib</c>, for all platforms.</p>
 			</h>
 			<h name="--debug">
 				<p>The Goat interpreter launched in debug mode. It means that interpretation will stop and set step-by-step mode when the interpreter executes <c>debug;</c> statement.</p>
 			</h>
 			<h name="--gc">
 				<p>One of three modes of garbage collection. <c>--gc=serial</c> enable serial mode, it means that the garbage collector periodically stops all threads (but it takes low processor resources for collection and has small memory overhead). <c>--gc=parallel</c> does not stop threads (but it constantly uses some processor resources and also it uses some extra memory), this mode enabled by default. <c>--gc=debug</c> used for debugging purposes for interpreter developer, it calls collector after each statement of a script and this is <b>very</b> slow.</p>
-				<p>If you don't know what "garbage collection" means, please do not use this parameter, parallel collector is okay for most purposes.</p>
+				<p>If you don't know what "garbage collection" means, please do not use this parameter, parallel collector is okay for most puЗамечание. Значительная часть rposes.</p>
 			</h>
+		</s>
+	</s>
+	
+	<s name="The language reference">
+		<p><b>Important note. A significant part of this chapter is the redesigned tutorial from here <url>https://www.w3schools.com/js/default.asp</url>. Since the Goat language is the modified JavaScript language, so the description of the Goat language is the modified description of the  Javascript language. Any coincidences are NOT random.</b></p>
+		<s name="Hello world">
+			<p>Create a new file, say <c>hello_world.goat</c> (file extension does not matter) containing one line:</p>
+			<c>print("Hello, world!");</c>
+			<p>and then launch it:</p>
+			<c>goat.exe hello_world.goat</c>
+			<p>That's all. The interpreter will start the script and will print <c>Hello, world!</c> to the console.</p>
+		</s>
+		<s name="Internationalization and localization">
+			<p>It possible to use any Unicode characters in string literals. The Goat interpreter parses source files in UTF-8  format. Output stream also encoded to UTF-8. The previous example, but contains some "special" symbols:</p>
+			<c>print("Bonjour, réalité cruelle et ingrate!");</c>
+		</s>
+		<s name="Program and statements">
+			<s name="Program">
+				<p>A computer program is a list of "instructions" to be "executed" by a computer. In a programming language, these programming instructions are called <b>statements.</b></p>
+				<p>A <b>Goat program is a list of</b> programming <b>statements.</b></p>
+				<c><![CDATA[
+					var x, a, b; // statement 1
+					a = 2; // statement 2
+					b = 3; //       ... 3
+					x = a + b; //       ... 4
+					print(x); //       ... 5]]>
+				</c>
+				<p>Goat programs are executed by the Goat interpreter.</p>
+			</s>
+			<s name="Statements">
+				<p>Goat statements are composed of: <b>Values</b>, <b>Operators</b>, <b>Expressions</b>, <b>Keywords</b>, and <b>Comments</b>.</p>
+				<p>The statements are executed, one by one, in the same order as they are written.</p>
+			</s>
+			<s name="Semicolons">
+				<p>Semicolons <c>;</c> separate Goat statements. Add a semicolon at the end of each executable statement:</p>
+				<c><![CDATA[
+					var x, a, b; // declare 3 variables
+					a = 2; // assign the value 2 to 'a'
+					b = 3; // assign the value 6 to 'b'
+					x = a + b; // assign the sum of 'a' and 'b' to 'x'
+					print(x); // print value of 'x']]>
+				</c>
+				<p>When separated by semicolons, multiple statements on one line are allowed:</p>
+				<c>a = 2; b = 3; x = a + b;</c>
+				<p>Though ending statements with a semicolon is not required, but highly recommended. This example is correct:</p>
+				<c>print(2 + 3) // no semicolon at the end</c>
+			</s>
 		</s>
 	</s>
 	
@@ -56,9 +104,7 @@
 			<h name="Goat">
 				<p>There are no primitive types. All data represented as objects. Each object except <c>undefined</c> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: <c>Char</c>, <c>String</c>, <c>Integer</c>, <c>Real</c>, <c>Boolean</c> and <c>Null</c>.</p>
 				<p>For determine what the type (prototype) of expression, use <c>instanceOf()</c> method:</p>
-				<c>
-					print(13.instanceOf(Integer)); // output: "true"
-				</c>			
+				<c>print(13.instanceOf(Integer)); // output: "true"</c>			
 			</h>
 		</s>
 		

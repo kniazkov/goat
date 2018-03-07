@@ -241,6 +241,9 @@ try {
 	head.content.push(font);
 	font.attrib["href"] = "https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed|Inconsolata";
 	font.attrib["rel"] = "stylesheet";
+	var meta = new XML.Element("meta");
+	head.content.push(meta);
+	meta.attrib["charset"] = "utf-8";
 	var style = new XML.Element("style");
 	head.content.push(style);
 	style.content.push("body { font-family: Barlow Semi Condensed, sans-serif; font-size: 12pt;}");
