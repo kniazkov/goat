@@ -83,6 +83,48 @@
 				<p>Though ending statements with a semicolon is not required, but highly recommended. This example is correct:</p>
 				<c>print(2 + 3) // no semicolon at the end</c>
 			</s>
+			<s name="White space">
+				<p>Goat parse tabulations and line breaks as white spaces. Goat ignores multiple spaces. You can add white space to your script to make it more readable. The following statements are equivalent:</p>
+				<c><![CDATA[
+					var a, b = 0;
+					var a, b=0;
+					var a,
+						b = 0;]]>
+				</c>
+			</s>
+			<s name="Code blocks">
+				<p>Goat statements can be grouped together in code blocks, inside curly brackets <c>{...}</c>. The purpose of code blocks is to define statements to be executed together. One place you will find statements grouped together in blocks, is in Goat functions:</p>
+				<c><![CDATA[
+					var f = $(a, b) {
+						var x;
+						var y;
+						x = a + b;
+						y = a - b;
+						print("summ: " + x + ", diff: " + y);
+					};]]>
+				</c>
+			</s>
+			<s name="Keywords">
+				<p>Goat statements often start with a keyword to identify the Goat action to be performed. Here is a list of the keywords:</p>
+				<t>
+					<h>
+						<c width="120">Keyword</c>
+						<c>Description</c>
+					</h>
+					<r>
+						<c><c>var</c></c>
+						<c>Declares a variable</c>
+					</r>
+					<r>
+						<c><c>function</c> or <c>$</c></c>
+						<c>Declares a function (method)</c>
+					</r>
+					<r>
+						<c><c>return</c></c>
+						<c>Exits a function (method)</c>
+					</r>
+				</t>
+			</s>
 		</s>
 	</s>
 	

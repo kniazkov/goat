@@ -94,6 +94,12 @@ var parseSection = $(src, level, prefix, dst) {
 				dst.content.push(list);
 				parseList(child, list);
 			}
+			else if (child.tag == "table" || child.tag == "t") {
+				var tbl = new XML.Element("table");
+				tbl.attrib["class"] = "table";
+				dst.content.push(tbl);
+				parseTable(child, tbl);
+			}
 		}
 		else if (child.instanceOf(String)) {
 			dst.content.push(child);
@@ -216,6 +222,53 @@ var parseList = $(src, dst) {
 	}
 };
 
+var parseTable = $(src, dst) {
+	var i, l = src.content.length();
+	for (i = 0; i < l; i++) {
+		var child = src.content[i];
+		if (child.instanceOf(XML.Element)) {
+			if (child.tag == "head" || child.tag == "h") {
+				var head = new XML.Element("tr");
+				//head.attrib["class"] = "tableHeader";
+				dst.content.push(head);
+				parseTableRow(child, head, true);
+			}
+			else if (child.tag == "row" || child.tag == "r") {
+				var row = new XML.Element("tr");
+				dst.content.push(row);
+				parseTableRow(child, row, false);
+			}
+		}
+	}
+};
+
+var parseTableRow = $(src, dst, header) {
+	var i, l = src.content.length();
+	var k = 0;
+	for (i = 0; i < l; i++) {
+		var child = src.content[i];
+		if (child.instanceOf(XML.Element)) {
+			if (child.tag == "cell" || child.tag == "c") {
+				var cell = new XML.Element("td");
+				if (header) {
+					cell.attrib["class"] = "cellHeader";
+				} else {
+					cell.attrib["class"] = "cell";
+				}
+				if (k > 0) {
+					cell.attrib["class"] += " cell2";
+				}
+				k++;
+				if (defined(child.attrib["width"])) {
+					cell.attrib["style"] = "width: " + child.attrib["width"] + "px;";
+				}
+				dst.content.push(cell);
+				parseParagraph(child, cell);
+			}
+		}
+	}
+};
+
 var level2FontSize = $(level) {
 	switch(level) {
 		case 0:
@@ -253,6 +306,12 @@ try {
 	style.content.push(".para { padding-top: 10px; margin-top: 0px; margin-bottom: 0px}");
 	style.content.push(".header { font-weight: bold; padding-top: 15px;}");
 	style.content.push(".inline { font-family: Inconsolata, monospace; font-size: 12pt; background-color: lemonchiffon; padding: 1px 2px 0px 2px; white-space: nowrap}");
+	//style.content.push("table { border-top: 2px solid black; }");
+	//style.content.push(".tableHeader { font-weight: bold; }");
+	style.content.push(".table { margin-top: 10px; width: 90%; border-spacing: 0; }");
+	style.content.push(".cellHeader { font-weight: bold; border-top: 1px solid black; border-bottom: 1px solid black; padding : 2px;}");
+	style.content.push(".cell { padding : 2px; vertical-align: top; }");
+	style.content.push(".cell2 { border-left: 1px solid black; }");
 	var body = new XML.Element("body");
 	html.content.push(body);
 	var docHdr = new XML.Element("div", "The Goat Programming Language Reference");
