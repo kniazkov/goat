@@ -9,6 +9,35 @@
 		<p>On GitHub: <url>https://github.com/kniazkov/goat/releases/latest</url>.</p>
 	</s>
 	
+	<s name="How to launch Goat script">
+		<s name="Quick start">
+			<p>Just download the executable file, open console, type executable name and specify a script file name as a parameter:</p>
+			<c>goat.exe program.goat</c>
+		</s>
+		<s name="Command line parameters">
+			<p>The Goat interpreter parses command line arguments as follows. All arguments started with two hyphens are internal parameters of the interpreter ("options"). The first argument which is not an option is the name of the script file. All next arguments send to script.</p>
+			<p>For example,</p>
+			<c>goat.exe --lib=../lib program.goat arg1 arg2</c>
+			<p>or, the same thing:</p>
+			<c>goat.exe program.goat --lib=../lib arg1 arg2</c>
+			<p>or:</p>
+			<c>goat.exe program.goat arg1 arg2 --lib=../lib</c>
+			<p>where: <c>goat.exe</c> is Goat executable, <c>program.goat</c> is name of the script, <c>--lib=../lib</c> is option of the interpterer, <c>arg1</c> and <c>arg2</c> are arguments of the script.</p>
+			<p>Here is a list of interpreter options:</p>
+			<h name="--lib">
+				<p>Path (paths) to external libraries (to importable files). For example, a path to the Goat standard library. Several paths can be separated by a semicolon.</p>
+				<c>goat.exe program.goat --lib=c:\goat\lib;c:\project</c>
+			</h>
+			<h name="--debug">
+				<p>The Goat interpreter launched in debug mode. It means that interpretation will stop and set step-by-step mode when the interpreter executes <c>debug;</c> statement.</p>
+			</h>
+			<h name="--gc">
+				<p>One of three modes of garbage collection. <c>--gc=serial</c> enable serial mode, it means that the garbage collector periodically stops all threads (but it takes low processor resources for collection and has small memory overhead). <c>--gc=parallel</c> does not stop threads (but it constantly uses some processor resources and also it uses some extra memory), this mode enabled by default. <c>--gc=debug</c> used for debugging purposes for interpreter developer, it calls collector after each statement of a script and this is <b>very</b> slow.</p>
+				<p>If you don't know what "garbage collection" means, please do not use this parameter, parallel collector is okay for most purposes.</p>
+			</h>
+		</s>
+	</s>
+	
 	<s name="In comparison with JavaScript">
 		<p>The Goat programming language based in general on JavaScript, but it has some differences.</p>
 		<l>
