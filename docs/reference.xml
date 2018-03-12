@@ -175,6 +175,74 @@
 				<p>Goat keywords are reserved words. Reserved words cannot be used as names for variables.</p>
 			</s>
 		</s>
+		<s name="Syntax">
+			<p>Goat syntax is the set of rules, how Goat programs are constructed:</p>
+			<c><![CDATA[
+				var a, b, x; // How to declare variables
+				a = 2; // How to assign values
+				b = 3;
+				x = a + b; // How to compute values
+				print(x); // How to call functions
+			]]>
+			</c>
+			<s name="Values">
+				<p>The Goat syntax defines two types of values: fixed values and variable values. Fixed values are called <b>literals.</b> Variable values are called <b>variables.</b></p>
+				<s name="Literals">
+					<p>The most important rules for writing fixed values are:</p>
+					<p><b>Integer numbers</b> are written without decimals:</p>
+					<c>123</c>
+					<p><b>Real numbers</b> are written with decimals, decimal separator is a dot:</p>
+					<c>0.001</c>
+					<p>Strings are text, written within double quotes:</p>
+					<c>"Hello"</c>
+					<p>Chars are symbols written within single quotes:</p>
+					<c>'A'</c>
+				</s>
+				<s name="Variables">
+					<p>In a programming language, variables are used to store data values. Goat uses the <c>var</c> keyword to <b>declare</b> variables. An <b>equal sign</b> is used to <b>assign</b> values to variables.</p>
+					<p>In this example, <c>x</c> is defined as a variable. Then, <c>x</c> is assigned (given) the value 10:</p>
+					<c><![CDATA[
+						var x;
+						x = 10;]]>
+					</c>
+				</s>
+			</s>
+			<s name="Operators">
+				<p>Goat uses <b>arithmetic operators</b> ( <c>+ - *  /</c> ) to <b>compute</b> values:</p>
+				<c>(5 + 6) * 10</c>
+				<p>Goat uses an <b>assignment operator</b> ( = ) to <b>assign</b> values to variables:</p>
+				<c><![CDATA[
+					var a, b;
+					a = 2;
+					b = 3;]]>
+				</c>
+			</s>
+			<s name="Expressions">
+				<p>An <b>expression</b> is a combination of literals, variables, function calls, other expression and operators, which computes to a value. The computation is called an evaluation. For example, 5 * 10 evaluates to 50:</p>
+				<c>5 * 10</c>
+				<p>Expressions can also contain variable values:</p>
+				<c>x * 2</c>
+				<p>...or function calls:</p>
+				<c>x * sin(y)</c>
+				<p>The values can be of various types, such as numbers and strings:</p>
+				<c>"Hello" + ", " + "world"</c>
+			</s>
+			<s name="Identifiers">
+				<p><b>Identifiers</b> are names.</p>
+				<p>In Goat, identifiers are used to name variables. The rules for legal names are much the same in most programming languages. In Goat, the first character must be a letter or an underscore (<c>_</c>). Subsequent characters may be letters, digits or underscores. Numbers are not allowed as the first character.</p>
+			</s>
+			<s name="Case sensitive">
+				<p>All Goat identifiers are case sensitive. The variables <c>maxValue</c> and <c>maxvalue</c>, are two different variables.</p>
+				<c><![CDATA[
+					var maxValue, maxvalue;
+					maxValue = 10;
+					maxvalue = 0.1;]]>
+				</c>
+			</s>
+		</s>
+		<s name="Comments">
+			<p>Goat comments can be used to explain Goat code, and to make it more readable. Goat comments can also be used to prevent execution, when testing alternative code.</p>
+		</s>
 	</s>
 	
 	<s name="In comparison with JavaScript">
