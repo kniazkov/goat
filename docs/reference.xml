@@ -104,11 +104,11 @@
 					};]]>
 				</c>
 			</s>
-			<s name="Keywords">
-				<p>Goat statements often start with a keyword to identify the Goat action to be performed. Here is a list of the keywords:</p>
+			<s name="Keywords and keyword sequences">
+				<p>Goat statements often start with a keyword to identify the Goat action to be performed. Here is a list of the keywords (or keyword sequences):</p>
 				<t>
 					<h>
-						<c width="120">Keyword</c>
+						<c width="180">Keyword</c>
 						<c>Description</c>
 					</h>
 					<r>
@@ -120,10 +120,59 @@
 						<c>Declares a function (method)</c>
 					</r>
 					<r>
+						<c><c>thread</c></c>
+						<c>Declares a thread</c>
+					</r>
+					<r>
 						<c><c>return</c></c>
 						<c>Exits a function (method)</c>
 					</r>
+					<r>
+						<c><c>if</c>..<c>else if</c>..<c>else</c></c>
+						<c>Marks a block of statements to be executed, depending on a condition</c>
+					</r>
+					<r>
+						<c><c>switch</c>(<c>case</c>, <c>default)</c></c>
+						<c>Marks a block of statements to be executed, depending on different cases</c>
+					</r>
+					<r>
+						<c><c>for</c>(<c>in</c>)</c>
+						<c>Marks a block of statements to be executed, as long as a condition is true</c>
+					</r>
+					<r>
+						<c><c>while</c>, <c>do</c>..<c>while</c></c>
+						<c>Executes a block of statements, and repeats the block, while a condition is true</c>
+					</r>
+					<r>
+						<c><c>break</c></c>
+						<c>Terminates a switch or a loop</c>
+					</r>
+					<r>
+						<c><c>contunue</c></c>
+						<c>Jumps out of a loop and starts at the top</c>
+					</r>
+					<r>
+						<c><c>try</c>..<c>catch</c>..<c>finally</c></c>
+						<c>Implements error handling to a block of statements</c>
+					</r>
+					<r>
+						<c><c>throw</c></c>
+						<c>Throws an exception</c>
+					</r>
+					<r>
+						<c><c>new</c></c>
+						<c>Creates a new object</c>
+					</r>
+					<r>
+						<c><c>import</c></c>
+						<c>Imports a source file</c>
+					</r>
+					<r>
+						<c><c>debug</c></c>
+						<c>Stops the execution of Goat script, and switch the interpreter to debug (step-by-step) mode</c>
+					</r>
 				</t>
+				<p>Goat keywords are reserved words. Reserved words cannot be used as names for variables.</p>
 			</s>
 		</s>
 	</s>

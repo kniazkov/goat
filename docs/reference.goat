@@ -309,8 +309,8 @@ try {
 	//style.content.push("table { border-top: 2px solid black; }");
 	//style.content.push(".tableHeader { font-weight: bold; }");
 	style.content.push(".table { margin-top: 10px; border-spacing: 0; width: 90%; }");
-	style.content.push(".cellHeader { font-weight: bold; border-top: 1px solid black; border-bottom: 1px solid black; padding : 2px;}");
-	style.content.push(".cell { padding : 2px; vertical-align: top; }");
+	style.content.push(".cellHeader { font-weight: bold; border-top: 1px solid black; border-bottom: 1px solid black; padding : 5px 2px; }");
+	style.content.push(".cell { padding : 5px 2px; vertical-align: top; }");
 	style.content.push(".cell2 { border-left: 1px solid black; }");
 	var body = new XML.Element("body");
 	html.content.push(body);
