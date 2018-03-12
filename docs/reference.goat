@@ -299,7 +299,7 @@ try {
 	meta.attrib["charset"] = "utf-8";
 	var style = new XML.Element("style");
 	head.content.push(style);
-	style.content.push("body { font-family: Barlow Semi Condensed, sans-serif; font-size: 12pt;}");
+	style.content.push("body { font-family: Barlow Semi Condensed, sans-serif; font-size: 12pt; -webkit-text-size-adjust: 200%;}");
 	style.content.push(".code { font-family: Inconsolata, monospace; font-size: 12pt; padding-top: 10px; margin-left: 30px; }");
 	style.content.push("a { color: blue; text-decoration: underline;}");
 	style.content.push(".section { margin-left: 30px; }");
@@ -308,7 +308,7 @@ try {
 	style.content.push(".inline { font-family: Inconsolata, monospace; font-size: 12pt; background-color: lemonchiffon; padding: 1px 2px 0px 2px; white-space: nowrap}");
 	//style.content.push("table { border-top: 2px solid black; }");
 	//style.content.push(".tableHeader { font-weight: bold; }");
-	style.content.push(".table { margin-top: 10px; width: 90%; border-spacing: 0; }");
+	style.content.push(".table { margin-top: 10px; border-spacing: 0; width: 90%; }");
 	style.content.push(".cellHeader { font-weight: bold; border-top: 1px solid black; border-bottom: 1px solid black; padding : 2px;}");
 	style.content.push(".cell { padding : 2px; vertical-align: top; }");
 	style.content.push(".cell2 { border-left: 1px solid black; }");

@@ -40,7 +40,7 @@
 	</s>
 	
 	<s name="The language reference">
-		<p><b>Important note. A significant part of this chapter is the redesigned tutorial from here <url>https://www.w3schools.com/js/default.asp</url>. Since the Goat language is the modified JavaScript language, so the description of the Goat language is the modified description of the  Javascript language. Any coincidences are NOT random.</b></p>
+		<p><b>Important note. A significant part of this chapter is the redesigned tutorial from: <url>https://www.w3schools.com/js/default.asp</url>. Since the Goat language is the modified JavaScript language, so the description of the Goat language is the modified description of the  Javascript language. Any coincidences are NOT random.</b></p>
 		<s name="Hello world">
 			<p>Create a new file, say <c>hello_world.goat</c> (file extension does not matter) containing one line:</p>
 			<c>print("Hello, world!");</c>
