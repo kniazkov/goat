@@ -291,6 +291,75 @@
 				</c>
 			</s>
 		</s>
+		<s name="Variables">
+			<p>Goat <b>variables</b> are containers for storing data values. In this example, <c>x</c>, <c>y</c>, and <c>z</c>, are variables:</p>
+			<c><![CDATA[
+				var x = 5;
+				var y = 6;
+				var z = x + y;]]>					
+			</c>
+			<s name="Identifiers">
+				<p>All Goat variables must be identified with unique names. These unique names are called <b>identifiers.</b> Identifiers can be short names (like <c>x</c> and <c>y</c>) or more descriptive names (<c>age</c>, <c>sum</c>, <c>totalVolume</c>). The general rules for constructing names for variables (unique identifiers) are:</p>
+				<l>
+					<i>names can contain letters, digits and underscores;</i>
+					<i>names must begin with a letter;</i>
+					<i>names can also begin with <c>_</c>;</i>
+					<i>names are case sensitive (<c>y</c> and <c>Y</c> are different variables);</i>
+					<i>reserved words (like Goat keywords) cannot be used as names.</i>
+				</l>
+			</s>
+			<s name="Data types">
+				<p>Goat can handle many types of data. Goat variables can hold numbers like 100 and text values like "Hello". Basic data types are:</p>
+				<p><b>Integer</b> number (without decimal character):</p>
+				<c>var i = 10;</c>
+				<p><b>Real</b> (floating-point) number:</p>
+				<c>var r = 0.01;</c>
+				<p><b>String:</b></p>
+				<c>var s = "Hello";</c>
+				<p><b>Char</b>(single symbol):</p>
+				<c>var c = 'A';</c>
+				<p>And <b>Boolean:</b></p>
+				<c>var b = true;</c>
+			</s>
+			<s name="Declaring (creating) Goat variables">
+				<p>Creating a variable in Goat is called "declaring" a variable. You declare a JavaScript variable with the <c>var</c> keyword:</p>
+				<c>var name;</c>
+				<p>After the declaration, the variable has no value (technically it has the value of <c>undefined</c>). To assign a value to the variable, use the equal sign:</p>
+				<c>name = "Ivan";</c>
+				<p>You can also assign a value to the variable when you declare it:</p>
+				<c>var name = "Ivan";</c>
+			</s>
+			<s name="One statement, many variables">
+				<p>You can declare many variables in one statement. Start the statement with <c>var</c> and separate the variables by comma:</p>
+				<c>var name = "Ivan", age = 33, gender = "male";</c>
+				<p>A declaration can span multiple lines:</p>
+				<c><![CDATA[
+					var name = "Ivan",
+						age = 33,
+						gender = "male";]]>
+				</c>
+			</s>
+			<s name="Undefined">
+				<p>Variables are often declared without a value. The value can be something that has to be calculated, or something that will be provided later, like user input. A variable declared without a value will have the value <c>undefined</c>.</p>
+				<c>var name; // value of 'name' is undefined</c>
+			</s>
+			<s name="Re-declaring variables">
+				<p>If you re-declare a Goat variable, it will lose its value.</p>
+				<c><![CDATA[
+					var name = "Ivan";
+					// do something...
+					var name; // now, value of 'name' if undefined]]>
+				</c>
+			</s>
+			<s name="Arithmetic">
+				<p>As with algebra, you can do arithmetic with Goat variables, using operators like <c>=</c> and <c>+</c>:</p>
+				<c>var x = 5 + 2 + 3;</c>
+				<p>You can also add strings, but strings will be concatenated:</p>
+				<c>var s = "Hello" + ", " + "world!"</c>
+				<p>Also try this. The Goat language will convert second operator to string if the first operator is string:</p>
+				<c>var s = "Value is" + ' ' + 5;</c>
+			</s>
+		</s>
 	</s>
 	
 	<s name="In comparison with JavaScript">
@@ -368,9 +437,10 @@
 						}
 					};]]>
 				</c>
+				<p>If you re-declare a JavaScript variable in the same block, it will not lose its value.</p>
 			</h>
 			<h name="Goat">
-				<p>There is no global scope. You can re-declare variable with the same name in block statement, it will be used only in this block.</p>
+				<p>There is no global scope. You can re-declare variable with the same name in inner block statement, it will be used only in this block.</p>
 				<c><![CDATA[
 					var func = $() {
 						var v = 0;
@@ -381,6 +451,7 @@
 						print(v); // output: "0"
 					};]]>
 				</c>
+				<p>But, if you re-declare a Goat variable in the same block, it will lose its value.</p>
 			</h>
 		</s>
 		
