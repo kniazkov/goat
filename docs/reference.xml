@@ -148,7 +148,7 @@
 						<c>Terminates a switch or a loop</c>
 					</r>
 					<r>
-						<c><c>contunue</c></c>
+						<c><c>continue</c></c>
 						<c>Jumps out of a loop and starts at the top</c>
 					</r>
 					<r>
@@ -304,14 +304,55 @@
 		</l>
 		<p>Some samples are below.</p>
 		
+		<s name="Identifiers">
+			<h name="JavaScript">
+				<p>The first character of an identifier must be a letter, or an underscore (<c>_</c>), or a dollar sign (<c>$</c>). Subsequent characters may be letters, digits, underscores, or dollar signs.</p>
+			</h>
+			<h name="Goat">
+				<p>The first character must be a letter or an underscore (<c>_</c>). Subsequent characters may be letters, digits or underscores.</p>
+				<p>Dollar sign used as a short replacement of <c>function</c> keyword:</p>
+				<c>var f = $(a, b) { };</c>
+				<p>it's the same as:</p>
+				<c>var f = function(a, b) { };</c>
+			</h>
+		</s>
+		
+		<s name="Keywords">
+			<p>The Goat programming language reserves several additional keywords:</p>
+			<t>
+				<h>
+					<c>Keyword</c>
+					<c>Description</c>
+				</h>
+				<r>
+					<c><c>thread</c></c>
+					<c>Declares a thread</c>
+				</r>
+				<r>
+					<c><c>import</c></c>
+					<c>Imports a source file</c>
+				</r>
+				<r>
+					<c><c>debug</c>(instead of <c>debugger</c>)</c>
+					<c>Stops the execution of Goat script, and switch the interpreter to debug (step-by-step) mode</c>
+				</r>
+			</t>
+		</s>
+		
 		<s name="Primitive types">
 			<h name="JavaScript">
 				A primitive data type is a data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol. All primitives are immutable.
 			</h>
 			<h name="Goat">
 				<p>There are no primitive types. All data represented as objects. Each object except <c>undefined</c> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: <c>Char</c>, <c>String</c>, <c>Integer</c>, <c>Real</c>, <c>Boolean</c> and <c>Null</c>.</p>
-				<p>For determine what the type (prototype) of expression, use <c>instanceOf()</c> method:</p>
-				<c>print(13.instanceOf(Integer)); // output: "true"</c>			
+				<p>This programming language clearly distinguishes between strings (prototype is <c>String</c>) and individual characters (prototype is <c>Char</c>), as well as integers (<c>Integer</c>) and floating-point numbers (<c>Real</c>). These types have different set of methods and operators, but if necessary type can be converted to another:</p>
+				<c><![CDATA[
+					var c = 'a'; // prototype of c is Char
+					var s = String.valueOf(c); // conversion to String]]>
+				</c>
+				<p>For determine what the type (prototype) of object (expression), use <c>instanceOf()</c> method:</p>
+				<c>print(13.instanceOf(Integer)); // output: "true"</c>
+				<p>All other structures, for example, functions, threads, arrays etc have own prototypes (<c>Function</c>, <c>Thread</c>, <c>Array</c>).</p>
 			</h>
 		</s>
 		
@@ -457,6 +498,7 @@
 					};
 					C.prototype = new B();]]>
 				</c>
+				<p>Nearly all objects in JavaScript are instances of <c>Object</c>, a typical object inherits properties (including methods) from <c>Object.prototype</c>.</p>
 			</h>
 			<h name="Goat">
 				<p>The syntax is much simpler. Use operator <c>-&gt;</c>:</p>
@@ -472,6 +514,13 @@
 					var C = B -> {
 						z : 2
 					};]]>
+				</c>
+				<p>Goat language has not class (prototype) named <c>Object</c> (is the root of the class hierarchy in Java and prototype hierarchy in JavaScript). Objects have not a super-prototype. An object has prototype if it created from literal (for example, strings), or it created by new keyword, or if prototype(s) is explicitly specified when creating an object:</p>
+				<c><![CDATA[
+					var A = { }; // A has no prototypes 
+					var S = "hello"; // the prototype of 'S' is 'String'
+					var B = new A(); // the prototype of 'B' is 'A'
+					var C = B->{ }; // the prototype of 'C' is 'B']]>
 				</c>
 			</h>
 		</s>
