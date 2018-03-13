@@ -242,6 +242,54 @@
 		</s>
 		<s name="Comments">
 			<p>Goat comments can be used to explain Goat code, and to make it more readable. Goat comments can also be used to prevent execution, when testing alternative code.</p>
+			<s name="Single line comments">
+				<p>Single line comments start with <c>//</c>. Any text between <c>//</c> and the end of the line will be ignored by Goat (will not be executed). This example uses a single-line comment before each code line:</p>
+				<c><![CDATA[
+					// Create object:
+					var obj = {};
+					// Add a field to the object:
+					obj.value = 10; ]]>
+				</c>
+				<p>This example uses a single line comment at the end of each line to explain the code:</p>
+				<c><![CDATA[
+					var x = 5; // Declare x, give it the value of 5
+					var y = x + 2;  // Declare y, give it the value of x + 2]]>
+				</c>
+			</s>
+			<s name="Multi-line comments">
+				<p>Multi-line comments start with <c>/*</c> and end with <c>*/</c>. Any text between <c>/*</c> and <c>*/</c> will be ignored by Goat. This example uses a multi-line comment (a comment block) to explain the code:</p>
+				<c><![CDATA[
+					/*
+					The code below declares the function which calculates
+					and print sum and difference of two arguments
+					*/
+					var f = $(a, b) {
+						var x;
+						var y;
+						x = a + b;
+						y = a - b;
+						print("summ: " + x + ", diff: " + y);
+					};]]>
+				</c>
+			</s>
+			<s name="Using comments to prevent execution">
+				<p>Using comments to prevent execution of code is suitable for code testing. Adding <c>//</c> in front of a code line changes the code lines from an executable line to a comment. This example uses <c>//</c> to prevent execution of one of the code lines:</p>
+				<c><![CDATA[
+					var person = {};
+					person.name = "Ivan";
+					//person.gender = "Male";
+					person.age = 33;]]>
+				</c>
+				<p>This example uses a comment block to prevent execution of multiple lines:</p>
+				<c><![CDATA[
+					var person = {};
+					person.name = "Ivan";
+					/*
+					person.gender = "Male";
+					person.age = 33;
+					*/]]>					
+				</c>
+			</s>
 		</s>
 	</s>
 	
