@@ -360,6 +360,250 @@
 				<c>var s = "Value is" + ' ' + 5;</c>
 			</s>
 		</s>
+		<s name="Operators">
+			<s name="Examples">
+				<p>The <b>assignment</b> operator (<c>=</c>) assigns a value to a variable.</p>
+				<c>var x = 10;</c>
+				<p>The <b>addition</b> operator (<c>+</c>) adds numbers:</p>
+				<c><![CDATA[
+					var a = 2;
+					var b = 3;
+					var c = a + b;]]>
+				</c>
+				<p>The <b>multiplication</b> operator (<c>*</c>) multiplies numbers.</p>
+				<c><![CDATA[
+					var a = 2;
+					var b = 3;
+					var c = a * b;]]>
+				</c>
+			</s>
+			<s name="Arithmetic operators">
+				<p>Arithmetic operators are used to perform arithmetic on numbers:</p>
+				<t>
+					<h>
+						<c width="100">Operator</c>
+						<c>Description</c>
+					</h>
+					<r>
+						<c><c>+</c></c>
+						<c>Addition</c>
+					</r>
+					<r>
+						<c><c>-</c></c>
+						<c>Subtraction</c>
+					</r>
+					<r>
+						<c><c>*</c></c>
+						<c>Multiplication</c>
+					</r>
+					<r>
+						<c><c>/</c></c>
+						<c>Division</c>
+					</r>
+					<r>
+						<c><c>%</c></c>
+						<c>Modulus (remainder)</c>
+					</r>
+					<r>
+						<c><c>++</c></c>
+						<c>Increment</c>
+					</r>
+					<r>
+						<c><c>--</c></c>
+						<c>Decrement</c>
+					</r>
+				</t>
+			</s>
+			<s name="Assignment operators">
+				<p>Assignment operators assign values to Goat variables. </p>
+				<t>
+					<h>
+						<c width="100">Operator</c>
+						<c width="100">Example</c>
+						<c>Same as</c>
+					</h>
+					<r>
+						<c><c>=</c></c>
+						<c>x = y</c>
+						<c></c>
+					</r>
+					<r>
+						<c><c>+=</c></c>
+						<c>x += y</c>
+						<c>x = x + y</c>
+					</r>
+					<r>
+						<c><c>-=</c></c>
+						<c>x -= y</c>
+						<c>x = x - y</c>
+					</r>
+					<r>
+						<c><c>*=</c></c>
+						<c>x *= y</c>
+						<c>x = x * y</c>
+					</r>
+					<r>
+						<c><c>/=</c></c>
+						<c>x /= y</c>
+						<c>x = x / y</c>
+					</r>
+					<r>
+						<c><c>%=</c></c>
+						<c>x %= y</c>
+						<c>x = x % y</c>
+					</r>
+				</t>
+				<p>The <b>addition assignment</b> operator (<c>+=</c>) adds a value to a variable.</p>
+				<c><![CDATA[
+					var x = 10;
+					x += 5;]]>
+				</c>
+				<p>Value of <c>x</c> will be: <c>15</c></p>
+			</s>
+			<s name="String operators">
+				<p>The <c>+</c> and <c>+=</c> operators can also be used to add (concatenate) strings.</p>
+				<c><![CDATA[
+					var a = "Hello";
+					var b = "world";
+					var s = a + ", " + b;]]>
+				</c>
+				<p>Value of <c>s</c> will be: <c>Hello, world!</c></p>
+			</s>
+			<s name="Adding strings and not-strings">
+				<p>Adding two numbers, will return the sum, but adding a string and a not-string (number, symbol etc) will return a string:</p>
+				<c><![CDATA[
+					var x = 2 + 3;
+					var s = "result is: " + x;]]>
+				</c>
+				<p>Value of <c>s</c> will be: <c>result is: 5</c></p>
+			</s>
+			<s name="Comparison operators">
+				<t>
+					<h>
+						<c width="100">Operator</c>
+						<c>Description</c>
+					</h>
+					<r>
+						<c><c>==</c></c>
+						<c>Equal to</c>
+					</r>
+					<r>
+						<c><c>!=</c></c>
+						<c>Not equal</c>
+					</r>
+					<r>
+						<c><c>&gt;</c></c>
+						<c>Greater than</c>
+					</r>
+					<r>
+						<c><c>&lt;</c></c>
+						<c>Less than</c>
+					</r>
+					<r>
+						<c><c>&gt;=</c></c>
+						<c>Greater than or equal to</c>
+					</r>
+					<r>
+						<c><c>&lt;=</c></c>
+						<c>Less than or equal to</c>
+					</r>
+					<r>
+						<c><c>?</c></c>
+						<c>Ternary operator</c>
+					</r>
+				</t>
+			</s>
+			<s name="Logical operators">
+				<p>Logical operators work with binary (<c>Boolean</c>) type.</p>
+				<t>
+					<h>
+						<c width="100">Operator</c>
+						<c>Description</c>
+					</h>
+					<r>
+						<c><c>&amp;&amp;</c></c>
+						<c>Logical and</c>
+					</r>
+					<r>
+						<c><c>||</c></c>
+						<c>Logical or</c>
+					</r>
+					<r>
+						<c><c>!</c></c>
+						<c>Logical not</c>
+					</r>
+				</t>
+			</s>
+			<s name="Bitwise operators">
+				<p>Bitwise operators work with <c>Integer</c> type.</p>
+				<t>
+					<h>
+						<c width="100">Operator</c>
+						<c>Description</c>
+						<c>Example</c>
+						<c>Same as</c>
+						<c>Result</c>
+						<c>Decimal</c>
+					</h>
+					<r>
+						<c><c>&amp;</c></c>
+						<c>And</c>
+						<c>5 &amp; 1</c>
+						<c>0101 &amp; 0001</c>
+						<c>0001</c>
+						<c>1</c>
+					</r>
+					<r>
+						<c><c>|</c></c>
+						<c>Or</c>
+						<c>5 | 1</c>
+						<c>0101 | 0001</c>
+						<c>0101</c>
+						<c>5</c>
+					</r>
+					<r>
+						<c><c>~</c></c>
+						<c>Not</c>
+						<c>~5</c>
+						<c>~0101</c>
+						<c>...111010</c>
+						<c>-6</c>
+					</r>
+					<r>
+						<c><c>^</c></c>
+						<c>Xor</c>
+						<c>5 ^ 1</c>
+						<c>0101 ^ 0001</c>
+						<c>0100</c>
+						<c>4</c>
+					</r>
+					<r>
+						<c><c>&lt;&lt;</c></c>
+						<c>Left shift</c>
+						<c>5 &lt;&lt; 1</c>
+						<c>0101 &lt;&lt; 1</c>
+						<c>1010</c>
+						<c>10</c>
+					</r>
+					<r>
+						<c><c>&gt;&gt;</c></c>
+						<c>Signed right shift</c>
+						<c>5 &gt;&gt; 1</c>
+						<c>0101 &gt;&gt; 1</c>
+						<c>0010</c>
+						<c>2</c>
+					</r>
+					<r>
+						<c><c>&gt;&gt;&gt;</c></c>
+						<c>Zero fill right shift</c>
+						<c>5 &gt;&gt;&gt; 1</c>
+						<c>0101 &gt;&gt;&gt; 1</c>
+						<c>0010</c>
+						<c>2</c>
+					</r>
+				</t>
+			</s>
+		</s>
 	</s>
 	
 	<s name="In comparison with JavaScript">
@@ -408,6 +652,13 @@
 			</t>
 		</s>
 		
+		<s name="Operators">
+			<p>The Goat language has no comparison operators <c>===</c> (equal value and equal type) and <c>!==</c> (not equal value or not equal type). Operators <c>==</c> and <c>!=</c> works in most cases as <c>===</c> and <c>!==</c> operators in JavaScript.</p>
+			<p>The Goat language has not <c>typeof</c> and <c>instanceof</c> operators. Use <c>instanceOf</c> method instead:</p>
+			<c>print(13.instanceOf(Integer)); // output: "true"</c>
+			<p>The Goat language provides the new operator <c>-&gt;</c> that means inheritance.</p>
+		</s>
+		
 		<s name="Primitive types">
 			<h name="JavaScript">
 				A primitive data type is a data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol. All primitives are immutable.
@@ -419,8 +670,6 @@
 					var c = 'a'; // prototype of c is Char
 					var s = String.valueOf(c); // conversion to String]]>
 				</c>
-				<p>For determine what the type (prototype) of object (expression), use <c>instanceOf()</c> method:</p>
-				<c>print(13.instanceOf(Integer)); // output: "true"</c>
 				<p>All other structures, for example, functions, threads, arrays etc have own prototypes (<c>Function</c>, <c>Thread</c>, <c>Array</c>).</p>
 			</h>
 		</s>
