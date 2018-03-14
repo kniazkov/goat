@@ -604,6 +604,370 @@
 				</t>
 			</s>
 		</s>
+		<s name="Arithmetic">
+			<s name="Arithmetic Operations">
+				<p>A typical arithmetic operation operates on two numbers. The two numbers can be literals:</p>
+				<c>var x = 100 + 50;</c>
+				<p>or variables:</p>
+				<c>var x = a + b;</c>
+				<p>or expressions:</p>
+				<c>var x = (100 + 50) * a;</c>
+			</s>
+			<s name="Operators and operands">
+				<p>The numbers (in an arithmetic operation) are called <b>operands.</b></p>
+				<p>The operation (to be performed between the two operands) is defined by an <b>operator.</b></p>
+				<t>
+					<h>
+						<c width="100">Operand</c>
+						<c width="100">Operator</c>
+						<c>Operand</c>
+					</h>
+					<r>
+						<c>100</c>
+						<c>+</c>
+						<c>50</c>
+					</r>
+				</t>
+				<p>If at least one of operators is a real number, result will be a real number. If both operators are integers, the result will be integer.</p>
+				<p>The <b>addition</b> operator (<c>+</c>) adds numbers.</p>
+				<c><![CDATA[
+					var a = 2;
+					var b = 3;
+					var c = a + b; // 5]]>
+				</c>
+				<p>The <b>subtraction </b> operator (<c>-</c>) subtracts  numbers.</p>
+				<c><![CDATA[
+					var a = 2;
+					var b = 3;
+					var c = a - b; // -1]]>
+				</c>
+				<p>The <b>multiplication</b> operator (<c>*</c>) multiplies numbers.</p>
+				<c><![CDATA[
+					var a = 2;
+					var b = 3;
+					var c = a * b; // 6]]>
+				</c>
+				<p>The <b>division</b> operator (<c>/</c>) divides  numbers.</p>
+				<c><![CDATA[
+					var a = 6;
+					var b = 2;
+					var c = a / b; // 3]]>
+				</c>
+				<p>If at least one of operators is a real number, the Goat interpreter performs real division (for example, <c>6.0 / 4 = 1.5</c>). If both operators are integers, the interpreter performs integer division, i.e. the fractional part of the result will be lost (<c>6 / 4 = 1</c>).</p>
+				<p>The <b>modular</b> operator (<c>%</c>) returns the division remainder.</p>
+				<c><![CDATA[
+					var a = 17;
+					var b = 10;
+					var c = a % b; // 7]]>
+				</c>
+				<p>The <b>increment </b> operator (<c>++</c>) increments numbers.</p>
+				<c><![CDATA[
+					var a = 2;
+					a++; // 3]]>
+				</c>
+				<p>The <b>decrement</b> operator (<c>--</c>) decrements numbers.</p>
+				<c><![CDATA[
+					var a = 2;
+					a--; // 1]]>
+				</c>
+			</s>
+			<s name="Operator precedence">
+				<p>Operator precedence describes the order in which operations are performed in an arithmetic expression.</p>
+				<c>var x = 100 + 50 * 3;</c>
+				<p>As in traditional mathematics, the multiplication is done first. Multiplication (<c>*</c>) and division (<c>/</c>) have higher <b>precedence</b> than addition (<c>+</c>) and subtraction (<c>-</c>).</p>
+				<p>The precedence can be changed by using parentheses:</p>
+				<c>var x = (100 + 50) * 3;</c>
+				<p>When using parentheses, the operations inside the parentheses are computed first.</p>
+				<p>When many operations have the same precedence (like addition and subtraction), they are computed from left to right:</p>
+				<c>var x = 100 + 50 - 3;</c>
+			</s>
+			<s name="Operator precedence values">
+				<t>
+					<h>
+						<c width="100">Value</c>
+						<c width="100">Operator</c>
+						<c>Description</c>
+						<c>Example</c>
+					</h>
+					<r>
+						<c>21</c>
+						<c><c>()</c></c>
+						<c>Expression grouping</c>
+						<c><c>(3 + 4)</c></c>
+					</r>
+					<r>
+						<c>20</c>
+						<c><c>.</c></c>
+						<c>Member</c>
+						<c><c>person.name</c></c>
+					</r>
+					<r>
+						<c>20</c>
+						<c><c>[]</c></c>
+						<c>Member</c>
+						<c><c>person["name"]</c></c>
+					</r>
+					<r>
+						<c>19</c>
+						<c><c>()</c></c>
+						<c>Function call</c>
+						<c><c>func()</c></c>
+					</r>
+					<r>
+						<c>19</c>
+						<c><c>new</c></c>
+						<c>Create</c>
+						<c><c>new StringBuilder()</c></c>
+					</r>
+					<r>
+						<c>18</c>
+						<c><c>++</c></c>
+						<c>Prefix increment</c>
+						<c><c>++x</c></c>
+					</r>
+					<r>
+						<c>18</c>
+						<c><c>--</c></c>
+						<c>Prefix decrement</c>
+						<c><c>--x</c></c>
+					</r>
+					<r>
+						<c>17</c>
+						<c><c>++</c></c>
+						<c>Postfix increment</c>
+						<c><c>x++</c></c>
+					</r>
+					<r>
+						<c>17</c>
+						<c><c>--</c></c>
+						<c>Postfix decrement</c>
+						<c><c>x--</c></c>
+					</r>
+					<r>
+						<c>16</c>
+						<c><c>!</c></c>
+						<c>Logical not</c>
+						<c><c>!x</c></c>
+					</r>
+					<r>
+						<c>15</c>
+						<c><c>~</c></c>
+						<c>Bitwise not</c>
+						<c><c>~x</c></c>
+					</r>
+					<r>
+						<c>14</c>
+						<c><c>+</c></c>
+						<c>Unary plus</c>
+						<c><c>+x</c></c>
+					</r>
+					<r>
+						<c>14</c>
+						<c><c>-</c></c>
+						<c>Unary minus</c>
+						<c><c>-x</c></c>
+					</r>
+					<r>
+						<c>13</c>
+						<c><c>-&gt;</c></c>
+						<c>Inherit</c>
+						<c><c>A -&gt; { }</c></c>
+					</r>
+					<r>
+						<c>12</c>
+						<c><c>*</c></c>
+						<c>Multiplication</c>
+						<c><c>10 * 5</c></c>
+					</r>
+					<r>
+						<c>12</c>
+						<c><c>/</c></c>
+						<c>Division</c>
+						<c><c>10 / 5</c></c>
+					</r>
+					<r>
+						<c>12</c>
+						<c><c>%</c></c>
+						<c>Modulo (remainder)</c>
+						<c><c>17 % 10</c></c>
+					</r>
+					<r>
+						<c>11</c>
+						<c><c>+</c></c>
+						<c>Addition</c>
+						<c><c>2 + 3</c></c>
+					</r>
+					<r>
+						<c>11</c>
+						<c><c>-</c></c>
+						<c>Subtraction</c>
+						<c><c>5 - 2</c></c>
+					</r>
+					<r>
+						<c>10</c>
+						<c><c>&lt;&lt;</c></c>
+						<c>Shift left</c>
+						<c><c>x &lt;&lt; 2</c></c>
+					</r>
+					<r>
+						<c>10</c>
+						<c><c>&gt;&gt;</c></c>
+						<c>Shift right</c>
+						<c><c>x &gt;&gt; 2</c></c>
+					</r>
+					<r>
+						<c>10</c>
+						<c><c>&gt;&gt;&gt;</c></c>
+						<c>Shift right (unsigned)</c>
+						<c><c>x &gt;&gt;&gt; 2</c></c>
+					</r>
+					<r>
+						<c>9</c>
+						<c><c>&amp;</c></c>
+						<c>Bitwise and</c>
+						<c><c>x &amp; y</c></c>
+					</r>
+					<r>
+						<c>8</c>
+						<c><c>^</c></c>
+						<c>Bitwise xor</c>
+						<c><c>x ^ y</c></c>
+					</r>
+					<r>
+						<c>7</c>
+						<c><c>|</c></c>
+						<c>Bitwise or</c>
+						<c><c>x | y</c></c>
+					</r>
+					<r>
+						<c>6</c>
+						<c><c>&lt;</c></c>
+						<c>Less than</c>
+						<c><c>x &lt; y</c></c>
+					</r>
+					<r>
+						<c>6</c>
+						<c><c>&lt;=</c></c>
+						<c>Less than or equal</c>
+						<c><c>x &lt;= y</c></c>
+					</r>
+					<r>
+						<c>6</c>
+						<c><c>&gt;</c></c>
+						<c>Greater than</c>
+						<c><c>x &gt; y</c></c>
+					</r>
+					<r>
+						<c>6</c>
+						<c><c>&gt;</c></c>
+						<c>Greater than or equal</c>
+						<c><c>x &gt;= y</c></c>
+					</r>
+					<r>
+						<c>5</c>
+						<c><c>==</c></c>
+						<c>Equal</c>
+						<c><c>x == y</c></c>
+					</r>
+					<r>
+						<c>5</c>
+						<c><c>!=</c></c>
+						<c>Not equal</c>
+						<c><c>x != y</c></c>
+					</r>
+					<r>
+						<c>4</c>
+						<c><c>&amp;&amp;</c></c>
+						<c>Logical and</c>
+						<c><c>x &amp;&amp; y</c></c>
+					</r>
+					<r>
+						<c>3</c>
+						<c><c>||</c></c>
+						<c>Logical or</c>
+						<c><c>x || y</c></c>
+					</r>
+					<r>
+						<c>2</c>
+						<c><c>?</c></c>
+						<c>Ternary operator</c>
+						<c><c>a ? b : c</c></c>
+					</r>
+					<r>
+						<c>1</c>
+						<c><c>=</c></c>
+						<c>Assign</c>
+						<c><c>x = y</c></c>
+					</r>
+					<r>
+						<c>1</c>
+						<c><c>+=</c></c>
+						<c>Assign by</c>
+						<c><c>x += y</c></c>
+					</r>
+					<r>
+						<c>1</c>
+						<c><c>-=</c></c>
+						<c>Assign by</c>
+						<c><c>x -= y</c></c>
+					</r>
+					<r>
+						<c>1</c>
+						<c><c>*=</c></c>
+						<c>Assign by</c>
+						<c><c>x *= y</c></c>
+					</r>
+					<r>
+						<c>1</c>
+						<c><c>/=</c></c>
+						<c>Assign by</c>
+						<c><c>x *= y</c></c>
+					</r>
+					<r>
+						<c>1</c>
+						<c><c>%=</c></c>
+						<c>Assign by</c>
+						<c><c>x %= y</c></c>
+					</r>
+					<r>
+						<c>1</c>
+						<c><c>&lt;&lt;=</c></c>
+						<c>Assign by</c>
+						<c><c>x &lt;&lt;= y</c></c>
+					</r>
+					<r>
+						<c>1</c>
+						<c><c>&gt;&gt;=</c></c>
+						<c>Assign by</c>
+						<c><c>x &gt;&gt;= y</c></c>
+					</r>
+					<r>
+						<c>1</c>
+						<c><c>&gt;&gt;&gt;=</c></c>
+						<c>Assign by</c>
+						<c><c>x &gt;&gt;&gt;= y</c></c>
+					</r>
+					<r>
+						<c>1</c>
+						<c><c>&amp;=</c></c>
+						<c>Assign by</c>
+						<c><c>x &amp;= y</c></c>
+					</r>
+					<r>
+						<c>1</c>
+						<c><c>^=</c></c>
+						<c>Assign by</c>
+						<c><c>x ^= y</c></c>
+					<r>
+						<c>1</c>
+						<c><c>|=</c></c>
+						<c>Assign by</c>
+						<c><c>x |= y</c></c>
+					</r>
+					</r>
+				</t>
+			</s>
+		</s>
 	</s>
 	
 	<s name="In comparison with JavaScript">
