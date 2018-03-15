@@ -134,6 +134,12 @@ var parseParagraph = $(src, dst) {
 				dst.content.push(s);
 				parseParagraph(child, s);
 			}
+			else if (child.tag == "draft" || child.tag == "d") {
+				var s = new XML.Element("span");
+				s.attrib["class"] = "draft";
+				dst.content.push(s);
+				parseParagraph(child, s);
+			}
 		}
 		else if (child.instanceOf(String)) {
 			dst.content.push(child);
@@ -312,6 +318,7 @@ try {
 	style.content.push(".cellHeader { font-weight: bold; border-top: 1px solid black; border-bottom: 1px solid black; padding : 5px 2px; }");
 	style.content.push(".cell { padding : 5px 2px; vertical-align: top; }");
 	style.content.push(".cell2 { border-left: 1px solid black; }");
+	style.content.push(".draft { background-color: pink; padding: 1px 2px 0px 2px; }");
 	var body = new XML.Element("body");
 	html.content.push(body);
 	var docHdr = new XML.Element("div", "The Goat Programming Language Reference");
@@ -340,8 +347,10 @@ try {
 	parseSection(root, 0, "", body);
 	print(html.toString("  "));
 } catch(e) {
-	if (e.instanceOf(XML.Error))
-		print("error, position: " + e.index + ", type: " + e.type);
-	else
+	if (e.instanceOf(XML.Error)) {
+		print("error, position: " + e.index + ", type: " + e.type + ", data: \"..." + XML.Element.escapeEntities(xml.subString(e.index - 5, 100)) + "...\"");
+	}
+	else {
 		print(e.trace);
+	}
 }

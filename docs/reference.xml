@@ -1080,7 +1080,181 @@
 		</s>
 		<s name="Functions">
 			<p>A Goat function is a block of code designed to perform a particular task. A Goat function is executed when "something" invokes it (calls it).</p>
+			<c><![CDATA[
+				var myFunction = function(a, b) {
+					return a * b; // the function returns the product of 'a' and 'b'
+				};]]>
+			</c>
+			<p>Why Functions? You can reuse code: Define the code once, and use it many times. You can use the same code many times with different arguments, to produce different results.</p>
+			<s name="Syntax">
+				<p>A Goat function is defined with the <c>function</c> keyword, followed by parentheses (). The parentheses may include parameter names separated by commas: <c>(parameter_1, parameter_2, ...)</c>. The code to be executed, by the function, is placed inside curly brackets: <c>{}</c>. To name a function (for the ability of invocation), the function object needs to be written to a variable:</p>
+				<c><![CDATA[
+					var name = function(parameter_1, parameter_2, parameter_3) {
+						//code to be executed
+					};]]>
+				</c>
+				<p>In the Goat language, the <c>function</c> keyword (it is long and is used very often ) can be changed to a dollar sign <c>$</c>:</p>
+				<c><![CDATA[
+					var name = $(parameter_1, parameter_2, parameter_3) {
+						//code to be executed
+					};]]>
+				</c>
+				<p>Function <b>parameters</b> are listed inside the parentheses <c>()</c> in the function definition. Function <b>arguments</b> are the <b>values</b> received by the function when it is invoked. Inside the function, the arguments (the parameters) behave as local variables.</p>
+			</s>
+			<s name="Return">
+				<p>When the Goat interpreter reaches a <b>return statement</b>, the function will stop executing, then the interpreter will "return" to execute the code after the invoking statement. Functions often compute a return value. The return value is "returned" back to the "caller":</p>
+				<c><![CDATA[
+					var myFunction = function(a, b) {
+						return a * b; // the function returns the product of 'a' and 'b'
+					};
+					
+					var x = myFunction(4, 3);]]>
+				</c>
+				<p>The result in <c>x</c> will be <c>12</c>.</p>
+			</s>
+			<s name="Invocation">
+				<p>The <c>()</c> operator invokes the function.</p>.
+				<p>To invoke a function without arguments, use empty operator:</p>
+				<c><![CDATA[
+					var doSomething = function() {
+						//...
+					};
+					
+					//...
+					
+					doSomething();]]>
+				</c>
+				<p>To invoke a function with arguments, place arguments, separated by comma, inside the <c>()</c> operator: </p>
+				<c><![CDATA[
+					var doSomething = function(a, b, c) {
+						//...
+					};
+					
+					//...
+					
+					doSomething("test", 3.14, false);]]>
+				</c>
+				<p>Argument can be any expression - string, number, another function call etc.</p>
+			</s>
+			<s name="Built-in functions">
+				<p>The Goat language has a lot of built-in functions (so-called built-in library). This library provides type definitions and functions for tasks such as string handling, mathematical computations, input/output processing and several other operating system services.</p>
+				<p>For example, the <c>print</c> function converts the first argument to a string and outputs it to a console:</p>
+				<c>print(2 + 3); // outputs: 5</c>
+				<p><d>Built-in functions are fully described in the appropriate chapter.</d></p>
+			</s>
 		</s>
+		<s name="Objects">
+			<s name="Real life objects, properties and methods">
+				<p>In real life, a car is an <b>object</b>. A car has <b>properties</b> like weight and color, and <b>methods</b> like start and stop.</p>
+				<p>Object:</p>
+				<c>var car = {};</c>
+				<p>Properties:</p>
+				<c><![CDATA[
+					car.name = "Fiat";
+					car.model = 500;
+					car.weight = "850kg";
+					car.color = "white";]]>
+				</c>
+				<p>Methods:</p>
+				<c><![CDATA[
+					car.start();
+					car.drive();
+					car.brake();
+					car.stop();]]>
+				</c>
+				<p>All cars have the same <b>properties</b>, but the property values differ from car to car.</p>
+				<p>All cars have the same <b>methods</b>, but the methods are performed at different times.</p>
+			</s>
+			<s name="Goat objects">
+				<p>Recall that Goat variables are containers for data values. This code assigns a simple value ("Fiat") to a variable named <c>car</c>:</p>
+				<c>var car = "Fiat";</c>
+				<p>Objects are variables too. But objects can contain many values. This code assigns <b>many values</b> ("Fiat", 500, "white") to a <b>variable</b> named car:</p>
+				<c>var car = {type: "Fiat", model: 500, color:"white"};</c>
+				<p>The values are written as <c>name:value</c> pairs (name and value separated by a colon).</p>
+			</s>
+			<s name="Properties">
+				<p>The <c>name:values</c> pairs (in Goat objects) are called properties.</p>
+				<c>var goat = { name: "Stinky", wool: Color.WHITE, age: 3 };</c>
+				<t>
+					<h>
+						<c width="100">Property</c>
+						<c>Value</c>
+					</h>
+					<r>
+						<c>name</c>
+						<c>"Stinky"</c>
+					</r>
+					<r>
+						<c>wool</c>
+						<c>Color.WHITE</c>
+					</r>
+					<r>
+						<c>age</c>
+						<c>3</c>
+					</r>
+				</t>
+			</s>
+			<s name="Methods">
+				<p>Methods are <b>actions</b> that can be performed on objects. Methods are stored in properties as <b>function definitions.</b> In other words, methods are functions that are performed on an object.</p>
+				<c><![CDATA[
+					var person = {
+						firstName : "Scott",
+						lastName : "Cameron",
+						age : 45,
+						
+						fullName : function() {
+							return firstName + ' ' + lastName;
+						}
+					};
+					
+					var name = person.fullName(); // result is: "Scott Cameron"]]>
+				</c>
+			</s>
+			<s name="Definition">
+				<p>You define (and create) a Goat object with an object literal:</p>
+				<c>var person = { firstName : "Scott", lastName : "Cameron", age : 45 };</c>
+				<p>Spaces and line breaks are not important. An object definition can span multiple lines:</p>
+				<c><![CDATA[
+					var person = {
+						firstName : "Scott",
+						lastName : "Cameron",
+						age : 45
+					};]]>
+				</c>
+			</s>
+			<s name="Accessing object properties">
+				<p>You can access object properties in two ways:</p>
+				<c>objectName.propertyName</c>
+				<p>or</p>
+				<c>objectName["propertyName"]</c>
+				<p>For example,</p>
+				<c>person.lastName</c>
+				<p>or</p>
+				<c>person["lastName"];</c>
+			</s>
+			<s name="Accessing object methods">
+				<p>You access an object method with the following syntax:</p>
+				<c>objectName.methodName()</c>
+				<p>For example,</p>
+				<c>name = person.fullName();</c>
+			</s>
+			<s name="Nested objects">
+				<p>Properties can be not only strings and numbers, but also arrays and objects:</p>
+				<c><![CDATA[
+					var person = {
+						firstName : "Scott",
+						lastName : "Cameron",
+						age : 45,
+						children: [
+							{ firstName: "Ann", lastName: "Cameron", age: 10 },
+							{ firstName: "Dave", lastName: "Cameron", age: 14 }
+						]
+					};]]>
+				</c>
+				<p>Thus, objects can be unlimitedly nested within each other.</p>
+			</s>
+		</s>
+		
 	</s>
 	
 	<s name="In comparison with JavaScript">
