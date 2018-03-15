@@ -958,15 +958,44 @@
 						<c><c>^=</c></c>
 						<c>Assign by</c>
 						<c><c>x ^= y</c></c>
+					</r>
 					<r>
 						<c>1</c>
 						<c><c>|=</c></c>
 						<c>Assign by</c>
 						<c><c>x |= y</c></c>
 					</r>
-					</r>
 				</t>
 			</s>
+		</s>
+		<s name="Assignment">
+			<p>The <c>=</c> assignment operator assigns a value to a variable.</p>
+			<c>var x = 10; // 10</c>
+			<p>The <c>+=</c> assignment operator adds a value to a variable.</p>
+			<c><![CDATA[
+				var x = 10;
+				x += 5; // 15 ]]>
+			</c>
+			<p>The <c>-=</c> assignment operator subtracts a value from a variable.</p>
+			<c><![CDATA[
+				var x = 10;
+				x -= 5; // 5 ]]>
+			</c>
+			<p>The <c>*=</c> assignment operator multiplies a variable.</p>
+			<c><![CDATA[
+				var x = 10;
+				x *= 5; // 50 ]]>
+			</c>
+			<p>The <c>/=</c> assignment operator divides a variable.</p>
+			<c><![CDATA[
+				var x = 10;
+				x /= 5; // 2 ]]>
+			</c>
+			<p>The <c>%=</c> assignment operator assigns a remainder to a variable.</p>
+			<c><![CDATA[
+				var x = 17;
+				x %= 10; // 7 ]]>
+			</c>
 		</s>
 	</s>
 	
