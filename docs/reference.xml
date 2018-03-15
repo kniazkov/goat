@@ -193,9 +193,9 @@
 					<c>123</c>
 					<p><b>Real numbers</b> are written with decimals, decimal separator is a dot:</p>
 					<c>0.001</c>
-					<p>Strings are text, written within double quotes:</p>
+					<p><b>Strings</b> are text, written within double quotes:</p>
 					<c>"Hello"</c>
-					<p>Chars are symbols written within single quotes:</p>
+					<p><b>Chars</b> are symbols written within single quotes:</p>
 					<c>'A'</c>
 				</s>
 				<s name="Variables">
@@ -996,6 +996,90 @@
 				var x = 17;
 				x %= 10; // 7 ]]>
 			</c>
+		</s>
+		<s name="Data types">
+			<p>Goat variables can hold many data types: numbers, strings, objects and more:</p>
+			<c>	<![CDATA[
+				var length = 16; // Integer
+				var price = 11.99; // Real
+				var name = "Ivan"; // String
+				var obj = {name: "Ivan", age: 33}; // Object
+				x %= 10; // 7 ]]>
+			</c>
+			<s name="Concept">
+				<p>In programming, data types is an important concept. To be able to operate on variables, it is important to know something about the type.</p>
+				<p>For example, when adding a number and a something, the Goat interpreter will treat the second operator as a number:</p>
+				<c>var x = 2 + 3; // result is: 5</c>
+				<p>But, when adding a string and a something, the Goat interpreter will treat the second operator as a string. If the second operator is not a string, the interpreter will convert it to the string:</p>
+				<c>var s = "text" + 123; // result is: "text123"</c>
+				<p>The Goat interpreter evaluates expressions from left to right (but according to precedence).  Different sequences can produce different results:</p>
+				<c><![CDATA[
+					var s1 = "text" + 2 + 3; // result is: "text23"
+					var s2 = "text" + (2 + 3); // result is: "text5"]]>
+				</c>
+			</s>
+			<s name="Goat types are dynamic">
+				<p>The Goat language has dynamic types. This means that the same variable can be used to hold different data types:</p>
+				<c><![CDATA[
+					var x; // 'x' is undefined
+					x = 5; // now 'x' is a integer
+					x = "Ivan"; // now 'x' is a string]]>
+				</c>
+			</s>
+			<s name="Strings">
+				<p>A string (or a text string) is a series of characters like "Abracadabra". Strings are written with double quotes:</p>
+				<c>var name="Ivan";</c>
+			</s>
+			<s name="Chars">
+				<p>Char is a single symbol. Chars are written with single quotes:</p>
+				<c>var c = 'A';</c>
+			</s>
+			<s name="Integers">
+				<p>A number without decimal point:</p>
+				<c>var i = 10;</c>
+			</s>
+			<s name="Real numbers">
+				<p>A number with decimal point (also, it called "floating-point number"):</p>
+				<c>var r = 0.01;</c>
+			</s>
+			<s name="Booleans">
+				<p>Booleans can only have two values: <c>true</c> or <c>false</c>:</p>
+				<c><![CDATA[
+					var t = true;
+					var f = false;]]>
+				</c>
+				<p>Booleans are often used in conditional testing:</p>
+				<c><![CDATA[
+					var x = 5;
+					var y = 5;
+					var z = 6;
+					var t = (x == y); // true
+					var f = (x == z); // false]]>
+				</c>
+			</s>
+			<s name="Arrays">
+				<p>Goat arrays are written with square brackets. Array items are separated by commas. The following code declares (creates) an array called <c>herd</c>, containing three items (goats nicknames):</p>
+				<c>var herd = ["Dirty", "Stinky", "Crazy"];</c>
+				<p>Array indexes are zero-based, which means the first item is <c>[0]</c>, second is <c>[1]</c>, and so on.</p>
+			</s>
+			<s name="Objects">
+				<p>Goat objects are written with curly braces. Object properties are written as <c>name: value</c> pairs, separated by commas.</p>
+				<c>var goat = { name: "Stinky", wool: Color.WHITE, age: 3}; </c>
+			</s>
+			<s name="Undefined">
+				<p>In the Goat language, a variable without a value, has the value <c>undefined</c>.</p>
+				<c>var name; // value is undefined</c>
+				<p>Any variable can be emptied, by setting the value to <c>undefined</c>.</p>
+				<c>name = undefined;</c>
+			</s>
+			<s name="Null">
+				<p>In the Goat language, <c>null</c> is "nothing". It is supposed to be something that doesn't exist. Any variable can be emptied, by setting the value to <c>null</c>.</p>
+				<c>name = null;</c>
+			</s>
+			<p><c>null</c> is not <c>undefined</c>! <c>null</c> means: it defined, but the value of it is "nothing".</p>
+		</s>
+		<s name="Functions">
+			<p>A Goat function is a block of code designed to perform a particular task. A Goat function is executed when "something" invokes it (calls it).</p>
 		</s>
 	</s>
 	
