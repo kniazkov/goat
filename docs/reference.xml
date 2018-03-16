@@ -1313,6 +1313,115 @@
 				};]]>
 			</c>
 		</s>
+		<s name="Strings">
+			<p>Goat strings are used for storing and manipulating text.</p>
+			<s name="Definition">
+				<p>A Goat string is zero or more characters written inside double quotes.</p>
+				<c>var s = "Have a nice day";</c>
+			</s>
+			<s name="Special characters">
+				<p>Because strings must be written within quotes, Goat will misunderstand this string:</p>
+				<c>var s = "The line "No, I am your father" is often misquoted as "Luke, I am your father."";</c>
+				<p>The string will be chopped to <c>"The line "</c>.</p>
+				<p>The solution to avoid this problem, is to use the <b>backslash escape character.</b> The backslash (<c>\</c>) escape character turns special characters into string characters:</p>
+				<t>
+					<h>
+						<c width="120">Code</c>
+						<c width="120">Result</c>
+						<c>Description</c>
+					</h>
+					<r>
+						<c><c>\n</c></c>
+						<c></c>
+						<c>New line</c>
+					</r>
+					<r>
+						<c><c>\r</c></c>
+						<c></c>
+						<c>Carriage return</c>
+					</r>
+					<r>
+						<c><c>\t</c></c>
+						<c></c>
+						<c>Tabulation</c>
+					</r>
+					<r>
+						<c><c>\"</c></c>
+						<c><c>"</c></c>
+						<c>Double quote</c>
+					</r>
+					<r>
+						<c><c>\\</c></c>
+						<c><c>\</c></c>
+						<c>Backslash</c>
+					</r>
+				</t>
+				<p>The sequence <c>\"</c> inserts a double quote in a string:</p>
+				<c>var s = "The line \"No, I am your father\" is often misquoted as \"Luke, I am your father.\"";</c>
+				<p>The sequence <c>\\</c> inserts a backslash in a string:</p>
+				<c>var s = "The character \\ is called backslash.";</c>
+			</s>
+			<s name="Strings are objects">
+				<p>The Goat language has no primitive types. All data representing as objects, including strings. For example, 
+				another way to define string is the explicit definition (as an object) by operator <c>new</c>:</p>
+				<c>var s = new String("My name is Ivan");</c>
+				<p>Don't create strings using operator new. This makes no sense. This example is needed to show that in principle, the string does not differ from other objects (it has a prototype, it can be created by the <c>new</c> operator, and so on).</p>
+				<p>Since a string is an object, it has properties, including methods. For example, the <c>length</c> method returns the length of a string:</p>
+				<c><![CDATA[
+					var s = "Test";
+					var n = s.length(); // value of 'n' will be 4]]>
+				</c>
+			</s>
+			<s name="String methods">
+				<h name="length ()">
+					<p>Returns the length of a string.</p>
+				</h>
+				<h name="subString ( start, count )">
+					<p>Extracts a part of a string and returns the extracted part in a new string. </p>
+					<t>
+						<h>
+							<c width="200">Parameter</c>
+							<c width="100">Type</c>
+							<c>Description</c>
+						</h>
+						<r>
+							<c>start</c>
+							<c>Integer</c>
+							<c>The starting index (position). 0 is the first symbol.</c>
+						</r>
+						<r>
+							<c>count</c>
+							<c>Integer</c>
+							<c>Optional. Count of characters. If not specified, the substring begins with the character at the specified index and extends to the end of this string.</c>
+						</r>
+					</t>
+					<c><![CDATA[
+						var a = "This is an example.";
+						var b = a.subString(5, 2); // "is"
+						var c = a.subString(11); // "example."]]>
+					</c>
+				</h>
+				<h name="split ( separator )">
+					<p>Separates a string into an array of substrings using a separator.</p>
+					<t>
+						<h>
+							<c width="200">Parameter</c>
+							<c width="100">Type</c>
+							<c>Description</c>
+						</h>
+						<r>
+							<c>separator</c>
+							<c>Char</c>
+							<c>Separator</c>
+						</r>
+					</t>
+					<c><![CDATA[
+						var s = "My name is James Bond";
+						var a = s.split(' '); // ["My","name","is","James","Bond"] ]]>
+					</c>
+				</h>
+			</s>
+		</s>
 	</s>
 	
 	<s name="In comparison with JavaScript">
