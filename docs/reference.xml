@@ -1254,7 +1254,65 @@
 				<p>Thus, objects can be unlimitedly nested within each other.</p>
 			</s>
 		</s>
-		
+		<s name="Scope">
+			<p>Scope determines the accessibility (visibility) of variables.</p>
+			<p>Variables declared within a Goat block (function, etc), become <b>local</b> to this block. Local variables have local scope: they can only be accessed within the block.</p>
+			<c><![CDATA[
+				// code here can not use 'nickname'
+				
+				var myFunction = function() {
+					var nickname = "Stinky";
+					
+					// code here can use 'nickname'
+				};
+				
+				// code here can not use 'nickname']]>
+			</c>
+			<p>However, local variables can be accessed from inner blocks:</p>
+			<c><![CDATA[
+				var myFunction = function() {
+					var nickname = "Stinky";
+					
+					//...
+					if (expression) {
+						// code here can use 'nickname'
+					}
+					
+					// code here can use 'nickname'
+				};]]>
+			</c>
+			<p>Functions are inner blocks also. So, each function can access variables, declared outside this function:</p>
+			<c><![CDATA[
+				var myFunction = function() {
+					var nickname = "Stinky";
+					
+					//...
+					var innerFunction = function() {
+						// code here can use 'nickname'
+					};
+					
+					// code here can use 'nickname'
+				};]]>
+			</c>
+			<p>Variables declared within a block, redefines variables with the same names, declared outside a block. New variable uses only in this block:</p>
+			<c><![CDATA[
+				var myFunction = function() {
+					var nickname = "Stinky";
+					//...
+					print(nickname); // output: "Stinky"
+					//...
+					var innerFunction = function() {
+						var nickname = "Dirty"; // redefine 'nickname' variable
+						//...
+						print(nickname); // output: "Dirty"
+					};
+					//...
+					innerFunction();
+					//...
+					print(nickname); // output: "Stinky"
+				};]]>
+			</c>
+		</s>
 	</s>
 	
 	<s name="In comparison with JavaScript">
