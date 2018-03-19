@@ -1392,7 +1392,7 @@
 						<r>
 							<c>count</c>
 							<c>Integer</c>
-							<c>Optional. Count of characters. If not specified, the substring begins with the character at the specified index and extends to the end of this string.</c>
+							<c>Optional. Count of characters. If not specified, the substring begins with the character at the specified index and extends to the end of this string. If specified, anyway, the method returns not more symbols than it possible.</c>
 						</r>
 					</t>
 					<c><![CDATA[
@@ -1402,7 +1402,7 @@
 					</c>
 				</h>
 				<h name="split ( separator )">
-					<p>Separates a string into an array of substrings using a separator.</p>
+					<p>Splits a string into an array of substrings using a separator.</p>
 					<t>
 						<h>
 							<c width="200">Parameter</c>
@@ -1419,6 +1419,94 @@
 						var s = "My name is James Bond";
 						var a = s.split(' '); // ["My","name","is","James","Bond"] ]]>
 					</c>
+					<p>If the string does not contain the separator, the method returns an array with one item (source string).</p>
+				</h>
+				<h name="valueOf ( object )">
+					<p>Converts any object to a string.</p>
+					<p>This is the static method, i.e. meant to be relevant to all the instances of a class rather than to any specific instance.</p>
+					<t>
+						<h>
+							<c width="200">Parameter</c>
+							<c width="100">Type</c>
+							<c>Description</c>
+						</h>
+						<r>
+							<c>object</c>
+							<c>Any</c>
+							<c>An object</c>
+						</r>
+					</t>
+					<c><![CDATA[
+						var i = 256 * 256;
+						var s = String.valueOf(i); // "65536" ]]>
+					</c>
+				</h>
+			</s>
+		</s>
+		<s name="Characters">
+			<p>A character (<c>Char</c>) is a type that corresponds to a symbol or grapheme: letter, digit etc.</p>
+			<s name="Definition">
+				<p>A Goat char is one character written inside single quotes.</p>
+				<c>var c = 'A';</c>
+			</s>
+			<s name="Special characters">
+				<p>As in strings, special characters after a backslash can be used here:</p>
+				<t>
+					<h>
+						<c width="120">Code</c>
+						<c width="120">Result</c>
+						<c>Description</c>
+					</h>
+					<r>
+						<c><c>\n</c></c>
+						<c></c>
+						<c>New line</c>
+					</r>
+					<r>
+						<c><c>\r</c></c>
+						<c></c>
+						<c>Carriage return</c>
+					</r>
+					<r>
+						<c><c>\t</c></c>
+						<c></c>
+						<c>Tabulation</c>
+					</r>
+					<r>
+						<c><c>\'</c></c>
+						<c><c>'</c></c>
+						<c>Single quote</c>
+					</r>
+					<r>
+						<c><c>\\</c></c>
+						<c><c>\</c></c>
+						<c>Backslash</c>
+					</r>
+				</t>
+				<p>The sequence <c>\'</c> means a single quote:</p>
+				<c>var c = '\'';</c>
+			</s>
+			<s name="Char methods">
+				<h name="valueOf ( object )">
+					<p>Static method. Converts object to a char.</p>
+					<t>
+						<h>
+							<c width="200">Parameter</c>
+							<c width="100">Type</c>
+							<c>Description</c>
+						</h>
+						<r>
+							<c>object</c>
+							<c>Any</c>
+							<c>An object</c>
+						</r>
+					</t>
+					<p>If the object is an integer, returns a Char containing the character associated with the specified character code.</p>
+					<c><![CDATA[
+						var i = 65;
+						var c = Char.valueOf(i); // 'A' ]]>
+					</c>
+					<p>Else, if the object is a char, just returns this object. Else, if the object is not an integer and is not a char, returns <c>'\0'</c> (char with zero value).</p>
 				</h>
 			</s>
 		</s>
