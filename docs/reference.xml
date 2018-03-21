@@ -1510,6 +1510,47 @@
 				</h>
 			</s>
 		</s>
+		<s name="Numbers">
+			<p>The Goat interpreter operates two type of numbers: integers and real numbers.</p>
+			<s name="Integers">
+				<s name="Definition">
+					<p>Integer numbers are written without decimal point:</p>
+					<c>var i = 3;</c>
+					<p>Also, Goat interprets numerical constants as hexadecimal if they are preceded by <c>0x</c>:</p>
+					<c>var i = 0xFF;</c>
+					<p>and interprets numerical constants as binary if they are preceded by <c>0b</c>:</p>
+					<c>var i = 0b1011;</c>
+				</s>
+				<s name="Methods">
+					<h name="toString ( radix )">
+						<p>Converts an integer to a string.</p>
+						<t>
+							<h>
+								<c width="200">Parameter</c>
+								<c width="100">Type</c>
+								<c>Description</c>
+							</h>
+							<r>
+								<c><d>radix</d></c>
+								<c><d>Integer</d></c>
+								<c><d>Optional. Radix, can be 2, 10 or 16.</d></c>
+							</r>
+						</t>
+						<c><![CDATA[
+							var i = 254;
+							var s = i.toString(); // "254"
+							var h = "0x" + i.toString(16); // "0xFE" ]]>
+						</c>
+					</h>
+				</s>
+			</s>
+			<s name="Real numbers">
+				<s name="Definition">
+					<p>Real numbers are written with decimal point (dot):</p>
+					<c>var i = 3.14;</c>
+				</s>
+			</s>
+		</s>
 	</s>
 	
 	<s name="In comparison with JavaScript">
