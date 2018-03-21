@@ -603,6 +603,30 @@
 					</r>
 				</t>
 			</s>
+			<s name="Special operators">
+				<t>
+					<h>
+						<c width="100">Operator</c>
+						<c>Description</c>
+					</h>
+					<r>
+						<c><c>-&gt;</c></c>
+						<c>Inherit</c>
+					</r>
+				</t>
+			</s>
+			<s name="Common operators">
+				<p>Each object supports these operators: <c>-&gt;</c> (inherit), <c>==</c> (equal), <c>!=</c> (not equal) and <c>!</c> (logical not).</p>
+				<h name="-&gt; (inherit)">
+					<p>Each object can be a prototype for a new object. Below in this document, it will be explained what is prototyping.</p>
+				</h>
+				<h name="== (equal) and != (not equal)">
+					<p>In common case, an object equals to another object, if these objects are the same object. For numbers, strings, other built-in types, an object is equal to another object if these objects have the same value, for example, <c>5 == 2 + 3</c>.</p>
+				</h>
+				<h name="! (not)">
+					<p>In common case, <c>not</c> object is <c>false</c>. The chapters about the comparison and conditions will describe how this is used.</p>
+				</h>
+			</s>
 		</s>
 		<s name="Arithmetic">
 			<s name="Arithmetic Operations">
@@ -1440,6 +1464,24 @@
 						var i = 256 * 256;
 						var s = String.valueOf(i); // "65536" ]]>
 					</c>
+				</h>
+			</s>
+			<s name="String operators">
+				<p>Remind that each object (include strings) supports these operators: <c>-&gt;</c> (inherit), <c>==</c> (equal), <c>!=</c> (not equal) and <c>!</c> (logical not). Other operators are:</p>
+				<h name="+, +=">
+					<p>Converts the second operand to a string and then concatenates strings.</p>
+					<c><![CDATA[
+						var s0 = "hello" + ", " + "world!"; // "hello, world!";
+						var s1 = "test" + 123; // "test123"
+						var s2 = "value";
+						s2 += 3.14; // "value3.14" ]]>
+					</c>
+					<p>One of the simplest methods to convert anything to a string is adding this object to an empty string:</p>
+					<c>var s = "" + 3.14; // "3.14"</c>
+				</h>
+				<h name="&lt;, &lt;=, &gt;, &gt;=">
+					<p>Lexicographical comparison of strings. If the second operator is not a string, returns <c>false</c>.</p>
+					<c>print("hello" &gt;= "hell"); // outputs: true</c>
 				</h>
 			</s>
 		</s>
