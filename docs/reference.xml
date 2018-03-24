@@ -1601,11 +1601,101 @@
 						</c>
 					</h>
 				</s>
+				<s name="Operators">
+					<p>The Integer type has more operators than the other types.</p>
+					<h name="+, +=, -, -=, *, *=, /, /=">
+						<p>Addition, subtraction, multiplication and division. Note that multiplication and division have a higher precedence than addition and subtraction, just as in algebra. If the second operand is a real number, then the result will also be a real number. If the second operand is an integer, the result will integer. Else if the second operand is not a number,  throws an <c>IllegalArgument</c> exception.</p>
+						<c><![CDATA[
+							var a = 2;
+							var b = 3;
+							var c = 5;
+							var x = a + b * c; // 17 ]]>
+						</c>
+					</h>
+					<h name="%, %=">
+						<p>Modulo (remainder). Returns the remainder of an integer divided by an integer.</p>
+						<c>var x = 17 % 10 // 7</c>
+					</h>
+					<h name="&lt;, &lt;=, &gt;, &gt;=">
+						<p>Comparison of two numbers (integer or real number). If the second parameter is not a number, throws an <c>IllegalArgument</c> exception.</p>
+						<c>print(4 &gt; 3); // outputs: false</c>
+					</h>
+					<h name="++, --">
+						<p>Increments or decrements of an <c>Integer</c> variable (or a field) by 1.</p>
+						<c><![CDATA[
+							var x = 1; // 1;
+							x++; // 2
+							x++; // 3
+							x--; // 2 ]]>
+						</c>
+					</h>
+					<h name="~">
+						<p>The bitwise <b>not</b>, or complement, is a unary operation that performs logical negation on each bit, forming the ones' complement of the given binary value. Bits that are 0 become 1, and those that are 1 become 0:</p>
+						<c><![CDATA[
+							var x = 0b1011;
+							var n = ~x; // ...1110100 ]]>
+						</c>
+						<p>The integer consists of a large number of bits (<d>depending on the implementation, usually 64</d>), all these bits change their values. So in this example, all first bits became 1.</p>
+					</h>
+					<h name="&lt;&lt;, &lt;&lt;=">
+						<p>Left shift, i.e.  bitwise operation that shifts all the bits of its operand. Shifts left by pushing zeros in from the right and let the leftmost bits fall off.</p>
+						<c><![CDATA[
+							var x = 0b1011;
+							var s = x << 2; // 101100 ]]>
+						</c>
+						<p>Left shifts can be useful as an efficient way to perform multiplication of unsigned integers by powers of 2. Shifting left by <c>n</c> bits on unsigned binary number has the effect of multiplying it by 2 to the power of <c>n</c>:</p>
+						<c><![CDATA[
+							var x = 5;
+							var s = x << 3; // 5 * 8 = 40 ]]>
+						</c>
+					</h>
+					<h name="&gt;&gt;, &gt;&gt;=">
+						<p>Signed right shift, shifts right by pushing copies of the leftmost bit in from the left, and let the rightmost bits fall off.</p>
+						<c><![CDATA[
+							var x = -5 // ...111011;
+							var s = x > 1; // ...111101 (-3) ]]>
+						</c>
+					</h>
+					<h name="&gt;&gt;&gt;, &gt;&gt;&gt;=">
+						<p>Unsigned (zero fill) right shift, one or more zero bits are pushed in from the left, and the rightmost bits fall off.</p>
+						<c><![CDATA[
+							var x = 5 // 101;
+							var s = x >>> 1; // 010 (2) ]]>
+						</c>
+					</h>
+					<h name="&amp;, &amp;=">
+						<p>Bitwise <b>and</b> returns 1 only if both bits are 1.</p>
+						<c><![CDATA[
+							var x = 5 // 101;
+							var y = 1 // 001;
+							var b = x & y; // 001 (1) ]]>
+						</c>
+					</h>
+					<h name="|, |=">
+						<p>Bitwise <b>or</b> returns 1 if one of the bits are 1.</p>
+						<c><![CDATA[
+							var x = 5 // 101;
+							var y = 1 // 001;
+							var b = x | y; // 101 (5) ]]>
+						</c>
+					</h>
+					<h name="^, ^=">
+						<p>Bitwise <b>xor</b> returns 1 if the bits are different.</p>
+						<c><![CDATA[
+							var x = 5 // 101;
+							var y = 1 // 001;
+							var b = x ^ y; // 100 (4) ]]>
+						</c>
+					</h>
+				</s>
 			</s>
 			<s name="Real numbers">
 				<s name="Definition">
 					<p>Real numbers are written with decimal point (dot):</p>
 					<c>var i = 3.14;</c>
+				</s>
+				<s name="Operators">
+					<p>Real type supports only these operators: <c>+</c>, <c>+=</c>, <c>-</c>, <c>-=</c>, <c>*</c>, <c>*=</c>, <c>/</c>, <c>/=</c>, <c>&lt;</c>, <c>&lt;=</c>, <c>&gt;</c>, <c>&gt;=</c>, <c>++</c>, <c>--</c>. Bitwise operators are not supported.</p>
 				</s>
 			</s>
 		</s>
