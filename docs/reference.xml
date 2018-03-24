@@ -1551,6 +1551,22 @@
 					<p>Else, if the object is a char, just returns this object. Else, if the object is not an integer and is not a char, returns <c>'\0'</c> (char with zero value).</p>
 				</h>
 			</s>
+			<s name="Char operators">
+				<h name="++, --">
+					<p>Increments or decrements of a <c>Char</c> variable (or a field) by 1.</p>
+					<c><![CDATA[
+						var c = 'A'; // 'A';
+						c++; // 'B'
+						c++; // 'C'
+						c--; // 'B' ]]>
+					</c>
+				</h>
+				<h name="&lt;, &lt;=, &gt;, &gt;=">
+					<p>Comparison of two <c>Char</c> objects. If the second parameter is not a char, throws an <c>IllegalArgument</c> exception.</p>
+					<c>print('A' &gt; 'B'); // outputs: false</c>
+					<p>What is an "exception" is described in the appropriate section.</p>
+				</h>
+			</s>
 		</s>
 		<s name="Numbers">
 			<p>The Goat interpreter operates two type of numbers: integers and real numbers.</p>
