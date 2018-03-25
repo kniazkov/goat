@@ -1812,6 +1812,202 @@
 		</s>
 		<s name="Comparison and logical operators">
 			<p>Comparison and logical operators are used to test for <c>true</c> or <c>false</c>.</p>
+			<s name="Comparison operators">
+				<p>Comparison operators are used in logical statements to determine equality or difference between variables or values.</p>
+				<p>Given that <c>x = 5</c>, the table below explains the comparison operators:</p>
+				<t>
+					<h>
+						<c width="100">Operator</c>
+						<c>Description</c>
+						<c>Comparing</c>
+						<c>Returns</c>
+					</h>
+					<r>
+						<c><c>==</c></c>
+						<c>Equal to</c>
+						<c><c>x == 8</c></c>
+						<c><c>false</c></c>
+					</r>
+					<r>
+						<c/>
+						<c/>
+						<c><c>x == 5</c></c>
+						<c><c>true</c></c>
+					</r>
+					<r>
+						<c/>
+						<c/>
+						<c><c>x == "5"</c></c>
+						<c><c>false</c></c>
+					</r>
+					<r>
+						<c><c>!=</c></c>
+						<c>Not equal</c>
+						<c><c>x != 8</c></c>
+						<c><c>true</c></c>
+					</r>
+					<r>
+						<c><c>&gt;</c></c>
+						<c>Greater than</c>
+						<c><c>x &gt; 8</c></c>
+						<c><c>false</c></c>
+					</r>
+					<r>
+						<c><c>&lt;</c></c>
+						<c>Less than</c>
+						<c><c>x &lt; 8</c></c>
+						<c><c>true</c></c>
+					</r>
+					<r>
+						<c><c>&gt;=</c></c>
+						<c>Greater than or equal to</c>
+						<c><c>x &gt;= 8</c></c>
+						<c><c>false</c></c>
+					</r>
+					<r>
+						<c><c>&lt;=</c></c>
+						<c>Less than or equal to</c>
+						<c><c>x &lt;= 5</c></c>
+						<c><c>true</c></c>
+					</r>
+				</t>
+				<p>Comparison operators can be used in conditional statements to compare values and take action depending on the result:</p>
+				<c>if (age &lt; 18) print("Too young");</c>
+			</s>
+			<s name="Logical operators">
+				<p>Logical operators are used to determine the logic between variables or values.</p>
+				<p>Given that <c>x = 6</c> and <c>y = 3</c>, the table below explains the logical operators:</p>
+				<t>
+					<h>
+						<c width="100">Operator</c>
+						<c>Description</c>
+						<c>Example</c>
+						<c>Returns</c>
+					</h>
+					<r>
+						<c><c>&amp;&amp;</c></c>
+						<c>Logical <b>and</b></c>
+						<c><c>(x &lt; 10 &amp;&amp; y &gt; 1)</c></c>
+						<c><c>true</c></c>
+					</r>
+					<r>
+						<c><c>||</c></c>
+						<c>Logical <b>or</b></c>
+						<c><c>(x == 5 || y == 5)</c></c>
+						<c><c>false</c></c>
+					</r>
+					<r>
+						<c><c>!</c></c>
+						<c>Logical <b>not</b></c>
+						<c><c>!(x == y)</c></c>
+						<c><c>true</c></c>
+					</r>
+				</t>
+				<h name="Logical and (&amp;&amp;)">
+					<p>The expression <c>A &amp;&amp; B</c> is <c>true</c> if <c>A</c> and <c>B</c> are both <c>true</c>; else it is <c>false</c>.</p>
+				</h>
+				<h name="Logical or (||)">
+					<p>The expression <c>A || B</c> is <c>true</c> if <c>A</c> or <c>B</c> (or both) are <c>true</c>; if both are <c>false</c>, the expression is <c>false</c>.</p>
+				</h>
+				<h name="Logical not (!)">
+					<p>The expression <c>!A</c> is <c>true</c> if <c>A</c> is <c>false</c>.</p>
+				</h>
+			</s>
+			<s name="Conditional (ternary) operator">
+				<p>Goat also contains a conditional operator that assigns a value to a variable based on some condition:</p>
+				<c>variablename = (condition) ? value1 : value2</c>
+				<p>For example,</p>
+				<c>var voteable = (age &lt; 18) ? "Too young" : "Old enough";</c>
+				<p>If the variable <c>age</c> is a value below 18, the value of the variable voteable will be <c>"Too young"</c>, otherwise the value of voteable will be <c>"Old enough"</c>.</p>
+			</s>
+			<s name="Comparing different types">
+				<p>Comparing data of different types may give unexpected results. As a rule, the operators <c>==</c> and <c>!=</c> check that the types of the two variables match, otherwise will be returned false. For example, you can compare numbers but you can not compare a number and a string. If you need to compare, just explicit convert an operand to another type to match the second operand:</p>
+				<c><![CDATA[
+					var s = "1024";
+					var i = 256 * 4;
+					if (String.valueOf(i) == s) {
+						// do something
+					}]]>
+				</c>
+				<p>There is one exclusion. You can compare integer numbers and real numbers although they are different types. An integer operand will be converted to a real before comparison.</p>
+			</s>
+		</s>
+		<s name="Conditions">
+			<s name="Conditional statements">
+				<p>Conditional statements are used to perform different actions based on different conditions.</p>
+				<p>Very often when you write code, you want to perform different actions for different decisions. You can use conditional statements in your code to do this. In Goat we have the following conditional statements:</p>
+				<l>
+					<i>Use <c>if</c> to specify a block of code to be executed, if a specified condition is true</i>
+					<i>Use <c>else</c> to specify a block of code to be executed, if the same condition is false</i>
+					<i>Use <c>else if</c> to specify a new condition to test, if the first condition is false</i>
+					<i>Use <c>switch</c> to specify many alternative blocks of code to be executed</i>
+				</l>
+			</s>
+			<s name="The 'if' statement">
+				<p>Use the <c>if</c> statement to specify a block of Goat code to be executed if a condition is true. Syntax:</p>
+				<c><![CDATA[
+					if (condition) {
+						block of code to be executed if the condition is true
+					}]]>
+				</c>
+				<p>Example (outputs <c>"Good day"</c>):</p>
+				<c><![CDATA[
+					var hour = 12;
+					//...
+					if (hour < 18) {
+						print("Good day");
+					}]]>
+				</c>
+				<p>Note that <c>if</c> is in lowercase letters. Uppercase letters (<c>If</c> or <c>IF</c>) will generate a Goat error.</p>
+			</s>
+			<s name="The 'else' statement">
+				<p>Use the <c>else</c> statement to specify a block of code to be executed if the condition is false. Syntax:</p>
+				<c><![CDATA[
+					if (condition) {
+						block of code to be executed if the condition is true
+					}
+					else {
+						block of code to be executed if the condition is false
+					}]]>
+				</c>
+				<p>Example (outputs <c>"Good evening"</c>):</p>
+				<c><![CDATA[
+					var hour = 12;
+					//...
+					if (hour < 18) {
+						print("Good day");
+					}
+					else {
+						print("Good evening");
+					}]]>
+				</c>
+			</s>
+			<s name="The 'else if' statement">
+				<p>Use the <c>else if</c> statement to specify a new condition if the first condition is false. Syntax:</p>
+				<c><![CDATA[
+					if (condition1) {
+						block of code to be executed if condition1 is true
+					}
+					else if (condition2) {
+						block of code to be executed if the condition1 is false and condition2 is true
+					}
+					else {
+						block of code to be executed if the condition1 is false and condition2 is false
+					}]]>
+				</c>
+				<p>Example:</p>
+				<c><![CDATA[
+					if (hour < 10) {
+						print("Good morning");
+					}
+					else if (hour < 18) {
+						print("Good day");
+					}
+					else {
+						print("Good evening");
+					}]]>
+				</c>
+			</s>
 		</s>
 	</s>
 	
