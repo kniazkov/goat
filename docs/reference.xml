@@ -1755,6 +1755,63 @@
 					</t>
 				</h>				
 			</s>
+			<s name="Looping array elements">
+				<p>The best way to loop through an array, is using a <c>for</c> loop:</p>
+				<c><![CDATA[
+					var fruits = ["Banana", "Orange", "Apple", "Mango"];
+					var i, l = fruits.length();
+					for (i = 0; i < l; i++) {
+						print(fruits[i] + "\n");
+					}]]>
+				</c>
+			</s>
+		</s>
+		<s name="Booleans">
+			<p>A Goat <c>Boolean</c> represents one of two values: <c>true</c> or <c>false</c>.</p>
+			<s name="Boolean values">
+				<p>Very often, in programming, you will need a data type that can only have one of two values, like</p>
+				<l>
+					<i><b>Yes</b> or <b>No</b></i>
+					<i><b>On</b> or <b>Off</b></i>
+					<i><b>True</b> or <b>False</b></i>
+				</l>
+				<p>For this, The Goat programming language has a <c>Boolean</c> data type. It can only take the values <c>true</c> or <c>false</c>.</p>
+				<c><![CDATA[
+					var t = true;
+					var f = false; ]]>
+				</c>
+			</s>
+			<s name="Comparisons and conditions">
+				<p>The chapter "Comparisons" gives a full overview of comparison operators.</p>
+				<p>The chapter "Conditions" gives a full overview of conditional statements.</p>
+				<p>Here are some examples:</p>
+				<t>
+					<h>
+						<c width="100">Operator</c>
+						<c>Description</c>
+						<c>Example</c>
+					</h>
+					<r>
+						<c><c>==</c></c>
+						<c>Equal to</c>
+						<c><c>if (day == "Monday")</c></c>
+					</r>
+					<r>
+						<c><c>&gt;</c></c>
+						<c>Greater than</c>
+						<c><c>if (salary &gt; 9000)</c></c>
+					</r>
+					<r>
+						<c><c>&lt;</c></c>
+						<c>Less than</c>
+						<c><c>if (age &lt; 18)</c></c>
+					</r>
+				</t>
+				<p>The Boolean value of an expression is the basis for all Goat comparisons and conditions.</p>
+			</s>
+		</s>
+		<s name="Comparison and logical operators">
+			<p>Comparison and logical operators are used to test for <c>true</c> or <c>false</c>.</p>
 		</s>
 	</s>
 	
