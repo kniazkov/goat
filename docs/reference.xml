@@ -2009,6 +2009,106 @@
 				</c>
 			</s>
 		</s>
+		<s name="Switch statement">
+			<p>The switch statement is used to perform different actions based on different conditions. Use the switch statement to select one of many blocks of code to be executed.</p>
+			<s name="Syntax">
+				<c><![CDATA[
+					switch(expression) {
+						case n:
+							code block
+							break;
+						case n:
+							code block
+							break;
+						default:
+							code block
+					}]]>
+				</c>
+				<p>This is how it works:</p>
+				<l>
+					<i>The switch expression is evaluated once.</i>
+					<i>The value of the expression is compared with the values of each case.</i>
+					<i>If there is a match, the associated block of code is executed.</i>
+				</l>
+				<p>Example. This function converts weekday (as a number between 0 and 6) to a string:</p>
+				<c><![CDATA[
+					var weekday = function(number) {
+						var day;
+						switch (number) {
+							case 0:
+								day = "Sunday";
+								break;
+							case 1:
+								day = "Monday";
+								break;
+							case 2:
+								day = "Tuesday";
+								break;
+							case 3:
+								day = "Wednesday";
+								break;
+							case 4:
+								day = "Thursday";
+								break;
+							case 5:
+								day = "Friday";
+								break;
+							case 6:
+								day = "Saturday";
+						}
+						return day;
+					}; ]]>
+				</c>
+			</s>
+			<s name="The 'break' keyword">
+				<p>When Goat reaches a <c>break</c> keyword, it breaks out of the switch block. This will stop the execution of more code and case testing inside the block. When a match is found, and the job is done, it's time for a break. There is no need for more testing.</p>
+				<p>It is not necessary to break the last case in a switch block. The block breaks (ends) there anyway.</p>
+			</s>
+			<s name="The 'default' keyword">
+				<p>The <c>default</c> keyword specifies the code to run if there is no case match.</p>
+				<p>Example. This function converts weekday (as a number between 0 and 6) to a string, but if weekday is neither Saturday (6) nor Sunday (0), returns a default message:</p>
+				<c><![CDATA[
+					var weekday = function(number) {
+						var day;
+						switch (number) {
+							case 0:
+								day = "Sunday";
+								break;
+							case 6:
+								day = "Saturday";
+								break;
+							default:
+								day = "Working day";
+						}
+						return day;
+					}; ]]>
+				</c>
+				<p>The default case (if exists) should be the last case in a switch block.</p>
+			</s>
+			<s name="Common code blocks">
+				<p>Sometimes you will want different switch cases to use the same code:</p>
+				<c><![CDATA[
+					var weekday = function(number) {
+						var day;
+						switch (number) {
+							case 0:
+								day = "Sunday";
+								break;
+							case 6:
+								day = "Saturday";
+								break;
+							case 4:
+							case 5:
+								day = "Soon it is Weekend";
+								break;
+							default:
+								day = "Working day";
+						}
+						return day;
+					}; ]]>
+				</c>
+			</s>
+		</s>
 	</s>
 	
 	<s name="In comparison with JavaScript">
