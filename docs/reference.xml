@@ -1699,6 +1699,63 @@
 				</s>
 			</s>
 		</s>
+		<s name="Arrays">
+			<p>Goat arrays are used to store multiple values in a single variable.</p>
+			<s name="Creating an array">
+				<p>Using an array literal <c>[ ]</c>:</p>
+				<c>var array_name = [item1, item2, ...];</c>
+				<p>For example:</p>
+				<c>var herd = ["Dirty", "Stinky", "Crazy"];</c>
+				<p>Spaces and line breaks are not important. A declaration can span multiple lines:</p>
+				<c><![CDATA[
+					var herd = [
+						"Dirty",
+						"Stinky",
+						"Crazy"
+					];]]>
+				</c>
+				<p>Array elements can be objects, arrays, numbers, strings... (remind that numbers, strings etc - all are objects). Arrays are special kinds of objects. You can have functions in an array. You can have even arrays in an array.</p> 
+			</s>
+			<s name="Access the elements of an array">
+				<p>You refer to an array element by referring to the <b>index number.</b> <c>[0]</c> is the first element in an array. <c>[1]</c> is the second. Array indexes start with 0.</p>
+				<p>This statement accesses the value of the first element in <c>herd</c> array:</p>
+				<c>var name = herd[0];</c>
+				<p>This statement modifies the first element in <c>herd</c> array:</p>
+				<c>herd[0] = "Nasty";</c>
+			</s>
+			<s name="Adding array elements">
+				<p>The way to add a new element to an array is using the <c>push</c> method:</p>
+				<c><![CDATA[
+					var fruits = ["Banana", "Orange", "Apple", "Mango"];
+					fruits.push("Lemon"); // adds a new element ("Lemon") to fruits ]]>
+				</c>
+			</s>
+			<s name="The difference between arrays and objects">
+				<p>Arrays use <b>numbered indexes.</b></p>
+				<p>Objects use <b>named indexes.</b></p>
+				<p>Arrays are a special kind of objects, with numbered indexes.</p>
+			</s>
+			<s name="Array methods">
+				<h name="length ()">
+					<p>Returns the length (count of items) of an array.</p>
+				</h>
+				<h name="push ( object )">
+					<p>Adds a new item to the end of an array.</p>
+					<t>
+						<h>
+							<c width="200">Parameter</c>
+							<c width="100">Type</c>
+							<c>Description</c>
+						</h>
+						<r>
+							<c>object</c>
+							<c>Any type</c>
+							<c>An item</c>
+						</r>
+					</t>
+				</h>				
+			</s>
+		</s>
 	</s>
 	
 	<s name="In comparison with JavaScript">
