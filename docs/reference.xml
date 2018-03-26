@@ -2404,6 +2404,28 @@
 				</c>
 			</s>
 		</s>
+		<s name="Import">
+			<s name="Overview">
+			<p>Sometimes the program becomes so large that it is more reasonable to separate it into several files. In addition, you can use pre-designed libraries - say, to recognize XML files. Goat provides a way to include files to a program using an <c>import</c> keyword.</p>
+			<c><![CDATA[
+				import "xml.goat";
+				
+				// now, you can use functions from XML library:
+				var root = XML.parse("<root></root>");]]>
+			</c>
+			<p>No file will be imported twice. For example, your program uses library <c>A</c> and library <c>B</c>. But library <c>B</c> uses (imports) library <c>A</c> also. So, library <c>A</c> will be imported only once, for all project.</p>
+			<p>Where the interpreter finds files to import? </p>
+			<l>
+				<i>first, in the current folder, where was started Goat script;</i>
+				<i>second, in the list of folders specified in the <c>--lib</c> option of the interpreter.</i>
+			</l>
+			</s>
+			<s name="--lib option">
+				<p>Path (paths) to importable files. For example, folder <c>c:\goat\lib</c> contains Goat standard library; so, to use it, launch the interpreter with <c>--lib</c> option:</p>
+				<c>goat.exe program.goat --lib=c:\goat\lib</c>
+				<p>Several paths can be separated by a semicolon. The interpreter for each imported file first searches the first path in the list, then the second one, and so on.</p>
+			</s>
+		</s>
 	</s>
 	
 	<s name="In comparison with JavaScript">
