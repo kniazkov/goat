@@ -2109,6 +2109,171 @@
 				</c>
 			</s>
 		</s>
+		<s name="Loops">
+			<s name="What is loops">
+				<p>Loops can execute a block of code a number of times.</p>
+				<p>Loops are handy, if you want to run the same code over and over again, each time with a different value. Often this is the case when working with arrays.</p>
+				<p>For example, we have an array:</p>
+				<c>var herd = ["Dirty", "Stinky", "Crazy", "Nasty", "Dumb", "Dumber"];</c>
+				<p>Instead of writing:</p>
+				<c><![CDATA[
+					print(herd[0] + "\n");
+					print(herd[1] + "\n");
+					print(herd[2] + "\n");
+					print(herd[3] + "\n");
+					print(herd[4] + "\n");
+					print(herd[5] + "\n");]]>
+				</c>
+				<p>You can write:</p>
+				<c><![CDATA[
+					var i, l = herd.length();
+					for (i = 0; i < l; i++) {
+						print(herd[i] + "\n");
+					}]]>
+				</c>
+			</s>
+			<s name="Different kinds of loops">
+				<p>Goat supports different kinds of loops:</p>
+				<l>
+					<i><c>for</c> - loops through a block of code a number of times;</i>
+					<i><c>for..in</c> - loops through the properties of an object;</i>
+					<i><c>while</c> - loops through a block of code while a specified condition is true;</i>
+					<i><c>do..while</c> - also loops through a block of code while a specified condition is true.</i>
+				</l>
+			</s>
+			<s name="The 'for' loop">
+				<p>The <c>for</c> loop is often the tool you will use when you want to create a loop. The <c>for</c> loop has the following syntax:</p>
+				<c><![CDATA[
+					for (statement 1; statement 2; statement 3) {
+						code block to be executed
+					}]]>
+				</c>
+				<p><b>Statement 1</b> is executed before the loop (the code block) starts.</p>
+				<p><b>Statement 2</b> defines the condition for running the loop (the code block).</p>
+				<p><b>Statement 3</b> is executed each time after the loop (the code block) has been executed.</p>
+				<p>Example (outputs <c>"0123456789"</c>):</p>
+				<c><![CDATA[
+					var i;
+					for (i = 0; i < 10; i++) {
+						print(i);
+					}]]>
+				</c>
+				<p>From the example above, you can read:</p>
+				<p>Statement 1 sets a variable before the loop starts (<c>i = 0</c>).</p>
+				<p>Statement 2 defines the condition for the loop to run (<c>i</c> must be less than 10).</p>
+				<p>Statement 3 increases a value (<c>i++</c>) each time the code block in the loop has been executed.</p>
+				<s name="Statement 1">
+					<p>Normally you will use statement 1 to initialize the variable used in the loop (<c>i = 0</c>). This is not always the case, Goat doesn't care. Statement 1 is optional. You can omit statement 1 (like when your values are set before the loop starts):</p>
+					<c><![CDATA[
+						var i = 0;
+						for (; i < 10; i++) {
+							print(i);
+						}]]>
+					</c>
+					<p>Also, you can declare a variable in statement 1 using <c>var</c> keyword:</p>
+					<c><![CDATA[
+						for (var i = 0; i < 10; i++) {
+							print(i);
+						}]]>
+					</c>
+					<p>This variable will be visible only inside the 'for' loop.</p>
+				</s>
+				<s name="Statement 2">
+					<p>Often statement 2 is used to evaluate the condition of the initial variable. This is not always the case, Goat doesn't care. Statement 2 is also optional. If statement 2 returns <c>true</c>, the loop will start over again, if it returns <c>false</c>, the loop will end.</p>
+					<p>If you omit statement 2, you must provide a <c>break</c> or a <c>return</c> inside the loop. Otherwise the loop will never end.</p>
+				</s>
+				<s name="Statement 3">
+					<p>Often statement 3 increments the value of the initial variable. This is not always the case, Goat doesn't care, and statement 3 is optional. Statement 3 can do anything like negative increment (<c>i--</c>), positive increment (<c>i = i + 15</c>), or anything else. Statement 3 can also be omitted (like when you increment your values inside the loop):</p>
+					<c><![CDATA[
+						for (i = 0; i < 10; ) {
+							print(i);
+							i++;
+						}]]>
+					</c>
+				</s>
+			</s>
+			<s name="The 'for..in' loop">
+				<p>The Goat <c>for..in</c> statement loops through the properties of an object:</p>
+				<c><![CDATA[
+					var person = {name: "Ivan", age: 33, gender: "male"};
+					var x;
+					for (x in person) {
+						print(x + ": " + person[x] + "\n");
+					}]]>
+				</c>
+				<p>Output:</p>
+				<c><![CDATA[
+					name: Ivan
+					age: 33
+					genger: male]]>
+				</c>
+				<p>Note that objects store unordered pairs <c>key:value</c>. The order of traversal of object properties may not match with the order of the properties at object creation. In the example above, the output can be:</p>
+				<c><![CDATA[
+					age: 33
+					name: Ivan
+					genger: male]]>
+				</c>
+			</s>
+			<s name="The 'while' loop">
+				<p>The <c>while</c> loop loops through a block of code as long as a specified condition is <c>true</c>. Syntax:</p>
+				<c><![CDATA[
+					while (condition) {
+						code block to be executed
+					}]]>
+				</c>
+				<p>Example  (outputs <c>"0123456789"</c>):</p>
+				<c><![CDATA[
+					var i = 0;
+					while (i < 10) {
+						print(i);
+						i++;
+					}]]>
+				</c>
+				<p>Note: if you forget to increase the variable used in the condition, the loop will never end.</p>
+			</s>
+			<s name="The 'do..while' loop">
+				<p>The <c>do..while</c> loop is a variant of the while loop. This loop will execute the code block once, before checking if the condition is <c>true</c>, then it will repeat the loop as long as the condition is <c>true</c>. Syntax:</p>
+				<c><![CDATA[
+					do {
+						code block to be executed
+					}
+					while (condition);]]>
+				</c>
+				<p>Example. The loop will always be executed at least once, even if the condition is <c>false</c>, because the code block is executed before the condition is tested:</p>
+				<c><![CDATA[
+					var i = 0;
+					do {
+						print(i);
+						i++;
+					} while (i < 10);]]>
+				</c>
+			</s>
+			<s name="The break statement">
+				<p>You have already seen the <c>break</c> statement used in an earlier chapter of this tutorial. It was used to "jump out" of a <c>switch</c> statement. The <c>break</c> statement can also be used to "jump out" of a loop. The <c>break</c> statement breaks the loop and continues executing the code after the loop (if any):</p>
+				<c><![CDATA[
+					var i;
+					for (i = 0; i < 10; i++) {
+						if (i == 6)
+							break;
+						print(i);
+					}]]>
+				</c>
+				<p>Output: <c>012345</c>.</p>
+			</s>
+			<s name="The continue statement">
+				<p>The <c>continue</c> statement breaks one iteration (in the loop), if a specified condition occurs, and continues with the next iteration in the loop.</p>
+				<p>This example skips the value of 3:</p>
+				<c><![CDATA[
+					var i;
+					for (i = 0; i < 10; i++) {
+						if (i == 3)
+							continue;
+						print(i);
+					}]]>
+				</c>
+				<p>Output: <c>012456789</c>.</p>
+			</s>
+		</s>
 	</s>
 	
 	<s name="In comparison with JavaScript">
