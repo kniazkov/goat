@@ -2248,7 +2248,7 @@
 					} while (i < 10);]]>
 				</c>
 			</s>
-			<s name="The break statement">
+			<s name="The 'break' statement">
 				<p>You have already seen the <c>break</c> statement used in an earlier chapter of this tutorial. It was used to "jump out" of a <c>switch</c> statement. The <c>break</c> statement can also be used to "jump out" of a loop. The <c>break</c> statement breaks the loop and continues executing the code after the loop (if any):</p>
 				<c><![CDATA[
 					var i;
@@ -2260,7 +2260,7 @@
 				</c>
 				<p>Output: <c>012345</c>.</p>
 			</s>
-			<s name="The continue statement">
+			<s name="The 'continue' statement">
 				<p>The <c>continue</c> statement breaks one iteration (in the loop), if a specified condition occurs, and continues with the next iteration in the loop.</p>
 				<p>This example skips the value of 3:</p>
 				<c><![CDATA[
@@ -2272,6 +2272,136 @@
 					}]]>
 				</c>
 				<p>Output: <c>012456789</c>.</p>
+			</s>
+		</s>
+		<s name="Exceptions">
+			<s name="Errors will happen!">
+				<p>When executing Goat code, different errors can occur. For example, division by zero:</p>
+				<c>print(1 / 0); // oops</c>
+			</s>
+			<p>The <c>try</c> statement lets you test a block of code for errors.</p>
+			<p>The <c>catch</c> statement lets you handle the error.</p>
+			<p>The <c>throw</c> statement lets you create custom errors.</p>
+			<p>The <c>finally</c> statement lets you execute code, after try and catch, regardless of the result.</p>
+			<s name="Try and catch">
+				<p>The <c>try</c> statement allows you to define a block of code to be tested for errors while it is being executed.</p>
+				<p>The <c>catch</c> statement allows you to define a block of code to be executed, if an error occurs in the try block.</p>
+				<p>The Goat statements <c>try</c> and <c>catch</c> come in pairs:</p>
+				<c><![CDATA[
+					try {
+						Block of code to try
+					}
+					catch(err) {
+						Block of code to handle errors
+					}]]>
+				</c>
+				<p>Example:</p>
+				<c><![CDATA[
+					try {
+						print(4 / 4);
+						print(4 / 2);
+						print(4 / 1);
+						print(4 / 0);
+					}
+					catch(err) {
+						print("Error");
+					}]]>
+				</c>
+				<p>Output:</p>
+				<c>124Error</c>
+				<p>When an error occurs, Goat will normally stop and generate an error object. The technical term for this is: Goat will <b>throw an exception</b> (throw an error).</p>
+			</s>
+			<s name="The 'throw' statement">
+				<p>The <c>throw</c> statement allows you to create a custom error.</p>
+				<p>Technically you can <p>throw an exception</p> (throw an error). The exception can be any object:</p>
+				<c>throw "Oops!"; // throw a string</c>
+				<p>The thrown object passes as parameter of the <c>catch</c> statement.</p>
+				<p>If you use <c>throw</c> together with <c>try</c> and <c>catch</c>, you can control program flow and generate custom error messages.</p>
+				<c><![CDATA[
+					var kelvin2Celsius = function(value) {
+						if (value < 0)
+							throw "Wrong parameter: " + value;
+						
+						return value -273.15;
+					};
+					
+					try {
+						print("\n" + kelvin2Celsius(300));
+						print("\n" + kelvin2Celsius(0));
+						print("\n" + kelvin2Celsius(-10));
+					}
+					catch(err) {
+						print("\n" + err);
+					}]]>
+				</c>
+				<p>Output:</p>
+				<c><![CDATA[
+					26.85
+					-273.15
+					Wrong parameter: -10]]>
+				</c>
+			</s>
+			<s name="The 'finally' statement">
+				<p>The finally statement lets you execute code, after try and catch, regardless of the result:</p>
+				<c><![CDATA[
+					try {
+						Block of code to try
+					}
+					catch(err) {
+						Block of code to handle errors
+					} 
+					finally {
+						Block of code to be executed regardless of the try / catch result
+					}]]>
+				</c>
+			</s>
+			<s name="The error object">
+				<p>The exception can be any object. For some situations, the interpreter throws predefined exception objects, such as:</p>
+				<t>
+					<h>
+						<c>Exception</c>
+						<c>Situation</c>
+					</h>
+					<r>
+						<c><c>NameIsNotDefined</c></c>
+						<c>Attempt to call a function with an undefined name. For example, <c>Print</c> (first capital letter) instead of <c>print</c></c>
+					</r>
+					<r>
+						<c><c>IsNotAFunction</c></c>
+						<c>Attempt to call a function: name is defined, but it is not a function.<c>var f = 0; f();</c></c>
+					</r>
+					<r>
+						<c><c>OperatorIsNotDefined</c></c>
+						<c>Attempt to use an operator that is not applicable to this data type. For example, you can not multiply strings: <c>"hello" * "world"</c></c>
+					</r>
+					<r>
+						<c><c>DivisionByZero</c></c>
+						<c>Division by zero, <c>print(1 / 0);</c></c>
+					</r>
+					<r>
+						<c><c>IncorrectIndex</c></c>
+						<c>Index of an array is not an integer, <c>var a = [0, 13, 666]; print(a["0"]);</c></c>
+					</r>
+					<r>
+						<c><c>OutOfBounds</c></c>
+						<c>Index of an array is too big , <c>var a = [0, 13, 666]; print(a[10]);</c></c>
+					</r>
+					<r>
+						<c><c>IllegalArgument</c></c>
+						<c>Wrong argument of a function or an operator</c>
+					</r>
+				</t>
+				<p>Each object (include error objects) has the <c>instanceOf</c> method. You can use this method to determine the type of exception:</p>
+				<c><![CDATA[
+					try {
+						// do something
+					}
+					catch(err) {
+						if (err.instanceOf(Exception.OutOfBounds)) {
+							// do domething if out of bounds
+						}
+					}]]>
+				</c>
 			</s>
 		</s>
 	</s>
