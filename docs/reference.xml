@@ -34,12 +34,12 @@
 			</h>
 			<h name="--gc">
 				<p>One of three modes of garbage collection. <c>--gc=serial</c> enable serial mode, it means that the garbage collector periodically stops all threads (but it takes low processor resources for collection and has small memory overhead). <c>--gc=parallel</c> does not stop threads (but it constantly uses some processor resources and also it uses some extra memory), this mode enabled by default. <c>--gc=debug</c> used for debugging purposes for interpreter developer, it calls collector after each statement of a script and this is <b>very</b> slow.</p>
-				<p>If you don't know what "garbage collection" means, please do not use this parameter, parallel collector is okay for most puЗамечание. Значительная часть rposes.</p>
+				<p>If you don't know what "garbage collection" means, please do not use this parameter, parallel collector is okay for most purposes.</p>
 			</h>
 		</s>
 	</s>
 	
-	<s name="The language reference">
+	<s name="Basics">
 		<p><b>Important note. A significant part of this chapter is the redesigned tutorial from: <url>https://www.w3schools.com/js/default.asp</url>. Since the Goat language is the modified JavaScript language, so the description of the Goat language is the modified description of the  Javascript language. Any coincidences are NOT random.</b></p>
 		<s name="Hello world">
 			<p>Create a new file, say <c>hello_world.goat</c> (file extension does not matter) containing one line:</p>
@@ -2426,6 +2426,150 @@
 				<p>Several paths can be separated by a semicolon. The interpreter for each imported file first searches the first path in the list, then the second one, and so on.</p>
 			</s>
 		</s>
+		<s name="Debugging">
+			<s name="Interactive mode">
+				<p>Goat has two basic modes: script and interactive. The normal mode is the mode where the scripted and finished files are run in the Goat interpreter. Interactive mode is a command line shell which gives immediate feedback for each statement while running previously fed statements in active memory. As new lines are fed into the interpreter, the fed program is evaluated both in part and in whole.</p>
+				<p>To start interactive mode, launch the Goat interpreter without script file (in common cases without any parameters):</p>
+				<c>goat.exe</c>
+				<p>Will open a console:</p>
+				<c>?</c>
+				<p>Enter any correct statement and press Enter:</p>
+				<c><![CDATA[
+					? var i = 0;
+					
+					?]]>
+				</c>
+				<p>In the example above, the interpreter will create a variable <c>i</c> and wait for the new statement to be entered. So, now you can print the value of the variable:</p>
+				<c><![CDATA[
+					? print(i);
+					0
+					?]]>
+				</c>
+				<p>You can use any statements you want:</p>
+				<c><![CDATA[
+					? for (var k = 0; k < 10; k++) print(k);
+					0123456789
+					?]]>
+				</c>
+				<p>If statement takes more than one line, add a backslash to go a new line:</p>
+				<c><![CDATA[
+					? for (var k = 0; k < 10; k++) { \
+						if (k == 3) continue; \
+						print(k); \
+					}
+					012456789
+					?]]>
+				</c>
+				<p>The values of all variables are saved:</p>
+				<c><![CDATA[
+					? var obj = {};
+					
+					? obj.field = 1;
+					
+					? print(obj);
+					{field:1};
+					?]]>
+				</c>
+				<p>The special statement <c>exit</c> exits interactive mode.</p>
+				<c>exit</c>
+			</s>
+			<s name="Step-by-step debugging">
+				<s name="The 'debug' keyword">
+					<p>The <c>debug</c> keyword stops the execution of Goat, and switch the interpreter to step-by-step mode. If no debugging is available, the <c>debug</c> statement has no effect.</p>
+					<c><![CDATA[
+						var i, j;
+						for (i = 0; i < 10; i++) {
+							debug;
+							j = i * i;
+							print("" + j + "\n");
+						}]]>
+					</c>
+					<p>Then launch the interpreter with <c>--debug</c> option:</p>
+					<c>goat.exe program.goat --debug</c>
+					<p>The program will start and then stop on <c>debug</c> keyword:</p>
+					<c><![CDATA[
+						> program.goat, 3.7: debug;
+						[step] ?]]>
+					</c>
+				</s>
+				<s name="Step-by-step dialog">
+					<p>After stop (and each step) the interpreter outputs step-by-step dialog and wait for a command:</p>
+					<c><![CDATA[
+						> program.goat, 4.9: j = i * i;
+						[step] ?]]>
+					</c>
+					<p>In the example above, the individual elements of the dialog have the following meanings:</p>
+					<t>
+						<h>
+							<c>Element</c>
+							<c>Description</c>
+						</h>
+						<r>
+							<c><c>program.goat</c></c>
+							<c>Filename of the current script</c>
+						</r>
+						<r>
+							<c><c>4.9</c></c>
+							<c>Current line (4) and symbol in line (9)</c>
+						</r>
+						<r>
+							<c><c>j = i * i;</c></c>
+							<c>The expression that will now be executed</c>
+						</r>
+						<r>
+							<c><c>[step]</c></c>
+							<c>Command by default</c>
+						</r>
+						<r>
+							<c><c>?</c></c>
+							<c>Prompt to enter a command</c>
+						</r>
+					</t>
+					<p>You can enter the following commands:</p>
+					<t>
+						<h>
+							<c>Short command</c>
+							<c>Full command</c>
+							<c>Description</c>
+						</h>
+						<r>
+							<c><c>c</c></c>
+							<c><c>continue</c></c>
+							<c>Continue until the next stop on <c>debug</c> statement.</c>
+						</r>
+						<r>
+							<c><c>s</c></c>
+							<c><c>step</c></c>
+							<c>Next step (over). If this step is a function call, then the function is executed entirely.</c>
+						</r>
+						<r>
+							<c><c>i</c></c>
+							<c><c>into</c></c>
+							<c>Next step (into). If the next step is a function call, the interpreter "enters inside" the function and then stops at the first statement of the function.</c>
+						</r>
+						<r>
+							<c><c>o</c></c>
+							<c><c>out</c></c>
+							<c>Next step (out). The interpreter executes the current function to the end and stops at the first statement after calling this function.</c>
+						</r>
+						<r>
+							<c/>
+							<c><c>$var_name</c></c>
+							<c>Prints the contents of a variable <c>var_name</c>.</c>
+						</r>
+					</t>
+					<p>If you press <c>Enter</c> without entering any command, the default command (in square brackets) will be executed. Typically, the default command is the last command executed.</p>
+				</s>
+			</s>
+		</s>
+	</s>
+	
+	<s name="Prototype-based programming">
+		<p>Forget everything you learned in school.</p>
+	</s>
+	
+	<s name="Standard library">
+		<p>The standard library contains functions and classes for solving common tasks.</p>
 	</s>
 	
 	<s name="In comparison with JavaScript">
