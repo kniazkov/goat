@@ -2564,8 +2564,36 @@
 		</s>
 	</s>
 	
-	<s name="Prototype-based programming">
+	<s name="Advanced programming">
 		<p>Forget everything you learned in school.</p>
+		<s name="The new look at objects">
+			<s name="Keys and values">
+				<p>Objects are containers for pairs <c>key:value</c>:</p>
+				<c>var person = { firstName : "Scott", lastName : "Cameron", age : 45 };</c>
+				<p>The <c>key:value</c> pairs (in Goat objects) are called <b>properties.</b></p>
+				<p>Values can be any objects: strings, numbers etc. What about keys? In the example above, keys are identifiers (such as names of variables).In common cases, using identifiers as keys is enough: it is convenient. You always can to add a new property using the dot operator <c>.</c>:</p>
+				<c>person.profession = "Programmer";</c>
+				<p>But, keys can be not only identifiers. You can use any object as a key. For example, integers:</p>
+				<c>person[3] = "value";</c>
+				<p>...or booleans:</p>
+				<c>person[true] = false;</c>
+				<p>...and, of course, strings:</p>
+				<c>person["profession"] = "Programmer";</c>
+				<p>If you use a string as a key, and this string can be an identifier (the first character must be a letter or an underscore (<c>_</c>), subsequent characters may be letters, digits or underscores), Goat transforms this string to an identifier. Later you can access to this field using identifier:</p>
+				<c><![CDATA[
+					person["weight"] = 80;
+					//...
+					print(person.weight); // output: 80]]>
+				</c>
+				<p>And vice versa, any property declared using an identifier, can be accessed using a string:</p>
+				<c><![CDATA[
+					person.weight = 80;
+					//...
+					print(person["weight"]); // output: 80]]>
+				</c>
+				<p>So, objects are containers for pairs <c>key:value</c>, where the key can be an identifier or any object, and the value can be any object. However, the Goat program works a little faster if you use identifiers as keys, so this is the preferred method.</p>
+			</s>
+		</s>
 	</s>
 	
 	<s name="Standard library">
