@@ -1386,7 +1386,7 @@
 				<c>var s = "The character \\ is called backslash.";</c>
 			</s>
 			<s name="Strings are objects">
-				<p>The Goat language has no primitive types. All data representing as objects, including strings. For example, 
+				<p>The Goat language has no primitive types. All data represented as objects, including strings. For example, 
 				another way to define string is the explicit definition (as an object) by operator <c>new</c>:</p>
 				<c>var s = new String("My name is Ivan");</c>
 				<p>Don't create strings using operator new. This makes no sense. This example is needed to show that in principle, the string does not differ from other objects (it has a prototype, it can be created by the <c>new</c> operator, and so on).</p>
@@ -2593,6 +2593,24 @@
 				</c>
 				<p>So, objects are containers for pairs <c>key:value</c>, where the key can be an identifier or any object, and the value can be any object. However, the Goat program works a little faster if you use identifiers as keys, so this is the preferred method.</p>
 			</s>
+			<s name="Everything is an object">
+				<p>All data (strings, numbers, booleans) represented as objects. These are "special" objects that have special behavior. But beyond this, these objects do everything the same as other, "ordinary" objects.</p>
+				<p>For example, you can add a property for a string:</p>
+				<c><![CDATA[
+					var str = "hello!";
+					str.somePropertyName = 123;]]>
+				</c>
+				<p>...or add some method to an integer:</p>
+				<c><![CDATA[
+					var n = 123;
+					n.increment = $(){
+						return this + 1;
+					}; ]]>
+				</c>
+			</s>
+		</s>
+		<s name="Prototypes">
+			<p>Goat is prototype-oriented language. What is "prototype" means?</p>
 		</s>
 	</s>
 	
