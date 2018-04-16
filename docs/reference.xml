@@ -2678,7 +2678,22 @@
 			</s>
 		</s>
 		<s name="Prototypes">
-			<p>Goat is prototype-oriented language. What is "prototype" means?</p>
+			<s name="Prototype and inheritance">
+				<p>Goat is prototype-oriented language. What is "prototype" means?</p>
+				<p>A <b>prototype</b> is an object from which other objects <b>inherit</b> properties and methods. Any object can be a prototype for another object.</p>
+				<p><b>Inheritance</b> is when an object is based on another object using the same implementation.</p>
+				<p>How it works? When accessing an object (method call or field reading), the Goat programming language first looks for this property in the object itself. If Goat does not find it, tries to look for this property in the prototype object. If still not found, then Goat is searching in a prototype of the prototype, and so on.</p>
+				<c><![CDATA[
+					// declare an object:
+					var goat = { lifeExpectancy: 18 };
+					
+					// inherit another object:
+					var stinky = goat -> { weight: 51, age: 3 }; 
+					
+					// now you have access to properties in the parent object:
+					print(stinky.lifeExpectancy); // output: 18]]>
+				</c>
+			</s>
 		</s>
 	</s>
 	
