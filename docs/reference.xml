@@ -1277,6 +1277,29 @@
 				</c>
 				<p>Thus, objects can be unlimitedly nested within each other.</p>
 			</s>
+			<s name="Objects, variables and references">
+				<p>Let's create a new object and assign it to a variable:</p>
+				<c>var a = { name: "Ivan", age: 33 };</c>
+				<p>Then, let's assign this variable to another variable:</p>
+				<c>var b = a;</c>
+				<p>Okay. Now, we try to look what the second variable contains:</p>
+				<c>print(b); // output: {name:"Ivan",age:33}</c>
+				<p>Right, it contains the same that contains the first variable. Now, we change one property of the second variable:</p>
+				<c>b.name = "John";</c>
+				<p>Now let's look at the result:</p>
+				<c>print(b); // output: {name:"John",age:33}</c>
+				<p>And now let's see what the first variable contains:</p>
+				<c>print(a); // output: {name:"John",age:33}</c>
+				<p>Thus, we changed the property of the second variable, but the first one also changed. Why? The Goat programming language does not store whole objects in variables. <b>The Goat programming language stores in the variables only references to objects, but not the objects themselves.</b> If you copy one variable to another, only the reference is copied.</p>
+				<p>What can you do if you need to make a real copy of the object? Use special method <c>clone</c>:</p>	
+				<c><![CDATA[
+					var a = { name: "Ivan", age: 33 };
+					var b = a.clone();
+					b.name = "Jonh";
+					print(b); // output: {name:"John",age:33}
+					print(a); // output: {name:"Ivan",age:33}]]>
+				</c>
+			</s>
 		</s>
 		<s name="Scope">
 			<p>Scope determines the accessibility (visibility) of variables.</p>
@@ -2593,6 +2616,43 @@
 				</c>
 				<p>So, objects are containers for pairs <c>key:value</c>, where the key can be an identifier or any object, and the value can be any object. However, the Goat program works a little faster if you use identifiers as keys, so this is the preferred method.</p>
 			</s>
+			<s name="Each object has some predefined methods">
+				<p>Goat adds these methods to each object.</p>
+				<h name="instanceOf ( object )">
+					<p>Returns whether an object is derived from another object or not.</p>
+					<t>
+						<h>
+							<c width="200">Parameter</c>
+							<c width="100">Type</c>
+							<c>Description</c>
+						</h>
+						<r>
+							<c>object</c>
+							<c>Any type</c>
+							<c>The prototype</c>
+						</r>
+					</t>
+					<p>The method is used to determine the type (more correctly, <b>the prototype</b>) of the object. What is a prototype, will be described a little later.</p>
+					<c><![CDATA[
+						var isInteger = $(obj) {
+							return obj.instanceOf(Integer);
+						};]]>
+					</c>
+				</h>
+				<h name="clone ()">
+					<p>Returns a clone of the object, that is, a new object in which all properties are the same as in the source object. This is required if you need to get a real copy of the object, then change it and leave the original object unchanged:</p>
+					<c><![CDATA[
+						var a = { name: "Ivan", age: 33 };
+						var b = a.clone();
+						b.name = "Jonh";
+						print(b); // output: {name:"John",age:33}
+						print(a); // output: {name:"Ivan",age:33}]]>
+					</c>
+				</h>
+				<h name="flat ()">
+					<p>Returns a flat object, that is, an object that contains all the properties of the source object, as well as all properties of all prototypes of the source object. What is a prototype, will be described a little later.</p>
+				</h>
+			</s>
 			<s name="Everything is an object">
 				<p>All data (strings, numbers, booleans) represented as objects. These are "special" objects that have special behavior. But beyond this, these objects do everything the same as other, "ordinary" objects.</p>
 				<p>For example, you can add a property for a string:</p>
@@ -2606,6 +2666,14 @@
 					n.increment = $(){
 						return this + 1;
 					}; ]]>
+				</c>
+				<p>As each object has some predefined methods, strings, booleans, integers, and others also have all these methods:</p>
+				<c><![CDATA[
+					var str = "hello!";
+					print(str.instanceOf(String)); // output: true
+					
+					var num = 10;
+					print(num.instanceOf(Boolean)); // ounput: false]]>
 				</c>
 			</s>
 		</s>
