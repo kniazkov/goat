@@ -2820,7 +2820,7 @@
 				</c>
 			</s>
 			<s name="Operator -&gt;">
-				<p>Operator -&gt; builds a new object from the <b>prototype</b> and <b>description:</b></p>
+				<p>Operator <c>-&gt;</c> builds a new object from the <b>prototype</b> and <b>description:</b></p>
 				<c>var obj = prototype -&gt; description;</c>
 				<p>A <b>prototype</b> is any object from which properties (fields and methods) will be used if properties with such names are not found in the child object.</p>
 				<p>A <b>description</b> is an object that will be cloned before a prototype is attached to it. The description thus <b>extends</b> the prototype, and as a result, a new object is created that contains both its own properties and the properties of all its parents.</p>
@@ -2844,6 +2844,31 @@
 					var B = A -> D; // 'B' still contains 'x', 'y' and 'z' ]]>
 				</c>
 			</s>
+			<s name="Prototype сhain">
+				<p>If you created a new object using an operator <c>-&gt;</c>, then this object, in turn, can also be a prototype of some other object:</p>
+				<c><![CDATA[
+					// declare an object:
+					var A = { x: 1 };
+					
+					// inherit first time:
+					var B = A -> { y: 2 }; // 'B' contains 'x' and 'y' 
+					
+					// inherit second time:
+					var C = B -> { z: 3 }; // 'C' contains 'x', 'y' and 'z' ]]>
+				</c>
+				<p>The Goat programming language looks for the property by its name along the whole prototype chain, from last to first prototype. For example,</p>
+				<c>print(C.x);</c>
+				<p>The order of search is:</p>
+				<l>
+					<i>first, a property named <c>x</c> will be searched in the <c>C</c> object and will not be found;</i>
+					<i>second, a property will be searched in the <c>B</c> object and will not be found;</i>
+					<i>finally, a property will be searched in the <c>A</c> object and will be found.</i>
+				</l>
+				<p>Another example, attempt to read an undefined property:</p>
+				<c>print(C.w);</c>
+				<p>In this case, the Goat programming language will scan the whole prototype chain (first <c>C</c>, then <c>B</c>, then <c>A</c>), but will not find the properties and return <c>undefined</c> result.</p>
+			</s>
+			
 		</s>
 	</s>
 	
