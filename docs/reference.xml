@@ -2911,6 +2911,43 @@
 	
 	<s name="Standard library">
 		<p>The standard library contains functions and classes for solving common tasks.</p>
+		<p>All the functionality of the standard library is divided into two parts: <b>internal</b> (as part of the interpreter core) and <b>external.</b></p>
+		<p>The functionality of the inner part of the library is written in C++ language and is the minimum required set for solving most tasks. This functionality includes platform-dependent components, such as working with files. No additional modules are required to use the internal library, these classes and functions are always available.</p>
+		<p>The external library is written in Goat language. It is a set of files that contain separate classes for solving various tasks. To use this class from the library, you need to link the corresponding file using the <c>import</c> keyword.</p>
+		<s name="Internal (core) library">
+			<s name="Functions">
+				<s name="Input/output">
+					<h name="print ( object )">
+						<p>Converts an object to a string and sends this string to standard output.</p>
+						<t>
+							<h>
+								<c width="200">Parameter</c>
+								<c width="100">Type</c>
+								<c>Description</c>
+							</h>
+							<r>
+								<c>object</c>
+								<c>Any type</c>
+								<c>Object</c>
+							</r>
+						</t>
+						<c><![CDATA[
+							print("Hello");
+							print(2 + 3);
+							print(0.01);
+							print(false);
+							print(null);]]>
+						</c>
+					</h>
+				</s>
+			</s>
+			<s name="Classes">
+				<p>To be done</p>
+			</s>
+		</s>
+		<s name="External library">
+			<p>To be done.</p>
+		</s>
 	</s>
 	
 	<s name="In comparison with JavaScript">
