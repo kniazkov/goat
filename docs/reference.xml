@@ -2790,7 +2790,7 @@
 					obj.setX(777);
 					var n = obj.getX(); // 777 ]]>
 				</c>
-				<p>Or, you can add new properties to your object (which are not yet there):</p>
+				<p>Or, you can add new properties to own object (which are not yet there):</p>
 				<c><![CDATA[
 					var obj = {
 						x: 10; // property 'x'
@@ -2974,6 +2974,35 @@
 			</h>
 		</s>
 		
+		<s name="The 'this' keyword">
+			<h name="JavaScript">
+				<p>You must use the <c>this</c> keyword to refer to the field of own object:</p>
+				<c><![CDATA[
+					var MyClass = function() {
+						this.x = 0;
+					};
+					
+					MyClass.prototype.getX = function() {
+						return this.x;
+					};]]>
+				</c>
+			</h>
+			<h name="Goat">
+				<p>You can use the <c>this</c> keyword to refer to the field of own object, but you must not do it in all cases. You can skip this keyword in the methods. But in some cases, <c>this</c> keyword cannot be avoided, for example, if you already have a local variable or an argument with that name, but you want to explicit read or write the property of the object, or, you can add new properties to own object (which are not yet there):</p>
+				<c><![CDATA[
+					var MyClass = {
+						init : $() {
+							this.x = 0; // with 'this'
+						},
+						
+						getX : $() {
+							return x; // without 'this'
+						}
+					};]]>
+				</c>
+			</h>
+		</s>
+		
 		<s name="Operators overloading">
 			<h name="JavaScript">
 				<p>Doesn't support.</p>
@@ -3033,7 +3062,7 @@
 			</h>
 		</s>
 
-		<s name="'new' keyword and constructors">
+		<s name="The 'new' keyword and constructors">
 			<h name="JavaScript">
 				<p>Constructors are like regular functions, but we use them with the <c>new</c> keyword. If you inherit your object and the parent has a constructor, you need to call parent constructor to perform initialization logic.</p>
 				<c><![CDATA[
