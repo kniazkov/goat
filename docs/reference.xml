@@ -2748,6 +2748,59 @@
 					var n = obj.getX(); // 777 ]]>
 				</c>
 			</s>
+			<s name="The 'this' keyword">
+				<p>When a method is called, a special variable named <c>this</c> is always defined. This variable refers to the object whose method was called. You can not overwrite the value of this variable. This variable is used to explicitly access the properties of the "own" object.</p>
+				<c><![CDATA[
+					var obj = {
+						x: 10; // property 'x'
+						
+						getX : $() {
+							return this.x;
+						}
+					};
+					
+					var n = obj.getX(); // 10 ]]>
+				</c>
+				<p>In fact, the example above is completely analogous to this example:</p>
+				<c><![CDATA[
+					var obj = {
+						x: 10; // property 'x'
+						
+						getX : $() {
+							return x; // without 'this' keyword
+						}
+					};
+					
+					var n = obj.getX(); // 10 ]]>
+				</c>
+				<p>That is, in most cases, we can do without using <c>this</c> keyword. But in some cases, <c>this</c> keyword cannot be avoided. For example, if you already have a local variable or an argument with that name, but you want to explicit read or write the property of the object:</p>
+				<c><![CDATA[
+					var obj = {
+						x: 10; // property 'x'
+						
+						getX : $() {
+							return x;
+						}
+						
+						setX " $(x) {
+							this.x = x; // read the argument 'x' and write the property 'x' 
+						}
+					};
+					
+					obj.setX(777);
+					var n = obj.getX(); // 777 ]]>
+				</c>
+				<p>Or, you can add new properties to your object (which are not yet there):</p>
+				<c><![CDATA[
+					var obj = {
+						x: 10; // property 'x'
+						
+						init : $() { // constructor
+							this.y = 20; // add a new property 'y'
+						}
+					};]]>
+				</c>
+			</s>
 		</s>
 		<s name="Prototypes">
 			<s name="Prototype and inheritance">
