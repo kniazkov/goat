@@ -2868,7 +2868,44 @@
 				<c>print(C.w);</c>
 				<p>In this case, the Goat programming language will scan the whole prototype chain (first <c>C</c>, then <c>B</c>, then <c>A</c>), but will not find the properties and return <c>undefined</c> result.</p>
 			</s>
-			
+			<s name="Changing the prototype">
+				<p>You can not change the prototype of the object. Instead, you can change properties of the prototype itself. In this case, these properties will immediately change in all children:</p>
+				<c><![CDATA[
+					// declare an object:
+					var A = { x: 1 };
+					
+					// inherit:
+					var B = A -> { y: 2, z: 3 }; 
+					
+					// read the value of 'x' property (of the child object):
+					print(B.x); // output: 1
+					
+					// change the value of 'x' property (in the parent object):
+					A.x = 777;
+					
+					// read the value of 'x' property again:
+					print(B.x); // output: 777]]>
+				</c>
+			</s>
+			<s name="Overriding">
+				<p>You can override properties (fields and methods) in children objects.</p>
+			</s>
+			<s name="Multiple inheritance">
+				<p>Objects in the Goat programming language can have more than one prototype.</p>
+			</s>
+			<s name="The 'instanceOf' method">
+				<p>The method checks whether there is an object passed as an argument in the prototype chain.</p>
+			</s>
+			<s name="The 'clone' method">
+				<p>Returns a clone of the object, that is, a new object in which all properties are the same as in the source object.</p>
+				<p><b>Do not use <c>clone</c> method, inherit an object instead!</b> Cloning is a very expensive operation, due to the need to copy each field.</p>
+			</s>
+			<s name="The 'flat' method">
+				<p>Returns a flat object, that is, an object that contains all the properties of the source object, as well as all properties of all prototypes of the source object.</p>
+			</s>
+			<s name="Prototypes of built-in types">
+				<p>Each object of built-in type (string, integer etc) has own built-in prototype.</p>
+			</s>
 		</s>
 	</s>
 	
