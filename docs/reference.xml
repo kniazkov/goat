@@ -2677,6 +2677,78 @@
 				</c>
 			</s>
 		</s>
+		<s name="Methods">
+			<s name="Difference between method and function">
+				<p>A <b>method</b> in object-oriented programming is a function associated with an object.</p>
+				<p>In other words, functions work only with parameters, but methods also "see" all the properties (fields and other methods) of own object and can modify these.</p>
+				<p>Example. Declare an object <c>obj</c> that contains one field <c>x</c> and one method <c>getX</c>. The method can access to the field:</p>
+				<c><![CDATA[
+					var obj = {
+						x: 10;
+						
+						getX : $() {
+							return x;
+						}
+					};
+					
+					var n = obj.getX(); // 10]]>
+				</c>
+			</s>
+			<s name="Search order">
+				<p>Since a property (or variable) with the same name can be defined in many places, the programming language specifies a clear order of searching for the value by name.</p>
+				<p>Suppose we want to read a variable named <c>x</c>. The highest priority has local variables:</p>
+				<c><![CDATA[
+					var obj = {
+						x: 10; // property 'x'
+						
+						getX : $() {
+							var x = 2 + 3; // local variable 'x'
+							return x;
+						}
+					};
+					
+					var n = obj.getX(); // 5 ]]>
+				</c>
+				<p>If a local variable with this name is not found, the Goat programming language tries to find this name in the list of arguments of the method:</p>
+				<c><![CDATA[
+					var obj = {
+						x: 10; // property 'x'
+						
+						getX : $(x) { // method with argument named 'x'
+							return x;
+						}
+					};
+					
+					var n = obj.getX(7); // 7 ]]>
+				</c>
+				<p>Then the search is performed in the object properties:</p>
+				<c><![CDATA[
+					var x = 777; // external variable 'x'
+					
+					var obj = {
+						x: 10; // property 'x'
+						
+						getX : $() {
+							return x;
+						}
+					};
+					
+					var n = obj.getX(); // 10 ]]>
+				</c>
+				<p>The last thing to do is look for variables outside the object:</p>
+				<c><![CDATA[
+					var x = 777; // external variable 'x'
+					
+					var obj = {
+						getX : $() {
+							return x;
+						}
+					};
+					
+					var n = obj.getX(); // 777 ]]>
+				</c>
+			</s>
+		</s>
 		<s name="Prototypes">
 			<s name="Prototype and inheritance">
 				<p>Goat is prototype-oriented language. What is "prototype" means?</p>
