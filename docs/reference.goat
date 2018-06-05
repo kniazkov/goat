@@ -100,6 +100,56 @@ var parseSection = $(src, level, prefix, dst) {
 				dst.content.push(tbl);
 				parseTable(child, tbl);
 			}
+			else if (child.tag == "method" || child.tag == "m") {
+				var title = new XML.Element("div");
+				title.attrib["class"] = "header";		
+				dst.content.push(title);
+				if (defined(child.attrib["descr"])) {
+					var descr = new XML.Element("div", child.attrib["descr"]);
+					descr.attrib["class"] = "para";
+					dst.content.push(descr);
+				}
+				var b = new StringBuilder();
+				b << child.attrib["name"] << " ( ";
+				if (child.findFirstChild("args") != null || child.findFirstChild("a") != null) {
+					var title = new XML.Element("div");
+					title.attrib["class"] = "para";
+					dst.content.push(title);
+					var block = new XML.Element("ul");
+					block.attrib["class"] = "para";
+					dst.content.push(block);
+					var args = parseMethod(child, block);
+					for (var i = 0; i < args.length(); i++) {
+						if (i > 0)
+							b << ", ";
+						b << args[i];
+					}
+					title.content.push(args.length() > 1 ? "Parameters:" : "Parameter:");
+				}
+				b << " )";
+				title.content.push(b.toString());
+				var example = child.findFirstChild("example");
+				if (example == null)
+					example = child.findFirstChild("e");
+				if (example != null) {
+					var title = new XML.Element("div", "Example:");
+					title.attrib["class"] = "para";
+					dst.content.push(title);
+					var code = new XML.Element("div");
+					code.attrib["class"] = "code";
+					dst.content.push(code);
+					parseCode(example, code);
+				}
+				var note = child.findFirstChild("note");
+				if (note == null)
+					note = child.findFirstChild("n");
+				if (note != null) {
+					var block = new XML.Element("div");
+					block.attrib["class"] = "para";
+					dst.content.push(block);
+					parseParagraph(note, block);
+				}
+			}
 		}
 		else if (child.instanceOf(String)) {
 			dst.content.push(child);
@@ -246,6 +296,24 @@ var parseTable = $(src, dst) {
 			}
 		}
 	}
+};
+
+var parseMethod = $(src, dst) {
+	var args = [];
+	var i, l = src.content.length();
+	for (i = 0; i < l; i++) {
+		var child = src.content[i];
+		if (child.instanceOf(XML.Element)) {
+			if (child.tag == "arg" || child.tag == "a") {
+				args.push(child.attrib["name"]);
+				var b = new StringBuilder();
+				b << child.attrib["name"] << " (" << child.attrib["type"] << "): " << child.attrib["descr"];
+				var arg = new XML.Element("li", b.toString());
+				dst.content.push(arg);
+			}
+		}
+	}
+	return args;
 };
 
 var parseTableRow = $(src, dst, header) {

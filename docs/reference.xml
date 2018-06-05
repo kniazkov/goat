@@ -2917,70 +2917,30 @@
 		<s name="Internal (core) library">
 			<s name="Functions">
 				<s name="Input/output">
-					<h name="print ( object )">
-						<p>Converts an object to a string and sends this string to standard output.</p>
-						<t>
-							<h>
-								<c width="100">Parameter</c>
-								<c width="100">Type</c>
-								<c>Description</c>
-							</h>
-							<r>
-								<c>object</c>
-								<c>Any type</c>
-								<c>Object</c>
-							</r>
-						</t>
-						<c><![CDATA[
+					<m name="print" descr="Converts an object to a string and sends this string to standard output.">
+						<a name="object" type="any type" descr="an object"/>
+						<e><![CDATA[
 							print("Hello");
 							print(2 + 3);
 							print(0.01);
 							print(false);
 							print(null);]]>
-						</c>
-					</h>
-					<h name="open ( fname, mode )">
-						<p>Opens a file.</p>
-						<t>
-							<h>
-								<c width="100">Parameter</c>
-								<c width="100">Type</c>
-								<c>Description</c>
-							</h>
-							<r>
-								<c>fname</c>
-								<c>String</c>
-								<c>File name</c>
-							</r>
-							<r>
-								<c>mode</c>
-								<c>File.Mode</c>
-								<c>Mode, one of: <c>File.Mode.READ</c>, <c>File.Mode.WRITE</c> or <c>File.Mode.APPEND</c></c>
-							</r>
-						</t>
-						<c><![CDATA[
+						</e>
+					</m>
+					<m name="open" descr="Opens a file.">
+						<a name="fname" type="String" descr="file name"/>
+						<a name="mode" type="File.Mode" descr="mode, one of: File.Mode.READ, File.Mode.WRITE or File.Mode.APPEND"/>
+						<e><![CDATA[
 							var file = open("reference.xml", File.Mode.READ);
 							var data = file.read(256); // read first 256 bytes]]>
-						</c>
-						<p>See description of 'File' class for more details.</p>
-					</h>
+						</e>
+						<n>See description of 'File' class for more details.</n>
+					</m>
 				</s>
 				<s name="Other">
-					<h name="defined ( object )">
-						<p>Returns <c>true</c> if the object is defined (i.e. not equals <c>undefined</c>), and <c>false</c> otherwise.</p>
-						<t>
-							<h>
-								<c width="100">Parameter</c>
-								<c width="100">Type</c>
-								<c>Description</c>
-							</h>
-							<r>
-								<c>object</c>
-								<c>Any type</c>
-								<c>Object</c>
-							</r>
-						</t>
-						<c><![CDATA[
+					<m name="defined" descr="Returns 'true' if the object is defined (i.e. not equals 'undefined'), and 'false' otherwise.">
+						<a name="object" type="any type" descr="an object"/>
+						<e><![CDATA[
 							var func = $(param) {
 								if (!defined(param)) {
 									return;
@@ -2988,8 +2948,8 @@
 								
 								//...
 							};]]>
-						</c>
-					</h>
+						</e>
+					</m>
 				</s>
 			</s>
 			<s name="Classes">
