@@ -191,7 +191,7 @@
 					<p>The most important rules for writing fixed values are:</p>
 					<p><b>Integer numbers</b> are written without decimals:</p>
 					<c>123</c>
-					<p><b>Real numbers</b> are written with decimals, decimal separator is a dot:</p>
+					<p><b>Real numbers</b> are written with decimals, the decimal separator is a dot:</p>
 					<c>0.001</c>
 					<p><b>Strings</b> are text, written within double quotes:</p>
 					<c>"Hello"</c>
@@ -241,7 +241,7 @@
 			</s>
 		</s>
 		<s name="Comments">
-			<p>Goat comments can be used to explain Goat code, and to make it more readable. Goat comments can also be used to prevent execution, when testing alternative code.</p>
+			<p>Goat comments can be used to explain Goat code, and to make it more readable. Goat comments can also be used to prevent execution when testing alternative code.</p>
 			<s name="Single line comments">
 				<p>Single line comments start with <c>//</c>. Any text between <c>//</c> and the end of the line will be ignored by Goat (will not be executed). This example uses a single-line comment before each code line:</p>
 				<c><![CDATA[
@@ -652,7 +652,7 @@
 						<c>50</c>
 					</r>
 				</t>
-				<p>If at least one of operators is a real number, result will be a real number. If both operators are integers, the result will be integer.</p>
+				<p>If at least one of operators is a real number, the result will be a real number. If both operators are integers, the result will be an integer.</p>
 				<p>The <b>addition</b> operator (<c>+</c>) adds numbers.</p>
 				<c><![CDATA[
 					var a = 2;
@@ -1158,7 +1158,7 @@
 					
 					doSomething("test", 3.14, false);]]>
 				</c>
-				<p>Argument can be any expression - string, number, another function call etc.</p>
+				<p>An argument can be any expression - string, number, another function call etc.</p>
 			</s>
 			<s name="Built-in functions">
 				<p>The Goat language has a lot of built-in functions (so-called built-in library). This library provides type definitions and functions for tasks such as string handling, mathematical computations, input/output processing and several other operating system services.</p>
@@ -1420,74 +1420,31 @@
 				</c>
 			</s>
 			<s name="String methods">
-				<h name="length ()">
-					<p>Returns the length of a string.</p>
-				</h>
-				<h name="subString ( start, count )">
-					<p>Extracts a part of a string and returns the extracted part in a new string. </p>
-					<t>
-						<h>
-							<c width="100">Parameter</c>
-							<c width="100">Type</c>
-							<c>Description</c>
-						</h>
-						<r>
-							<c>start</c>
-							<c>Integer</c>
-							<c>The starting index (position). 0 is the first symbol.</c>
-						</r>
-						<r>
-							<c>count</c>
-							<c>Integer</c>
-							<c>Optional. Count of characters. If not specified, the substring begins with the character at the specified index and extends to the end of this string. If specified, anyway, the method returns not more symbols than it possible.</c>
-						</r>
-					</t>
-					<c><![CDATA[
+				<m name="length" descr="Returns the length of a string."/>
+				<m name="subString" descr="Extracts a part of a string and returns the extracted part in a new string.">
+					<a name="start" type="Integer" descr="the starting index (position). 0 is the first symbol"/>
+					<a name="count" type="Integer" descr="optional; count of characters. If not specified, the substring begins with the character at the specified index and extends to the end of this string. If specified, anyway, the method returns not more symbols than it possible"/>
+					<e><![CDATA[
 						var a = "This is an example.";
 						var b = a.subString(5, 2); // "is"
 						var c = a.subString(11); // "example."]]>
-					</c>
-				</h>
-				<h name="split ( separator )">
-					<p>Splits a string into an array of substrings using a separator.</p>
-					<t>
-						<h>
-							<c width="100">Parameter</c>
-							<c width="100">Type</c>
-							<c>Description</c>
-						</h>
-						<r>
-							<c>separator</c>
-							<c>Char</c>
-							<c>Separator</c>
-						</r>
-					</t>
-					<c><![CDATA[
+					</e>
+				</m>
+				<m name="split" descr="Splits a string into an array of substrings using a separator.">
+					<a name="separator" type="Char" descr="a separator"/>
+					<e><![CDATA[
 						var s = "My name is James Bond";
 						var a = s.split(' '); // ["My","name","is","James","Bond"] ]]>
-					</c>
-					<p>If the string does not contain the separator, the method returns an array with one item (source string).</p>
-				</h>
-				<h name="valueOf ( object )">
-					<p>Converts any object to a string.</p>
-					<p>This is the static method, i.e. meant to be relevant to all the instances of a class rather than to any specific instance.</p>
-					<t>
-						<h>
-							<c width="100">Parameter</c>
-							<c width="100">Type</c>
-							<c>Description</c>
-						</h>
-						<r>
-							<c>object</c>
-							<c>Any</c>
-							<c>An object</c>
-						</r>
-					</t>
-					<c><![CDATA[
+					</e>
+				</m>
+				<m name="valueOf" descr="Converts any object to a string.">
+					<a name="object" type="any type" descr="an object"/>
+					<e><![CDATA[
 						var i = 256 * 256;
 						var s = String.valueOf(i); // "65536" ]]>
-					</c>
-				</h>
+					</e>
+					<n>This is the static method, i.e. meant to be relevant to all the instances of a class rather than to any specific instance.</n>
+				</m>
 			</s>
 			<s name="String operators">
 				<p>Remind that each object (include strings) supports these operators: <c>-&gt;</c> (inherit), <c>==</c> (equal), <c>!=</c> (not equal) and <c>!</c> (logical not). Other operators are:</p>
@@ -2681,7 +2638,7 @@
 			<s name="Difference between method and function">
 				<p>A <b>method</b> in object-oriented programming is a function associated with an object.</p>
 				<p>In other words, functions work only with parameters, but methods also "see" all the properties (fields and other methods) of own object and can modify these.</p>
-				<p>Example. Declare an object <c>obj</c> that contains one field <c>x</c> and one method <c>getX</c>. The method can access to the field:</p>
+				<p>Example. Declare an object <c>obj</c> that contains one field <c>x</c> and one method <c>getX</c>. The method can access the field:</p>
 				<c><![CDATA[
 					var obj = {
 						x: 10;
@@ -2807,7 +2764,7 @@
 				<p>Goat is prototype-oriented language. What is "prototype" means?</p>
 				<p>A <b>prototype</b> is an object from which other objects <b>inherit</b> properties and methods. Any object can be a prototype for another object.</p>
 				<p><b>Inheritance</b> is when an object is based on another object using the same implementation.</p>
-				<p>How it works? When accessing an object (method call or field reading), the Goat programming language first looks for this property in the object itself. If Goat does not find it, tries to look for this property in the prototype object. If still not found, then Goat is searching in a prototype of the prototype, and so on.</p>
+				<p>How does it work? When accessing an object (method call or field reading), the Goat programming language first looks for this property in the object itself. If Goat does not find it, tries to look for this property in the prototype object. If still not found, then Goat is searching in a prototype of the prototype, and so on.</p>
 				<c><![CDATA[
 					// declare an object:
 					var parent = { x: 1 };
