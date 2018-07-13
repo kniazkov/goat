@@ -2907,6 +2907,25 @@
 							};]]>
 						</e>
 					</m>
+					<m name="clock" descr="Returns current system time in nanoseconds.">
+						<e><![CDATA[
+							var wait = $(time) {
+								var begin = clock();
+								var diff = 0;
+								do {
+									diff = clock() - begin;
+								} while(diff < time * 1000000000);
+							};
+
+							var i;
+							for (i = 5; i > 0; i--) {
+								print("" + i + "\n");
+								wait(1);
+							}
+							]]>
+						</e>
+						<n>The example shows a simple implementation of delay and countdown using the 'clock' function. The function returns the time span value between the begin of the 'system epoch' (it depends from the platform) and the current time point. In itself, this value is useless, as a rule, the difference between the two clock values is used.</n>
+					</m>
 				</s>
 			</s>
 			<s name="Classes">

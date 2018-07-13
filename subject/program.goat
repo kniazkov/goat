@@ -1,7 +1,13 @@
-var begin = clock();
-var diff = 0;
-do {
-	diff = clock() - begin;
-} while(diff < 5 * 1000000000);
+var wait = $(time) {
+	var begin = clock();
+	var diff = 0;
+	do {
+		diff = clock() - begin;
+	} while(diff < time * 1000000000);
+};
 
-print(diff / 1000000000);
+var i;
+for (i = 5; i > 0; i--) {
+	print("" + i + "\n");
+	wait(1);
+}
