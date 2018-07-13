@@ -59,11 +59,18 @@ namespace goat {
 		static Object *getInstance();
 	};
 
+	class Clock : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
+
 	Scope * BuiltIn::create(Environment *env) {
 		Scope *s = new Scope();
 		s->objects.insert("print", new Print(env->out));
 		s->objects.insert("open", Open::getInstance());
 		s->objects.insert("defined", Defined::getInstance());
+		s->objects.insert("clock", Clock::getInstance());
 
 		s->objects.insert("String", ObjectString::Proto::getInstance());
 		s->objects.insert("Integer", ObjectInteger::Proto::getInstance());
@@ -141,6 +148,16 @@ namespace goat {
 
 	Object * Defined::getInstance() {
 		static Defined __this;
+		return &__this;
+	}
+
+
+	Object * Clock::run(Scope *scope) {
+		return new ObjectInteger(Platform::getTimeNs());
+	}
+
+	Object * Clock::getInstance() {
+		static Clock __this;
 		return &__this;
 	}
 }

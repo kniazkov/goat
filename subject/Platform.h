@@ -38,6 +38,7 @@ namespace goat {
 		static void putChar(wchar ch);
 		static void putCharErr(wchar ch);
 		static wchar getChar();
+		static long long int getTimeNs();
 
 		class FileNotFound : public Exception {
 		protected:

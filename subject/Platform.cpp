@@ -34,7 +34,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 	#include <io.h>
 	#include <fcntl.h>
 #endif
-
+#include <chrono>
 
 namespace goat {
 
@@ -117,6 +117,15 @@ namespace goat {
 		}
 		return (wchar)c;
 	}
+
+	long long int Platform::getTimeNs()
+	{
+		auto t = std::chrono::high_resolution_clock::now().time_since_epoch();
+		auto tn = std::chrono::duration_cast<std::chrono::nanoseconds>(t);
+		return tn.count();
+	}
+	
+	
 	
 	Platform::FileNotFound::FileNotFound(String _fname) : fname(FileName::extractName(_fname)) {
 	}
@@ -129,6 +138,8 @@ namespace goat {
 		return L"memory corruption";
 	}
 
+	
+	
 	Platform::FileReader::FileReader(String _fname) {
 		fname = _fname;
 		FILE *stream = std::fopen(fname.cstr(), "rb");
