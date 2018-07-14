@@ -29,6 +29,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
+	class ObjectThread;
+
 	class Thread {
 	protected:
 		Thread(const Thread &) {
@@ -44,9 +46,10 @@ namespace goat {
 		State *state;
 		State::DebugMode mode;
 		unsigned int level;
+		ObjectThread *owner;
 		static Thread *current;
 
-		Thread(Function *func, Scope *scope);
+		Thread(Function *func, Scope *scope, ObjectThread *owner);
 		~Thread();
 		bool step();
 	};

@@ -23,11 +23,14 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "ObjectFunction.h"
+#include "Thread.h"
 
 namespace goat {
 
 	class ObjectThread : public ObjectFunction {
 	public:
+		Thread * thread;
+
 		ObjectThread(Function *_function, Scope *_context);
 		ObjectThread * toObjectThread() override;
 		void trace() override;

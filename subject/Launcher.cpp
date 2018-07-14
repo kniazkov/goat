@@ -52,7 +52,7 @@ namespace goat {
 			popt.libs = &opt->libs;
 			Root* root = Parser::parse(&scan, *proot, &popt);
 			*proot = root;
-			new Thread(root, scope);
+			new Thread(root, scope, nullptr);
 
 			if (!opt->debug) {
 				while (Thread::current != nullptr) {

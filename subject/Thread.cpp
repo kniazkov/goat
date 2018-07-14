@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Thread.h"
+#include "ObjectThread.h"
 
 namespace goat {
 
@@ -28,7 +29,7 @@ namespace goat {
 
 	ThreadList ThreadList::global;
 
-	Thread::Thread(Function *func, Scope *scope) {
+	Thread::Thread(Function *func, Scope *scope, ObjectThread *owner) {
 		list = nullptr;
 		ThreadList::global.pushBack(this);
 		Thread *creator = current;
@@ -40,6 +41,7 @@ namespace goat {
 		}
 		mode = State::DebugMode::BREAKPOINT;
 		level = 0;
+		this->owner = owner;
 	}
 
 	Thread::~Thread() {
@@ -50,6 +52,8 @@ namespace goat {
 		if (current == nullptr) {
 			current = ThreadList::global.first;
 		}
+		if (owner)
+			owner->thread = nullptr;
 	}
 
 	bool Thread::step() {
