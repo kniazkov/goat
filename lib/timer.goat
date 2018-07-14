@@ -27,16 +27,41 @@ var Timer = {
 		if (!callback.instanceOf(Function) || !duration.instanceOf(Timer.Duration))
 			throw new ArgumentException();
 		
-		var thr = thread() {
+		var cycle = thread() {
 			var begin = clock();
-			var interval = duration.getNanoseconds();
+			var diff = duration.getNanoseconds();
 			
-			while(clock() - begin < interval){
+			while(clock() - begin < diff){
 			}
 			
 			callback();
 		};
-		thr.run();
+		cycle.run();
+	},
+	
+	setInterval : $(callback, interval) {
+		if (!defined(callback) || !defined(interval))
+			throw new ArgumentException();
+		if (!callback.instanceOf(Function) || !interval.instanceOf(Timer.Duration))
+			throw new ArgumentException();
+		
+		var cycle = thread() {
+			var begin = clock();
+			var increment = interval.getNanoseconds();
+			var count = 1;
+			
+			while(true) {
+				var end = begin + increment * count;
+
+				while(clock() < end){
+				}
+				
+				callback();
+				count++;
+			}
+		};
+		cycle.run();
+		return new Timer.Interval(cycle); 
 	}
 };
 
@@ -103,5 +128,17 @@ Timer.Hours = Timer.Duration -> {
 	
 	init : $(count) {
 		this._set(count);
+	}
+};
+
+Timer.Interval = {
+	cycle : null,
+	
+	init : $(cycle) {
+		this.cycle = cycle;
+	},
+	
+	stop : $() {
+		cycle.stop();
 	}
 };
