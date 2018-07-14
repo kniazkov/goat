@@ -1,0 +1,107 @@
+/*
+
+Copyright (C) 2017, 2018 Ivan Kniazkov
+
+This file is part of standard library for programming language
+codenamed "Goat" ("Goat standard library").
+
+Goat standard library is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat standard library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+var Timer = {
+	setTimer : $(callback, duration) {
+		if (!defined(callback) || !defined(duration))
+			throw new ArgumentException();
+		if (!callback.instanceOf(Function) || !duration.instanceOf(Timer.Duration))
+			throw new ArgumentException();
+		
+		var thr = thread() {
+			var begin = clock();
+			var interval = duration.getNanoseconds();
+			
+			while(clock() - begin < interval){
+			}
+			
+			callback();
+		};
+		thr.run();
+	}
+};
+
+Timer.Duration = {
+	factor : 0,
+	count : 0,
+	
+	_set : $(count) {
+		if (!defined(count))
+			this.count = 0;
+		else if (!count.instanceOf(Integer) || count < 0)
+			throw new ArgumentException();
+		else
+			this.count = count;
+	},
+	
+	getNanoseconds : $() {
+		return count * factor;
+	}
+};
+
+Timer.Nanoseconds = Timer.Duration -> {
+	factor : 1,
+	
+	init : $(count) {
+		this._set(count);
+	}
+};
+
+Timer.Microseconds = Timer.Duration -> {
+	factor : 1000,
+	
+	init : $(count) {
+		this._set(count);
+	}
+};
+
+Timer.Milliseconds = Timer.Duration -> {
+	factor : 1000 * 1000,
+	
+	init : $(count) {
+		this._set(count);
+	}
+};
+
+Timer.Seconds = Timer.Duration -> {
+	factor : 1000 * 1000 * 1000,
+	
+	init : $(count) {
+		this._set(count);
+	}
+};
+
+Timer.Minutes = Timer.Duration -> {
+	factor : 60 * 1000 * 1000 * 1000,
+	
+	init : $(count) {
+		this._set(count);
+	}
+};
+
+Timer.Hours = Timer.Duration -> {
+	factor : 60 * 60 * 1000 * 1000 * 1000,
+	
+	init : $(count) {
+		this._set(count);
+	}
+};
