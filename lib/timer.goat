@@ -45,6 +45,7 @@ var Timer = {
 		if (!callback.instanceOf(Function) || !interval.instanceOf(Timer.Duration))
 			throw new ArgumentException();
 		
+		var obj = new Timer.Interval();
 		var cycle = thread() {
 			var begin = clock();
 			var increment = interval.getNanoseconds();
@@ -52,16 +53,24 @@ var Timer = {
 			
 			while(true) {
 				var end = begin + increment * count;
+				
+				while(clock() > end) {
+					obj.skipped++;
+					count++;
+					end = begin + increment * count;
+				}
 
 				while(clock() < end){
 				}
 				
 				callback();
 				count++;
+				obj.ticks++;
 			}
 		};
 		cycle.run();
-		return new Timer.Interval(cycle); 
+		obj.cycle = cycle;
+		return obj; 
 	}
 };
 
@@ -72,7 +81,7 @@ Timer.Duration = {
 	_set : $(count) {
 		if (!defined(count))
 			this.count = 0;
-		else if (!count.instanceOf(Integer) || count < 0)
+		else if (!isNumber(count) || count < 0)
 			throw new ArgumentException();
 		else
 			this.count = count;
@@ -133,10 +142,8 @@ Timer.Hours = Timer.Duration -> {
 
 Timer.Interval = {
 	cycle : null,
-	
-	init : $(cycle) {
-		this.cycle = cycle;
-	},
+	ticks : 0,
+	skipped : 0,
 	
 	stop : $() {
 		cycle.stop();

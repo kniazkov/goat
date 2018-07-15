@@ -1,13 +1,13 @@
 import "timer.goat";
 
-var count = 2;
+var count = 50;
 
 var i = Timer.setInterval(
 	$() {
 		print("" + count + "\n");
 		count = count - 1;
 	},
-	new Timer.Seconds(1)
+	new Timer.Milliseconds(50)
 );
 
 while(count >= 0)
@@ -15,3 +15,6 @@ while(count >= 0)
 }
 
 i.stop();
+print("------------\n");
+print("" + i.ticks + "\n");
+print("" + i.skipped + "\n");

@@ -59,6 +59,12 @@ namespace goat {
 		static Object *getInstance();
 	};
 
+	class IsNumber : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
+
 	class Clock : public ObjectBuiltIn {
 	public:
 		Object * run(Scope *scope) override;
@@ -70,6 +76,7 @@ namespace goat {
 		s->objects.insert("print", new Print(env->out));
 		s->objects.insert("open", Open::getInstance());
 		s->objects.insert("defined", Defined::getInstance());
+		s->objects.insert("isNumber", IsNumber::getInstance());
 		s->objects.insert("clock", Clock::getInstance());
 
 		s->objects.insert("String", ObjectString::Proto::getInstance());
@@ -148,6 +155,22 @@ namespace goat {
 
 	Object * Defined::getInstance() {
 		static Defined __this;
+		return &__this;
+	}
+
+
+	Object * IsNumber::run(Scope *scope) {
+		ObjectArray * args = scope->arguments;
+		if (args->vector.len() > 0) {
+			Object *obj = args->vector[0];
+			return new ObjectBoolean(obj != nullptr &&
+				(obj->toObjectInteger() != nullptr || obj->toObjectReal() != nullptr));
+		}
+		return new IllegalArgument();
+	}
+
+	Object * IsNumber::getInstance() {
+		static IsNumber __this;
 		return &__this;
 	}
 
