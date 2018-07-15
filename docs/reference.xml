@@ -1509,27 +1509,14 @@
 				<c>var c = '\'';</c>
 			</s>
 			<s name="Char methods">
-				<h name="valueOf ( object )">
-					<p>Static method. Converts object to a char.</p>
-					<t>
-						<h>
-							<c width="100">Parameter</c>
-							<c width="100">Type</c>
-							<c>Description</c>
-						</h>
-						<r>
-							<c>object</c>
-							<c>Any</c>
-							<c>An object</c>
-						</r>
-					</t>
-					<p>If the object is an integer, returns a Char containing the character associated with the specified character code.</p>
-					<c><![CDATA[
+				<m name="valueOf" descr="Static method. Converts object to a char.">
+					<a name="object" type="any type" descr="an object"/>
+					<e><![CDATA[
 						var i = 65;
 						var c = Char.valueOf(i); // 'A' ]]>
-					</c>
-					<p>Else, if the object is a char, just returns this object. Else, if the object is not an integer and is not a char, returns <c>'\0'</c> (char with zero value).</p>
-				</h>
+					</e>
+					<n>If the object is an integer, returns a Char containing the character associated with the specified character code. Else, if the object is a char, just returns this object. Else, if the object is not an integer and is not a char, returns '\0' (char with zero value).</n>
+				</m>
 			</s>
 			<s name="Char operators">
 				<h name="++, --">
@@ -1560,26 +1547,14 @@
 					<c>var i = 0b1011;</c>
 				</s>
 				<s name="Methods">
-					<h name="toString ( radix )">
-						<p>Converts an integer to a string.</p>
-						<t>
-							<h>
-								<c width="100">Parameter</c>
-								<c width="100">Type</c>
-								<c>Description</c>
-							</h>
-							<r>
-								<c><d>radix</d></c>
-								<c><d>Integer</d></c>
-								<c><d>Optional. Radix, can be 2, 10 or 16.</d></c>
-							</r>
-						</t>
-						<c><![CDATA[
+					<m name="toString" descr="Converts an integer to a string.">
+						<a name="radix" type="Integer" descr="optional, radix, can be 2, 10 or 16"/>
+						<e><![CDATA[
 							var i = 254;
 							var s = i.toString(); // "254"
-							var h = "0x" + i.toString(16); // "0xFE" ]]>
-						</c>
-					</h>
+							var h = "0x" + i.toString(16); // "0xFE"]]>
+						</e>
+					</m>
 				</s>
 				<s name="Operators">
 					<p>The Integer type has more operators than the other types.</p>
@@ -1671,7 +1646,7 @@
 			</s>
 			<s name="Real numbers">
 				<s name="Definition">
-					<p>Real numbers are written with decimal point (dot):</p>
+					<p>Real numbers are written with the decimal point (dot):</p>
 					<c>var i = 3.14;</c>
 				</s>
 				<s name="Operators">
@@ -1716,24 +1691,10 @@
 				<p>Arrays are a special kind of objects, with numbered indexes.</p>
 			</s>
 			<s name="Array methods">
-				<h name="length ()">
-					<p>Returns the length (count of items) of an array.</p>
-				</h>
-				<h name="push ( object )">
-					<p>Adds a new item to the end of an array.</p>
-					<t>
-						<h>
-							<c width="100">Parameter</c>
-							<c width="100">Type</c>
-							<c>Description</c>
-						</h>
-						<r>
-							<c>object</c>
-							<c>Any type</c>
-							<c>An item</c>
-						</r>
-					</t>
-				</h>				
+				<m name="length" descr="Returns the length (count of items) of an array."/>
+				<m name="push" descr="Adds a new item to the end of an array.">
+					<a name="object" type="any type" descr="an item"/>
+				</m>
 			</s>
 			<s name="Looping array elements">
 				<p>The best way to loop through an array, is using a <c>for</c> loop:</p>
@@ -2575,40 +2536,26 @@
 			</s>
 			<s name="Each object has some predefined methods">
 				<p>Goat adds these methods to each object.</p>
-				<h name="instanceOf ( object )">
-					<p>Returns whether an object is derived from another object or not.</p>
-					<t>
-						<h>
-							<c width="100">Parameter</c>
-							<c width="100">Type</c>
-							<c>Description</c>
-						</h>
-						<r>
-							<c>object</c>
-							<c>Any type</c>
-							<c>The prototype</c>
-						</r>
-					</t>
-					<p>The method is used to determine the type (more correctly, <b>the prototype</b>) of the object. What is a prototype, will be described a little later.</p>
-					<c><![CDATA[
+				<m name="instanceOf" descr="Returns whether an object is derived from another object or not.">
+					<a name="object" type="any type" descr="the prototype"/>
+					<e><![CDATA[
 						var isInteger = $(obj) {
 							return obj.instanceOf(Integer);
 						};]]>
-					</c>
-				</h>
-				<h name="clone ()">
-					<p>Returns a clone of the object, that is, a new object in which all properties are the same as in the source object. This is required if you need to get a real copy of the object, then change it and leave the original object unchanged:</p>
-					<c><![CDATA[
+					</e>
+					<n>The method is used to determine the type (more correctly, the prototype) of the object. What is a prototype, will be described a little later.</n>
+				</m>
+				<m name="clone" descr="Returns a clone of the object, that is, a new object in which all properties are the same as in the source object.">
+					<e><![CDATA[
 						var a = { name: "Ivan", age: 33 };
 						var b = a.clone();
 						b.name = "Jonh";
 						print(b); // output: {name:"John",age:33}
-						print(a); // output: {name:"Ivan",age:33}]]>
-					</c>
-				</h>
-				<h name="flat ()">
-					<p>Returns a flat object, that is, an object that contains all the properties of the source object, as well as all properties of all prototypes of the source object. What is a prototype, will be described a little later.</p>
-				</h>
+						print(a); // output: {name:"Ivan",age:33} ]]>
+					</e>
+					<n>This is required if you need to get a real copy of the object, then change it and leave the original object unchanged.</n>
+				</m>
+				<m name="flat" descr="Returns a flat object, that is, an object that contains all the properties of the source object, as well as all properties of all prototypes of the source object. What is a prototype, will be described a little later."/>
 			</s>
 			<s name="Everything is an object">
 				<p>All data (strings, numbers, booleans) represented as objects. These are "special" objects that have special behavior. But beyond this, these objects do everything the same as other, "ordinary" objects.</p>
