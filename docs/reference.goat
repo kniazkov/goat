@@ -163,6 +163,50 @@ var parseSection = $(src, level, prefix, dst) {
 					parseParagraph(note, block);
 				}
 			}
+			else if (child.tag == "operator" || child.tag == "o") {
+				var hasDescr = false;
+				var title = new XML.Element("div", child.attrib["name"]);
+				title.attrib["class"] = "header";		
+				dst.content.push(title);
+				if (defined(child.attrib["descr"])) {
+					var block = new XML.Element("div", child.attrib["descr"]);
+					block.attrib["class"] = "para";
+					dst.content.push(block);
+					hasDescr = true;
+				}
+				if (!hasDescr) {
+					var descr = child.findFirstChild("descr");
+					if (descr == null)
+						descr = child.findFirstChild("d");
+					if (descr != null) {
+						var block = new XML.Element("div");
+						block.attrib["class"] = "para";
+						dst.content.push(block);
+						parseParagraph(descr, block);
+					}
+				}
+				var example = child.findFirstChild("example");
+				if (example == null)
+					example = child.findFirstChild("e");
+				if (example != null) {
+					var title = new XML.Element("div", "Example:");
+					title.attrib["class"] = "para";
+					dst.content.push(title);
+					var code = new XML.Element("div");
+					code.attrib["class"] = "code";
+					dst.content.push(code);
+					parseCode(example, code);
+				}
+				var note = child.findFirstChild("note");
+				if (note == null)
+					note = child.findFirstChild("n");
+				if (note != null) {
+					var block = new XML.Element("div");
+					block.attrib["class"] = "para";
+					dst.content.push(block);
+					parseParagraph(note, block);
+				}
+			}
 		}
 		else if (child.instanceOf(String)) {
 			dst.content.push(child);
