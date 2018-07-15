@@ -1,13 +1,13 @@
 import "timer.goat";
 
-var count = 50;
+var count = 10;
 
 var i = Timer.setInterval(
 	$() {
 		print("" + count + "\n");
 		count = count - 1;
 	},
-	new Timer.Milliseconds(50)
+	new Timer.Nanoseconds(100)
 );
 
 while(count >= 0)
