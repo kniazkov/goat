@@ -101,13 +101,26 @@ var parseSection = $(src, level, prefix, dst) {
 				parseTable(child, tbl);
 			}
 			else if (child.tag == "method" || child.tag == "m") {
+				var hasDescr = false;
 				var title = new XML.Element("div");
 				title.attrib["class"] = "header";		
 				dst.content.push(title);
 				if (defined(child.attrib["descr"])) {
-					var descr = new XML.Element("div", child.attrib["descr"]);
-					descr.attrib["class"] = "para";
-					dst.content.push(descr);
+					var block = new XML.Element("div", child.attrib["descr"]);
+					block.attrib["class"] = "para";
+					dst.content.push(block);
+					hasDescr = true;
+				}
+				if (!hasDescr) {
+					var descr = child.findFirstChild("descr");
+					if (descr == null)
+						descr = child.findFirstChild("d");
+					if (descr != null) {
+						var block = new XML.Element("div");
+						block.attrib["class"] = "para";
+						dst.content.push(block);
+						parseParagraph(descr, block);
+					}
 				}
 				var b = new StringBuilder();
 				b << child.attrib["name"] << " ( ";
