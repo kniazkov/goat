@@ -38,3 +38,9 @@ var Iterator = {
 		throw new Exception.NotImplemented();
 	}
 };
+
+var Iterable = {
+	iterator : $(){
+		throw new Exception.NotImplemented();
+	}
+};

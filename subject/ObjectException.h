@@ -214,4 +214,16 @@ namespace goat {
 		};
 	};
 
+	class InvalidOperation : public ObjectException {
+	public:
+		InvalidOperation();
+		WideString toWideString() override;
+
+		class Proto : public ObjectException {
+		public:
+			Proto();
+			static Object *getInstance();
+		};
+	};
+
 }
