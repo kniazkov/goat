@@ -2996,8 +2996,8 @@
 								<a name="origin" type="File.Origin" descr="origin, one of: File.Origin.BEGIN, File.Origin.END or File.Origin.CURRENT"/>
 								<e><![CDATA[
 									var f = open("data.txt", File.Mode.READ);
-									f.seek(0, File.Origin.END); // go to end of file
-									var len = f.position();
+									f.seek(0, File.Origin.END); // go to end of the file
+									var len = f.position(); // take position (position at the end is the length of the file)
 									f.seek(0, File.Origin.BEGIN); // now, go to begin
 									var data = f.read(len); // read the whole file]]>
 								</e>
@@ -3005,7 +3005,7 @@
 						</s>
 						<s name="Fields">
 							<h name="File.Mode">
-								<p>The object contains constants for file access mode, used as an argument for <c>open</c> function.</p>
+								<p>The object contains constants for file access mode, is used as an argument for <c>open</c> function.</p>
 								<c><![CDATA[
 									File.Mode = {
 										READ : ?,
@@ -3020,7 +3020,7 @@
 								<c>var f = open("data.txt", 0); // yes, it works now... but can fail later</c>
 							</h>
 							<h name="File.Origin">
-								<p>The object contains constants for origin, used as an argument for <c>File.seek</c> method.</p>
+								<p>The object contains constants for origin, is used as an argument for <c>File.seek</c> method.</p>
 								<c><![CDATA[
 									File.Origin = {
 										BEGIN : ?,
@@ -3035,6 +3035,31 @@
 				<s name="Sequences">
 					<s name="ByteArray">
 						<p>The class for storing an array of bytes.</p>
+						<p>The Goat interpreter does not have separated type for bytes representing. Integer type is used for this purpose. However, each Integer object takes much more memory than 1 byte. If you need to store an array of bytes, do not create an array of integers, use <b>ByteArray</b> class instead.</p>
+						<p>ByteArray class is used in files read/write operations.</p>
+						<s name="Methods">
+							<m name="length" descr="Returns length of the byte array."/>
+							<m name="push">
+								<d>Appends a byte to the byte array.</d>
+								<a name="byte" type="Integer" descr="byte, valid values [0...255]"/>
+								<e><![CDATA[
+									var a = new ByteArray();
+									a.push(0); ]]>
+								</e>
+							</m>
+							<m name="decodeUTF8">
+								<d>Decodes the byte array as UTF-8 encoded text and returns a string.</d>
+								<e><![CDATA[
+									// open the file and decode it as UTF-8
+									var file = open("data.txt", File.Mode.READ);
+									file.seek(0, File.Origin.END); // go to end of the file
+									var len = file.position(); // take the length of the file
+									file.seek(0, File.Origin.BEGIN); // now, go to begin
+									var raw = file.read(len); // read the whole file
+									var text = raw.decodeUTF8(); // decode]]>
+								</e>
+							</m>
+						</s>
 					</s>
 					<s name="StringBuilder">
 						<p>The class for strings constructing.</p>
