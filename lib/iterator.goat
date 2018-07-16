@@ -42,5 +42,12 @@ var Iterator = {
 var Iterable = {
 	iterator : $(){
 		throw new Exception.NotImplemented();
+	},
+	
+	toArray : $() {
+		var a = [];
+		for (var i = this.iterator(); i.valid(); i.next())
+			a.push(i.read());
+		return a;
 	}
 };
