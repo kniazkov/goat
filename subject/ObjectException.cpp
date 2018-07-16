@@ -56,6 +56,7 @@ namespace goat {
 		objects.insert("IncorrectIndex", IncorrectIndex::Proto::getInstance());
 		objects.insert("OutOfBounds", OutOfBounds::Proto::getInstance());
 		objects.insert("IllegalArgument", IllegalArgument::Proto::getInstance());
+		objects.insert("NotImplemented", NotImplemented::Proto::getInstance());
 	}
 
 	Object * ObjectException::Proto::getInstance() {
@@ -312,4 +313,24 @@ namespace goat {
 		static Proto __this;
 		return &__this;
 	}
+
+
+	NotImplemented::NotImplemented() {
+		proto.pushBack(Proto::getInstance());
+	}
+
+	WideString NotImplemented::toWideString() {
+		return L"not implemented";
+	}
+
+	NotImplemented::Proto::Proto() {
+		status = PERMANENT;
+		proto.pushBack(ObjectException::Proto::getInstance());
+	}
+
+	Object * NotImplemented::Proto::getInstance() {
+		static Proto __this;
+		return &__this;
+	}
+
 }

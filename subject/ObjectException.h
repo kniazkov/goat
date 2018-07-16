@@ -202,4 +202,16 @@ namespace goat {
 		};
 	};
 
+	class NotImplemented : public ObjectException {
+	public:
+		NotImplemented();
+		WideString toWideString() override;
+
+		class Proto : public ObjectException {
+		public:
+			Proto();
+			static Object *getInstance();
+		};
+	};
+
 }
