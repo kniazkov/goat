@@ -2958,9 +2958,84 @@
 			</s>
 			<s name="Classes">
 				<s name="Input/output">
-					<p>To be done</p>
+					<s name="File">
+						<p>The class for file reading/writing.</p>
+						<p>Files are opened by the <c>open</c> function (see above). The <c>open</c> function returns an object of <c>File</c> type, or <c>null</c> if the file could not be found or could not be open. The <c>File</c> class contains methods for reading/writing and some predefined fields, used in <c>open</c> and <c>seek</c> methods.</p>
+						<s name="Methods">
+							<m name="read">
+								<d>Reads a file and returns a <c>ByteArray</c> object with data.</d>
+								<a name="count" type="Integer" descr="number of bytes to read"/>
+								<e><![CDATA[
+									var f = open("data.txt", File.Mode.READ);
+									var a = f.read(1024); // read first 1024 bytes ]]>
+								</e>
+								<n>If the number of bytes exceeds the file size, the method will return as many bytes as it could read. The position indicator of the file is advanced by the total amount of bytes read.</n>
+							</m>
+							<m name="eof">
+								<d>Checks whether the end of file indicator associated with file is set, returning <c>true</c> if it is.</d>
+								<e><![CDATA[
+									var f = open("data.txt", File.Mode.READ);
+									while (!f.eof()) {
+										// read the file in chunks of size 1024 bytes
+										var a = f.read(1024);
+										// ...
+									}]]>
+								</e>
+							</m>
+							<m name="position">
+								<d>Returns the current value of the position indicator of the file.</d>
+								<e><![CDATA[
+									var f = open("data.txt", File.Mode.READ);
+									f.seek(0, File.Origin.END);
+									var len = f.position(); // length of file]]>
+								</e>
+							</m>
+							<m name="seek">
+								<d>Sets the position indicator associated with the file to a new position.</d>
+								<a name="offset" type="Integer" descr="number of bytes to offset from origin"/>
+								<a name="origin" type="File.Origin" descr="origin, one of: File.Origin.BEGIN, File.Origin.END or File.Origin.CURRENT"/>
+								<e><![CDATA[
+									var f = open("data.txt", File.Mode.READ);
+									f.seek(0, File.Origin.END); // go to end of file
+									var len = f.position();
+									f.seek(0, File.Origin.BEGIN); // now, go to begin
+									var data = f.read(len); // read the whole file]]>
+								</e>
+							</m>
+						</s>
+						<s name="Fields">
+							<h name="File.Mode">
+								<p>The object contains constants for file access mode, used as an argument for <c>open</c> function.</p>
+								<c><![CDATA[
+									File.Mode = {
+										READ : ?,
+										WRITE : ?,
+										APPEND : ?
+									};]]>
+								</c>
+								<p>Usage:</p>
+								<c>var f = open("data.txt", File.Mode.READ);</c>
+								<p>The question mark <c>?</c> means that in fact a constant is assigned a value (this is usually a number), but it depends on the implementation. Never use a value (magic number) instead of a constant!</p>
+								<p>Very bad example, please do not repeat it:</p>
+								<c>var f = open("data.txt", 0); // yes, it works now... but can fail later</c>
+							</h>
+							<h name="File.Origin">
+								<p>The object contains constants for origin, used as an argument for <c>File.seek</c> method.</p>
+								<c><![CDATA[
+									File.Origin = {
+										BEGIN : ?,
+										END : ?,
+										CURRENT : ?
+									};]]>
+								</c>
+							</h>
+						</s>
+					</s>
 				</s>
-				<s name="Strings">
+				<s name="Sequences">
+					<s name="ByteArray">
+						<p>The class for storing an array of bytes.</p>
+					</s>
 					<s name="StringBuilder">
 						<p>The class for strings constructing.</p>
 						<p>The Goat programming language has immutable strings. It prevents many errors, but in some cases constructing of long string takes a lot of time, because for each iteration Goat creates a new string. For example:</p>
