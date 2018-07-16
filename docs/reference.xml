@@ -2800,6 +2800,79 @@
 			</s>
 			<s name="Overriding">
 				<p>You can override properties (fields and methods) in children objects.</p>
+				<p>Method overriding, in Goat programming language, is a language feature that allows a subobject to provide a specific implementation of a method that is already provided by one of its prototypes. The implementation in the subobject overrides (replaces) the implementation in the prototype by providing a method that has the same name as the method in the prototype. The version of a method that is executed will be determined by the object that is used to invoke it.</p>
+				<c><![CDATA[
+					// the object with the method which will be overridden:
+					var Animal = {
+						talk : $() {
+							print("This animal can not speak.\n");
+						}
+					};
+					
+					// inherit the first object and override the method:
+					var Goat = Animal -> {
+						talk : $() {
+							print("Baa!\n");
+						}
+					}; 
+					
+					// inherit the second object and override the method again:
+					var Cow = Animal -> {
+						talk : $() {
+							print("Moo!\n");
+						}
+					}; 
+
+					// inherit the third object but does not override the method:
+					var Fish = Animal -> {
+					
+					};
+					
+					// create three objects and call the methods:
+					var g = new Goat();
+					var c = new Cow();
+					var f = new Fish();
+					
+					g.talk();
+					c.talk();
+					f.talk();]]>
+				</c>
+				<p>Output:</p>
+				<c><![CDATA[
+					Baa!
+					Moo!
+					This animal can not speak.]]>
+				</c>
+				<p>The same rule for fields. Field with the same name as in prototype overrides the previous field:</p>
+				<c><![CDATA[
+					// the object with the field which will be overridden:
+					var Programmer = {
+						salary : 1000
+					};
+					
+					// inherit the first object and override the field:
+					var Senior = Programmer -> {
+						salary : 1500
+					}; 
+					
+					// inherit the second object but does not override the field:
+					var UnitTester = Programmer -> {
+					
+					};
+					
+					// create two objects and read the fields:
+					var s = new Senior();
+					var ut = new UnitTester();
+					
+					print(s.salary);
+					print("\n");
+					print(ut.salary);]]>
+				</c>
+				<p>Output:</p>
+				<c><![CDATA[
+					1500
+					1000]]>
+				</c>
 			</s>
 			<s name="Multiple inheritance">
 				<p>Objects in the Goat programming language can have more than one prototype.</p>
