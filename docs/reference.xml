@@ -2963,7 +2963,72 @@
 				<s name="Strings">
 					<s name="StringBuilder">
 						<p>The class for strings constructing.</p>
-						
+						<p>The Goat programming language has immutable strings. It prevents many errors, but in some cases constructing of long string takes a lot of time, because for each iteration Goat creates a new string. For example:</p>
+						<c><![CDATA[
+							// some coordinates:
+							var c = { x: 10, y: 20, z: 30};
+							
+							// build string:
+							var str = "X=" + c.x + ", Y=" + c.y + ", Z=" + c.z;]]>
+						</c>
+						<p>It works, yes, but it is not a better solution. Goat splits the long expression and creates a new string (which, in turn, involves the creation of a new array of characters, and copying of the original array) on each step:</p>
+						<c><![CDATA[
+							"X=" + c.x
+							-> "X=10"
+							... + ", Y=" 
+							-> "X=10, Y="
+							... + c.y
+							-> "X=10, Y=20"
+							... + ", Z=" 
+							-> "X=10, Y=20, Z="
+							... + c.z
+							-> "X=10, Y=20, Z=30"]]>
+						</c>
+						<p>So, five strings will be constructed. What about thousands of strings? Say you have an array and you need to make a string. A lot of time, a lot of memory! Or, you can use <b>StringBuilder.</b></p>
+						<c><![CDATA[
+							// some coordinates:
+							var c = { x: 10, y: 20, z: 30};
+							
+							// build string:
+							var b = new StringBuilder();
+							b << "X=" << c.x << ", Y=" << c.y << ", Z=" << c.z;
+							var str = b.toString();]]>
+						</c>
+						<p>Much better.</p>
+						<p>StringBuilder has an array to hold characters. This array grows when new items (characters, strings, etc) added. This class does not create a new string for each addition. Thus, the construction of a long string takes much less time and memory.</p>
+						<s name="Methods">
+							<m name="append" descr="Appends string representation of object to the sequence.">
+								<a name="object" type="any type" descr="an object"/>
+								<a name="count" type="Integer" descr="optional, the number of times the object will be added"/>
+								<e><![CDATA[
+									var b = new StringBuilder();
+									b.append("test");
+									b.append('#');
+									b.append(123);
+									b.append('*', 5);
+									print(b); // output: "test#123*****"]]>
+								</e>
+							</m>
+							<m name="toString" descr="Returns a string representing the data in this sequence.">
+								<e><![CDATA[
+									var b = new StringBuilder();
+									b.append("hello");
+									b.append(", ");
+									b.append("world");
+									var s = b.toString(); // contains "hello, world"]]>
+								</e>
+							</m>
+						</s>
+						<s name="Operators">
+							<o name="&lt;&lt;" descr="Appends string representation of object to the sequence.">
+								<e><![CDATA[
+									var b = new StringBuilder();
+									b << "test" << '#' << 123;
+									print(b); // output: "test#123"]]>
+								</e>
+								<n>This is a synonym for the <c>append</c> method, but using the operator instead of the method is more convenient.</n>
+							</o>
+						</s>
 					</s>
 				</s>
 			</s>
