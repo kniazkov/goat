@@ -3134,7 +3134,54 @@
 			</s>
 		</s>
 		<s name="External library">
-			<p>To be done.</p>
+			<s name="Containers">
+				<p>Containers are used to store data. A container is a grouping of some variable number of data items (possibly zero) that have some shared significance to the problem being solved and need to be operated upon together in some fashion.</p>
+				<p>Examples of containers include list, stack, queue, etc.</p>
+				<s name="Stack">
+					<p>A stack is a data type that serves as a container of elements, with two principal operations: <b>push</b>, which adds an element to the container, and <b>pop</b>, which removes the most recently added element that was not yet removed.</p>
+					<p>Elements can be taken from the stack in the reverse order to how they were put there. Another name of the stack structure - LIFO ("last in, first out"). Additionally, a peek operation may give access to the top without modifying the stack.</p>
+					<s name="Methods">
+						<m name="empty">
+							<d>Returns <c>true</c> if the stack is empty and <c>false</c> otherwise.</d>
+						</m>
+						<m name="push" descr="Adds an element to the stack.">
+							<a name="object" type="any type" descr="an object"/>
+						</m>
+						<m name="pop" descr="Removes the most recently added element and returns it.">
+							<n>If the stack is empty, throws <c>Stack.StackIsEmpty</c> exception.</n>
+						</m>
+						<m name="peek" descr="Returns the top element without modifying the stack.">
+							<n>If the stack is empty, throws <c>Stack.StackIsEmpty</c> exception.</n>
+						</m>
+						<m name="iterator" descr="Returns an iterator pointing to the beginning of the stack."/>
+					</s>
+					<s name="Example">
+						<p>Code:</p>
+						<c><![CDATA[
+							import "stack.goat";
+
+							var s = new Stack();
+
+							for (var i = 0; i < 5; i++)
+								s.push(i);
+
+							while(!s.empty())
+								print("" + s.pop() + "\n");]]>
+						</c>
+						<p>Output:</p>
+						<c><![CDATA[
+							4
+							3
+							2
+							1
+							0]]>
+						</c>
+					</s>
+				</s>
+				<s name="Iterator">
+					<p>All about iterators.</p>
+				</s>
+			</s>
 		</s>
 	</s>
 	
