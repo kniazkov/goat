@@ -3305,6 +3305,129 @@
 					</m>
 				</s>
 			</s>
+			<s name="XML">
+				<p>Simple XML parser. For more info about XML format, please visit <url>https://en.wikipedia.org/wiki/XML</url>.</p>
+				<p>The parser takes a string that contains the source document. If you need to parse the file, you must first read and decode it using other methods. The document is recognized as a whole, the output is a tree of XML elements. If the document contains an error, the parser throws an appropriate exception.</p>
+				<s name="Classes">
+					<s name="XML.Element">
+						<p>The class that contains the data of one XML element. An XML element can contain attributes and child elements, thus, each element is the root of the element tree. The XML parser returns one root element that contains all document as a tree of elements.</p>
+						<s name="Fields">
+							<h name="tag">
+								<p>String. The element's tag. For example, after parsing the element:</p>
+								<c><![CDATA[
+									<root>...</root>]]>
+								</c>
+								<p>the <c>tag</c> field will be contain the value "root".</p>
+							</h>
+							<h name="attrib">
+								<p>Object, contains attributes. For example, after parsing the element:</p>
+								<c><![CDATA[
+									<rectangle width="300" height="200">...</rectangle>]]>
+								</c>
+								<p>the <c>attrib</c> field will be contain the object <c>{width:300,height:200}</c>.</p>
+								<p>If the element does not have attributes, this field will contain an empty object.</p>
+							</h>
+							<h name="content">
+								<p>An array containing child elements. A child element can be a string or an <c>XML.Element</c> type. For example, after parsing the element:</p>
+								<c><![CDATA[
+									<list><elem_1>...</elem_1>Some text between elements<elem_2>...</elem_2></list>]]>
+								</c>
+								<p>the <c>content</c> field will be contain the array:</p>
+								<l>
+									<i>item 0: <c>XML.Element</c> containing "elem_1" tag and child elements;</i>
+									<i>item 1: string "Some text between elements";</i>
+									<i>item 2: <c>XML.Element</c> containing "elem_2" tag and child elements.</i>
+								</l>
+							</h>
+						</s>
+						<s name="Methods">
+							<m name="toString" descr="Converts XML tree to a string.">
+								<a name="indent" type="String" descr="If specified, this indentation will be added before each child element, for better readability of the document. If not specified, a compact document will be generated without indentation."/>
+							</m>
+							<p>For example, let's сreate a simple XML tree:</p>
+							<c><![CDATA[
+								<root>
+									<first>Data of the first element</first>
+									<second/>
+									<third>
+										<child>Data of the child element</child>
+									</third>
+								</root>]]>
+							</c>
+							<p>To do this, write the following code:</p>
+							<c><![CDATA[
+								import "xml.goat";
+
+								var root = XML.parse("<root><first>Data of the first element</first><second/><third><child>Data of the child element</child></third></root>");]]>
+							</c>
+							<p>Now convert the tree back into a string without indentation:</p>
+							<c>print(root.toString());</c>
+							<p>Output is:</p>
+							<c><![CDATA[
+								<root><first>Data of the first element</first><second/><third><child>Data of the child element</child></third></root>]]>
+							</c>
+							<p>Сonvert the tree to a string again, but indented into two spaces:</p>
+							<c>print(root.toString("  "));</c>
+							<p>Output is:</p>
+							<c><![CDATA[
+								<root>
+								  <first>Data of the first element</first>
+								  <second/>
+								  <third>
+									<child>Data of the child element</child>
+								  </third>
+								</root>]]>
+							</c>
+							<p>Indentation can be not only spaces but also any other characters. Now let's try an indent, consisting of a vertical line and space (<c>| </c>):</p>
+							<c>print(root.toString("| "));</c>
+							<p>Output is:</p>
+							<c><![CDATA[
+								<root>
+								| <first>Data of the first element</first>
+								| <second/>
+								| <third>
+								| | <child>Data of the child element</child>
+								| </third>
+								</root>]]>
+							</c>
+						</s>
+					</s>
+					<s name="XML.Error">
+						<p>The class contains a description of the error that occurred in the case of parsing a non-valid document.</p>
+						<p>Consists of two fields:</p>
+						<h name="type">
+							<p>Error type, string. The parser usually selects the type of error from the predefined set of strings:</p>
+							<c><![CDATA[
+								XML.Error.INVALID_TOKEN : "invalid token",
+								XML.Error.EXPECTED_TAG_NAME : "expected tag name",
+								XML.Error.UNEXPECTED_END : "unexpected end",
+								XML.Error.END_TAG_MISMATCH : "end tag does not match the start tag",
+								XML.Error.UNCLOSED_END_TAG : "end element was missing the character \'>\'",
+								XML.Error.MISSING_EQUALS : "missing \'=\' sign between attribute and attribute value",
+								XML.Error.MISSING_STRING : "a string literal was expected",
+								XML.Error.DUPLICATE_ATTRIBUTE : "duplicate attribute",
+								XML.Error.UNKNOWN_ENTITY : "unknown entity",
+								XML.Error.INVALID_CHARACTER : "invalid character",
+								XML.Error.EXPECTED_CDATA_SEQUENCE : "expected <![CDATA[ sequence"]]>
+							</c>
+						</h>
+						<h name="index">
+							<p>Integer, the character number (index) in the source line on which the error occurred.</p>
+						</h>
+					</s>
+				</s>
+				<s name="Methods">
+					<m name="parse" descr="Parse the string and returns an XML tree.">
+						<a name="str" type="String" descr="the source string"/>
+						<e><![CDATA[
+							import "xml.goat";
+
+							var root = XML.parse("<root><item>Data of the item</item></root>");]]>
+						</e>
+						<n>If XML document is not valid, throws <c>XML.Error</c> exception. If valid, returns <c>XML.Element</c> object contains root element.</n>
+					</m>
+				</s>
+			</s>
 		</s>
 	</s>
 	
