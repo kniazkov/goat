@@ -3218,6 +3218,93 @@
 					</s>
 				</s>
 			</s>
+			<s name="Timer">
+				<p>The <b>Timer</b> class measures time intervals. At the end of the interval, a function (callback) is called. The <c>setTimer()</c> method calls a function once; the <c>setInterval()</c> method calls periodically. Also, the <c>Timer</c> class has several auxiliary classes for determining time intervals.</p>
+				<s name="Classes">
+					<s name="Timer.Duration">
+						<p>Base class for determining time intervals. Has a method:</p>
+						<m name="getNanoseconds" descr="Returns the time interval, converted to nanoseconds."/>
+					</s>
+					<s name="Timer.Nanoseconds">
+						<p>Derived from <c>Timer.Duration</c>, determine the time interval in nanoseconds.</p>
+						<c><![CDATA[
+							import "timer.goat"
+							
+							var d = new Timer.Nanoseconds(50); // determine 50 nanoseconds
+							]]>
+						</c>
+					</s>
+					<s name="Timer.Microseconds">
+						<p>Derived from <c>Timer.Duration</c>, determine the time interval in microseconds.</p>
+					</s>
+					<s name="Timer.Milliseconds">
+						<p>Derived from <c>Timer.Duration</c>, determine the time interval in milliseconds.</p>
+					</s>
+					<s name="Timer.Seconds">
+						<p>Derived from <c>Timer.Duration</c>, determine the time interval in seconds.</p>
+					</s>
+					<s name="Timer.Minutes">
+						<p>Derived from <c>Timer.Duration</c>, determine the time interval in minutes.</p>
+					</s>
+					<s name="Timer.Hours">
+						<p>Derived from <c>Timer.Duration</c>, determine the time interval in hours.</p>
+					</s>
+					<s name="Timer.Interval">
+						<p>An object returned from <c>setInterval()</c> method.</p>
+						<s name="Methods">
+							<m name="stop" descr="Stops a periodic function call."/>
+						</s>
+						<s name="Fields">
+							<h name="ticks">
+								<p>Integer. The number of triggered calls, that is, how many times the function was called.</p>
+							</h>
+							<h name="skipped">
+								<p>Integer. The number of skips.</p>
+								<p>If the setInterval() method does not have time to process the previous function call until the next call, the next call of the function is skipped.</p>
+							</h>
+						</s>
+					</s>
+				</s>
+				<s name="Methods">
+					<p>The ability to measure small (up to nanosecond) time intervals always depends on the particular platform on which the interpreter runs.</p>
+					<m name="setTimer" descr="Calls the function (callback) once after a determined time has elapsed.">
+						<a name="callback" type="Function" descr="a function"/>
+						<a name="duration" type="Timer.Duration" descr="a duration (Timer.Seconds, Timer.Milliseconds etc.)"/>
+						<n>The function is called in a separate thread. It runs concurrently with the main thread of the program. May need to synchronize (mutexes, etc.) when accessing some data.</n>
+						<e><![CDATA[
+							import "timer.goat";
+
+							print("begin... ");
+
+							Timer.setTimer($() {
+								print("done!");
+							}, new Timer.Seconds(5));]]>
+						</e>
+					</m>
+					<m name="setInterval" descr="Calls the function (callback) periodically.">
+						<a name="callback" type="Function" descr="a function"/>
+						<a name="interval" type="Timer.Duration" descr="an interval (Timer.Seconds, Timer.Milliseconds etc.)"/>
+						<n>The function is called in a separate thread. The <c>setInterval()</c> method tries to call a function (callback) at regular intervals. Namely, <b>the moments of the beginning of a function call</b> are located approximately at regular intervals. If the <c>setInterval()</c> method does not have time to process the previous function call until the next call, the next call of the function is skipped. </n>
+						<e><![CDATA[
+							import "timer.goat";
+
+							print("begin...\n");
+
+							var c = 0;
+							var i = Timer.setInterval($() {
+								print("" + c + "\n");
+								c++;
+							}, new Timer.Seconds(1));
+
+							while(c < 10) {
+								// wait for 10 seconds
+							}
+
+							i.stop();]]>
+						</e>
+					</m>
+				</s>
+			</s>
 		</s>
 	</s>
 	
