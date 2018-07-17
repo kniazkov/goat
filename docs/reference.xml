@@ -3179,7 +3179,43 @@
 					</s>
 				</s>
 				<s name="Iterator">
-					<p>All about iterators.</p>
+					<p>An iterator is an object that enables to traverse a container. Each container inherits <c>Iterable</c> object which has <c>iterator()</c> method. This method returns an iterator object which points to the first item of the container (or points to nothing if the container is empty). An iterator object has methods for reading/writing data and also has <c>next()</c> method to move to next item. Each container implements its iterator, which has the above methods. Thus, regardless of the container (stack, list, etc.), we have a universal way to traverse a container and get/modify data.</p>
+					<s name="Methods">
+						<m name="valid">
+							<d>Returns <c>true</c> if the iterators is valid (i.e. points to an item of the container) and <c>false</c> otherwise.</d>
+						</m>
+						<m name="next" descr="Moves to the next container element."/>
+						<m name="read" descr="Returns value of the current item.">
+							<n>If the iterator is not valid, throws <c>Exception.InvalidOperation</c> exception.</n>
+						</m>
+						<m name="write" descr="Write (replace) value of the current item.">
+							<a name="val" type="any type" descr="a value"/>
+							<n>If the iterator is not valid, throws <c>Exception.InvalidOperation</c> exception.</n>
+						</m>
+						<m name="iterator" descr="Returns an iterator pointing to the beginning of the stack."/>
+					</s>
+					<s name="Example">
+						<p>Code:</p>
+						<c><![CDATA[
+							import "stack.goat";
+
+							var s = new Stack();
+
+							for (var v = 0; v < 5; v++)
+								s.push(v);
+
+							for (var i = s.iterator(); i.valid(); i.next())
+								print("" + i.read() + "\n");]]>
+						</c>
+						<p>Output:</p>
+						<c><![CDATA[
+							4
+							3
+							2
+							1
+							0]]>
+						</c>
+					</s>
 				</s>
 			</s>
 		</s>
