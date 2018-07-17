@@ -2891,6 +2891,70 @@
 				<p>Each object of built-in type (string, integer etc) has own built-in prototype.</p>
 			</s>
 		</s>
+		<s name="Threads">
+			<p>The Goat programming language supports threads. A thread of execution is the smallest sequence of programmed instructions that  managed independently by a scheduler. In other words, thread is the ability to execute two or more sections of code at the same time.</p>
+			<p>Each running program contains at least one thread. Goat does not separate the "main" and "non-main" threads - each thread can initiate a new thread, and each thread can stop execution of another thread (if it has a pointer to this). The program ends only when all threads are completed.</p>
+			<s name="Threads declaration">
+				<p>Threads are declared in the same way as functions, but the <c>thread</c> keyword is used instead of the <c>function</c> keyword:</p>
+				<c><![CDATA[
+					var a = thread() {
+						for (var i = 0; i < 10; i++)
+							print('A');
+					};]]>
+				</c>
+			</s>
+			<s name="Starting">
+				<p>To start a thread, need to call the <c>run()</c> method:</p>
+				<c><![CDATA[
+					var a = thread() {
+						for (var i = 0; i < 10; i++)
+							print('A');
+					};
+					
+					a.run();]]>
+				</c>
+				<p>Output:</p>
+				<c>AAAAAAAAAA</c>
+				<p>You can not re-run a thread that is already in progress.</p>
+				<p>You can run two, three, as many threads as you need, and they will run at the same time:</p>
+				<c><![CDATA[
+					var a = thread() {
+						for (var i = 0; i < 10; i++)
+							print('A');
+					};
+
+					var b = thread() {
+						for (var i = 0; i < 10; i++)
+							print('B');
+					};
+
+					a.run();
+					b.run();]]>
+				</c>
+				<p>The output is something like this:</p>
+				<c>ABABABABABABABABABAB</c>
+				<p>Note: there is no guarantee of the order of execution of threads. The result may well be:</p>
+				<c>AABBBAAAABABBAABABAB</c>
+				<p>It is guaranteed that every thread will be executed from beginning to end.</p>
+			</s>
+			<s name="Stopping">
+				<p>The running thread can be stopped by the <c>stop()</c> method:</p>
+				<c><![CDATA[
+					var b = thread() {
+						// this thread will never end if it does not stop!
+						while(true)
+							print('B');
+					};
+
+					b.run();
+					for (var i = 0; i < 10; i++)
+						print('A');
+					b.stop();]]>
+				</c>
+				<p>The output is something like this:</p>
+				<c>BBABBABBABBBABBABBABBBABBABBABBBABB</c>
+			</s>
+		</s>
 	</s>
 	
 	<s name="Standard library">
