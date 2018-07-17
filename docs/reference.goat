@@ -431,9 +431,9 @@ try {
 	var style = new XML.Element("style");
 	head.content.push(style);
 	style.content.push("body { font-family: Barlow Semi Condensed, sans-serif; font-size: 12pt; -webkit-text-size-adjust: 200%;}");
-	style.content.push(".code { font-family: Inconsolata, monospace; font-size: 12pt; padding-top: 10px; margin-left: 30px; }");
+	style.content.push(".code { font-family: Inconsolata, monospace; font-size: 12pt; padding-top: 10px; margin-left: 25px; }");
 	style.content.push("a { color: blue; text-decoration: underline;}");
-	style.content.push(".section { margin-left: 30px; }");
+	style.content.push(".section { border-left: 1px dotted rgb(221, 250, 177); padding-left: 25px; }");
 	style.content.push(".para { padding-top: 10px; margin-top: 0px; margin-bottom: 0px}");
 	style.content.push(".header { font-weight: bold; padding-top: 15px;}");
 	style.content.push(".inline { font-family: Inconsolata, monospace; font-size: 12pt; background-color: lemonchiffon; padding: 1px 2px 0px 2px; white-space: nowrap}");
