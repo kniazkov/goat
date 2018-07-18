@@ -883,7 +883,7 @@
 					</r>
 					<r>
 						<c>6</c>
-						<c><c>&gt;</c></c>
+						<c><c>&gt;=</c></c>
 						<c>Greater than or equal</c>
 						<c><c>x &gt;= y</c></c>
 					</r>
@@ -2874,6 +2874,44 @@
 					1000]]>
 				</c>
 			</s>
+			<s name="Operator overloading">
+				<p>Operators can be redefined. From the point of view of the interpreter, the operator is no different from the usual method. The method that defines the operator has the same name as the operator itself. Let's consider an example:</p>
+				<c><![CDATA[
+					var Vector = {
+						init : $(x, y) {
+							this.x = x; this.y = y
+						},
+						toString : $() {
+							return "X: " + x + ", Y: " + y;
+						},
+						"+" : $(vec) {
+							return new Vector(x + vec.x, y + vec.y);
+						},
+						"*" : $(val) {
+							return new Vector(x * val, y * val);
+						}
+					};
+
+					var v1 = new Vector(100, 200);
+					var v2 = new Vector(200, 400);
+
+					var v3 = v1 + v2;
+					print(v3.toString() + "\n");
+
+					var v4 = v1 * 5;
+					print(v4.toString() + "\n");
+					]]>
+				</c>
+				<p>Output:</p>
+				<c><![CDATA[
+					X: 300, Y: 600
+					X: 500, Y: 1000]]>
+				</c>
+				<p>In the example above, the class "Vector" is described. A vector is a complex data structure. Vectors can be added, a vector can be multiplied by a number. Therefore, for this structure, two operators are defined: <c>+</c> and <c>*</c>. Each operator returns a new vector as the result of an operation of addition or multiplication.</p>
+				<p>How it works. When the interpreter processes a binary operator, it finds the corresponding method at the <b>left</b> operand and calls this method, passing the <b>right</b> operand as the parameter. The result of the operation is the return value of the method. In the case of a unary operator, the method is called without parameters.</p>
+				<p>Unary operators: <c>++</c>, <c>--</c>, <c>!</c>, <c>~</c>, <c>+</c>, <c>-</c>, and binary operators <c>+</c>, <c>-</c>, <c>*</c>, <c>/</c>, <c>%</c>, <c>&lt;&lt;</c>, <c>&gt;&gt;</c>, <c>&gt;&gt;&gt;</c>, <c>&amp;</c>, <c>^</c>, <c>|</c>, <c>&lt;</c>, <c>&lt;=</c>, <c>&gt;</c>, <c>&gt;=</c>, <c>&amp;&amp;</c>, <c>||</c> can be overloaded.</p>
+				<p>Operators "Assign by" (<c>+=</c>, <c>*=</c>, etc.) can be overloaded also.</p>
+			</s>
 			<s name="Multiple inheritance">
 				<p>Objects in the Goat programming language can have more than one prototype. In this case, the resulting object will contain all the properties and methods of all parents:</p>
 				<c><![CDATA[
@@ -3040,7 +3078,27 @@
 				<c>{x:15,y:20,z:30}</c>
 			</s>
 			<s name="Prototypes of built-in types">
-				<p>Each object of built-in type (string, integer etc) has own built-in prototype.</p>
+				<p>Each object of built-in type (string, integer etc) has own built-in prototype:</p>
+				<l>
+					<i><c>String</c> is the prototype for strings. Every time you define a string, for example, <c>var s = "hello, world"</c> you create a new object that has the <c>String</c> prototype;</i>
+					<i><c>Integer</c> is the prototype for integers;</i>
+					<i><c>Real</c> is the prototype for floating-point numbers;</i>
+					<i><c>Char</c> is the prototype for characters;</i>
+					<i><c>Boolean</c> is the prototype for booleans;</i>
+					<i><c>Null</c> is the prototype for <c>null</c> constant;</i>
+					<i><c>Array</c> is the prototype for all arrays;</i>
+					<i>functions are also objects! Each time you declare a function, for example, <c>var f=$(){ }</c> an object is created, the prototype of which is <c>Function</c>.</i>
+				</l>
+				<p>Other prototypes of built-in classes are: <c>Thread</c>, <c>Exception</c>, <c>File</c>, <c>StringBuilder</c>, <c>ByteArray</c>.</p>
+				<p>Each prototype has, respectively, its properties, methods, and operators. For example, strings have a predefined <c>+</c> operator, which allows to concatenate strings.</p>
+				<p>Using a prototype, you can check whether the object is the right data type. Here is an example of a function, at the beginning of which it is checked whether the argument is an integer:</p>
+				<c><![CDATA[
+					var f = $(value) {
+						if (value.instanceOf(Integer)) {
+							//...
+						}
+					};]]>
+				</c>
 			</s>
 		</s>
 		<s name="Threads">
