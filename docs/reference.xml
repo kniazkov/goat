@@ -1,5 +1,5 @@
 <goat>
-	<v value="0.2 &quot;Goatling&quot;"/>
+	<v value="0.3 &quot;Pretty fly&quot;"/>
 	<s name="Introduction">
 		<p><b>Goat</b> is a high-level, dynamic, weakly typed, prototype-based, multi-paradigm, and interpreted programming language, based on JavaScript. It supports the basic functionality of JavaScript, but in addition, it adds support for multithreading, multiple inheritance, operator overloading (all as in C ++), simplified syntax, and so on.</p>
 		<p>Why "Goat"? At first, I wanted to name this programming language as "Go", but unfortunately, some little-known company (it seems "Google" or something like that) has already developed a programming language with that name. After a while, when I tried to create the first version of this interpreter on a laptop, lying in a hammock, I was suddenly bitten by my goat. I thought once the name "Go" is occupied, so perhaps the name "Goat" is no worse. I immediately renamed the project folder to this name and since then it has not changed.</p>
