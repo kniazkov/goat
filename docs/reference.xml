@@ -2940,7 +2940,29 @@
 				<p><b>Be careful with multiple inheritance.</b> Sometimes this type of inheritance is very useful, but misuse can lead to errors.</p>
 			</s>
 			<s name="The 'instanceOf' method">
-				<p>The method checks whether there is an object passed as an argument in the prototype chain.</p>
+				<p>The method checks whether there is an object passed as an argument in the prototype chain. This is a way to determine if an object is instantiated from a specific prototype.</p>
+				<p>Each object has the <c>instanceOf</c> method.</p>
+				<p>Consider this code:</p>
+				<c><![CDATA[
+					var A = { };
+					var B = A -> { };
+					var C = A -> { };
+
+					var X = new A();
+					var Y = new B();
+					var Z = new C();]]>
+				</c>
+				<p>So,</p>
+				<l>
+					<i><c>X.instanceOf(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>X</c>;</i>
+					<i>but <c>X.instanceOf(B)</c> and <c>X.instanceOf(C)</c> returns <c>false</c> because objects <c>B</c> and <c>C</c> are not prototypes of object <c>X</c>;</i>
+					<i><c>Y.instanceOf(B)</c> returns <c>true</c> because object <c>B</c> is a prototype of object <c>Y</c>;</i>
+					<i><c>Y.instanceOf(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>B</c> and object <c>B</c> is a prototype of object <c>Y</c>;</i>
+					<i><c>Y.instanceOf(C)</c> returns <c>false</c> because object <c>C</c> is not prototypes of object <c>Y</c>;</i>
+					<i><c>Z.instanceOf(C)</c> returns <c>true</c> because object <c>C</c> is a prototype of object <c>Z</c>;</i>
+					<i><c>Z.instanceOf(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>C</c> and object <c>C</c> is a prototype of object <c>Z</c>;</i>
+					<i><c>Z.instanceOf(B)</c> returns <c>false</c> because object <c>B</c> is not prototype of object <c>Z</c>.</i>
+				</l>
 			</s>
 			<s name="The 'clone' method">
 				<p>Returns a clone of the object, that is, a new object in which all properties are the same as in the source object.</p>
