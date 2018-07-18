@@ -2966,10 +2966,78 @@
 			</s>
 			<s name="The 'clone' method">
 				<p>Returns a clone of the object, that is, a new object in which all properties are the same as in the source object.</p>
-				<p><b>Do not use <c>clone</c> method, inherit an object instead!</b> Cloning is a very expensive operation, due to the need to copy each field.</p>
+				<p>Each object has the <c>clone</c> method.</p>
+				<p>The method creates a new object and then copies all the properties and methods from the original object to the new one. Now, if you change the copy, the original object will remain unchanged:</p>
+				<c><![CDATA[
+					var original = {
+						x : 10,
+						y : 20,
+						z : 30
+					};
+
+					var copy = original.clone();
+
+					copy.y = 100;
+
+					print(original);
+					print(copy);]]>
+				</c>
+				<p>Output:</p>
+				<c>{x:10,y:20,z:30}{x:10,y:100,z:30}</c>
+				<p><b>If possible, do not use <c>clone</c> method, inherit an object instead!</b> Cloning is a very expensive operation, due to the need to copy each field.</p>
 			</s>
 			<s name="The 'flat' method">
 				<p>Returns a flat object, that is, an object that contains all the properties of the source object, as well as all properties of all prototypes of the source object.</p>
+				<p>Each object has the <c>flat</c> method.</p>
+				<p>The method creates a new object and then copies all the properties and methods from the original object and from all prototypes of the original object. Thus, a new object has no prototypes but has all data from the original object:</p>
+				<c><![CDATA[
+					var A = {
+						x : 10
+					};
+
+					var B = A -> {
+						y : 20
+					};
+
+					var C = B-> {
+						z : 30
+					};
+
+					var F = C.flat();
+
+					print(F);]]>
+				</c>
+				<p>Output:</p>
+				<c>{x:10,y:20,z:30}</c>
+				<p>The new object is, as it were, "flat", the same as if it were declared thus:</p>
+				<c><![CDATA[
+					var F = {
+						x : 10,
+						y : 20,
+						z : 30
+					};]]>
+				</c>
+				<p>Note that the copying is done starting from the very "deep" prototype. Thus, if somewhere in the chain of prototypes some property was redefined, then the "flat" object will contain an overridden property:</p>
+				<c><![CDATA[
+					var A = {
+						x : 10
+					};
+
+					var B = A -> {
+						x : 15, // overrided
+						y : 20
+					};
+
+					var C = B-> {
+						z : 30
+					};
+
+					var F = C.flat();
+
+					print(F);]]>
+				</c>
+				<p>Output:</p>
+				<c>{x:15,y:20,z:30}</c>
 			</s>
 			<s name="Prototypes of built-in types">
 				<p>Each object of built-in type (string, integer etc) has own built-in prototype.</p>
