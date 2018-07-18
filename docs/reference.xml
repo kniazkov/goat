@@ -2875,7 +2875,69 @@
 				</c>
 			</s>
 			<s name="Multiple inheritance">
-				<p>Objects in the Goat programming language can have more than one prototype.</p>
+				<p>Objects in the Goat programming language can have more than one prototype. In this case, the resulting object will contain all the properties and methods of all parents:</p>
+				<c><![CDATA[
+					var Animal = {
+						eat : $() {
+							print("'eat' method is called\n");
+						}
+					};
+
+					var Mammal = Animal -> {
+						drinkMilk : $() {
+							print("'drinkMilk' method is called\n");
+						}
+					};
+
+					var WingedAnimal = Animal -> {
+						flap : $() {
+							print("'flap' method is called\n");
+						}
+					};
+
+					// A bat is a winged mammal
+					var Bat = [Mammal, WingedAnimal] -> {
+
+					};
+
+					var bat = new Bat();
+					bat.flap();
+					bat.drinkMilk();
+					bat.eat();]]>
+				</c>
+				<p>Output:</p>
+				<c><![CDATA[
+					'flap' method is called
+					'drinkMilk' method is called
+					'eat' method is called]]>
+				</c>
+				<p>There is one problem that is called the "diamond problem". Consider this structure of inheritance:</p>
+				<c><![CDATA[
+					var A = {
+						alpha : 1
+					};
+
+					var B = A -> {
+						beta : 2
+					};
+
+					var C = A -> {
+						beta : 3
+					};
+
+					var D = [B, C] -> {
+						gamma : 4
+					};
+
+					var d = new D();
+
+					print(d.alpha);
+					print(d.beta);
+					print(d.gamma);]]>
+				</c>
+				<p>The <c>D</c> objects inherits from <c>B</c> and <c>D</c>. But both <c>B</c> and <c>C</c> objects have the <c>beta</c> property, in <c>B</c> object the property equals 2, in <c>C</c> object property equals 3. So, what is the value of the <c>d.beta</c> property? 2 or 3? The correct answer is 2.</p>
+				<p>The interpreter uses depth search. If he did not find a property in the object, it first explores the properties of the first (left) prototype, and then all the prototypes of this prototype (<c>D-&gt;B-&gt;A</c>). And only then the next chain of prototypes is explored (<c>D-&gt;C-&gt;A</c>).</p>
+				<p><b>Be careful with multiple inheritance.</b> Sometimes this type of inheritance is very useful, but misuse can lead to errors.</p>
 			</s>
 			<s name="The 'instanceOf' method">
 				<p>The method checks whether there is an object passed as an argument in the prototype chain.</p>
