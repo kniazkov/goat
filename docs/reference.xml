@@ -2798,6 +2798,204 @@
 					print(B.x); // output: 777]]>
 				</c>
 			</s>
+			<s name="The 'new' operator">
+				<p>The <c>new</c> operator creates a new object from the prototype and then calls a special method - constructor to initialize the object.</p>
+				<c><![CDATA[
+					// declare the class:
+					var Vector = { 
+						x : 0,
+						y : 0
+					};
+					
+					// create the object using the 'new' operator
+					var v = new Vector();]]>
+				</c>
+				<p>In the simplest case, as in the example above, this operation is completely analogous to the inheritance from the prototype:</p>
+				<c>var v = Vector -&gt; { };</c>
+				<p>But, in addition to inheritance, the <c>new</c> operator calls a chain of constructors.</p>
+				<s name="Constructor">
+					<p>A constructor is a method named <c>init</c>.</p>
+					<c><![CDATA[
+						// declare the class:
+						var Vector = { 
+							init : $() {
+								this.x = 0;
+								this.y = 0;
+							}
+						};
+						
+						// create the object using the 'new' operator
+						var v = new Vector();]]>
+					</c>
+					<p>Output:</p>
+					<c>{x:0,y:0}</c>
+					<p>Note that in the first example (without the constructor), the <c>x</c> and <c>y</c> variables  do not belong to the new object, but to the prototype. In the new example, the variables are created each time the object is created by the <c>new</c> operator, and these variables belong to the object.</p>
+					<p>Where can this be useful? This is necessary in cases where each object must have its own independent data set.</p>
+					<p>Let's consider another example. Say there is some "Dictionary" class that stores values in an associative array:</p>
+					<c><![CDATA[
+						var Dictionary = { 
+							data : {},
+							
+							add : $(english, french) {
+								data[english] = french;
+							}
+						};
+						
+						// create the first dictionary
+						var d1 = new Dictionary();
+						d1.add("red", "rouge");
+						d1.add("green", "vert");
+						
+						// create the second dicrionary
+						var d2 = new Dictionary();
+						d2.add("blue", "bleu");
+						d2.add("black", "noir");
+						
+						// read the data from the first dictionary:
+						print(d1.data);]]>
+					</c>
+					<p>Will this work? No. The output is:</p>
+					<c>{"red":"rouge","green":"vert","blue":"bleu","black":"noir"}</c>
+					<p>The resulting object contains data from both the first and second dictionary. Why? Because the <c>d.data</c> object  does not belong to <c>d1</c> object, but belongs to its prototype, that is, both objects <c>d1</c> and <c>d2</c> have access to it. But this is wrong. Each dictionary instance must have its own object for data storage. You can create this object in the constructor:</p>
+					<c><![CDATA[
+						var Dictionary = { 
+							init : $() {
+								this.data = {};
+							},
+							
+							add : $(english, french) {
+								data[english] = french;
+							}
+						};
+						
+						// create the first dictionary
+						var d1 = new Dictionary();
+						d1.add("red", "rouge");
+						d1.add("green", "vert");
+						
+						// create the second dicrionary
+						var d2 = new Dictionary();
+						d2.add("blue", "bleu");
+						d2.add("black", "noir");
+						
+						// read the data from the first dictionary:
+						print(d1.data);]]>
+					</c>
+					<p>Now it's right:</p>
+					<c>{"red":"rouge","green":"vert"}</c>
+					<p>So, constructors are needed to initialize objects, so that each instance of a class, created using the <c>new</c> operator, contains its unique data.</p>
+				</s>
+				<s name="Constructor with parameters">
+					<p>An <c>init</c> method can have parameters that are passed to it as arguments of the <c>new</c> operator:</p>
+					<c><![CDATA[
+						var Vector = {
+							init : $(x, y) {
+								this.x = x;
+								this.y = y;
+							}
+						};
+
+						var v = new Vector(10, 20);
+
+						print(v);
+						]]>
+					</c>
+					<p>Output:</p>
+					<c>{x:10,y:20}</c>
+					<p>So, the parameterized constructor allows initializing an object using the data passed as parameters.</p>
+				</s>
+				<s name="Constructors chain">
+					<p>Consider a chain of prototypes, with each prototype containing an <c>init</c> method:</p>
+					<c><![CDATA[
+						var A = {
+							init : $() {
+								this.x = 1;
+							}
+						};
+
+						var B = A -> {
+							init : $() {
+								this.y = 2;
+							}
+						};
+
+						var C = B -> {
+							init : $() {
+								this.z = 3;
+							}
+						};
+
+						var obj = new C();
+
+						print(obj);]]>
+					</c>
+					<p>Output:</p>
+					<c>{x:1,y:2,z:3}</c>
+					<p>As you can see, all three constructors were called, because the resulting object contains all three variables.</p>
+					<p>How it works. If the prototype chain contains prototypes that have an <c>init</c> method, then the <c>new</c>operator calls these methods one by one, starting from the "deepest" prototype.</p>
+					<p>In the example above, the <c>init</c> method of object <c>A</c> will be called first, then the <c>init</c> method of object <c>B</c>, then the <c>init</c> method of object <c>C</c>.</p>
+					<p>This order of calling constructors allows you to correctly initialize the object. Let's try to change the value of the variable in the last constructor:</p>
+					<c><![CDATA[
+						var A = {
+							init : $() {
+								this.x = 1;
+							}
+						};
+
+						var B = A -> {
+							init : $() {
+								this.y = 2;
+							}
+						};
+
+						var C = B -> {
+							init : $() {
+								x = 7;
+								this.z = 3;
+							}
+						};
+
+						var a = new A();
+						var b = new B();
+						var c = new C();
+
+						print("" + a + "\n" + b + "\n" + c);
+						]]>
+					</c>
+					<p>Output:</p>
+					<c><![CDATA[
+						{x:1}
+						{x:1,y:2}
+						{x:7,y:2,z:3}]]>
+					</c>
+					<p>You see? Each subsequent constructor in the chain complements the object initialization. During this, of course, the results of the work of the previous constructor can be changed.</p>
+				</s>
+				<s name="Passing parameters to the constructors chain">
+					<p>When passing parameters through the <c>new</c> operator, all parameters are passed only to the first constructor:</p>
+					<c><![CDATA[
+						var A = {
+							init : $() {
+								this.x = 10;
+							}
+						};
+
+						var B = A -> {
+							init : $(y, z) {
+								this.y = y;
+								this.z = z;
+							}
+						};
+
+						var obj = new B(20, 30);
+
+						print(obj);
+						]]>
+					</c>
+					<p>Output:</p>
+					<c>{x:10,y:20,z:30}</c>
+					<p>All remaining constructors in the chain are called without parameters.</p>
+				</s>
+			</s>
 			<s name="Overriding">
 				<p>You can override properties (fields and methods) in children objects.</p>
 				<p>Method overriding, in Goat programming language, is a language feature that allows a subobject to provide a specific implementation of a method that is already provided by one of its prototypes. The implementation in the subobject overrides (replaces) the implementation in the prototype by providing a method that has the same name as the method in the prototype. The version of a method that is executed will be determined by the object that is used to invoke it.</p>
