@@ -226,4 +226,15 @@ namespace goat {
 		};
 	};
 
+	class PrototypeIsNotDefined : public ObjectException {
+	public:
+		PrototypeIsNotDefined();
+		WideString toWideString() override;
+
+		class Proto : public ObjectException {
+		public:
+			Proto();
+			static Object *getInstance();
+		};
+	};
 }

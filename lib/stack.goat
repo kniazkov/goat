@@ -44,7 +44,9 @@ var Stack = Iterable -> {
 		if (top == null)
 			throw new StackIsEmpty();
 		var val = top.val;
-		top = top.next;
+		var old = top;
+		top = old.next;
+		old.next = null;
 		return val;
 	},
 	

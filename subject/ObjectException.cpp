@@ -58,6 +58,7 @@ namespace goat {
 		objects.insert("IllegalArgument", IllegalArgument::Proto::getInstance());
 		objects.insert("NotImplemented", NotImplemented::Proto::getInstance());
 		objects.insert("InvalidOperation", InvalidOperation::Proto::getInstance());
+		objects.insert("PrototypeIsNotDefined", PrototypeIsNotDefined::Proto::getInstance());
 	}
 
 	Object * ObjectException::Proto::getInstance() {
@@ -349,6 +350,25 @@ namespace goat {
 	}
 
 	Object * InvalidOperation::Proto::getInstance() {
+		static Proto __this;
+		return &__this;
+	}
+
+
+	PrototypeIsNotDefined::PrototypeIsNotDefined() {
+		proto.pushBack(Proto::getInstance());
+	}
+
+	WideString PrototypeIsNotDefined::toWideString() {
+		return L"prototype is not defined";
+	}
+
+	PrototypeIsNotDefined::Proto::Proto() {
+		status = PERMANENT;
+		proto.pushBack(ObjectException::Proto::getInstance());
+	}
+
+	Object * PrototypeIsNotDefined::Proto::getInstance() {
 		static Proto __this;
 		return &__this;
 	}

@@ -78,6 +78,8 @@ namespace goat {
 		case CREATE_OBJECT:
 			return expr->fcall->func->createState(this);
 		case INIT_OBJECT:
+			if (!retObj)
+				return throw_(new PrototypeIsNotDefined());
 			if (index < chain.len()) {
 				Object *init = chain[index];
 				ObjectFunction *objf = init->toObjectFunction();
@@ -120,6 +122,7 @@ namespace goat {
 	void New::StateImpl::ret(Object *obj) {
 		switch (step) {
 			case CREATE_OBJECT: {
+				step = INIT_OBJECT;
 				Object *proto = obj;
 				if (!proto) {
 					return;
@@ -138,7 +141,6 @@ namespace goat {
 					retObj->proto[0] = proto;
 				}
 				proto->findUnique(Resource::init, &chain);
-				step = INIT_OBJECT;
 				return;
 			}
 			case GET_ARGUMENTS:
