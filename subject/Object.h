@@ -46,6 +46,7 @@ namespace goat {
 	class ObjectBoolean;
 	class ObjectChar;
 	class ObjectNull;
+	class ObjectUndefined;
 	class ObjectFile;
 	class ObjectStringBuilder;
 	class ObjectByteArray;
@@ -83,6 +84,11 @@ namespace goat {
 		void mark();
 		void mark_2();
 		virtual void trace();
+	private:
+		Object *find_(String key);
+		Object *find_(WideString key);
+		Object *find_(Object *key);
+	public:
 		Object *find(String key);
 		Object *find(WideString key);
 		Object *find(Object *key);
@@ -113,6 +119,7 @@ namespace goat {
 		virtual ObjectBoolean *toObjectBoolean();
 		virtual ObjectChar *toObjectChar();
 		virtual ObjectNull *toObjectNull();
+		virtual ObjectUndefined *toObjectUndefined();
 		virtual ObjectFile *toObjectFile();
 		virtual ObjectStringBuilder *toObjectStringBuilder();
 		virtual ObjectByteArray * toObjectByteArray();

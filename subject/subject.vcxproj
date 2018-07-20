@@ -82,6 +82,7 @@
     <ClCompile Include="ObjectString.cpp" />
     <ClCompile Include="ObjectStringBuilder.cpp" />
     <ClCompile Include="ObjectThread.cpp" />
+    <ClCompile Include="ObjectUndefined.cpp" />
     <ClCompile Include="Operator.cpp" />
     <ClCompile Include="Pair.cpp" />
     <ClCompile Include="Parser.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="ObjectString.h" />
     <ClInclude Include="ObjectStringBuilder.h" />
     <ClInclude Include="ObjectThread.h" />
+    <ClInclude Include="ObjectUndefined.h" />
     <ClInclude Include="Operator.h" />
     <ClInclude Include="OutputStream.h" />
     <ClInclude Include="Pair.h" />

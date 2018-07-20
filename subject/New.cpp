@@ -124,7 +124,7 @@ namespace goat {
 			case CREATE_OBJECT: {
 				step = INIT_OBJECT;
 				Object *proto = obj;
-				if (!proto) {
+				if (proto->toObjectUndefined()) {
 					return;
 				}
 				if (proto == ObjectInteger::Proto::getInstance()) {

@@ -32,6 +32,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectChar.h"
 #include "ObjectReal.h"
 #include "ObjectNull.h"
+#include "ObjectUndefined.h"
 #include "ObjectFile.h"
 #include "ObjectStringBuilder.h"
 #include "ObjectByteArray.h"
@@ -89,6 +90,7 @@ namespace goat {
 		s->objects.insert("Thread", ObjectThread::Proto::getInstance());
 		s->objects.insert("Real", ObjectReal::Proto::getInstance());
 		s->objects.insert("Null", ObjectNull::getInstance());
+		s->objects.insert("Undefined", ObjectUndefined::getInstance());
 		s->objects.insert("File", ObjectFile::Proto::getInstance());
 		s->objects.insert("StringBuilder", ObjectStringBuilder::Proto::getInstance());
 		s->objects.insert("ByteArray", ObjectByteArray::Proto::getInstance());
@@ -148,7 +150,7 @@ namespace goat {
 		ObjectArray * args = scope->arguments;
 		if (args->vector.len() > 0) {
 			Object *obj = args->vector[0];
-			return new ObjectBoolean(obj != nullptr);
+			return new ObjectBoolean(obj->toObjectUndefined() == nullptr);
 		}
 		return new IllegalArgument();
 	}

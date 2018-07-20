@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectException.h"
 #include "ObjectFunction.h"
 #include "ObjectInteger.h"
+#include "ObjectUndefined.h"
 #include "WideStringBuilder.h"
 #include "Assert.h"
 
@@ -90,7 +91,7 @@ namespace goat {
 
 	}
 
-	Object * Object::find(String key) {
+	Object * Object::find_(String key) {
 		Object *found = nullptr;
 		if (!objects.find(key, &found)) {
 			List<Pair>::Item *pair = chain.first;
@@ -105,13 +106,18 @@ namespace goat {
 				pair = pair->next;
 			}
 			for (unsigned int i = 0; !found && i < proto.len(); i++) {
-				found = proto[i]->find(key);
+				found = proto[i]->find_(key);
 			}
 		}
 		return found;
 	}
 
-	Object * Object::find(WideString key) {
+	Object * Object::find(String key) {
+		Object *found = find_(key);
+		return found ? found : ObjectUndefined::getInstance();
+	}
+
+	Object * Object::find_(WideString key) {
 		Object *found = nullptr;
 		if (!objects.find(key.toString(), &found)) {
 			List<Pair>::Item *pair = chain.first;
@@ -126,16 +132,21 @@ namespace goat {
 				pair = pair->next;
 			}
 			for (unsigned int i = 0; !found && i < proto.len(); i++) {
-				found = proto[i]->find(key);
+				found = proto[i]->find_(key);
 			}
 		}
 		return found;
 	}
 
-	Object * Object::find(Object *key) {
+	Object * Object::find(WideString key) {
+		Object *found = find_(key);
+		return found ? found : ObjectUndefined::getInstance();
+	}
+
+	Object * Object::find_(Object *key) {
 		ObjectString *objStr = key->toObjectString();
 		if (objStr) {
-			return find(objStr->value);
+			return find_(objStr->value);
 		}
 		Object *found = nullptr;
 		List<Pair>::Item *pair = chain.first;
@@ -147,9 +158,14 @@ namespace goat {
 			pair = pair->next;
 		}
 		for (unsigned int i = 0; !found && i < proto.len(); i++) {
-			found = proto[i]->find(key);
+			found = proto[i]->find_(key);
 		}
 		return found;
+	}
+
+	Object * Object::find(Object *key) {
+		Object *found = find_(key);
+		return found ? found : ObjectUndefined::getInstance();
 	}
 
 	void Object::insert(String key, Object *value) {
@@ -355,6 +371,10 @@ namespace goat {
 	}
 
 	ObjectNull * Object::toObjectNull() {
+		return nullptr;
+	}
+
+	ObjectUndefined * Object::toObjectUndefined() {
 		return nullptr;
 	}
 

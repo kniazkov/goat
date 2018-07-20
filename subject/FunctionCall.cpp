@@ -100,7 +100,7 @@ namespace goat {
 				return st;
 			}
 			step = DONE;
-			if (!funcObj) {
+			if (funcObj->toObjectUndefined()) {
 				Identifier *i = fcall->func->toIdentifier();
 				if (i) {
 					return throw_(new NameIsNotDefined(i->name));

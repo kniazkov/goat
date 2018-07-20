@@ -20,32 +20,42 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "Undefined.h"
 #include "ObjectUndefined.h"
+#include "ObjectBoolean.h"
 #include "Resource.h"
 
 namespace goat {
 
-	Undefined * Undefined::toUndefined() {
+	ObjectUndefined::ObjectUndefined() : Object(true) {
+		objects.insert("!", OperatorNot::getInstance());
+
+		proto.pushBack(SuperObject::getInstance());
+	}
+
+	ObjectUndefined * ObjectUndefined::toObjectUndefined() {
 		return this;
 	}
 
-	State * Undefined::createState(State *prev) {
-		return new StateImpl(prev);
+	ObjectBoolean * ObjectUndefined::toObjectBoolean() {
+		return new ObjectBoolean(false);
 	}
 
-	State * Undefined::StateImpl::next() {
-		State *p = prev;
-		p->ret(ObjectUndefined::getInstance());
-		delete this;
-		return p;
+	WideString ObjectUndefined::toWideString() {
+		return Resource::w_undefined;
 	}
 
-	String Undefined::toString() {
-		return Resource::s_undefined;
+	Object *  ObjectUndefined::getInstance() {
+		static ObjectUndefined __this;
+		return &__this;
 	}
 
-	Token * Undefined::StateImpl::token() {
-		return nullptr;
+
+	Object * ObjectUndefined::OperatorNot::run(Scope *scope) {
+		return new ObjectBoolean(true);
+	}
+
+	Object * ObjectUndefined::OperatorNot::getInstance() {
+		static OperatorNot __this;
+		return &__this;
 	}
 }

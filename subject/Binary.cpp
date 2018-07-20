@@ -63,7 +63,7 @@ namespace goat {
 		case EXECUTE: {
 			step = DONE;
 			Object *obj = left->find(expr->oper->value);
-			if (!obj) {
+			if (obj->toObjectUndefined()) {
 				return throw_(new OperatorIsNotDefined(expr->oper->value));
 			}
 			ObjectFunction *of = obj->toObjectFunction();

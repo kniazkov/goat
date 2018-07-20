@@ -62,7 +62,7 @@ namespace goat {
 		case GET_INDEX_OBJECT:
 			return expr->tokens->first->toExpression()->createState(this);
 		case DONE:
-			if (left) {
+			if (left->toObjectUndefined() == nullptr) {
 				ObjectArray *objArr = left->toObjectArray();
 				if (objArr) {
 					ObjectInteger *intIdx = index ? index->toObjectInteger() : nullptr;

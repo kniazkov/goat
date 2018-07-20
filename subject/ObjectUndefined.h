@@ -20,32 +20,28 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "Undefined.h"
-#include "ObjectUndefined.h"
-#include "Resource.h"
+#pragma once
+
+#include "Object.h"
+#include "ObjectBuiltIn.h"
 
 namespace goat {
 
-	Undefined * Undefined::toUndefined() {
-		return this;
-	}
+	class ObjectBoolean;
 
-	State * Undefined::createState(State *prev) {
-		return new StateImpl(prev);
-	}
+	class ObjectUndefined : public Object {
+	public:
+		ObjectUndefined();
+		ObjectUndefined * toObjectUndefined() override;
+		ObjectBoolean * toObjectBoolean() override;
+		WideString toWideString() override;
+		static Object *getInstance();
 
-	State * Undefined::StateImpl::next() {
-		State *p = prev;
-		p->ret(ObjectUndefined::getInstance());
-		delete this;
-		return p;
-	}
+		class OperatorNot : public ObjectBuiltIn {
+		public:
+			Object * run(Scope *scope) override;
+			static Object *getInstance();
+		};
+	};
 
-	String Undefined::toString() {
-		return Resource::s_undefined;
-	}
-
-	Token * Undefined::StateImpl::token() {
-		return nullptr;
-	}
 }

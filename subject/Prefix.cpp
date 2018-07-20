@@ -59,7 +59,7 @@ namespace goat {
 				return throw_(new CanNotReadOperatorOfUndefined(expr->oper->value));
 			}
 			Object *obj = right->find(expr->oper->value);
-			if (!obj) {
+			if (obj->toObjectUndefined()) {
 				return throw_(new OperatorIsNotDefined(expr->oper->value));
 			}
 			ObjectFunction *of = obj->toObjectFunction();
