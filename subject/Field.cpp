@@ -59,7 +59,7 @@ namespace goat {
 			return field->left->createState(this);
 		}
 		else {
-			if (!left) {
+			if (left->toObjectUndefined() != nullptr) {
 				return throw_(new CanNotReadPropertyOfUndefined(field->name));
 			}
 			if (context) {
@@ -88,18 +88,17 @@ namespace goat {
 
 	State * Field::StateAssignImpl::next() {
 		if (!executed) {
-			if (!left) {
-				return field->left->createState(this);
+			executed = true;
+			return field->left->createState(this);
+		}
+		else {
+			if (left->toObjectUndefined() != nullptr) {
+				return throw_(new CanNotWritePropertyOfUndefined(field->name));
 			}
 			executed = true;
 			State *p = prev;
 			left->objects.insert(field->name, obj);
 			p->ret(obj);
-			delete this;
-			return p;
-		}
-		else {
-			State *p = prev;
 			delete this;
 			return p;
 		}
