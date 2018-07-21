@@ -44,7 +44,7 @@ namespace goat {
 	}
 
 	ObjectBoolean::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("!", OperatorNot::getInstance());

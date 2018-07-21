@@ -140,6 +140,22 @@ namespace goat {
 		};
 	};
 
+	class CanNotWritePropertyOfLockedObject : public ObjectException {
+	public:
+		String name;
+		Object *obj;
+
+		CanNotWritePropertyOfLockedObject(Object *_obj);
+		CanNotWritePropertyOfLockedObject(String _name);
+		WideString toWideString() override;
+
+		class Proto : public ObjectException {
+		public:
+			Proto();
+			static Object *getInstance();
+		};
+	};
+
 	class CanNotReadOperatorOfUndefined : public ObjectException {
 	public:
 		String name;

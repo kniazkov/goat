@@ -60,7 +60,7 @@ namespace goat {
 	};
 
 	ObjectThread::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto[0] = ObjectFunction::Proto::getInstance();
 
 		objects.insert("clone", ObjThreadClone::getInstance());

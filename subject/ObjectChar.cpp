@@ -51,7 +51,7 @@ namespace goat {
 	}
 
 	ObjectChar::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("valueOf", ValueOf::getInstance());

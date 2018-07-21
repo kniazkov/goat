@@ -66,13 +66,13 @@ namespace goat {
 		};
 
 		enum Status {
-			UNMARKED,
-			MARKED,
-			PERMANENT
+			MARKED = 1,
+			PERMANENT = 2,
+			LOCKED = 4
 		};
 		void *list;
 		Object *prev, *next;
-		Status status;
+		UInt32 status;
 		Map<String, Object*> objects;
 		List<Pair> chain;
 		PlainVector<Object *> proto;

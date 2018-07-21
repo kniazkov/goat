@@ -40,7 +40,7 @@ namespace goat {
 	}
 
 	ObjectStringBuilder::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("toString", ToString::getInstance());

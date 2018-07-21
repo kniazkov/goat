@@ -1,0 +1,1 @@
+cannot write propery 'xxx' of locked object

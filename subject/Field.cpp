@@ -95,6 +95,9 @@ namespace goat {
 			if (left->toObjectUndefined() != nullptr) {
 				return throw_(new CanNotWritePropertyOfUndefined(field->name));
 			}
+			if ((left->status & Object::LOCKED) != 0) {
+				return throw_(new CanNotWritePropertyOfLockedObject(field->name));
+			}
 			executed = true;
 			State *p = prev;
 			left->objects.insert(field->name, obj);

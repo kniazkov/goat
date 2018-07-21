@@ -66,7 +66,7 @@ namespace goat {
 	};
 
 	ObjectBuiltIn::Proto::Proto() : Object(true) {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		initialized = false;
 	}
 

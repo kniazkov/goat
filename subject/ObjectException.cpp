@@ -34,7 +34,7 @@ namespace goat {
 	}
 
 	ObjectException::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		initialized = false;
 	}
 
@@ -79,7 +79,7 @@ namespace goat {
 
 
 	NameIsNotDefined::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
@@ -99,7 +99,7 @@ namespace goat {
 	}
 
 	IsNotAFunction::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
@@ -119,7 +119,7 @@ namespace goat {
 	}
 
 	OperatorIsNotDefined::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
@@ -138,7 +138,7 @@ namespace goat {
 	}
 
 	CanNotCallUndefined::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
@@ -157,7 +157,7 @@ namespace goat {
 	}
 
 	CanNotCallExpression::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
@@ -178,7 +178,7 @@ namespace goat {
 	}
 
 	CanNotReadPropertyOfUndefined::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
@@ -211,11 +211,40 @@ namespace goat {
 	}
 
 	CanNotWritePropertyOfUndefined::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
 	Object * CanNotWritePropertyOfUndefined::Proto::getInstance() {
+		static Proto __this;
+		return &__this;
+	}
+
+
+	CanNotWritePropertyOfLockedObject::CanNotWritePropertyOfLockedObject(Object *_obj) {
+		obj = _obj;
+		proto.pushBack(Proto::getInstance());
+	}
+
+	CanNotWritePropertyOfLockedObject::CanNotWritePropertyOfLockedObject(String _name) {
+		name = _name;
+		obj = nullptr;
+		proto.pushBack(Proto::getInstance());
+	}
+
+	WideString CanNotWritePropertyOfLockedObject::toWideString() {
+		if (obj)
+			return (WideStringBuilder() << "cannot write propery \'" << obj->toWideString() << "\' of locked object").toWideString();
+		else
+			return (WideStringBuilder() << "cannot write propery \'" << name << "\' of locked object").toWideString();
+	}
+
+	CanNotWritePropertyOfLockedObject::Proto::Proto() {
+		status = PERMANENT | LOCKED;
+		proto.pushBack(ObjectException::Proto::getInstance());
+	}
+
+	Object * CanNotWritePropertyOfLockedObject::Proto::getInstance() {
 		static Proto __this;
 		return &__this;
 	}
@@ -231,7 +260,7 @@ namespace goat {
 	}
 
 	CanNotReadOperatorOfUndefined::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(CanNotReadPropertyOfUndefined::Proto::getInstance());
 	}
 
@@ -250,7 +279,7 @@ namespace goat {
 	}
 
 	DivisionByZero::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
@@ -269,7 +298,7 @@ namespace goat {
 	}
 
 	IncorrectIndex::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
@@ -288,7 +317,7 @@ namespace goat {
 	}
 
 	OutOfBounds::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
@@ -307,7 +336,7 @@ namespace goat {
 	}
 
 	IllegalArgument::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
@@ -326,7 +355,7 @@ namespace goat {
 	}
 
 	NotImplemented::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
@@ -345,7 +374,7 @@ namespace goat {
 	}
 
 	InvalidOperation::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 
@@ -364,7 +393,7 @@ namespace goat {
 	}
 
 	PrototypeIsNotDefined::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 		proto.pushBack(ObjectException::Proto::getInstance());
 	}
 

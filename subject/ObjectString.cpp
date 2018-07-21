@@ -73,7 +73,7 @@ namespace goat {
 	}
 
 	ObjectString::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 
 		objects.insert("+", OperatorPlus::getInstance());
 		objects.insert("+=", OperatorPlus::getInstance());

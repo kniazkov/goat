@@ -54,7 +54,7 @@ namespace goat {
 	}
 
 	ObjectReal::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 
 		objects.insert("clone", Clone::getInstance());
 		objects.insert("+", OperatorPlus::getInstance());

@@ -96,7 +96,7 @@ namespace goat {
 
 
 	ObjectFile::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 
 		objects.insert("clone", ObjFileClone::getInstance());
 		objects.insert("read", ObjFileRead::getInstance());

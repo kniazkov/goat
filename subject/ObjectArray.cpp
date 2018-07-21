@@ -77,7 +77,7 @@ namespace goat {
 	};
 
 	ObjectArray::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 
 		objects.insert("clone", ArrayClone::getInstance());
 		objects.insert("length", ArrayLength::getInstance());

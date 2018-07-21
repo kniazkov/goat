@@ -45,7 +45,7 @@ namespace goat {
 	}
 
 	Object::Object(bool builtIn) {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 	}
 
 	Object::Object(Object *_proto) : Object() {
@@ -56,14 +56,14 @@ namespace goat {
 	}
 
 	Object::~Object() {
-		if (status != PERMANENT) {
+		if ((status & PERMANENT) == 0) {
 			ObjectList::global.remove(this);
 		}
 	}
 
 	void Object::mark() {
-		if (status == UNMARKED) {
-			status = MARKED;
+		if ((status & (MARKED | PERMANENT)) == 0) {
+			status |= MARKED;
 			ObjectList::forMarking.pushBack(this);
 		}
 	}
@@ -392,9 +392,7 @@ namespace goat {
 
 	void ObjectList::unmark() {
 		forEach([](Object *obj) {
-			if (obj->status == Object::MARKED) {
-				obj->status = Object::UNMARKED;
-			}
+			obj->status &= ~Object::MARKED;
 		});
 	}
 
@@ -410,11 +408,14 @@ namespace goat {
 
 	void ObjectList::sweep() {
 		forEach([](Object *obj) {
-			if (obj->status == Object::UNMARKED) {
-				delete obj;
-			}
-			else if (obj->status == Object::MARKED) {
-				obj->status = Object::UNMARKED;
+			if ((obj->status & Object::PERMANENT) == 0)
+			{
+				if ((obj->status & Object::MARKED) == 0) {
+					delete obj;
+				}
+				else {
+					obj->status &= ~Object::MARKED;
+				}
 			}
 		});
 	}

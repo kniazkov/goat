@@ -98,7 +98,7 @@ namespace goat {
 	}
 
 	Print::Print(OutputStream<wchar> *_out) : out(_out) {
-		status = UNMARKED;
+		status = LOCKED;
 	}
 
 	Object * Print::run(Scope *scope) {

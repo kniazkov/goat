@@ -77,7 +77,7 @@ namespace goat {
 	};
 
 	ObjectByteArray::Proto::Proto() {
-		status = PERMANENT;
+		status = PERMANENT | LOCKED;
 
 		objects.insert("clone", ByteArrayClone::getInstance());
 		objects.insert("length", ByteArrayLength::getInstance());

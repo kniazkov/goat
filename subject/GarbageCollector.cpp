@@ -100,11 +100,11 @@ namespace goat {
 				for (i = 0; i < 2; i++) {
 					if (obj) {
 						nextObj = obj->next;
-						if (obj->status == Object::UNMARKED) {
+						if ((obj->status & (Object::MARKED | Object::PERMANENT)) == 0) {
 							delete obj;
 						}
-						else if (obj->status == Object::MARKED) {
-							obj->status = Object::UNMARKED;
+						else {
+							obj->status &= ~Object::MARKED;
 						}
 						obj = nextObj;
 					}

@@ -29,6 +29,8 @@ namespace goat {
 
 	typedef wchar_t wchar;
 	typedef size_t MemorySize;
+	typedef int32_t Int32;
+	typedef uint32_t UInt32;
 
 #if WCHAR_MAX > 0xFFFF
 #define WCHAR_32
