@@ -104,7 +104,7 @@ namespace goat {
 			if (l) {
 				// write stack trace information
 				ObjectArray *t = nullptr;
-				Object *f = obj->find(Resource::trace);
+				Object *f = obj->find(Object::createIndex(Resource::trace));
 				if (f) {
 					t = f->toObjectArray();
 				}

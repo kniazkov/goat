@@ -145,7 +145,7 @@ namespace goat {
 									}
 									else if (cmd.len() > 1 && cmd[0] == L'$') {
 										String name = cmd.subString(1, len - 1).toString();
-										Object *obj = Thread::current->state->scope->find(name);
+										Object *obj = Thread::current->state->scope->find(Object::createIndex(name));
 										if (obj) {
 											console.write((WideStringBuilder() << 
 												name << L": " << obj->toWideStringNotation() << L'\n'

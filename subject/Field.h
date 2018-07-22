@@ -64,6 +64,7 @@ namespace goat {
 	public:
 		Expression *left;
 		String name;
+		Int32 nameIndex;
 
 		Field(Expression *tokLeft, Variable *tokName);
 		Field *toField() override;

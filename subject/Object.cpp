@@ -92,14 +92,14 @@ namespace goat {
 
 	}
 
-	Object * Object::find_(String key) {
+	Object * Object::find_(Int32 index) {
 		Object *found = nullptr;
-		if (!objects.find(createIndex(key), &found)) {
+		if (!objects.find(index, &found)) {
 			List<Pair>::Item *pair = chain.first;
 			while (pair) {
 				ObjectString *objStr = pair->data.key->toObjectString();
 				if (objStr) {
-					if (key == objStr->value) {
+					if (getKey(index) == objStr->value) {
 						found = pair->data.value;
 						break;
 					}
@@ -107,14 +107,14 @@ namespace goat {
 				pair = pair->next;
 			}
 			for (unsigned int i = 0; !found && i < proto.len(); i++) {
-				found = proto[i]->find_(key);
+				found = proto[i]->find_(index);
 			}
 		}
 		return found;
 	}
 
-	Object * Object::find(String key) {
-		Object *found = find_(key);
+	Object * Object::find(Int32 index) {
+		Object *found = find_(index);
 		return found ? found : ObjectUndefined::getInstance();
 	}
 
@@ -532,7 +532,7 @@ namespace goat {
 			step = DONE;
 			proto = scope->this_;
 			Object *blank = scope->arguments->vector[0];
-			Object *funcClone = blank->find("clone");
+			Object *funcClone = blank->find(createIndex("clone"));
 			ObjectFunction *of = funcClone->toObjectFunction();
 			if (of) {
 				changeScope(of->context->clone());

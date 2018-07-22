@@ -54,6 +54,7 @@ namespace goat {
 
 	public:
 		Operator * oper;
+		Int32 operIndex;
 		LeftExpression *right;
 
 		PrefixIncrement(Operator *_oper, LeftExpression *_right);

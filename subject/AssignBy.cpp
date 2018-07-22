@@ -33,6 +33,7 @@ namespace goat {
 	AssignBy::AssignBy(Operator *_oper, LeftExpression *_left, Expression *_right) {
 		loc = _oper->loc;
 		oper = _oper;
+		operIndex = Object::createIndex(oper->value);
 		left = _left;
 		right = _right;
 	}
@@ -61,7 +62,7 @@ namespace goat {
 			}
 			return expr->right->createState(this);
 		case EXECUTE: {
-			Object *obj = left->find(expr->oper->value);
+			Object *obj = left->find(expr->operIndex);
 			if (obj->toObjectUndefined()) {
 				return throw_(new OperatorIsNotDefined(expr->oper->value));
 			}

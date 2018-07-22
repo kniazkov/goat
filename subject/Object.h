@@ -90,11 +90,11 @@ namespace goat {
 		static inline Int32 searchIndex(String key);
 		static inline String getKey(Int32 index);
 	private:
-		Object *find_(String key);
+		Object *find_(Int32 index);
 		Object *find_(WideString key);
 		Object *find_(Object *key);
 	public:
-		Object *find(String key);
+		Object *find(Int32 index);
 		Object *find(WideString key);
 		Object *find(Object *key);
 		void insert(String key, Object *value);

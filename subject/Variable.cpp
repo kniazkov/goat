@@ -27,6 +27,7 @@ namespace goat {
 	Variable::Variable(Identifier *tokName) {
 		loc = tokName->loc;
 		name = tokName->name;
+		nameIndex = Object::createIndex(name);
 		identifier = tokName;
 	}
 
@@ -52,7 +53,7 @@ namespace goat {
 
 	State * Variable::StateImpl::next() {
 		State *p = prev;
-		p->ret(scope->find(var->name));
+		p->ret(scope->find(var->nameIndex));
 		delete this;
 		return p;
 	}

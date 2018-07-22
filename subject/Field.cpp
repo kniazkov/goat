@@ -31,6 +31,7 @@ namespace goat {
 		loc = tokName->loc;
 		left = tokLeft;
 		name = tokName->name;
+		nameIndex = Object::createIndex(name);
 	}
 
 	Field * Field::toField() {
@@ -66,7 +67,7 @@ namespace goat {
 				*context = left;
 			}
 			State *p = prev;
-			p->ret(left->find(field->name));
+			p->ret(left->find(field->nameIndex));
 			delete this;
 			return p;
 		}

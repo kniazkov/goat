@@ -33,6 +33,7 @@ namespace goat {
 	Prefix::Prefix(Operator *_oper, Expression *_right) {
 		loc = _oper->loc;
 		oper = _oper;
+		operIndex = Object::createIndex(oper->value);
 		right = _right;
 	}
 
@@ -58,7 +59,7 @@ namespace goat {
 			if (!right) {
 				return throw_(new CanNotReadOperatorOfUndefined(expr->oper->value));
 			}
-			Object *obj = right->find(expr->oper->value);
+			Object *obj = right->find(expr->operIndex);
 			if (obj->toObjectUndefined()) {
 				return throw_(new OperatorIsNotDefined(expr->oper->value));
 			}

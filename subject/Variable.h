@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "Type.h"
 #include "LeftExpression.h"
 #include "Identifier.h"
 
@@ -53,6 +54,7 @@ namespace goat {
 
 	public:
 		String name;
+		Int32 nameIndex;
 		Identifier *identifier;
 
 		Variable(Identifier *tokName);

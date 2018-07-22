@@ -33,6 +33,7 @@ namespace goat {
 	Binary::Binary(Operator *_oper, Expression *_left, Expression *_right) {
 		loc = _oper->loc;
 		oper = _oper;
+		operIndex = Object::createIndex(oper->value);
 		left = _left;
 		right = _right;
 	}
@@ -62,7 +63,7 @@ namespace goat {
 			return expr->right->createState(this);
 		case EXECUTE: {
 			step = DONE;
-			Object *obj = left->find(expr->oper->value);
+			Object *obj = left->find(expr->operIndex);
 			if (obj->toObjectUndefined()) {
 				return throw_(new OperatorIsNotDefined(expr->oper->value));
 			}

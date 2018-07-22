@@ -33,6 +33,7 @@ namespace goat {
 	PrefixIncrement::PrefixIncrement(Operator *_oper, LeftExpression *_right) {
 		loc = _oper->loc;
 		oper = _oper;
+		operIndex = Object::createIndex(oper->value);
 		right = _right;
 	}
 
@@ -57,7 +58,7 @@ namespace goat {
 				if (!oldValue) {
 					return throw_(new CanNotReadOperatorOfUndefined(expr->oper->value));
 				}
-				Object *obj = oldValue->find(expr->oper->value);
+				Object *obj = oldValue->find(expr->operIndex);
 				if (obj->toObjectUndefined()) {
 					return throw_(new OperatorIsNotDefined(expr->oper->value));
 				}
