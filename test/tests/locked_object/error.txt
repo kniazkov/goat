@@ -1,1 +1,1 @@
-cannot write propery 'xxx' of locked object
+cannot write property 'xxx' of locked object

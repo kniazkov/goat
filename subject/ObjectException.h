@@ -126,8 +126,7 @@ namespace goat {
 
 	class CanNotWritePropertyOfUndefined : public ObjectException {
 	public:
-		String name;
-		Object *obj;
+		WideString prop;
 
 		CanNotWritePropertyOfUndefined(Object *_obj);
 		CanNotWritePropertyOfUndefined(String _name);
@@ -142,8 +141,7 @@ namespace goat {
 
 	class CanNotWritePropertyOfLockedObject : public ObjectException {
 	public:
-		String name;
-		Object *obj;
+		WideString prop;
 
 		CanNotWritePropertyOfLockedObject(Object *_obj);
 		CanNotWritePropertyOfLockedObject(String _name);

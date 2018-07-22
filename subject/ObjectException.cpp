@@ -188,26 +188,22 @@ namespace goat {
 	}
 
 	WideString CanNotReadPropertyOfUndefined::toWideString() {
-		return (WideStringBuilder() << "cannot read propery \'" << prop << "\' of undefined").toWideString();
+		return (WideStringBuilder() << "cannot read property \'" << prop << "\' of undefined").toWideString();
 	}
 
 
 	CanNotWritePropertyOfUndefined::CanNotWritePropertyOfUndefined(Object *_obj) {
-		obj = _obj;
+		prop = _obj->toWideString();
 		proto.pushBack(Proto::getInstance());
 	}
 
 	CanNotWritePropertyOfUndefined::CanNotWritePropertyOfUndefined(String _name) {
-		name = _name;
-		obj = nullptr;
+		prop = _name.toWideString();
 		proto.pushBack(Proto::getInstance());
 	}
 
 	WideString CanNotWritePropertyOfUndefined::toWideString() {
-		if (obj)
-			return (WideStringBuilder() << "cannot write propery \'" << obj->toWideString() << "\' of undefined").toWideString();
-		else
-			return (WideStringBuilder() << "cannot write propery \'" << name << "\' of undefined").toWideString();
+		return (WideStringBuilder() << "cannot write property \'" << prop << "\' of undefined").toWideString();
 	}
 
 	CanNotWritePropertyOfUndefined::Proto::Proto() {
@@ -222,21 +218,17 @@ namespace goat {
 
 
 	CanNotWritePropertyOfLockedObject::CanNotWritePropertyOfLockedObject(Object *_obj) {
-		obj = _obj;
+		prop = _obj->toWideString();
 		proto.pushBack(Proto::getInstance());
 	}
 
 	CanNotWritePropertyOfLockedObject::CanNotWritePropertyOfLockedObject(String _name) {
-		name = _name;
-		obj = nullptr;
+		prop = _name.toWideString();
 		proto.pushBack(Proto::getInstance());
 	}
 
 	WideString CanNotWritePropertyOfLockedObject::toWideString() {
-		if (obj)
-			return (WideStringBuilder() << "cannot write propery \'" << obj->toWideString() << "\' of locked object").toWideString();
-		else
-			return (WideStringBuilder() << "cannot write propery \'" << name << "\' of locked object").toWideString();
+		return (WideStringBuilder() << "cannot write property \'" << prop << "\' of locked object").toWideString();
 	}
 
 	CanNotWritePropertyOfLockedObject::Proto::Proto() {

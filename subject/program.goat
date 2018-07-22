@@ -1,3 +1,1 @@
-null.xxx = 1;
-
-print(null.xxx);
+null["xxx"] = 1;

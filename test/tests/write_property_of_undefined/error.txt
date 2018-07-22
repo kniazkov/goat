@@ -1,1 +1,1 @@
-cannot write propery 'xxx' of undefined
+cannot write property 'xxx' of undefined
