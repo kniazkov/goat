@@ -75,18 +75,18 @@ namespace goat {
 	ObjectString::Proto::Proto() {
 		status = PERMANENT | LOCKED;
 
-		objects.insert("+", OperatorPlus::getInstance());
-		objects.insert("+=", OperatorPlus::getInstance());
-		objects.insert("<", OperatorLess::getInstance());
-		objects.insert("<=", OperatorLessEqual::getInstance());
-		objects.insert(">", OperatorGreater::getInstance());
-		objects.insert(">=", OperatorGreaterEqual::getInstance());
-		objects.insert("!", OperatorNot::getInstance());
-		objects.insert("length", Length::getInstance());
-		objects.insert("clone", Clone::getInstance());
-		objects.insert("valueOf", ValueOf::getInstance());
-		objects.insert("subString", SubString::getInstance());
-		objects.insert("split", Split::getInstance());
+		objects.insert(createIndex("+"), OperatorPlus::getInstance());
+		objects.insert(createIndex("+="), OperatorPlus::getInstance());
+		objects.insert(createIndex("<"), OperatorLess::getInstance());
+		objects.insert(createIndex("<="), OperatorLessEqual::getInstance());
+		objects.insert(createIndex(">"), OperatorGreater::getInstance());
+		objects.insert(createIndex(">="), OperatorGreaterEqual::getInstance());
+		objects.insert(createIndex("!"), OperatorNot::getInstance());
+		objects.insert(createIndex("length"), Length::getInstance());
+		objects.insert(createIndex("clone"), Clone::getInstance());
+		objects.insert(createIndex("valueOf"), ValueOf::getInstance());
+		objects.insert(createIndex("subString"), SubString::getInstance());
+		objects.insert(createIndex("split"), Split::getInstance());
 	}
 
 	Object * ObjectString::Proto::getInstance() {

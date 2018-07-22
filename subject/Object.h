@@ -32,6 +32,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "MultiList.h"
 #include "Type.h"
 #include "Pool.h"
+#include "StringIndex.h"
 
 namespace goat {
 
@@ -73,9 +74,10 @@ namespace goat {
 		void *list;
 		Object *prev, *next;
 		UInt32 status;
-		Map<String, Object*> objects;
+		Map<Int32, Object*> objects;
 		List<Pair> chain;
 		PlainVector<Object *> proto;
+		static StringIndex indexes;
 
 		Object();
 		Object(bool builtIn);
@@ -84,6 +86,9 @@ namespace goat {
 		void mark();
 		void mark_2();
 		virtual void trace();
+		static inline Int32 createIndex(String key);
+		static inline Int32 searchIndex(String key);
+		static inline String getKey(Int32 index);
 	private:
 		Object *find_(String key);
 		Object *find_(WideString key);
@@ -146,4 +151,15 @@ namespace goat {
 		void flat(Object *fobj) override;
 	};
 
+	Int32 Object::createIndex(String key) {
+		return indexes.createIndex(key);
+	}
+
+	Int32 Object::searchIndex(String key) {
+		return indexes.searchIndex(key);
+	}
+
+	String Object::getKey(Int32 index) {
+		return indexes.getString(index);
+	}
 }

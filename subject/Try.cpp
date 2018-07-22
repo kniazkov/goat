@@ -91,7 +91,7 @@ namespace goat {
 			case CATCH:
 				step = stmt->stmtFinally ? FINALLY : DONE;
 				cloneScope();
-				scope->objects.insert(stmt->varName->name, thru);
+				scope->objects.insert(Object::createIndex(stmt->varName->name), thru);
 				return stmt->stmtCatch->createState(this);
 			case FINALLY:
 				step = DONE;

@@ -34,6 +34,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
+	StringIndex Object::indexes;
 	ObjectList ObjectList::global;
 	ObjectList ObjectList::forMarking;
 
@@ -69,7 +70,7 @@ namespace goat {
 	}
 
 	void Object::mark_2() {
-		objects.forEach([](String key, Object *obj) {
+		objects.forEach([](Int32 index, Object *obj) {
 			if (obj)
 				obj->mark();
 		});
@@ -93,7 +94,7 @@ namespace goat {
 
 	Object * Object::find_(String key) {
 		Object *found = nullptr;
-		if (!objects.find(key, &found)) {
+		if (!objects.find(createIndex(key), &found)) {
 			List<Pair>::Item *pair = chain.first;
 			while (pair) {
 				ObjectString *objStr = pair->data.key->toObjectString();
@@ -119,7 +120,7 @@ namespace goat {
 
 	Object * Object::find_(WideString key) {
 		Object *found = nullptr;
-		if (!objects.find(key.toString(), &found)) {
+		if (!objects.find(createIndex(key.toString()), &found)) {
 			List<Pair>::Item *pair = chain.first;
 			while (pair) {
 				ObjectString *objStr = pair->data.key->toObjectString();
@@ -169,7 +170,7 @@ namespace goat {
 	}
 
 	void Object::insert(String key, Object *value) {
-		objects.insert(key, value);
+		objects.insert(createIndex(key), value);
 		List<Pair>::Item *pair = chain.first;
 		while (pair) {
 			auto next = pair->next;
@@ -184,7 +185,7 @@ namespace goat {
 	void Object::insert(Object *key, Object *value) {
 		ObjectString *objStr = key->toObjectString();
 		if (objStr) {
-			objects.remove(objStr->value.toString());
+			objects.remove(searchIndex(objStr->value.toString()));
 		}
 		List<Pair>::Item *pair = chain.first;
 		while (pair) {
@@ -198,7 +199,7 @@ namespace goat {
 	}
 
 	bool Object::replace(String key, Object *repl) {
-		if (objects.replace(key, repl)) {
+		if (objects.replace(createIndex(key), repl)) {
 			return true;
 		}
 		for (unsigned int i = 0; i < proto.len(); i++) {
@@ -211,7 +212,7 @@ namespace goat {
 
 	void Object::findAll(String key, PlainVector<Object *> *vector) {
 		Object *found = nullptr;
-		if (objects.find(key, &found)) {
+		if (objects.find(createIndex(key), &found)) {
 			vector->pushBack(found);
 		}
 		for (unsigned int i = 0; i < proto.len(); i++) {
@@ -239,8 +240,8 @@ namespace goat {
 			pobj->flat(fobj);
 		});
 
-		objects.forEach([&](String key, Object *obj) {
-			fobj->insert(key, obj);
+		objects.forEach([&](Int32 index, Object *obj) {
+			fobj->insert(Object::getKey(index), obj);
 		});
 
 		chain.forEach([&](Pair pair) {
@@ -252,8 +253,8 @@ namespace goat {
 		Object *fobj = new Object();
 		flat(fobj);
 
-		fobj->objects.forEach([&](String key, Object *obj) {
-			vector->pushBack(Pair(new ObjectString(key.toWideString()), obj));
+		fobj->objects.forEach([&](Int32 index, Object *obj) {
+			vector->pushBack(Pair(new ObjectString(getKey(index).toWideString()), obj));
 		});
 
 		fobj->chain.forEach([&](Pair pair) {
@@ -304,12 +305,12 @@ namespace goat {
 		WideStringBuilder b;
 		b << (wchar)'{';
 		int i = 0;
-		objects.forEach([&](String key, Object *obj) {
+		objects.forEach([&](Int32 index, Object *obj) {
 			if (i) {
 				b << L',';
 			}
 			i++;
-			b << key << L':' << obj->toWideStringNotation();
+			b << getKey(index) << L':' << obj->toWideStringNotation();
 		});
 		chain.forEach([&](Pair &pair) {
 			if (i) {
@@ -659,13 +660,13 @@ namespace goat {
 
 
 	SuperObject::SuperObject() : Object(true) {
-		objects.insert("clone", Clone::getInstance());
-		objects.insert("flat", Flat::getInstance());
-		objects.insert("instanceOf", InstanceOf::getInstance());
-		objects.insert("->", Inherit::getInstance());
-		objects.insert("==", BaseEqual::getInstance());
-		objects.insert("!=", BaseNotEqual::getInstance());
-		objects.insert("!", BaseNot::getInstance());
+		objects.insert(createIndex("clone"), Clone::getInstance());
+		objects.insert(createIndex("flat"), Flat::getInstance());
+		objects.insert(createIndex("instanceOf"), InstanceOf::getInstance());
+		objects.insert(createIndex("->"), Inherit::getInstance());
+		objects.insert(createIndex("=="), BaseEqual::getInstance());
+		objects.insert(createIndex("!="), BaseNotEqual::getInstance());
+		objects.insert(createIndex("!"), BaseNot::getInstance());
 	}
 
 	Object * SuperObject::getInstance() {

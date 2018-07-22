@@ -53,7 +53,7 @@ namespace goat {
 	ObjectFunction::Proto::Proto() {
 		status = PERMANENT | LOCKED;
 
-		objects.insert("clone", ObjFunctionClone::getInstance());
+		objects.insert(createIndex("clone"), ObjFunctionClone::getInstance());
 	}
 
 	Object * ObjectFunction::Proto::getInstance() {

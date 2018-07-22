@@ -73,7 +73,7 @@ namespace goat {
 	void ObjectBuiltIn::Proto::init() {
 		if (!initialized) {
 			initialized = true;
-			objects.insert("clone", BuiltInClone::getInstance());
+			objects.insert(createIndex("clone"), BuiltInClone::getInstance());
 		}
 	}
 

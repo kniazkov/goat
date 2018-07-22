@@ -72,14 +72,14 @@ namespace goat {
 				scope->this_ = left;
 				scope->arguments = new ObjectArray();
 				scope->arguments->vector.pushBack(right);
-				scope->objects.insert(Resource::arguments, scope->arguments);
+				scope->objects.insert(Object::createIndex(Resource::arguments), scope->arguments);
 				scope->proto.pushBack(scope->proto[0]);
 				scope->proto[0] = left;
 				if (of->function->args) {
 					unsigned int i = 0, count = scope->arguments->vector.len();
 					Token *name = of->function->args->first;
 					while (name && i < count) {
-						scope->objects.insert(name->toIdentifier()->name, scope->arguments->vector[i]);
+						scope->objects.insert(Object::createIndex(name->toIdentifier()->name), scope->arguments->vector[i]);
 						i++;
 						name = name->next;
 					}

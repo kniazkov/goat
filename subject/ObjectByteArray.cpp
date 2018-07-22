@@ -79,10 +79,10 @@ namespace goat {
 	ObjectByteArray::Proto::Proto() {
 		status = PERMANENT | LOCKED;
 
-		objects.insert("clone", ByteArrayClone::getInstance());
-		objects.insert("length", ByteArrayLength::getInstance());
-		objects.insert("push", ByteArrayPush::getInstance());
-		objects.insert("decodeUTF8", ByteArrayDecodeUTF8::getInstance());
+		objects.insert(createIndex("clone"), ByteArrayClone::getInstance());
+		objects.insert(createIndex("length"), ByteArrayLength::getInstance());
+		objects.insert(createIndex("push"), ByteArrayPush::getInstance());
+		objects.insert(createIndex("decodeUTF8"), ByteArrayDecodeUTF8::getInstance());
 	}
 
 	Object * ObjectByteArray::Proto::getInstance() {

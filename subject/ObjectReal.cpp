@@ -56,22 +56,22 @@ namespace goat {
 	ObjectReal::Proto::Proto() {
 		status = PERMANENT | LOCKED;
 
-		objects.insert("clone", Clone::getInstance());
-		objects.insert("+", OperatorPlus::getInstance());
-		objects.insert("+=", OperatorPlus::getInstance());
-		objects.insert("-", OperatorMinus::getInstance());
-		objects.insert("-=", OperatorMinus::getInstance());
-		objects.insert("*", OperatorMul::getInstance());
-		objects.insert("*=", OperatorMul::getInstance());
-		objects.insert("/", OperatorDiv::getInstance());
-		objects.insert("/=", OperatorDiv::getInstance());
-		objects.insert("<", OperatorLess::getInstance());
-		objects.insert("<=", OperatorLessEqual::getInstance());
-		objects.insert(">", OperatorGreater::getInstance());
-		objects.insert(">=", OperatorGreaterEqual::getInstance());
-		objects.insert("++", OperatorIncrement::getInstance());
-		objects.insert("--", OperatorDecrement::getInstance());
-		objects.insert("!", OperatorNot::getInstance());
+		objects.insert(createIndex("clone"), Clone::getInstance());
+		objects.insert(createIndex("+"), OperatorPlus::getInstance());
+		objects.insert(createIndex("+="), OperatorPlus::getInstance());
+		objects.insert(createIndex("-"), OperatorMinus::getInstance());
+		objects.insert(createIndex("-="), OperatorMinus::getInstance());
+		objects.insert(createIndex("*"), OperatorMul::getInstance());
+		objects.insert(createIndex("*="), OperatorMul::getInstance());
+		objects.insert(createIndex("/"), OperatorDiv::getInstance());
+		objects.insert(createIndex("/="), OperatorDiv::getInstance());
+		objects.insert(createIndex("<"), OperatorLess::getInstance());
+		objects.insert(createIndex("<="), OperatorLessEqual::getInstance());
+		objects.insert(createIndex(">"), OperatorGreater::getInstance());
+		objects.insert(createIndex(">="), OperatorGreaterEqual::getInstance());
+		objects.insert(createIndex("++"), OperatorIncrement::getInstance());
+		objects.insert(createIndex("--"), OperatorDecrement::getInstance());
+		objects.insert(createIndex("!"), OperatorNot::getInstance());
 	}
 
 	Object * ObjectReal::Proto::getInstance() {

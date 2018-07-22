@@ -50,7 +50,7 @@ namespace goat {
 			return decl->init->createState(this);
 		}
 		else {
-			scope->objects.insert(decl->name, init);
+			scope->objects.insert(Object::createIndex(decl->name), init);
 			State *p = prev;
 			delete this;
 			return p;

@@ -53,15 +53,15 @@ namespace goat {
 	ObjectChar::Proto::Proto() {
 		status = PERMANENT | LOCKED;
 
-		objects.insert("clone", Clone::getInstance());
-		objects.insert("valueOf", ValueOf::getInstance());
-		objects.insert("++", OperatorIncrement::getInstance());
-		objects.insert("--", OperatorDecrement::getInstance());
-		objects.insert("!", OperatorNot::getInstance());
-		objects.insert("<", OperatorLess::getInstance());
-		objects.insert("<=", OperatorLessEqual::getInstance());
-		objects.insert(">", OperatorGreater::getInstance());
-		objects.insert(">=", OperatorGreaterEqual::getInstance());
+		objects.insert(createIndex("clone"), Clone::getInstance());
+		objects.insert(createIndex("valueOf"), ValueOf::getInstance());
+		objects.insert(createIndex("++"), OperatorIncrement::getInstance());
+		objects.insert(createIndex("--"), OperatorDecrement::getInstance());
+		objects.insert(createIndex("!"), OperatorNot::getInstance());
+		objects.insert(createIndex("<"), OperatorLess::getInstance());
+		objects.insert(createIndex("<="), OperatorLessEqual::getInstance());
+		objects.insert(createIndex(">"), OperatorGreater::getInstance());
+		objects.insert(createIndex(">="), OperatorGreaterEqual::getInstance());
 	}
 
 	Object * ObjectChar::Proto::getInstance() {

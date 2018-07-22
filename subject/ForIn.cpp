@@ -49,7 +49,7 @@ namespace goat {
 	ForIn::StateImpl::StateImpl(State *_prev, ForIn *_stmt) : State(_prev), stmt(_stmt), step(GET_OBJECT) {
 		if (stmt->in->declVar) {
 			cloneScope();
-			scope->objects.insert(stmt->in->name->name, nullptr);
+			scope->objects.insert(Object::createIndex(stmt->in->name->name), nullptr);
 		}
 		index = 0;
 	}

@@ -74,26 +74,26 @@ namespace goat {
 
 	Scope * BuiltIn::create(Environment *env) {
 		Scope *s = new Scope();
-		s->objects.insert("print", new Print(env->out));
-		s->objects.insert("open", Open::getInstance());
-		s->objects.insert("defined", Defined::getInstance());
-		s->objects.insert("isNumber", IsNumber::getInstance());
-		s->objects.insert("clock", Clock::getInstance());
+		s->objects.insert(Object::createIndex("print"), new Print(env->out));
+		s->objects.insert(Object::createIndex("open"), Open::getInstance());
+		s->objects.insert(Object::createIndex("defined"), Defined::getInstance());
+		s->objects.insert(Object::createIndex("isNumber"), IsNumber::getInstance());
+		s->objects.insert(Object::createIndex("clock"), Clock::getInstance());
 
-		s->objects.insert("String", ObjectString::Proto::getInstance());
-		s->objects.insert("Integer", ObjectInteger::Proto::getInstance());
-		s->objects.insert("Exception", ObjectException::Proto::getInstance());
-		s->objects.insert("Boolean", ObjectBoolean::Proto::getInstance());
-		s->objects.insert("Char", ObjectChar::Proto::getInstance());
-		s->objects.insert("Array", ObjectArray::Proto::getInstance());
-		s->objects.insert("Function", ObjectFunction::Proto::getInstance());
-		s->objects.insert("Thread", ObjectThread::Proto::getInstance());
-		s->objects.insert("Real", ObjectReal::Proto::getInstance());
-		s->objects.insert("Null", ObjectNull::getInstance());
-		s->objects.insert("Undefined", ObjectUndefined::getInstance());
-		s->objects.insert("File", ObjectFile::Proto::getInstance());
-		s->objects.insert("StringBuilder", ObjectStringBuilder::Proto::getInstance());
-		s->objects.insert("ByteArray", ObjectByteArray::Proto::getInstance());
+		s->objects.insert(Object::createIndex("String"), ObjectString::Proto::getInstance());
+		s->objects.insert(Object::createIndex("Integer"), ObjectInteger::Proto::getInstance());
+		s->objects.insert(Object::createIndex("Exception"), ObjectException::Proto::getInstance());
+		s->objects.insert(Object::createIndex("Boolean"), ObjectBoolean::Proto::getInstance());
+		s->objects.insert(Object::createIndex("Char"), ObjectChar::Proto::getInstance());
+		s->objects.insert(Object::createIndex("Array"), ObjectArray::Proto::getInstance());
+		s->objects.insert(Object::createIndex("Function"), ObjectFunction::Proto::getInstance());
+		s->objects.insert(Object::createIndex("Thread"), ObjectThread::Proto::getInstance());
+		s->objects.insert(Object::createIndex("Real"), ObjectReal::Proto::getInstance());
+		s->objects.insert(Object::createIndex("Null"), ObjectNull::getInstance());
+		s->objects.insert(Object::createIndex("Undefined"), ObjectUndefined::getInstance());
+		s->objects.insert(Object::createIndex("File"), ObjectFile::Proto::getInstance());
+		s->objects.insert(Object::createIndex("StringBuilder"), ObjectStringBuilder::Proto::getInstance());
+		s->objects.insert(Object::createIndex("ByteArray"), ObjectByteArray::Proto::getInstance());
 		return s;
 	}
 

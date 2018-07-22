@@ -27,7 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace goat {
 
 	ObjectUndefined::ObjectUndefined() : Object(true) {
-		objects.insert("!", OperatorNot::getInstance());
+		objects.insert(createIndex("!"), OperatorNot::getInstance());
 
 		proto.pushBack(SuperObject::getInstance());
 	}

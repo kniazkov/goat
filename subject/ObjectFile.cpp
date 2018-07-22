@@ -98,13 +98,13 @@ namespace goat {
 	ObjectFile::Proto::Proto() {
 		status = PERMANENT | LOCKED;
 
-		objects.insert("clone", ObjFileClone::getInstance());
-		objects.insert("read", ObjFileRead::getInstance());
-		objects.insert("eof", ObjFileEof::getInstance());
-		objects.insert("position", ObjFilePosition::getInstance());
-		objects.insert("seek", ObjFileSeek::getInstance());
-		objects.insert("Mode", ObjFileMode::getInstance());
-		objects.insert("Origin", ObjFileOrigin::getInstance());
+		objects.insert(createIndex("clone"), ObjFileClone::getInstance());
+		objects.insert(createIndex("read"), ObjFileRead::getInstance());
+		objects.insert(createIndex("eof"), ObjFileEof::getInstance());
+		objects.insert(createIndex("position"), ObjFilePosition::getInstance());
+		objects.insert(createIndex("seek"), ObjFileSeek::getInstance());
+		objects.insert(createIndex("Mode"), ObjFileMode::getInstance());
+		objects.insert(createIndex("Origin"), ObjFileOrigin::getInstance());
 	}
 
 	Object * ObjectFile::Proto::getInstance() {
@@ -206,9 +206,9 @@ namespace goat {
 
 
 	ObjFileMode::ObjFileMode() : Object(true) {
-		objects.insert("READ", ObjectConstInteger<Platform::File::Mode::READ>::getInstance());
-		objects.insert("WRITE", ObjectConstInteger<Platform::File::Mode::WRITE>::getInstance());
-		objects.insert("APPEND", ObjectConstInteger<Platform::File::Mode::APPEND>::getInstance());
+		objects.insert(createIndex("READ"), ObjectConstInteger<Platform::File::Mode::READ>::getInstance());
+		objects.insert(createIndex("WRITE"), ObjectConstInteger<Platform::File::Mode::WRITE>::getInstance());
+		objects.insert(createIndex("APPEND"), ObjectConstInteger<Platform::File::Mode::APPEND>::getInstance());
 	}
 
 	Object *ObjFileMode::getInstance() {
@@ -218,9 +218,9 @@ namespace goat {
 
 
 	ObjFileOrigin::ObjFileOrigin() : Object(true) {
-		objects.insert("BEGIN", ObjectConstInteger<Platform::File::Origin::BEGIN>::getInstance());
-		objects.insert("END", ObjectConstInteger<Platform::File::Origin::END>::getInstance());
-		objects.insert("CURRENT", ObjectConstInteger<Platform::File::Origin::CURRENT>::getInstance());
+		objects.insert(createIndex("BEGIN"), ObjectConstInteger<Platform::File::Origin::BEGIN>::getInstance());
+		objects.insert(createIndex("END"), ObjectConstInteger<Platform::File::Origin::END>::getInstance());
+		objects.insert(createIndex("CURRENT"), ObjectConstInteger<Platform::File::Origin::CURRENT>::getInstance());
 	}
 
 	Object *ObjFileOrigin::getInstance() {

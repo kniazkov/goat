@@ -100,7 +100,7 @@ namespace goat {
 			}
 			executed = true;
 			State *p = prev;
-			left->objects.insert(field->name, obj);
+			left->objects.insert(Object::createIndex(field->name), obj);
 			p->ret(obj);
 			delete this;
 			return p;
