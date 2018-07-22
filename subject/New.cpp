@@ -98,14 +98,14 @@ namespace goat {
 					else {
 						scope->arguments = new ObjectArray();
 					}
-					scope->objects.insert(Object::createIndex(Resource::arguments), scope->arguments);
+					scope->objects.insert(Resource::i_arguments(), scope->arguments);
 					scope->this_ = retObj;
 					scope->proto.pushBack(scope->proto[0]);
 					scope->proto[0] = retObj;
 					index++;
 					return objf->function->createState(this);
 				}
-				return throw_(new IsNotAFunction(Resource::init));
+				return throw_(new IsNotAFunction(Resource::s_init));
 			}
 			else {
 				step = DONE;
@@ -140,7 +140,7 @@ namespace goat {
 					retObj = new Object();
 					retObj->proto[0] = proto;
 				}
-				proto->findUnique(Resource::init, &chain);
+				proto->findUnique(Resource::s_init, &chain);
 				return;
 			}
 			case GET_ARGUMENTS:

@@ -20,13 +20,35 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+#include "Object.h"
 #include "Resource.h"
 
 namespace goat {
 
-	String Resource::arguments = "arguments";
-	String Resource::init = "init";
-	String Resource::trace = "trace";
+	Int32 Resource::i_arguments() {
+		static Int32 index = Object::createIndex(s_arguments);
+		return index;
+	}
+
+	Int32 Resource::i_init() {
+		static Int32 index = Object::createIndex(s_init);
+		return index;
+	}
+
+	Int32 Resource::i_trace() {
+		static Int32 index = Object::createIndex(s_trace);
+		return index;
+	}
+
+	Int32 Resource::i_clone() {
+		static Int32 index = Object::createIndex(s_clone);
+		return index;
+	}
+
+	String Resource::s_arguments = "arguments";
+	String Resource::s_init = "init";
+	String Resource::s_trace = "trace";
+	String Resource::s_clone = "clone";
 	String Resource::s_true = "true";
 	String Resource::s_false = "false";
 	String Resource::s_undefined = "undefined";

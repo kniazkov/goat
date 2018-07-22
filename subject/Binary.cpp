@@ -73,7 +73,7 @@ namespace goat {
 				scope->this_ = left;
 				scope->arguments = new ObjectArray();
 				scope->arguments->vector.pushBack(right);
-				scope->objects.insert(Object::createIndex(Resource::arguments), scope->arguments);
+				scope->objects.insert(Resource::i_arguments(), scope->arguments);
 				scope->proto.pushBack(scope->proto[0]);
 				scope->proto[0] = left;
 				if (of->function->args) {

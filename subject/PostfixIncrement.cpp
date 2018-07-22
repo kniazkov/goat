@@ -67,7 +67,7 @@ namespace goat {
 				changeScope(of->context->clone());
 				scope->this_ = oldValue;
 				scope->arguments = new ObjectArray();
-				scope->objects.insert(Object::createIndex(Resource::arguments), scope->arguments);
+				scope->objects.insert(Resource::i_arguments(), scope->arguments);
 				if (of->function->args) {
 					unsigned int i = 0, count = scope->arguments->vector.len();
 					Token *name = of->function->args->first;

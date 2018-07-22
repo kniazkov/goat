@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "Type.h"
 #include "String.h"
 #include "WideString.h"
 
@@ -29,9 +30,15 @@ namespace goat {
 
 	class Resource {
 	public:
-		static String arguments;
-		static String init;
-		static String trace;
+		static Int32 i_arguments();
+		static Int32 i_init();
+		static Int32 i_trace();
+		static Int32 i_clone();
+
+		static String s_arguments;
+		static String s_init;
+		static String s_trace;
+		static String s_clone;
 		static String s_true;
 		static String s_false;
 		static String s_undefined;

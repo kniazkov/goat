@@ -114,7 +114,7 @@ namespace goat {
 				changeScope(of->context->clone());
 				scope->arguments = arguments;
 				scope->this_ = thisObj;
-				scope->objects.insert(Object::createIndex(Resource::arguments), scope->arguments);
+				scope->objects.insert(Resource::i_arguments(), scope->arguments);
 				if (fcall->method) {
 					scope->proto.pushBack(scope->proto[0]);
 					scope->proto[0] = thisObj;

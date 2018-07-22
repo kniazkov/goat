@@ -31,6 +31,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectUndefined.h"
 #include "WideStringBuilder.h"
 #include "Assert.h"
+#include "Resource.h"
 
 namespace goat {
 
@@ -532,7 +533,7 @@ namespace goat {
 			step = DONE;
 			proto = scope->this_;
 			Object *blank = scope->arguments->vector[0];
-			Object *funcClone = blank->find(createIndex("clone"));
+			Object *funcClone = blank->find(Resource::i_clone());
 			ObjectFunction *of = funcClone->toObjectFunction();
 			if (of) {
 				changeScope(of->context->clone());
@@ -549,7 +550,7 @@ namespace goat {
 				scope->this_ = blank;
 				return obi->createState(this);
 			}
-			return throw_(new IsNotAFunction("clone"));
+			return throw_(new IsNotAFunction(Resource::s_clone));
 		}
 		case DONE: {
 			ObjectArray *multi = proto->toObjectArray();

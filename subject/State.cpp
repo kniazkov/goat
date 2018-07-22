@@ -104,13 +104,13 @@ namespace goat {
 			if (l) {
 				// write stack trace information
 				ObjectArray *t = nullptr;
-				Object *f = obj->find(Object::createIndex(Resource::trace));
+				Object *f = obj->find(Resource::i_trace());
 				if (f) {
 					t = f->toObjectArray();
 				}
 				if (!t) {
 					t = new ObjectArray();
-					obj->insert(Resource::trace, t);
+					obj->insert(Resource::s_trace, t);
 				}
 				t->vector.pushBack(new ObjectString(l->toString().toWideString()));
 			}
