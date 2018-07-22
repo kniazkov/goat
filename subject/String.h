@@ -22,8 +22,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define STRING_HASH
-
 #include "Exception.h"
 #include "Vector.h"
 
@@ -40,9 +38,6 @@ namespace goat {
 		public:
 			unsigned int refs,
 				len;
-#ifdef STRING_HASH
-			int hash;
-#endif
 			char *data;
 
 			Buffer(unsigned int len);

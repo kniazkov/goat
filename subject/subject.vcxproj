@@ -229,6 +229,7 @@
     <ClInclude Include="StaticString.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="StringBuilder.h" />
+    <ClInclude Include="StringIndex.h" />
     <ClInclude Include="Switch.h" />
     <ClInclude Include="This.h" />
     <ClInclude Include="Thread.h" />

@@ -698,6 +698,9 @@
     <ClInclude Include="ObjectUndefined.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="StringIndex.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="program.goat">

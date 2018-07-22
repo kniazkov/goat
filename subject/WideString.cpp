@@ -291,9 +291,6 @@ namespace goat {
 				wchar w = buff->data[i];
 				char c = w > 127 ? '?' : (char)w;
 				s.buff->data[i] = c;
-#ifdef STRING_HASH
-				s.buff->hash += c;
-#endif
 			}
 			return s;
 		}

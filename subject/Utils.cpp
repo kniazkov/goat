@@ -36,6 +36,10 @@ namespace goat {
 	}
 
 	int Utils::strCmp(const char *a, const char *b) {
+		if (a == b) {
+			return 0;
+		}
+
 		if (a == nullptr || !*a) {
 			if (b == nullptr || !*b) {
 				return 0;
@@ -59,6 +63,10 @@ namespace goat {
 	}
 
 	int Utils::strCmp(const char *a, const char *b, unsigned int n) {
+		if (a == b) {
+			return 0;
+		}
+
 		if (a == nullptr || !*a) {
 			if (b == nullptr || !*b) {
 				return 0;
@@ -92,6 +100,10 @@ namespace goat {
 	}
 
 	int Utils::wstrCmp(const wchar *a, const wchar *b) {
+		if (a == b) {
+			return 0;
+		}
+
 		if (a == nullptr || !*a) {
 			if (b == nullptr || !*b) {
 				return 0;

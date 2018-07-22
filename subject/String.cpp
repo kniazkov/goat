@@ -34,14 +34,7 @@ namespace goat {
 		unsigned int len = Utils::strLen(cstr);
 		if (len > 0) {
 			buff = new Buffer(len);
-#ifdef STRING_HASH
-			for (unsigned int i = 0; i < len; i++) {
-				buff->data[i] = cstr[i];
-				buff->hash += cstr[i];
-			}
-#else
 			Utils::memCopy(buff->data, cstr, len);
-#endif
 		}
 		else {
 			buff = nullptr;
@@ -60,14 +53,7 @@ namespace goat {
 	String::String(const char *cstr, unsigned int len) {
 		if (len > 0) {
 			buff = new Buffer(len);
-#ifdef STRING_HASH
-			for (unsigned int i = 0; i < len; i++) {
-				buff->data[i] = cstr[i];
-				buff->hash += cstr[i];
-			}
-#else
 			Utils::memCopy(buff->data, cstr, len);
-#endif
 		}
 		else {
 			buff = nullptr;
@@ -145,29 +131,11 @@ namespace goat {
 	}
 
 	bool String::operator==(const String &str) {
-#ifdef STRING_HASH
-		if (buff) {
-			if (str.buff) {
-				if (buff->hash == str.buff->hash) {
-					return Utils::strCmp(buff->data, str.buff->data) == 0;
-				}
-			}
-			return false;
-		}
-		else {
-			return str.buff == nullptr;
-		}
-#else
 		return Utils::strCmp(buff ? buff->data : nullptr, str.buff ? str.buff->data : nullptr) == 0;
-#endif
 	}
 
 	bool String::operator!=(const String &str) {
-#ifdef STRING_HASH
-		return !operator==(str);
-#else
 		return Utils::strCmp(buff ? buff->data : nullptr, str.buff ? str.buff->data : nullptr) != 0;
-#endif
 	}
 
 	bool String::operator<(const String &str) {
@@ -249,7 +217,6 @@ namespace goat {
 
 	String::Buffer::Buffer(unsigned int len) {
 		refs = 1;
-		hash = 0;
 		data = new char[len + 1];
 		data[len] = '\0';
 		this->len = len;
