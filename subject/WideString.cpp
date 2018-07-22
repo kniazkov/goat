@@ -31,10 +31,14 @@ namespace goat {
 	}
 
 	WideString::WideString(const wchar *cwstr) {
-		unsigned int len = Utils::wstrLen(cwstr);
+		unsigned int i, len = Utils::wstrLen(cwstr);
 		if (len > 0) {
 			buff = new Buffer(len);
-			Utils::memCopy(buff->data, cwstr, len);
+			for (i = 0; i < len; i++) {
+				if (cwstr[i] > 127)
+					buff->ascii = false;
+				buff->data[i] = cwstr[i];
+			}
 		}
 		else {
 			buff = nullptr;
@@ -46,9 +50,14 @@ namespace goat {
 	}
 
 	WideString::WideString(const wchar *cwstr, unsigned int len) {
+		unsigned int i;
 		if (len > 0) {
 			buff = new Buffer(len);
-			Utils::memCopy(buff->data, cwstr, len);
+			for (i = 0; i < len; i++) {
+				if (cwstr[i] > 127)
+					buff->ascii = false;
+				buff->data[i] = cwstr[i];
+			}
 		}
 		else {
 			buff = nullptr;
@@ -77,10 +86,14 @@ namespace goat {
 		if (buff) {
 			buff->release();
 		}
-		unsigned int len = Utils::wstrLen(cwstr);
+		unsigned int i, len = Utils::wstrLen(cwstr);
 		if (len > 0) {
 			buff = new Buffer(len);
-			Utils::memCopy(buff->data, cwstr, len);
+			for (i = 0; i < len; i++) {
+				if (cwstr[i] > 127)
+					buff->ascii = false;
+				buff->data[i] = cwstr[i];
+			}
 		}
 		else {
 			buff = nullptr;
@@ -174,6 +187,7 @@ namespace goat {
 		result.buff = new Buffer(buff->len + wstr.buff->len);
 		Utils::memCopy(result.buff->data, buff->data, buff->len);
 		Utils::memCopy(result.buff->data + buff->len, wstr.buff->data, wstr.buff->len);
+		result.buff->ascii = buff->ascii && wstr.buff->ascii;
 		return result;
 	}
 
@@ -182,6 +196,7 @@ namespace goat {
 		data = new wchar[len + 1];
 		data[len] = '\0';
 		this->len = len;
+		ascii = true;
 	}
 
 	WideString::Buffer::~Buffer() {
@@ -284,6 +299,10 @@ namespace goat {
 		return rs;
 	}
 
+	bool WideString::isAscii() {
+		return buff ? buff->ascii : true;
+	}
+
 	String WideString::toString() {
 		if (buff) {
 			String s(buff->len);
@@ -308,8 +327,13 @@ namespace goat {
 
 		WideString result;
 		if (count > 0) {
+			unsigned int i;
 			result.buff = new Buffer(count);
-			Utils::memCopy(result.buff->data, buff->data + start, count);
+			for (i = 0; i < count; i++) {
+				if (buff->data[i + start] > 127)
+					result.buff->ascii = false;
+				result.buff->data[i] = buff->data[i + start];
+			}
 		}
 		return result;
 	}

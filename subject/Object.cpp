@@ -121,7 +121,7 @@ namespace goat {
 
 	Object * Object::find_(WideString key) {
 		Object *found = nullptr;
-		if (!objects.find(createIndex(key.toString()), &found)) {
+		if (!key.isAscii() || !objects.find(searchIndex(key.toString()), &found)) {
 			List<Pair>::Item *pair = chain.first;
 			while (pair) {
 				ObjectString *objStr = pair->data.key->toObjectString();
@@ -170,13 +170,13 @@ namespace goat {
 		return found ? found : ObjectUndefined::getInstance();
 	}
 
-	void Object::insert(String key, Object *value) {
-		objects.insert(createIndex(key), value);
+	void Object::insert(Int32 index, Object *value) {
+		objects.insert(index, value);
 		List<Pair>::Item *pair = chain.first;
 		while (pair) {
 			auto next = pair->next;
 			ObjectString *objStr = pair->data.key->toObjectString();
-			if (objStr && objStr->value == key) {
+			if (objStr && objStr->value == getKey(index)) {
 				chain.remove(pair);
 			}
 			pair = next;
@@ -199,12 +199,12 @@ namespace goat {
 		chain.pushBack(Pair(key, value));
 	}
 
-	bool Object::replace(String key, Object *repl) {
-		if (objects.replace(createIndex(key), repl)) {
+	bool Object::replace(Int32 index, Object *repl) {
+		if (objects.replace(index, repl)) {
 			return true;
 		}
 		for (unsigned int i = 0; i < proto.len(); i++) {
-			if (proto[i]->replace(key, repl)) {
+			if (proto[i]->replace(index, repl)) {
 				return true;
 			}
 		}
@@ -242,7 +242,7 @@ namespace goat {
 		});
 
 		objects.forEach([&](Int32 index, Object *obj) {
-			fobj->insert(Object::getKey(index), obj);
+			fobj->insert(index, obj);
 		});
 
 		chain.forEach([&](Pair pair) {

@@ -102,7 +102,7 @@ namespace goat {
 				result->insert(objKey, obj);
 			}
 			else {
-				result->insert(strKey, obj);
+				result->insert(Object::createIndex(strKey), obj);
 			}
 			step = GET_LEFT;
 			return;

@@ -54,6 +54,7 @@ namespace goat {
 
 	public:
 		In *in;
+		Int32 nameIndex;
 		Expression *obj;
 		Statement *body;
 

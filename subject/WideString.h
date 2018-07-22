@@ -38,6 +38,7 @@ namespace goat {
 			unsigned int refs,
 				len;
 			wchar *data;
+			bool ascii;
 
 			Buffer(unsigned int len);
 			~Buffer();
@@ -61,6 +62,7 @@ namespace goat {
 		unsigned int len() const;
 		const wchar *cwstr() const;
 		RawString toRawString();
+		bool isAscii();
 		String toString();
 		WideString subString(unsigned int start, unsigned int count);
 		bool operator==(const wchar *cstr);

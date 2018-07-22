@@ -28,6 +28,7 @@ namespace goat {
 	ForIn::ForIn(Keyword *_kw, In *_in, Expression *_obj, Statement *_body) {
 		loc = _kw->loc;
 		in = _in;
+		nameIndex = Object::createIndex(in->name->name);
 		obj = _obj;
 		body = _body;
 	}
@@ -85,7 +86,7 @@ namespace goat {
 			if (index < vector.len()) {
 				Object::Pair pair = vector[index];
 				index++;
-				scope->replace(stmt->in->name->name, pair.key);
+				scope->replace(stmt->nameIndex, pair.key);
 				return stmt->body->createState(this);
 			}
 			else {

@@ -97,9 +97,9 @@ namespace goat {
 		Object *find(Int32 index);
 		Object *find(WideString key);
 		Object *find(Object *key);
-		void insert(String key, Object *value);
+		void insert(Int32 index, Object *value);
 		void insert(Object *key, Object *value);
-		bool replace(String key, Object *repl);
+		bool replace(Int32 index, Object *repl);
 		void clone(Object *_clone);
 		virtual bool equals(Object *_obj);
 		static bool equals(Object *first, Object *second);

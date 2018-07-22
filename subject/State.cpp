@@ -110,7 +110,7 @@ namespace goat {
 				}
 				if (!t) {
 					t = new ObjectArray();
-					obj->insert(Resource::s_trace, t);
+					obj->insert(Resource::i_trace(), t);
 				}
 				t->vector.pushBack(new ObjectString(l->toString().toWideString()));
 			}
