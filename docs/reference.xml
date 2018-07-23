@@ -613,12 +613,19 @@
 						<c><c>-&gt;</c></c>
 						<c>Inherit</c>
 					</r>
+					<r>
+						<c><c>@</c></c>
+						<c>Lock</c>
+					</r>
 				</t>
 			</s>
 			<s name="Common operators">
-				<p>Each object supports these operators: <c>-&gt;</c> (inherit), <c>==</c> (equal), <c>!=</c> (not equal) and <c>!</c> (logical not).</p>
+				<p>Each object supports these operators: <c>-&gt;</c> (inherit), <c>@</c> (lock), <c>==</c> (equal), <c>!=</c> (not equal) and <c>!</c> (logical not).</p>
 				<h name="-&gt; (inherit)">
 					<p>Each object can be a prototype for a new object. Below in this document, it will be explained what is prototyping.</p>
+				</h>
+				<h name="@ (lock)">
+					<p>Returns a locked object, that is, an object whose properties can not be changed.</p>
 				</h>
 				<h name="== (equal) and != (not equal)">
 					<p>In common case, an object equals to another object, if these objects are the same object. For numbers, strings, other built-in types, an object is equal to another object if these objects have the same value, for example, <c>5 == 2 + 3</c>.</p>
@@ -714,88 +721,94 @@
 						<c>Example</c>
 					</h>
 					<r>
-						<c>21</c>
+						<c>22</c>
 						<c><c>()</c></c>
 						<c>Expression grouping</c>
 						<c><c>(3 + 4)</c></c>
 					</r>
 					<r>
-						<c>20</c>
+						<c>21</c>
 						<c><c>.</c></c>
 						<c>Member</c>
 						<c><c>person.name</c></c>
 					</r>
 					<r>
-						<c>20</c>
+						<c>21</c>
 						<c><c>[]</c></c>
 						<c>Member</c>
 						<c><c>person["name"]</c></c>
 					</r>
 					<r>
-						<c>19</c>
+						<c>20</c>
 						<c><c>()</c></c>
 						<c>Function call</c>
 						<c><c>func()</c></c>
 					</r>
 					<r>
-						<c>19</c>
+						<c>20</c>
 						<c><c>new</c></c>
 						<c>Create</c>
 						<c><c>new StringBuilder()</c></c>
 					</r>
 					<r>
-						<c>18</c>
+						<c>19</c>
 						<c><c>++</c></c>
 						<c>Prefix increment</c>
 						<c><c>++x</c></c>
 					</r>
 					<r>
-						<c>18</c>
+						<c>19</c>
 						<c><c>--</c></c>
 						<c>Prefix decrement</c>
 						<c><c>--x</c></c>
 					</r>
 					<r>
-						<c>17</c>
+						<c>18</c>
 						<c><c>++</c></c>
 						<c>Postfix increment</c>
 						<c><c>x++</c></c>
 					</r>
 					<r>
-						<c>17</c>
+						<c>18</c>
 						<c><c>--</c></c>
 						<c>Postfix decrement</c>
 						<c><c>x--</c></c>
 					</r>
 					<r>
-						<c>16</c>
+						<c>17</c>
 						<c><c>!</c></c>
 						<c>Logical not</c>
 						<c><c>!x</c></c>
 					</r>
 					<r>
-						<c>15</c>
+						<c>16</c>
 						<c><c>~</c></c>
 						<c>Bitwise not</c>
 						<c><c>~x</c></c>
 					</r>
 					<r>
-						<c>14</c>
+						<c>15</c>
 						<c><c>+</c></c>
 						<c>Unary plus</c>
 						<c><c>+x</c></c>
 					</r>
 					<r>
-						<c>14</c>
+						<c>15</c>
 						<c><c>-</c></c>
 						<c>Unary minus</c>
 						<c><c>-x</c></c>
 					</r>
 					<r>
-						<c>13</c>
+						<c>14</c>
 						<c><c>-&gt;</c></c>
 						<c>Inherit</c>
 						<c><c>A -&gt; { }</c></c>
+					</r>
+					<r>
+						<c>13</c>
+						<c><c>@</c></c>
+						<c>Lock</c>
+						<c><c>@ { }</c></c>
 					</r>
 					<r>
 						<c>12</c>
@@ -3221,6 +3234,22 @@
 				<p>Output:</p>
 				<c>{x:10,y:20,z:30}{x:10,y:100,z:30}</c>
 				<p><b>If possible, do not use <c>clone</c> method, inherit an object instead!</b> Cloning is a very expensive operation, due to the need to copy each field.</p>
+				<p>The <c>clone</c> method is implicitly called in some other operations. For example, operators <c>-&gt;</c> (inherit) and <c>@</c> (lock, see below) call this method. This method (however, like all the others) can be redefined. And then the operators will call the overridden method.</p>
+				<p>For example, you can prevent cloning an object, and instead of a clone, return the object itself:</p>
+				<c><![CDATA[
+					var original = {
+						x : 10,
+						y : 20,
+						z : 30,
+						
+						clone : $() {
+							return this;
+						}
+					};
+
+					var copy = original.clone(); // copy is the same object as the original ]]>
+				</c>
+				
 			</s>
 			<s name="The 'flat' method">
 				<p>Returns a flat object, that is, an object that contains all the properties of the source object, as well as all properties of all prototypes of the source object.</p>
@@ -3297,6 +3326,76 @@
 						}
 					};]]>
 				</c>
+			</s>
+		</s>
+		<s name="Locking objects">
+			<p>Objects can be locked. After locking, nothing can change (or add) properties or methods of the object.</p>
+			<s name="Operator @">
+				<p>This is an unary operator. It clones an object passed as a parameter (to the right of the operator) and then blocks the result of cloning. The object returned by the operator cannot be changed:</p>
+				<c><![CDATA[
+					var obj = @ {
+						x : 10,
+						y : 20
+					};
+					
+					obj.z = 30; // illegal operation!
+					]]>
+				</c>
+				<p>The operator does not change the original object. Only its copy is locked:</p>
+				<c><![CDATA[
+					var A = {
+						x : 10,
+						y : 20
+					};
+					
+					var B = @A;
+					
+					A.z = 30; // allowed
+					B.z = 30; // is not allowed
+					]]>
+				</c>
+			</s>
+			<s name="What happens when write to a locked object?">
+				<p>The interpreter will immediately throw an exception <c>Exception.CanNotWritePropertyOfLockedObject</c>:</p>
+				<c><![CDATA[
+					var A = @ {
+						x: 10,
+						y: 20
+					};
+
+					try {
+						A.z = 0;
+					}
+					catch(e) {
+						if (e.instanceOf(Exception.CanNotWritePropertyOfLockedObject))
+							print("exception!");
+					}]]>
+				</c>
+			</s>
+			<s name="Why need to lock objects?">
+				<p>A classic example is the creation of enumerations. Suppose we have an object that contains only constants:</p>
+				<c><![CDATA[
+					var Colors = {
+						RED : "#FF0000",
+						GREEN : "#00FF00",
+						BLUE : "#0000FF"
+					};]]>
+				</c>
+				<p>Suppose that there is some function that takes the value of a constant as an argument:</p>
+				<c>setColor(Colors.RED);</c>
+				<p>And this will work, but nothing prevents changing the value of the constant:</p>
+				<c>Colors.RED = "#FF00FF"; // oops, now everything red will turn violet</c>
+				<p>To protect the object from accidental changes, you need to lock it. Just add <c>@</c>:</p>
+				<c><![CDATA[
+					var Colors = @ {
+						RED : "#FF0000",
+						GREEN : "#00FF00",
+						BLUE : "#0000FF"
+					};
+					
+					Colors.RED = "#FF00FF"; // exception! ]]>
+				</c>
+				<p>All objects of the standard library (classes, functions, enums) are locked.</p>
 			</s>
 		</s>
 		<s name="Threads">

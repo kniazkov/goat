@@ -1,24 +1,15 @@
-var A = @ {
-	x : 10
-};
-
-var B = @ A->{
+var original = {
+	x : 10,
 	y : 20,
-
+	z : 30,
+						
 	clone : $() {
-		return A->{y : this.y, z: 30};
+		return this;
 	}
 };
 
-print("" + B.x + ' ' + B.y + ' ' + B.z);
+var copy = original.clone();
 
-if (B.instanceOf(A))
-	print("\ninstanceOf ok");
+original.y = 100500;
 
-try {
-	B.z = 0;
-}
-catch(e) {
-	if (e.instanceOf(Exception.CanNotWritePropertyOfLockedObject))
-		print("\nit works!");
-}
+print(copy);
