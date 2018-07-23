@@ -22,3 +22,4 @@ catch(e) {
 	if (e.instanceOf(Exception.CanNotWritePropertyOfLockedObject))
 		print("\nit works!");
 }
+ 

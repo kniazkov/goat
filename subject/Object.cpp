@@ -712,8 +712,6 @@ namespace goat {
 				changeScope(of->context->clone());
 				scope->arguments = nullptr;
 				scope->this_ = blank;
-//				scope->proto.pushBack(scope->proto[0]);
-//				scope->proto[0] = blank;
 				return of->function->createState(this);
 			}
 			ObjectBuiltIn * obi = funcClone->toObjectBuiltIn();
