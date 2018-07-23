@@ -66,6 +66,7 @@ namespace goat {
 			ASSIGN_BY_AND,
 			ASSIGN_BY_XOR,
 			ASSIGN_BY_OR,
+			LOCK,
 			UNKNOWN
 		};
 		String value;

@@ -660,6 +660,98 @@ namespace goat {
 	}
 
 
+	class Lock : public ObjectBuiltIn {
+	protected:
+		class StateImpl : public State {
+		public:
+			enum Step {
+				CLONE,
+				DONE
+			};
+
+			Lock *expr;
+			Step step;
+			Object *cloned;
+
+			StateImpl(State *_prev, Lock *_expr)
+				: State(_prev), expr(_expr), step(CLONE), cloned(nullptr) {
+			}
+			State *next() override;
+			void trace() override;
+			void ret(Object *obj) override;
+			Token * token() override;
+		};
+
+	public:
+		State * createState(State *_prev) override;
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
+
+	State * Lock::createState(State *_prev) {
+		return new StateImpl(_prev, this);
+	}
+
+	Object * Lock::run(Scope *scope) {
+		return nullptr;
+	}
+
+	Object * Lock::getInstance() {
+		static Lock __this;
+		return &__this;
+	}
+
+	State * Lock::StateImpl::next() {
+		switch (step) {
+		case CLONE: {
+			step = DONE;
+			Object *blank = scope->this_;
+			Object *funcClone = scope->this_->find(Resource::i_clone());
+			ObjectFunction *of = funcClone->toObjectFunction();
+			if (of) {
+				changeScope(of->context->clone());
+				scope->arguments = nullptr;
+				scope->this_ = blank;
+//				scope->proto.pushBack(scope->proto[0]);
+//				scope->proto[0] = blank;
+				return of->function->createState(this);
+			}
+			ObjectBuiltIn * obi = funcClone->toObjectBuiltIn();
+			if (obi) {
+				cloneScope();
+				scope->arguments = nullptr;
+				scope->this_ = blank;
+				return obi->createState(this);
+			}
+			return throw_(new IsNotAFunction(Resource::s_clone));
+		}
+		case DONE: {
+			State *p = prev;
+			cloned->status |= Object::LOCKED;
+			p->ret(cloned);
+			delete this;
+			return p;
+		}
+		default:
+			throw NotImplemented();
+		}
+	}
+
+	void Lock::StateImpl::trace() {
+		if (cloned) {
+			cloned->mark();
+		}
+	}
+
+	Token * Lock::StateImpl::token() {
+		return nullptr;
+	}
+
+	void Lock::StateImpl::ret(Object *obj) {
+		cloned = obj;
+	}
+
+
 	SuperObject::SuperObject() : Object(true) {
 		objects.insert(createIndex("clone"), Clone::getInstance());
 		objects.insert(createIndex("flat"), Flat::getInstance());
@@ -668,6 +760,7 @@ namespace goat {
 		objects.insert(createIndex("=="), BaseEqual::getInstance());
 		objects.insert(createIndex("!="), BaseNotEqual::getInstance());
 		objects.insert(createIndex("!"), BaseNot::getInstance());
+		objects.insert(createIndex("@"), Lock::getInstance());
 	}
 
 	Object * SuperObject::getInstance() {

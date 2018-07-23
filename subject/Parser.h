@@ -68,6 +68,7 @@ namespace goat {
 		Token2ndList oper_BITWISE_OR;
 		Token2ndList oper_LOGICAL_AND;
 		Token2ndList oper_LOGICAL_OR;
+		Token2ndList oper_LOCK;
 		Token2ndList parenthesis;
 		Token2ndList keyword[Keyword::UNKNOWN];
 		Token2ndList curveBracket;

@@ -137,6 +137,9 @@ namespace goat {
 		else if (value == "|=") {
 			type = ASSIGN_BY_OR;
 		}
+		else if (value == "@") {
+			type = LOCK;
+		}
 		else {
 			type = UNKNOWN;
 		}

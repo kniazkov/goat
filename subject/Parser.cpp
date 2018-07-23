@@ -111,6 +111,7 @@ namespace goat {
 			parse2ndList(oper_LOGICAL_NOT, &Parser::parsePrefixOperator, true);
 			parse2ndList(oper_BITWISE_NOT, &Parser::parsePrefixOperator, true);
 			parse2ndList(oper_PLUS_MINUS, &Parser::parsePrefixOperator, true);
+			parse2ndList(oper_LOCK, &Parser::parsePrefixOperator, true);
 			parse2ndList(oper_INHERIT, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_MUL_DIV_MOD, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_PLUS_MINUS, &Parser::parseBinaryOperator, false);
@@ -349,6 +350,9 @@ namespace goat {
 				break;
 			case Operator::LOGICAL_OR:
 				oper_LOGICAL_OR.pushBack(tok);
+				break;
+			case Operator::LOCK:
+				oper_LOCK.pushBack(tok);
 				break;
 			default:
 				break;

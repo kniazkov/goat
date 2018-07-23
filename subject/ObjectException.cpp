@@ -51,6 +51,7 @@ namespace goat {
 		objects.insert(createIndex("CanNotCallExpression"), CanNotCallExpression::Proto::getInstance());
 		objects.insert(createIndex("CanNotReadPropertyOfUndefined"), CanNotReadPropertyOfUndefined::Proto::getInstance());
 		objects.insert(createIndex("CanNotWritePropertyOfUndefined"), CanNotWritePropertyOfUndefined::Proto::getInstance());
+		objects.insert(createIndex("CanNotWritePropertyOfLockedObject"), CanNotWritePropertyOfLockedObject::Proto::getInstance());
 		objects.insert(createIndex("CanNotReadOperatorOfUndefined"), CanNotReadOperatorOfUndefined::Proto::getInstance());
 		objects.insert(createIndex("DivisionByZero"), DivisionByZero::Proto::getInstance());
 		objects.insert(createIndex("IncorrectIndex"), IncorrectIndex::Proto::getInstance());
