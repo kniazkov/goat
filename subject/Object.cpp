@@ -644,6 +644,22 @@ namespace goat {
 	}
 
 
+	class BaseOr : public ObjectBuiltIn {
+	public:
+		Object * run(Scope *scope) override;
+		static Object *getInstance();
+	};
+
+	Object * BaseOr::run(Scope *scope) {
+		return scope->this_;
+	}
+
+	Object * BaseOr::getInstance() {
+		static BaseOr __this;
+		return &__this;
+	}
+
+
 	class BaseNot : public ObjectBuiltIn {
 	public:
 		Object * run(Scope *scope) override;
@@ -757,6 +773,7 @@ namespace goat {
 		objects.insert(createIndex("->"), Inherit::getInstance());
 		objects.insert(createIndex("=="), BaseEqual::getInstance());
 		objects.insert(createIndex("!="), BaseNotEqual::getInstance());
+		objects.insert(createIndex("||"), BaseOr::getInstance());
 		objects.insert(createIndex("!"), BaseNot::getInstance());
 		objects.insert(createIndex("@"), Lock::getInstance());
 	}

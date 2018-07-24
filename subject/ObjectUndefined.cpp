@@ -28,6 +28,7 @@ namespace goat {
 
 	ObjectUndefined::ObjectUndefined() : Object(true) {
 		objects.insert(createIndex("!"), OperatorNot::getInstance());
+		objects.insert(createIndex("||"), OperatorOr::getInstance());
 
 		proto.pushBack(SuperObject::getInstance());
 	}
@@ -56,6 +57,16 @@ namespace goat {
 
 	Object * ObjectUndefined::OperatorNot::getInstance() {
 		static OperatorNot __this;
+		return &__this;
+	}
+
+
+	Object * ObjectUndefined::OperatorOr::run(Scope *scope) {
+		return scope->arguments->vector[0];
+	}
+
+	Object * ObjectUndefined::OperatorOr::getInstance() {
+		static OperatorOr __this;
 		return &__this;
 	}
 }

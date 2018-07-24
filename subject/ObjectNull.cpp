@@ -28,6 +28,7 @@ namespace goat {
 
 	ObjectNull::ObjectNull() : Object(true) {
 		objects.insert(createIndex("!"), OperatorNot::getInstance());
+		objects.insert(createIndex("||"), OperatorOr::getInstance());
 
 		proto.pushBack(SuperObject::getInstance());
 	}
@@ -56,6 +57,16 @@ namespace goat {
 
 	Object * ObjectNull::OperatorNot::getInstance() {
 		static OperatorNot __this;
+		return &__this;
+	}
+
+
+	Object * ObjectNull::OperatorOr::run(Scope *scope) {
+		return scope->arguments->vector[0];
+	}
+
+	Object * ObjectNull::OperatorOr::getInstance() {
+		static OperatorOr __this;
 		return &__this;
 	}
 }
