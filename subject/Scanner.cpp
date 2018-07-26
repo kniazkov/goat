@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "StringBuilder.h"
 #include "WideStringBuilder.h"
 #include "Unicode.h"
+#include "Resource.h"
 #include "Identifier.h"
 #include "Bracket.h"
 #include "StaticString.h"
@@ -40,6 +41,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Char.h"
 #include "Real.h"
 #include "Null.h"
+#include "NullGuard.h"
 
 namespace goat {
 
@@ -261,13 +263,21 @@ namespace goat {
 			r->value = (long double)iv + (long double)fv / (long double)m;
 			return  r;
 		}
+		if (c == '.') {
+			c = next();
+			if (!isOperator(c))
+				return new Dot();
+		}
 		if (isOperator(c)) {
 			StringBuilder b;
 			do {
 				b << c;
 				c = next();
 			} while (isOperator(c));
-			return new Operator(b.toString());
+			String op = b.toString();
+			if (op == Resource::s_nullGuard)
+				return new NullGuard();
+			return new Operator(op);
 		}
 		if (c == '\"') {
 			WideString w = parseString('\"');
@@ -301,10 +311,6 @@ namespace goat {
 		if (c == ':') {
 			c = next();
 			return new Colon();
-		}
-		if (c == '.') {
-			c = next();
-			return new Dot();
 		}
 		if (c == '$') {
 			c = next();

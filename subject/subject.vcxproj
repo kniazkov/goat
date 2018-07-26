@@ -67,6 +67,7 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Nop.cpp" />
     <ClCompile Include="Null.cpp" />
+    <ClCompile Include="NullGuard.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectArray.cpp" />
     <ClCompile Include="ObjectBoolean.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="MultiList.h" />
     <ClInclude Include="Nop.h" />
     <ClInclude Include="Null.h" />
+    <ClInclude Include="NullGuard.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectArray.h" />
     <ClInclude Include="ObjectBoolean.h" />

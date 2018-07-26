@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectFunction.h"
 #include "ObjectBuiltIn.h"
 #include "ObjectException.h"
+#include "ObjectUndefined.h"
 #include "Variable.h"
 #include "Resource.h"
 #include "Field.h"

@@ -24,14 +24,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Assert.h"
 #include "ObjectException.h"
 #include "StringBuilder.h"
+#include "ObjectUndefined.h"
 
 namespace goat {
 
-	Field::Field(Expression *tokLeft, Variable *tokName) {
+	Field::Field(Expression *tokLeft, Variable *tokName, bool guard) {
 		loc = tokName->loc;
 		left = tokLeft;
 		name = tokName->name;
 		nameIndex = Object::createIndex(name);
+		this->guard = guard;
 	}
 
 	Field * Field::toField() {
@@ -61,15 +63,22 @@ namespace goat {
 		}
 		else {
 			if (left->toObjectUndefined() != nullptr) {
-				return throw_(new CanNotReadPropertyOfUndefined(field->name));
+				if (!field->guard)
+					return throw_(new CanNotReadPropertyOfUndefined(field->name));
+				State *p = prev;
+				p->ret(ObjectUndefined::getInstance());
+				delete this;
+				return p;
 			}
-			if (context) {
-				*context = left;
+			else {
+				if (context) {
+					*context = left;
+				}
+				State *p = prev;
+				p->ret(left->find(field->nameIndex));
+				delete this;
+				return p;
 			}
-			State *p = prev;
-			p->ret(left->find(field->nameIndex));
-			delete this;
-			return p;
 		}
 	}
 

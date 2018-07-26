@@ -830,6 +830,8 @@ namespace goat {
 	void Parser::parseField(Token *tok) {
 		Dot *dot = tok->toDot();
 		assert(dot != nullptr);
+		
+		bool guard = tok->toNullGuard() != nullptr;
 
 		if (!dot->prev) {
 			throw LeftShouldBeExpression(dot);
@@ -846,7 +848,7 @@ namespace goat {
 
 		Variable *name = dot->next->toVariable();
 		if (name) {
-			Field *field = new Field(left, name);
+			Field *field = new Field(left, name, guard);
 			expression.pushBack(field);
 			left->replace(name, field);
 
@@ -859,7 +861,7 @@ namespace goat {
 
 		FunctionCall *fcall = dot->next->toFunctionCall();
 		if (fcall) {
-			fcall->func = new Field(left, fcall->func->toVariable());
+			fcall->func = new Field(left, fcall->func->toVariable(), false);
 			fcall->method = true;
 			left->remove();
 			if (left->list_2nd == &expression)

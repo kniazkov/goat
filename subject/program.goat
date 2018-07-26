@@ -1,5 +1,6 @@
-print(undefined || 7);
-print("\n");
-print(null || 11);
-print("\n");
-print("test" || 13);
+var obj = {
+	x : 10,
+	y : 20
+};
+
+print(oBj?.x() || 11);

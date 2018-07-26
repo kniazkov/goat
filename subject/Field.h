@@ -65,8 +65,9 @@ namespace goat {
 		Expression *left;
 		String name;
 		Int32 nameIndex;
+		bool guard;
 
-		Field(Expression *tokLeft, Variable *tokName);
+		Field(Expression *tokLeft, Variable *tokName, bool guard);
 		Field *toField() override;
 		State * createState(State *_prev) override;
 		State * createState(State *_prev, Object **_context);

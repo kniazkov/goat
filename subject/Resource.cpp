@@ -84,6 +84,7 @@ namespace goat {
 	String Resource::s_semicolon = ";";
 	String Resource::s_comma = ",";
 	String Resource::s_dot = ".";
+	String Resource::s_nullGuard = "?.";
 
 	WideString Resource::w_undefined = L"undefined";
 	WideString Resource::w_null = L"null";

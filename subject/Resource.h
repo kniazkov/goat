@@ -74,6 +74,7 @@ namespace goat {
 		static String s_semicolon;
 		static String s_comma;
 		static String s_dot;
+		static String s_nullGuard;
 
 		static WideString w_undefined;
 		static WideString w_null;
