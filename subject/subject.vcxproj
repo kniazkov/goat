@@ -84,6 +84,7 @@
     <ClCompile Include="ObjectStringBuilder.cpp" />
     <ClCompile Include="ObjectThread.cpp" />
     <ClCompile Include="ObjectUndefined.cpp" />
+    <ClCompile Include="ObjectVoid.cpp" />
     <ClCompile Include="Operator.cpp" />
     <ClCompile Include="Pair.cpp" />
     <ClCompile Include="Parser.cpp" />
@@ -123,6 +124,7 @@
     <ClCompile Include="Unicode.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Variable.cpp" />
+    <ClCompile Include="Void.cpp" />
     <ClCompile Include="While.cpp" />
     <ClCompile Include="WideString.cpp" />
     <ClCompile Include="WideStringBuilder.cpp" />
@@ -199,6 +201,7 @@
     <ClInclude Include="ObjectStringBuilder.h" />
     <ClInclude Include="ObjectThread.h" />
     <ClInclude Include="ObjectUndefined.h" />
+    <ClInclude Include="ObjectVoid.h" />
     <ClInclude Include="Operator.h" />
     <ClInclude Include="OutputStream.h" />
     <ClInclude Include="Pair.h" />
@@ -248,6 +251,7 @@
     <ClInclude Include="Variable.h" />
     <ClInclude Include="PlainVector.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="Void.h" />
     <ClInclude Include="While.h" />
     <ClInclude Include="WideString.h" />
     <ClInclude Include="WideStringBuilder.h" />

@@ -46,6 +46,7 @@ namespace goat {
 	class ObjectException;
 	class ObjectBoolean;
 	class ObjectChar;
+	class ObjectVoid;
 	class ObjectNull;
 	class ObjectUndefined;
 	class ObjectFile;
@@ -123,6 +124,7 @@ namespace goat {
 		virtual ObjectException *toObjectException();
 		virtual ObjectBoolean *toObjectBoolean();
 		virtual ObjectChar *toObjectChar();
+		virtual ObjectVoid *toObjectVoid();
 		virtual ObjectNull *toObjectNull();
 		virtual ObjectUndefined *toObjectUndefined();
 		virtual ObjectFile *toObjectFile();

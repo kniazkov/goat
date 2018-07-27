@@ -1,6 +1,2 @@
-var obj = {
-	x : 10,
-	y : 20
-};
-
-print(oBj?.x() || 11);
+var obj = void;
+print(obj);

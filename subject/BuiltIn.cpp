@@ -31,6 +31,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectThread.h"
 #include "ObjectChar.h"
 #include "ObjectReal.h"
+#include "ObjectVoid.h"
 #include "ObjectNull.h"
 #include "ObjectUndefined.h"
 #include "ObjectFile.h"
@@ -89,6 +90,7 @@ namespace goat {
 		s->objects.insert(Object::createIndex("Function"), ObjectFunction::Proto::getInstance());
 		s->objects.insert(Object::createIndex("Thread"), ObjectThread::Proto::getInstance());
 		s->objects.insert(Object::createIndex("Real"), ObjectReal::Proto::getInstance());
+		s->objects.insert(Object::createIndex("Void"), ObjectVoid::getInstance());
 		s->objects.insert(Object::createIndex("Null"), ObjectNull::getInstance());
 		s->objects.insert(Object::createIndex("Undefined"), ObjectUndefined::getInstance());
 		s->objects.insert(Object::createIndex("File"), ObjectFile::Proto::getInstance());

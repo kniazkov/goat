@@ -79,6 +79,7 @@ namespace goat {
 	String Resource::s_this = "this";
 	String Resource::s_debug = "debug";
 	String Resource::s_debugStmt = "debug;";
+	String Resource::s_void = "void";
 
 	String Resource::s_colon = ":";
 	String Resource::s_semicolon = ";";
@@ -86,6 +87,7 @@ namespace goat {
 	String Resource::s_dot = ".";
 	String Resource::s_nullGuard = "?.";
 
+	WideString Resource::w_void = L"void";
 	WideString Resource::w_undefined = L"undefined";
 	WideString Resource::w_null = L"null";
 	WideString Resource::w_File = L"File";

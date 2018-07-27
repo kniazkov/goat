@@ -87,6 +87,7 @@ namespace goat {
 	class AssignBy;
 	class Debug;
 	class NullGuard;
+	class Void;
 
 	class Token : public Node {
 	protected:
@@ -166,6 +167,7 @@ namespace goat {
 		virtual AssignBy *toAssignBy();
 		virtual Debug *toDebug();
 		virtual NullGuard *toNullGuard();
+		virtual Void *toVoid();
 	};
 
 	class TokenList : public MultiList<Token, &Token::prev, &Token::next, &Token::list> {

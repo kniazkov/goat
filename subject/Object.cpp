@@ -372,6 +372,10 @@ namespace goat {
 		return nullptr;
 	}
 
+	ObjectVoid * Object::toObjectVoid() {
+		return nullptr;
+	}
+
 	ObjectNull * Object::toObjectNull() {
 		return nullptr;
 	}

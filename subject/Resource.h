@@ -69,6 +69,7 @@ namespace goat {
 		static String s_this;
 		static String s_debug;
 		static String s_debugStmt;
+		static String s_void;
 
 		static String s_colon;
 		static String s_semicolon;
@@ -76,6 +77,7 @@ namespace goat {
 		static String s_dot;
 		static String s_nullGuard;
 
+		static WideString w_void;
 		static WideString w_undefined;
 		static WideString w_null;
 		static WideString w_File;

@@ -42,6 +42,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "Real.h"
 #include "Null.h"
 #include "NullGuard.h"
+#include "Void.h"
 
 namespace goat {
 
@@ -113,6 +114,9 @@ namespace goat {
 				c = next();
 			} while (isLetter(c) || isDigit(c));
 			String s = b.toString();
+			if (s == "void") {
+				return new Void();
+			}
 			if (s == "undefined") {
 				return new Undefined();
 			}
