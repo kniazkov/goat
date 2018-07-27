@@ -37,6 +37,7 @@ namespace goat {
 		ObjectVoid * toObjectVoid() override;
 		ObjectBoolean * toObjectBoolean() override;
 		WideString toWideString() override;
+		bool equals(Object *obj) override;
 		static Object *getInstance();
 
 		class OperatorNot : public ObjectBuiltIn {

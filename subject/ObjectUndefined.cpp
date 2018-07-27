@@ -47,6 +47,10 @@ namespace goat {
 		return Resource::w_undefined;
 	}
 
+	bool ObjectUndefined::equals(Object *obj) {
+		return obj == this || obj == ObjectVoid::getInstance();
+	}
+
 	Object *  ObjectUndefined::getInstance() {
 		static ObjectUndefined __this;
 		return &__this;

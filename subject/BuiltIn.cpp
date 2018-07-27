@@ -43,9 +43,10 @@ namespace goat {
 	class Print : public ObjectBuiltIn {
 	protected:
 		OutputStream<wchar> *out;
+		bool newLine;
 
 	public:
-		Print(OutputStream<wchar> *_out);
+		Print(OutputStream<wchar> *_out, bool _newLine);
 		Object *run(Scope *scope) override;
 	};
 
@@ -75,7 +76,8 @@ namespace goat {
 
 	Scope * BuiltIn::create(Environment *env) {
 		Scope *s = new Scope();
-		s->objects.insert(Object::createIndex("print"), new Print(env->out));
+		s->objects.insert(Object::createIndex("print"), new Print(env->out, false));
+		s->objects.insert(Object::createIndex("println"), new Print(env->out, true));
 		s->objects.insert(Object::createIndex("open"), Open::getInstance());
 		s->objects.insert(Object::createIndex("defined"), Defined::getInstance());
 		s->objects.insert(Object::createIndex("isNumber"), IsNumber::getInstance());
@@ -99,7 +101,7 @@ namespace goat {
 		return s;
 	}
 
-	Print::Print(OutputStream<wchar> *_out) : out(_out) {
+	Print::Print(OutputStream<wchar> *_out, bool _newLine) : out(_out), newLine(_newLine) {
 		status = LOCKED;
 	}
 
@@ -116,6 +118,9 @@ namespace goat {
 			value.forEach([&](wchar ch) {
 				out->write(ch);
 			});
+			if (newLine) {
+				out->write(L"\n");
+			}
 		}
 
 		// not enough arguments, exception ??

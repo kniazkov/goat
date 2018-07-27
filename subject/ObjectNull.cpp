@@ -47,6 +47,10 @@ namespace goat {
 		return Resource::w_null;
 	}
 
+	bool ObjectNull::equals(Object *obj) {
+		return obj == this || obj == ObjectVoid::getInstance();
+	}
+
 	Object *  ObjectNull::getInstance() {
 		static ObjectNull __this;
 		return &__this;
