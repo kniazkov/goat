@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ObjectVoid.h"
 #include "ObjectBoolean.h"
+#include "ObjectUndefined.h"
 #include "Resource.h"
 
 namespace goat {
@@ -31,6 +32,10 @@ namespace goat {
 		objects.insert(createIndex("||"), OperatorOr::getInstance());
 
 		proto.pushBack(SuperObject::getInstance());
+	}
+
+	ObjectUndefined * ObjectVoid::toObjectUndefined() {
+		return (ObjectUndefined*)ObjectUndefined::getInstance();
 	}
 
 	ObjectVoid * ObjectVoid::toObjectVoid() {

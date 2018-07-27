@@ -21,16 +21,18 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "ObjectUndefined.h"
+#include "ObjectVoid.h"
 #include "ObjectBoolean.h"
 #include "Resource.h"
 
 namespace goat {
 
 	ObjectUndefined::ObjectUndefined() : Object(true) {
-		objects.insert(createIndex("!"), OperatorNot::getInstance());
-		objects.insert(createIndex("||"), OperatorOr::getInstance());
+		proto.pushBack(ObjectVoid::getInstance());
+	}
 
-		proto.pushBack(SuperObject::getInstance());
+	ObjectVoid * ObjectUndefined::toObjectVoid() {
+		return (ObjectVoid*)ObjectVoid::getInstance();
 	}
 
 	ObjectUndefined * ObjectUndefined::toObjectUndefined() {
@@ -47,26 +49,6 @@ namespace goat {
 
 	Object *  ObjectUndefined::getInstance() {
 		static ObjectUndefined __this;
-		return &__this;
-	}
-
-
-	Object * ObjectUndefined::OperatorNot::run(Scope *scope) {
-		return new ObjectBoolean(true);
-	}
-
-	Object * ObjectUndefined::OperatorNot::getInstance() {
-		static OperatorNot __this;
-		return &__this;
-	}
-
-
-	Object * ObjectUndefined::OperatorOr::run(Scope *scope) {
-		return scope->arguments->vector[0];
-	}
-
-	Object * ObjectUndefined::OperatorOr::getInstance() {
-		static OperatorOr __this;
 		return &__this;
 	}
 }

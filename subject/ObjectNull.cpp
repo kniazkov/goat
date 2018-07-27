@@ -21,16 +21,18 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "ObjectNull.h"
+#include "ObjectVoid.h"
 #include "ObjectBoolean.h"
 #include "Resource.h"
 
 namespace goat {
 
 	ObjectNull::ObjectNull() : Object(true) {
-		objects.insert(createIndex("!"), OperatorNot::getInstance());
-		objects.insert(createIndex("||"), OperatorOr::getInstance());
+		proto.pushBack(ObjectVoid::getInstance());
+	}
 
-		proto.pushBack(SuperObject::getInstance());
+	ObjectVoid * ObjectNull::toObjectVoid() {
+		return (ObjectVoid*)ObjectVoid::getInstance();
 	}
 
 	ObjectNull * ObjectNull::toObjectNull() {
@@ -47,26 +49,6 @@ namespace goat {
 
 	Object *  ObjectNull::getInstance() {
 		static ObjectNull __this;
-		return &__this;
-	}
-
-
-	Object * ObjectNull::OperatorNot::run(Scope *scope) {
-		return new ObjectBoolean(true);
-	}
-
-	Object * ObjectNull::OperatorNot::getInstance() {
-		static OperatorNot __this;
-		return &__this;
-	}
-
-
-	Object * ObjectNull::OperatorOr::run(Scope *scope) {
-		return scope->arguments->vector[0];
-	}
-
-	Object * ObjectNull::OperatorOr::getInstance() {
-		static OperatorOr __this;
 		return &__this;
 	}
 }

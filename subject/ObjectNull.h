@@ -28,27 +28,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace goat {
 
 	class ObjectBoolean;
+	class ObjectVoid;
 
 	class ObjectNull : public Object {
 	public:
 		ObjectNull();
+		ObjectVoid * toObjectVoid() override;
 		ObjectNull * toObjectNull() override;
 		ObjectBoolean * toObjectBoolean() override;
 		WideString toWideString() override;
 		static Object *getInstance();
-
-		class OperatorNot : public ObjectBuiltIn {
-		public:
-			Object * run(Scope *scope) override;
-			static Object *getInstance();
-		};
-
-		class OperatorOr : public ObjectBuiltIn {
-		public:
-			Object * run(Scope *scope) override;
-			static Object *getInstance();
-		};
-
 	};
 
 }
