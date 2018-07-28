@@ -17,3 +17,4 @@ println(obj?.xxx() || 11);
 
 obj = test_2();
 println(obj?.xxx() || 11);
+ 

@@ -60,6 +60,7 @@ namespace goat {
 		Expression *func;
 		TokenList* args;
 		bool method;
+		bool guard;
 
 		FunctionCall(Expression *tokFunc, Brackets *tokArgs);
 		~FunctionCall();

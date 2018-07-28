@@ -861,8 +861,9 @@ namespace goat {
 
 		FunctionCall *fcall = dot->next->toFunctionCall();
 		if (fcall) {
-			fcall->func = new Field(left, fcall->func->toVariable(), false);
+			fcall->func = new Field(left, fcall->func->toVariable(), guard);
 			fcall->method = true;
+			fcall->guard = guard;
 			left->remove();
 			if (left->list_2nd == &expression)
 				left->remove_2nd();

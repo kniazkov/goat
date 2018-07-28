@@ -41,6 +41,7 @@ namespace goat {
 		args = tokArgs->tokens;
 		tokArgs->tokens = nullptr;
 		method = false;
+		guard = false;
 	}
 
 	FunctionCall * FunctionCall::toFunctionCall() {
@@ -102,6 +103,12 @@ namespace goat {
 			}
 			step = DONE;
 			if (funcObj->toObjectUndefined()) {
+				if (fcall->guard) {
+					State *p = prev;
+					p->ret(ObjectUndefined::getInstance());
+					delete this;
+					return p;
+				}
 				Identifier *i = fcall->func->toIdentifier();
 				if (i) {
 					return throw_(new NameIsNotDefined(i->name));
