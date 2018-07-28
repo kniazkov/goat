@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectFunction.h"
 #include "ObjectStringBuilder.h"
 #include "ObjectByteArray.h"
+#include "ObjectNull.h"
 #include "Resource.h"
 #include "StringBuilder.h"
 
@@ -127,7 +128,10 @@ namespace goat {
 				if (proto->toObjectUndefined()) {
 					return;
 				}
-				if (proto == ObjectInteger::Proto::getInstance()) {
+				if (proto->toObjectNull()) {
+					retObj = ObjectNull::getInstance();
+				}
+				else if (proto == ObjectInteger::Proto::getInstance()) {
 					retObj = new ObjectInteger(0);
 				}
 				else if (proto == ObjectStringBuilder::Proto::getInstance()) {

@@ -739,6 +739,12 @@
 						<c><c>person["name"]</c></c>
 					</r>
 					<r>
+						<c>21</c>
+						<c><c>?.</c></c>
+						<c>Member with void guard</c>
+						<c><c>person?.name</c></c>
+					</r>
+					<r>
 						<c>20</c>
 						<c><c>()</c></c>
 						<c>Function call</c>
@@ -3328,6 +3334,128 @@
 				</c>
 			</s>
 		</s>
+		<s name="All about nothing">
+			<p>There are special objects in the Goat programming language that means "nothing": <c>undefined</c>, <c>null</c> and <c>void</c>.</p>
+			<s name="undefined">
+				<p>As previously described, <c>undefined</c> means that no value has been assigned. Any variable defined using "var" keyword without an initial value has the value of <c>undefined</c>:</p>
+				<c><![CDATA[
+					var v;
+					print(v); // output: "undefined"]]>
+				</c>
+				<p>Moreover, if you try to read the value of an undeclared variable, this value will also be <c>undefined</c>:</p>
+				<c>print(n3j9v0kXXq);  // output: "undefined"</c>
+				<p>The same is true if you read a non-existent property of an object:</p>
+				<c><![CDATA[
+					var obj = { x: 10, y: 20 };
+					print(obj.z); // output: "undefined"]]>
+				</c>
+				<p>Is <c>undefined</c> an object? Yes. This is an object, and it even has its own prototype: <c>Undefined</c>. But you can not do anything with this object. You cannot change properties of <c>undefined</c>, you can not call methods. All you can is compare this object to <c>undefined</c>:</p>
+				<c><![CDATA[
+					if (obj == undedined) {
+						//...
+					}]]>
+				</c>
+				<p>Or:</p>
+				<c><![CDATA[
+					if (defined(obj)) {
+						//...
+					}]]>
+				</c>
+			</s>
+			<s name="null">
+				<p>The second special object. It means that the value was defined, that is, it is not equal to <c>undefined</c>, but it is empty. Null is not numeric, is not a string. This is "nothing".</p>
+				<p>Unlike <c>undefined</c>, the <c>null</c> object is not created implicitly anywhere. It can be explicitly assigned to a variable or returned from a method:</p>
+				<c><![CDATA[
+					var n = null;
+					
+					var f = $() {
+						//...
+						return null;
+					};]]>
+				</c>
+				<p><c>null</c> is not equal to <c>undefined</c>:</p>
+				<c><![CDATA[
+					var u; // undefined
+					
+					if (u == null) { // false!
+						//...
+					}
+					
+					var n = null;
+					
+					if (defined(n)) { // true!
+						// ...
+					}
+					]]>
+				</c>
+				<p>Is <c>null</c> an object? Yes. This is an object, like <c>undefined</c>, and it has its own prototype: <c>Null</c>. You can not add prototypes to <c>null</c>, but you can call methods, for example:</p>
+				<c>print(null.instanceOf(Null)); // "true"</c>
+			</s>
+			<s name="void">
+				<p>The third data type, which combines the two previous ones.</p>
+				<p>The <c>void</c> object has prototype <c>Void</c>", and both <c>Undefined</c> and <c>Null</c> inheriths from <c>Void</c>. So, in other words, <b><c>undefined</c> is <c>void</c> and <c>null</c> is <c>void</c>.</b> This is used if you need to check with one operation whether the object is <c>null</c> or <c>undefined</c>:</p>
+				<c><![CDATA[
+					var f = $(value) {
+						if (value == void) {
+							throw new Exception.IllegalArgument();
+						}
+						
+						//...
+					};]]>
+				</c>
+				<p>This is the same as:</p>
+				<c><![CDATA[
+					var f = $(value) {
+						if (value == undefined || value == null) {
+							throw new Exception.IllegalArgument();
+						}
+						
+						//...
+					};]]>
+				</c>
+			</s>
+			<s name="Operator ?. (void guard)">
+				<p>You can not read a property from <c>undefined</c> or <c>null</c>. If you try to read a property (or call a method) from <c>undefined</c>, this will throw an exception <c>Exception.CanNotReadPropertyOfUndefined</c>. If you try to read a property from <c>null</c>, then <c>null</c> contains no properties (except standard methods and operators). Thus, sometimes it is necessary to check whether a variable (most often an argument of a method) is a void. This avoids unintended consequences like exceptions. For example:</p>
+				<c><![CDATA[
+					// safe 'exist' field reading from 'some.object.that.might.not.exist': 
+					if (some != void) {
+						if (some.object != void) {
+							if (some.object.that != void) {
+								if (some.object.that.might != void) {
+									if (some.object.that.might.not != void) {
+										return some.object.that.might.not.exist;
+									}
+								}
+							}
+						}
+					}
+					return 0;]]>
+				</c>
+				<p>This, probably, is not the shortest solution.</p>
+				<p>Operator <c>?.</c> read a property (calls a method) only if a left object is not void, otherwise returns <c>undefined:</c></p>
+				<c><![CDATA[
+					/* if object is void (null or undefined) then val = undefined,
+					  else val = property: */
+					val = object?.property;
+					
+					/* if object is void (null or undefined) then val = undefined,
+					  else val is result of method call: */
+					val = object?.method();]]>
+				</c>
+				<p>The result can be supplemented by the <b>or</b> (<c>||</c>) operator to change <c>undefined</c> to alternate value:</p>
+				<c><![CDATA[
+					/* if object is void (null or undefined) then val = alternate,
+					  else val = property: */
+					val = object?.property || alternate;
+					
+					/* if object is void (null or undefined) then val = alternate,
+					  else val is result of method call: */
+					val = object?.method() || alternate;]]>
+				</c>
+				<p>Okay, let's rewrite the first example. Is not it, much shorter:</p>
+				<c>return some?.object?.that?.might?.not?.exist || 0;</c>
+			</s>
+		</s>
 		<s name="Locking objects">
 			<p>Objects can be locked. After locking, nothing can change (or add) properties or methods of the object.</p>
 			<s name="Operator @">
@@ -4012,7 +4140,6 @@
 			<i>You can create an object from more than one prototype.</i>
 		</l>
 		<p>Some samples are below.</p>
-		
 		<s name="Identifiers">
 			<h name="JavaScript">
 				<p>The first character of an identifier must be a letter, or an underscore (<c>_</c>), or a dollar sign (<c>$</c>). Subsequent characters may be letters, digits, underscores, or dollar signs.</p>
@@ -4025,7 +4152,6 @@
 				<c>var f = function(a, b) { };</c>
 			</h>
 		</s>
-		
 		<s name="Keywords">
 			<p>The Goat programming language reserves several additional keywords:</p>
 			<t>
@@ -4047,20 +4173,12 @@
 				</r>
 			</t>
 		</s>
-		
-		<s name="Operators">
-			<p>The Goat language has no comparison operators <c>===</c> (equal value and equal type) and <c>!==</c> (not equal value or not equal type). Operators <c>==</c> and <c>!=</c> works in most cases as <c>===</c> and <c>!==</c> operators in JavaScript.</p>
-			<p>The Goat language has not <c>typeof</c> and <c>instanceof</c> operators. Use <c>instanceOf</c> method instead:</p>
-			<c>print(13.instanceOf(Integer)); // output: "true"</c>
-			<p>The Goat language provides the new operator <c>-&gt;</c> that means inheritance.</p>
-		</s>
-		
 		<s name="Primitive types">
 			<h name="JavaScript">
 				A primitive data type is a data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol. All primitives are immutable.
 			</h>
 			<h name="Goat">
-				<p>There are no primitive types. All data represented as objects. Each object except <c>undefined</c> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: <c>Char</c>, <c>String</c>, <c>Integer</c>, <c>Real</c>, <c>Boolean</c> and <c>Null</c>.</p>
+				<p>There are no primitive types. All data represented as objects. Each object except <c>undefined</c> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: <c>Char</c>, <c>String</c>, <c>Integer</c>, <c>Real</c>, <c>Boolean</c>, <c>Void</c>, <c>Undefined</c> and <c>Null</c>.</p>
 				<p>This programming language clearly distinguishes between strings (prototype is <c>String</c>) and individual characters (prototype is <c>Char</c>), as well as integers (<c>Integer</c>) and floating-point numbers (<c>Real</c>). These types have different set of methods and operators, but if necessary type can be converted to another:</p>
 				<c><![CDATA[
 					var c = 'a'; // prototype of c is Char
@@ -4069,7 +4187,6 @@
 				<p>All other structures, for example, functions, threads, arrays etc have own prototypes (<c>Function</c>, <c>Thread</c>, <c>Array</c>).</p>
 			</h>
 		</s>
-		
 		<s name="Scope">
 			<h name="JavaScript">
 				<p>There are two types of scopes: global and local. Variables defined inside a function are in the local scope. Variables defined inside of a block statement will remain in the scope they were already in. ECMAScript 6 introduced the <c>let</c> keyword. Contrary to the <c>var</c> keyword, the <c>let</c> keyword supports the declaration of local scope inside block statements.</p>
@@ -4099,7 +4216,6 @@
 				<p>But, if you re-declare a Goat variable in the same block, it will lose its value.</p>
 			</h>
 		</s>
-		
 		<s name="The 'this' keyword">
 			<h name="JavaScript">
 				<p>You must use the <c>this</c> keyword to refer to the field of own object:</p>
@@ -4128,7 +4244,17 @@
 				</c>
 			</h>
 		</s>
-		
+		<s name="Operators">
+			<p>The Goat language has no comparison operators <c>===</c> (equal value and equal type) and <c>!==</c> (not equal value or not equal type). Operators <c>==</c> and <c>!=</c> works in most cases as <c>===</c> and <c>!==</c> operators in JavaScript.</p>
+			<p>The Goat language has not <c>typeof</c> and <c>instanceof</c> operators. Use <c>instanceOf</c> method instead:</p>
+			<c>print(13.instanceOf(Integer)); // output: "true"</c>
+			<p>The Goat language provides  several new operators:</p>
+			<l>
+				<i><c>-&gt;</c> that means inheritance;</i>
+				<i><c>@</c> for object locking (after locking, an object cannot be changed);</i>
+				<i><c>?.</c>as null conditional operator.</i>
+			</l>
+		</s>
 		<s name="Operators overloading">
 			<h name="JavaScript">
 				<p>Doesn't support.</p>
@@ -4160,7 +4286,6 @@
 				</c>
 			</h>
 		</s>
-		
 		<s name="Multithreading">
 			<h name="JavaScript">
 				<p>Doesn't support. There are some workarounds, say web workers, and, of course, functions <c>setTimeout()</c> and <c>setInterval()</c>.</p>
@@ -4187,7 +4312,6 @@
 				</c>
 			</h>
 		</s>
-
 		<s name="The 'new' keyword and constructors">
 			<h name="JavaScript">
 				<p>Constructors are like regular functions, but we use them with the <c>new</c> keyword. If you inherit your object and the parent has a constructor, you need to call parent constructor to perform initialization logic.</p>
@@ -4223,7 +4347,6 @@
 				</c>
 			</h>
 		</s>
-
 		<s name="Inheritance">
 			<h name="JavaScript">
 				<c><![CDATA[
@@ -4269,7 +4392,6 @@
 				</c>
 			</h>
 		</s>
-		
 		<s name="Multiple inheritance">
 			<h name="JavaScript">
 				<p>Is not supported. You can use some tricks (say mixins) but it is not true multiple inheritance.</p>
@@ -4291,6 +4413,20 @@
 				</c>
 				<p>The solution of the problem of multiple inheritance ("the diamond problem"): Goat uses the list of prototypes to inherit from as an ordered list. The interpreter uses the first method it finds by depth-first searching.</p>
 			</h>
-		</s>	
+		</s>
+		<s name="Syntactic sugar">
+			<s name="Null conditional operator">
+				<h name="JavaScript">
+					<p>Doesn't support. Currently, it is proposal options, it will be supported later.</p>
+				</h>
+				<h name="Goat">
+					<p>Operator <c>?.</c> is added. Operator <c>?.</c> read a property (calls a method) only if a left object is not void, otherwise returns <c>undefined:</c></p>
+					<c><![CDATA[
+						var value = user?.address?.street;
+						]]>
+					</c>
+				</h>
+			</s>
+		</s>
 	</s>
 </goat>
