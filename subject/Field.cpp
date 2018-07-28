@@ -62,13 +62,14 @@ namespace goat {
 			return field->left->createState(this);
 		}
 		else {
-			if (left->toObjectUndefined() != nullptr) {
-				if (!field->guard)
-					return throw_(new CanNotReadPropertyOfUndefined(field->name));
+			if (field->guard && left->toObjectVoid() != nullptr) {
 				State *p = prev;
 				p->ret(ObjectUndefined::getInstance());
 				delete this;
 				return p;
+			}
+			else if (left->toObjectUndefined() != nullptr) {
+				return throw_(new CanNotReadPropertyOfUndefined(field->name));
 			}
 			else {
 				if (context) {
