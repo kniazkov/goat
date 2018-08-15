@@ -44,7 +44,7 @@ namespace goat {
 		Block * top;
 
 	public:
-		SizeT used, unused;
+		int used, unused;
 		const SizeT size = Size;
 
 		Pool() : top(nullptr), used(0), unused(0) {
@@ -81,25 +81,16 @@ namespace goat {
 
 		void free(void *ptr) {
 			Block * b = (Block*)ptr;
-			b->next = top;
-			top = b;
-			unused++;
 			used--;
-		}
-
-		/*
-		void reduce(MemorySize maxUnused = 0) {
-			Block *b = top,
-				*n;
-
-			while (b && unused > maxUnused) {
-				n = b->next;
+			if (10 * unused > used) {
 				delete b;
-				b = n;
-				unused--;
+			}
+			else {
+				b->next = top;
+				top = b;
+				unused++;
 			}
 		}
-		*/
 
 		static Pool & getInstance();
 	};
