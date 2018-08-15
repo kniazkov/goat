@@ -21,13 +21,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Object.h"
-#include "ObjectString.h"
 #include "ObjectArray.h"
 #include "ObjectBoolean.h"
 #include "ObjectBuiltIn.h"
+#include "ObjectByteArray.h"
+#include "ObjectChar.h"
 #include "ObjectException.h"
+#include "ObjectFile.h"
 #include "ObjectFunction.h"
 #include "ObjectInteger.h"
+#include "ObjectNull.h"
+#include "ObjectReal.h"
+#include "ObjectString.h"
+#include "ObjectStringBuilder.h"
+#include "objectThread.h"
 #include "ObjectUndefined.h"
 #include "WideStringBuilder.h"
 #include "Assert.h"
@@ -429,14 +436,21 @@ namespace goat {
 	////////
 
 	union ObjectPlaceholder {
-		char s[sizeof(ObjectString)];
+		char a[sizeof(ObjectArray)];
 		char b[sizeof(ObjectBoolean)];
+		char ba[sizeof(ObjectByteArray)];
+		char c[sizeof(ObjectChar)];
 		char e[sizeof(ObjectException)];
-		char f[sizeof(ObjectFunction)];
+		char fi[sizeof(ObjectFile)];
+		char fn[sizeof(ObjectFunction)];
 		char i[sizeof(ObjectInteger)];
+		char r[sizeof(ObjectReal)];
+		char s[sizeof(ObjectString)];
+		char sb[sizeof(ObjectStringBuilder)];
+		char t[sizeof(ObjectThread)];
 	};
 
-	static Pool<sizeof(ObjectPlaceholder) + 2 * sizeof(void*)> objPool;
+	static Pool<sizeof(ObjectPlaceholder)> objPool;
 	long long int totalObjMem = 0;
 
 	void * Object::operator new(SizeT size) {
