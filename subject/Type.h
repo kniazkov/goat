@@ -28,7 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace goat {
 
 	typedef wchar_t wchar;
-	typedef size_t MemorySize;
+	typedef size_t SizeT;
 	typedef int32_t Int32;
 	typedef uint32_t UInt32;
 

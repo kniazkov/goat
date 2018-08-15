@@ -49,12 +49,12 @@ namespace goat {
 				delete this;
 			}
 
-			void * operator new(MemorySize size) {
-				return pool64.alloc(size);
+			void * operator new(SizeT size) {
+				return Pool<sizeof(Item)>::getInstance().alloc(size);
 			}
 
 			void operator delete(void *ptr) {
-				pool64.free(ptr);
+				Pool<sizeof(Item)>::getInstance().free(ptr);
 			}
 
 			Item *clone() {

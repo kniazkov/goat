@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "Exception.h"
+#include "Pool.h"
 
 namespace goat {
 
@@ -41,6 +42,14 @@ namespace goat {
 			Item *prev,
 				*next;
 			Type data;
+
+			void * operator new(SizeT size) {
+				return Pool<sizeof(Item)>::getInstance().alloc(size);
+			}
+
+			void operator delete(void *ptr) {
+				Pool<sizeof(Item)>::getInstance().free(ptr);
+			}
 		};
 
 		Item *first,

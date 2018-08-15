@@ -439,7 +439,7 @@ namespace goat {
 	static Pool<sizeof(ObjectPlaceholder) + 2 * sizeof(void*)> objPool;
 	long long int totalObjMem = 0;
 
-	void * Object::operator new(MemorySize size) {
+	void * Object::operator new(SizeT size) {
 		totalObjMem += objPool.size;
 		return objPool.alloc(size);
 	}

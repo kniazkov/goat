@@ -28,7 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	void * State::operator new(MemorySize size) {
+	void * State::operator new(SizeT size) {
 		return Thread::current->allocator.alloc((unsigned int)size);
 	}
 

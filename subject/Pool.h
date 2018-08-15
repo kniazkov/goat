@@ -27,7 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	template <MemorySize Size> class Pool {
+	template <SizeT Size> class Pool {
 	protected:
 		Pool(const Pool &) {
 		}
@@ -44,8 +44,8 @@ namespace goat {
 		Block * top;
 
 	public:
-		MemorySize used, unused;
-		const MemorySize size = Size;
+		SizeT used, unused;
+		const SizeT size = Size;
 
 		Pool() : top(nullptr), used(0), unused(0) {
 		}
@@ -74,7 +74,7 @@ namespace goat {
 			return (void*)b->memory;
 		}
 
-		void * alloc(MemorySize size) {
+		void * alloc(SizeT size) {
 			assert(size <= Size);
 			return alloc();
 		}
@@ -87,6 +87,7 @@ namespace goat {
 			used--;
 		}
 
+		/*
 		void reduce(MemorySize maxUnused = 0) {
 			Block *b = top,
 				*n;
@@ -98,10 +99,8 @@ namespace goat {
 				unused--;
 			}
 		}
+		*/
+
+		static Pool & getInstance();
 	};
-
-	extern Pool<32> pool32;
-	extern Pool<64> pool64;
-	extern Pool<128> pool128;
-
 }

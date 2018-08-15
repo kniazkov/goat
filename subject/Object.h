@@ -131,7 +131,7 @@ namespace goat {
 		virtual ObjectStringBuilder *toObjectStringBuilder();
 		virtual ObjectByteArray * toObjectByteArray();
 
-		void *operator new (MemorySize size);
+		void *operator new (SizeT size);
 		void operator delete (void *ptr);
 	};
 

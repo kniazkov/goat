@@ -26,7 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 int allocated = 0;
 long long totalAlloc = 0;
 
-void * operator new(goat::MemorySize size) {
+void * operator new(goat::SizeT size) {
 	void *ptr = goat::Platform::alloc((unsigned int)size);
 	if (!ptr) {
 		throw goat::NoMemory();
@@ -36,7 +36,7 @@ void * operator new(goat::MemorySize size) {
 	return ptr;
 }
 
-void * operator new[](goat::MemorySize size) {
+void * operator new[](goat::SizeT size) {
 	void *ptr = goat::Platform::alloc((unsigned int)size);
 	if (!ptr) {
 		throw goat::NoMemory();

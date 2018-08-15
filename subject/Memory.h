@@ -37,8 +37,8 @@ namespace goat {
 extern int allocated;
 extern long long totalAlloc;
 
-void * operator new(goat::MemorySize size);
-void * operator new[](goat::MemorySize size);
+void * operator new(goat::SizeT size);
+void * operator new[](goat::SizeT size);
 void operator delete(void *ptr) throw();
 void operator delete[](void *ptr) throw();
 
