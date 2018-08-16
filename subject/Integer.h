@@ -39,7 +39,7 @@ namespace goat {
 		};
 
 	public:
-		long long int value;
+		lint value;
 
 		Integer *toInteger() override;
 		State * createState(State *_prev) override;

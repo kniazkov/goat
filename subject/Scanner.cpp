@@ -209,7 +209,7 @@ namespace goat {
 				if (!isHexDigit(c)) {
 					throw ExpechedHexDigit(src->location());
 				}
-				long long int hv = 0;
+				lint hv = 0;
 				do {
 					hv = hv * 16 + hexToInt(c);
 					c = next();
@@ -223,7 +223,7 @@ namespace goat {
 				if (c != '0' && c != '1') {
 					throw ExpechedBooleanDigit(src->location());
 				}
-				long long int bv = 0;
+				lint bv = 0;
 				do {
 					bv = (bv << 1) + (c - '0');
 					c = next();
@@ -237,7 +237,7 @@ namespace goat {
 			c = '0';
 		}
 		if (isDigit(c)) {
-			long long int iv = 0;
+			lint iv = 0;
 			do {
 				iv = iv * 10 + c - '0';
 				c = next();
@@ -256,7 +256,7 @@ namespace goat {
 				i->value = iv;
 				return  i;
 			}
-			long long int fv = 0,
+			lint fv = 0,
 				m = 1;
 			do {
 				m = m * 10;
@@ -264,7 +264,7 @@ namespace goat {
 				c = next();
 			} while (isDigit(c));
 			Real *r = new Real();
-			r->value = (long double)iv + (long double)fv / (long double)m;
+			r->value = (ldouble)iv + (ldouble)fv / (ldouble)m;
 			return  r;
 		}
 		if (c == '.') {

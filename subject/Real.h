@@ -39,7 +39,7 @@ namespace goat {
 		};
 
 	public:
-		long double value;
+		ldouble value;
 
 		Real *toReal() override;
 		State * createState(State *_prev) override;

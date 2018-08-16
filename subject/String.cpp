@@ -232,7 +232,7 @@ namespace goat {
 		}
 	}
 
-	String String::valueOf(long long int val) {
+	String String::valueOf(lint val) {
 		bool neg = false;
 		if (val < 0) {
 			neg = true;
@@ -251,7 +251,7 @@ namespace goat {
 		return String(ptr);
 	}
 
-	String String::valueOf(long double val, unsigned int precision, bool trim) {
+	String String::valueOf(ldouble val, unsigned int precision, bool trim) {
 		if (precision < 1) {
 			precision = 1;
 		}
@@ -265,9 +265,9 @@ namespace goat {
 		*fptr = '\0';
 		char *iptr = fptr - precision - 1;
 		*iptr = '.';
-		long long int ival = (long long int)val;
-		auto tail = val - (long double)ival;
-		long long int fval = (long long int)(tail * Utils::pow10(precision + 1));
+		lint ival = (lint)val;
+		auto tail = val - (ldouble)ival;
+		lint fval = (lint)(tail * Utils::pow10(precision + 1));
 		auto lastDigit = fval % 10;
 		fval /= 10;
 		if (lastDigit >= 5) {

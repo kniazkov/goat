@@ -164,8 +164,8 @@ namespace goat {
 		return begin;
 	}
 
-	long double Utils::pow10(uint8 n) {
-		static long double table[] = {
+	ldouble Utils::pow10(uint8 n) {
+		static ldouble table[] = {
 			1,
 			10,
 			100,
@@ -187,7 +187,7 @@ namespace goat {
 			1000000000000000000
 		};
 		if (n > 18) {
-			long double p = 1;
+			ldouble p = 1;
 			while (n--) {
 				p = p * 10;
 			}

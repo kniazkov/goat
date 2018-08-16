@@ -28,7 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	ObjectReal::ObjectReal(long double _value) {
+	ObjectReal::ObjectReal(ldouble _value) {
 		value = _value;
 		proto[0] = Proto::getInstance();
 	}
@@ -85,7 +85,7 @@ namespace goat {
 			Object *arg = scope->arguments->vector[0];
 			ObjectInteger *operInt = arg->toObjectInteger();
 			if (operInt) {
-				return new ObjectReal(this_->value + ((long double)operInt->value));
+				return new ObjectReal(this_->value + ((ldouble)operInt->value));
 			}
 			ObjectReal *operand = arg->toObjectReal();
 			if (!operand) {
@@ -110,7 +110,7 @@ namespace goat {
 			Object *arg = scope->arguments->vector[0];
 			ObjectInteger *operInt = arg->toObjectInteger();
 			if (operInt) {
-				return new ObjectReal(this_->value - ((long double)operInt->value));
+				return new ObjectReal(this_->value - ((ldouble)operInt->value));
 			}
 			ObjectReal *operand = arg->toObjectReal();
 			if (!operand) {
@@ -134,7 +134,7 @@ namespace goat {
 		Object *arg = scope->arguments->vector[0];
 		ObjectInteger *operInt = arg->toObjectInteger();
 		if (operInt) {
-			return new ObjectReal(this_->value * ((long double)operInt->value));
+			return new ObjectReal(this_->value * ((ldouble)operInt->value));
 		}
 		ObjectReal *operand = arg->toObjectReal();
 		if (!operand) {
@@ -157,7 +157,7 @@ namespace goat {
 			if (operInt->value == 0) {
 				return new DivisionByZero();
 			}
-			return new ObjectReal(this_->value / ((long double)operInt->value));
+			return new ObjectReal(this_->value / ((ldouble)operInt->value));
 		}
 		ObjectReal *operand = arg->toObjectReal();
 		if (!operand) {
@@ -180,7 +180,7 @@ namespace goat {
 		Object *arg = scope->arguments->vector[0];
 		ObjectInteger *operInt = arg->toObjectInteger();
 		if (operInt) {
-			return new ObjectBoolean(this_->value < ((long double)operInt->value));
+			return new ObjectBoolean(this_->value < ((ldouble)operInt->value));
 		}
 		ObjectReal *operand = arg->toObjectReal();
 		if (!operand) {
@@ -200,7 +200,7 @@ namespace goat {
 		Object *arg = scope->arguments->vector[0];
 		ObjectInteger *operInt = arg->toObjectInteger();
 		if (operInt) {
-			return new ObjectBoolean(this_->value <= ((long double)operInt->value));
+			return new ObjectBoolean(this_->value <= ((ldouble)operInt->value));
 		}
 		ObjectReal *operand = arg->toObjectReal();
 		if (!operand) {
@@ -220,7 +220,7 @@ namespace goat {
 		Object *arg = scope->arguments->vector[0];
 		ObjectInteger *operInt = arg->toObjectInteger();
 		if (operInt) {
-			return new ObjectBoolean(this_->value > ((long double)operInt->value));
+			return new ObjectBoolean(this_->value > ((ldouble)operInt->value));
 		}
 		ObjectReal *operand = arg->toObjectReal();
 		if (!operand) {
@@ -240,7 +240,7 @@ namespace goat {
 		Object *arg = scope->arguments->vector[0];
 		ObjectInteger *operInt = arg->toObjectInteger();
 		if (operInt) {
-			return new ObjectBoolean(this_->value >= ((long double)operInt->value));
+			return new ObjectBoolean(this_->value >= ((ldouble)operInt->value));
 		}
 		ObjectReal *operand = arg->toObjectReal();
 		if (!operand) {

@@ -29,9 +29,9 @@ namespace goat {
 
 	class ObjectReal : public Object {
 	public:
-		long double value;
+		ldouble value;
 
-		ObjectReal(long double value);
+		ObjectReal(ldouble value);
 		ObjectReal * toObjectReal() override;
 		WideString toWideString() override;
 		bool equals(Object *_obj) override;

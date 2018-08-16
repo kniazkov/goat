@@ -34,11 +34,13 @@ namespace goat {
 	typedef int32_t int64;
 
 	typedef long long int lint;
+	typedef unsigned long long int ulint;
 	typedef long double ldouble;
 
 	typedef uint8_t uint8;
 	typedef uint32_t uint32;
 
+    const uint32 uint32max = 4294967295;
 
 #if WCHAR_MAX > 0xFFFF
 #define WCHAR_32

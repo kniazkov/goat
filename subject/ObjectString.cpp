@@ -226,20 +226,20 @@ namespace goat {
 			return new IllegalArgument();
 		}
 		ObjectInteger *start = scope->arguments->vector[0]->toObjectInteger();
-		if (!start || start->value < 0) {
+		if (!start || start->value < 0 || start->value > uint32max) {
 			return new IllegalArgument();
 		}
 		ObjectInteger *count = nullptr;
 		if (scope->arguments->vector.len() > 1) {
 			count = scope->arguments->vector[1]->toObjectInteger();
 		}
-		unsigned int start_ = (unsigned int)start->value,
+		uint32 start_ = (uint32)start->value,
 			count_;
 		if (count) {
-			if (count->value < 0) {
+			if (count->value < 0 || count->value > uint32max) {
 				return new IllegalArgument();
 			}
-			count_ = (unsigned int)count->value;
+			count_ = (uint32)count->value;
 		}
 		else {
 			count_ = this_->value.len() - start_;

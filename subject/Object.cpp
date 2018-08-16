@@ -451,7 +451,7 @@ namespace goat {
 	};
 
 	static Pool<sizeof(ObjectPlaceholder)> objPool;
-	long long int totalObjMem = 0;
+	lint totalObjMem = 0;
 
 	void * Object::operator new(__size size) {
 		totalObjMem += objPool.size;

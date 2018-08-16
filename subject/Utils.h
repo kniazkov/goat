@@ -79,7 +79,7 @@ namespace goat {
 		static int strWstrCmp(const char *a, const wchar *b);
 		static const char *fileNameFromFullPath(const char *path);
 		
-		static long double pow10(uint8 n);
+		static ldouble pow10(uint8 n);
 		
 		static void print(const wchar *cwstr);
 		static void printErr(const wchar *cwstr);

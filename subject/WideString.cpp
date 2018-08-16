@@ -209,7 +209,7 @@ namespace goat {
 		}
 	}
 
-	WideString WideString::valueOf(long long int val) {
+	WideString WideString::valueOf(lint val) {
 		bool neg = false;
 		if (val < 0) {
 			neg = true;
@@ -228,7 +228,7 @@ namespace goat {
 		return WideString(ptr);
 	}
 
-	WideString WideString::valueOf(long double val, uint8 precision, bool trim) {
+	WideString WideString::valueOf(ldouble val, uint8 precision, bool trim) {
 		if (precision < 1) {
 			precision = 1;
 		}
@@ -242,9 +242,9 @@ namespace goat {
 		*fptr = '\0';
 		wchar *iptr = fptr - precision - 1;
 		*iptr = '.';
-		long long int ival = (long long int)val;
-		auto tail = val - (long double)ival;
-		long long int fval = (long long int)(tail * Utils::pow10(precision + 1));
+		lint ival = (lint)val;
+		auto tail = val - (ldouble)ival;
+		lint fval = (lint)(tail * Utils::pow10(precision + 1));
 		auto lastDigit = fval % 10;
 		fval /= 10;
 		if (lastDigit >= 5) {

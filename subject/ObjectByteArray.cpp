@@ -41,7 +41,7 @@ namespace goat {
 		WideStringBuilder b;
 		b << (wchar)'[';
 		int i = 0;
-		vector.forEach([&](long long int v) {
+		vector.forEach([&](lint v) {
 			if (i) {
 				b << (wchar)',';
 			}

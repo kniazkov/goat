@@ -27,9 +27,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	template <long long int Value> class ObjectConstInteger : public Object {
+	template <lint Value> class ObjectConstInteger : public Object {
 	public:
-		long long int value;
+		lint value;
 
 		ObjectConstInteger() : Object(true) {
 			value = Value;

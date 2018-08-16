@@ -29,7 +29,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	ObjectInteger::ObjectInteger(long long int _value) {
+	ObjectInteger::ObjectInteger(lint _value) {
 		value = _value;
 		proto[0] = Proto::getInstance();
 	}
@@ -102,7 +102,7 @@ namespace goat {
 			Object *arg = scope->arguments->vector[0];
 			ObjectReal *operReal = arg->toObjectReal();
 			if (operReal) {
-				return new ObjectReal(((long double)this_->value) + operReal->value);
+				return new ObjectReal(((ldouble)this_->value) + operReal->value);
 			}
 			ObjectInteger *operand = arg->toObjectInteger();
 			if (!operand) {
@@ -127,7 +127,7 @@ namespace goat {
 			Object *arg = scope->arguments->vector[0];
 			ObjectReal *operReal = arg->toObjectReal();
 			if (operReal) {
-				return new ObjectReal(((long double)this_->value) - operReal->value);
+				return new ObjectReal(((ldouble)this_->value) - operReal->value);
 			}
 			ObjectInteger *operand = arg->toObjectInteger();
 			if (!operand) {
@@ -151,7 +151,7 @@ namespace goat {
 		Object *arg = scope->arguments->vector[0];
 		ObjectReal *operReal = arg->toObjectReal();
 		if (operReal) {
-			return new ObjectReal(((long double)this_->value) * operReal->value);
+			return new ObjectReal(((ldouble)this_->value) * operReal->value);
 		}
 		ObjectInteger *operand = arg->toObjectInteger();
 		if (!operand) {
@@ -174,7 +174,7 @@ namespace goat {
 			if (operReal->value == 0) {
 				return new DivisionByZero();
 			}
-			return new ObjectReal(((long double)this_->value) / operReal->value);
+			return new ObjectReal(((ldouble)this_->value) / operReal->value);
 		}
 		ObjectInteger *operand = arg->toObjectInteger();
 		if (!operand) {
@@ -212,7 +212,7 @@ namespace goat {
 		Object *arg = scope->arguments->vector[0];
 		ObjectReal *operReal = arg->toObjectReal();
 		if (operReal) {
-			return new ObjectBoolean(((long double)this_->value) < operReal->value);
+			return new ObjectBoolean(((ldouble)this_->value) < operReal->value);
 		}
 		ObjectInteger *operand = arg->toObjectInteger();
 		if (!operand) {
@@ -232,7 +232,7 @@ namespace goat {
 		Object *arg = scope->arguments->vector[0];
 		ObjectReal *operReal = arg->toObjectReal();
 		if (operReal) {
-			return new ObjectBoolean(((long double)this_->value) <= operReal->value);
+			return new ObjectBoolean(((ldouble)this_->value) <= operReal->value);
 		}
 		ObjectInteger *operand = arg->toObjectInteger();
 		if (!operand) {
@@ -252,7 +252,7 @@ namespace goat {
 		Object *arg = scope->arguments->vector[0];
 		ObjectReal *operReal = arg->toObjectReal();
 		if (operReal) {
-			return new ObjectBoolean(((long double)this_->value) > operReal->value);
+			return new ObjectBoolean(((ldouble)this_->value) > operReal->value);
 		}
 		ObjectInteger *operand = arg->toObjectInteger();
 		if (!operand) {
@@ -272,7 +272,7 @@ namespace goat {
 		Object *arg = scope->arguments->vector[0];
 		ObjectReal *operReal = arg->toObjectReal();
 		if (operReal) {
-			return new ObjectBoolean(((long double)this_->value) >= operReal->value);
+			return new ObjectBoolean(((ldouble)this_->value) >= operReal->value);
 		}
 		ObjectInteger *operand = arg->toObjectInteger();
 		if (!operand) {
@@ -367,8 +367,8 @@ namespace goat {
 		if (!operand) {
 			return new IllegalArgument();
 		}
-		unsigned long long int value = (unsigned long long)this_->value >> operand->value;
-		return new ObjectInteger((long long int)value);
+		ulint value = (ulint)this_->value >> operand->value;
+		return new ObjectInteger((lint)value);
 	}
 
 	Object * ObjectInteger::Proto::OperatorZeroFillRightShift::getInstance() {

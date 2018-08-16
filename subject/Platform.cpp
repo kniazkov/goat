@@ -118,7 +118,7 @@ namespace goat {
 		return (wchar)c;
 	}
 
-	long long int Platform::getTimeNs()
+	lint Platform::getTimeNs()
 	{
 		auto t = std::chrono::high_resolution_clock::now().time_since_epoch();
 		auto tn = std::chrono::duration_cast<std::chrono::nanoseconds>(t);

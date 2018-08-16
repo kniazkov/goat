@@ -31,9 +31,9 @@ namespace goat {
 
 	class ObjectInteger : public Object {
 	public:
-		long long int value;
+		lint value;
 
-		ObjectInteger(long long int value);
+		ObjectInteger(lint value);
 		ObjectInteger * toObjectInteger() override;
 		WideString toWideString() override;
 		bool equals(Object *_obj) override;
