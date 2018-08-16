@@ -28,9 +28,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace goat {
 
 	typedef wchar_t wchar;
-	typedef size_t SizeT;
-	typedef int32_t Int32;
-	typedef uint32_t UInt32;
+	typedef size_t __size;
+
+	typedef int32_t int32;
+	typedef int32_t int64;
+
+	typedef long long int lint;
+	typedef long double ldouble;
+
+	typedef uint8_t uint8;
+	typedef uint32_t uint32;
+
 
 #if WCHAR_MAX > 0xFFFF
 #define WCHAR_32

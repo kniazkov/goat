@@ -25,23 +25,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	Int32 Resource::i_arguments() {
-		static Int32 index = Object::createIndex(s_arguments);
+	int32 Resource::i_arguments() {
+		static int32 index = Object::createIndex(s_arguments);
 		return index;
 	}
 
-	Int32 Resource::i_init() {
-		static Int32 index = Object::createIndex(s_init);
+	int32 Resource::i_init() {
+		static int32 index = Object::createIndex(s_init);
 		return index;
 	}
 
-	Int32 Resource::i_trace() {
-		static Int32 index = Object::createIndex(s_trace);
+	int32 Resource::i_trace() {
+		static int32 index = Object::createIndex(s_trace);
 		return index;
 	}
 
-	Int32 Resource::i_clone() {
-		static Int32 index = Object::createIndex(s_clone);
+	int32 Resource::i_clone() {
+		static int32 index = Object::createIndex(s_clone);
 		return index;
 	}
 

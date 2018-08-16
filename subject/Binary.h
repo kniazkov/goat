@@ -53,7 +53,7 @@ namespace goat {
 
 	public:
 		Operator *oper;
-		Int32 operIndex;
+		int32 operIndex;
 		Expression *left, *right;
 
 		Binary(Operator *_oper, Expression *_left, Expression *_right);

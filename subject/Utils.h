@@ -39,14 +39,14 @@ namespace goat {
 		}
 
 		template <typename Type>
-		static void memSet(Type *ptr, Type value, unsigned int count) {
+		static void memSet(Type *ptr, Type value, uint32 count) {
 			while (count--) {
 				*ptr++ = value;
 			}
 		}
 
 		template <typename Dst, typename Src>
-		static void memCopy(Dst *dst, Src *src, unsigned int count) {
+		static void memCopy(Dst *dst, Src *src, uint32 count) {
 			if (dst > src) {
 				dst += count;
 				src += count;
@@ -71,15 +71,15 @@ namespace goat {
 			return a < b ? a : b;
 		}
 
-		static unsigned int strLen(const char *cstr);
+		static uint32 strLen(const char *cstr);
 		static int strCmp(const char *a, const char *b);
-		static int strCmp(const char *a, const char *b, unsigned int n);
-		static unsigned int wstrLen(const wchar *cwstr);
+		static int strCmp(const char *a, const char *b, uint32 n);
+		static uint32 wstrLen(const wchar *cwstr);
 		static int wstrCmp(const wchar *a, const wchar *b);
 		static int strWstrCmp(const char *a, const wchar *b);
 		static const char *fileNameFromFullPath(const char *path);
 		
-		static long double pow10(unsigned int n);
+		static long double pow10(uint8 n);
 		
 		static void print(const wchar *cwstr);
 		static void printErr(const wchar *cwstr);

@@ -31,7 +31,7 @@ namespace goat {
 	}
 
 	WideString::WideString(const wchar *cwstr) {
-		unsigned int i, len = Utils::wstrLen(cwstr);
+		uint32 i, len = Utils::wstrLen(cwstr);
 		if (len > 0) {
 			buff = new Buffer(len);
 			for (i = 0; i < len; i++) {
@@ -45,12 +45,12 @@ namespace goat {
 		}
 	}
 
-	WideString::WideString(unsigned int len) {
+	WideString::WideString(uint32 len) {
 		buff = len > 0 ? new Buffer(len) : nullptr;
 	}
 
-	WideString::WideString(const wchar *cwstr, unsigned int len) {
-		unsigned int i;
+	WideString::WideString(const wchar *cwstr, uint32 len) {
+		uint32 i;
 		if (len > 0) {
 			buff = new Buffer(len);
 			for (i = 0; i < len; i++) {
@@ -86,7 +86,7 @@ namespace goat {
 		if (buff) {
 			buff->release();
 		}
-		unsigned int i, len = Utils::wstrLen(cwstr);
+		uint32 i, len = Utils::wstrLen(cwstr);
 		if (len > 0) {
 			buff = new Buffer(len);
 			for (i = 0; i < len; i++) {
@@ -114,7 +114,7 @@ namespace goat {
 		return *this;
 	}
 
-	wchar WideString::operator[](unsigned int idx) {
+	wchar WideString::operator[](uint32 idx) {
 		if (!buff || idx >= buff->len) {
 			throw OutOfBounds();
 		}
@@ -122,7 +122,7 @@ namespace goat {
 		return buff->data[idx];
 	}
 
-	unsigned int WideString::len() const {
+	uint32 WideString::len() const {
 		return buff ? buff->len : 0;
 	}
 
@@ -191,7 +191,7 @@ namespace goat {
 		return result;
 	}
 
-	WideString::Buffer::Buffer(unsigned int len) {
+	WideString::Buffer::Buffer(uint32 len) {
 		refs = 1;
 		data = new wchar[len + 1];
 		data[len] = '\0';
@@ -228,7 +228,7 @@ namespace goat {
 		return WideString(ptr);
 	}
 
-	WideString WideString::valueOf(long double val, unsigned int precision, bool trim) {
+	WideString WideString::valueOf(long double val, uint8 precision, bool trim) {
 		if (precision < 1) {
 			precision = 1;
 		}
@@ -256,7 +256,7 @@ namespace goat {
 		}
 		if (fval > 0) {
 			bool zero = true;
-			for (unsigned int k = 0; k < precision; k++) {
+			for (uint32 k = 0; k < precision; k++) {
 				auto digit = fval % 10;
 				if (digit == 0) {
 					if (zero && trim) {
@@ -306,7 +306,7 @@ namespace goat {
 	String WideString::toString() {
 		if (buff) {
 			String s(buff->len);
-			for (unsigned int i = 0; i < buff->len; i++) {
+			for (uint32 i = 0; i < buff->len; i++) {
 				wchar w = buff->data[i];
 				char c = w > 127 ? '?' : (char)w;
 				s.buff->data[i] = c;
@@ -316,9 +316,9 @@ namespace goat {
 		return nullptr;
 	}
 
-	WideString WideString::subString(unsigned int start, unsigned int count) {
+	WideString WideString::subString(uint32 start, uint32 count) {
 		if (buff && buff->len > start) {
-			unsigned int tail = buff->len - start;
+			uint32 tail = buff->len - start;
 			if (count > tail)
 				count = tail;
 		}
@@ -327,7 +327,7 @@ namespace goat {
 
 		WideString result;
 		if (count > 0) {
-			unsigned int i;
+			uint32 i;
 			result.buff = new Buffer(count);
 			for (i = 0; i < count; i++) {
 				if (buff->data[i + start] > 127)

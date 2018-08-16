@@ -35,36 +35,36 @@ namespace goat {
 	protected:
 		class Buffer {
 		public:
-			unsigned int refs,
+			uint32 refs,
 				len;
 			wchar *data;
 			bool ascii;
 
-			Buffer(unsigned int len);
+			Buffer(uint32 len);
 			~Buffer();
 			inline void release();
 		};
 
 		Buffer *buff;
 
-		WideString(unsigned int len);
+		WideString(uint32 len);
 
 	public:
 		WideString();
 		WideString(const wchar *cwstr);
-		WideString(const wchar *cwstr, unsigned int len);
+		WideString(const wchar *cwstr, uint32 len);
 		WideString(const WideString & wstr);
 		WideString(WideString && wstr);
 		~WideString();
 		WideString & operator=(const wchar *cwstr);
 		WideString & operator=(const WideString & wstr);
-		wchar operator[] (unsigned int idx);
-		unsigned int len() const;
+		wchar operator[] (uint32 idx);
+		uint32 len() const;
 		const wchar *cwstr() const;
 		RawString toRawString();
 		bool isAscii();
 		String toString();
-		WideString subString(unsigned int start, unsigned int count);
+		WideString subString(uint32 start, uint32 count);
 		bool operator==(const wchar *cstr);
 		bool operator!=(const wchar *cstr);
 		bool operator==(const WideString &wstr);
@@ -95,7 +95,7 @@ namespace goat {
 		};
 
 		static WideString valueOf(long long int val);
-		static WideString valueOf(long double val, unsigned int precision, bool trim);
+		static WideString valueOf(long double val, uint8 precision, bool trim);
 	};
 
 

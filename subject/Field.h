@@ -37,7 +37,7 @@ namespace goat {
 			bool executed;
 
 			StateImpl(State *_prev, Field *_field, Object **_context) 
-				: State(_prev), field(_field), context(_context), left(nullptr), executed(false) {
+				: State(_prev), field(_field), left(nullptr), context(_context), executed(false) {
 			}
 			State *next() override;
 			void ret(Object *obj) override;
@@ -64,7 +64,7 @@ namespace goat {
 	public:
 		Expression *left;
 		String name;
-		Int32 nameIndex;
+		int32 nameIndex;
 		bool guard;
 
 		Field(Expression *tokLeft, Variable *tokName, bool guard);

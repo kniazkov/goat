@@ -54,7 +54,7 @@ namespace goat {
 
 	public:
 		String name;
-		Int32 nameIndex;
+		int32 nameIndex;
 		Identifier *identifier;
 
 		Variable(Identifier *tokName);

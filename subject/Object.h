@@ -74,8 +74,8 @@ namespace goat {
 		};
 		void *list;
 		Object *prev, *next;
-		UInt32 status;
-		Map<Int32, Object*> objects;
+		uint32 status;
+		Map<int32, Object*> objects;
 		List<Pair> chain;
 		PlainVector<Object *> proto;
 		static StringIndex indexes;
@@ -87,20 +87,20 @@ namespace goat {
 		void mark();
 		void mark_2();
 		virtual void trace();
-		static inline Int32 createIndex(String key);
-		static inline Int32 searchIndex(String key);
-		static inline String getKey(Int32 index);
+		static inline int32 createIndex(String key);
+		static inline int32 searchIndex(String key);
+		static inline String getKey(int32 index);
 	private:
-		Object *find_(Int32 index);
+		Object *find_(int32 index);
 		Object *find_(WideString key);
 		Object *find_(Object *key);
 	public:
-		Object *find(Int32 index);
+		Object *find(int32 index);
 		Object *find(WideString key);
 		Object *find(Object *key);
-		void insert(Int32 index, Object *value);
+		void insert(int32 index, Object *value);
 		void insert(Object *key, Object *value);
-		bool replace(Int32 index, Object *repl);
+		bool replace(int32 index, Object *repl);
 		void clone(Object *_clone);
 		virtual bool equals(Object *_obj);
 		static bool equals(Object *first, Object *second);
@@ -131,7 +131,7 @@ namespace goat {
 		virtual ObjectStringBuilder *toObjectStringBuilder();
 		virtual ObjectByteArray * toObjectByteArray();
 
-		void *operator new (SizeT size);
+		void *operator new (__size size);
 		void operator delete (void *ptr);
 	};
 
@@ -153,15 +153,15 @@ namespace goat {
 		void flat(Object *fobj) override;
 	};
 
-	Int32 Object::createIndex(String key) {
+	int32 Object::createIndex(String key) {
 		return indexes.createIndex(key);
 	}
 
-	Int32 Object::searchIndex(String key) {
+	int32 Object::searchIndex(String key) {
 		return indexes.searchIndex(key);
 	}
 
-	String Object::getKey(Int32 index) {
+	String Object::getKey(int32 index) {
 		return indexes.getString(index);
 	}
 }

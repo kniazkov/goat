@@ -32,10 +32,10 @@ namespace goat {
 	class StringIndex {
 	public:
 		Vector<String> vector;
-		Map<String, Int32> tree;
+		Map<String, int32> tree;
 
-		Int32 createIndex(String string) {
-			Int32 index;
+		int32 createIndex(String string) {
+			int32 index;
 			
 			if (tree.find(string, &index))
 				return index;
@@ -46,8 +46,8 @@ namespace goat {
 			return index;
 		}
 
-		Int32 searchIndex(String string) {
-			Int32 index;
+		int32 searchIndex(String string) {
+			int32 index;
 
 			if (tree.find(string, &index))
 				return index;
@@ -55,7 +55,7 @@ namespace goat {
 			return -1;
 		}
 
-		String& getString(Int32 index) {
+		String& getString(int32 index) {
 			return vector[index];
 		}
 	};

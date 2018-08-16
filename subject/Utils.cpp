@@ -25,12 +25,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	unsigned int Utils::strLen(const char *cstr) {
+	uint32 Utils::strLen(const char *cstr) {
 		if (cstr) {
 			const char *begin = cstr;
 			while (*cstr++) {
 			}
-			return (unsigned int)(cstr - begin - 1);
+			return (uint32)(cstr - begin - 1);
 		}
 		return 0;
 	}
@@ -62,7 +62,7 @@ namespace goat {
 		return *a < *b ? -1 : 1;
 	}
 
-	int Utils::strCmp(const char *a, const char *b, unsigned int n) {
+	int Utils::strCmp(const char *a, const char *b, uint32 n) {
 		if (a == b) {
 			return 0;
 		}
@@ -89,12 +89,12 @@ namespace goat {
 		return *a < *b ? -1 : 1;
 	}
 
-	unsigned int Utils::wstrLen(const wchar *cwstr) {
+	uint32 Utils::wstrLen(const wchar *cwstr) {
 		if (cwstr) {
 			const wchar *begin = cwstr;
 			while (*cwstr++) {
 			}
-			return (unsigned int)(cwstr - begin - 1);
+			return (uint32)(cwstr - begin - 1);
 		}
 		return 0;
 	}
@@ -164,7 +164,7 @@ namespace goat {
 		return begin;
 	}
 
-	long double Utils::pow10(unsigned int n) {
+	long double Utils::pow10(uint8 n) {
 		static long double table[] = {
 			1,
 			10,

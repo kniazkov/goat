@@ -52,7 +52,7 @@ namespace goat {
 
 	public:
 		Operator * oper;
-		Int32 operIndex;
+		int32 operIndex;
 		Expression *right;
 
 		Prefix(Operator *_oper, Expression *_right);

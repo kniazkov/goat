@@ -30,10 +30,10 @@ namespace goat {
 
 	class Resource {
 	public:
-		static Int32 i_arguments();
-		static Int32 i_init();
-		static Int32 i_trace();
-		static Int32 i_clone();
+		static int32 i_arguments();
+		static int32 i_init();
+		static int32 i_trace();
+		static int32 i_clone();
 
 		static String s_arguments;
 		static String s_init;

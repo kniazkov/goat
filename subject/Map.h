@@ -49,7 +49,7 @@ namespace goat {
 				delete this;
 			}
 
-			void * operator new(SizeT size) {
+			void * operator new(__size size) {
 				return Pool<sizeof(Item)>::getInstance().alloc(size);
 			}
 

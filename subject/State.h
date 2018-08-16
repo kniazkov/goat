@@ -76,7 +76,7 @@ namespace goat {
 		virtual Token * token() = 0;
 		virtual DebugMode stop();
 
-		void * operator new(SizeT size);
+		void * operator new(__size size);
 		void operator delete(void *ptr);
 
 		class NotImplemented : public Exception {

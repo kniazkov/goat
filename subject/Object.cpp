@@ -78,7 +78,7 @@ namespace goat {
 	}
 
 	void Object::mark_2() {
-		objects.forEach([](Int32 index, Object *obj) {
+		objects.forEach([](int32 index, Object *obj) {
 			if (obj)
 				obj->mark();
 		});
@@ -100,7 +100,7 @@ namespace goat {
 
 	}
 
-	Object * Object::find_(Int32 index) {
+	Object * Object::find_(int32 index) {
 		Object *found = nullptr;
 		if (!objects.find(index, &found)) {
 			List<Pair>::Item *pair = chain.first;
@@ -121,7 +121,7 @@ namespace goat {
 		return found;
 	}
 
-	Object * Object::find(Int32 index) {
+	Object * Object::find(int32 index) {
 		Object *found = find_(index);
 		return found ? found : ObjectUndefined::getInstance();
 	}
@@ -177,7 +177,7 @@ namespace goat {
 		return found ? found : ObjectUndefined::getInstance();
 	}
 
-	void Object::insert(Int32 index, Object *value) {
+	void Object::insert(int32 index, Object *value) {
 		objects.insert(index, value);
 		List<Pair>::Item *pair = chain.first;
 		while (pair) {
@@ -206,7 +206,7 @@ namespace goat {
 		chain.pushBack(Pair(key, value));
 	}
 
-	bool Object::replace(Int32 index, Object *repl) {
+	bool Object::replace(int32 index, Object *repl) {
 		if (objects.replace(index, repl)) {
 			return true;
 		}
@@ -248,7 +248,7 @@ namespace goat {
 			pobj->flat(fobj);
 		});
 
-		objects.forEach([&](Int32 index, Object *obj) {
+		objects.forEach([&](int32 index, Object *obj) {
 			fobj->insert(index, obj);
 		});
 
@@ -261,7 +261,7 @@ namespace goat {
 		Object *fobj = new Object();
 		flat(fobj);
 
-		fobj->objects.forEach([&](Int32 index, Object *obj) {
+		fobj->objects.forEach([&](int32 index, Object *obj) {
 			vector->pushBack(Pair(new ObjectString(getKey(index).toWideString()), obj));
 		});
 
@@ -313,7 +313,7 @@ namespace goat {
 		WideStringBuilder b;
 		b << (wchar)'{';
 		int i = 0;
-		objects.forEach([&](Int32 index, Object *obj) {
+		objects.forEach([&](int32 index, Object *obj) {
 			if (i) {
 				b << L',';
 			}
@@ -453,7 +453,7 @@ namespace goat {
 	static Pool<sizeof(ObjectPlaceholder)> objPool;
 	long long int totalObjMem = 0;
 
-	void * Object::operator new(SizeT size) {
+	void * Object::operator new(__size size) {
 		totalObjMem += objPool.size;
 		return objPool.alloc(size);
 	}
