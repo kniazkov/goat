@@ -34,7 +34,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectReal.h"
 #include "ObjectString.h"
 #include "ObjectStringBuilder.h"
-#include "objectThread.h"
+#include "ObjectThread.h"
 #include "ObjectUndefined.h"
 #include "WideStringBuilder.h"
 #include "Assert.h"
