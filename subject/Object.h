@@ -36,6 +36,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
+	class Object;
 	class ObjectString;
 	class ObjectFunction;
 	class ObjectThread;
@@ -52,9 +53,40 @@ namespace goat {
 	class ObjectFile;
 	class ObjectStringBuilder;
 	class ObjectByteArray;
+	class PrimitiveHandler;
+	class Container;
+
+	class PrimitiveHandler {
+	public:
+		virtual Object * toObject(Container *ctr);
+	};
+
+	class Container {
+	public:
+		PrimitiveHandler *handler;
+		union {
+			Object *_object;
+			bool _boolean;
+			lint _integer;
+			ldouble _real;
+		} data;
+
+		Container(Object *_object) {
+			handler = nullptr;
+			data._object = _object;
+		}
+
+		Object *toObject() {
+			if (handler)  {
+				return handler->toObject(this);
+			}
+			return data._object;
+		}
+	};
 
 	class Object {
 	public:
+
 		class Pair {
 		public:
 			Object *key;
