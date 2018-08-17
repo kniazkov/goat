@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "Exception.h"
+#include "Type.h"
 #include "Utils.h"
 
 namespace goat {
@@ -30,7 +31,7 @@ namespace goat {
 	template <typename Type> class Vector {
 	protected:
 		Type *data;
-		unsigned int size, capacity;
+		uint32 size, capacity;
 
 		Vector(const Vector &) {
 		}
@@ -48,7 +49,7 @@ namespace goat {
 
 		void pushBack(Type item) {
 			if (size == capacity) {
-				capacity = Utils::max(capacity * 2, (unsigned int)2);
+				capacity = Utils::max(capacity * 2, (uint32)2);
 				Type *tmp = new Type[capacity];
 				if (data) {
 					Utils::memCopy(tmp, data, size);
@@ -59,8 +60,8 @@ namespace goat {
 			data[size++] = item;
 		}
 
-		void pushBack(Type *items, unsigned int count) {
-			unsigned int newSize = size + count;
+		void pushBack(Type *items, uint32 count) {
+			uint32 newSize = size + count;
 			if (newSize > capacity) {
 				Type *tmp = new Type[newSize];
 				if (data) {
@@ -74,7 +75,7 @@ namespace goat {
 			size = newSize;
 		}
 
-		Type &operator[](unsigned int idx) {
+		Type &operator[](uint32 idx) {
 			if (idx >= size) {
 				throw OutOfBounds();
 			}
@@ -82,7 +83,7 @@ namespace goat {
 			return data[idx];
 		}
 
-		Type & get(unsigned int idx) {
+		Type & get(uint32 idx) {
 			if (idx >= size) {
 				throw OutOfBounds();
 			}
@@ -90,7 +91,7 @@ namespace goat {
 			return data[idx];
 		}
 
-		unsigned int len() {
+		uint32 len() {
 			return size;
 		}
 

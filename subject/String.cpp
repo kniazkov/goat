@@ -31,7 +31,7 @@ namespace goat {
 	}
 
 	String::String(const char *cstr) {
-		unsigned int len = Utils::strLen(cstr);
+		uint32 len = Utils::strLen(cstr);
 		if (len > 0) {
 			buff = new Buffer(len);
 			Utils::memCopy(buff->data, cstr, len);
@@ -41,7 +41,7 @@ namespace goat {
 		}
 	}
 
-	String::String(unsigned int len) {
+	String::String(uint32 len) {
 		if (len > 0) {
 			buff = new Buffer(len);
 		}
@@ -50,7 +50,7 @@ namespace goat {
 		}
 	}
 
-	String::String(const char *cstr, unsigned int len) {
+	String::String(const char *cstr, uint32 len) {
 		if (len > 0) {
 			buff = new Buffer(len);
 			Utils::memCopy(buff->data, cstr, len);
@@ -82,7 +82,7 @@ namespace goat {
 		if (buff) {
 			buff->release();
 		}
-		unsigned int len = Utils::strLen(cstr);
+		uint32 len = Utils::strLen(cstr);
 		if (len > 0) {
 			buff = new Buffer(len);
 			Utils::memCopy(buff->data, cstr, len);
@@ -106,7 +106,7 @@ namespace goat {
 		return *this;
 	}
 
-	char String::operator[](unsigned int idx) {
+	char String::operator[](uint32 idx) {
 		if (!buff || idx >= buff->len) {
 			throw OutOfBounds();
 		}
@@ -114,7 +114,7 @@ namespace goat {
 		return buff->data[idx];
 	}
 
-	unsigned int String::len() const {
+	uint32 String::len() const {
 		return buff ? buff->len : 0;
 	}
 
@@ -161,7 +161,7 @@ namespace goat {
 	String String::replace(char from, char to) {
 		if (buff) {
 			String ret(buff->len);
-			for (unsigned int i = 0; i < buff->len; i++) {
+			for (uint32 i = 0; i < buff->len; i++) {
 				char ch = buff->data[i];
 				ret.buff->data[i] = ch == from ? to : ch;
 			}
@@ -172,7 +172,7 @@ namespace goat {
 		}
 	}
 
-	String String::substr(unsigned int start) {
+	String String::substr(uint32 start) {
 		if (buff && buff->len > start) {
 			if (start == 0) {
 				return *this;
@@ -186,7 +186,7 @@ namespace goat {
 		}
 	}
 
-	String String::substr(unsigned int start, unsigned int count) {
+	String String::substr(uint32 start, uint32 count) {
 		if (buff && buff->len > start) {
 			if (start == 0 && count == buff->len) {
 				return *this;
@@ -203,7 +203,7 @@ namespace goat {
 
 	void String::split(char ch, Vector<String> &vec) {
 		if (buff->len > 0) {
-			unsigned int end = 0, begin = 0;
+			uint32 end = 0, begin = 0;
 			while (end < buff->len) {
 				if (buff->data[end] == ch) {
 					vec.pushBack(substr(begin, end - begin));
@@ -215,7 +215,7 @@ namespace goat {
 		}
 	}
 
-	String::Buffer::Buffer(unsigned int len) {
+	String::Buffer::Buffer(uint32 len) {
 		refs = 1;
 		data = new char[len + 1];
 		data[len] = '\0';
@@ -251,7 +251,7 @@ namespace goat {
 		return String(ptr);
 	}
 
-	String String::valueOf(ldouble val, unsigned int precision, bool trim) {
+	String String::valueOf(ldouble val, uint8 precision, bool trim) {
 		if (precision < 1) {
 			precision = 1;
 		}
@@ -279,7 +279,7 @@ namespace goat {
 		}
 		if (fval > 0) {
 			bool zero = true;
-			for (unsigned int k = 0; k < precision; k++) {
+			for (uint32 k = 0; k < precision; k++) {
 				auto digit = fval % 10;
 				if (digit == 0) {
 					if (zero && trim) {
@@ -313,7 +313,7 @@ namespace goat {
 	WideString String::toWideString() {
 		if (buff) {
 			WideString w(buff->len);
-			for (unsigned int i = 0; i < buff->len; i++) {
+			for (uint32 i = 0; i < buff->len; i++) {
 				w.buff->data[i] = (wchar)(buff->data[i]);
 			}
 			return w;

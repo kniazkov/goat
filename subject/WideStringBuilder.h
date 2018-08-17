@@ -31,7 +31,7 @@ namespace goat {
 	class WideStringBuilder : public OutputStream<wchar> {
 	protected:
 		wchar *data;
-		unsigned int size, capacity;
+		uint32 size, capacity;
 
 		WideStringBuilder(const WideStringBuilder &) {
 		};
@@ -39,9 +39,9 @@ namespace goat {
 		void operator=(const WideStringBuilder &) {
 		}
 
-		void expand(unsigned int len);
-		void append(const char *cstr, unsigned int len);
-		void append(const wchar *cwstr, unsigned int len);
+		void expand(uint32 len);
+		void append(const char *cstr, uint32 len);
+		void append(const wchar *cwstr, uint32 len);
 
 	public:
 		WideStringBuilder();
@@ -51,7 +51,7 @@ namespace goat {
 		void clear();
 		void write(wchar ch) override;
 		void print();
-		void reserve(unsigned int len);
+		void reserve(uint32 len);
 		RawString toRawString();
 		WideStringBuilder & operator<<(wchar ch);
 		WideStringBuilder & operator<<(const wchar *cwstr);

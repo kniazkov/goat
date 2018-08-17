@@ -25,7 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	void StringBuilder::append(const char *cstr, unsigned int len) {
+	void StringBuilder::append(const char *cstr, uint32 len) {
 		if (!cstr || !len) {
 			return;
 		}

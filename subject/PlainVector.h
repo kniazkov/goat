@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Assert.h"
 #include "Exception.h"
+#include "Type.h"
 #include "Utils.h"
 
 namespace goat {
@@ -34,10 +35,10 @@ namespace goat {
 			Type s[2] ;
 			struct {
 				Type *data;
-				unsigned int capacity;
+				uint32 capacity;
 			} d;
 		} b;
-		unsigned int size;
+		uint32 size;
 
 		PlainVector(const PlainVector &) {
 		}
@@ -66,7 +67,7 @@ namespace goat {
 		void clone(PlainVector &v) {
 			assert(v.size == 0);
 			if (size < 3) {
-				for (unsigned int i = 0; i < size; i++)
+				for (uint32 i = 0; i < size; i++)
 					v.b.s[i] = b.s[i];
 			}
 			else {
@@ -102,7 +103,7 @@ namespace goat {
 			}
 		}
 
-		Type &operator[](unsigned int idx) {
+		Type &operator[](uint32 idx) {
 			if (idx >= size) {
 				throw OutOfBounds();
 			}
@@ -110,7 +111,7 @@ namespace goat {
 			return size < 3 ? b.s[idx] : b.d.data[idx];
 		}
 
-		unsigned int len() {
+		uint32 len() {
 			return size;
 		}
 
@@ -134,8 +135,8 @@ namespace goat {
 			}
 		}
 
-		bool indexOf(Type &item, unsigned int *index = nullptr) {
-			unsigned int k = 0;
+		bool indexOf(Type &item, uint32 *index = nullptr) {
+			uint32 k = 0;
 			if (size < 3) {
 				for (; k < size; k++) {
 					if (b.s[k] == item) {

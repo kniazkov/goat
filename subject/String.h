@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "Type.h"
 #include "Exception.h"
 #include "Vector.h"
 
@@ -36,30 +37,30 @@ namespace goat {
 	protected:
 		class Buffer {
 		public:
-			unsigned int refs,
+			uint32 refs,
 				len;
 			char *data;
 
-			Buffer(unsigned int len);
+			Buffer(uint32 len);
 			~Buffer();
 			inline void release();
 		};
 
 		Buffer *buff;
 
-		String(unsigned int len);
+		String(uint32 len);
 
 	public:
 		String();
 		String(const char *cstr);
-		String(const char *cstr, unsigned int len);
+		String(const char *cstr, uint32 len);
 		String(const String & str);
 		String(String && str);
 		~String();
 		String & operator=(const char *cstr);
 		String & operator=(const String & str);
-		char operator[] (unsigned int idx);
-		unsigned int len() const;
+		char operator[] (uint32 idx);
+		uint32 len() const;
 		const char *cstr() const;
 		bool operator==(const char *cstr);
 		bool operator!=(const char *cstr);
@@ -71,8 +72,8 @@ namespace goat {
 		bool operator<(const WideString &wstr);
 		void *getHash() const;
 		String replace(char from, char to);
-		String substr(unsigned int start);
-		String substr(unsigned int start, unsigned int count);
+		String substr(uint32 start);
+		String substr(uint32 start, uint32 count);
 		void split(char ch, Vector<String> &vec);
 
 		class OutOfBounds : public Exception {
@@ -81,7 +82,7 @@ namespace goat {
 		};
 
 		static String valueOf(lint val);
-		static String valueOf(ldouble val, unsigned int precision, bool trim);
+		static String valueOf(ldouble val, uint8 precision, bool trim);
 		WideString toWideString();
 	};
 

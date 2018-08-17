@@ -30,7 +30,7 @@ namespace goat {
 	class StringBuilder {
 	protected:
 		char *data;
-		unsigned int size, capacity;
+		uint32 size, capacity;
 
 		StringBuilder(const StringBuilder &) {
 		};

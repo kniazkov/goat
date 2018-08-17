@@ -25,7 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
-	void WideStringBuilder::expand(unsigned int len) {
+	void WideStringBuilder::expand(uint32 len) {
 		if (size + len > capacity) {
 			capacity = Utils::max(capacity * 2, size + len);
 			wchar *tmp = new wchar[capacity + 1];
@@ -37,19 +37,19 @@ namespace goat {
 		}
 	}
 
-	void WideStringBuilder::append(const char *cstr, unsigned int len) {
+	void WideStringBuilder::append(const char *cstr, uint32 len) {
 		if (!cstr || !len) {
 			return;
 		}
 		expand(len);
-		for (unsigned int i = 0; i < len; i++) {
+		for (uint32 i = 0; i < len; i++) {
 			data[size + i] = cstr[i];
 		}
 		size += len;
 		data[size] = 0;
 	}
 
-	void WideStringBuilder::append(const wchar *cwstr, unsigned int len) {
+	void WideStringBuilder::append(const wchar *cwstr, uint32 len) {
 		if (!cwstr || !len) {
 			return;
 		}
@@ -87,7 +87,7 @@ namespace goat {
 		}
 	}
 
-	void WideStringBuilder::reserve(unsigned int len) {
+	void WideStringBuilder::reserve(uint32 len) {
 		if (size + len < capacity) {
 			expand(len);
 		}
