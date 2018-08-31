@@ -1,1 +1,1 @@
-../subject/a.out test.goat --lib=./frontend
+../subject/a.out test.goat --lib=..\lib

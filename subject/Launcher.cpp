@@ -259,6 +259,9 @@ namespace goat {
 
 		program = FileName::normalize(program);
 		opt.path = FileName::extractPath(program);
+		if (opt.path == "") {
+			opt.path = FileName::s_currentPath;
+		}
 
 		try {
 			Platform::FileReader reader(program);

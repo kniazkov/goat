@@ -24,6 +24,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace goat {
 
+#ifdef _WIN32
+	String FileName::s_currentPath = ".\\";
+#else
+	String FileName::s_currentPath = "./";
+#endif
+
 	String FileName::extractName(String fullName) {
 		int i, len = (int)fullName.len();
 		for (i = len - 1; i >= 0; i--) {

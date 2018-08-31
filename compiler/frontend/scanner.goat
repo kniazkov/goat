@@ -20,13 +20,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+import "frontend/source.goat";
+
 var Scanner = {
     
     init : $(source) {
         this.source = source;
-    }
+    },
 
-    getToken = $() {
+    getToken : $() {
         return null;
     }
 
