@@ -20,7 +20,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-import "frontend/source.goat";
+import "source.goat";
 
 var Scanner = {
     

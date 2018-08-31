@@ -232,10 +232,9 @@ namespace goat {
 							throw ExpectedSemicolon(tokSemicolon);
 						}
 						String fileName = tokStrFileName->text.toString();
-						if (!data->imported.find(fileName)) {
-							data->imported.insert(fileName, true);
+						String fullName = FileName::normalize((StringBuilder() << opt->path << '/' << fileName).toString());
+						if (!data->imported.find(fullName)) {
 							bool found = false;
-							String fullName = FileName::normalize((StringBuilder() << opt->path << '/' << fileName).toString());
 							if (Platform::fileExist(fullName)) {
 								found = true;
 							}
@@ -250,10 +249,19 @@ namespace goat {
 							if (!found) {
 								throw Platform::FileNotFound(fileName);
 							}
+							data->imported.insert(fullName, true);
 							Platform::FileReader reader(fullName);
 							SourceStream src(&reader);
 							Scanner iscan(&src);
-							parseBracketsAndIncludes(&iscan, list, '\0', opt, data);
+							String filePath = FileName::extractPath(fileName);
+							if (filePath == "") {
+								parseBracketsAndIncludes(&iscan, list, '\0', opt, data);
+							}
+							else {
+								Options opt2 = *opt;
+								opt2.path = FileName::extractPath(fullName);
+								parseBracketsAndIncludes(&iscan, list, '\0', &opt2, data);
+							}
 						}
 						break;
 					}

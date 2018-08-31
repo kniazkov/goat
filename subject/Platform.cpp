@@ -127,7 +127,11 @@ namespace goat {
 	
 	
 	
-	Platform::FileNotFound::FileNotFound(String _fname) : fname(_fname/*FileName::extractName(_fname)*/) {
+#if 0
+	Platform::FileNotFound::FileNotFound(String _fname) : fname(FileName::extractName(_fname)) {
+#else
+		Platform::FileNotFound::FileNotFound(String _fname) : fname(_fname) {
+#endif
 	}
 
 	RawString Platform::FileNotFound::toRawString() {
