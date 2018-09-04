@@ -20,7 +20,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-var Source = @ {
+var Source = {
 
     get : $() {
         throw new Exception.NotImplemented();
@@ -36,7 +36,7 @@ var Source = @ {
 
 };
 
-var Location = @ {
+var Location = {
 
     toString : $() {
         throw new Exception.NotImplemented();
@@ -44,7 +44,7 @@ var Location = @ {
 
 };
 
-var SourceString = @ Source -> {
+Source.String = Source -> {
 
     Location : Location -> {
         
@@ -64,17 +64,17 @@ var SourceString = @ Source -> {
     },
 
     get : $() {
-        return index < maxIndex ? string[index] : null;
+        return index < maxIndex ? string[index] : Char.valueOf(0);
     },
 
     next : $() {
         if (index < maxIndex)
             index++;
-        return index < maxIndex ? string[index] : null;        
+        return index < maxIndex ? string[index] : Char.valueOf(0);        
     },
 
     location : $() {
-        return new SourceString.Location(index);
+        return new Source.String.Location(index);
     }
 
 };

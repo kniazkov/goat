@@ -1,0 +1,158 @@
+/*
+
+Copyright (C) 2017, 2018 Ivan Kniazkov
+
+This file is part of interpreter of programming language
+codenamed "Goat" ("Goat interpreter").
+
+Goat interpreter is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat interpreter is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+import "iterator.goat";
+
+var Token = {
+    location : null,
+    type: [],
+    refs : {},
+
+    init: $() {
+        this.refs = {};        
+    },
+
+    toString : $() {
+        throw new Exception.NotImplemented();
+    },
+
+    toXML : $() {
+        throw new Exception.NotImplemented();
+    },
+
+    Type : {
+        UNKNOWN: "unknown",
+        IDENTIFIER: "identifier",
+        BRACKET: "bracket",
+        STATIC_STRING: "static_string",
+        SEMICOLON: "semicolon"
+    }
+};
+
+var TokenList = {
+    type : Token.Type.UNKNOWN,
+    first : null,
+    last : null,
+
+    init : $(type) {
+        this.type = type;
+    },
+
+    pushBack : $(token) {
+        var ref = token.refs[type];
+        if (!ref) {
+            ref = {};
+            token.refs[type] = ref;
+        }
+        
+        ref.list = this;
+        ref.previous = last;
+        ref.next = null;
+
+        last = token;
+        if (first == null) {
+            first = token;
+        }
+    },
+
+	iterator : $() {
+		return new TokenList.Iterator(type, first);
+	},
+	
+	Iterator : Iterator -> {
+		
+        type : Token.Type.UNKNOWN,
+		token : null,
+		
+		init : $(type, token) {
+			this.type = type;
+            this.token = token;
+		},
+		
+		valid : $() {
+			return token != null;
+		},
+		
+		next : $() {
+			if (!token)
+				throw new Exception.InvalidOperation();
+            var ref = token.refs[type];
+			token = ref.next;
+		},
+		
+		read : $() {
+			if (!token)
+				throw new Exception.InvalidOperation();
+			return token;
+		}
+	}
+};
+
+Token.Identifier = Token -> {
+    type : [ Token.Type.IDENTIFIER ],
+    name : "",
+
+    init : $(name) {
+        this.name = name;
+    },
+
+    toString : $() {
+        return name;
+    }
+};
+
+Token.Bracket = Token -> {
+    type : [ Token.Type.BRACKET ],
+    bracket : Char.valueOf(0),
+
+    init : $(bracket) {
+        this.bracket = bracket;
+    },
+
+    toString : $() {
+        return bracket;
+    }
+};
+
+Token.StaticString = Token -> {
+    type : [ Token.Type.STATIC_STRING ],
+    text : "",
+
+    init : $(text) {
+        this.text = text;
+    },
+
+    toString : $() {
+        var b = new StringBuilder();
+        b << '\"' << text << '\"';
+        return b.toString();
+    }
+};
+
+Token.Semicolon = Token -> {
+    type : [ Token.Type.SEMICOLON ],
+
+    toString : $() {
+        return ";";
+    }
+};
+

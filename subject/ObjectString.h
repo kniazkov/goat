@@ -34,6 +34,7 @@ namespace goat {
 
 		ObjectString(WideString _value);
 		ObjectString * toObjectString() override;
+//		ObjectBoolean * toObjectBoolean() override;
 		WideString toWideString() override;
 		WideString toWideStringNotation() override;
 		bool equals(Object *_obj) override;

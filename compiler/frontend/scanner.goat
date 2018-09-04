@@ -21,15 +21,89 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import "source.goat";
+import "token.goat";
 
 var Scanner = {
     
-    init : $(source) {
-        this.source = source;
+    init : $(src) {
+        this.src = src;
     },
 
     getToken : $() {
+        var c = src.get();
+
+        while(isSpace(c)) {
+            c = src.next();
+        }
+
+        var l = src.location();
+        var t = this.parse();
+        if (t != null) {
+            t.location = l;
+        }
+
+        return t;
+    },
+
+    parse : $() {
+        var c = src.get();
+
+        if (c == Char.valueOf(0)) {
+            return null;
+        }
+
+        if (isLetter(c)) {
+            var b = new StringBuilder();
+            do {
+                b << c;
+                c = src.next();
+            } while(isLetter(c) || isDigit(c));
+            return new Token.Identifier(b.toString());
+        }
+
+        if ( c == '(' || c == '{' || c == '[' || c == ')' || c == '}' || c == ']' ) {
+            src.next();
+            return new Token.Bracket(c);
+        }
+
+        if (c == '\"') {
+            c = src.next();
+            var b = new StringBuilder();
+            while(c != '\"') {
+                b << c;
+                c = src.next();
+            }
+            src.next();
+            return new Token.StaticString(b.toString());
+        }
+
+        if (c == ';') {
+            src.next();
+            return new Token.Semicolon();
+        }
+
         return null;
+    },
+
+    isSpace : $(c) {
+        switch(c) {
+            case ' ':
+            case '\r':
+            case '\n':
+            case '\t':
+                return true;
+        }
+        return false;
+    },
+
+    isLetter : $(c) {
+        if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_')
+            return true;
+        return false;
+    },
+
+    isDigit : $(c) {
+        return c >= '0' && c <= '9';
     }
 
 };

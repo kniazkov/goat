@@ -39,6 +39,10 @@ namespace goat {
 		return this;
 	}
 
+//	ObjectBoolean * ObjectString::toObjectBoolean() {
+//		return new ObjectBoolean(value.len() > 0);
+//	}
+
 	WideString ObjectString::toWideString() {
 		return value;
 	}

@@ -22,10 +22,14 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 import "frontend/scanner.goat";
 
-var s = new SourceString("welcome to hell");
+//debug;
 
-var c = s.get();
-while(c != null) {
-    println("" + c + ' ' + s.location().toString());
-    c = s.next();    
+var src = new Source.String("print(\"hello, world\");");
+var scan = new Scanner(src);
+
+while(true) {
+    var t = scan.getToken();
+    if (!t)
+        break;
+    println(t.toString());
 }
