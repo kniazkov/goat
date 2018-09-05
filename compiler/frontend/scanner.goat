@@ -76,17 +76,17 @@ var Scanner = {
 
         switch(c) {
             case '(':
-                return new Token.Bracket('(', ')' false);
+                return new Token.Bracket('(', ')', false);
             case '[':
-                return new Token.Bracket('[', ']' false);
+                return new Token.Bracket('[', ']', false);
             case '{':
-                return new Token.Bracket('{', '}' false);
+                return new Token.Bracket('{', '}', false);
             case ')':
-                return new Token.Bracket(')', '(' true);
+                return new Token.Bracket(')', '(', true);
             case ']':
-                return new Token.Bracket(']', '[' true);
+                return new Token.Bracket(']', '[', true);
             case '}':
-                return new Token.Bracket('}', '{' true);
+                return new Token.Bracket('}', '{', true);
             case ';':
                 return new Token.Semicolon();
         }
