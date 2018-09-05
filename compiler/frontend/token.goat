@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import "iterator.goat";
+import "xml.goat";
 
 var Token = {
     location : null,
@@ -36,7 +37,18 @@ var Token = {
     },
 
     toXML : $() {
-        throw new Exception.NotImplemented();
+        return new XML.Element(this._getXMLTag());
+    },
+
+    _getXMLTag : $() {
+        var i;
+        var b = new StringBuilder();
+        for (i = 0; i < type.length(); i++) {
+            if (i > 0)
+                b << ':';
+            b << type[i];
+        }
+        return b.toString();
     },
 
     Type : {
@@ -74,37 +86,37 @@ var TokenList = {
         }
     },
 
-	iterator : $() {
-		return new TokenList.Iterator(type, first);
-	},
-	
-	Iterator : Iterator -> {
-		
+    iterator : $() {
+        return new TokenList.Iterator(type, first);
+    },
+    
+    Iterator : Iterator -> {
+        
         type : Token.Type.UNKNOWN,
-		token : null,
-		
-		init : $(type, token) {
-			this.type = type;
+        token : null,
+        
+        init : $(type, token) {
+            this.type = type;
             this.token = token;
-		},
-		
-		valid : $() {
-			return token != null;
-		},
-		
-		next : $() {
-			if (!token)
-				throw new Exception.InvalidOperation();
+        },
+        
+        valid : $() {
+            return token != null;
+        },
+        
+        next : $() {
+            if (!token)
+                throw new Exception.InvalidOperation();
             var ref = token.refs[type];
-			token = ref.next;
-		},
-		
-		read : $() {
-			if (!token)
-				throw new Exception.InvalidOperation();
-			return token;
-		}
-	}
+            token = ref.next;
+        },
+        
+        read : $() {
+            if (!token)
+                throw new Exception.InvalidOperation();
+            return token;
+        }
+    }
 };
 
 Token.Identifier = Token -> {
@@ -117,6 +129,10 @@ Token.Identifier = Token -> {
 
     toString : $() {
         return name;
+    },
+
+    toXML : $() {
+        return new XML.Element(this._getXMLTag(), name);
     }
 };
 
@@ -130,6 +146,12 @@ Token.Bracket = Token -> {
 
     toString : $() {
         return bracket;
+    },
+
+    toXML : $() {
+        var elem = new XML.Element(this._getXMLTag());
+        elem.attrib.bracket = bracket;
+        return elem;
     }
 };
 
@@ -145,6 +167,10 @@ Token.StaticString = Token -> {
         var b = new StringBuilder();
         b << '\"' << text << '\"';
         return b.toString();
+    },
+
+    toXML : $() {
+        return new XML.Element(this._getXMLTag(), text);
     }
 };
 

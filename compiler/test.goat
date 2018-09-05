@@ -21,15 +21,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import "frontend/scanner.goat";
+import "xml.goat";
 
-//debug;
+try {
 
-var src = new Source.String("print(\"hello, world\");");
-var scan = new Scanner(src);
+    var src = new Source.String("print(\"hello, world\");");
+    var scan = new Scanner(src);
 
-while(true) {
-    var t = scan.getToken();
-    if (!t)
-        break;
-    println(t.toString());
+    var root = new XML.Element("root");
+    while(true) {
+        var t = scan.getToken();
+        if (!t)
+            break;
+        var elem = t.toXML();
+        root.content.push(elem);
+    }
+    var out = root.toString("| ");
+    println(out);
+
+}
+catch(e) {
+    println(e);
+    println(e.trace);
 }
