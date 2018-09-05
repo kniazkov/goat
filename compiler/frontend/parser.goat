@@ -29,26 +29,48 @@ var Parser = {
     init : $(source) {
         this.scanner = new Scanner(source);
 
-        this.list = {};
-        for (var tt in Token.Type) {
-            var t = Token.Type[tt];
-            list[t] = new TokenList(t);
+        this.graph = {};
+        for (var typeIndex in Token.Type) {
+            var type = Token.Type[typeIndex];
+            graph[type] = new TokenList(type);
         }
     },
 
     parse : $() {
         var root = new Token.Root();
-        while(true) {
-            var tok = scanner.getToken();
-            if (!tok)
-                break;
-            debug;
-            for (var i = 0; i < tok.type.length(); i++) {
-                var l = list[tok.type[i]];
-                l.push(tok);
-            }
-            root.tokens.push(tok);
-        }
+        this._parseBrackets(null, root.tokens);
         return root;
+    },
+
+    _parseBrackets : $(bracket, tokens) {
+        while(true) {
+            var token = scanner.getToken();
+            if (!token) {
+                if (bracket != null)
+                    throw "Error";
+                return;
+            }
+            if (token.type[0] == Token.Type.BRACKET) {
+                if (token.closing) {
+                    if (token.pair != bracket)
+                        throw "Error";
+                    return;
+                }
+                var result = new Token.Brackets(token);
+                this._parseBrackets(token.bracket, result.tokens);
+                tokens.push(result);
+                this._addTokenToGraph(result);
+            } else {
+                tokens.push(token);
+                this._addTokenToGraph(token);
+            }
+        }
+    },
+
+    _addTokenToGraph : $(token) {
+        for (var i = 0; i < token.type.length(); i++) {
+            var list = graph[token.type[i]];
+            list.push(token);
+        }
     }
 };
