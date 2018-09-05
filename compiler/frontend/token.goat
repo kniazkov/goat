@@ -56,7 +56,8 @@ var Token = {
         IDENTIFIER: "identifier",
         BRACKET: "bracket",
         STATIC_STRING: "static_string",
-        SEMICOLON: "semicolon"
+        SEMICOLON: "semicolon",
+        BRACKETS : "brackets"
     }
 };
 
@@ -186,3 +187,21 @@ Token.Semicolon = Token -> {
     }
 };
 
+Token.Brackets = Token -> {
+    type : [ Token.Type.BRACKETS ],
+    bracket : Char.valueOf(0),
+    base : null,
+    tokens : null,
+
+    init(base) {
+        this.base = base;
+        this.bracket = base.bracket;
+        this.location = base.location;
+        this.tokens = new TokenList(null);
+    },
+
+    toString : $() {
+        var b = new StringBuilder();
+        
+    }
+};
