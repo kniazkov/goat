@@ -24,12 +24,15 @@ import "iterator.goat";
 import "xml.goat";
 
 var Token = {
-    location : null,
     type: [],
     refs : {},
 
     init: $() {
         this.refs = {};        
+    },
+
+    getLocation : $() {
+        throw new Exception.NotImplemented();
     },
 
     toString : $() {
@@ -57,34 +60,36 @@ var Token = {
         BRACKET: "bracket",
         STATIC_STRING: "static_string",
         SEMICOLON: "semicolon",
-        BRACKETS : "brackets"
+        BRACKETS : "brackets",
+        ROOT : "root"
     }
 };
 
 var TokenList = {
     type : Token.Type.UNKNOWN,
-    first : null,
-    last : null,
 
     init : $(type) {
         this.type = type;
+        this.first = null;
+        this.last = null;
     },
 
-    pushBack : $(token) {
-        var ref = token.refs[type];
-        if (!ref) {
-            ref = {};
-            token.refs[type] = ref;
-        }
+    push : $(token) {
+        var ref = {};
+        token.refs[type] = ref;
         
         ref.list = this;
-        ref.previous = last;
+        ref.prev = last;
         ref.next = null;
 
-        last = token;
         if (first == null) {
             first = token;
         }
+        else {
+            var prev = last.refs[type];
+            prev.next = token;
+        }
+        last = token;
     },
 
     iterator : $() {
@@ -120,7 +125,15 @@ var TokenList = {
     }
 };
 
-Token.Identifier = Token -> {
+Token.Terminal = Token -> {
+    location : null,
+
+    getLocation : $() {
+        return location;
+    }
+};
+
+Token.Identifier = Token.Terminal -> {
     type : [ Token.Type.IDENTIFIER ],
     name : "",
 
@@ -137,7 +150,7 @@ Token.Identifier = Token -> {
     }
 };
 
-Token.Bracket = Token -> {
+Token.Bracket = Token.Terminal -> {
     type : [ Token.Type.BRACKET ],
     bracket : Char.valueOf(0),
     pair : Char.valueOf(0),
@@ -160,7 +173,7 @@ Token.Bracket = Token -> {
     }
 };
 
-Token.StaticString = Token -> {
+Token.StaticString = Token.Terminal -> {
     type : [ Token.Type.STATIC_STRING ],
     text : "",
 
@@ -179,7 +192,7 @@ Token.StaticString = Token -> {
     }
 };
 
-Token.Semicolon = Token -> {
+Token.Semicolon = Token.Terminal -> {
     type : [ Token.Type.SEMICOLON ],
 
     toString : $() {
@@ -193,15 +206,61 @@ Token.Brackets = Token -> {
     base : null,
     tokens : null,
 
-    init(base) {
+    init :  $(base) {
         this.base = base;
         this.bracket = base.bracket;
-        this.location = base.location;
+        this.tokens = new TokenList(null);
+    },
+
+    getLocation : $() {
+        return base.getLocation();
+    },
+
+    toString : $() {
+        var b = new StringBuilder();
+        b << base.bracket;
+        for (var i = tokens.iterator(); i.valid(); i.next()) {
+            var t = i.read();
+            b << t.toString();
+        }
+        b << base.pair;
+        return b.toString();
+    },
+
+    toXML : $() {
+        var elem = new XML.Element(this._getXMLTag());
+        elem.attrib.bracket = bracket;
+        for (var i = tokens.iterator(); i.valid(); i.next()) {
+            var t = i.read();
+            elem.content.push(t.toXML());
+        }
+        return elem;
+    }
+};
+
+Token.Root = Token -> {
+    type : [ Token.Type.ROOT ],
+    tokens : null,
+
+    init :  $() {
         this.tokens = new TokenList(null);
     },
 
     toString : $() {
         var b = new StringBuilder();
-        
+        for (var i = tokens.iterator(); i.valid(); i.next()) {
+            var t = i.read();
+            b << t.toString();
+        }
+        return b.toString();
+    },
+
+    toXML : $() {
+        var elem = new XML.Element(this._getXMLTag());
+        for (var i = tokens.iterator(); i.valid(); i.next()) {
+            var t = i.read();
+            elem.content.push(t.toXML());
+        }
+        return elem;
     }
 };

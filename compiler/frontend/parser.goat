@@ -20,20 +20,35 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-import "frontend/parser.goat";
-import "xml.goat";
+import "scanner.goat";
+import "token.goat";
 
-try {
+var Parser = {
+    scanner : null,
 
-    var src = new Source.String("print(\"hello, world\");");
-    var parser = new Parser(src);
-    var root = parser.parse();
-    var xml = root.toXML();
-    var out = xml.toString("| ");
-    println(out);
+    init : $(source) {
+        this.scanner = new Scanner(source);
 
-}
-catch(e) {
-    println(e);
-    println(e.trace);
-}
+        this.list = {};
+        for (var tt in Token.Type) {
+            var t = Token.Type[tt];
+            list[t] = new TokenList(t);
+        }
+    },
+
+    parse : $() {
+        var root = new Token.Root();
+        while(true) {
+            var tok = scanner.getToken();
+            if (!tok)
+                break;
+            debug;
+            for (var i = 0; i < tok.type.length(); i++) {
+                var l = list[tok.type[i]];
+                l.push(tok);
+            }
+            root.tokens.push(tok);
+        }
+        return root;
+    }
+};

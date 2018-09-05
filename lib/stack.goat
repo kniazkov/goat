@@ -23,71 +23,73 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 import "iterator.goat";
 
 var Stack = Iterable -> {
-	
-	top : null,
-	
-	empty : $() {
-		return top == null;
-	},
-	
-	StackIsEmpty : Exception -> {
-	},
-	
-	push : $(val) {
-		top = {
-			next : top,
-			val : val
-		};
-	},
-	
-	pop : $() {
-		if (top == null)
-			throw new StackIsEmpty();
-		var val = top.val;
-		var old = top;
-		top = old.next;
-		old.next = null;
-		return val;
-	},
-	
-	peek : $() {
-		if (top == null)
-			throw new StackIsEmpty();
-		return top.val;
-	},
-	
-	iterator : $() {
-		return new Stack.Iterator(top);
-	},
-	
-	Iterator : Iterator -> {
-		
-		item : null,
-		
-		init : $(item) {
-			this.item = item;
-		},
-		
-		valid : $() {
-			return item != null;
-		},
-		
-		next : $() {
-			if (!item)
-				throw new Exception.InvalidOperation();
-			item = item.next;
-		},
-		
-		read : $() {
-			if (!item)
-				throw new Exception.InvalidOperation();
-			return item.val;
-		},
-		
-		write : $(val) {
-			if (!item)
-				throw new Exception.InvalidOperation();
-			item.val = val;
-		}
-	}
+    
+    init : $() {
+        this.top = null;
+    },
+
+    empty : $() {
+        return top == null;
+    },
+    
+    StackIsEmpty : Exception -> {
+    },
+    
+    push : $(val) {
+        top = {
+            next : top,
+            val : val
+        };
+    },
+    
+    pop : $() {
+        if (top == null)
+            throw new StackIsEmpty();
+        var val = top.val;
+        var old = top;
+        top = old.next;
+        old.next = null;
+        return val;
+    },
+    
+    peek : $() {
+        if (top == null)
+            throw new StackIsEmpty();
+        return top.val;
+    },
+    
+    iterator : $() {
+        return new Stack.Iterator(top);
+    },
+    
+    Iterator : Iterator -> {
+        
+        item : null,
+        
+        init : $(item) {
+            this.item = item;
+        },
+        
+        valid : $() {
+            return item != null;
+        },
+        
+        next : $() {
+            if (!item)
+                throw new Exception.InvalidOperation();
+            item = item.next;
+        },
+        
+        read : $() {
+            if (!item)
+                throw new Exception.InvalidOperation();
+            return item.val;
+        },
+        
+        write : $(val) {
+            if (!item)
+                throw new Exception.InvalidOperation();
+            item.val = val;
+        }
+    }
 };
