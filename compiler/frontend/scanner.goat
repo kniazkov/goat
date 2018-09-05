@@ -61,11 +61,6 @@ var Scanner = {
             return new Token.Identifier(b.toString());
         }
 
-        if ( c == '(' || c == '{' || c == '[' || c == ')' || c == '}' || c == ']' ) {
-            src.next();
-            return new Token.Bracket(c);
-        }
-
         if (c == '\"') {
             c = src.next();
             var b = new StringBuilder();
@@ -77,9 +72,23 @@ var Scanner = {
             return new Token.StaticString(b.toString());
         }
 
-        if (c == ';') {
-            src.next();
-            return new Token.Semicolon();
+        src.next();
+
+        switch(c) {
+            case '(':
+                return new Token.Bracket('(', ')' false);
+            case '[':
+                return new Token.Bracket('[', ']' false);
+            case '{':
+                return new Token.Bracket('{', '}' false);
+            case ')':
+                return new Token.Bracket(')', '(' true);
+            case ']':
+                return new Token.Bracket(']', '[' true);
+            case '}':
+                return new Token.Bracket('}', '{' true);
+            case ';':
+                return new Token.Semicolon();
         }
 
         return null;

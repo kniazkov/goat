@@ -139,9 +139,13 @@ Token.Identifier = Token -> {
 Token.Bracket = Token -> {
     type : [ Token.Type.BRACKET ],
     bracket : Char.valueOf(0),
+    pair : Char.valueOf(0),
+    closing : false,
 
-    init : $(bracket) {
+    init : $(bracket, pair, closing) {
         this.bracket = bracket;
+        this.pair = pair;
+        this.closing = closing;
     },
 
     toString : $() {
