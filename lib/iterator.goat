@@ -60,5 +60,13 @@ var Iterable = {
 		for (var i = this.iterator(); i.valid(); i.next())
 			c++;
 		return c;
+	},
+
+	find : $(val) {
+		for (var i = this.iterator(); i.valid(); i.next()) {
+			if (i.read() == val)
+				return i;
+		}
+		return null;
 	}
 };
