@@ -33,7 +33,26 @@ var List = Iterable -> {
         return first == null;
     },
 
-    pushBack : $(val) {
+    ListIsEmpty : Exception -> {
+    },
+
+    pushf : $(val) {
+        var item = {
+            prev : null,
+            next : first,
+            val : val
+        };
+
+        if (last != null) {
+            first.prev = item;
+        }
+        else {
+            last = item;
+        }
+        first = item;
+    },
+
+    push : $(val) {
         var item = {
             prev : last,
             next : null,
@@ -47,6 +66,38 @@ var List = Iterable -> {
             first = item;
         }
         last = item;
+    },
+
+    popf : $() {
+        if (first == null)
+            throw new ListIsEmpty();
+        var item = first;
+        first = first.next;
+        if (first == null)
+            last = null;
+        return item.val;
+    },
+
+    pop : $() {
+        if (last == null)
+            throw new ListIsEmpty();
+        var item = last;
+        last = last.prev;
+        if (last == null)
+            first = null;
+        return item.val;
+    },
+
+    peekf : $() {
+        if (first == null)
+            throw new ListIsEmpty();
+        return first.val;
+    },
+
+    peek : $() {
+        if (last == null)
+            throw new ListIsEmpty();
+        return last.val;
     },
 
     iterator : $() {

@@ -4,7 +4,7 @@ var l = new List();
 var v;
 
 for (v = 0; v < 5; v++) {
-	l.push(v);
+	l.pushf(v);
 }
 
 var i;
