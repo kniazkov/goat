@@ -1,0 +1,15 @@
+import "list.goat";
+
+var l = new List();
+var v;
+
+for (v = 0; v < 5; v++) {
+	l.push(v);
+}
+
+var i = l.iterator();
+i.remove();
+
+println(i.read());
+print(l.toArray());
+

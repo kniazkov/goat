@@ -1,0 +1,23 @@
+import "list.goat";
+
+var l = new List();
+var v;
+
+for (v = 0; v < 10; v++) {
+	l.push(v);
+}
+
+var a = l.iterator();
+a.next();
+a.next();
+a.next();
+var b = a.clone();
+b.next();
+b.next();
+b.next(); 
+a.remove(b);
+
+println(a.read());
+println(b.read());
+print(l.toArray());
+

@@ -43,12 +43,10 @@ var List = Iterable -> {
             val : val
         };
 
-        if (last != null) {
+        if (last != null)
             first.prev = item;
-        }
-        else {
+        else
             last = item;
-        }
         first = item;
     },
 
@@ -59,12 +57,10 @@ var List = Iterable -> {
             val : val
         };
 
-        if (first != null) {
+        if (first != null)
             last.next = item;
-        }
-        else {
+        else
             first = item;
-        }
         last = item;
     },
 
@@ -101,16 +97,17 @@ var List = Iterable -> {
     },
 
     iterator : $() {
-        return new List.Iterator(first);
+        return new List.Iterator(this, first);
     },
     
     Iterator : Iterator -> {
         
+        list : null,
         item : null,
         
-        init : $(item) {
+        init : $(list, item) {
+            this.list = list;
             this.item = item;
-            this.following = item?.next || null;
         },
         
         valid : $() {
@@ -120,8 +117,7 @@ var List = Iterable -> {
         next : $() {
             if (!item)
                 throw new Exception.InvalidOperation();
-            item = following;
-            following = item?.next || null;
+            item = item.next;
         },
         
         read : $() {
@@ -134,6 +130,35 @@ var List = Iterable -> {
             if (!item)
                 throw new Exception.InvalidOperation();
             item.val = val;
+        },
+
+        remove : $(iter) {
+            if (!item)
+                throw new Exception.InvalidOperation();
+            var end;
+            if (iter != void) {
+                if (!iter.instanceOf(List.Iterator))
+                    throw new Exception.IllegalArgument();
+                if (list != iter.list)
+                    throw new Exception.IllegalArgument();
+                end = iter.item;
+            }
+            else
+                end = item;
+
+            var following = item.next;
+
+            if (item.prev != null)
+                item.prev.next = end.next;
+            else
+                list.first = end.next;
+
+            if (end.next != null)
+                end.next = item.prev;
+            else
+                list.last = item.prev;
+
+            return following;
         }
     }
 };
