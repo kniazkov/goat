@@ -54,6 +54,11 @@ var Token = {
         return b.toString();
     },
 
+    next : $() {
+        var ref = refs[null];
+        return ref?.next;
+    },
+
     Type : {
         UNKNOWN: "unknown",
         IDENTIFIER: "identifier",
@@ -104,6 +109,12 @@ var TokenList = {
         init : $(type, token) {
             this.type = type;
             this.token = token;
+            if (token != null) {
+                var ref = token.refs[type];
+                this.tnext = ref?.next || null;
+            }
+            else
+                this.tnext = null;
         },
         
         valid : $() {
@@ -113,8 +124,13 @@ var TokenList = {
         next : $() {
             if (!token)
                 throw new Exception.InvalidOperation();
-            var ref = token.refs[type];
-            token = ref.next;
+            token = tnext;
+            if (token != null) {
+                var ref = token.refs[type];
+                this.tnext = ref?.next || null;
+            }
+            else
+                this.tnext = null;
         },
         
         read : $() {

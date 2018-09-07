@@ -23,6 +23,55 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 import "scanner.goat";
 import "token.goat";
 
+var Rule = {
+    check : $(token) {
+        throw new Exception.NotImplemented();
+    },
+
+    "<<" : $(rule) {
+        if (defined(this.last)) {
+            this.last.next = rule;
+        } else {
+            this.next = rule;
+        }
+        this.last = rule;
+        return this;
+    },
+
+    ">>" : $(rule) {
+        rule.prev = this;
+        return rule;
+    }
+};
+
+Rule.Type = Rule -> {
+    init : $(type) {
+        this.type = type;
+    },
+
+    check : $(token) {
+        for (var i = 0; i < token.type.length(); i++) {
+            if (token.type[i] == type) {
+                return this.next || null;
+            }
+        }
+        return false;
+    }
+};
+
+Rule.Brackets = Rule -> {
+    init : $(bracket) {
+        this.bracket = bracket;
+    },
+
+    check : $(token) {
+        if (token.type[0] == Token.Type.BRACKETS)
+            if (token.bracket == bracket)
+                return this.next || null;
+        return false;
+    }
+};
+
 var Parser = {
     scanner : null,
 
@@ -39,6 +88,18 @@ var Parser = {
     parse : $() {
         var root = new Token.Root();
         this._parseBrackets(null, root.tokens);
+
+        var identifer = $() {
+            return new Rule.Type(Token.Type.IDENTIFIER);
+        };
+
+        var parentheses = $() {
+            return new Rule.Brackets('(');
+        };
+
+        var fcall = identifer() << parentheses();
+        println(fcall);
+
         return root;
     },
 
@@ -72,5 +133,9 @@ var Parser = {
             var list = graph[token.type[i]];
             list.push(token);
         }
+    },
+
+    _applyRule : $(rule, token) {
+        
     }
 };
