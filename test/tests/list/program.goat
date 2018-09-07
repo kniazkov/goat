@@ -1,0 +1,17 @@
+import "list.goat";
+
+var l = new List();
+var v;
+
+for (v = 0; v < 5; v++) {
+	l.pushBack(v);
+}
+
+var i;
+for (i = l.iterator(); i.valid(); i.next()) {
+	i.write(i.read() + 1);
+}
+
+for (i = l.iterator(); i.valid(); i.next()) {
+	print("" + i.read() + "\n");
+}
