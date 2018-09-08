@@ -128,6 +128,29 @@ var List = Iterable -> {
     iterator : $() {
         return new List.Iterator(this, first);
     },
+
+    insert : $(iter, val) {
+        if (iter.list != this)
+            throw new Exception.IllegalArgument();
+        
+        var next = iter.item;
+        
+        if (next == null) {
+            this.push(val);
+            return;
+        }
+
+        var item = {
+            prev : next.prev,
+            next : next,
+            val : val
+        };
+
+        if (next.prev != null)
+            next.prev.next = item;
+        else
+            first = item;
+    },
     
     Iterator : Iterator -> {
         
