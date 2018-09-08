@@ -96,6 +96,35 @@ var List = Iterable -> {
         return last.val;
     },
 
+    remove : $(begin, end) {
+        if (!begin.item)
+            throw new Exception.InvalidOperation();
+        if (begin.list != this)
+            throw new Exception.IllegalArgument();
+        
+        begin = begin.item;
+        
+        if (end != void) {
+            if (!end.instanceOf(List.Iterator))
+                throw new Exception.IllegalArgument();
+            if (end.list != this)
+                throw new Exception.IllegalArgument();
+            end = end.item;
+        }
+        else
+            end = begin;
+
+        if (begin.prev != null)
+            begin.prev.next = end.next;
+        else
+            first = end.next;
+
+        if (end.next != null)
+            end.next.prev = begin.prev;
+        else
+            last = begin.prev;
+    },
+
     iterator : $() {
         return new List.Iterator(this, first);
     },
@@ -135,29 +164,9 @@ var List = Iterable -> {
         remove : $(iter) {
             if (!item)
                 throw new Exception.InvalidOperation();
-            var end;
-            if (iter != void) {
-                if (!iter.instanceOf(List.Iterator))
-                    throw new Exception.IllegalArgument();
-                if (list != iter.list)
-                    throw new Exception.IllegalArgument();
-                end = iter.item;
-            }
-            else
-                end = item;
 
             var following = item.next;
-
-            if (item.prev != null)
-                item.prev.next = end.next;
-            else
-                list.first = end.next;
-
-            if (end.next != null)
-                end.next = item.prev;
-            else
-                list.last = item.prev;
-
+            list.remove(this, iter);
             return following;
         }
     }
