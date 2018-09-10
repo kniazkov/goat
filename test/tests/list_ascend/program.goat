@@ -1,0 +1,28 @@
+import "list.goat";
+
+try {
+	var l = new List();
+	l.ascend(5);
+	println(l.toArray());
+	l.ascend(2);
+	println(l.toArray());
+	l.ascend(9);
+	println(l.toArray());
+	l.ascend(1);
+	println(l.toArray());
+	l.ascend(3);
+	println(l.toArray());
+	l.ascend(8);
+	println(l.toArray());
+	l.ascend(0);
+	println(l.toArray());
+	l.ascend(7);
+	println(l.toArray());
+	l.ascend(4);
+	println(l.toArray());
+	l.ascend(6);
+	println(l.toArray());
+}
+catch(e) {
+	println(e);
+}

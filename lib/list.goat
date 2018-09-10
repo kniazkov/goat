@@ -36,6 +36,23 @@ var List = Iterable -> {
     ListIsEmpty : Exception -> {
     },
 
+    _check : $() {
+        var item = first;
+        while(item != null) {
+            if (item.prev != null) {
+                if (item.prev.next != item) {
+                    throw "corrupted previos " + item.val + " " + item.next.val;
+                }
+            }
+            if (item.next != null) {
+                if (item.next.prev != item) {
+                    throw "corrupted next " + item.val + " " + item.prev.val;
+                }
+            }
+            item = item.next;
+        }
+    },
+
     pushf : $(val) {
         var item = {
             prev : null,
@@ -150,8 +167,35 @@ var List = Iterable -> {
             next.prev.next = item;
         else
             first = item;
+        next.prev = item;
     },
     
+    ascend : $(val) {
+        var next = first;
+
+        while (next != null) {
+            if (next.val < val) {
+                next = next.next;
+            }
+            else {
+                var item = {
+                    prev : next.prev,
+                    next : next,
+                    val : val
+                };
+
+                if (next.prev != null)
+                    next.prev.next = item;
+                else
+                    first = item;
+                next.prev = item;
+
+                return;
+            }
+        }
+        this.push(val);
+    },
+
     Iterator : Iterator -> {
         
         list : null,
