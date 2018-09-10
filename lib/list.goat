@@ -37,6 +37,7 @@ var List = Iterable -> {
     },
 
     _check : $() {
+        // TODO: remove this method
         var item = first;
         while(item != null) {
             if (item.prev != null) {
