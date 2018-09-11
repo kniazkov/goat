@@ -1,6 +1,5 @@
 import "grammar.goat";
 
-debug;
 
 var TokenChar = Grammar.Token -> {
     init : $(char) {
@@ -8,11 +7,48 @@ var TokenChar = Grammar.Token -> {
     },
 
     toString : $() {
-        return "\'" + char + '\'';
+        return String.valueOf(char);
     }
 };
 
-var source = "2 + 3 * 4";
+var TokenBinary = Grammar.Token -> {
+    init : $(left, oper, right) {
+        this.left = left;
+        this.oper = oper;
+        this.right = right;
+    },
+
+    toString : $() {
+        return "[" + left.toString() + oper.toString() + right.toString() + ']';
+    }
+};
+
+var Digit = Grammar.Rule -> {
+    check : $(token) {
+        return token.char >= '0' && token.char <= '9';
+    }
+};
+
+var OperPlusMinus = Grammar.Rule -> {
+    check : $(token) {
+        return token.char == '+' || token.char == '-';
+    }
+};
+
+var OperMulDiv = Grammar.Rule -> {
+    check : $(token) {
+        return token.char == '*' || token.char == '/';
+    }
+};
+
+var rules = [
+    Digit > OperPlusMinus > Digit >>
+        $(tokens) { return new TokenBinary(tokens[0], tokens[1], tokens[2]); },
+    Digit > OperMulDiv > Digit >> 
+        $(tokens) { return new TokenBinary(tokens[0], tokens[1], tokens[2]); }
+];
+
+var source = "2+3*4";
 var sequence = new Grammar.Sequence();
 
 for (var i = 0; i < source.length(); i++) {

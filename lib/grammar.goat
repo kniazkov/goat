@@ -45,30 +45,47 @@ Grammar.Rule = {
         return false;
     },
 
-    toPattern : $() {
-        if (owner == null) {
-            owner = new Grammar.Pattern();
-            owner.push(this);
-        }
-        return owner;
+    createPattern : $() {
+        var pt = new Grammar.Pattern();
+        pt.push(this);
+        return pt;
     },
 
     ">" : $(rule) {
-        var pattern = this.toPattern();
-        pattern.push(rule);
-        return pattern;
-    }
+        var pt = new Grammar.Pattern();
+        pt.rules.push(this);
+        pt.rules.push(rule);
+        return pt;
+    },
+
+    ">>" : $(callback) {
+        var pt = new Grammar.Pattern();
+        pt.rules.push(this);
+        pt.callback = callback;
+        return pt;
+     }
 };
 
-Grammar.Pattern = List -> {
+Grammar.Pattern = {
+    init : $() {
+        this.rules = new List();
+        this.callback = null;
+    },
+
     ">" : $(rule) {
-        this.push(rule);
+        this.rules.push(rule);
+        return this;
+    },
+
+    ">>" : $(callback) {
+        this.callback = callback;
         return this;
     }
 };
 
 Grammar.Matcher = {
     init : $(pattern) {
+        this.pattern = pattern;
         this.iter = pattern.iterator();
     }
 };
