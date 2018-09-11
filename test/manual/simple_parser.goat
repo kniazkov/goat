@@ -1,0 +1,24 @@
+import "grammar.goat";
+
+debug;
+
+var TokenChar = Grammar.Token -> {
+    init : $(char) {
+        this.char = char;
+    },
+
+    toString : $() {
+        return "\'" + char + '\'';
+    }
+};
+
+var source = "2 + 3 * 4";
+var sequence = new Grammar.Sequence();
+
+for (var i = 0; i < source.length(); i++) {
+    sequence.push(new TokenChar(source[i]));
+}
+
+for (var i = sequence.iterator(); i.valid(); i.next()) {
+    println(i.read().toString());
+}
