@@ -23,7 +23,35 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 import "list.goat";
 
 var Grammar = {
+    init : $(patterns) {
+        this.patterns = patterns;
+    },
 
+    pass : $(sequence) {
+        var changes = 0;
+        var checklist = new List();
+        for (var i = sequence.iterator(); i.valid(); i.next()) {
+            var token = i.read();
+            token.matchers.clear();
+            for (var j = 0; j < patterns.length(); j++) {
+                var pattern = patterns[j];
+                /*  get the first rule from the pattern and check the token
+                    */
+                var rule = pattern.rules.peekf();
+                var result = rule.check(token);
+                println("0 " + result);
+                if (result) {
+                    /*  if the rule is applicable then create a matcher
+                        and add it to the token and to the checklist (if needed) */
+                    var matcher = new Grammar.Matcher(pattern, token);
+                    token.matchers.push(matcher);
+                    if (matcher.next())
+                        checklist.push(matcher);
+                }
+            }
+        }
+        return changes;
+    }
 };
 
 Grammar.Token = {
@@ -84,8 +112,14 @@ Grammar.Pattern = {
 };
 
 Grammar.Matcher = {
-    init : $(pattern) {
+    init : $(pattern, token) {
         this.pattern = pattern;
-        this.iter = pattern.iterator();
+        this.token = token;
+        this.iter = pattern.rules.iterator();
+    },
+
+    next : $() {
+        iter.next();
+        return iter.valid();
     }
 };

@@ -41,7 +41,7 @@ var OperMulDiv = Grammar.Rule -> {
     }
 };
 
-var rules = [
+var patterns = [
     Digit > OperPlusMinus > Digit >>
         $(tokens) { return new TokenBinary(tokens[0], tokens[1], tokens[2]); },
     Digit > OperMulDiv > Digit >> 
@@ -54,6 +54,10 @@ var sequence = new Grammar.Sequence();
 for (var i = 0; i < source.length(); i++) {
     sequence.push(new TokenChar(source[i]));
 }
+
+var grammar = new Grammar(patterns);
+
+grammar.pass(sequence);
 
 for (var i = sequence.iterator(); i.valid(); i.next()) {
     println(i.read().toString());

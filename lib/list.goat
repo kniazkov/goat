@@ -197,6 +197,11 @@ var List = Iterable -> {
         this.push(val);
     },
 
+    clear : $() {
+        first = null;
+        last = null;
+    },
+
     Iterator : Iterator -> {
         
         list : null,
