@@ -68,5 +68,9 @@ var Iterable = {
 				return i;
 		}
 		return null;
+	},
+
+	removeFirst : $(val) {
+		this.find(val)?.remove();
 	}
 };

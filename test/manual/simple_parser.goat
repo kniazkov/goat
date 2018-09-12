@@ -42,13 +42,22 @@ var OperMulDiv = Grammar.Rule -> {
 };
 
 var patterns = [
-    Digit > OperPlusMinus > Digit >>
+    Digit + OperPlusMinus + Digit >>
         $(tokens) { return new TokenBinary(tokens[0], tokens[1], tokens[2]); },
-    Digit > OperMulDiv > Digit >> 
+    Digit + OperMulDiv + Digit >> 
         $(tokens) { return new TokenBinary(tokens[0], tokens[1], tokens[2]); }
 ];
 
-var source = "2+3*4";
+/*
+var q = patterns[0];
+q = q.rules.iterator();
+while(q.valid()) {
+    println(q.read().instanceOf(Grammar.Rule));
+    q.next();
+}
+*/
+
+var source = "2+3*4+1+1";
 var sequence = new Grammar.Sequence();
 
 for (var i = 0; i < source.length(); i++) {
@@ -60,5 +69,6 @@ var grammar = new Grammar(patterns);
 grammar.pass(sequence);
 
 for (var i = sequence.iterator(); i.valid(); i.next()) {
-    println(i.read().toString());
+    var t = i.read();
+    println(t.toString() + " " + t.matchers.count());
 }

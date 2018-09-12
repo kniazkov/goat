@@ -235,12 +235,14 @@ var List = Iterable -> {
         },
 
         remove : $(iter) {
-            if (!item)
+            if (!iter)
+                iter = this;
+            if (!iter.item)
                 throw new Exception.InvalidOperation();
 
-            var following = item.next;
+            var following = iter.item.next;
             list.remove(this, iter);
-            return following;
+            item = following;
         }
     }
 };

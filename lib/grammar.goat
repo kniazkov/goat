@@ -32,11 +32,33 @@ var Grammar = {
         var checklist = new List();
         for (var i = sequence.iterator(); i.valid(); i.next()) {
             var token = i.read();
+
+            //  check all matchers from the checklist 
+            var j = checklist.iterator();
+            while (j.valid()) {
+                var matcher = j.read();
+                var result = matcher.match(token);
+                println("> " + result);
+                if (result) {
+                    //  matched, go to next rule of the matcher
+                    if (matcher.next())
+                        j.next();
+                    else {
+                        j.remove();
+                    }
+                }
+                else {
+                    //  not matched, remove the matcher from the first token
+                    matcher.begin.matchers.removeFirst(matcher);
+                    j.remove();
+                }
+            }
+
+            //  check the first rule from each pattern
             token.matchers.clear();
-            for (var j = 0; j < patterns.length(); j++) {
-                var pattern = patterns[j];
-                /*  get the first rule from the pattern and check the token
-                    */
+            for (var k = 0; k < patterns.length(); k++) {
+                var pattern = patterns[k];
+                //  get the first rule from the pattern and check the token
                 var rule = pattern.rules.peekf();
                 var result = rule.check(token);
                 println("0 " + result);
@@ -49,6 +71,12 @@ var Grammar = {
                         checklist.push(matcher);
                 }
             }
+        }
+
+        // remove all remaining matchers from the checklist
+        for (var j = checklist.iterator(); j.valid(); j.next()) {
+            var matcher = j.read();
+            matcher.begin.matchers.removeFirst(matcher);
         }
         return changes;
     }
@@ -79,18 +107,18 @@ Grammar.Rule = {
         return pt;
     },
 
-    ">" : $(rule) {
-        var pt = new Grammar.Pattern();
-        pt.rules.push(this);
-        pt.rules.push(rule);
-        return pt;
+    "+" : $(rule) {
+        var pattern = new Grammar.Pattern();
+        pattern.rules.push(this);
+        pattern.rules.push(rule);
+        return pattern;
     },
 
     ">>" : $(callback) {
-        var pt = new Grammar.Pattern();
-        pt.rules.push(this);
-        pt.callback = callback;
-        return pt;
+        var pattern = new Grammar.Pattern();
+        pattern.rules.push(this);
+        pattern.callback = callback;
+        return pattern;
      }
 };
 
@@ -100,7 +128,7 @@ Grammar.Pattern = {
         this.callback = null;
     },
 
-    ">" : $(rule) {
+    "+" : $(rule) {
         this.rules.push(rule);
         return this;
     },
@@ -114,12 +142,19 @@ Grammar.Pattern = {
 Grammar.Matcher = {
     init : $(pattern, token) {
         this.pattern = pattern;
-        this.token = token;
+        this.begin = token;
         this.iter = pattern.rules.iterator();
     },
 
     next : $() {
         iter.next();
         return iter.valid();
+    },
+
+    match : $(token) {
+        if (!iter.valid())
+            return false;
+        var rule = iter.read();
+        return rule.check(token);
     }
 };
