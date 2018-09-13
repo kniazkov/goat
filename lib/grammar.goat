@@ -20,141 +20,245 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+import "assert.goat";
 import "list.goat";
 
 var Grammar = {
-    init : $(patterns) {
-        this.patterns = patterns;
+    init : $() {
+        this.tags = [];
+        this.graph = [];
     },
 
-    pass : $(sequence) {
-        var changes = 0;
-        var checklist = new List();
-        for (var i = sequence.iterator(); i.valid(); i.next()) {
-            var token = i.read();
+    createTag : $(name) {
+        var id = tags.length();
+        var tag = new Grammar.Tag(id, name);
+        tags.push(tag);
+        graph.push(new Grammar.List_1());
+        return tag;
+    },
 
-            //  check all matchers from the checklist 
-            var j = checklist.iterator();
-            while (j.valid()) {
-                var matcher = j.read();
-                var result = matcher.match(token);
-                println("> " + result);
-                if (result) {
-                    //  matched, go to next rule of the matcher
-                    if (matcher.next())
-                        j.next();
-                    else {
-                        j.remove();
-                    }
-                }
-                else {
-                    //  not matched, remove the matcher from the first token
-                    matcher.begin.matchers.removeFirst(matcher);
-                    j.remove();
-                }
-            }
+    createSequence : $() {
+        return new Grammar.Sequence(this);
+    }
+};
 
-            //  check the first rule from each pattern
-            token.matchers.clear();
-            for (var k = 0; k < patterns.length(); k++) {
-                var pattern = patterns[k];
-                //  get the first rule from the pattern and check the token
-                var rule = pattern.rules.peekf();
-                var result = rule.check(token);
-                println("0 " + result);
-                if (result) {
-                    /*  if the rule is applicable then create a matcher
-                        and add it to the token and to the checklist (if needed) */
-                    var matcher = new Grammar.Matcher(pattern, token);
-                    token.matchers.push(matcher);
-                    if (matcher.next())
-                        checklist.push(matcher);
-                }
-            }
+Grammar.Exception = Exception-> {
+    toString : $() {
+        throw new Exception.NotImplemented();
+    }
+};
+
+Grammar.Tag = {
+    init : $(id, name) {
+        this.id = id;
+        this.name = name;
+    },
+
+    toRule : $() {
+        if (!this.rule) {
+            this.rule = new Grammar.RuleTag(this);
         }
+        return this.rule;
+    },
 
-        // remove all remaining matchers from the checklist
-        for (var j = checklist.iterator(); j.valid(); j.next()) {
-            var matcher = j.read();
-            matcher.begin.matchers.removeFirst(matcher);
-        }
-        return changes;
+    ">>" : $(next) {
+        debug;
+        var pattern = new Grammar.Pattern(this);
+        var rule = next.toRule();
+        pattern.right.push(rule);
+        return pattern;
+    }
+};
+
+Grammar.Rule = {
+    check : $(token) {
+        throw new Exception.NotImplemented();
+    },
+
+    toRule : $() {
+        return this;
+    }
+};
+
+Grammar.RuleTag = {
+    init : $(tag) {
+        this.tag = tag;
+    },
+
+    check : $(token) {
+        return token.tag == tag;
+    }
+};
+
+Grammar.Pattern = {
+    init : $(tag) {
+        this.tag = tag;
+        this.left = new List();
+        this.right = new List();
     }
 };
 
 Grammar.Token = {
+    tag : null,
+
     init : $() {
-        this.matchers = new List();
+        this.r0 = {
+            list : null,
+            prev : null,
+            next : null
+        };
+        this.r1 = {
+            list : null,
+            prev : null,
+            next : null
+        };
+    },
+
+    toString : $() {
+        return tag.name;
+    },
+
+    replace_0 : $(repl, end) {
+        if (!end)
+            r0.list.replace(repl, this, this);
+        else
+            r0.list.replace(repl, this, end);
+    },
+
+    remove_1 : $() {
+        r1.list.remove(this);
     }
 };
 
-Grammar.Sequence = List -> {
-
-};
-
-Grammar.Rule = {
+Grammar.List_0 = {
     init : $() {
-        this.owner = null;
+        this.first = null;
+        this.last = null;
     },
 
-    check : $(token) {
-        return false;
+    push : $(token) {
+        var ref = token.r0;
+        assert(ref.list == null);
+        
+        ref.list = this;
+        ref.prev = last;
+
+        if (last != null) {
+            last.r0.next = token;
+        }
+        else {
+            first = token;
+        }
+        last = token;
     },
 
-    createPattern : $() {
-        var pt = new Grammar.Pattern();
-        pt.push(this);
-        return pt;
+    replace : $(repl, begin, end) {
+        var r_repl = repl.r0;
+        assert(r_repl.list == null);
+
+        var r_begin = begin.r0;
+        assert(r_begin.list == this);
+
+        var r_end = end.r0;
+        assert(r_end.list == this);
+        
+        if (r_begin.prev != null) {
+            r_begin.prev.r0.next = repl;
+        }
+        else {
+            first = repl;
+        }
+        r_repl.prev = r_begin.prev;
+
+        if (r_end.next != null) {
+            r_end.next.r0.prev = repl;
+        }
+        else {
+            last = repl;
+        }
+        r_repl.next = r_end.next;
     },
 
-    "+" : $(rule) {
-        var pattern = new Grammar.Pattern();
-        pattern.rules.push(this);
-        pattern.rules.push(rule);
-        return pattern;
+    iterator : $() {
+        return new Grammar.List_0.Iterator(first);
     },
 
-    ">>" : $(callback) {
-        var pattern = new Grammar.Pattern();
-        pattern.rules.push(this);
-        pattern.callback = callback;
-        return pattern;
-     }
-};
+    Iterator : Iterator -> {
+        init : $(token) {
+            this.token = token;
+        },
 
-Grammar.Pattern = {
-    init : $() {
-        this.rules = new List();
-        this.callback = null;
-    },
+        valid : $() {
+            return token != null;
+        },
 
-    "+" : $(rule) {
-        this.rules.push(rule);
-        return this;
-    },
+        next : $() {
+            if (!token)
+                throw new Exception.InvalidOperation();
+            token = token.r0.next;
+        },
 
-    ">>" : $(callback) {
-        this.callback = callback;
-        return this;
+        read : $() {
+            return token;
+        }
     }
 };
 
-Grammar.Matcher = {
-    init : $(pattern, token) {
-        this.pattern = pattern;
-        this.begin = token;
-        this.iter = pattern.rules.iterator();
+Grammar.List_1 = {
+    init : $() {
+        this.first = null;
+        this.last = null;
     },
 
-    next : $() {
-        iter.next();
-        return iter.valid();
+    push : $(token) {
+        var ref = token.r1;
+        assert(ref.list == null);
+        
+        ref.list = this;
+        ref.prev = last;
+
+        if (last != null) {
+            last.r1.next = token;
+        }
+        else {
+            first = token;
+        }
+        last = token;
     },
 
-    match : $(token) {
-        if (!iter.valid())
-            return false;
-        var rule = iter.read();
-        return rule.check(token);
+    remove : $(token) {
+        var ref = token.r1;
+        assert(ref.list == this);
+        
+        if (ref.prev != null) {
+            ref.prev.r1.next = ref.next;
+        }
+        else {
+            first = ref.next;
+        }
+
+        if (ref.next != null) {
+            ref.next.r1.prev = ref.prev;
+        }
+        else {
+            last = ref.prev;
+        }
+    }
+};
+
+Grammar.Sequence = {
+    init : $(grammar) {
+        this.grammar = grammar;
+        this.list = new Grammar.List_0();
+    },
+
+    push : $(token) {
+        list.push(token);
+        var list_1 = grammar.graph[token.tag.id];
+        list_1.push(token);
+    },
+
+    iterator : $() {
+        return list.iterator();
     }
 };

@@ -1,74 +1,93 @@
 import "grammar.goat";
 
+var grammar = new Grammar();
 
-var TokenChar = Grammar.Token -> {
-    init : $(char) {
-        this.char = char;
+var DIGIT = grammar.createTag("DIGIT");
+var PLUS = grammar.createTag("PLUS");
+var MUL = grammar.createTag("MUL");
+
+println(grammar);
+
+var Digit = Grammar.Token -> {
+    tag : DIGIT,
+
+    init : $(value) {
+        this.value = value;
     },
 
     toString : $() {
-        return String.valueOf(char);
+        return String.valueOf(value);
     }
 };
 
-var TokenBinary = Grammar.Token -> {
-    init : $(left, oper, right) {
-        this.left = left;
-        this.oper = oper;
-        this.right = right;
-    },
+var Plus = Grammar.Token -> {
+    tag : PLUS,
 
     toString : $() {
-        return "[" + left.toString() + oper.toString() + right.toString() + ']';
+        return "+";
     }
 };
 
-var Digit = Grammar.Rule -> {
-    check : $(token) {
-        return token.char >= '0' && token.char <= '9';
+var Mul = Grammar.Token -> {
+    tag : MUL,
+
+    toString : $() {
+        return "*";
     }
 };
 
-var OperPlusMinus = Grammar.Rule -> {
-    check : $(token) {
-        return token.char == '+' || token.char == '-';
-    }
-};
-
-var OperMulDiv = Grammar.Rule -> {
-    check : $(token) {
-        return token.char == '*' || token.char == '/';
-    }
-};
-
-var patterns = [
-    Digit + OperPlusMinus + Digit >>
-        $(tokens) { return new TokenBinary(tokens[0], tokens[1], tokens[2]); },
-    Digit + OperMulDiv + Digit >> 
-        $(tokens) { return new TokenBinary(tokens[0], tokens[1], tokens[2]); }
-];
-
-/*
-var q = patterns[0];
-q = q.rules.iterator();
-while(q.valid()) {
-    println(q.read().instanceOf(Grammar.Rule));
-    q.next();
-}
-*/
-
-var source = "2+3*4+1+1";
-var sequence = new Grammar.Sequence();
+var source = "1+2*3";
+var sequence = grammar.createSequence();
 
 for (var i = 0; i < source.length(); i++) {
-    sequence.push(new TokenChar(source[i]));
+    var token;
+    switch(source[i]) {
+        case '0':
+            token = new Digit(0); break;
+        case '1':
+            token = new Digit(1); break;
+        case '2':
+            token = new Digit(2); break;
+        case '3':
+            token = new Digit(3); break;
+        case '4':
+            token = new Digit(4); break;
+        case '5':
+            token = new Digit(5); break;
+        case '6':
+            token = new Digit(6); break;
+        case '7':
+            token = new Digit(7); break;
+        case '8':
+            token = new Digit(8); break;
+        case '9':
+            token = new Digit(9); break;
+        case '+':
+            token = new Plus(); break;
+        case '*':
+            token = new Mul(); break;
+    }
+    sequence.push(token);
 }
 
-var grammar = new Grammar(patterns);
+/*
+var repl = new Digit(9);
 
-grammar.pass(sequence);
+var j = sequence.iterator();
+j.next();
+j.next();
+j = j.read();
+var k = sequence.iterator();
+k.next();
+k.next();
+k.next();
+k = k.read();
+j.replace_0(repl, k);
+*/
 
 for (var i = sequence.iterator(); i.valid(); i.next()) {
-    var t = i.read();
-    println(t.toString() + " " + t.matchers.count());
+    println(i.read().toString());
 }
+
+var pp = DIGIT >> PLUS;
+println(pp);
