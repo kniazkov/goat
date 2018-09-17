@@ -15,9 +15,10 @@ var b = a.clone();
 b.next();
 b.next();
 b.next(); 
-a.remove(b);
 
 println(a.read());
 println(b.read());
+a.remove(b);
+
 print(l.toArray());
 

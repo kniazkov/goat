@@ -12,8 +12,9 @@ i.next();
 i.next();
 i.next();
 i.next();
-i.remove();
 
 println(i.read());
+i.remove();
+
 print(l.toArray());
 

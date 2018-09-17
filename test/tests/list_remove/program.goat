@@ -10,8 +10,9 @@ for (v = 0; v < 5; v++) {
 var i = l.iterator();
 i.next();
 i.next();
-i.remove();
 
 println(i.read());
+i.remove();
+
 print(l.toArray());
 
