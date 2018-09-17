@@ -34,7 +34,7 @@ namespace goat {
 		ObjectFile(Platform::File *_file);
 		~ObjectFile();
 		ObjectFile * toObjectFile() override;
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 		void trace() override;
 
 		class Proto : public Object {

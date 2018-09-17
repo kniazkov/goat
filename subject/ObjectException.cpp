@@ -74,7 +74,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString NameIsNotDefined::toWideString() {
+	WideString NameIsNotDefined::toWideString(Set<Object*> &set) {
 		return (WideStringBuilder() << "name \'" << name << "\' is not defined").toWideString();
 	}
 
@@ -95,7 +95,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString IsNotAFunction::toWideString() {
+	WideString IsNotAFunction::toWideString(Set<Object*> &set) {
 		return (WideStringBuilder() << "\'" << name << "\' is not a function").toWideString();
 	}
 
@@ -115,7 +115,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString OperatorIsNotDefined::toWideString() {
+	WideString OperatorIsNotDefined::toWideString(Set<Object*> &set) {
 		return (WideStringBuilder() << "operator \'" << name << "\' is not defined").toWideString();
 	}
 
@@ -134,7 +134,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString CanNotCallUndefined::toWideString() {
+	WideString CanNotCallUndefined::toWideString(Set<Object*> &set) {
 		return L"can not call undefined function";
 	}
 
@@ -153,7 +153,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString CanNotCallExpression::toWideString() {
+	WideString CanNotCallExpression::toWideString(Set<Object*> &set) {
 		return L"can not call, expression is not a function";
 	}
 
@@ -169,7 +169,8 @@ namespace goat {
 
 
 	CanNotReadPropertyOfUndefined::CanNotReadPropertyOfUndefined(Object *_obj) {
-		prop = _obj->toWideString();
+		Set<Object*> set;
+		prop = _obj->toWideString(set);
 		proto.pushBack(Proto::getInstance());
 	}
 
@@ -188,13 +189,14 @@ namespace goat {
 		return &__this;
 	}
 
-	WideString CanNotReadPropertyOfUndefined::toWideString() {
+	WideString CanNotReadPropertyOfUndefined::toWideString(Set<Object*> &set) {
 		return (WideStringBuilder() << "cannot read property \'" << prop << "\' of undefined").toWideString();
 	}
 
 
 	CanNotWritePropertyOfUndefined::CanNotWritePropertyOfUndefined(Object *_obj) {
-		prop = _obj->toWideString();
+		Set<Object*> set;
+		prop = _obj->toWideString(set);
 		proto.pushBack(Proto::getInstance());
 	}
 
@@ -203,7 +205,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString CanNotWritePropertyOfUndefined::toWideString() {
+	WideString CanNotWritePropertyOfUndefined::toWideString(Set<Object*> &set) {
 		return (WideStringBuilder() << "cannot write property \'" << prop << "\' of undefined").toWideString();
 	}
 
@@ -219,7 +221,8 @@ namespace goat {
 
 
 	CanNotWritePropertyOfLockedObject::CanNotWritePropertyOfLockedObject(Object *_obj) {
-		prop = _obj->toWideString();
+		Set<Object*> set;
+		prop = _obj->toWideString(set);
 		proto.pushBack(Proto::getInstance());
 	}
 
@@ -228,7 +231,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString CanNotWritePropertyOfLockedObject::toWideString() {
+	WideString CanNotWritePropertyOfLockedObject::toWideString(Set<Object*> &set) {
 		return (WideStringBuilder() << "cannot write property \'" << prop << "\' of locked object").toWideString();
 	}
 
@@ -248,7 +251,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString CanNotReadOperatorOfUndefined::toWideString() {
+	WideString CanNotReadOperatorOfUndefined::toWideString(Set<Object*> &set) {
 		return (WideStringBuilder() << "cannot read operator \'" << name << "\' of undefined").toWideString();
 	}
 
@@ -267,7 +270,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString DivisionByZero::toWideString() {
+	WideString DivisionByZero::toWideString(Set<Object*> &set) {
 		return L"divizion by zero";
 	}
 
@@ -286,7 +289,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString IncorrectIndex::toWideString() {
+	WideString IncorrectIndex::toWideString(Set<Object*> &set) {
 		return L"incorrect index, should be integer";
 	}
 
@@ -305,7 +308,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString OutOfBounds::toWideString() {
+	WideString OutOfBounds::toWideString(Set<Object*> &set) {
 		return L"index out of bounds";
 	}
 
@@ -324,7 +327,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString IllegalArgument::toWideString() {
+	WideString IllegalArgument::toWideString(Set<Object*> &set) {
 		return L"illegal argument";
 	}
 
@@ -343,7 +346,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString NotImplemented::toWideString() {
+	WideString NotImplemented::toWideString(Set<Object*> &set) {
 		return L"not implemented";
 	}
 
@@ -362,7 +365,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString InvalidOperation::toWideString() {
+	WideString InvalidOperation::toWideString(Set<Object*> &set) {
 		return L"invalid operation";
 	}
 
@@ -381,7 +384,7 @@ namespace goat {
 		proto.pushBack(Proto::getInstance());
 	}
 
-	WideString PrototypeIsNotDefined::toWideString() {
+	WideString PrototypeIsNotDefined::toWideString(Set<Object*> &set) {
 		return L"prototype is not defined";
 	}
 

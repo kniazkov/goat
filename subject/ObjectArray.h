@@ -34,7 +34,7 @@ namespace goat {
 		ObjectArray();
 		ObjectArray * toObjectArray() override;
 		void trace() override;
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public Object {
 		public:

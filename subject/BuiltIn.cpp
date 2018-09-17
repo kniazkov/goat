@@ -113,7 +113,8 @@ namespace goat {
 		ObjectArray * args = scope->arguments;
 		if (args->vector.len() > 0) {
 			Object *arg0 = args->vector[0];
-			WideString value = arg0 ? arg0->toWideString() : L"undefined";
+			Set<Object*> set;
+			WideString value = arg0 ? arg0->toWideString(set) : L"undefined";
 
 			value.forEach([&](wchar ch) {
 				out->write(ch);

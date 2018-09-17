@@ -45,7 +45,7 @@ namespace goat {
 		return this;
 	}
 
-	WideString ObjectFile::toWideString() {
+	WideString ObjectFile::toWideString(Set<Object*> &set) {
 		return Resource::w_File;
 	}
 

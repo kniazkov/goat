@@ -32,7 +32,7 @@ namespace goat {
 		return this;
 	}
 
-	WideString ObjectBuiltIn::toWideString() {
+	WideString ObjectBuiltIn::toWideString(Set<Object*> &set) {
 		return L"Function";
 	}
 

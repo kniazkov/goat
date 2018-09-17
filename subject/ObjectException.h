@@ -48,7 +48,7 @@ namespace goat {
 		String name;
 
 		NameIsNotDefined(String _name);
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -62,7 +62,7 @@ namespace goat {
 		String name;
 
 		IsNotAFunction(String _name);
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -76,7 +76,7 @@ namespace goat {
 		String name;
 
 		OperatorIsNotDefined(String _name);
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -88,7 +88,7 @@ namespace goat {
 	class CanNotCallUndefined : public ObjectException {
 	public:
 		CanNotCallUndefined();
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -100,7 +100,7 @@ namespace goat {
 	class CanNotCallExpression : public ObjectException {
 	public:
 		CanNotCallExpression();
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -115,7 +115,7 @@ namespace goat {
 
 		CanNotReadPropertyOfUndefined(Object *_obj);
 		CanNotReadPropertyOfUndefined(String _name);
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -130,7 +130,7 @@ namespace goat {
 
 		CanNotWritePropertyOfUndefined(Object *_obj);
 		CanNotWritePropertyOfUndefined(String _name);
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -145,7 +145,7 @@ namespace goat {
 
 		CanNotWritePropertyOfLockedObject(Object *_obj);
 		CanNotWritePropertyOfLockedObject(String _name);
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -159,7 +159,7 @@ namespace goat {
 		String name;
 
 		CanNotReadOperatorOfUndefined(String _name);
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -171,7 +171,7 @@ namespace goat {
 	class DivisionByZero : public ObjectException {
 	public:
 		DivisionByZero();
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -183,7 +183,7 @@ namespace goat {
 	class IncorrectIndex : public ObjectException {
 	public:
 		IncorrectIndex();
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -195,7 +195,7 @@ namespace goat {
 	class OutOfBounds : public ObjectException {
 	public:
 		OutOfBounds();
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -207,7 +207,7 @@ namespace goat {
 	class IllegalArgument : public ObjectException {
 	public:
 		IllegalArgument();
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -219,7 +219,7 @@ namespace goat {
 	class NotImplemented : public ObjectException {
 	public:
 		NotImplemented();
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -231,7 +231,7 @@ namespace goat {
 	class InvalidOperation : public ObjectException {
 	public:
 		InvalidOperation();
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:
@@ -243,7 +243,7 @@ namespace goat {
 	class PrototypeIsNotDefined : public ObjectException {
 	public:
 		PrototypeIsNotDefined();
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public ObjectException {
 		public:

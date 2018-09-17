@@ -147,8 +147,9 @@ namespace goat {
 										String name = cmd.subString(1, len - 1).toString();
 										Object *obj = Thread::current->state->scope->find(Object::createIndex(name));
 										if (obj) {
+											Set<Object*> set;
 											console.write((WideStringBuilder() << 
-												name << L": " << obj->toWideStringNotation() << L'\n'
+												name << L": " << obj->toWideStringNotation(set) << L'\n'
 											).toWideString());
 										}
 									}

@@ -33,7 +33,7 @@ namespace goat {
 
 		ObjectReal(ldouble value);
 		ObjectReal * toObjectReal() override;
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 		bool equals(Object *_obj) override;
 
 		class Proto : public Object {

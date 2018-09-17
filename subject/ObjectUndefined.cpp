@@ -43,7 +43,7 @@ namespace goat {
 		return new ObjectBoolean(false);
 	}
 
-	WideString ObjectUndefined::toWideString() {
+	WideString ObjectUndefined::toWideString(Set<Object*> &set) {
 		return Resource::w_undefined;
 	}
 

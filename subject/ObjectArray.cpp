@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectString.h"
 #include "ObjectInteger.h"
 #include "WideStringBuilder.h"
+#include "Resource.h"
 
 namespace goat {
 
@@ -42,7 +43,11 @@ namespace goat {
 		});
 	}
 
-	WideString ObjectArray::toWideString() {
+	WideString ObjectArray::toWideString(Set<Object*> &set) {
+		if (set.contains(this))
+			return Resource::w_ellipsis;
+		set.insert(this);
+
 		WideStringBuilder b;
 		b << (wchar)'[';
 		int i = 0;
@@ -51,7 +56,7 @@ namespace goat {
 				b << (wchar)',';
 			}
 			i++;
-			b << obj->toWideStringNotation();
+			b << obj->toWideStringNotation(set);
 		});
 		b << (wchar)']';
 		return b.toWideString();

@@ -33,7 +33,7 @@ namespace goat {
 
 		ObjectByteArray();
 		ObjectByteArray * toObjectByteArray() override;
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public Object {
 		public:

@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "Map.h"
+#include "Set.h"
 #include "Vector.h"
 #include "PlainVector.h"
 #include "String.h"
@@ -142,8 +143,8 @@ namespace goat {
 		virtual void flat(Object *fobj);
 		void enumerate(Vector<Pair> *vector);
 
-		virtual WideString toWideString();
-		virtual WideString toWideStringNotation();
+		virtual WideString toWideString(Set<Object*> &set);
+		virtual WideString toWideStringNotation(Set<Object*> &set);
 		virtual RawString toRawString();
 
 		virtual ObjectString * toObjectString();

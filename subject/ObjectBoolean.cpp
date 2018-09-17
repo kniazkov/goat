@@ -34,7 +34,7 @@ namespace goat {
 		return this;
 	}
 
-	WideString ObjectBoolean::toWideString() {
+	WideString ObjectBoolean::toWideString(Set<Object*> &set) {
 		return value ? L"true" : L"false";
 	}
 

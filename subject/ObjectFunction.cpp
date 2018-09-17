@@ -34,7 +34,7 @@ namespace goat {
 		return this;
 	}
 
-	WideString ObjectFunction::toWideString() {
+	WideString ObjectFunction::toWideString(Set<Object*> &set) {
 		return L"Function";
 	}
 

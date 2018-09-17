@@ -40,7 +40,7 @@ namespace goat {
 			return new ObjectInteger(value);
 		}
 
-		WideString toWideString() override {
+		WideString toWideString(Set<Object*> &set) override {
 			return WideString::valueOf(value);
 		}
 

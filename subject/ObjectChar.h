@@ -33,8 +33,8 @@ namespace goat {
 
 		ObjectChar(wchar _value);
 		ObjectChar * toObjectChar() override;
-		WideString toWideString() override;
-		WideString toWideStringNotation() override;
+		WideString toWideString(Set<Object*> &set) override;
+		WideString toWideStringNotation(Set<Object*> &set) override;
 		bool equals(Object *_obj) override;
 
 		class Proto : public Object {

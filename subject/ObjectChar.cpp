@@ -37,11 +37,11 @@ namespace goat {
 		return this;
 	}
 
-	WideString ObjectChar::toWideString() {
+	WideString ObjectChar::toWideString(Set<Object*> &set) {
 		return WideString(&value, 1);
 	}
 
-	WideString ObjectChar::toWideStringNotation() {
+	WideString ObjectChar::toWideStringNotation(Set<Object*> &set) {
 		return (WideStringBuilder() << L'\'' << value << L'\'').toWideString();
 	}
 

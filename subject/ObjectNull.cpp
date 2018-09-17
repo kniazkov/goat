@@ -43,7 +43,7 @@ namespace goat {
 		return new ObjectBoolean(false);
 	}
 
-	WideString ObjectNull::toWideString() {
+	WideString ObjectNull::toWideString(Set<Object*> &set) {
 		return Resource::w_null;
 	}
 

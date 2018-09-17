@@ -35,7 +35,7 @@ namespace goat {
 		return this;
 	}
 
-	WideString ObjectStringBuilder::toWideString() {
+	WideString ObjectStringBuilder::toWideString(Set<Object*> &set) {
 		return builder.toWideString();
 	}
 
@@ -89,7 +89,8 @@ namespace goat {
 		if (!operand) {
 			return new IllegalArgument();
 		}
-		WideString wstr = operand->toWideString();
+		Set<Object*> set;
+		WideString wstr = operand->toWideString(set);
 		if (argsCount == 1) {
 			this_->builder << wstr;
 		}

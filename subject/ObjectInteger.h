@@ -35,7 +35,7 @@ namespace goat {
 
 		ObjectInteger(lint value);
 		ObjectInteger * toObjectInteger() override;
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 		bool equals(Object *_obj) override;
 
 		class Proto : public Object {

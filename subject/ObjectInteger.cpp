@@ -38,7 +38,7 @@ namespace goat {
 		return this;
 	}
 
-	WideString ObjectInteger::toWideString() {
+	WideString ObjectInteger::toWideString(Set<Object*> &set) {
 		return WideString::valueOf(value);
 	}
 

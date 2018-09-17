@@ -37,7 +37,7 @@ namespace goat {
 		return this;
 	}
 
-	WideString ObjectByteArray::toWideString() {
+	WideString ObjectByteArray::toWideString(Set<Object*> &set) {
 		WideStringBuilder b;
 		b << (wchar)'[';
 		int i = 0;

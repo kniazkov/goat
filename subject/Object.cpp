@@ -309,7 +309,11 @@ namespace goat {
 		return false;
 	}
 
-	WideString Object::toWideString() {
+	WideString Object::toWideString(Set<Object*> &set) {
+		if (set.contains(this))
+			return Resource::w_ellipsis;
+		set.insert(this);
+
 		WideStringBuilder b;
 		b << (wchar)'{';
 		int i = 0;
@@ -318,25 +322,26 @@ namespace goat {
 				b << L',';
 			}
 			i++;
-			b << getKey(index) << L':' << obj->toWideStringNotation();
+			b << getKey(index) << L':' << obj->toWideStringNotation(set);
 		});
 		chain.forEach([&](Pair &pair) {
 			if (i) {
 				b << L',';
 			}
 			i++;
-			b << pair.key->toWideStringNotation() << L':' << pair.value->toWideStringNotation();
+			b << pair.key->toWideStringNotation(set) << L':' << pair.value->toWideStringNotation(set);
 		});
 		b << (wchar)'}';
 		return b.toWideString();
 	}
 
-	WideString Object::toWideStringNotation() {
-		return toWideString();
+	WideString Object::toWideStringNotation(Set<Object*> &set) {
+		return toWideString(set);
 	}
 
 	RawString Object::toRawString() {
-		return toWideString().toRawString();
+		Set<Object*> set;
+		return toWideString(set).toRawString();
 	}
 
 	ObjectString * Object::toObjectString() {

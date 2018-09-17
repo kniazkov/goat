@@ -37,7 +37,7 @@ namespace goat {
 		return this;
 	}
 
-	WideString ObjectReal::toWideString() {
+	WideString ObjectReal::toWideString(Set<Object*> &set) {
 		return WideString::valueOf(value, 8, true);
 	}
 

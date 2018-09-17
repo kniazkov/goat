@@ -34,7 +34,7 @@ namespace goat {
 
 		ObjectStringBuilder();
 		ObjectStringBuilder * toObjectStringBuilder() override;
-		WideString toWideString() override;
+		WideString toWideString(Set<Object*> &set) override;
 
 		class Proto : public Object {
 		public:

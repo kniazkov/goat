@@ -43,11 +43,11 @@ namespace goat {
 //		return new ObjectBoolean(value.len() > 0);
 //	}
 
-	WideString ObjectString::toWideString() {
+	WideString ObjectString::toWideString(Set<Object*> &set) {
 		return value;
 	}
 
-	WideString ObjectString::toWideStringNotation() {
+	WideString ObjectString::toWideStringNotation(Set<Object*> &set) {
 		WideStringBuilder b;
 		b << (wchar)'\"';
 		for (unsigned int i = 0, l = value.len(); i < l; i++) {
@@ -103,7 +103,8 @@ namespace goat {
 		ObjectString *this_ = scope->this_->toObjectString();
 		Object *arg = scope->arguments->vector[0];
 		if (arg) {
-			return new ObjectString(this_->value + arg->toWideString());
+			Set<Object*> set;
+			return new ObjectString(this_->value + arg->toWideString(set));
 		}
 		// exception
 		return nullptr;
@@ -215,7 +216,8 @@ namespace goat {
 		if (!arg) {
 			return new ObjectString(Resource::w_undefined);
 		}
-		return new ObjectString(arg->toWideString());
+		Set<Object*> set;
+		return new ObjectString(arg->toWideString(set));
 	}
 
 	Object * ObjectString::Proto::ValueOf::getInstance() {

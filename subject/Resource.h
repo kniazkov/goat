@@ -81,6 +81,7 @@ namespace goat {
 		static WideString w_undefined;
 		static WideString w_null;
 		static WideString w_File;
+		static WideString w_ellipsis;
 
 		static WideString w_continue;
 		static WideString w_step;
