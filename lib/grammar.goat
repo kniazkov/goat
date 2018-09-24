@@ -54,6 +54,10 @@ Grammar.Tag = {
         this.name = name;
     },
 
+    toString : $() {
+        return name;
+    },
+
     toRule : $() {
         if (!this.rule) {
             this.rule = new Grammar.RuleTag(this);
@@ -62,7 +66,6 @@ Grammar.Tag = {
     },
 
     ">>" : $(next) {
-        debug;
         var pattern = new Grammar.Pattern(this);
         var rule = next.toRule();
         pattern.right.push(rule);
@@ -72,6 +75,10 @@ Grammar.Tag = {
 
 Grammar.Rule = {
     check : $(token) {
+        throw new Exception.NotImplemented();
+    },
+
+    toString : $() {
         throw new Exception.NotImplemented();
     },
 
@@ -87,6 +94,10 @@ Grammar.RuleTag = {
 
     check : $(token) {
         return token.tag == tag;
+    },
+
+    toString : $() {
+        return tag.name;
     }
 };
 
@@ -95,6 +106,22 @@ Grammar.Pattern = {
         this.tag = tag;
         this.left = new List();
         this.right = new List();
+    },
+
+    toString : $() {
+        var b = new StringBuilder();
+        b << tag.toString();
+        for (var i = right.iterator(); i.valid(); i.next()) {
+            b << " >> ";
+            b << i.read().toString();
+        }
+        return b.toString();
+    },
+
+    ">>" : $(next) {
+        var rule = next.toRule();
+        right.push(rule);
+        return this;
     }
 };
 

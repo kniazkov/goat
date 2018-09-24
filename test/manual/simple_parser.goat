@@ -89,5 +89,5 @@ for (var i = sequence.iterator(); i.valid(); i.next()) {
     println(i.read().toString());
 }
 
-var pp = DIGIT >> PLUS;
-println(pp);
+var pp = DIGIT >> PLUS >> DIGIT;
+println(pp.toString());
