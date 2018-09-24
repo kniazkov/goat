@@ -7,8 +7,6 @@ var PLUS = grammar.createTag("PLUS");
 var MUL = grammar.createTag("MUL");
 var BINARY = grammar.createTag("BINARY");
 
-println(grammar);
-
 var Digit = Grammar.Terminal -> {
     tag : DIGIT,
 
@@ -75,24 +73,13 @@ for (var i = 0; i < source.length(); i++) {
     sequence.push(token);
 }
 
-/*
-var repl = new Digit(9);
+grammar.add([
+    DIGIT <-- MUL --> DIGIT --|> Binary,
+    DIGIT <-- PLUS --> DIGIT --|> Binary
+]);
 
-var j = sequence.iterator();
-j.next();
-j.next();
-j = j.read();
-var k = sequence.iterator();
-k.next();
-k.next();
-k.next();
-k = k.read();
-j.replace_0(repl, k);
-*/
+grammar.parse();
 
 for (var i = sequence.iterator(); i.valid(); i.next()) {
     println(i.read().toString());
 }
-
-var pp = DIGIT <-- PLUS --> DIGIT --|> Binary;
-println(pp.toString());

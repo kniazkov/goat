@@ -27,6 +27,7 @@ var Grammar = {
     init : $() {
         this.tags = [];
         this.graph = [];
+        this.pl = [];
     },
 
     createTag : $(name) {
@@ -39,6 +40,25 @@ var Grammar = {
 
     createSequence : $() {
         return new Grammar.Sequence(this);
+    },
+
+    add : $(object) {
+        if (object.instanceOf(Grammar.Pattern))
+            pl.push(object);
+        else if (object.instanceOf(Array)) {
+            for (var i = 0; i < object.length(); i++) {
+                var pattern = object[i];
+                if (pattern.instanceOf(Grammar.Pattern))
+                    pl.push(pattern);
+            }
+        }
+    },
+
+    parse : $() {
+        for (var i = 0; i < pl.length(); i++) {
+            var pattern = pl[i];
+            println(pattern.toString());
+        }
     }
 };
 
@@ -201,7 +221,7 @@ Grammar.NonTerminal = Grammar.Token -> {
             b << ' ' << t.toString();
         }
         b << ' ' << base.center.toString();
-        for (i = 0; i < base.right.lenght(); i++) {
+        for (i = 0; i < base.right.length(); i++) {
             var t = base.right[i];
             b << ' ' << t.toString();
         }
