@@ -70,6 +70,15 @@ Grammar.Tag = {
         var rule = next.toRule();
         pattern.right.push(rule);
         return pattern;
+    },
+
+    "<<" : $(next) {
+        if (next.instanceOf(Grammar.Tag)) {
+            var pattern = new Grammar.Pattern(next);
+            var rule = this.toRule();
+            pattern.left.push(rule);
+            return pattern;
+        }
     }
 };
 
@@ -103,6 +112,8 @@ Grammar.RuleTag = {
 
 Grammar.Pattern = {
     init : $(tag) {
+        if (!tag.instanceOf(Grammar.Tag))
+            throw new Exception.IllegalArgument();
         this.tag = tag;
         this.left = new List();
         this.right = new List();
@@ -110,6 +121,10 @@ Grammar.Pattern = {
 
     toString : $() {
         var b = new StringBuilder();
+        for (var i = left.iterator(); i.valid(); i.next()) {
+            b << i.read().toString();
+            b << " << ";
+        }
         b << tag.toString();
         for (var i = right.iterator(); i.valid(); i.next()) {
             b << " >> ";
