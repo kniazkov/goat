@@ -65,14 +65,14 @@ Grammar.Tag = {
         return this.rule;
     },
 
-    ">>" : $(next) {
+    "-->" : $(next) {
         var pattern = new Grammar.Pattern(this);
         var rule = next.toRule();
         pattern.right.push(rule);
         return pattern;
     },
 
-    "<<" : $(next) {
+    "<--" : $(next) {
         if (next.instanceOf(Grammar.Tag)) {
             var pattern = new Grammar.Pattern(next);
             var rule = this.toRule();
@@ -124,23 +124,23 @@ Grammar.Pattern = {
         var b = new StringBuilder();
         for (var i = left.iterator(); i.valid(); i.next()) {
             b << i.read().toString();
-            b << " << ";
+            b << " <-- ";
         }
         b << tag.toString();
         for (var i = right.iterator(); i.valid(); i.next()) {
-            b << " >> ";
+            b << " --> ";
             b << i.read().toString();
         }
         return b.toString();
     },
 
-    ">>" : $(next) {
+    "-->" : $(next) {
         var rule = next.toRule();
         right.push(rule);
         return this;
     },
 
-    ">>>" : $(proto) {
+    "--|>" : $(proto) {
         if (!proto.instanceOf(Grammar.NonTerminal))
             throw new Exception.IllegalArgument();
         this.proto = proto;

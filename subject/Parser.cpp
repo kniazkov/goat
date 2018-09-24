@@ -123,6 +123,7 @@ namespace goat {
 			parse2ndList(oper_LESS_GREATER, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_LOGICAL_AND, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_LOGICAL_OR, &Parser::parseBinaryOperator, false);
+			parse2ndList(oper_UNKNOWN, &Parser::parseBinaryOperator, false);
 			parse2ndList(oper_QUESTION, &Parser::parseInlineIf, true);
 			parse2ndList(keyword[Keyword::CASE], &Parser::parseCase, false);
 			parse2ndList(keyword[Keyword::DEFAULT], &Parser::parseDefault, false);
@@ -363,6 +364,7 @@ namespace goat {
 				oper_LOCK.pushBack(tok);
 				break;
 			default:
+				oper_UNKNOWN.pushBack(tok);
 				break;
 			}
 			return;

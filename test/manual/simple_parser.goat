@@ -94,5 +94,5 @@ for (var i = sequence.iterator(); i.valid(); i.next()) {
     println(i.read().toString());
 }
 
-var pp = DIGIT << PLUS >> DIGIT >>> Binary;
+var pp = DIGIT <-- PLUS --> DIGIT --|> Binary;
 println(pp.toString());

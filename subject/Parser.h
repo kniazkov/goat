@@ -51,6 +51,7 @@ namespace goat {
 		Token2ndList fcall;
 		Token2ndList expression;
 		Token2ndList function;
+		Token2ndList oper_UNKNOWN;
 		Token2ndList oper_PLUS_MINUS;
 		Token2ndList oper_MUL_DIV_MOD;
 		Token2ndList oper_ASSIGN;
