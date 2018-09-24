@@ -5,10 +5,11 @@ var grammar = new Grammar();
 var DIGIT = grammar.createTag("DIGIT");
 var PLUS = grammar.createTag("PLUS");
 var MUL = grammar.createTag("MUL");
+var BINARY = grammar.createTag("BINARY");
 
 println(grammar);
 
-var Digit = Grammar.Token -> {
+var Digit = Grammar.Terminal -> {
     tag : DIGIT,
 
     init : $(value) {
@@ -20,7 +21,7 @@ var Digit = Grammar.Token -> {
     }
 };
 
-var Plus = Grammar.Token -> {
+var Plus = Grammar.Terminal -> {
     tag : PLUS,
 
     toString : $() {
@@ -28,12 +29,16 @@ var Plus = Grammar.Token -> {
     }
 };
 
-var Mul = Grammar.Token -> {
+var Mul = Grammar.Terminal -> {
     tag : MUL,
 
     toString : $() {
         return "*";
     }
+};
+
+var Binary = Grammar.NonTerminal -> {
+    tag : BINARY
 };
 
 var source = "1+2*3";
@@ -89,5 +94,5 @@ for (var i = sequence.iterator(); i.valid(); i.next()) {
     println(i.read().toString());
 }
 
-var pp = DIGIT >> PLUS >> DIGIT;
+var pp = DIGIT << PLUS >> DIGIT >>> Binary;
 println(pp.toString());

@@ -76,7 +76,7 @@ Grammar.Tag = {
         if (next.instanceOf(Grammar.Tag)) {
             var pattern = new Grammar.Pattern(next);
             var rule = this.toRule();
-            pattern.left.push(rule);
+            pattern.left.pushf(rule);
             return pattern;
         }
     }
@@ -117,6 +117,7 @@ Grammar.Pattern = {
         this.tag = tag;
         this.left = new List();
         this.right = new List();
+        this.proto = null;
     },
 
     toString : $() {
@@ -136,6 +137,13 @@ Grammar.Pattern = {
     ">>" : $(next) {
         var rule = next.toRule();
         right.push(rule);
+        return this;
+    },
+
+    ">>>" : $(proto) {
+        if (!proto.instanceOf(Grammar.NonTerminal))
+            throw new Exception.IllegalArgument();
+        this.proto = proto;
         return this;
     }
 };
@@ -172,7 +180,40 @@ Grammar.Token = {
     }
 };
 
-Grammar.List_0 = {
+Grammar.Terminal = Grammar.Token -> {
+
+};
+
+Grammar.NonTerminal = Grammar.Token -> {
+    init : $() {
+        this.base = {
+            center : null,
+            left : [],
+            right : []
+        };
+    },
+
+    toString : $() {
+        var b = new StringBuilder();
+        b << "(";
+        for (var i = base.left.length() - 1; i >= 0; i--) {
+            var t = base.left[i];
+            b << ' ' << t.toString();
+        }
+        b << ' ' << base.center.toString();
+        for (i = 0; i < base.right.lenght(); i++) {
+            var t = base.right[i];
+            b << ' ' << t.toString();
+        }
+        b << " )";
+    },
+
+    construct : $() {
+
+    }
+};
+
+Grammar.List_0 = Iterable -> {
     init : $() {
         this.first = null;
         this.last = null;
