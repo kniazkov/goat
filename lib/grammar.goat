@@ -58,8 +58,15 @@ var Grammar = {
         for (var i = 0; i < pl.length(); i++) {
             var pattern = pl[i];
             println(pattern.toString());
+            var list = graph[pattern.tag.id];
+            var token = list.first;
+            while (token != null) {
+                var next = token.r1.next;
+                pattern.convolute(this, token);
+                token = next;
+            }
         }
-    }
+    },
 };
 
 Grammar.Exception = Exception-> {
@@ -165,6 +172,45 @@ Grammar.Pattern = {
             throw new Exception.IllegalArgument();
         this.proto = proto;
         return this;
+    },
+
+    convolute : $(grammar, token) {
+        assert(token.tag == tag);
+        var i;
+        var result = new this.proto();
+        result.base.center = token;
+        var begin = token;
+        var end = token;
+        for (i = left.iterator(); i.valid(); i.next()) {
+            begin = begin.r0.prev;
+            if (begin == null)
+                return null;
+            var rule = i.read();
+            if (!rule.check(begin))
+                return null;
+            result.base.left.push(begin);
+        }
+        for (i = right.iterator(); i.valid(); i.next()) {
+            end = end.r0.next;
+            if (end == null)
+                return null;
+            var rule = i.read();
+            if (!rule.check(end))
+                return null;
+            result.base.right.push(end);
+        }
+        result.construct();
+        println(result.toString());
+        var node = begin;
+        while (node != end) {
+            node.remove_1();
+            node = node.r0.next;
+        }
+        end.remove_1();
+        begin.replace_0(result, end);
+        var list_1 = grammar.graph[result.tag.id];
+        list_1.push(result);
+        return result;
     }
 };
 
@@ -221,11 +267,12 @@ Grammar.NonTerminal = Grammar.Token -> {
             b << ' ' << t.toString();
         }
         b << ' ' << base.center.toString();
-        for (i = 0; i < base.right.length(); i++) {
+        for (var i = 0; i < base.right.length(); i++) {
             var t = base.right[i];
             b << ' ' << t.toString();
         }
         b << " )";
+        return b.toString();
     },
 
     construct : $() {

@@ -39,7 +39,7 @@ var Binary = Grammar.NonTerminal -> {
     tag : BINARY
 };
 
-var source = "1+2*3";
+var source = "1+2*3+4";
 var sequence = grammar.createSequence();
 
 for (var i = 0; i < source.length(); i++) {
