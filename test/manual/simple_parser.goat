@@ -7,7 +7,13 @@ var PLUS = grammar.createTag("PLUS");
 var MUL = grammar.createTag("MUL");
 var BINARY = grammar.createTag("BINARY");
 
-var Digit = Grammar.Terminal -> {
+var Calculator = {
+    calc : $() {
+        return new Exception.NotImplemented();
+    }
+};
+
+var Digit = [Grammar.Terminal, Calculator] -> {
     tag : DIGIT,
 
     init : $(value) {
@@ -16,6 +22,10 @@ var Digit = Grammar.Terminal -> {
 
     toString : $() {
         return String.valueOf(value);
+    },
+    
+    calc : $() {
+        return value;
     }
 };
 
@@ -35,11 +45,24 @@ var Mul = Grammar.Terminal -> {
     }
 };
 
-var Binary = Grammar.NonTerminal -> {
-    tag : BINARY
+var Binary = [Grammar.NonTerminal, Calculator] -> {
+    tag : BINARY,
+
+    calc : $() {
+        var left = base.left[0];
+        var right = base.right[0];
+
+        switch(base.center.tag) {
+            case PLUS:
+                return left.calc() + right.calc();
+            case MUL:
+                return left.calc() * right.calc();
+        }
+        return "?";
+    }
 };
 
-var source = "1+2*3+4";
+var source = "1+2*3+4*5";
 var sequence = grammar.createSequence();
 
 for (var i = 0; i < source.length(); i++) {
@@ -75,7 +98,7 @@ for (var i = 0; i < source.length(); i++) {
 
 grammar.add([
     DIGIT <-- MUL --> DIGIT --|> Binary,
-    DIGIT <-- PLUS --> DIGIT --|> Binary
+    DIGIT || BINARY <-- PLUS --> DIGIT || BINARY --|> Binary
 ]);
 
 grammar.parse();
@@ -83,3 +106,5 @@ grammar.parse();
 for (var i = sequence.iterator(); i.valid(); i.next()) {
     println(i.read().toString());
 }
+
+println(sequence.iterator().read().calc());

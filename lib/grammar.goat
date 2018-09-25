@@ -106,6 +106,10 @@ Grammar.Tag = {
             pattern.left.pushf(rule);
             return pattern;
         }
+    },
+
+    "||" : $(right) {
+        return new Grammar.RuleOr(this.toRule(), right.toRule());
     }
 };
 
@@ -120,10 +124,19 @@ Grammar.Rule = {
 
     toRule : $() {
         return this;
+    },
+
+    "<--" : $(next) {
+        if (next.instanceOf(Grammar.Tag)) {
+            var pattern = new Grammar.Pattern(next);
+            var rule = this.toRule();
+            pattern.left.pushf(rule);
+            return pattern;
+        }
     }
 };
 
-Grammar.RuleTag = {
+Grammar.RuleTag = Grammar.Rule -> {
     init : $(tag) {
         this.tag = tag;
     },
@@ -134,6 +147,21 @@ Grammar.RuleTag = {
 
     toString : $() {
         return tag.name;
+    }
+};
+
+Grammar.RuleOr = Grammar.Rule -> {
+    init : $(left, right) {
+        this.left = left;
+        this.right = right;
+    },
+
+    check : $(token) {
+        return left.check(token) || right.check(token);
+    },
+
+    toString : $() {
+        return left.toString() + " || " + right.toString();
     }
 };
 
@@ -327,6 +355,7 @@ Grammar.List_0 = Iterable -> {
             last = repl;
         }
         r_repl.next = r_end.next;
+        r_repl.list = this;
     },
 
     iterator : $() {
