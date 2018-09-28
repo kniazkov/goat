@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "Assert.h"
 #include "Exception.h"
 #include "Type.h"
 #include "Utils.h"
