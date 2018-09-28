@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "InputStream.h"
 #include "OutputStream.h"
 #include "Type.h"
 
@@ -29,10 +30,11 @@ namespace goat {
 
 	class Environment {
 	public:
+		InputStream<wchar> *in;
 		OutputStream<wchar> *out;
 		OutputStream<wchar> *err;
 
-		Environment() : out(nullptr), err(nullptr) {
+		Environment() : in(nullptr), out(nullptr), err(nullptr) {
 		}
 	};
 

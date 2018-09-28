@@ -50,6 +50,15 @@ namespace goat {
 		Object *run(Scope *scope) override;
 	};
 
+	class Getc : public ObjectBuiltIn {
+	protected:
+		InputStream<wchar> *in;
+
+	public:
+		Getc(InputStream<wchar> *_in);
+		Object *run(Scope *scope) override;
+	};
+
 	class Open : public ObjectBuiltIn {
 	public:
 		Object * run(Scope *scope) override;
@@ -78,6 +87,7 @@ namespace goat {
 		Scope *s = new Scope();
 		s->objects.insert(Object::createIndex("print"), new Print(env->out, false));
 		s->objects.insert(Object::createIndex("println"), new Print(env->out, true));
+		s->objects.insert(Object::createIndex("getc"), new Getc(env->in));
 		s->objects.insert(Object::createIndex("open"), Open::getInstance());
 		s->objects.insert(Object::createIndex("defined"), Defined::getInstance());
 		s->objects.insert(Object::createIndex("isNumber"), IsNumber::getInstance());
@@ -126,6 +136,21 @@ namespace goat {
 
 		// not enough arguments, exception ??
 		return nullptr;
+	}
+
+
+	Getc::Getc(InputStream<wchar> *_in) : in(_in) {
+		status = LOCKED;
+	}
+
+	Object * Getc::run(Scope *scope) {
+		if (!in) {
+			return nullptr;
+		}
+		if (in->hasData()) {
+			return new ObjectChar(in->read());
+		}
+		return new ObjectChar(0);
 	}
 
 

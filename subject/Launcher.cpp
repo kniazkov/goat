@@ -268,6 +268,7 @@ namespace goat {
 			Platform::FileReader reader(program);
 			SourceStream source(&reader);
 			Environment env;
+			env.in = StandartInputStream::getInstance();
 			env.out = StandartOutputStream::getInstance();
 			env.err = StandartErrorStream::getInstance();
 			ret = run(&source, &env, BuiltIn::create(&env)->clone(), &root, &opt);
@@ -292,6 +293,7 @@ namespace goat {
 		Console console(input, output, L'\n', L"\r");
 		
 		Environment env;
+		env.in = input;
 		env.out = output;
 		env.err = errors;
 		
