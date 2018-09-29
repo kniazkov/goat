@@ -110,12 +110,18 @@ namespace goat {
 		std::putc(ch < 128 ? ch : '?', stderr);
 	}
 
-	wchar Platform::getChar() {
+	InputStream<wchar>::Data Platform::getChar() {
+		InputStream<wchar>::Data data;
 		int c = std::getchar();
 		if (c == EOF) {
-			return 0;
+			data.hasValue = false;
+			data.value = 0;
 		}
-		return (wchar)c;
+		else {
+			data.hasValue = true;
+			data.value = (wchar)c;
+		}
+		return data;
 	}
 
 	lint Platform::getTimeNs()
@@ -150,8 +156,7 @@ namespace goat {
 		if (!stream) {
 			throw Platform::FileNotFound(fname);
 		}
-		C = std::fgetc(stream);
-		eof = (C == EOF);
+		eof = false;
 		descriptor = (void*)stream;
 	}
 
@@ -161,18 +166,11 @@ namespace goat {
 		}
 	}
 
-	char Platform::FileReader::read() {
-		if (eof) {
-			throw NoData();
-		}
-		char ret = (char)C;
-		C = fgetc((FILE*)descriptor);
-		eof = (C == EOF);
-		return ret;
-	}
-
-	bool Platform::FileReader::hasData() {
-		return eof == false;
+	InputStream<char>::Data Platform::FileReader::read() {
+		InputStream<char>::Data data;
+		data.value = fgetc((FILE*)descriptor);
+		data.hasValue = data.value != EOF;
+		return data;
 	}
 
 	String Platform::FileReader::name() {

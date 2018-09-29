@@ -144,13 +144,13 @@ namespace goat {
 	}
 
 	Object * Getc::run(Scope *scope) {
-		if (!in) {
-			return nullptr;
+		if (in) {
+			auto data = in->read();
+			if (data.hasValue) {
+				return new ObjectChar(data.value);
+			}
 		}
-		if (in->hasData()) {
-			return new ObjectChar(in->read());
-		}
-		return new ObjectChar(0);
+		return ObjectNull::getInstance();
 	}
 
 

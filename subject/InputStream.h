@@ -29,17 +29,18 @@ namespace goat {
 
 	template <typename Type> class InputStream {
 	public:
-		virtual ~InputStream() { };
-		virtual Type read() = 0;
-		virtual bool hasData() = 0;
-		virtual String name() = 0;
-
-		class NoData : public Exception {
+		class Data {
 		public:
-			RawString toRawString() override {
-				return L"input stream: no data";
+			bool hasValue;
+			Type value;
+
+			Type get(Type ifNot) {
+				return hasValue ? value : ifNot;
 			}
 		};
 
+		virtual ~InputStream() { };
+		virtual Data read() = 0;
+		virtual String name() = 0;
 	};
 }

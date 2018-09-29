@@ -40,11 +40,10 @@ namespace goat {
 		};
 
 		InputStream<char> *stream;
+		InputStream<char>::Data data;
 		String stname;
 		int row,
 			column;
-		bool end;
-		char C;
 
 	public:
 		SourceStream(InputStream<char> *_stream);

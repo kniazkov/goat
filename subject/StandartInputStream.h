@@ -29,8 +29,7 @@ namespace goat {
 
 	class StandartInputStream : public InputStream<wchar> {
 	public:
-		wchar read() override;
-		bool hasData() override;
+		InputStream<wchar>::Data read() override;
 		String name() override;
 		static InputStream<wchar> *getInstance();
 	};

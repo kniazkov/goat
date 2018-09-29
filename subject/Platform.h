@@ -37,7 +37,7 @@ namespace goat {
 		static void free(void *ptr);
 		static void putChar(wchar ch);
 		static void putCharErr(wchar ch);
-		static wchar getChar();
+		static InputStream<wchar>::Data getChar();
 		static lint getTimeNs();
 
 		class FileNotFound : public Exception {
@@ -57,7 +57,6 @@ namespace goat {
 		protected:
 			String fname;
 			void * descriptor;
-			int C;
 			bool eof;
 
 			FileReader(const FileReader &) {
@@ -69,8 +68,7 @@ namespace goat {
 		public:
 			FileReader(String _fname);
 			~FileReader();
-			char read() override;
-			bool hasData() override;
+			InputStream<char>::Data read() override;
 			String name() override;
 		};
 

@@ -38,38 +38,26 @@ namespace goat {
 		stname = stream->name();
 		row = 1;
 		column = 1;
-		if (stream->hasData()) {
-			C = stream->read();
-			end = false;
-		}
-		else {
-			C = '\0';
-			end = true;
-		}
+		data = stream->read();
 	}
 
 	char SourceStream::get() {
-		return C;
+		return data.get(0);
 	}
 
 	char SourceStream::next() {
-		if (end) {
+		if (!data.hasValue) {
 			return 0;
 		}
-		if (C == '\n') {
+		if (data.value == '\n') {
 			row++;
 			column = 1;
 		}
 		else {
 			column++;
 		}
-		if (!stream->hasData()) {
-			end = true;
-			C = 0;
-			return 0;
-		}
-		C = stream->read();
-		return C;
+		data = stream->read();
+		return data.get(0);
 	}
 
 	Location * SourceStream::location() {

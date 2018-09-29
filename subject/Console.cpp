@@ -27,13 +27,10 @@ namespace goat {
 
 	WideString Console::read() {
 		WideStringBuilder result;
-		wchar ch;
+		auto data = input->read();
 
-		while (input->hasData()) {
-			ch = input->read();
-			//output->write(ch);
-			
-			if (ch == terminator || !ch) {
+		while (data.hasValue) {
+			if (data.value == terminator || !data.value) {
 				break;
 			}
 			else {
@@ -41,7 +38,7 @@ namespace goat {
 				if (ignore) {
 					const wchar *i = ignore;
 					while (*i) {
-						if (ch == *i) {
+						if (data.value == *i) {
 							flag = false;
 							break;
 						}
@@ -49,9 +46,10 @@ namespace goat {
 					}
 				}
 				if (flag) {
-					result << ch;
+					result << data.value;
 				}
 			}
+			data = input->read();
 		}
 
 		return result.toWideString();

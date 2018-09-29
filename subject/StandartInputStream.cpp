@@ -30,12 +30,8 @@ namespace goat {
 		return &__this;
 	}
 
-	wchar StandartInputStream::read() {
+	InputStream<wchar>::Data StandartInputStream::read() {
 		return Platform::getChar();
-	}
-
-	bool StandartInputStream::hasData() {
-		return true;
 	}
 
 	String StandartInputStream::name() {
