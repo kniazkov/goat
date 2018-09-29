@@ -37,6 +37,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "ObjectFile.h"
 #include "ObjectStringBuilder.h"
 #include "ObjectByteArray.h"
+#include "WideStringBuilder.h"
 
 namespace goat {
 
@@ -56,6 +57,15 @@ namespace goat {
 
 	public:
 		Getc(InputStream<wchar> *_in);
+		Object *run(Scope *scope) override;
+	};
+
+	class Gets : public ObjectBuiltIn {
+	protected:
+		InputStream<wchar> *in;
+
+	public:
+		Gets(InputStream<wchar> *_in);
 		Object *run(Scope *scope) override;
 	};
 
@@ -88,6 +98,7 @@ namespace goat {
 		s->objects.insert(Object::createIndex("print"), new Print(env->out, false));
 		s->objects.insert(Object::createIndex("println"), new Print(env->out, true));
 		s->objects.insert(Object::createIndex("getc"), new Getc(env->in));
+		s->objects.insert(Object::createIndex("gets"), new Gets(env->in));
 		s->objects.insert(Object::createIndex("open"), Open::getInstance());
 		s->objects.insert(Object::createIndex("defined"), Defined::getInstance());
 		s->objects.insert(Object::createIndex("isNumber"), IsNumber::getInstance());
@@ -149,6 +160,26 @@ namespace goat {
 			if (data.hasValue) {
 				return new ObjectChar(data.value);
 			}
+		}
+		return ObjectNull::getInstance();
+	}
+
+
+	Gets::Gets(InputStream<wchar> *_in) : in(_in) {
+		status = LOCKED;
+	}
+
+	Object * Gets::run(Scope *scope) {
+		if (in) {
+			WideStringBuilder b;
+			auto data = in->read();
+			if (!data.hasValue)
+				return ObjectNull::getInstance();
+			while (data.hasValue && data.value != '\n') {
+				b << data.value;
+				data = in->read();
+			}
+			return new ObjectString(b.toWideString());
 		}
 		return ObjectNull::getInstance();
 	}
