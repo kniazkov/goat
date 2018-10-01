@@ -168,8 +168,21 @@ namespace goat {
 
 	InputStream<char>::Data Platform::FileReader::read() {
 		InputStream<char>::Data data;
-		data.value = fgetc((FILE*)descriptor);
-		data.hasValue = data.value != EOF;
+		if (eof) {
+			data.value = '\0';
+			data.hasValue = false;
+		}
+		else {
+			int value = std::fgetc((FILE*)descriptor);
+			if (value != EOF) {
+				data.value = (char)value;
+				data.hasValue = true;
+			} else {
+				eof = true;
+				data.value = '\0';
+				data.hasValue = false;
+			}
+		}
 		return data;
 	}
 
