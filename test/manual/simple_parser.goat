@@ -1,5 +1,7 @@
 import "grammar.goat";
 
+try {
+
 var grammar = new Grammar();
 
 var DIGIT = grammar.createTag("DIGIT");
@@ -20,29 +22,25 @@ var Digit = [Grammar.Terminal, Calculator] -> {
         this.value = value;
     },
 
-    toString : $() {
+    buils : $() {
         return String.valueOf(value);
     },
     
     calc : $() {
         return value;
+    },
+
+    buildXML : $(elem) {
+        elem.attrib.value = value;
     }
 };
 
 var Plus = Grammar.Terminal -> {
-    tag : PLUS,
-
-    toString : $() {
-        return "+";
-    }
+    tag : PLUS
 };
 
 var Mul = Grammar.Terminal -> {
-    tag : MUL,
-
-    toString : $() {
-        return "*";
-    }
+    tag : MUL
 };
 
 var Binary = [Grammar.NonTerminal, Calculator] -> {
@@ -102,9 +100,12 @@ grammar.add([
 ]);
 
 grammar.parse();
-
-for (var i = sequence.iterator(); i.valid(); i.next()) {
-    println(i.read().toString());
-}
+var xml = sequence.toXML("ROOT");
+println(xml.toString("  "));
 
 println(sequence.iterator().read().calc());
+
+}
+catch(e) {
+    println(e.trace);
+}

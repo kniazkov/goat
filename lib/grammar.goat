@@ -22,6 +22,7 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 import "assert.goat";
 import "list.goat";
+import "xml.goat";
 
 var Grammar = {
     init : $() {
@@ -228,7 +229,6 @@ Grammar.Pattern = {
             result.base.right.push(end);
         }
         result.construct();
-        println(result.toString());
         var node = begin;
         while (node != end) {
             node.remove_1();
@@ -258,8 +258,14 @@ Grammar.Token = {
         };
     },
 
-    toString : $() {
-        return tag.name;
+    toXML : $() {
+        var elem = new XML.Element(tag.name);
+        this.buildXML(elem);
+        return elem;
+    },
+
+    buildXML : $(elem) {
+        // do nothing. Can be redefined in child classes 
     },
 
     replace_0 : $(repl, end) {
@@ -287,24 +293,23 @@ Grammar.NonTerminal = Grammar.Token -> {
         };
     },
 
-    toString : $() {
-        var b = new StringBuilder();
-        b << "(";
+    toXML : $() {
+        var elem = new XML.Element(tag.name);
         for (var i = base.left.length() - 1; i >= 0; i--) {
             var t = base.left[i];
-            b << ' ' << t.toString();
+            elem.content.push(t.toXML());
         }
-        b << ' ' << base.center.toString();
+        elem.content.push(base.center.toXML());
         for (var i = 0; i < base.right.length(); i++) {
             var t = base.right[i];
-            b << ' ' << t.toString();
+            elem.content.push(t.toXML());
         }
-        b << " )";
-        return b.toString();
+        this.buildXML(elem);
+        return elem;
     },
 
     construct : $() {
-
+        // do nothing. Can be redefined in child classes
     }
 };
 
@@ -439,5 +444,13 @@ Grammar.Sequence = {
 
     iterator : $() {
         return list.iterator();
+    },
+
+    toXML : $(tag) {
+        var elem = new XML.Element(tag);
+        for (var i = list.iterator(); i.valid(); i.next()) {
+            elem.content.push(i.read().toXML());
+        }
+        return elem;
     }
 };
