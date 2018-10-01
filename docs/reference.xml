@@ -3610,6 +3610,24 @@
 							print(null);]]>
 						</e>
 					</m>
+					<m name="getc" descr="Reads one character from the standard input. Returns null if no characters (end-of-file is reached).">
+						<e><![CDATA[
+							while(true) {
+								var c = getc();
+								if (c == null)
+									break;
+								print(c);
+							}]]>
+						</e>
+					</m>
+					<m name="gets" descr="Reads characters from the standard input and stores them as a string until a newline character or the end-of-file is reached.">
+						<e><![CDATA[
+							while(true) {
+								var s = gets();
+								println(s);
+							}]]>
+						</e>
+					</m>
 					<m name="open" descr="Opens a file.">
 						<a name="fname" type="String" descr="file name"/>
 						<a name="mode" type="File.Mode" descr="mode, one of: File.Mode.READ, File.Mode.WRITE or File.Mode.APPEND"/>
