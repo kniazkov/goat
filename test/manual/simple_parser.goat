@@ -5,7 +5,7 @@ try {
 var grammar = new Grammar();
 
 var DIGIT = grammar.createTag("DIGIT");
-var PLUS = grammar.createTag("PLUS");
+var PLUS_MINUS = grammar.createTag("PLUS_MINUS");
 var MUL = grammar.createTag("MUL");
 var BINARY = grammar.createTag("BINARY");
 
@@ -36,31 +36,44 @@ var Digit = [Grammar.Terminal, Calculator] -> {
 };
 
 var Plus = Grammar.Terminal -> {
-    tag : PLUS
+    tag : PLUS_MINUS,
+
+    calcBinary : $(left, right) {
+        return left.calc() + right.calc();
+    }
+};
+
+var Minus = Grammar.Terminal -> {
+    tag : PLUS_MINUS,
+
+    calcBinary : $(left, right) {
+        return left.calc() - right.calc();
+    }
 };
 
 var Mul = Grammar.Terminal -> {
-    tag : MUL
+    tag : MUL,
+
+    calcBinary : $(left, right) {
+        return left.calc() * right.calc();
+    }
 };
 
 var Binary = [Grammar.NonTerminal, Calculator] -> {
     tag : BINARY,
 
-    calc : $() {
-        var left = base.left[0];
-        var right = base.right[0];
+    construct : $() {
+        this.left = base.left[0];
+        this.right = base.right[0];
+        this.oper = base.center;
+    },
 
-        switch(base.center.tag) {
-            case PLUS:
-                return left.calc() + right.calc();
-            case MUL:
-                return left.calc() * right.calc();
-        }
-        return "?";
+    calc : $() {
+        return oper.calcBinary(left, right);
     }
 };
 
-var source = "1+2*3+4*5";
+var source = "1-2*3+4*5*1";
 var sequence = grammar.createSequence();
 
 for (var i = 0; i < source.length(); i++) {
@@ -88,6 +101,8 @@ for (var i = 0; i < source.length(); i++) {
             token = new Digit(9); break;
         case '+':
             token = new Plus(); break;
+        case '-':
+            token = new Minus(); break;
         case '*':
             token = new Mul(); break;
     }
@@ -95,8 +110,8 @@ for (var i = 0; i < source.length(); i++) {
 }
 
 grammar.add([
-    DIGIT <-- MUL --> DIGIT --|> Binary,
-    DIGIT || BINARY <-- PLUS --> DIGIT || BINARY --|> Binary
+    DIGIT || BINARY <-- MUL --> DIGIT || BINARY --|> Binary,
+    DIGIT || BINARY <-- PLUS_MINUS --> DIGIT || BINARY --|> Binary
 ]);
 
 grammar.parse();

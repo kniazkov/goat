@@ -143,6 +143,8 @@ Grammar.RuleTag = Grammar.Rule -> {
     },
 
     check : $(token) {
+        if (token == null)
+            return false;
         return token.tag == tag;
     },
 
@@ -211,18 +213,16 @@ Grammar.Pattern = {
         var begin = token;
         var end = token;
         for (i = left.iterator(); i.valid(); i.next()) {
-            begin = begin.r0.prev;
-            if (begin == null)
-                return null;
+            if (begin != null)
+                begin = begin.r0.prev;
             var rule = i.read();
             if (!rule.check(begin))
                 return null;
             result.base.left.push(begin);
         }
         for (i = right.iterator(); i.valid(); i.next()) {
-            end = end.r0.next;
-            if (end == null)
-                return null;
+            if (end != null)
+                end = end.r0.next;
             var rule = i.read();
             if (!rule.check(end))
                 return null;
