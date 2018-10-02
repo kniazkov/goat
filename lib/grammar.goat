@@ -134,6 +134,10 @@ Grammar.Rule = {
             pattern.left.pushf(rule);
             return pattern;
         }
+    },
+
+    "||" : $(right) {
+        return new Grammar.RuleOr(this, right.toRule());
     }
 };
 
@@ -190,12 +194,12 @@ Grammar.Pattern = {
 
     toString : $() {
         var b = new StringBuilder();
-        for (var i = left.iterator(); i.valid(); i.next()) {
+        for (var i = left.reverseIterator(); i.valid(); i.next()) {
             b << i.read().toString();
             b << " <-- ";
         }
         b << tag.toString();
-        for (var i = right.iterator(); i.valid(); i.next()) {
+        for (var i = right.forwardIterator(); i.valid(); i.next()) {
             b << " --> ";
             b << i.read().toString();
         }

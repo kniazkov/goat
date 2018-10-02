@@ -79,6 +79,11 @@ var Unary = [Grammar.NonTerminal, Calculator] -> {
 
     calc : $() {
         return oper.calcUnary(right);
+    },
+
+    buildXML : $(elem) {
+        elem.attrib.type = "unary";
+        elem.attrib.oper = oper.tag.name;
     }
 };
 
@@ -93,10 +98,15 @@ var Binary = [Grammar.NonTerminal, Calculator] -> {
 
     calc : $() {
         return oper.calcBinary(left, right);
+    },
+
+    buildXML : $(elem) {
+        elem.attrib.type = "binary";
+        elem.attrib.oper = oper.tag.name;
     }
 };
 
-var source = "-1-2*3+4*5*1";
+var source = "-1+2*3+4*5*1";
 var sequence = grammar.createSequence();
 
 for (var i = 0; i < source.length(); i++) {
@@ -133,7 +143,7 @@ for (var i = 0; i < source.length(); i++) {
 }
 
 grammar.add([
-    Grammar.NULL <-- PLUS_MINUS --> DIGIT || EXPRESSION --|> Unary,
+    Grammar.NULL || PLUS_MINUS <-- PLUS_MINUS --> DIGIT || EXPRESSION --|> Unary,
     DIGIT || EXPRESSION <-- MUL --> DIGIT || EXPRESSION --|> Binary,
     DIGIT || EXPRESSION <-- PLUS_MINUS --> DIGIT || EXPRESSION --|> Binary
 ]);

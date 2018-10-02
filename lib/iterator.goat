@@ -74,3 +74,13 @@ var Iterable = {
 		this.find(val)?.remove();
 	}
 };
+
+var BidirectIterable = Iterable -> {
+	forwardIterator : $() {
+		return this.iterator();
+	},
+
+	reverseIterator : $() {
+		throw new Exception.NotImplemented();
+	},
+};

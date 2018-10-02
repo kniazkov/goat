@@ -22,7 +22,7 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 import "iterator.goat";
 
-var List = Iterable -> {
+var List = BidirectIterable -> {
 
     init : $() {
         this.first = null;
@@ -123,7 +123,7 @@ var List = Iterable -> {
         begin = begin.item;
         
         if (end != void) {
-            if (!end.instanceOf(List.Iterator))
+            if (!end.instanceOf(List.ForwardIterator))
                 throw new Exception.IllegalArgument();
             if (end.list != this)
                 throw new Exception.IllegalArgument();
@@ -144,7 +144,11 @@ var List = Iterable -> {
     },
 
     iterator : $() {
-        return new List.Iterator(this, first);
+        return new List.ForwardIterator(this, first);
+    },
+
+    reverseIterator : $() {
+        return new List.ReverseIterator(this, last);
     },
 
     insert : $(iter, val) {
@@ -201,48 +205,60 @@ var List = Iterable -> {
         first = null;
         last = null;
     },
+};
 
-    Iterator : Iterator -> {
-        
-        list : null,
-        item : null,
-        
-        init : $(list, item) {
-            this.list = list;
-            this.item = item;
-        },
-        
-        valid : $() {
-            return item != null;
-        },
-        
-        next : $() {
-            if (!item)
-                throw new Exception.InvalidOperation();
-            item = item.next;
-        },
-        
-        read : $() {
-            if (!item)
-                throw new Exception.InvalidOperation();
-            return item.val;
-        },
-        
-        write : $(val) {
-            if (!item)
-                throw new Exception.InvalidOperation();
-            item.val = val;
-        },
+List.ForwardIterator = Iterator -> {
+    list : null,
+    item : null,
+    
+    init : $(list, item) {
+        this.list = list;
+        this.item = item;
+    },
+    
+    valid : $() {
+        return item != null;
+    },
+    
+    next : $() {
+        if (!item)
+            throw new Exception.InvalidOperation();
+        item = item.next;
+    },
+    
+    read : $() {
+        if (!item)
+            throw new Exception.InvalidOperation();
+        return item.val;
+    },
+    
+    write : $(val) {
+        if (!item)
+            throw new Exception.InvalidOperation();
+        item.val = val;
+    },
 
-        remove : $(iter) {
-            if (!iter)
-                iter = this;
-            if (!iter.item)
-                throw new Exception.InvalidOperation();
+    remove : $(iter) {
+        if (!iter)
+            iter = this;
+        if (!iter.item)
+            throw new Exception.InvalidOperation();
 
-            var following = iter.item.next;
-            list.remove(this, iter);
-            item = following;
-        }
+        var following = iter.item.next;
+        list.remove(this, iter);
+        item = following;
+    }
+};
+
+List.ReverseIterator = List.ForwardIterator -> {
+    init : $(list, item) {
+        this.list = list;
+        this.item = item;
+    },
+    
+    next : $() {
+        if (!item)
+            throw new Exception.InvalidOperation();
+        item = item.prev;
     }
 };
