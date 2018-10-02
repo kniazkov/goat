@@ -168,6 +168,16 @@ Grammar.RuleOr = Grammar.Rule -> {
     }
 };
 
+Grammar.NULL = Grammar.Rule -> {
+    check : $(token) {
+        return token == null;
+    },
+
+    toString : $() {
+        return "NULL";
+    }
+};
+
 Grammar.Pattern = {
     init : $(tag) {
         if (!tag.instanceOf(Grammar.Tag))
@@ -207,37 +217,51 @@ Grammar.Pattern = {
 
     convolute : $(grammar, token) {
         assert(token.tag == tag);
-        var i;
+        var begin = token,
+            end = token,
+            cursor,
+            i;
         var result = new this.proto();
         result.base.center = token;
-        var begin = token;
-        var end = token;
+        
+        cursor = token;
         for (i = left.iterator(); i.valid(); i.next()) {
-            if (begin != null)
-                begin = begin.r0.prev;
+            if (cursor != null)
+                cursor = cursor.r0.prev;
+            if (cursor != null)
+                begin = cursor;
             var rule = i.read();
-            if (!rule.check(begin))
+            if (!rule.check(cursor))
                 return null;
-            result.base.left.push(begin);
+            result.base.left.push(cursor);
         }
+
+        cursor = token;
         for (i = right.iterator(); i.valid(); i.next()) {
-            if (end != null)
-                end = end.r0.next;
+            if (cursor != null)
+                cursor = end.r0.next;
+            if (cursor != null)
+                end = cursor;
             var rule = i.read();
-            if (!rule.check(end))
+            if (!rule.check(cursor))
                 return null;
-            result.base.right.push(end);
+            result.base.right.push(cursor);
         }
+
         result.construct();
+        
         var node = begin;
         while (node != end) {
             node.remove_1();
             node = node.r0.next;
         }
         end.remove_1();
+
         begin.replace_0(result, end);
+        
         var list_1 = grammar.graph[result.tag.id];
         list_1.push(result);
+        
         return result;
     }
 };
@@ -297,12 +321,12 @@ Grammar.NonTerminal = Grammar.Token -> {
         var elem = new XML.Element(tag.name);
         for (var i = base.left.length() - 1; i >= 0; i--) {
             var t = base.left[i];
-            elem.content.push(t.toXML());
+            elem.content.push(t != null ? t.toXML() : new XML.Element("NULL"));
         }
         elem.content.push(base.center.toXML());
         for (var i = 0; i < base.right.length(); i++) {
             var t = base.right[i];
-            elem.content.push(t.toXML());
+            elem.content.push(t != null ? t.toXML() : new XML.Element("NULL"));
         }
         this.buildXML(elem);
         return elem;

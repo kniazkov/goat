@@ -7,7 +7,7 @@ var grammar = new Grammar();
 var DIGIT = grammar.createTag("DIGIT");
 var PLUS_MINUS = grammar.createTag("PLUS_MINUS");
 var MUL = grammar.createTag("MUL");
-var BINARY = grammar.createTag("BINARY");
+var EXPRESSION = grammar.createTag("EXPRESSION");
 
 var Calculator = {
     calc : $() {
@@ -38,6 +38,10 @@ var Digit = [Grammar.Terminal, Calculator] -> {
 var Plus = Grammar.Terminal -> {
     tag : PLUS_MINUS,
 
+    calcUnary : $(right) {
+        return right.calc();
+    },
+
     calcBinary : $(left, right) {
         return left.calc() + right.calc();
     }
@@ -45,6 +49,12 @@ var Plus = Grammar.Terminal -> {
 
 var Minus = Grammar.Terminal -> {
     tag : PLUS_MINUS,
+
+    calcUnary : $(right) {
+        var v = right.calc();
+        v = -v;
+        return v;
+    },
 
     calcBinary : $(left, right) {
         return left.calc() - right.calc();
@@ -59,8 +69,21 @@ var Mul = Grammar.Terminal -> {
     }
 };
 
+var Unary = [Grammar.NonTerminal, Calculator] -> {
+    tag : EXPRESSION,
+
+    construct : $() {
+        this.right = base.right[0];
+        this.oper = base.center;
+    },
+
+    calc : $() {
+        return oper.calcUnary(right);
+    }
+};
+
 var Binary = [Grammar.NonTerminal, Calculator] -> {
-    tag : BINARY,
+    tag : EXPRESSION,
 
     construct : $() {
         this.left = base.left[0];
@@ -73,7 +96,7 @@ var Binary = [Grammar.NonTerminal, Calculator] -> {
     }
 };
 
-var source = "1-2*3+4*5*1";
+var source = "-1-2*3+4*5*1";
 var sequence = grammar.createSequence();
 
 for (var i = 0; i < source.length(); i++) {
@@ -110,8 +133,9 @@ for (var i = 0; i < source.length(); i++) {
 }
 
 grammar.add([
-    DIGIT || BINARY <-- MUL --> DIGIT || BINARY --|> Binary,
-    DIGIT || BINARY <-- PLUS_MINUS --> DIGIT || BINARY --|> Binary
+    Grammar.NULL <-- PLUS_MINUS --> DIGIT || EXPRESSION --|> Unary,
+    DIGIT || EXPRESSION <-- MUL --> DIGIT || EXPRESSION --|> Binary,
+    DIGIT || EXPRESSION <-- PLUS_MINUS --> DIGIT || EXPRESSION --|> Binary
 ]);
 
 grammar.parse();
