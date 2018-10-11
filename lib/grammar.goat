@@ -108,7 +108,7 @@ Grammar.Tag = {
         return pattern;
     },
 
-    "||" : $(right) {
+    "|" : $(right) {
         return new Grammar.RuleOr(this.toRule(), right.toRule());
     }
 };
@@ -135,7 +135,7 @@ Grammar.Rule = {
         }
     },
 
-    "||" : $(right) {
+    "|" : $(right) {
         return new Grammar.RuleOr(this, right.toRule());
     }
 };
@@ -167,7 +167,7 @@ Grammar.RuleOr = Grammar.Rule -> {
     },
 
     toString : $() {
-        return left.toString() + " || " + right.toString();
+        return left.toString() + " | " + right.toString();
     }
 };
 
