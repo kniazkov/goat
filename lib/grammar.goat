@@ -95,8 +95,13 @@ Grammar.Tag = {
     "<--" : $(next) {
         if (next.instanceOf(Grammar.Tag)) {
             var pattern = new Grammar.Pattern(next);
-            var rule = this.toRule();
-            pattern.left.pushf(rule);
+            pattern.left.pushf(this.toRule());
+            return pattern;
+        }
+        else {
+            var pattern = new Grammar.Pattern(Grammar.InvalidTag);
+            pattern.left.pushf(this.toRule());
+            pattern.left.pushf(next.toRule());
             return pattern;
         }
     },
@@ -111,6 +116,11 @@ Grammar.Tag = {
     "|" : $(right) {
         return new Grammar.RuleOr(this.toRule(), right.toRule());
     }
+};
+
+Grammar.InvalidTag = Grammar.Tag -> {
+    id : null,
+    name : "?"
 };
 
 Grammar.Rule = {
@@ -129,8 +139,13 @@ Grammar.Rule = {
     "<--" : $(next) {
         if (next.instanceOf(Grammar.Tag)) {
             var pattern = new Grammar.Pattern(next);
-            var rule = this.toRule();
-            pattern.left.pushf(rule);
+            pattern.left.pushf(this.toRule());
+            return pattern;
+        }
+        else {
+            var pattern = new Grammar.Pattern(Grammar.InvalidTag);
+            pattern.left.pushf(this);
+            pattern.left.pushf(next.toRule());
             return pattern;
         }
     },
@@ -207,10 +222,17 @@ Grammar.Pattern = {
 
     "<--" : $(next) {
         if (next.instanceOf(Grammar.Tag)) {
-            left.pushf(tag.toRule());
+            if (tag != Grammar.InvalidTag)
+                left.pushf(tag.toRule());
             tag = next;
-            return this;
         }
+        else {
+            if (tag != Grammar.InvalidTag)
+                left.pushf(tag.toRule());
+            left.pushf(next.toRule());
+            tag := Grammar.InvalidTag;
+        }
+        return this;
     },
 
     "-->" : $(next) {
