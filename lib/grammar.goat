@@ -58,7 +58,6 @@ var Grammar = {
     parse : $() {
         for (var i = 0; i < pl.length(); i++) {
             var pattern = pl[i];
-            println(pattern.toString());
             var list = graph[pattern.tag.id];
             var token = list.first;
             while (token != null) {
@@ -93,13 +92,6 @@ Grammar.Tag = {
         return this.rule;
     },
 
-    "-->" : $(next) {
-        var pattern = new Grammar.Pattern(this);
-        var rule = next.toRule();
-        pattern.right.push(rule);
-        return pattern;
-    },
-
     "<--" : $(next) {
         if (next.instanceOf(Grammar.Tag)) {
             var pattern = new Grammar.Pattern(next);
@@ -107,6 +99,13 @@ Grammar.Tag = {
             pattern.left.pushf(rule);
             return pattern;
         }
+    },
+
+    "-->" : $(next) {
+        var pattern = new Grammar.Pattern(this);
+        var rule = next.toRule();
+        pattern.right.push(rule);
+        return pattern;
     },
 
     "||" : $(right) {
@@ -204,6 +203,14 @@ Grammar.Pattern = {
             b << i.read().toString();
         }
         return b.toString();
+    },
+
+    "<--" : $(next) {
+        if (next.instanceOf(Grammar.Tag)) {
+            left.pushf(tag.toRule());
+            tag = next;
+            return this;
+        }
     },
 
     "-->" : $(next) {
