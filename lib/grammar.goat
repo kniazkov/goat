@@ -115,6 +115,14 @@ Grammar.Tag = {
 
     "|" : $(right) {
         return new Grammar.RuleOr(this.toRule(), right.toRule());
+    },
+
+    "&" : $(right) {
+        return new Grammar.RuleAnd(this.toRule(), right.toRule());
+    },
+
+    "~" : $(right) {
+        return new Grammar.RuleNot(this.toRule());
     }
 };
 
@@ -152,6 +160,14 @@ Grammar.Rule = {
 
     "|" : $(right) {
         return new Grammar.RuleOr(this, right.toRule());
+    },
+
+    "&" : $(right) {
+        return new Grammar.RuleAnd(this, right.toRule());
+    },
+
+    "~" : $(right) {
+        return new Grammar.RuleNot(this);
     }
 };
 
@@ -183,6 +199,36 @@ Grammar.RuleOr = Grammar.Rule -> {
 
     toString : $() {
         return left.toString() + " | " + right.toString();
+    }
+};
+
+Grammar.RuleAnd = Grammar.Rule -> {
+    init : $(left, right) {
+        this.left = left;
+        this.right = right;
+    },
+
+    check : $(token) {
+        return left.check(token) && right.check(token);
+    },
+
+    toString : $() {
+        return left.toString() + " & " + right.toString();
+    }
+};
+
+Grammar.RuleNot = Grammar.Rule -> {
+    init : $(right) {
+        this.right = right;
+    },
+
+    check : $(token) {
+        var result = !right.check(token);
+        return result;
+    },
+
+    toString : $() {
+        return "~" + right.toString();
     }
 };
 
