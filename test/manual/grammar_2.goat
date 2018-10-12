@@ -53,12 +53,12 @@ try {
         sequence.push(token);
     }
 
-    var _0 = Grammar.NULL;
+    var NULL = Grammar.NULL;
 
-    var P_0 = A <?- ~B <-- B <-- C <-- D --> C --> B --> A --|> _E;
+    var P_0 = ~B <?- A <-- B <-- C <-- D --> C --> B --> A --|> _E;
     println(P_0.toString());
 
-    var P_1 = B <?- A <-- E --> A --|> _F;
+    var P_1 = ~NULL <?- ~B <-- E --> A --|> _F;
     println(P_1.toString());
 
     grammar.add([

@@ -161,12 +161,26 @@ Grammar.Rule = {
     "<--" : $(next) {
         if (next.instanceOf(Grammar.Tag)) {
             var pattern = new Grammar.Pattern(next);
-            pattern.left.pushf(this.toRule());
+            pattern.left.pushf(this);
             return pattern;
         }
         else {
             var pattern = new Grammar.Pattern(Grammar.InvalidTag);
             pattern.left.pushf(this);
+            pattern.left.pushf(next.toRule());
+            return pattern;
+        }
+    },
+
+    "<?-" : $(next) {
+        if (next.instanceOf(Grammar.Tag)) {
+            var pattern = new Grammar.Pattern(next);
+            pattern.left__.pushf(this.toRule());
+            return pattern;
+        }
+        else {
+            var pattern = new Grammar.Pattern(Grammar.InvalidTag);
+            pattern.left__.pushf(this);
             pattern.left.pushf(next.toRule());
             return pattern;
         }
