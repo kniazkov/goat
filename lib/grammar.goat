@@ -106,6 +106,20 @@ Grammar.Tag = {
         }
     },
 
+    "<?-" : $(next) {
+        if (next.instanceOf(Grammar.Tag)) {
+            var pattern = new Grammar.Pattern(next);
+            pattern.left__.pushf(this.toRule());
+            return pattern;
+        }
+        else {
+            var pattern = new Grammar.Pattern(Grammar.InvalidTag);
+            pattern.left__.pushf(this.toRule());
+            pattern.left.pushf(next.toRule());
+            return pattern;
+        }
+    },
+
     "-->" : $(next) {
         var pattern = new Grammar.Pattern(this);
         var rule = next.toRule();
@@ -248,12 +262,18 @@ Grammar.Pattern = {
             throw new Exception.IllegalArgument();
         this.tag = tag;
         this.left = new List();
+        this.left__ = new List();
         this.right = new List();
+        this.right__ = new List();
         this.proto = null;
     },
 
     toString : $() {
         var b = new StringBuilder();
+        for (var i = left__.reverseIterator(); i.valid(); i.next()) {
+            b << i.read().toString();
+            b << " <?- ";
+        }
         for (var i = left.reverseIterator(); i.valid(); i.next()) {
             b << i.read().toString();
             b << " <-- ";
@@ -304,6 +324,7 @@ Grammar.Pattern = {
         result.base.center = token;
         
         cursor = token;
+
         for (i = left.iterator(); i.valid(); i.next()) {
             if (cursor != null)
                 cursor = cursor.r0.prev;
@@ -315,7 +336,16 @@ Grammar.Pattern = {
             result.base.left.push(cursor);
         }
 
+        for (i = left__.iterator(); i.valid(); i.next()) {
+            if (cursor != null)
+                cursor = cursor.r0.prev;
+            var rule = i.read();
+            if (!rule.check(cursor))
+                return null;
+        }
+
         cursor = token;
+
         for (i = right.iterator(); i.valid(); i.next()) {
             if (cursor != null)
                 cursor = end.r0.next;
