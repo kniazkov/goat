@@ -315,6 +315,25 @@ Grammar.Pattern = {
         return this;
     },
 
+    "<?-" : $(next) {
+        if (next.instanceOf(Grammar.Tag)) {
+            if (tag != Grammar.InvalidTag)
+                left__.pushf(tag.toRule());
+            else
+                left__.pushf(left.popf());
+            tag = next;
+        }
+        else {
+            if (tag != Grammar.InvalidTag)
+                left__.pushf(tag.toRule());
+            else
+                left__.pushf(left.popf());
+            left.pushf(next.toRule());
+            tag := Grammar.InvalidTag;
+        }
+        return this;
+    },
+
     "-->" : $(next) {
         var rule = next.toRule();
         right.push(rule);
