@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "token_visitor.h"
+#include "token_list.h"
 
 namespace g0at
 {
@@ -35,5 +36,9 @@ namespace g0at
         virtual ~token();
         virtual void accept(token_visitor *visitor) = 0;
         virtual identifier *to_identifier() = 0;
+
+        token_list *list;
+        token *prev;
+        token *next;
     };
 };

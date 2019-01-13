@@ -20,23 +20,27 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+#include "token_list.h"
 #include "token.h"
-#include <iostream>
 
 namespace g0at
 {
-    token::token()
-        : list(nullptr), prev(nullptr), next(nullptr)
-    {
-        std::cout << "it works!" << std::endl;
-    }
-
-    token::~token()
+    token_list::token_list()
+        : first(nullptr), last(nullptr), count(0)
     {
     }
 
-    identifier *token::to_identifier()
+    void token_list::add(token *item)
     {
-        return nullptr;
+        item->list = this;
+        item->prev = last;
+        item->next = nullptr;
+
+        if (last)
+            last->next = item;
+        else
+            first = item;
+        last = item;
+        count++;
     }
 };
