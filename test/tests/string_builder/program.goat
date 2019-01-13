@@ -1,3 +1,0 @@
-var b = new StringBuilder();
-b << "Hello" << ',' << ' ' << "world" << ' ' << 13 << ' ' << 666.66;
-print(b.toString());

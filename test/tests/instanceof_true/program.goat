@@ -1,1 +1,0 @@
-print(13.instanceOf(Integer));

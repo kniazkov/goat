@@ -1,9 +1,0 @@
-var f = $(v) {
-	switch(v) {
-	
-	}
-	
-	return 13;
-};
-
-print(f(0));

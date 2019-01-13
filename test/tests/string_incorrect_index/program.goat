@@ -1,2 +1,0 @@
-var s = "test";
-print(s[false]);

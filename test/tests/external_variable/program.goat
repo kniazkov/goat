@@ -1,9 +1,0 @@
-var x = 0;
-
-var f = $() {
-	print(x);
-	x = 1;
-};
-
-f();
-print(x);

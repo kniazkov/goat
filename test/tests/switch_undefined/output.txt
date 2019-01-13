@@ -1,3 +1,0 @@
-is not defined
-defined
-defined

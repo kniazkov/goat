@@ -1,5 +1,0 @@
-var f = $() {
-	return null;
-};
-
-print(f() ? "true?.." : "false!");

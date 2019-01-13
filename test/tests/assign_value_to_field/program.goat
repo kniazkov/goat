@@ -1,3 +1,0 @@
-var a = {};
-a.value = 0;
-print(a);

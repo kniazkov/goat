@@ -1,4 +1,0 @@
-print('b' > 'a');
-print(' ');
-print('c' > 'd');
- 

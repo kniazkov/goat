@@ -1,7 +1,0 @@
-var begin = clock();
-var diff = 0;
-do {
-	diff = clock() - begin;
-} while(diff < 5 * 1000000000);
-
-print(diff / 1000000000);

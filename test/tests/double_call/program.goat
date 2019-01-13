@@ -1,8 +1,0 @@
-var f = $() {
-	return $() {
-		return 13;
-	};
-};
-
-print(f()());
-

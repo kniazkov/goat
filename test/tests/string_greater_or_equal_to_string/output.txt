@@ -1,5 +1,0 @@
-'Abracadabra' less than 'Language'
-'The' greater than or equal to 'Language'
-'Goat' less than 'Language'
-'Programming' greater than or equal to 'Language'
-'Language' greater than or equal to 'Language'

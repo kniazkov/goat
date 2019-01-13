@@ -1,8 +1,0 @@
-var file = open("tests/read_file_to_byte_array/program.goat", File.Mode.READ);
-file.seek(0, File.Origin.END);
-var len = file.position();
-file.seek(0, File.Origin.BEGIN);
-var data = file.read(len);
-for (var i = 0; i < data.length(); i++) {
-	print(Char.valueOf(data[i]));
-}

@@ -1,3 +1,0 @@
-var n = null;
-
-print(n?.xxx || 7);

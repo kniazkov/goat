@@ -1,4 +1,0 @@
-var a = [];
-a.push(0);
-a.push("one", false);
-print(a);

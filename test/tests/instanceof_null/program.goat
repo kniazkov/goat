@@ -1,7 +1,0 @@
-var f = $() {
-	return null;
-};
-
-var v = f();
-
-print(v.instanceOf(Null));

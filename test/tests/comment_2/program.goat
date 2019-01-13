@@ -1,8 +1,0 @@
-var s = "works";
-
-// This is comment
-// blah blah blah blah blah blah blah blah blah blah 
-
-print("it " + s); // blah blah
-
-// blah blah blah blah blah blah

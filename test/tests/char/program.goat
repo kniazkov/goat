@@ -1,2 +1,0 @@
-var ch = 'z';
-print(ch);

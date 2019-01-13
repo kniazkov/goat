@@ -1,1 +1,0 @@
-print(xxx?.yyy || 7); 

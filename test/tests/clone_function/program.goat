@@ -1,5 +1,0 @@
-var f = $(s) {
-	print(s);
-};
-
-f.clone()("test");

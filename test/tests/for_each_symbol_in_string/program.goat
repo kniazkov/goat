@@ -1,8 +1,0 @@
-var s = "this is string.";
-var x = "";
-var i = 0;
-while (i != s.length()) {
-	x = x + s[i];
-	i = i + 1;
-}
-print(x);

@@ -1,3 +1,0 @@
-exception: 'catched: divizion by zero'
-finally...
-no problems!

@@ -1,5 +1,0 @@
-print(undefined || 7);
-print("\n");
-print(null || 11);
-print("\n");
-print("test" || 13);

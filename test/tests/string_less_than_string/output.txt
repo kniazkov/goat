@@ -1,5 +1,0 @@
-'Abracadabra' less than 'Ivan Kniazkov'
-'The' not less than 'Ivan Kniazkov'
-'Goat' less than 'Ivan Kniazkov'
-'Programming' not less than 'Ivan Kniazkov'
-'Language' not less than 'Ivan Kniazkov'

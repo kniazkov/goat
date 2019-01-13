@@ -1,6 +1,0 @@
-var f = $(){
-	print(this);
-};
-
-f();
-

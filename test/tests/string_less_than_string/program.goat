@@ -1,5 +1,0 @@
-var a = ["Abracadabra", "The", "Goat", "Programming", "Language"];
-var t = "Ivan Kniazkov";
-for (var i = 0; i < a.length(); i++) {
-	print("\'" + a[i] + "\' " + (a[i] < t ? "less than": "not less than") + " \'" + t + "\'\n");
-}

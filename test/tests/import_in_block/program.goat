@@ -1,8 +1,0 @@
-var f = $() {
-	import "library.goat";
-	import "library.goat";
-	
-	return getValue() + 0.13;
-};
-
-print(f());

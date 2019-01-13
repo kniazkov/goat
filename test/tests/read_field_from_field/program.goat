@@ -1,6 +1,0 @@
-var a = { 
-	value: { 
-		data:0
-	}
-};
-print(a.value.data);

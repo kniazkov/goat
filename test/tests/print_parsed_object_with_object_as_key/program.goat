@@ -1,5 +1,0 @@
-print({
-	a : 1,
-	"test" : "goat",
-	2 + 3 : true
-});
