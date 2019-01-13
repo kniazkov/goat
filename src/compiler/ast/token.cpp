@@ -20,11 +20,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "compiler/ast/token.h"
+#include "token.h"
+#include <iostream>
 
-int main(int argc, char **argv)
+namespace g0at
 {
-    g0at::token *tok = new g0at::token;
-    delete tok;
-    return 0;
-}
+    token::token()
+    {
+        std::cout << "it works!" << std::endl;
+    }
+
+    token::~token()
+    {
+    }
+};

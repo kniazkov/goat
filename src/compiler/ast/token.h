@@ -20,11 +20,14 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "compiler/ast/token.h"
+#pragma once
 
-int main(int argc, char **argv)
+namespace g0at
 {
-    g0at::token *tok = new g0at::token;
-    delete tok;
-    return 0;
-}
+    class token
+    {
+    public:
+        token();
+        virtual ~token();
+    };
+};
