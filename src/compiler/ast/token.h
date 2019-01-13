@@ -22,12 +22,18 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "token_visitor.h"
+
 namespace g0at
 {
+    class identifier;
+
     class token
     {
     public:
         token();
         virtual ~token();
+        virtual void accept(token_visitor *visitor) = 0;
+        virtual identifier *to_identifier() = 0;
     };
 };

@@ -33,4 +33,9 @@ namespace g0at
     token::~token()
     {
     }
+
+    identifier *token::to_identifier()
+    {
+        return nullptr;
+    }
 };

@@ -20,11 +20,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "compiler/ast/identifier.h"
+#pragma once
 
-int main(int argc, char **argv)
+namespace g0at
 {
-    g0at::token *tok = new g0at::identifier(L"print");
-    delete tok;
-    return 0;
-}
+    class identifier;
+
+    class token_visitor
+    {
+    public:
+        token_visitor();
+        virtual ~token_visitor();
+        virtual void visit(identifier *ref) = 0;
+    };
+};
