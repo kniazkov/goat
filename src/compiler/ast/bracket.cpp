@@ -20,19 +20,22 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "compiler/source/source_string.h"
-#include "compiler/scanner/scanner.h"
-#include <iostream>
+#include "bracket.h"
 
-int main(int argc, char **argv)
+namespace g0at
 {
-    g0at::source_string src(L"print(\"hello, world\");");
-    g0at::scanner scan(&src);
-    while(true)
+    bracket::bracket(wchar_t _symbol, wchar_t _inverse_symbol, bool _closed)
+        : symbol(_symbol), inverse_symbol(_inverse_symbol), closed(_closed)
     {
-        auto tok = scan.get_token();
-        if (!tok)
-            break;
     }
-    return 0;
-}
+
+    void bracket::accept(token_visitor *visitor)
+    {
+        visitor->visit(this);
+    }
+
+    bracket *bracket::to_bracket()
+    {
+        return this;
+    }
+};

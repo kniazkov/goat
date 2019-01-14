@@ -30,6 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace g0at
 {
     class identifier;
+    class bracket;
 
     class token
     {
@@ -38,7 +39,8 @@ namespace g0at
         token();
         virtual ~token();
         virtual void accept(token_visitor *visitor) = 0;
-        virtual identifier *to_identifier() = 0;
+        virtual identifier *to_identifier();
+        virtual bracket *to_bracket();
 
         token_list *list;
         token *prev;

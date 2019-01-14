@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "scanner.h"
 #include "../ast/identifier.h"
+#include "../ast/bracket.h"
 #include <memory>
 #include <sstream>
 
@@ -79,6 +80,43 @@ namespace g0at
             return std::make_shared<identifier>(wss.str());
         }
         
+        if (c == L'(')
+        {
+            src->next();
+            return std::make_shared<bracket>(L'(', L')', false);
+        }
+
+        if (c == L'{')
+        {
+            src->next();
+            return std::make_shared<bracket>(L'{', L'}', false);
+        }
+
+        if (c == L'[')
+        {
+            src->next();
+            return std::make_shared<bracket>(L'[', L']', false);
+        }
+
+        
+        if (c == L')')
+        {
+            src->next();
+            return std::make_shared<bracket>(L')', L'(', true);
+        }
+
+        if (c == L'}')
+        {
+            src->next();
+            return std::make_shared<bracket>(L'}', L'{', true);
+        }
+
+        if (c == L']')
+        {
+            src->next();
+            return std::make_shared<bracket>(L']', L'[', true);
+        }
+
         return nullptr;
     }
 };

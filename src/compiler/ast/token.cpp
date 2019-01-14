@@ -37,4 +37,9 @@ namespace g0at
     {
         return nullptr;
     }
+
+    bracket *token::to_bracket()
+    {
+        return nullptr;
+    }
 };

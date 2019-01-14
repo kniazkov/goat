@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace g0at
 {
     class identifier;
+    class bracket;
 
     class token_visitor
     {
@@ -32,5 +33,6 @@ namespace g0at
         token_visitor();
         virtual ~token_visitor();
         virtual void visit(identifier *ref) = 0;
+        virtual void visit(bracket *ref) = 0;
     };
 };
