@@ -22,13 +22,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "token_function.h"
+#include "function.h"
 
 namespace g0at
 {
     namespace ast
     {
-        class root : public token_function
+        class root : public function
         {
         public:
             root *to_root() override;

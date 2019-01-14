@@ -33,11 +33,11 @@ namespace g0at
     {
         class nonterminal;
         class token_with_list;
-        class token_function;
+        class function;
         class root;
         class identifier;
         class bracket;
-        class token_static_string;
+        class static_string;
         class semicolon;
 
         class token
@@ -48,11 +48,11 @@ namespace g0at
             virtual void accept(token_visitor *visitor) = 0;
             virtual nonterminal *to_nonterminal();
             virtual token_with_list *to_token_with_list();
-            virtual token_function *to_token_function();
+            virtual function *to_function();
             virtual root *to_root();
             virtual identifier *to_identifier();
             virtual bracket *to_bracket();
-            virtual token_static_string *to_static_string();
+            virtual static_string *to_static_string();
             virtual semicolon *to_semicolon();
 
             std::shared_ptr<position> pos;

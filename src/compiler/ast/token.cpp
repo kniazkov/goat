@@ -45,7 +45,7 @@ namespace g0at
             return nullptr;
         }
 
-        token_function *token::to_token_function()
+        function *token::to_function()
         {
             return nullptr;
         }
@@ -65,7 +65,7 @@ namespace g0at
             return nullptr;
         }
 
-        token_static_string *token::to_static_string()
+        static_string *token::to_static_string()
         {
             return nullptr;
         }

@@ -20,13 +20,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "token_function.h"
+#include "static_string.h"
 
 namespace g0at
 {
     namespace ast
     {
-        token_function *token_function::to_token_function()
+        static_string::static_string(std::wstring _text)
+            : text(_text)
+        {
+        }
+
+        void static_string::accept(token_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
+
+        static_string *static_string::to_static_string()
         {
             return this;
         }

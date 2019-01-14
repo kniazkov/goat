@@ -20,18 +20,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "nonterminal.h"
+#include "function.h"
 
 namespace g0at
 {
     namespace ast
     {
-        class token_function : public nonterminal
+        function *function::to_function()
         {
-        public:
-            token_function *to_token_function() override;
-        };
+            return this;
+        }
     };
 };

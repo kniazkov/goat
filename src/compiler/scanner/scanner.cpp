@@ -23,7 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "scanner.h"
 #include "../ast/identifier.h"
 #include "../ast/bracket.h"
-#include "../ast/token_static_string.h"
+#include "../ast/static_string.h"
 #include "../ast/semicolon.h"
 #include <memory>
 #include <sstream>
@@ -92,7 +92,7 @@ namespace g0at
                 c = src->next();
             }
             src->next();
-            return std::make_shared<ast::token_static_string>(wss.str());
+            return std::make_shared<ast::static_string>(wss.str());
         }
         
         if (c == L'(')

@@ -20,25 +20,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "token_static_string.h"
+#pragma once
+
+#include "token.h"
+#include <string>
 
 namespace g0at
 {
     namespace ast
     {
-        token_static_string::token_static_string(std::wstring _text)
-            : text(_text)
+        class static_string : public token
         {
-        }
+        public:
+            static_string(std::wstring _text);
+            void accept(token_visitor *visitor) override;
+            static_string *to_static_string() override;
 
-        void token_static_string::accept(token_visitor *visitor)
-        {
-            visitor->visit(this);
-        }
-
-        token_static_string *token_static_string::to_static_string()
-        {
-            return this;
-        }
+        protected:
+            std::wstring text;
+        };
     };
 };
