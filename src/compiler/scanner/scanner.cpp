@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "scanner.h"
 #include "../ast/identifier.h"
 #include "../ast/bracket.h"
+#include "../ast/token_static_string.h"
 #include <memory>
 #include <sstream>
 
@@ -78,6 +79,19 @@ namespace g0at
             } while(is_letter(c) || is_digit(c));
             
             return std::make_shared<identifier>(wss.str());
+        }
+
+        if (c == L'"')
+        {
+            std::wstringstream wss;
+            c = src->next();
+            while(c != L'"')
+            {
+                wss << c;
+                c = src->next();
+            }
+            src->next();
+            return std::make_shared<token_static_string>(wss.str());
         }
         
         if (c == L'(')

@@ -22,33 +22,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "token_visitor.h"
-#include "token_list.h"
-#include "../source/position.h"
-#include <memory>
+#include "token.h"
+#include <string>
 
 namespace g0at
 {
-    class identifier;
-    class bracket;
-    class token_static_string;
-
-    class token
+    class token_static_string : public token
     {
-        friend class scanner;
     public:
-        token();
-        virtual ~token();
-        virtual void accept(token_visitor *visitor) = 0;
-        virtual identifier *to_identifier();
-        virtual bracket *to_bracket();
-        virtual token_static_string *to_static_string();
-
-        token_list *list;
-        token *prev;
-        std::shared_ptr<token> next;
+        token_static_string(std::wstring _text);
+        void accept(token_visitor *visitor) override;
+        token_static_string *to_static_string() override;
 
     protected:
-        std::shared_ptr<position> pos;
+        std::wstring text;
     };
 };

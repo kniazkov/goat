@@ -42,4 +42,9 @@ namespace g0at
     {
         return nullptr;
     }
+
+    token_static_string *token::to_static_string()
+    {
+        return nullptr;
+    }
 };
