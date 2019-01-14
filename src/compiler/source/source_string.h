@@ -22,16 +22,22 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <istream>
+#include "source.h"
+#include <string>
 
 namespace g0at
 {
-    class position
+    class source_string : public source
     {
     public:
-        position();
-        virtual ~position();
-        virtual int get_index() = 0;
-        virtual void print(std::wostream &stream) = 0;
+        source_string(std::wstring _data);
+        wchar_t get_char() override;
+        wchar_t next() override;
+        std::shared_ptr<position> get_position() override;
+
+    protected:
+        std::wstring data;
+        int index;
+        int max_index;
     };
 };

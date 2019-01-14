@@ -20,11 +20,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "compiler/ast/identifier.h"
+#include "compiler/source/source_string.h"
+#include <iostream>
 
 int main(int argc, char **argv)
 {
-    g0at::token *tok = new g0at::identifier(L"print");
-    delete tok;
+    g0at::source_string src(L"print(\"hello, world\");");
+    wchar_t c = src.get_char();
+    while(c)
+    {
+        auto p = src.get_position();
+        p->print(std::wcout);
+        std::wcout << " ";
+        c = src.next();
+    };
     return 0;
 }

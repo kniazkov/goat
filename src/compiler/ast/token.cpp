@@ -21,14 +21,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "token.h"
-#include <iostream>
 
 namespace g0at
 {
     token::token()
         : list(nullptr), prev(nullptr), next(nullptr)
     {
-        std::cout << "it works!" << std::endl;
     }
 
     token::~token()
