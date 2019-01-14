@@ -20,20 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "function.h"
+#pragma once
+
+#include "../ast/root.h"
+#include "../scanner/scanner.h"
+#include <memory>
 
 namespace g0at
 {
-    namespace ast
+    class parser
     {
-        void function::accept(token_visitor *visitor)
-        {
-            visitor->visit(this);
-        }
+    public:
+        parser();
+        void create_root(scanner *scan);
+        std::shared_ptr<ast::root> get_root() { return root; }
 
-        function *function::to_function()
-        {
-            return this;
-        }
+    protected:
+        parser(const parser &) { }
+        void operator=(const parser &) { }
+
+        std::shared_ptr<ast::root> root;
     };
 };

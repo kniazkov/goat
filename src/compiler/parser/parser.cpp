@@ -20,20 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "function.h"
+#include "parser.h"
 
 namespace g0at
 {
-    namespace ast
+    parser::parser()
+        : root(nullptr)
     {
-        void function::accept(token_visitor *visitor)
-        {
-            visitor->visit(this);
-        }
+    }
 
-        function *function::to_function()
+    void parser::create_root(scanner *scan)
+    {
+        root = std::make_shared<ast::root>();
+        ast::token_list *tok_list = root->get_list();
+        while(true)
         {
-            return this;
+            auto tok = scan->get_token();
+            if (!tok)
+                break;
+            tok_list->add(tok);
         }
-    };
+    }
 };

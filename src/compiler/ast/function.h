@@ -22,15 +22,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "nonterminal.h"
+#include "token_with_list.h"
 
 namespace g0at
 {
     namespace ast
     {
-        class function : public nonterminal
+        class function : public token_with_list
         {
         public:
+            void accept(token_visitor *visitor) override;
             function *to_function() override;
         };
     };

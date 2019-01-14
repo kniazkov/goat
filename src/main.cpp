@@ -22,20 +22,14 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "compiler/source/source_string.h"
 #include "compiler/scanner/scanner.h"
-#include "compiler/ast/token_list.h"
+#include "compiler/parser/parser.h"
 #include <iostream>
 
 int main(int argc, char **argv)
 {
     g0at::source_string src(L"print(\"hello, world\");");
     g0at::scanner scan(&src);
-    g0at::ast::token_list tok_list;
-    while(true)
-    {
-        auto tok = scan.get_token();
-        if (!tok)
-            break;
-        tok_list.add(tok);
-    }
+    g0at::parser par;
+    par.create_root(&scan);
     return 0;
 }

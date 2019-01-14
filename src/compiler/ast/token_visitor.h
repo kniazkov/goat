@@ -26,6 +26,7 @@ namespace g0at
 {
     namespace ast
     {
+        class function;
         class identifier;
         class bracket;
         class static_string;
@@ -36,6 +37,7 @@ namespace g0at
         public:
             token_visitor();
             virtual ~token_visitor();
+            virtual void visit(function *ref) = 0;
             virtual void visit(identifier *ref) = 0;
             virtual void visit(bracket *ref) = 0;
             virtual void visit(static_string *ref) = 0;
