@@ -20,56 +20,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "token.h"
+#include "token_with_list.h"
 
 namespace g0at
 {
-    token::token()
-        : list(nullptr), prev(nullptr), next(nullptr)
+    token_with_list *token_with_list::to_token_with_list()
     {
-    }
-
-    token::~token()
-    {
-    }
-
-    nonterminal *token::to_nonterminal()
-    {
-        return nullptr;
-    }
-
-    token_with_list *token::to_token_with_list()
-    {
-        return nullptr;
-    }
-
-    token_function *token::to_token_function()
-    {
-        return nullptr;
-    }
-
-    root *token::to_root()
-    {
-        return nullptr;
-    }
-
-    identifier *token::to_identifier()
-    {
-        return nullptr;
-    }
-
-    bracket *token::to_bracket()
-    {
-        return nullptr;
-    }
-
-    token_static_string *token::to_static_string()
-    {
-        return nullptr;
-    }
-
-    semicolon *token::to_semicolon()
-    {
-        return nullptr;
+        return this;
     }
 };
