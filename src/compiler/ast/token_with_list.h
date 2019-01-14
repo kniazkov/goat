@@ -27,12 +27,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    class token_with_list : public nonterminal
+    namespace ast
     {
-    public:
-        token_with_list *to_token_with_list() override;
+        class token_with_list : public nonterminal
+        {
+        public:
+            token_with_list *to_token_with_list() override;
 
-    protected:
-        token_list tokens;
-    };
+        protected:
+            token_list tokens;
+        };
+    }
 };

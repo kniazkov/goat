@@ -32,12 +32,12 @@ namespace g0at
     {
     public:
         scanner(source *_src);
-        std::shared_ptr<token> get_token();
+        std::shared_ptr<ast::token> get_token();
 
     protected:
         scanner(const scanner &) { }
         void operator=(const scanner &) { }
-        std::shared_ptr<token> create_token();
+        std::shared_ptr<ast::token> create_token();
 
         source *src;
     };

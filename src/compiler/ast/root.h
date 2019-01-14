@@ -26,9 +26,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    class root : public token_function
+    namespace ast
     {
-    public:
-        root *to_root() override;
+        class root : public token_function
+        {
+        public:
+            root *to_root() override;
+        };
     };
 };

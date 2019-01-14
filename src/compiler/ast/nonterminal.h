@@ -26,9 +26,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    class nonterminal : public token
+    namespace ast
     {
-    public:
-        nonterminal *to_nonterminal() override;
+        class nonterminal : public token
+        {
+        public:
+            nonterminal *to_nonterminal() override;
+        };
     };
 };

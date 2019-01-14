@@ -24,18 +24,21 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    token_static_string::token_static_string(std::wstring _text)
-        : text(_text)
+    namespace ast
     {
-    }
+        token_static_string::token_static_string(std::wstring _text)
+            : text(_text)
+        {
+        }
 
-    void token_static_string::accept(token_visitor *visitor)
-    {
-        visitor->visit(this);
-    }
+        void token_static_string::accept(token_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
 
-    token_static_string *token_static_string::to_static_string()
-    {
-        return this;
-    }
+        token_static_string *token_static_string::to_static_string()
+        {
+            return this;
+        }
+    };
 };

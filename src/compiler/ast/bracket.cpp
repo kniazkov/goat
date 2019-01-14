@@ -24,18 +24,21 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    bracket::bracket(wchar_t _symbol, wchar_t _inverse_symbol, bool _closed)
-        : symbol(_symbol), inverse_symbol(_inverse_symbol), closed(_closed)
+    namespace ast
     {
-    }
+        bracket::bracket(wchar_t _symbol, wchar_t _inverse_symbol, bool _closed)
+            : symbol(_symbol), inverse_symbol(_inverse_symbol), closed(_closed)
+        {
+        }
 
-    void bracket::accept(token_visitor *visitor)
-    {
-        visitor->visit(this);
-    }
+        void bracket::accept(token_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
 
-    bracket *bracket::to_bracket()
-    {
-        return this;
-    }
+        bracket *bracket::to_bracket()
+        {
+            return this;
+        }
+    };
 };

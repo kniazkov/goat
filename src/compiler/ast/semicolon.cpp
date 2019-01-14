@@ -24,13 +24,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    void semicolon::accept(token_visitor *visitor)
+    namespace ast
     {
-        visitor->visit(this);
-    }
+        void semicolon::accept(token_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
 
-    semicolon *semicolon::to_semicolon()
-    {
-        return this;
-    }
+        semicolon *semicolon::to_semicolon()
+        {
+            return this;
+        }
+    };
 };

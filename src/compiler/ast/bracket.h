@@ -26,16 +26,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    class bracket : public token
+    namespace ast
     {
-    public:
-        bracket(wchar_t _symbol, wchar_t _inverse_symbol, bool _closed);
-        void accept(token_visitor *visitor) override;
-        bracket *to_bracket() override;
+        class bracket : public token
+        {
+        public:
+            bracket(wchar_t _symbol, wchar_t _inverse_symbol, bool _closed);
+            void accept(token_visitor *visitor) override;
+            bracket *to_bracket() override;
 
-    protected:
-        wchar_t symbol;
-        wchar_t inverse_symbol;
-        bool closed;
+        protected:
+            wchar_t symbol;
+            wchar_t inverse_symbol;
+            bool closed;
+        };
     };
 };

@@ -29,36 +29,36 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    class nonterminal;
-    class token_with_list;
-    class token_function;
-    class root;
-    class identifier;
-    class bracket;
-    class token_static_string;
-    class semicolon;
-
-    class token
+    namespace ast
     {
-        friend class scanner;
-    public:
-        token();
-        virtual ~token();
-        virtual void accept(token_visitor *visitor) = 0;
-        virtual nonterminal *to_nonterminal();
-        virtual token_with_list *to_token_with_list();
-        virtual token_function *to_token_function();
-        virtual root *to_root();
-        virtual identifier *to_identifier();
-        virtual bracket *to_bracket();
-        virtual token_static_string *to_static_string();
-        virtual semicolon *to_semicolon();
+        class nonterminal;
+        class token_with_list;
+        class token_function;
+        class root;
+        class identifier;
+        class bracket;
+        class token_static_string;
+        class semicolon;
 
-        token_list *list;
-        token *prev;
-        std::shared_ptr<token> next;
+        class token
+        {
+        public:
+            token();
+            virtual ~token();
+            virtual void accept(token_visitor *visitor) = 0;
+            virtual nonterminal *to_nonterminal();
+            virtual token_with_list *to_token_with_list();
+            virtual token_function *to_token_function();
+            virtual root *to_root();
+            virtual identifier *to_identifier();
+            virtual bracket *to_bracket();
+            virtual token_static_string *to_static_string();
+            virtual semicolon *to_semicolon();
 
-    protected:
-        std::shared_ptr<position> pos;
+            std::shared_ptr<position> pos;
+            token_list *list;
+            token *prev;
+            std::shared_ptr<token> next;
+        };
     };
 };

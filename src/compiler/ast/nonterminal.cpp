@@ -24,8 +24,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    nonterminal *nonterminal::to_nonterminal()
+    namespace ast
     {
-        return this;
-    }
+        nonterminal *nonterminal::to_nonterminal()
+        {
+            return this;
+        }
+    };
 };

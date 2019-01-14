@@ -24,8 +24,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    root *root::to_root()
+    namespace ast
     {
-        return this;
+        root *root::to_root()
+        {
+            return this;
+        }
     }
 };

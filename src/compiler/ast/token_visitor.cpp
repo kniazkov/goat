@@ -24,11 +24,14 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    token_visitor::token_visitor()
+    namespace ast
     {
-    }
+        token_visitor::token_visitor()
+        {
+        }
 
-    token_visitor::~token_visitor()
-    {
+        token_visitor::~token_visitor()
+        {
+        }
     }
 };

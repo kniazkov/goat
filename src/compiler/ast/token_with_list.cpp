@@ -24,8 +24,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    token_with_list *token_with_list::to_token_with_list()
+    namespace ast
     {
-        return this;
-    }
+        token_with_list *token_with_list::to_token_with_list()
+        {
+            return this;
+        }
+    };
 };

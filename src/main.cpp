@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 {
     g0at::source_string src(L"print(\"hello, world\");");
     g0at::scanner scan(&src);
-    g0at::token_list tok_list;
+    g0at::ast::token_list tok_list;
     while(true)
     {
         auto tok = scan.get_token();

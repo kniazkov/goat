@@ -25,22 +25,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    token_list::token_list()
-        : first(nullptr), last(nullptr), count(0)
+    namespace ast
     {
-    }
+        token_list::token_list()
+            : first(nullptr), last(nullptr), count(0)
+        {
+        }
 
-    void token_list::add(std::shared_ptr<token> item)
-    {
-        item->list = this;
-        item->prev = last;
-        item->next = nullptr;
+        void token_list::add(std::shared_ptr<token> item)
+        {
+            item->list = this;
+            item->prev = last;
+            item->next = nullptr;
 
-        if (last)
-            last->next = item;
-        else
-            first = item;
-        last = item.get();
-        count++;
-    }
+            if (last)
+                last->next = item;
+            else
+                first = item;
+            last = item.get();
+            count++;
+        }
+    };
 };

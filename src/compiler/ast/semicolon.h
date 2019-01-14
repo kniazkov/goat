@@ -26,10 +26,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    class semicolon : public token
+    namespace ast
     {
-    public:
-        void accept(token_visitor *visitor) override;
-        semicolon *to_semicolon() override;
+        class semicolon : public token
+        {
+        public:
+            void accept(token_visitor *visitor) override;
+            semicolon *to_semicolon() override;
+        };
     };
 };

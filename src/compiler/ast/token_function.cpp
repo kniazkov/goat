@@ -24,8 +24,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    token_function *token_function::to_token_function()
+    namespace ast
     {
-        return this;
-    }
+        token_function *token_function::to_token_function()
+        {
+            return this;
+        }
+    };
 };

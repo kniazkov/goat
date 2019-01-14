@@ -27,14 +27,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    class identifier : public token
+    namespace ast
     {
-    public:
-        identifier(std::wstring _name);
-        void accept(token_visitor *visitor) override;
-        identifier *to_identifier() override;
+        class identifier : public token
+        {
+        public:
+            identifier(std::wstring _name);
+            void accept(token_visitor *visitor) override;
+            identifier *to_identifier() override;
 
-    protected:
-        std::wstring name;
+        protected:
+            std::wstring name;
+        };
     };
 };

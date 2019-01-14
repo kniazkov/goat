@@ -26,20 +26,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    class token;
-
-    class token_list
+    namespace ast
     {
-    public:
-        token_list();
-        void add(std::shared_ptr<token> item);
+        class token;
 
-        std::shared_ptr<token> first;
-        token *last;
-        int count;
+        class token_list
+        {
+        public:
+            token_list();
+            void add(std::shared_ptr<token> item);
 
-    private:
-        token_list(const token_list &) { }
-        void operator=(const token_list &) { }
+            std::shared_ptr<token> first;
+            token *last;
+            int count;
+
+        private:
+            token_list(const token_list &) { }
+            void operator=(const token_list &) { }
+        };
     };
 };
