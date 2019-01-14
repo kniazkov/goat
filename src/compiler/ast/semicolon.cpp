@@ -20,36 +20,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "token.h"
+#include "semicolon.h"
 
 namespace g0at
 {
-    token::token()
-        : list(nullptr), prev(nullptr), next(nullptr)
+    void semicolon::accept(token_visitor *visitor)
     {
+        visitor->visit(this);
     }
 
-    token::~token()
+    semicolon *semicolon::to_semicolon()
     {
-    }
-
-    identifier *token::to_identifier()
-    {
-        return nullptr;
-    }
-
-    bracket *token::to_bracket()
-    {
-        return nullptr;
-    }
-
-    token_static_string *token::to_static_string()
-    {
-        return nullptr;
-    }
-
-    semicolon *token::to_semicolon()
-    {
-        return nullptr;
+        return this;
     }
 };

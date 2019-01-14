@@ -27,6 +27,7 @@ namespace g0at
     class identifier;
     class bracket;
     class token_static_string;
+    class semicolon;
 
     class token_visitor
     {
@@ -36,5 +37,6 @@ namespace g0at
         virtual void visit(identifier *ref) = 0;
         virtual void visit(bracket *ref) = 0;
         virtual void visit(token_static_string *ref) = 0;
+        virtual void visit(semicolon *ref) = 0;
     };
 };

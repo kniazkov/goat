@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "../ast/identifier.h"
 #include "../ast/bracket.h"
 #include "../ast/token_static_string.h"
+#include "../ast/semicolon.h"
 #include <memory>
 #include <sstream>
 
@@ -129,6 +130,12 @@ namespace g0at
         {
             src->next();
             return std::make_shared<bracket>(L']', L'[', true);
+        }
+
+        if (c == L';')
+        {
+            src->next();
+            return std::make_shared<semicolon>();
         }
 
         return nullptr;

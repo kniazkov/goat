@@ -32,6 +32,7 @@ namespace g0at
     class identifier;
     class bracket;
     class token_static_string;
+    class semicolon;
 
     class token
     {
@@ -43,6 +44,7 @@ namespace g0at
         virtual identifier *to_identifier();
         virtual bracket *to_bracket();
         virtual token_static_string *to_static_string();
+        virtual semicolon *to_semicolon();
 
         token_list *list;
         token *prev;
