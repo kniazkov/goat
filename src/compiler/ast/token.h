@@ -24,6 +24,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "token_visitor.h"
 #include "token_list.h"
+#include "../source/position.h"
+#include <memory>
 
 namespace g0at
 {
@@ -31,6 +33,7 @@ namespace g0at
 
     class token
     {
+        friend class scanner;
     public:
         token();
         virtual ~token();
@@ -40,5 +43,8 @@ namespace g0at
         token_list *list;
         token *prev;
         token *next;
+
+    protected:
+        std::shared_ptr<position> pos;
     };
 };

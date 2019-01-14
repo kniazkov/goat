@@ -20,14 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "compiler/source/source_string.h"
-#include "compiler/scanner/scanner.h"
-#include <iostream>
+#pragma once
 
-int main(int argc, char **argv)
+#include "../ast/token.h"
+#include "../source/source.h"
+#include <memory>
+
+namespace g0at
 {
-    g0at::source_string src(L"print(\"hello, world\");");
-    g0at::scanner scan(&src);
-    auto tok = scan.get_token();
-    return 0;
-}
+    class scanner
+    {
+    public:
+        scanner(source *_src);
+        std::shared_ptr<token> get_token();
+
+    protected:
+        scanner(const scanner &) { }
+        void operator=(const scanner &) { }
+        std::shared_ptr<token> create_token();
+
+        source *src;
+    };
+};
