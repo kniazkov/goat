@@ -30,7 +30,7 @@ namespace g0at
     {
     }
 
-    void token_list::add(token *item)
+    void token_list::add(std::shared_ptr<token> item)
     {
         item->list = this;
         item->prev = last;
@@ -40,7 +40,7 @@ namespace g0at
             last->next = item;
         else
             first = item;
-        last = item;
+        last = item.get();
         count++;
     }
 };

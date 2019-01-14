@@ -44,7 +44,7 @@ namespace g0at
 
         token_list *list;
         token *prev;
-        token *next;
+        std::shared_ptr<token> next;
 
     protected:
         std::shared_ptr<position> pos;

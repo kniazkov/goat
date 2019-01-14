@@ -22,6 +22,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include <memory>
+
 namespace g0at
 {
     class token;
@@ -30,9 +32,10 @@ namespace g0at
     {
     public:
         token_list();
-        void add(token *item);
+        void add(std::shared_ptr<token> item);
 
-        token *first, *last;
+        std::shared_ptr<token> first;
+        token *last;
         int count;
 
     private:
