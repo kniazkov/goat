@@ -25,8 +25,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/parser/parser.h"
 #include "compiler/ast/dbg_output.h"
 #include <iostream>
+#include <assert.h>
 
-int main(int argc, char **argv)
+void test()
 {
     g0at::source_string src(L"print(\"hello, world\");");
     g0at::scanner scan(&src);
@@ -34,5 +35,11 @@ int main(int argc, char **argv)
     par.create_root(&scan);
     auto root = par.get_root();
     std::wcout << g0at::ast::dbg_output::to_string(root) << L"\n";
+}
+
+int main(int argc, char **argv)
+{
+    test();
+    assert(g0at::ast::__tok_count == 0);
     return 0;
 }

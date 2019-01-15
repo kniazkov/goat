@@ -31,6 +31,8 @@ namespace g0at
 {
     namespace ast
     {
+        extern int __tok_count;
+
         class nonterminal;
         class token_with_list;
         class function;

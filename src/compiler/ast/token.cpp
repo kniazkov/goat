@@ -26,13 +26,17 @@ namespace g0at
 {
     namespace ast
     {
+        int __tok_count;
+
         token::token()
             : list(nullptr), prev(nullptr), next(nullptr)
         {
+            __tok_count++;
         }
 
         token::~token()
         {
+            __tok_count--;
         }
 
         nonterminal *token::to_nonterminal()
