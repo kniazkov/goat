@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/source/source_string.h"
 #include "compiler/scanner/scanner.h"
 #include "compiler/parser/parser.h"
+#include "compiler/ast/dbg_output.h"
 #include <iostream>
 
 int main(int argc, char **argv)
@@ -31,5 +32,11 @@ int main(int argc, char **argv)
     g0at::scanner scan(&src);
     g0at::parser par;
     par.create_root(&scan);
+    auto root = par.get_root();
+    std::wstringstream tmp;
+    g0at::ast::dbg_output dbg(tmp);
+    root->accept(&dbg);
+    std::wcout << tmp.str();
+    std::wcout << L"\n";
     return 0;
 }

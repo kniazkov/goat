@@ -22,25 +22,27 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "token.h"
+#include "token_visitor.h"
+#include <sstream>
 
 namespace g0at
 {
     namespace ast
     {
-        class bracket : public token
+        class dbg_output : public token_visitor
         {
         public:
-            bracket(wchar_t _symbol, wchar_t _inverse_symbol, bool _closed);
-            void accept(token_visitor *visitor) override;
-            bracket *to_bracket() override;
-
-            wchar_t get_symbol() { return symbol; }
+            dbg_output(std::wstringstream &_stream);
+            dbg_output(std::wstringstream &_stream, int _indent);
+            void visit(function *ref) override;
+            void visit(identifier *ref) override;
+            void visit(bracket *ref) override;
+            void visit(static_string *ref) override;
+            void visit(semicolon *ref) override;
 
         protected:
-            wchar_t symbol;
-            wchar_t inverse_symbol;
-            bool closed;
+            std::wstringstream &stream;
+            int indent;
         };
     };
 };

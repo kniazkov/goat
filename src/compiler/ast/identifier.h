@@ -36,6 +36,8 @@ namespace g0at
             void accept(token_visitor *visitor) override;
             identifier *to_identifier() override;
 
+            std::wstring get_name() { return name; }
+
         protected:
             std::wstring name;
         };

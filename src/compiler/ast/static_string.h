@@ -36,6 +36,8 @@ namespace g0at
             void accept(token_visitor *visitor) override;
             static_string *to_static_string() override;
 
+            std::wstring get_text() { return text; }
+
         protected:
             std::wstring text;
         };
