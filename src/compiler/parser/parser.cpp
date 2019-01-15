@@ -21,6 +21,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "parser.h"
+#include "../ast/bracket.h"
+#include "../ast/brackets_pair.h"
+#include <assert.h>
 
 namespace g0at
 {
@@ -32,13 +35,41 @@ namespace g0at
     void parser::create_root(scanner *scan)
     {
         root = std::make_shared<ast::root>();
-        ast::token_list *tok_list = root->get_list();
+        parse_brackets(scan, root, L'\0');
+    }
+
+    void parser::parse_brackets(scanner *scan, std::shared_ptr<ast::token_with_list> dst, wchar_t open_bracket)
+    {
+        auto *tok_list = dst->get_list();
         while(true)
         {
             auto tok = scan->get_token();
             if (!tok)
-                break;
-            tok_list->add(tok);
+            {
+                assert(open_bracket == L'\0'); // TODO: exception
+                return;
+            }
+
+            ast::bracket *bracket = tok->to_bracket();
+            if (bracket)
+            {
+                if (bracket->is_closed())
+                {
+                    assert(bracket->get_inverse_symbol() == open_bracket); // TODO: exception
+                    return;
+                }
+                else
+                {
+                    auto bracket_expr = std::make_shared<ast::brackets_pair>(bracket);
+                    tok_list->add(bracket_expr);
+                    parse_brackets(scan, bracket_expr, bracket->get_symbol());
+                }
+            }
+            else
+            {
+                tok_list->add(tok);
+            }
         }
     }
+
 };

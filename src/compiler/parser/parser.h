@@ -38,6 +38,7 @@ namespace g0at
     protected:
         parser(const parser &) { }
         void operator=(const parser &) { }
+        void parse_brackets(scanner *scan, std::shared_ptr<ast::token_with_list> dst, wchar_t open_bracket);
 
         std::shared_ptr<ast::root> root;
     };

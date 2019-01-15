@@ -33,7 +33,7 @@ namespace g0at
         class brackets_pair : public token_with_list
         {
         public:
-            brackets_pair(std::shared_ptr<bracket> open_bracket);
+            brackets_pair(bracket *open_bracket);
             void accept(token_visitor *visitor) override;
             brackets_pair *to_brackets_pair() override;
 

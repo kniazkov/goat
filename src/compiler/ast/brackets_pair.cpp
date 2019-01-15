@@ -27,7 +27,7 @@ namespace g0at
 {
     namespace ast
     {
-        brackets_pair::brackets_pair(std::shared_ptr<bracket> open_bracket)
+        brackets_pair::brackets_pair(bracket *open_bracket)
         {
             assert(open_bracket->is_closed() == false);
             symbol = open_bracket->get_symbol();
