@@ -22,28 +22,27 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "token_with_list.h"
+#include "bracket.h"
+#include <memory>
+
 namespace g0at
 {
     namespace ast
     {
-        class function;
-        class identifier;
-        class bracket;
-        class static_string;
-        class semicolon;
-        class brackets_pair;
-
-        class token_visitor
+        class brackets_pair : public token_with_list
         {
         public:
-            token_visitor();
-            virtual ~token_visitor();
-            virtual void visit(function *ref) = 0;
-            virtual void visit(identifier *ref) = 0;
-            virtual void visit(bracket *ref) = 0;
-            virtual void visit(static_string *ref) = 0;
-            virtual void visit(semicolon *ref) = 0;
-            virtual void visit(brackets_pair *ref) = 0;
+            brackets_pair(std::shared_ptr<bracket> open_bracket);
+            void accept(token_visitor *visitor) override;
+            brackets_pair *to_brackets_pair() override;
+
+            wchar_t get_symbol() { return symbol; }
+            wchar_t get_inverse_symbol() { return inverse_symbol; }
+
+        protected:
+            wchar_t symbol;
+            wchar_t inverse_symbol;
         };
     };
 };

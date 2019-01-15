@@ -36,6 +36,8 @@ namespace g0at
             bracket *to_bracket() override;
 
             wchar_t get_symbol() { return symbol; }
+            wchar_t get_inverse_symbol() { return inverse_symbol; }
+            wchar_t is_closed() { return closed; }
 
         protected:
             wchar_t symbol;

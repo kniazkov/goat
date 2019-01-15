@@ -39,6 +39,7 @@ namespace g0at
         class bracket;
         class static_string;
         class semicolon;
+        class brackets_pair;
 
         class token
         {
@@ -54,6 +55,7 @@ namespace g0at
             virtual bracket *to_bracket();
             virtual static_string *to_static_string();
             virtual semicolon *to_semicolon();
+            virtual brackets_pair *to_brackets_pair();
 
             std::shared_ptr<position> pos;
             token_list *list;

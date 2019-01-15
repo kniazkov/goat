@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "identifier.h"
 #include "bracket.h"
 #include "static_string.h"
+#include "brackets_pair.h"
 
 namespace g0at
 {
@@ -85,6 +86,20 @@ namespace g0at
         {
             add_indent();
             stream << L';';
+        }
+
+        void dbg_output::visit(brackets_pair *ref)
+        {
+            add_indent();
+            stream << ref->get_symbol() << ref->get_inverse_symbol();
+            auto tok_list = ref->get_list();
+            auto tok = tok_list->first;
+            while(tok)
+            {
+                dbg_output indented(stream, indent + 1);
+                tok->accept(&indented);
+                tok = tok->next;
+            }
         }
 
         void dbg_output::add_indent()

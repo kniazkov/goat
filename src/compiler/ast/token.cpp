@@ -74,5 +74,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        brackets_pair *token::to_brackets_pair()
+        {
+            return nullptr;
+        }
     }
 };

@@ -20,30 +20,29 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
+#include "brackets_pair.h"
+#include <assert.h>
 
 namespace g0at
 {
     namespace ast
     {
-        class function;
-        class identifier;
-        class bracket;
-        class static_string;
-        class semicolon;
-        class brackets_pair;
-
-        class token_visitor
+        brackets_pair::brackets_pair(std::shared_ptr<bracket> open_bracket)
         {
-        public:
-            token_visitor();
-            virtual ~token_visitor();
-            virtual void visit(function *ref) = 0;
-            virtual void visit(identifier *ref) = 0;
-            virtual void visit(bracket *ref) = 0;
-            virtual void visit(static_string *ref) = 0;
-            virtual void visit(semicolon *ref) = 0;
-            virtual void visit(brackets_pair *ref) = 0;
-        };
+            assert(open_bracket->is_closed() == false);
+            symbol = open_bracket->get_symbol();
+            inverse_symbol = open_bracket->get_inverse_symbol();
+            pos = open_bracket->pos;
+        }
+
+        void brackets_pair::accept(token_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
+
+        brackets_pair *brackets_pair::to_brackets_pair()
+        {
+            return this;
+        }
     };
 };
