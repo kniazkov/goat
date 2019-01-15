@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "token_visitor.h"
 #include "token_list.h"
+#include "token_2nd_list.h"
 #include "../source/position.h"
 #include <memory>
 
@@ -60,9 +61,14 @@ namespace g0at
             virtual brackets_pair *to_brackets_pair();
 
             std::shared_ptr<position> pos;
+
             token_list *list;
             token *prev;
             std::shared_ptr<token> next;
+
+            token_2nd_list *list_2;
+            token *prev_2;
+            token *next_2;
         };
     };
 };
