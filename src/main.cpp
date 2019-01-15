@@ -33,10 +33,6 @@ int main(int argc, char **argv)
     g0at::parser par;
     par.create_root(&scan);
     auto root = par.get_root();
-    std::wstringstream tmp;
-    g0at::ast::dbg_output dbg(tmp);
-    root->accept(&dbg);
-    std::wcout << tmp.str();
-    std::wcout << L"\n";
+    std::wcout << g0at::ast::dbg_output::to_string(root) << L"\n";
     return 0;
 }

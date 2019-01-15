@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "dbg_output.h"
+#include "root.h"
 #include "function.h"
 #include "identifier.h"
 #include "bracket.h"
@@ -40,35 +41,61 @@ namespace g0at
         {
         }
 
+        std::wstring dbg_output::to_string(std::shared_ptr<root> obj)
+        {
+            std::wstringstream tmp;
+            dbg_output dbg(tmp);
+            obj->accept(&dbg);
+            return tmp.str();
+        }
+
         void dbg_output::visit(function *ref)
         {
+            add_indent();
+            stream << "$";
             auto tok_list = ref->get_list();
             auto tok = tok_list->first;
             while(tok)
             {
-                tok->accept(this);
+                dbg_output indented(stream, indent + 1);
+                tok->accept(&indented);
                 tok = tok->next;
             }
         }
 
         void dbg_output::visit(identifier *ref)
         {
+            add_indent();
             stream << ref->get_name();
         }
 
         void dbg_output::visit(bracket *ref)
         {
+            add_indent();
             stream << ref->get_symbol();
         }
 
         void dbg_output::visit(static_string *ref)
         {
+            add_indent();
             stream << L'\"' << ref->get_text() << L'\"';
         }
 
         void dbg_output::visit(semicolon *ref)
         {
+            add_indent();
             stream << L';';
+        }
+
+        void dbg_output::add_indent()
+        {
+            if (!indent)
+                return;
+            stream << L"\n";
+            for (int k = 0; k < indent; k++)
+            {
+                stream << "  ";
+            }
         }
     };
 };
