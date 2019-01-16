@@ -22,24 +22,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "expression.h"
-#include <string>
+#include "token.h"
 
 namespace g0at
 {
     namespace ast
     {
-        class static_string : public expression
+        class expression : public token
         {
         public:
-            static_string(std::wstring _text);
-            void accept(token_visitor *visitor) override;
-            static_string *to_static_string() override;
-
-            std::wstring get_text() { return text; }
-
-        protected:
-            std::wstring text;
+            expression *to_expression() override;
         };
     };
 };

@@ -35,6 +35,7 @@ namespace g0at
         extern int __tok_count;
 
         class nonterminal;
+        class expression;
         class token_with_list;
         class function;
         class root;
@@ -51,6 +52,7 @@ namespace g0at
             virtual ~token();
             virtual void accept(token_visitor *visitor) = 0;
             virtual nonterminal *to_nonterminal();
+            virtual expression *to_expression();
             virtual token_with_list *to_token_with_list();
             virtual function *to_function();
             virtual root *to_root();

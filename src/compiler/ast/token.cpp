@@ -44,6 +44,11 @@ namespace g0at
             return nullptr;
         }
 
+        expression *token::to_expression()
+        {
+            return nullptr;
+        }
+
         token_with_list *token::to_token_with_list()
         {
             return nullptr;
