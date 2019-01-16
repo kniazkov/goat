@@ -88,5 +88,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        function_call *token::to_function_call()
+        {
+            return nullptr;
+        }
     }
 };

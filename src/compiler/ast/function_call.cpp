@@ -20,32 +20,27 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
+#include "function_call.h"
 
 namespace g0at
 {
     namespace ast
     {
-        class function;
-        class identifier;
-        class bracket;
-        class static_string;
-        class semicolon;
-        class brackets_pair;
-        class function_call;
-
-        class token_visitor
+        function_call::function_call(identifier *_name,  brackets_pair *_args)
         {
-        public:
-            token_visitor();
-            virtual ~token_visitor();
-            virtual void visit(function *ref);
-            virtual void visit(identifier *ref);
-            virtual void visit(bracket *ref);
-            virtual void visit(static_string *ref);
-            virtual void visit(semicolon *ref);
-            virtual void visit(brackets_pair *ref);
-            virtual void visit(function_call *ref);
-        };
+            name = _name->get_name();
+            tokens.swap(_args->get_list());
+            pos = _name->pos;
+        }
+
+        void function_call::accept(token_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
+
+        function_call *function_call::to_function_call()
+        {
+            return this;
+        }
     };
 };

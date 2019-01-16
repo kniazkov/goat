@@ -57,5 +57,9 @@ namespace g0at
         void token_visitor::visit(brackets_pair *ref)
         {
         }
+
+        void token_visitor::visit(function_call *ref)
+        {
+        }
     }
 };

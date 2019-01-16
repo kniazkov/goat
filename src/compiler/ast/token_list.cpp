@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "token_list.h"
 #include "token.h"
+#include <utility>
 
 namespace g0at
 {
@@ -30,6 +31,13 @@ namespace g0at
         token_list::token_list()
             : first(nullptr), last(nullptr), count(0)
         {
+        }
+
+        void token_list::swap(token_list *other)
+        {
+            first.swap(other->first);
+            std::swap(last, other->last);
+            std::swap(count, other->count);
         }
 
         void token_list::add(std::shared_ptr<token> item)

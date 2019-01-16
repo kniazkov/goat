@@ -24,7 +24,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "token_with_list.h"
 #include "bracket.h"
-#include <memory>
 
 namespace g0at
 {

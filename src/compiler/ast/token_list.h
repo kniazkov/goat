@@ -34,6 +34,7 @@ namespace g0at
         {
         public:
             token_list();
+            void swap(token_list *other);
             void add(std::shared_ptr<token> item);
 
             std::shared_ptr<token> first;
