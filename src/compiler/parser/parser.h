@@ -30,21 +30,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    class parser
+    namespace parser
     {
-    public:
-        parser();
-        ~parser();
-        void create_root(scanner *scan);
-        std::shared_ptr<ast::root> get_root() { return root; }
+        class parser
+        {
+        public:
+            parser();
+            ~parser();
+            void create_root(scanner *scan);
+            std::shared_ptr<ast::root> get_root() { return root; }
 
-    protected:
-        parser(const parser &) { }
-        void operator=(const parser &) { }
-        static void parse_brackets_and_fill_data(scanner *scan, std::shared_ptr<ast::token_with_list> dst,
-            parser_data_filler *data_filler, wchar_t open_bracket);
+        protected:
+            parser(const parser &) { }
+            void operator=(const parser &) { }
+            static void parse_brackets_and_fill_data(scanner *scan, std::shared_ptr<ast::token_with_list> dst,
+                parser_data_filler *data_filler, wchar_t open_bracket);
 
-        std::shared_ptr<ast::root> root;
-        parser_data *data;
+            std::shared_ptr<ast::root> root;
+            parser_data *data;
+        };
     };
 };

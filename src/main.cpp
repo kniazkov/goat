@@ -31,7 +31,7 @@ void test()
 {
     g0at::source_string src(L"print(\"hello, world\");");
     g0at::scanner scan(&src);
-    g0at::parser par;
+    g0at::parser::parser par;
     par.create_root(&scan);
     auto root = par.get_root();
     std::wcout << g0at::ast::dbg_output::to_string(root) << L"\n";

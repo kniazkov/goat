@@ -25,13 +25,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    parser_data_filler::parser_data_filler(parser_data *_data)
-        : data(_data)
+    namespace parser
     {
-    }
+        parser_data_filler::parser_data_filler(parser_data *_data)
+            : data(_data)
+        {
+        }
 
-    void parser_data_filler::visit(ast::identifier *ref)
-    {
-        data->identifiers.add(ref);
-    }
+        void parser_data_filler::visit(ast::identifier *ref)
+        {
+            data->identifiers.add(ref);
+        }
+    };
 };

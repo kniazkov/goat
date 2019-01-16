@@ -26,9 +26,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    class parser_data
+    namespace parser
     {
-    public:
-        ast::token_2nd_list identifiers;
+        class parser_data
+        {
+        public:
+            ast::token_2nd_list identifiers;
+        };
     };
 };

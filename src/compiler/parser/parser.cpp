@@ -27,58 +27,60 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    parser::parser()
-        : root(nullptr), data(nullptr)
+    namespace parser
     {
-    }
-
-    parser::~parser()
-    {
-        delete data;
-    }
-
-    void parser::create_root(scanner *scan)
-    {
-        root = std::make_shared<ast::root>();
-        delete data;
-        data = new parser_data();
-        parser_data_filler data_filler(data);
-        parse_brackets_and_fill_data(scan, root, &data_filler, L'\0');
-    }
-
-    void parser::parse_brackets_and_fill_data(scanner *scan, std::shared_ptr<ast::token_with_list> dst,
-        parser_data_filler *data_filler, wchar_t open_bracket)
-    {
-        auto *tok_list = dst->get_list();
-        while(true)
+        parser::parser()
+            : root(nullptr), data(nullptr)
         {
-            auto tok = scan->get_token();
-            if (!tok)
-            {
-                assert(open_bracket == L'\0'); // TODO: exception
-                return;
-            }
+        }
 
-            ast::bracket *bracket = tok->to_bracket();
-            if (bracket)
+        parser::~parser()
+        {
+            delete data;
+        }
+
+        void parser::create_root(scanner *scan)
+        {
+            root = std::make_shared<ast::root>();
+            delete data;
+            data = new parser_data();
+            parser_data_filler data_filler(data);
+            parse_brackets_and_fill_data(scan, root, &data_filler, L'\0');
+        }
+
+        void parser::parse_brackets_and_fill_data(scanner *scan, std::shared_ptr<ast::token_with_list> dst,
+            parser_data_filler *data_filler, wchar_t open_bracket)
+        {
+            auto *tok_list = dst->get_list();
+            while(true)
             {
-                if (bracket->is_closed())
+                auto tok = scan->get_token();
+                if (!tok)
                 {
-                    assert(bracket->get_inverse_symbol() == open_bracket); // TODO: exception
+                    assert(open_bracket == L'\0'); // TODO: exception
                     return;
+                }
+
+                ast::bracket *bracket = tok->to_bracket();
+                if (bracket)
+                {
+                    if (bracket->is_closed())
+                    {
+                        assert(bracket->get_inverse_symbol() == open_bracket); // TODO: exception
+                        return;
+                    }
+                    else
+                    {
+                        auto bracket_expr = std::make_shared<ast::brackets_pair>(bracket);
+                        tok_list->add(bracket_expr);
+                        parse_brackets_and_fill_data(scan, bracket_expr, data_filler, bracket->get_symbol());
+                    }
                 }
                 else
                 {
-                    auto bracket_expr = std::make_shared<ast::brackets_pair>(bracket);
-                    tok_list->add(bracket_expr);
-                    parse_brackets_and_fill_data(scan, bracket_expr, data_filler, bracket->get_symbol());
+                    tok_list->add(tok);
                 }
             }
-            else
-            {
-                tok_list->add(tok);
-            }
         }
-    }
-
+    };
 };

@@ -27,13 +27,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    class parser_data_filler : public ast::token_visitor
+    namespace parser
     {
-    public:
-        parser_data_filler(parser_data *_data);
-        void visit(ast::identifier *ref) override;
+        class parser_data_filler : public ast::token_visitor
+        {
+        public:
+            parser_data_filler(parser_data *_data);
+            void visit(ast::identifier *ref) override;
 
-    protected:
-        parser_data *data;
+        protected:
+            parser_data *data;
+        };
     };
 };
