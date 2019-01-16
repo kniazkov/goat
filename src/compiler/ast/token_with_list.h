@@ -33,10 +33,10 @@ namespace g0at
         {
         public:
             token_with_list *to_token_with_list() override;
-            token_list *get_list() { return &tokens; }
+            token_list *get_raw_list() { return &raw; }
 
         protected:
-            token_list tokens;
+            token_list raw;
         };
     }
 };

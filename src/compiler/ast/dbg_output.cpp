@@ -55,7 +55,7 @@ namespace g0at
         {
             add_indent();
             stream << "$";
-            auto tok_list = ref->get_list();
+            auto tok_list = ref->get_raw_list();
             auto tok = tok_list->first;
             while(tok)
             {
@@ -93,7 +93,7 @@ namespace g0at
         {
             add_indent();
             stream << ref->get_symbol() << ref->get_inverse_symbol();
-            auto tok_list = ref->get_list();
+            auto tok_list = ref->get_raw_list();
             auto tok = tok_list->first;
             while(tok)
             {
@@ -107,7 +107,7 @@ namespace g0at
         {
             add_indent();
             stream << "f.call " << ref->get_name();
-            auto tok_list = ref->get_list();
+            auto tok_list = ref->get_raw_list();
             auto tok = tok_list->first;
             while(tok)
             {

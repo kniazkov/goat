@@ -51,7 +51,7 @@ namespace g0at
         void parser::parse_brackets_and_fill_data(scanner *scan, std::shared_ptr<ast::token_with_list> dst,
             parser_data_filler *data_filler, wchar_t open_bracket)
         {
-            auto *tok_list = dst->get_list();
+            auto *tok_list = dst->get_raw_list();
             while(true)
             {
                 auto tok = scan->get_token();

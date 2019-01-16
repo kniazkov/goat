@@ -29,7 +29,7 @@ namespace g0at
         function_call::function_call(identifier *_name,  brackets_pair *_args)
         {
             name = _name->get_name();
-            tokens.swap(_args->get_list());
+            raw.swap(_args->get_raw_list());
             pos = _name->pos;
         }
 
