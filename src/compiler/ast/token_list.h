@@ -36,10 +36,12 @@ namespace g0at
             token_list();
             void swap(token_list *other);
             void add(std::shared_ptr<token> item);
+            void add_after(std::shared_ptr<token> item, token *after);
+            void remove(token *item);
+            void replace(token *begin, token *end, std::shared_ptr<token> repl);
 
             std::shared_ptr<token> first;
             token *last;
-            int count;
 
         private:
             token_list(const token_list &) { }

@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "token_list.h"
 #include "token.h"
+#include "assert.h"
 #include <utility>
 
 namespace g0at
@@ -29,7 +30,7 @@ namespace g0at
     namespace ast
     {
         token_list::token_list()
-            : first(nullptr), last(nullptr), count(0)
+            : first(nullptr), last(nullptr)
         {
         }
 
@@ -37,11 +38,13 @@ namespace g0at
         {
             first.swap(other->first);
             std::swap(last, other->last);
-            std::swap(count, other->count);
         }
 
         void token_list::add(std::shared_ptr<token> item)
         {
+            if (item->list != nullptr)
+                item->list->remove(item.get());
+
             item->list = this;
             item->prev = last;
             item->next = nullptr;
@@ -51,7 +54,70 @@ namespace g0at
             else
                 first = item;
             last = item.get();
-            count++;
         }
+
+        void token_list::add_after(std::shared_ptr<token> item, token *after)
+        {
+            if (item->list != nullptr)
+                item->list->remove(item.get());
+
+            item->prev = after;
+            item->next = after->next;
+            item->list = this;
+
+            if (!after->next)
+                last = item.get();
+            else
+                after->next->prev = item.get();
+            after->next = item;
+        }
+
+        void token_list::remove(token *item)
+        {
+            assert (item->list == this);
+
+            if (item->prev)
+                item->prev->next = item->next;
+            else 
+                first = item->next;
+
+            if (item->next)
+                item->next->prev = item->prev;
+            else
+                last = item->prev;
+        }
+
+        void token_list::replace(token *begin, token *end, std::shared_ptr<token> repl)
+        {
+            assert (begin->list == this && end->list == this);
+
+            if (repl->list != nullptr)
+                repl->list->remove(repl.get());
+            repl->list = this;
+
+            if (begin->prev)
+            {
+                begin->prev->next = repl;
+                repl->prev = begin->prev;
+            }
+            else
+            {
+                first = repl;
+                repl->prev = nullptr;
+            }
+
+            if (end->next)
+            {
+                end->next->prev = repl.get();
+                repl->next = end->next;
+                end->next.reset();
+            }
+            else
+            {
+                last = repl.get();
+                repl->next = nullptr;
+            }
+        }
+        
     };
 };

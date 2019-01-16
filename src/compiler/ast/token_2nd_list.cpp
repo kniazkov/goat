@@ -22,18 +22,22 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "token_2nd_list.h"
 #include "token.h"
+#include <assert.h>
 
 namespace g0at
 {
     namespace ast
     {
         token_2nd_list::token_2nd_list()
-            : first(nullptr), last(nullptr), count(0)
+            : first(nullptr), last(nullptr)
         {
         }
 
         void token_2nd_list::add(token *item)
         {
+            if (item->list != nullptr)
+                item->list->remove(item);
+
             item->list_2 = this;
             item->prev_2 = last;
             item->next_2 = nullptr;
@@ -43,7 +47,21 @@ namespace g0at
             else
                 first = item;
             last = item;
-            count++;
+        }
+
+        void token_2nd_list::remove(token *item)
+        {
+            assert(item->list_2 == this);
+
+            if (item->prev_2)
+                item->prev_2->next_2 = item->next_2;
+            else 
+                first = item->next_2;
+
+            if (item->next_2)
+                item->next_2->prev_2 = item->prev_2;
+            else
+                last = item->prev_2;
         }
     };
 };

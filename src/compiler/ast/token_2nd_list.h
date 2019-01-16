@@ -35,10 +35,10 @@ namespace g0at
         public:
             token_2nd_list();
             void add(token *item);
+            void remove(token *item);
 
             token *first;
             token *last;
-            int count;
 
         private:
             token_2nd_list(const token_2nd_list &) { }
