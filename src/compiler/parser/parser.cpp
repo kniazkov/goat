@@ -28,17 +28,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace g0at
 {
     parser::parser()
-        : root(nullptr)
+        : root(nullptr), data(nullptr)
     {
+    }
+
+    parser::~parser()
+    {
+        delete data;
     }
 
     void parser::create_root(scanner *scan)
     {
         root = std::make_shared<ast::root>();
-        parse_brackets(scan, root, L'\0');
+        delete data;
+        data = new parser_data();
+        parser_data_filler data_filler(data);
+        parse_brackets_and_fill_data(scan, root, &data_filler, L'\0');
     }
 
-    void parser::parse_brackets(scanner *scan, std::shared_ptr<ast::token_with_list> dst, wchar_t open_bracket)
+    void parser::parse_brackets_and_fill_data(scanner *scan, std::shared_ptr<ast::token_with_list> dst,
+        parser_data_filler *data_filler, wchar_t open_bracket)
     {
         auto *tok_list = dst->get_list();
         while(true)
@@ -62,7 +71,7 @@ namespace g0at
                 {
                     auto bracket_expr = std::make_shared<ast::brackets_pair>(bracket);
                     tok_list->add(bracket_expr);
-                    parse_brackets(scan, bracket_expr, bracket->get_symbol());
+                    parse_brackets_and_fill_data(scan, bracket_expr, data_filler, bracket->get_symbol());
                 }
             }
             else

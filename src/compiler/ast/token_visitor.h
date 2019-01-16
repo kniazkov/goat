@@ -38,12 +38,12 @@ namespace g0at
         public:
             token_visitor();
             virtual ~token_visitor();
-            virtual void visit(function *ref) = 0;
-            virtual void visit(identifier *ref) = 0;
-            virtual void visit(bracket *ref) = 0;
-            virtual void visit(static_string *ref) = 0;
-            virtual void visit(semicolon *ref) = 0;
-            virtual void visit(brackets_pair *ref) = 0;
+            virtual void visit(function *ref);
+            virtual void visit(identifier *ref);
+            virtual void visit(bracket *ref);
+            virtual void visit(static_string *ref);
+            virtual void visit(semicolon *ref);
+            virtual void visit(brackets_pair *ref);
         };
     };
 };

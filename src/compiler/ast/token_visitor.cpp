@@ -33,5 +33,29 @@ namespace g0at
         token_visitor::~token_visitor()
         {
         }
+
+        void token_visitor::visit(function *ref)
+        {
+        }
+
+        void token_visitor::visit(identifier *ref)
+        {
+        }
+
+        void token_visitor::visit(bracket *ref)
+        {
+        }
+
+        void token_visitor::visit(static_string *ref)
+        {
+        }
+
+        void token_visitor::visit(semicolon *ref)
+        {
+        }
+
+        void token_visitor::visit(brackets_pair *ref)
+        {
+        }
     }
 };
