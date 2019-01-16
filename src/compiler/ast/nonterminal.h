@@ -28,7 +28,7 @@ namespace g0at
 {
     namespace ast
     {
-        class nonterminal : public token
+        class nonterminal : public virtual token
         {
         public:
             nonterminal *to_nonterminal() override;

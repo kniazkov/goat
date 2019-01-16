@@ -28,7 +28,7 @@ namespace g0at
 {
     namespace ast
     {
-        class expression : public token
+        class expression : public virtual token
         {
         public:
             expression *to_expression() override;
