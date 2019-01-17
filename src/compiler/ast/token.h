@@ -52,6 +52,10 @@ namespace g0at
             token();
             virtual ~token();
             virtual void accept(token_visitor *visitor) = 0;
+            void replace(std::shared_ptr<token> repl);
+            void replace(token *end, std::shared_ptr<token> repl);
+            void remove();
+            void remove_2nd();
             virtual nonterminal *to_nonterminal();
             virtual expression *to_expression();
             virtual token_with_list *to_token_with_list();

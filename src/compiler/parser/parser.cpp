@@ -87,6 +87,7 @@ namespace g0at
                 else
                 {
                     tok_list->add(tok);
+                    tok->accept(data_filler);
                 }
             }
         }

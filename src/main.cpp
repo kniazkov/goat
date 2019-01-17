@@ -33,6 +33,7 @@ void test()
     g0at::scanner scan(&src);
     g0at::parser::parser par;
     par.create_root(&scan);
+    par.parse();
     auto root = par.get_root();
     std::wcout << g0at::ast::dbg_output::to_string(root) << L"\n";
 }

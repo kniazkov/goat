@@ -95,17 +95,6 @@ namespace g0at
                 repl->list->remove(repl.get());
             repl->list = this;
 
-            if (begin->prev)
-            {
-                begin->prev->next = repl;
-                repl->prev = begin->prev;
-            }
-            else
-            {
-                first = repl;
-                repl->prev = nullptr;
-            }
-
             if (end->next)
             {
                 end->next->prev = repl.get();
@@ -116,6 +105,17 @@ namespace g0at
             {
                 last = repl.get();
                 repl->next = nullptr;
+            }
+
+            if (begin->prev)
+            {
+                begin->prev->next = repl;
+                repl->prev = begin->prev;
+            }
+            else
+            {
+                first = repl;
+                repl->prev = nullptr;
             }
         }
         

@@ -35,8 +35,8 @@ namespace g0at
 
         void token_2nd_list::add(token *item)
         {
-            if (item->list != nullptr)
-                item->list->remove(item);
+            if (item->list_2 != nullptr)
+                item->list_2->remove(item);
 
             item->list_2 = this;
             item->prev_2 = last;

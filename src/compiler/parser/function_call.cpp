@@ -22,6 +22,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "pattern.h"
 #include "grammar_factory.h"
+#include "../ast/identifier.h"
+#include "../ast/brackets_pair.h"
+#include "../ast/function_call.h"
+#include <assert.h>
 
 namespace g0at
 {
@@ -31,13 +35,26 @@ namespace g0at
         {
         public:
             function_call(parser_data *_data)
-                : pattern(&data->identifiers, data)
+                : pattern(&_data->identifiers, _data)
             {
             }
 
         protected:
             int check(ast::token *tok) override
             {
+                ast::identifier *name = tok->to_identifier();
+                assert(name != nullptr);
+                
+                if (!name->next)
+                    return 0;
+
+                ast::brackets_pair *args = name->next->to_brackets_pair();
+                if (args == nullptr || args->get_symbol() != '(')
+                    return 0;
+
+                std::shared_ptr<ast::token> fcall  = std::make_shared<ast::function_call>(name, args);
+                name->replace(args, fcall);
+                tok->remove_2nd();
                 return 0;
             }
         };

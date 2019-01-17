@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "pattern.h"
 #include "../ast/token.h"
+#include <assert.h>
 
 namespace g0at
 {
@@ -38,6 +39,9 @@ namespace g0at
 
         int pattern::pass()
         {
+            assert(list != nullptr);
+            assert(data != nullptr);
+
             int count = 0;
             ast::token *tok = list->first;
             while(tok)

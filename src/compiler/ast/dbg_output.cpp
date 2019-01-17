@@ -55,14 +55,7 @@ namespace g0at
         {
             add_indent();
             stream << "$";
-            auto tok_list = ref->get_raw_list();
-            auto tok = tok_list->first;
-            while(tok)
-            {
-                dbg_output indented(stream, indent + 1);
-                tok->accept(&indented);
-                tok = tok->next;
-            }
+            print_token_list(ref->get_raw_list());
         }
 
         void dbg_output::visit(identifier *ref)
@@ -93,28 +86,14 @@ namespace g0at
         {
             add_indent();
             stream << ref->get_symbol() << ref->get_inverse_symbol();
-            auto tok_list = ref->get_raw_list();
-            auto tok = tok_list->first;
-            while(tok)
-            {
-                dbg_output indented(stream, indent + 1);
-                tok->accept(&indented);
-                tok = tok->next;
-            }
+            print_token_list(ref->get_raw_list());
         }
 
         void dbg_output::visit(function_call *ref)
         {
             add_indent();
-            stream << "f.call " << ref->get_name();
-            auto tok_list = ref->get_raw_list();
-            auto tok = tok_list->first;
-            while(tok)
-            {
-                dbg_output indented(stream, indent + 1);
-                tok->accept(&indented);
-                tok = tok->next;
-            }
+            stream << "call " << ref->get_name();
+            print_token_list(ref->get_raw_list());
         }
 
         void dbg_output::add_indent()
@@ -125,6 +104,17 @@ namespace g0at
             for (int k = 0; k < indent; k++)
             {
                 stream << "  ";
+            }
+        }
+
+        void dbg_output::print_token_list(token_list *list)
+        {
+            auto tok = list->first;
+            while(tok)
+            {
+                dbg_output indented(stream, indent + 1);
+                tok->accept(&indented);
+                tok = tok->next;
             }
         }
     };

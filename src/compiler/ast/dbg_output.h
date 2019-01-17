@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "token_visitor.h"
+#include "token_list.h"
 #include <sstream>
 #include <string>
 #include <memory>
@@ -49,6 +50,7 @@ namespace g0at
 
         protected:
             void add_indent();
+            void print_token_list(token_list *list);
 
             std::wstringstream &stream;
             int indent;

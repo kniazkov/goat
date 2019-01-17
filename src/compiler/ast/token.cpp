@@ -21,6 +21,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "token.h"
+#include <assert.h>
+//#include <iostream>
 
 namespace g0at
 {
@@ -32,11 +34,37 @@ namespace g0at
             : list(nullptr), prev(nullptr), next(nullptr)
         {
             __tok_count++;
+            //std::cout << "*";
         }
 
         token::~token()
         {
             __tok_count--;
+            //std::cout << "#";
+        }
+
+        void token::replace(std::shared_ptr<token> repl)
+        {
+            assert(list != nullptr);
+            list->replace(this, this, repl);
+        }
+
+        void token::replace(token *end, std::shared_ptr<token> repl)
+        {
+            assert(list != nullptr);
+            list->replace(this, end, repl);
+        }
+
+        void token::remove()
+        {
+            assert(list != nullptr);
+            list->remove(this);
+        }
+
+        void token::remove_2nd()
+        {
+            assert(list_2 != nullptr);
+            list_2->remove(this);
         }
 
         nonterminal *token::to_nonterminal()
