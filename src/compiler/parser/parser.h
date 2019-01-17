@@ -38,6 +38,7 @@ namespace g0at
             parser();
             ~parser();
             void create_root(scanner *scan);
+            void parse();
             std::shared_ptr<ast::root> get_root() { return root; }
 
         protected:

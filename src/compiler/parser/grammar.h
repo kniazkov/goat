@@ -22,25 +22,22 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "../ast/token_2nd_list.h"
-#include "parser_data.h"
+#include "pattern.h"
+#include <memory>
+#include <vector>
 
 namespace g0at
 {
     namespace parser
     {
-        class pattern
+        class grammar
         {
+        friend class grammar_factory;
         public:
-            pattern(ast::token_2nd_list *_list, parser_data *_data);
-            virtual ~pattern();
-            virtual int pass();
+            void apply();
         
         protected:
-            virtual int check(ast::token *tok) = 0;
-            
-            ast::token_2nd_list *list;
-            parser_data *data;
+            std::vector<std::shared_ptr<pattern>> vector;
         };
     };
 };

@@ -36,7 +36,7 @@ namespace g0at
         {
         }
 
-        int pattern::iteration()
+        int pattern::pass()
         {
             int count = 0;
             ast::token *tok = list->first;

@@ -20,27 +20,31 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "../ast/token_2nd_list.h"
-#include "parser_data.h"
+#include "pattern.h"
+#include "grammar_factory.h"
 
 namespace g0at
 {
     namespace parser
     {
-        class pattern
+        class function_call : public pattern
         {
         public:
-            pattern(ast::token_2nd_list *_list, parser_data *_data);
-            virtual ~pattern();
-            virtual int pass();
-        
+            function_call(parser_data *_data)
+                : pattern(&data->identifiers, data)
+            {
+            }
+
         protected:
-            virtual int check(ast::token *tok) = 0;
-            
-            ast::token_2nd_list *list;
-            parser_data *data;
+            int check(ast::token *tok) override
+            {
+                return 0;
+            }
         };
+
+        std::shared_ptr<pattern> grammar_factory::create_pattern_function_call()
+        {
+            return std::make_shared<function_call>(data);
+        }
     };
 };

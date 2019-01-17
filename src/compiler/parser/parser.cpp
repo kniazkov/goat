@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "parser.h"
+#include "grammar_factory.h"
 #include "../ast/bracket.h"
 #include "../ast/brackets_pair.h"
 #include <assert.h>
@@ -46,6 +47,13 @@ namespace g0at
             data = new parser_data();
             parser_data_filler data_filler(data);
             parse_brackets_and_fill_data(scan, root, &data_filler, L'\0');
+        }
+
+        void parser::parse()
+        {
+            assert(data != nullptr);
+            std::shared_ptr<grammar> gr = grammar_factory(data).create_grammar();
+            gr->apply();
         }
 
         void parser::parse_brackets_and_fill_data(scanner *scan, std::shared_ptr<ast::token_with_list> dst,
