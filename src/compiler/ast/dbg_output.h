@@ -47,6 +47,7 @@ namespace g0at
             void visit(semicolon *ref) override;
             void visit(brackets_pair *ref) override;
             void visit(function_call *ref) override;
+            void visit(statement_expression *ref) override;
 
         protected:
             void add_indent();

@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "static_string.h"
 #include "brackets_pair.h"
 #include "function_call.h"
+#include "statement_expression.h"
 
 namespace g0at
 {
@@ -96,6 +97,14 @@ namespace g0at
             print_token_list(ref->get_raw_list());
         }
 
+        void dbg_output::visit(statement_expression *ref)
+        {
+            add_indent();
+            stream << "stmt";
+            dbg_output indented(stream, indent + 1);
+            ref->get_expression()->accept(&indented);
+        }
+
         void dbg_output::add_indent()
         {
             if (!indent)
@@ -110,9 +119,9 @@ namespace g0at
         void dbg_output::print_token_list(token_list *list)
         {
             auto tok = list->first;
+            dbg_output indented(stream, indent + 1);
             while(tok)
             {
-                dbg_output indented(stream, indent + 1);
                 tok->accept(&indented);
                 tok = tok->next;
             }

@@ -77,6 +77,11 @@ namespace g0at
             return nullptr;
         }
 
+        statement *token::to_statement()
+        {
+            return nullptr;
+        }
+
         token_with_list *token::to_token_with_list()
         {
             return nullptr;
@@ -118,6 +123,11 @@ namespace g0at
         }
 
         function_call *token::to_function_call()
+        {
+            return nullptr;
+        }
+
+        statement_expression *token::to_statement_expression()
         {
             return nullptr;
         }

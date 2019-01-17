@@ -20,50 +20,28 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "token_visitor.h"
+#pragma once
+
+#include "statement.h"
+#include "nonterminal.h"
+#include "expression.h"
+#include <memory>
 
 namespace g0at
 {
     namespace ast
     {
-        token_visitor::token_visitor()
+        class statement_expression : public statement, public nonterminal
         {
-        }
+        public:
+            statement_expression(std::shared_ptr<expression> _expr);
+            void accept(token_visitor *visitor) override;
+            statement_expression *to_statement_expression() override;
 
-        token_visitor::~token_visitor()
-        {
-        }
+            std::shared_ptr<expression> get_expression() { return expr; }
 
-        void token_visitor::visit(function *ref)
-        {
-        }
-
-        void token_visitor::visit(identifier *ref)
-        {
-        }
-
-        void token_visitor::visit(bracket *ref)
-        {
-        }
-
-        void token_visitor::visit(static_string *ref)
-        {
-        }
-
-        void token_visitor::visit(semicolon *ref)
-        {
-        }
-
-        void token_visitor::visit(brackets_pair *ref)
-        {
-        }
-
-        void token_visitor::visit(function_call *ref)
-        {
-        }
-
-        void token_visitor::visit(statement_expression *ref)
-        {
-        }
-    }
+        protected:
+            std::shared_ptr<expression> expr;
+        };
+    };
 };

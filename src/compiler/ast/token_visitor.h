@@ -33,6 +33,7 @@ namespace g0at
         class semicolon;
         class brackets_pair;
         class function_call;
+        class statement_expression;
 
         class token_visitor
         {
@@ -46,6 +47,7 @@ namespace g0at
             virtual void visit(semicolon *ref);
             virtual void visit(brackets_pair *ref);
             virtual void visit(function_call *ref);
+            virtual void visit(statement_expression *ref);
         };
     };
 };

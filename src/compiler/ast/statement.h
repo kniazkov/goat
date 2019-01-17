@@ -20,50 +20,18 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "token_visitor.h"
+#pragma once
+
+#include "token.h"
 
 namespace g0at
 {
     namespace ast
     {
-        token_visitor::token_visitor()
+        class statement : public virtual token
         {
-        }
-
-        token_visitor::~token_visitor()
-        {
-        }
-
-        void token_visitor::visit(function *ref)
-        {
-        }
-
-        void token_visitor::visit(identifier *ref)
-        {
-        }
-
-        void token_visitor::visit(bracket *ref)
-        {
-        }
-
-        void token_visitor::visit(static_string *ref)
-        {
-        }
-
-        void token_visitor::visit(semicolon *ref)
-        {
-        }
-
-        void token_visitor::visit(brackets_pair *ref)
-        {
-        }
-
-        void token_visitor::visit(function_call *ref)
-        {
-        }
-
-        void token_visitor::visit(statement_expression *ref)
-        {
-        }
-    }
+        public:
+            statement *to_statement() override;
+        };
+    };
 };

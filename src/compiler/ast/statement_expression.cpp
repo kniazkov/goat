@@ -20,50 +20,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "token_visitor.h"
+#include "statement_expression.h"
 
 namespace g0at
 {
     namespace ast
     {
-        token_visitor::token_visitor()
+        statement_expression::statement_expression(std::shared_ptr<expression> _expr)
+            : expr(_expr)
         {
+            pos = expr->pos;
         }
 
-        token_visitor::~token_visitor()
+        void statement_expression::accept(token_visitor *visitor)
         {
+            visitor->visit(this);
         }
 
-        void token_visitor::visit(function *ref)
+        statement_expression *statement_expression::to_statement_expression()
         {
+            return this;
         }
-
-        void token_visitor::visit(identifier *ref)
-        {
-        }
-
-        void token_visitor::visit(bracket *ref)
-        {
-        }
-
-        void token_visitor::visit(static_string *ref)
-        {
-        }
-
-        void token_visitor::visit(semicolon *ref)
-        {
-        }
-
-        void token_visitor::visit(brackets_pair *ref)
-        {
-        }
-
-        void token_visitor::visit(function_call *ref)
-        {
-        }
-
-        void token_visitor::visit(statement_expression *ref)
-        {
-        }
-    }
+    };
 };
