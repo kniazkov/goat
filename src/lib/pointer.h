@@ -41,7 +41,7 @@ namespace g0at
                     obj->refs++;
             }
 
-            pointer(pointer &_ptr)
+            pointer(const pointer &_ptr)
             {
                 obj = _ptr.obj;
                 if (obj)
