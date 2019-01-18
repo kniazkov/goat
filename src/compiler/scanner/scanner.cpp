@@ -25,7 +25,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "../ast/bracket.h"
 #include "../ast/static_string.h"
 #include "../ast/semicolon.h"
-#include <memory>
 #include <sstream>
 
 namespace g0at
@@ -50,7 +49,7 @@ namespace g0at
         return c >= L'0' && c <= L'9';
     }
 
-    std::shared_ptr<ast::token> scanner::get_token()
+    lib::pointer<ast::token> scanner::get_token()
     {
         wchar_t c = src->get_char();
 
@@ -60,13 +59,13 @@ namespace g0at
         }
 
         lib::pointer<position> pos = src->get_position();
-        std::shared_ptr<ast::token> tok = create_token();
+        lib::pointer<ast::token> tok = create_token();
         if (tok)
             tok->pos = pos;
         return tok;
     }
 
-    std::shared_ptr<ast::token> scanner::create_token()
+    lib::pointer<ast::token> scanner::create_token()
     {
         wchar_t c = src->get_char();
 
@@ -79,7 +78,7 @@ namespace g0at
                 c = src->next();
             } while(is_letter(c) || is_digit(c));
             
-            return std::make_shared<ast::identifier>(wss.str());
+            return new ast::identifier(wss.str());
         }
 
         if (c == L'"')
@@ -92,50 +91,50 @@ namespace g0at
                 c = src->next();
             }
             src->next();
-            return std::make_shared<ast::static_string>(wss.str());
+            return new ast::static_string(wss.str());
         }
         
         if (c == L'(')
         {
             src->next();
-            return std::make_shared<ast::bracket>(L'(', L')', false);
+            return new ast::bracket(L'(', L')', false);
         }
 
         if (c == L'{')
         {
             src->next();
-            return std::make_shared<ast::bracket>(L'{', L'}', false);
+            return new ast::bracket(L'{', L'}', false);
         }
 
         if (c == L'[')
         {
             src->next();
-            return std::make_shared<ast::bracket>(L'[', L']', false);
+            return new ast::bracket(L'[', L']', false);
         }
 
         
         if (c == L')')
         {
             src->next();
-            return std::make_shared<ast::bracket>(L')', L'(', true);
+            return new ast::bracket(L')', L'(', true);
         }
 
         if (c == L'}')
         {
             src->next();
-            return std::make_shared<ast::bracket>(L'}', L'{', true);
+            return new ast::bracket(L'}', L'{', true);
         }
 
         if (c == L']')
         {
             src->next();
-            return std::make_shared<ast::bracket>(L']', L'[', true);
+            return new ast::bracket(L']', L'[', true);
         }
 
         if (c == L';')
         {
             src->next();
-            return std::make_shared<ast::semicolon>();
+            return new ast::semicolon();
         }
 
         return nullptr;

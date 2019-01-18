@@ -25,7 +25,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement.h"
 #include "nonterminal.h"
 #include "expression.h"
-#include <memory>
 
 namespace g0at
 {
@@ -34,14 +33,14 @@ namespace g0at
         class statement_expression : public statement, public nonterminal
         {
         public:
-            statement_expression(std::shared_ptr<expression> _expr);
+            statement_expression(lib::pointer<expression> _expr);
             void accept(token_visitor *visitor) override;
             statement_expression *to_statement_expression() override;
 
-            std::shared_ptr<expression> get_expression() { return expr; }
+            lib::pointer<expression> get_expression() { return expr; }
 
         protected:
-            std::shared_ptr<expression> expr;
+            lib::pointer<expression> expr;
         };
     };
 };

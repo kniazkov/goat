@@ -31,9 +31,9 @@ namespace g0at
         {
         }
 
-        std::shared_ptr<grammar> grammar_factory::create_grammar()
+        lib::pointer<grammar> grammar_factory::create_grammar()
         {
-            std::shared_ptr<grammar> gr = std::make_shared<grammar>();
+            grammar *gr = new grammar();
             gr->vector.push_back(create_pattern_function_call());
             return gr;
         }

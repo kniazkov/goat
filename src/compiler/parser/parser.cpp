@@ -42,21 +42,21 @@ namespace g0at
 
         void parser::create_root(scanner *scan)
         {
-            root = std::make_shared<ast::root>();
+            root = new ast::root();
             delete data;
             data = new parser_data();
             parser_data_filler data_filler(data);
-            parse_brackets_and_fill_data(scan, root, &data_filler, L'\0');
+            parse_brackets_and_fill_data(scan, root.cast<ast::token_with_list>(), &data_filler, L'\0');
         }
 
         void parser::parse()
         {
             assert(data != nullptr);
-            std::shared_ptr<grammar> gr = grammar_factory(data).create_grammar();
+            lib::pointer<grammar> gr = grammar_factory(data).create_grammar();
             gr->apply();
         }
 
-        void parser::parse_brackets_and_fill_data(scanner *scan, std::shared_ptr<ast::token_with_list> dst,
+        void parser::parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
             parser_data_filler *data_filler, wchar_t open_bracket)
         {
             auto *tok_list = dst->get_raw_list();
@@ -79,9 +79,9 @@ namespace g0at
                     }
                     else
                     {
-                        auto bracket_expr = std::make_shared<ast::brackets_pair>(bracket);
-                        tok_list->add(bracket_expr);
-                        parse_brackets_and_fill_data(scan, bracket_expr, data_filler, bracket->get_symbol());
+                        lib::pointer<ast::brackets_pair> bracket_expr = new ast::brackets_pair(bracket);
+                        tok_list->add(bracket_expr.cast<ast::token>());
+                        parse_brackets_and_fill_data(scan, bracket_expr.cast<ast::token_with_list>(), data_filler, bracket->get_symbol());
                     }
                 }
                 else

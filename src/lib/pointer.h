@@ -63,20 +63,28 @@ namespace g0at
 
             pointer &operator=(T *_obj)
             {
-                if (obj && !(--obj->refs))
-                    delete obj;
-                obj = _obj;
-                if (obj)
-                    obj->refs++;
+                if (obj != _obj)
+                {
+                    if (obj && !(--obj->refs))
+                        delete obj;
+                    obj = _obj;
+                    if (obj)
+                        obj->refs++;
+                }
+                return *this;
             }
 
             pointer &operator=(pointer &_ptr)
             {
-                if (obj && !(--obj->refs))
-                    delete obj;
-                obj = _ptr.obj;
-                if (obj)
-                    obj->refs++;
+                if (obj != _ptr.obj)
+                {
+                    if (obj && !(--obj->refs))
+                        delete obj;
+                    obj = _ptr.obj;
+                    if (obj)
+                        obj->refs++;
+                }
+                return *this;
             }
 
             T *get()
@@ -84,9 +92,53 @@ namespace g0at
                 return obj;
             }
 
+            void reset()
+            {
+                if (obj && !(--obj->refs))
+                    delete obj;
+                obj = nullptr;
+            }
+
+            void swap(pointer &_ptr)
+            {
+                T *tmp = obj;
+                obj = _ptr.obj;
+                _ptr.obj = tmp;
+            }
+
             T *operator->()
             {
                 return obj;
+            }
+
+            operator bool()
+            {
+                return obj != nullptr;
+            }
+
+            bool operator==(T *_obj)
+            {
+                return obj == _obj;
+            }
+
+            bool operator!=(T *_obj)
+            {
+                return obj != _obj;
+            }
+
+            bool operator==(pointer &_ptr)
+            {
+                return obj == _ptr.obj;
+            }
+
+            bool operator!=(pointer &_ptr)
+            {
+                return obj != _ptr.obj;
+            }
+
+            template <typename C> pointer<C> cast()
+            {
+                return pointer<C>(static_cast<C*>(obj));
             }
 
         protected:

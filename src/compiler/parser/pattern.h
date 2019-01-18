@@ -35,6 +35,8 @@ namespace g0at
             pattern(ast::token_2nd_list *_list, parser_data *_data);
             virtual ~pattern();
             virtual int pass();
+
+            int refs;
         
         protected:
             virtual int check(ast::token *tok) = 0;

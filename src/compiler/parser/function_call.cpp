@@ -52,16 +52,16 @@ namespace g0at
                 if (args == nullptr || args->get_symbol() != '(')
                     return 0;
 
-                std::shared_ptr<ast::token> fcall  = std::make_shared<ast::function_call>(name, args);
+                lib::pointer<ast::token> fcall  = new ast::function_call(name, args);
                 name->replace(args, fcall);
                 tok->remove_2nd();
                 return 0;
             }
         };
 
-        std::shared_ptr<pattern> grammar_factory::create_pattern_function_call()
+        lib::pointer<pattern> grammar_factory::create_pattern_function_call()
         {
-            return std::make_shared<function_call>(data);
+            return new function_call(data);
         }
     };
 };

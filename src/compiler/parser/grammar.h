@@ -23,7 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "pattern.h"
-#include <memory>
+#include "../../lib/pointer.h"
 #include <vector>
 
 namespace g0at
@@ -34,10 +34,13 @@ namespace g0at
         {
         friend class grammar_factory;
         public:
+            grammar();
             void apply();
+
+            int refs;
         
         protected:
-            std::vector<std::shared_ptr<pattern>> vector;
+            std::vector<lib::pointer<pattern>> vector;
         };
     };
 };

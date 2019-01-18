@@ -32,10 +32,10 @@ namespace g0at
         {
         public:
             grammar_factory(parser_data *_data);
-            std::shared_ptr<grammar> create_grammar();
+            lib::pointer<grammar> create_grammar();
         
         protected:
-            std::shared_ptr<pattern> create_pattern_function_call();
+            lib::pointer<pattern> create_pattern_function_call();
 
             parser_data *data;
         };

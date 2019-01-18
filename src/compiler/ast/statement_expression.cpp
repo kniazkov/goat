@@ -26,7 +26,7 @@ namespace g0at
 {
     namespace ast
     {
-        statement_expression::statement_expression(std::shared_ptr<expression> _expr)
+        statement_expression::statement_expression(lib::pointer<expression> _expr)
             : expr(_expr)
         {
             pos = expr->pos;

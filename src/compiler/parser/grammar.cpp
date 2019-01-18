@@ -26,9 +26,14 @@ namespace g0at
 {
     namespace parser
     {
+        grammar::grammar()
+            : refs(0)
+        {
+        }
+
         void grammar::apply()
         {
-            for (std::shared_ptr<pattern> p : vector)
+            for (lib::pointer<pattern> p : vector)
             {
                 int i;
                 do

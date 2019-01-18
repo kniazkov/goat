@@ -24,7 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../ast/token.h"
 #include "../source/source.h"
-#include <memory>
+#include "../../lib/pointer.h"
 
 namespace g0at
 {
@@ -32,12 +32,12 @@ namespace g0at
     {
     public:
         scanner(source *_src);
-        std::shared_ptr<ast::token> get_token();
+        lib::pointer<ast::token> get_token();
 
     protected:
         scanner(const scanner &) { }
         void operator=(const scanner &) { }
-        std::shared_ptr<ast::token> create_token();
+        lib::pointer<ast::token> create_token();
 
         source *src;
     };

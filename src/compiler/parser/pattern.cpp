@@ -29,7 +29,7 @@ namespace g0at
     namespace parser
     {
         pattern::pattern(ast::token_2nd_list *_list, parser_data *_data)
-            : list(_list), data(_data)
+            : refs(0), list(_list), data(_data)
         {
         }
 

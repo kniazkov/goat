@@ -31,7 +31,8 @@ namespace g0at
         int __tok_count;
 
         token::token()
-            : list(nullptr), prev(nullptr), next(nullptr)
+            : refs(0), pos(nullptr), 
+            list(nullptr), prev(nullptr), next(nullptr), list_2(nullptr), prev_2(nullptr), next_2(nullptr)
         {
             __tok_count++;
             //std::cout << "*";
@@ -43,13 +44,13 @@ namespace g0at
             //std::cout << "#";
         }
 
-        void token::replace(std::shared_ptr<token> repl)
+        void token::replace(lib::pointer<token> repl)
         {
             assert(list != nullptr);
             list->replace(this, this, repl);
         }
 
-        void token::replace(token *end, std::shared_ptr<token> repl)
+        void token::replace(token *end, lib::pointer<token> repl)
         {
             assert(list != nullptr);
             list->replace(this, end, repl);

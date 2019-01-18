@@ -54,8 +54,8 @@ namespace g0at
             token();
             virtual ~token();
             virtual void accept(token_visitor *visitor) = 0;
-            void replace(std::shared_ptr<token> repl);
-            void replace(token *end, std::shared_ptr<token> repl);
+            void replace(lib::pointer<token> repl);
+            void replace(token *end, lib::pointer<token> repl);
             void remove();
             void remove_2nd();
             virtual nonterminal *to_nonterminal();
@@ -72,11 +72,12 @@ namespace g0at
             virtual function_call *to_function_call();
             virtual statement_expression *to_statement_expression();
 
+            int refs;
             lib::pointer<position> pos;
 
             token_list *list;
             token *prev;
-            std::shared_ptr<token> next;
+            lib::pointer<token> next;
 
             token_2nd_list *list_2;
             token *prev_2;

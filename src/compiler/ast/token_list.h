@@ -22,7 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <memory>
+#include "../../lib/pointer.h"
 
 namespace g0at
 {
@@ -35,12 +35,12 @@ namespace g0at
         public:
             token_list();
             void swap(token_list *other);
-            void add(std::shared_ptr<token> item);
-            void add_after(std::shared_ptr<token> item, token *after);
+            void add(lib::pointer<token> item);
+            void add_after(lib::pointer<token> item, token *after);
             void remove(token *item);
-            void replace(token *begin, token *end, std::shared_ptr<token> repl);
+            void replace(token *begin, token *end, lib::pointer<token> repl);
 
-            std::shared_ptr<token> first;
+            lib::pointer<token> first;
             token *last;
 
         private:

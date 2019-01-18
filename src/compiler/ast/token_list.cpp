@@ -40,7 +40,7 @@ namespace g0at
             std::swap(last, other->last);
         }
 
-        void token_list::add(std::shared_ptr<token> item)
+        void token_list::add(lib::pointer<token> item)
         {
             if (item->list != nullptr)
                 item->list->remove(item.get());
@@ -56,7 +56,7 @@ namespace g0at
             last = item.get();
         }
 
-        void token_list::add_after(std::shared_ptr<token> item, token *after)
+        void token_list::add_after(lib::pointer<token> item, token *after)
         {
             if (item->list != nullptr)
                 item->list->remove(item.get());
@@ -87,7 +87,7 @@ namespace g0at
                 last = item->prev;
         }
 
-        void token_list::replace(token *begin, token *end, std::shared_ptr<token> repl)
+        void token_list::replace(token *begin, token *end, lib::pointer<token> repl)
         {
             assert (begin->list == this && end->list == this);
 
