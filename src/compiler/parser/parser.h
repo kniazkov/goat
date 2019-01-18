@@ -37,6 +37,7 @@ namespace g0at
         public:
             parser();
             ~parser();
+            static lib::pointer<ast::root> parse(scanner *scan);
             void create_root(scanner *scan);
             void parse();
             lib::pointer<ast::root> get_root() { return root; }

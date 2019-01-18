@@ -40,6 +40,14 @@ namespace g0at
             delete data;
         }
 
+        lib::pointer<ast::root> parser::parse(scanner *scan)
+        {
+            parser pobj;
+            pobj.create_root(scan);
+            pobj.parse();
+            return pobj.get_root();
+        }
+
         void parser::create_root(scanner *scan)
         {
             root = new ast::root();
