@@ -33,7 +33,7 @@ namespace g0at
         source_string(std::wstring _data);
         wchar_t get_char() override;
         wchar_t next() override;
-        std::shared_ptr<position> get_position() override;
+        lib::pointer<position> get_position() override;
 
     protected:
         std::wstring data;

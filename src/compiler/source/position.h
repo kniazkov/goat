@@ -33,5 +33,7 @@ namespace g0at
         virtual ~position();
         virtual int get_index() = 0;
         virtual void print(std::wostream &stream) = 0;
+
+        int refs;
     };
 };

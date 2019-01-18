@@ -68,8 +68,8 @@ namespace g0at
         return L'\0';
     }
 
-    std::shared_ptr<position> source_string::get_position()
+    lib::pointer<position> source_string::get_position()
     {
-        return std::make_shared<source_string_position>(index);
+        return new source_string_position(index);
     }
 };

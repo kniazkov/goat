@@ -23,7 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "position.h"
-#include <memory>
+#include "../../lib/pointer.h"
 
 namespace g0at
 {
@@ -34,6 +34,6 @@ namespace g0at
         virtual ~source();
         virtual wchar_t get_char() = 0;
         virtual wchar_t next() = 0;
-        virtual std::shared_ptr<position> get_position() = 0;
+        virtual lib::pointer<position> get_position() = 0;
     };
 };

@@ -59,7 +59,7 @@ namespace g0at
             c = src->next();
         }
 
-        std::shared_ptr<position> pos = src->get_position();
+        lib::pointer<position> pos = src->get_position();
         std::shared_ptr<ast::token> tok = create_token();
         if (tok)
             tok->pos = pos;

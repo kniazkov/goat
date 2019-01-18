@@ -26,7 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "token_list.h"
 #include "token_2nd_list.h"
 #include "../source/position.h"
-#include <memory>
+#include "../../lib/pointer.h"
 
 namespace g0at
 {
@@ -72,7 +72,7 @@ namespace g0at
             virtual function_call *to_function_call();
             virtual statement_expression *to_statement_expression();
 
-            std::shared_ptr<position> pos;
+            lib::pointer<position> pos;
 
             token_list *list;
             token *prev;
