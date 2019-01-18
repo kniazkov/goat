@@ -36,6 +36,7 @@ namespace g0at
         
         protected:
             lib::pointer<pattern> create_pattern_function_call();
+            lib::pointer<pattern> create_pattern_statement_expression();
 
             parser_data *data;
         };

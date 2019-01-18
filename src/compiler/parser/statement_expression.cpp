@@ -22,19 +22,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "pattern.h"
 #include "grammar_factory.h"
-#include "../ast/identifier.h"
-#include "../ast/brackets_pair.h"
-#include "../ast/function_call.h"
+#include "../ast/expression.h"
+#include "../ast/semicolon.h"
+#include "../ast/statement_expression.h"
 #include <assert.h>
 
 namespace g0at
 {
     namespace parser
     {
-        class function_call : public pattern
+        class statement_expression : public pattern
         {
         public:
-            function_call(parser_data *_data)
+            statement_expression(parser_data *_data)
                 : pattern(&_data->identifiers, _data)
             {
             }
@@ -42,27 +42,30 @@ namespace g0at
         protected:
             int check(ast::token *tok) override
             {
-                ast::identifier *name = tok->to_identifier();
-                assert(name != nullptr);
+                ast::expression *expr = tok->to_expression();
+                assert(expr != nullptr);
                 
-                if (!name->next)
-                    return 0;
-
-                ast::brackets_pair *args = name->next->to_brackets_pair();
-                if (args == nullptr || args->get_symbol() != '(')
-                    return 0;
-
-                lib::pointer<ast::token> fcall  = new ast::function_call(name, args);
-                tok->remove_2nd();
-                name->replace(args, fcall);
-                data->identifiers.add(fcall.get());
+                if (expr->next)
+                {
+                    ast::semicolon *scolon = expr->next->to_semicolon();
+                    assert(scolon != nullptr); // TODO: exception ?
+                    lib::pointer<ast::token> st_expr  = new ast::statement_expression(expr);
+                    tok->remove_2nd();
+                    expr->replace(scolon, st_expr);
+                }
+                else
+                {
+                    lib::pointer<ast::token> st_expr  = new ast::statement_expression(expr);
+                    tok->remove_2nd();
+                    expr->replace(st_expr);
+                }
                 return 0;
             }
         };
 
-        lib::pointer<pattern> grammar_factory::create_pattern_function_call()
+        lib::pointer<pattern> grammar_factory::create_pattern_statement_expression()
         {
-            return new function_call(data);
+            return new statement_expression(data);
         }
     };
 };

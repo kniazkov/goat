@@ -32,6 +32,7 @@ namespace g0at
         {
         public:
             ast::token_2nd_list identifiers;
+            ast::token_2nd_list expressions;
         };
     };
 };
