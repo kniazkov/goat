@@ -54,7 +54,7 @@ namespace g0at
 
         void disasm::visit(load_var *ref)
         {
-            stream << L"load \"" << ref->get_name() << L'\"';
+            stream << L"load " << ref->get_name();
         }
 
         void disasm::visit(call *ref)
