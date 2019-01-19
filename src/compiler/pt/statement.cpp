@@ -26,6 +26,11 @@ namespace g0at
 {
     namespace pt
     {
+        statement::statement(lib::pointer<position> _pos)
+            : node(_pos)
+        {
+        }
+
         statement *statement::to_statement()
         {
             return this;

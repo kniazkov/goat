@@ -26,7 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        function::function()
+        function::function(lib::pointer<position> _pos)
+            : expression(_pos)
         {
         }
 

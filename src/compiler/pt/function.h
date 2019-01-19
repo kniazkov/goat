@@ -33,7 +33,7 @@ namespace g0at
         class function : public expression
         {
         public:
-            function();
+            function(lib::pointer<position> _pos);
             void accept(node_visitor *visitor) override;
             function *to_function() override;
 

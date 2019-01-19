@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        static_string::static_string(std::wstring _text)
-            : text(_text)
+        static_string::static_string(lib::pointer<position> _pos, std::wstring _text)
+            : expression(_pos), text(_text)
         {
         }
 

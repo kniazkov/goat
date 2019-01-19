@@ -21,6 +21,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "analyzer.h"
+#include "statement_builder.h"
+#include <assert.h>
 
 namespace g0at
 {
@@ -49,8 +51,19 @@ namespace g0at
 
         lib::pointer<pt::function> analyzer::build_function(lib::pointer<ast::function> tok_func)
         {
-            lib::pointer<pt::function> node_func = new pt::function();
+            lib::pointer<pt::function> node_func = new pt::function(tok_func->get_position());
             
+            auto list = tok_func->get_raw_list();
+            auto tok = list->first;
+            while(tok)
+            {
+                statement_builder visitor;
+                tok->accept(&visitor);
+                assert(visitor.has_stmt()); // TODO: exception ?
+                node_func->add_stmt(visitor.get_stmt());
+                tok = tok->next;
+            }
+
             return node_func;
         }
     };

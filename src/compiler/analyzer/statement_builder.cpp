@@ -20,25 +20,22 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "statement_expression.h"
+#include "statement_builder.h"
+#include "expression_builder.h"
+#include "../ast/statement_expression.h"
+#include "../pt/statement_expression.h"
+#include <assert.h>
 
 namespace g0at
 {
-    namespace pt
+    namespace analyzer
     {
-        statement_expression::statement_expression(lib::pointer<position> _pos, lib::pointer<expression> _expr)
-            : statement(_pos), expr(_expr)
+        void statement_builder::visit(ast::statement_expression *ref)
         {
-        }
-
-        void statement_expression::accept(node_visitor *visitor)
-        {
-            visitor->visit(this);
-        }
-
-        statement_expression *statement_expression::to_statement_expression()
-        {
-            return this;
+            expression_builder visitor;
+            ref->get_expression()->accept(&visitor);
+            assert(visitor.has_expr()); // TODO: exception ?
+            stmt = new pt::statement_expression(ref->get_position(), visitor.get_expr());
         }
     };
 };

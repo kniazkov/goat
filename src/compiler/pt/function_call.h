@@ -33,7 +33,7 @@ namespace g0at
         class function_call : public expression
         {
         public:
-            function_call(std::wstring _name);
+            function_call(lib::pointer<position> _pos, std::wstring _name);
             void accept(node_visitor *visitor) override;
             function_call *to_function_call() override;
 

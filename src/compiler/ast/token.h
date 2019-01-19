@@ -72,6 +72,8 @@ namespace g0at
             virtual function_call *to_function_call();
             virtual statement_expression *to_statement_expression();
 
+            lib::pointer<position> get_position() { return pos; }
+
             int refs;
             lib::pointer<position> pos;
 

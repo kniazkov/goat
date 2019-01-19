@@ -26,6 +26,11 @@ namespace g0at
 {
     namespace pt
     {
+        expression::expression(lib::pointer<position> _pos)
+            : node(_pos)
+        {
+        }
+
         expression *expression::to_expression()
         {
             return this;
