@@ -50,7 +50,11 @@ namespace g0at
             virtual statement_expression *to_statement_expression();
             virtual function *to_function();
 
+            lib::pointer<position> get_position() { return pos; }
+
             int refs;
+
+        protected:
             lib::pointer<position> pos;
         };
     };

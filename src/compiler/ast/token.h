@@ -30,6 +30,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
+    class scanner;
+
     namespace ast
     {
         extern int __tok_count;
@@ -50,6 +52,7 @@ namespace g0at
 
         class token
         {
+        friend class g0at::scanner;
         public:
             token();
             virtual ~token();
@@ -75,7 +78,6 @@ namespace g0at
             lib::pointer<position> get_position() { return pos; }
 
             int refs;
-            lib::pointer<position> pos;
 
             token_list *list;
             token *prev;
@@ -84,6 +86,9 @@ namespace g0at
             token_2nd_list *list_2;
             token *prev_2;
             token *next_2;
+        
+        protected:
+            lib::pointer<position> pos;
         };
     };
 };

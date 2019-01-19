@@ -29,7 +29,7 @@ namespace g0at
         statement_expression::statement_expression(lib::pointer<expression> _expr)
             : expr(_expr)
         {
-            pos = expr->pos;
+            pos = expr->get_position();
         }
 
         void statement_expression::accept(token_visitor *visitor)

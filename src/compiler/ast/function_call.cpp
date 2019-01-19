@@ -30,7 +30,7 @@ namespace g0at
         {
             name = _name->get_name();
             raw.swap(_args->get_raw_list());
-            pos = _name->pos;
+            pos = _name->get_position();
         }
 
         void function_call::accept(token_visitor *visitor)

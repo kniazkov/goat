@@ -32,7 +32,7 @@ namespace g0at
             assert(open_bracket->is_closed() == false);
             symbol = open_bracket->get_symbol();
             inverse_symbol = open_bracket->get_inverse_symbol();
-            pos = open_bracket->pos;
+            pos = open_bracket->get_position();
         }
 
         void brackets_pair::accept(token_visitor *visitor)
