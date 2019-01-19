@@ -27,7 +27,7 @@ namespace g0at
     namespace code
     {
         instruction::instruction()
-            : id(-1)
+            : id(0xFFFFFFFF)
         {
         }
 

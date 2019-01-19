@@ -38,5 +38,12 @@ namespace g0at
                 delete i;
             }
         }
+
+        void code::add_instruction(instruction *instr)
+        {
+            uint32_t id = i_list.size();
+            instr->id = id;
+            i_list.push_back(instr);
+        }
     }
 };
