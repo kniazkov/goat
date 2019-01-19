@@ -29,6 +29,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "../../code/load_var.h"
 #include "../../code/call.h"
 #include "../../code/pop.h"
+#include "../../code/end.h"
 #include <assert.h>
 
 namespace g0at
@@ -52,6 +53,11 @@ namespace g0at
             for (int i = 0, cnt = ref->get_code_size(); i < cnt; i++)
             {
                 ref->get_stmt(i)->accept(this);
+            }
+
+            if (ref->is_root_function())
+            {
+                code->add_instruction(new code::end);
             }
         }
 

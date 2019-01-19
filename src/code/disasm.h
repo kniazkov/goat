@@ -41,6 +41,7 @@ namespace g0at
             void visit(load_var *ref) override;
             void visit(call *ref) override;
             void visit(pop *ref) override;
+            void visit(end *ref) override;
 
         protected:
             std::wstringstream &stream;

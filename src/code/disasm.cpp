@@ -66,5 +66,10 @@ namespace g0at
         {
             stream << L"pop " << ref->get_count();
         }
+
+        void disasm::visit(end *ref)
+        {
+            stream << L"end";
+        }
     };
 };

@@ -40,6 +40,7 @@ namespace g0at
             void add_stmt(lib::pointer<statement> stmt) { code.push_back(stmt); }
             int get_code_size() { return code.size(); }
             lib::pointer<statement> get_stmt(int index) { return code.at(index); }
+            bool is_root_function() { return pos == nullptr; }
 
         protected:
             std::vector<lib::pointer<statement>> code;
