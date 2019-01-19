@@ -22,27 +22,33 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "expression.h"
-#include "statement.h"
-#include <vector>
+#include "node_visitor.h"
+#include <sstream>
+#include <string>
+#include "../../lib/pointer.h"
 
 namespace g0at
 {
     namespace pt
     {
-        class function : public expression
+        class function;
+
+        class dbg_output : public node_visitor
         {
         public:
-            function(lib::pointer<position> _pos);
-            void accept(node_visitor *visitor) override;
-            function *to_function() override;
-
-            void add_stmt(lib::pointer<statement> stmt) { code.push_back(stmt); }
-            int get_code_size() { return code.size(); }
-            lib::pointer<statement> get_stmt(int index) { return code.at(index); }
+            dbg_output(std::wstringstream &_stream);
+            dbg_output(std::wstringstream &_stream, int _indent);
+            static std::wstring to_string(lib::pointer<function> obj);
+            void visit(function *ref) override;
+            void visit(static_string *ref) override;
+            void visit(function_call *ref) override;
+            void visit(statement_expression *ref) override;
 
         protected:
-            std::vector<lib::pointer<statement>> code;
+            void add_indent();
+
+            std::wstringstream &stream;
+            int indent;
         };
     };
 };

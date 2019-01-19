@@ -40,7 +40,7 @@ namespace g0at
             std::wstring get_name() { return name; }
             void add_arg(lib::pointer<expression> arg) { args.push_back(arg); }
             int get_args_count() { return args.size(); }
-            int get_arg(int index) { return args.at(index); }
+            lib::pointer<expression> get_arg(int index) { return args.at(index); }
 
         protected:
             std::wstring name;

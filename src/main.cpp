@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/parser/parser.h"
 #include "compiler/analyzer/analyzer.h"
 #include "compiler/ast/dbg_output.h"
+#include "compiler/pt/dbg_output.h"
 #include <iostream>
 #include <assert.h>
 
@@ -35,6 +36,7 @@ void test()
     auto tok_root = g0at::parser::parser::parse(&scan);
     std::wcout << g0at::ast::dbg_output::to_string(tok_root) << L"\n";
     auto node_root = g0at::analyzer::analyzer::analyze(tok_root);
+    std::wcout << g0at::pt::dbg_output::to_string(node_root) << L"\n";
 }
 
 int main(int argc, char **argv)
