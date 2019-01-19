@@ -74,7 +74,7 @@ namespace g0at
                 return *this;
             }
 
-            pointer &operator=(pointer &_ptr)
+            pointer &operator=(const pointer &_ptr)
             {
                 if (obj != _ptr.obj)
                 {
