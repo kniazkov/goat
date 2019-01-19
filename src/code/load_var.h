@@ -35,6 +35,8 @@ namespace g0at
             load_var(std::wstring _name);
             void accept(instruction_visitor *visitor) override;
 
+            std::wstring get_name() { return name; }
+
         protected:
             std::wstring name;
         };

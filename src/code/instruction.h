@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "instruction_visitor.h"
+#include <cstdint>
 
 namespace g0at
 {
@@ -35,7 +36,7 @@ namespace g0at
             ~instruction();
             virtual void accept(instruction_visitor *visitor) = 0;
 
-            int id;
+            int32_t id;
         };
     };
 };

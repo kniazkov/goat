@@ -36,6 +36,8 @@ namespace g0at
             ~code();
 
             void add_instruction(instruction *instr) { i_list.push_back(instr); }
+            int get_code_size() { return i_list.size(); }
+            instruction *get_instruction(int index) { return i_list.at(index); }
 
             int refs;
 

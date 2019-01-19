@@ -20,20 +20,30 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "pop.h"
+#pragma once
+
+#include "instruction_visitor.h"
+#include "code.h"
+#include <sstream>
+#include <string>
+#include "../lib/pointer.h"
 
 namespace g0at
 {
     namespace code
     {
-        pop::pop(uint16_t _count)
-            : count(_count)
+        class disasm : public instruction_visitor
         {
-        }
+        public:
+            disasm(std::wstringstream &_stream);
+            static std::wstring to_string(lib::pointer<code> _code);
+            void visit(load_string *ref) override;
+            void visit(load_var *ref) override;
+            void visit(call *ref) override;
+            void visit(pop *ref) override;
 
-        void pop::accept(instruction_visitor *visitor)
-        {
-            visitor->visit(this);
-        }
+        protected:
+            std::wstringstream &stream;
+        };
     };
 };

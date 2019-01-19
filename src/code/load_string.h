@@ -35,6 +35,8 @@ namespace g0at
             load_string(std::wstring _text);
             void accept(instruction_visitor *visitor) override;
 
+            std::wstring get_text() { return text; }
+
         protected:
             std::wstring text;
         };

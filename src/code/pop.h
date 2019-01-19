@@ -31,11 +31,13 @@ namespace g0at
         class pop : public instruction
         {
         public:
-            pop(int _count);
+            pop(uint16_t _count);
             void accept(instruction_visitor *visitor) override;
 
+            uint16_t get_count() { return count; }
+
         protected:
-            int count;
+            uint16_t count;
         };
     };
 };
