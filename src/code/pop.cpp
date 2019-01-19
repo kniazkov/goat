@@ -20,26 +20,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
+#include "pop.h"
 
 namespace g0at
 {
     namespace code
     {
-        class load_string;
-        class load_var;
-        class call;
-        class pop;
-
-        class instruction_visitor
+        pop::pop(int _count)
+            : count(_count)
         {
-        public:
-            instruction_visitor();
-            ~instruction_visitor();
-            virtual void visit(load_string *ref) = 0;
-            virtual void visit(load_var *ref) = 0;
-            virtual void visit(call *ref) = 0;
-            virtual void visit(pop *ref) = 0;
-        };
+        }
+
+        void pop::accept(instruction_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
     };
 };

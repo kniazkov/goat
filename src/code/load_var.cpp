@@ -20,26 +20,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
+#include "load_var.h"
 
 namespace g0at
 {
     namespace code
     {
-        class load_string;
-        class load_var;
-        class call;
-        class pop;
-
-        class instruction_visitor
+        load_var::load_var(std::wstring _name)
+            : name(_name)
         {
-        public:
-            instruction_visitor();
-            ~instruction_visitor();
-            virtual void visit(load_string *ref) = 0;
-            virtual void visit(load_var *ref) = 0;
-            virtual void visit(call *ref) = 0;
-            virtual void visit(pop *ref) = 0;
-        };
+        }
+
+        void load_var::accept(instruction_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
     };
 };
