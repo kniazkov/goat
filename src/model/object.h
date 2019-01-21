@@ -35,9 +35,9 @@ namespace g0at
 
         enum object_type
         {
-            KEY,
             GENERIC,
-            STRING
+            STRING,
+            FUNCTION
         };
 
         class object_comparator
