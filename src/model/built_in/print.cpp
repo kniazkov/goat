@@ -20,36 +20,34 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "context.h"
-#include <deque>
+#include "context_factory.h"
+#include "../object_function_built_in.h"
+#include <iostream>
 
 namespace g0at
 {
     namespace model
     {
-        class thread
+        namespace built_in
         {
-        public:
-            thread(context *_ctx);
-
-            void push(variable var) { data.push_front(var); }
-            variable pop()
+            class print : public object_function_built_in
             {
-                variable var = data.front();
-                data.pop_front();
-                return var;
+            public:
+                print(object_list *_list)
+                    : object_function_built_in(_list)
+                {
+                }
+                
+                void call(thread *thr) override
+                {
+                    std::wcout << thr->peek().to_string();
+                }
+            };
+
+            object *context_factory::create_function_print()
+            {
+                return new print(list);
             }
-            variable peek() { return *(data.begin()); }
-
-            context *ctx;
-        
-        protected:
-            thread(const thread &) { }
-            void operator=(const thread &) { }
-
-            std::deque<variable> data;
         };
     };
 };

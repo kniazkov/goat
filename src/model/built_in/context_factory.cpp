@@ -20,36 +20,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "context.h"
-#include <deque>
+#include "context_factory.h"
+#include "../object_string.h"
 
 namespace g0at
 {
     namespace model
     {
-        class thread
+        namespace built_in
         {
-        public:
-            thread(context *_ctx);
-
-            void push(variable var) { data.push_front(var); }
-            variable pop()
+            context_factory::context_factory(object_list *_list)
+                : list(_list)
             {
-                variable var = data.front();
-                data.pop_front();
-                return var;
             }
-            variable peek() { return *(data.begin()); }
 
-            context *ctx;
-        
-        protected:
-            thread(const thread &) { }
-            void operator=(const thread &) { }
-
-            std::deque<variable> data;
+            context *context_factory::create_context()
+            {
+                context *ctx = new context(list);
+                ctx->add_object(new object_string(list, L"print"), create_function_print());
+                return ctx;
+            }
         };
     };
 };

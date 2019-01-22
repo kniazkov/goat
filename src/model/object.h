@@ -80,6 +80,13 @@ namespace g0at
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
 
+            void add_object(object *key, object *value)
+            {
+                variable var;
+                var.set_object(value);
+                objects[key] = var;
+            }
+
             object *prev;
             object *next;
 
