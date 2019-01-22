@@ -34,7 +34,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 void test()
 {
-    g0at::source_string src(L"print(\"hello, world\");");
+    g0at::source_string src(L"print(\"hello, world!\");");
     g0at::scanner scan(&src);
     auto tok_root = g0at::parser::parser::parse(&scan);
     std::wcout << g0at::ast::dbg_output::to_string(tok_root) << L"\n";

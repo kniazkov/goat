@@ -56,5 +56,16 @@ namespace g0at
             else
                 last = item->prev;
         }
+
+        void object_list::destroy_all()
+        {
+            object *obj = first;
+            while(obj)
+            {
+                object *next = obj->next;
+                delete obj;
+                obj = next;
+            }
+        }
     };
 };

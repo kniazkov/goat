@@ -45,7 +45,7 @@ namespace g0at
                 code->get_instruction(iid)->exec(&thr);
                 iid++;
             }
-
+            o_list.destroy_all();
         }
     };
 };
