@@ -27,8 +27,8 @@ namespace g0at
 {
     namespace model
     {
-        object_string::object_string(std::wstring _data)
-            : data(_data)
+        object_string::object_string(object_list *list, std::wstring _data)
+            : object(list), data(_data)
         {
         }
 

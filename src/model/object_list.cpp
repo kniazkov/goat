@@ -20,27 +20,41 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
+#include "object_list.h"
 #include "object.h"
 
 namespace g0at
 {
     namespace model
     {
-        class object_string : public object
+        object_list::object_list()
+            : first(nullptr), last(nullptr)
         {
-        public:
-            object_string(object_list *list, std::wstring _data);
-            object_type get_type() const override;
-            object_string *to_object_string() override;
-            bool less(const object *obj) const override;
-            std::wstring to_string() const override;
+        }
 
-            std::wstring get_data() { return data; }
+        void object_list::add(object *item)
+        {
+            item->prev = last;
+            item->next = nullptr;
 
-        protected:
-            std::wstring data;
-        };
+            if (last)
+                last->next = item;
+            else
+                first = item;
+            last = item;
+        }
+
+        void object_list::remove(object *item)
+        {
+            if (item->prev)
+                item->prev->next = item->next;
+            else 
+                first = item->next;
+
+            if (item->next)
+                item->next->prev = item->prev;
+            else
+                last = item->prev;
+        }
     };
 };

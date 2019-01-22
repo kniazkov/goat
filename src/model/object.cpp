@@ -31,8 +31,9 @@ namespace g0at
             Generic object
         */
 
-        object::object()
+        object::object(object_list *list)
         {
+            list->add(this);
         }
 
         object::~object()

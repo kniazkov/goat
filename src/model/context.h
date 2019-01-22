@@ -31,14 +31,10 @@ namespace g0at
         class context : public object
         {
         public:
-            context();
+            context(object_list *list);
 
             context *prev;
             object *this_ptr;
-
-        protected:
-            context(const context &) { }
-            void operator=(const context &) { }
         };
     };
 };

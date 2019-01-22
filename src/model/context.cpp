@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace model
     {
-        context::context()
-            : prev(nullptr), this_ptr(nullptr)
+        context::context(object_list *list)
+            : object(list), prev(nullptr), this_ptr(nullptr)
         {
         }
     };

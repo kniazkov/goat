@@ -32,6 +32,7 @@ namespace g0at
         class object_function : public object
         {
         public:
+            object_function(object_list *list);
             object_type get_type() const override;
             object_function *to_object_function() override;
             std::wstring to_string() const override;

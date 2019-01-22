@@ -22,25 +22,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "object.h"
-
 namespace g0at
 {
     namespace model
     {
-        class object_string : public object
+        class object;
+
+        class object_list
         {
         public:
-            object_string(object_list *list, std::wstring _data);
-            object_type get_type() const override;
-            object_string *to_object_string() override;
-            bool less(const object *obj) const override;
-            std::wstring to_string() const override;
+            object_list();
+            void add(object *item);
+            void remove(object *item);
 
-            std::wstring get_data() { return data; }
+            object *first;
+            object *last;
 
-        protected:
-            std::wstring data;
+        private:
+            object_list(const object_list &) { }
+            void operator=(const object_list &) { }
         };
     };
 };

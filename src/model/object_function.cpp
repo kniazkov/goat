@@ -26,6 +26,11 @@ namespace g0at
 {
     namespace model
     {
+        object_function::object_function(object_list *list)
+            : object(list)
+        {
+        } 
+
         object_type object_function::get_type() const
         {
             return FUNCTION;

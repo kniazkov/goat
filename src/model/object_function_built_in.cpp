@@ -20,27 +20,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "object.h"
+#include "object_function_built_in.h"
 
 namespace g0at
 {
     namespace model
     {
-        class object_string : public object
+        object_function_built_in::object_function_built_in(object_list *list)
+            : object_function(list)
         {
-        public:
-            object_string(object_list *list, std::wstring _data);
-            object_type get_type() const override;
-            object_string *to_object_string() override;
-            bool less(const object *obj) const override;
-            std::wstring to_string() const override;
-
-            std::wstring get_data() { return data; }
-
-        protected:
-            std::wstring data;
-        };
+        } 
     };
 };

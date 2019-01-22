@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "object_list.h"
 #include <map>
 #include <vector>
 #include <string>
@@ -70,7 +71,7 @@ namespace g0at
         class object
         {
         public:
-            object();
+            object(object_list *list);
             virtual ~object();
             virtual object_type get_type() const;
             virtual object_string *to_object_string();
@@ -78,6 +79,9 @@ namespace g0at
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
+
+            object *prev;
+            object *next;
 
         protected:
             std::map<object*, variable, object_comparator> objects;
