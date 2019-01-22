@@ -37,6 +37,11 @@ namespace g0at
             return STRING;
         }
 
+        object_string *object_string::to_object_string()
+        {
+            return this;
+        }
+
         bool object_string::less(const object *obj) const
         {
             assert(obj->get_type() == STRING);

@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object.h"
+#include "thread.h"
 
 namespace g0at
 {
@@ -32,7 +33,9 @@ namespace g0at
         {
         public:
             object_type get_type() const override;
+            object_function *to_object_function() override;
             std::wstring to_string() const override;
+            virtual void call(thread *thr) = 0;
         };
     };
 };

@@ -31,6 +31,11 @@ namespace g0at
             return FUNCTION;
         }
 
+        object_function *object_function::to_object_function()
+        {
+            return this;
+        }
+
         std::wstring object_function::to_string() const
         {
             return L"function";

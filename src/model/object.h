@@ -31,6 +31,8 @@ namespace g0at
     namespace model
     {
         class object;
+        class object_string;
+        class object_function;
         class handler;
 
         enum object_type
@@ -71,6 +73,9 @@ namespace g0at
             object();
             virtual ~object();
             virtual object_type get_type() const;
+            virtual object_string *to_object_string();
+            virtual object_function *to_object_function();
+
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
 

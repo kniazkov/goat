@@ -44,6 +44,16 @@ namespace g0at
             return GENERIC;
         }
 
+        object_string *object::to_object_string()
+        {
+            return nullptr;
+        }
+
+        object_function *object::to_object_function()
+        {
+            return nullptr;
+        }
+
         bool object::less(const object *obj) const
         {
             return this < obj;

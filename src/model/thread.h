@@ -22,25 +22,33 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "object.h"
+#include "context.h"
+#include <deque>
 
 namespace g0at
 {
     namespace model
     {
-        class object_string : public object
+        class thread
         {
         public:
-            object_string(std::wstring _data);
-            object_type get_type() const override;
-            object_string *to_object_string() override;
-            bool less(const object *obj) const override;
-            std::wstring to_string() const override;
+            thread(context *_ctx);
 
-            std::wstring get_data() { return data; }
+            void push(variable var) { data.push_back(var); }
+            variable pop()
+            {
+                variable var = data.back();
+                data.pop_back();
+                return var;
+            }
 
+            context *ctx;
+        
         protected:
-            std::wstring data;
+            thread(const thread &) { }
+            void operator=(const thread &) { }
+
+            std::deque<variable> data;
         };
     };
 };

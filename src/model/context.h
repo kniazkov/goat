@@ -23,17 +23,22 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object.h"
-#include <stack>
 
 namespace g0at
 {
     namespace model
     {
-        class context
+        class context : public object
         {
         public:
+            context();
 
+            context *prev;
+            object *this_ptr;
 
+        protected:
+            context(const context &) { }
+            void operator=(const context &) { }
         };
     };
 };
