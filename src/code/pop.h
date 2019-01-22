@@ -33,6 +33,7 @@ namespace g0at
         public:
             pop(uint16_t _count);
             void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
 
             uint16_t get_count() { return count; }
 

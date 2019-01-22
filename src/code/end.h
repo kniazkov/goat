@@ -32,6 +32,7 @@ namespace g0at
         {
         public:
             void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
         };
     };
 };

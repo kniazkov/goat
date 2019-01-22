@@ -35,5 +35,10 @@ namespace g0at
         {
             visitor->visit(this);
         }
+
+        void pop::exec(model::thread *thr)
+        {
+            
+        }
     };
 };

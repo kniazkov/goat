@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "instruction_visitor.h"
+#include "../model/thread.h"
 #include <cstdint>
 
 namespace g0at
@@ -36,6 +37,7 @@ namespace g0at
             instruction();
             ~instruction();
             virtual void accept(instruction_visitor *visitor) = 0;
+            virtual void exec(model::thread *thr) = 0;
 
             uint32_t get_id() { return id; }
 

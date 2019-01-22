@@ -35,5 +35,10 @@ namespace g0at
         {
             visitor->visit(this);
         }
+
+        void load_var::exec(model::thread *thr)
+        {
+            
+        }
     };
 };

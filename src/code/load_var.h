@@ -34,6 +34,7 @@ namespace g0at
         public:
             load_var(std::wstring _name);
             void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
 
             std::wstring get_name() { return name; }
 
