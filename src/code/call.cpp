@@ -21,6 +21,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "call.h"
+#include "../model/object_function.h"
+#include <assert.h>
 
 namespace g0at
 {
@@ -33,7 +35,10 @@ namespace g0at
 
         void call::exec(model::thread *thr)
         {
-            
+            model::object *obj = thr->pop().to_object(thr->o_list);
+            model::object_function *func = obj->to_object_function();
+            assert(func != nullptr); // TODO: exception if is not a function
+            func->call(thr);
         }
     };
 };

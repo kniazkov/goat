@@ -59,7 +59,7 @@ namespace g0at
         {
             return this < obj;
         }
-
+    
         std::wstring object::to_string() const
         {
             std::wstringstream stream;
@@ -76,6 +76,31 @@ namespace g0at
 
             stream << '}';
             return stream.str();
+        }
+
+        void object::add_object(object *key, object *value)
+        {
+            variable var;
+            var.set_object(value);
+            objects[key] = var;
+        }
+
+        variable *object::find_object(object *key)
+        {
+            auto iter = objects.find(key);
+            if (iter != objects.end())
+            {
+                return &iter->second;
+            }
+            
+            variable *var;
+            for (object *pt : proto)
+            {
+                var = pt->find_object(key);
+                if (var != nullptr)
+                    break;
+            }
+            return var;
         }
 
         /* 
@@ -103,6 +128,11 @@ namespace g0at
             std::wstring to_string(const variable *var) const override
             {
                 return var->data.obj->to_string();
+            }
+
+            object *to_object(variable *var, object_list *list) override
+            {
+                return var->data.obj;
             }
         };
 

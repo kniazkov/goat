@@ -60,6 +60,7 @@ namespace g0at
 
             inline void set_object(object *obj);
             inline std::wstring to_string() const;
+            inline object *to_object(object_list *list);
 
             handler *hndl;
             union
@@ -80,12 +81,8 @@ namespace g0at
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
 
-            void add_object(object *key, object *value)
-            {
-                variable var;
-                var.set_object(value);
-                objects[key] = var;
-            }
+            void add_object(object *key, object *value);
+            variable *find_object(object *key);
 
             object *prev;
             object *next;
@@ -101,6 +98,7 @@ namespace g0at
             virtual ~handler();
             static handler *get_generic_instance();
             virtual std::wstring to_string(const variable *var) const = 0;
+            virtual object *to_object(variable *var, object_list *list) = 0;
         };
 
         bool object_comparator::operator ()(const object *a, const object *b) const
@@ -126,6 +124,11 @@ namespace g0at
         std::wstring variable::to_string() const
         {
             return hndl->to_string(this);
+        }
+
+        object *variable::to_object(object_list *list)
+        {
+            return hndl->to_object(this, list);
         }
     };
 };

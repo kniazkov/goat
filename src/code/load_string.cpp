@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "load_string.h"
+#include "../model/object_string.h"
 
 namespace g0at
 {
@@ -38,7 +39,9 @@ namespace g0at
 
         void load_string::exec(model::thread *thr)
         {
-            
+            model::variable var;
+            var.set_object(new model::object_string(thr->o_list, text));
+            thr->push(var);
         }
     };
 };

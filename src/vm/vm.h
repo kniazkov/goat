@@ -20,15 +20,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "thread.h"
+#pragma once
+
+#include "../code/code.h"
+#include "../lib/pointer.h"
 
 namespace g0at
 {
-    namespace model
+    namespace vm
     {
-        thread::thread(context *_ctx, object_list *_o_list)
-            : state(PAUSE), ctx(_ctx), o_list(_o_list)
+        class vm
         {
-        }
+        public:
+            vm(lib::pointer<code::code> _code);
+            void run();
+        
+        protected:
+            vm(const vm&) { }
+            void operator=(const vm&) { }
+
+            lib::pointer<code::code> code;
+        };
     };
 };

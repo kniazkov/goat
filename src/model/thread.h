@@ -29,10 +29,17 @@ namespace g0at
 {
     namespace model
     {
+        enum thread_state
+        {
+            PAUSE,
+            WORK,
+            FINISH
+        };
+
         class thread
         {
         public:
-            thread(context *_ctx);
+            thread(context *_ctx, object_list *_o_list);
 
             void push(variable var) { data.push_front(var); }
             variable pop()
@@ -43,8 +50,10 @@ namespace g0at
             }
             variable peek() { return *(data.begin()); }
 
+            thread_state state;
             context *ctx;
-        
+            object_list *o_list;
+
         protected:
             thread(const thread &) { }
             void operator=(const thread &) { }

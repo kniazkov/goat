@@ -21,6 +21,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "load_var.h"
+#include "../model/object_string.h"
+#include <assert.h>
 
 namespace g0at
 {
@@ -38,7 +40,11 @@ namespace g0at
 
         void load_var::exec(model::thread *thr)
         {
-            
+            // TODO: fix it please!
+            model::object_string *key = new model::object_string(thr->o_list, name);
+            model::variable *var = thr->ctx->find_object(key);
+            assert(var != nullptr); // exception!
+            thr->push(*var);
         }
     };
 };

@@ -20,15 +20,32 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "thread.h"
+#include "vm.h"
+#include "../model/object.h"
+#include "../model/built_in/context_factory.h"
 
 namespace g0at
 {
-    namespace model
+    namespace vm
     {
-        thread::thread(context *_ctx, object_list *_o_list)
-            : state(PAUSE), ctx(_ctx), o_list(_o_list)
+        vm::vm(lib::pointer<code::code> _code)
+            : code(_code)
         {
+        }
+
+        void vm::run()
+        {
+            model::object_list o_list;
+            model::context *ctx = model::built_in::context_factory(&o_list).create_context();
+            model::thread thr(ctx, &o_list);
+            thr.state = model::thread_state::WORK;
+            uint32_t iid = 0;
+            while(thr.state == model::thread_state::WORK)
+            {
+                code->get_instruction(iid)->exec(&thr);
+                iid++;
+            }
+
         }
     };
 };

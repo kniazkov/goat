@@ -38,7 +38,11 @@ namespace g0at
 
         void pop::exec(model::thread *thr)
         {
-            
+            // TODO: optimization ?..
+            for (uint16_t i = 0; i < count; i++)
+            {
+                thr->pop();
+            }
         }
     };
 };
