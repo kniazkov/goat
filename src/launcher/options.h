@@ -34,5 +34,8 @@ namespace g0at
 
         char *prog_name;
         std::vector<char*> args;
+        bool dump_abstract_syntax_tree;
+        bool dump_parse_tree;
+        bool dump_assembler_code;
     };
 };

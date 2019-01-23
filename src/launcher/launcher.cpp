@@ -54,14 +54,17 @@ namespace g0at
         source_file src(opt.prog_name);
         scanner scan(&src);
         auto tok_root = g0at::parser::parser::parse(&scan);
-        //std::wcout << g0at::ast::dbg_output::to_string(tok_root) << L"\n";
+        if (opt.dump_abstract_syntax_tree)
+            std::wcout << g0at::ast::dbg_output::to_string(tok_root) << L"\n";
         auto node_root = g0at::analyzer::analyzer::analyze(tok_root);
-        //std::wcout << g0at::pt::dbg_output::to_string(node_root) << L"\n";
+        tok_root.reset();
+        if (opt.dump_parse_tree)
+            std::wcout << g0at::pt::dbg_output::to_string(node_root) << L"\n";
         auto code = g0at::codegen::generator::generate(node_root);
-        //std::wcout << g0at::code::disasm::to_string(code) << L"\n\n";    
+        if (opt.dump_assembler_code)
+            std::wcout << g0at::code::disasm::to_string(code) << L"\n";    
         vm::vm vm(code);
         vm.run();
-        //std::wcout << "\n\nDone.\n";
         return 0;
     }
 };

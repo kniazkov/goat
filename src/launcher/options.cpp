@@ -21,11 +21,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "options.h"
+#include <cstring>
 
 namespace g0at
 {
     options::options()
-        : prog_name(nullptr)
+        : prog_name(nullptr),
+            dump_abstract_syntax_tree(false),
+            dump_parse_tree(false),
+            dump_assembler_code(false)
     {
     }
 
@@ -36,7 +40,12 @@ namespace g0at
             char *arg = argv[i];
             if (arg[0] == '-' && arg[1] == '-')
             {
-                // TODO: parameter of the interpreter
+                if (0 == std::strcmp(arg + 2, "dump-abstract-syntax-tree"))
+                    opt.dump_abstract_syntax_tree = true;
+                else if (0 == std::strcmp(arg + 2, "dump-parse-tree"))
+                    opt.dump_parse_tree = true;
+                else if (0 == std::strcmp(arg + 2, "dump-assembler-code"))
+                    opt.dump_assembler_code = true;
             }
             else
             {
