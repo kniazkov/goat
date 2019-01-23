@@ -20,9 +20,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "launcher/launcher.h"
+#pragma once
 
-int main(int argc, char **argv)
+namespace g0at
 {
-    return g0at::launcher::go(argc, argv);
-}
+    class launcher
+    {
+    public:
+        static int go(int argc, char **argv);
+
+    protected:
+        launcher(int argc, char **argv);
+        int go();
+        launcher(const launcher&) { }
+        void operator=(const launcher&) { }
+    };
+};
