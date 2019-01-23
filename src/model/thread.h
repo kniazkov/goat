@@ -49,6 +49,7 @@ namespace g0at
                 return var;
             }
             variable peek() { return *(data.begin()); }
+            bool stack_is_empty() { return data.empty(); }
 
             thread_state state;
             context *ctx;

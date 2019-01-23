@@ -35,7 +35,7 @@ namespace g0at
         {
         public:
             statement_expression(parser_data *_data)
-                : pattern(&_data->identifiers, _data)
+                : pattern(&_data->expressions, _data)
             {
             }
 
