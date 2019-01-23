@@ -21,7 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "launcher.h"
-#include "../compiler/source/source_string.h"
+#include "../compiler/source/source_file.h"
 #include "../compiler/scanner/scanner.h"
 #include "../compiler/parser/parser.h"
 #include "../compiler/analyzer/analyzer.h"
@@ -45,21 +45,23 @@ namespace g0at
 
     launcher::launcher(int argc, char **argv)
     {
+        options::parse(argc, argv, opt);
     }
 
     int launcher::go()
     {
-        source_string src(L"print(\"hello, world!\");");
+        assert(opt.prog_name != nullptr);
+        source_file src(opt.prog_name);
         scanner scan(&src);
         auto tok_root = g0at::parser::parser::parse(&scan);
-        std::wcout << g0at::ast::dbg_output::to_string(tok_root) << L"\n";
+        //std::wcout << g0at::ast::dbg_output::to_string(tok_root) << L"\n";
         auto node_root = g0at::analyzer::analyzer::analyze(tok_root);
-        std::wcout << g0at::pt::dbg_output::to_string(node_root) << L"\n";
+        //std::wcout << g0at::pt::dbg_output::to_string(node_root) << L"\n";
         auto code = g0at::codegen::generator::generate(node_root);
-        std::wcout << g0at::code::disasm::to_string(code) << L"\n\n";    
+        //std::wcout << g0at::code::disasm::to_string(code) << L"\n\n";    
         vm::vm vm(code);
         vm.run();
-        std::wcout << "\n\nDone.\n";
+        //std::wcout << "\n\nDone.\n";
         return 0;
     }
 };

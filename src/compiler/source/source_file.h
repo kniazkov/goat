@@ -22,21 +22,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "options.h"
+#include "source.h"
+#include <string>
 
 namespace g0at
 {
-    class launcher
+    class source_file : public source
     {
     public:
-        static int go(int argc, char **argv);
+        source_file(char *_file_name);
+        wchar_t get_char() override;
+        wchar_t next() override;
+        lib::pointer<position> get_position() override;
 
     protected:
-        launcher(int argc, char **argv);
-        int go();
-        launcher(const launcher&) { }
-        void operator=(const launcher&) { }
-
-        options opt;
+        char *file_name;
+        std::wstring data;
+        int index;
+        int max_index;
     };
 };

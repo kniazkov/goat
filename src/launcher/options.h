@@ -22,21 +22,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "options.h"
+#include <vector>
 
 namespace g0at
 {
-    class launcher
+    class options
     {
     public:
-        static int go(int argc, char **argv);
+        options();
+        static void parse(int argc, char **argv, options &opt);
 
-    protected:
-        launcher(int argc, char **argv);
-        int go();
-        launcher(const launcher&) { }
-        void operator=(const launcher&) { }
-
-        options opt;
+        char *prog_name;
+        std::vector<char*> args;
     };
 };

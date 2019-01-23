@@ -20,23 +20,31 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
 #include "options.h"
 
 namespace g0at
 {
-    class launcher
+    options::options()
+        : prog_name(nullptr)
     {
-    public:
-        static int go(int argc, char **argv);
+    }
 
-    protected:
-        launcher(int argc, char **argv);
-        int go();
-        launcher(const launcher&) { }
-        void operator=(const launcher&) { }
-
-        options opt;
-    };
+    void options::parse(int argc, char **argv, options &opt)
+    {
+        for (int i = 1; i < argc; i++)
+        {
+            char *arg = argv[i];
+            if (arg[0] == '-' && arg[1] == '-')
+            {
+                // TODO: parameter of the interpreter
+            }
+            else
+            {
+                if (opt.prog_name == nullptr)
+                    opt.prog_name = arg;
+                else
+                    opt.args.push_back(arg);
+            }
+        }
+    }
 };
