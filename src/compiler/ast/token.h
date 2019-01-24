@@ -49,6 +49,7 @@ namespace g0at
         class brackets_pair;
         class function_call;
         class statement_expression;
+        class token_operator;
 
         class token
         {
@@ -74,6 +75,7 @@ namespace g0at
             virtual brackets_pair *to_brackets_pair();
             virtual function_call *to_function_call();
             virtual statement_expression *to_statement_expression();
+            virtual token_operator *to_token_operator();
 
             lib::pointer<position> get_position() { return pos; }
 

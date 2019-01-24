@@ -49,6 +49,19 @@ namespace g0at
         return c >= L'0' && c <= L'9';
     }
 
+    static bool is_operator(wchar_t c)
+    {
+        switch(c)
+        {
+            case L'+':
+            case L'-':
+            case L'*':
+            case L'/':
+            default:
+                return false;
+        }
+    }
+
     lib::pointer<ast::token> scanner::get_token()
     {
         wchar_t c = src->get_char();
