@@ -22,8 +22,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "parser.h"
 #include "grammar_factory.h"
-#include "../ast/bracket.h"
-#include "../ast/brackets_pair.h"
+#include "compiler/ast/bracket.h"
+#include "compiler/ast/brackets_pair.h"
 #include <assert.h>
 
 namespace g0at

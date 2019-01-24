@@ -22,9 +22,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "pattern.h"
 #include "grammar_factory.h"
-#include "../ast/identifier.h"
-#include "../ast/brackets_pair.h"
-#include "../ast/function_call.h"
+#include "compiler/ast/identifier.h"
+#include "compiler/ast/brackets_pair.h"
+#include "compiler/ast/function_call.h"
 #include <assert.h>
 
 namespace g0at

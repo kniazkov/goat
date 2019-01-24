@@ -22,9 +22,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "pattern.h"
 #include "grammar_factory.h"
-#include "../ast/expression.h"
-#include "../ast/semicolon.h"
-#include "../ast/statement_expression.h"
+#include "compiler/ast/expression.h"
+#include "compiler/ast/semicolon.h"
+#include "compiler/ast/statement_expression.h"
 #include <assert.h>
 
 namespace g0at

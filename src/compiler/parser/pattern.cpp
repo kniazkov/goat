@@ -21,7 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "pattern.h"
-#include "../ast/token.h"
+#include "compiler/ast/token.h"
 #include <assert.h>
 
 namespace g0at

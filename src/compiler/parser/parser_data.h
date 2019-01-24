@@ -22,7 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "../ast/token_2nd_list.h"
+#include "compiler/ast/token_2nd_list.h"
 
 namespace g0at
 {

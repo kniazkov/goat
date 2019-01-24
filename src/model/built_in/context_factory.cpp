@@ -21,7 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "context_factory.h"
-#include "../object_string.h"
+#include "model/object_string.h"
 
 namespace g0at
 {

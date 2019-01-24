@@ -21,8 +21,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "vm.h"
-#include "../model/object.h"
-#include "../model/built_in/context_factory.h"
+#include "model/object.h"
+#include "model/built_in/context_factory.h"
 #include <assert.h>
 
 namespace g0at

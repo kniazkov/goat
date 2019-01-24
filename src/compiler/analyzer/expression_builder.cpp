@@ -21,10 +21,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "expression_builder.h"
-#include "../ast/static_string.h"
-#include "../pt/static_string.h"
-#include "../ast/function_call.h"
-#include "../pt/function_call.h"
+#include "compiler/ast/static_string.h"
+#include "compiler/pt/static_string.h"
+#include "compiler/ast/function_call.h"
+#include "compiler/pt/function_call.h"
 #include <assert.h>
 
 namespace g0at

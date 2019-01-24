@@ -22,9 +22,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "../ast/token.h"
-#include "../source/source.h"
-#include "../../lib/pointer.h"
+#include "compiler/ast/token.h"
+#include "compiler/source/source.h"
+#include "lib/pointer.h"
 
 namespace g0at
 {

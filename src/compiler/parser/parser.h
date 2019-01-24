@@ -22,11 +22,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "../ast/root.h"
-#include "../scanner/scanner.h"
+#include "compiler/ast/root.h"
+#include "compiler/scanner/scanner.h"
 #include "parser_data.h"
 #include "parser_data_filler.h"
-#include "../../lib/pointer.h"
+#include "lib/pointer.h"
 
 namespace g0at
 {

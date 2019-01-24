@@ -21,7 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "parser_data_filler.h"
-#include "../ast/identifier.h"
+#include "compiler/ast/identifier.h"
 
 namespace g0at
 {

@@ -23,8 +23,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "node_visitor.h"
-#include "../source/position.h"
-#include "../../lib/pointer.h"
+#include "compiler/source/position.h"
+#include "lib/pointer.h"
 
 namespace g0at
 {

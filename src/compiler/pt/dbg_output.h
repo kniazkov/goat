@@ -25,7 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "node_visitor.h"
 #include <sstream>
 #include <string>
-#include "../../lib/pointer.h"
+#include "lib/pointer.h"
 
 namespace g0at
 {

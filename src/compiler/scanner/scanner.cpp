@@ -21,10 +21,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "scanner.h"
-#include "../ast/identifier.h"
-#include "../ast/bracket.h"
-#include "../ast/static_string.h"
-#include "../ast/semicolon.h"
+#include "compiler/ast/identifier.h"
+#include "compiler/ast/bracket.h"
+#include "compiler/ast/static_string.h"
+#include "compiler/ast/semicolon.h"
 #include <sstream>
 
 namespace g0at

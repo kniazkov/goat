@@ -21,15 +21,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "generator.h"
-#include "../pt/function.h"
-#include "../pt/static_string.h"
-#include "../pt/function_call.h"
-#include "../pt/statement_expression.h"
-#include "../../code/load_string.h"
-#include "../../code/load_var.h"
-#include "../../code/call.h"
-#include "../../code/pop.h"
-#include "../../code/end.h"
+#include "compiler/pt/function.h"
+#include "compiler/pt/static_string.h"
+#include "compiler/pt/function_call.h"
+#include "compiler/pt/statement_expression.h"
+#include "compiler/../code/load_string.h"
+#include "code/load_var.h"
+#include "code/call.h"
+#include "code/pop.h"
+#include "code/end.h"
 #include <assert.h>
 
 namespace g0at

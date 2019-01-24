@@ -22,9 +22,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "../pt/node_visitor.h"
-#include "../../code/code.h"
-#include "../../lib/pointer.h"
+#include "compiler/pt/node_visitor.h"
+#include "code/code.h"
+#include "lib/pointer.h"
 
 namespace g0at
 {

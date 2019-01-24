@@ -23,7 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "pattern.h"
-#include "../../lib/pointer.h"
+#include "lib/pointer.h"
 #include <vector>
 
 namespace g0at

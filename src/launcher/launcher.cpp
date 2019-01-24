@@ -21,15 +21,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "launcher.h"
-#include "../compiler/source/source_file.h"
-#include "../compiler/scanner/scanner.h"
-#include "../compiler/parser/parser.h"
-#include "../compiler/analyzer/analyzer.h"
-#include "../compiler/ast/dbg_output.h"
-#include "../compiler/pt/dbg_output.h"
-#include "../compiler/codegen/generator.h"
-#include "../code/disasm.h"
-#include "../vm/vm.h"
+#include "compiler/source/source_file.h"
+#include "compiler/scanner/scanner.h"
+#include "compiler/parser/parser.h"
+#include "compiler/analyzer/analyzer.h"
+#include "compiler/ast/dbg_output.h"
+#include "compiler/pt/dbg_output.h"
+#include "compiler/codegen/generator.h"
+#include "code/disasm.h"
+#include "vm/vm.h"
 #include <iostream>
 #include <assert.h>
 

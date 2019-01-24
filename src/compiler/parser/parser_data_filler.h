@@ -22,7 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "../ast/token_visitor.h"
+#include "compiler/ast/token_visitor.h"
 #include "parser_data.h"
 
 namespace g0at

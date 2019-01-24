@@ -21,7 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "context_factory.h"
-#include "../object_function_built_in.h"
+#include "model/object_function_built_in.h"
 #include <iostream>
 
 namespace g0at

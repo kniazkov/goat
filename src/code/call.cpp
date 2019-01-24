@@ -21,7 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "call.h"
-#include "../model/object_function.h"
+#include "model/object_function.h"
 #include <assert.h>
 
 namespace g0at

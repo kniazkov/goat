@@ -22,7 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "../context.h"
+#include "model/context.h"
 
 namespace g0at
 {

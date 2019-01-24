@@ -26,7 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "token_list.h"
 #include <sstream>
 #include <string>
-#include "../../lib/pointer.h"
+#include "lib/pointer.h"
 
 namespace g0at
 {

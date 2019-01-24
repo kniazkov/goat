@@ -22,8 +22,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "statement_builder.h"
 #include "expression_builder.h"
-#include "../ast/statement_expression.h"
-#include "../pt/statement_expression.h"
+#include "compiler/ast/statement_expression.h"
+#include "compiler/pt/statement_expression.h"
 #include <assert.h>
 
 namespace g0at

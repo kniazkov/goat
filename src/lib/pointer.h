@@ -48,12 +48,14 @@ namespace g0at
                     obj->refs++;
             }
 
+#if 0 /* it does not work in Windows */
             pointer(pointer &&_ptr)
             {
                 T *tmp = obj;
                 obj = _ptr.obj;
                 _ptr.obj = tmp;
             }
+#endif
 
             ~pointer()
             {
