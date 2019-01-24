@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.6)
+project(model)
+file (GLOB SOURCE "*.cpp")
+add_library(model STATIC ${SOURCE})
+add_subdirectory(built_in)

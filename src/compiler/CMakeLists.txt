@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 2.6)
+add_subdirectory(analyzer)
+add_subdirectory(ast)
+add_subdirectory(codegen)
+add_subdirectory(parser)
+add_subdirectory(pt)
+add_subdirectory(scanner)
+add_subdirectory(source)

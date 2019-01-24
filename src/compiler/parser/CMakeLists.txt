@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.6)
+project(parser)
+file (GLOB SOURCE "*.cpp")
+add_library(parser STATIC ${SOURCE})
+target_link_libraries(parser ast)

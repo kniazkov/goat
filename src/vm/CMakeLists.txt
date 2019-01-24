@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.6)
+project(vm)
+file (GLOB SOURCE "*.cpp")
+add_library(vm STATIC ${SOURCE})
+target_link_libraries(vm model)
+target_link_libraries(vm built_in)

@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.6)
+project(launcher)
+file (GLOB SOURCE "*.cpp")
+add_library(launcher STATIC ${SOURCE})
+target_link_libraries(launcher code)
