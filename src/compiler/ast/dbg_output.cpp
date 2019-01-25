@@ -29,6 +29,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "brackets_pair.h"
 #include "function_call.h"
 #include "statement_expression.h"
+#include "custom_operator.h"
 
 namespace g0at
 {
@@ -103,6 +104,18 @@ namespace g0at
             stream << "stmt";
             dbg_output indented(stream, indent + 1);
             ref->get_expression()->accept(&indented);
+        }
+
+        void dbg_output::visit(plus *ref)
+        {
+            add_indent();
+            stream << L'+';
+        }
+
+        void dbg_output::visit(custom_operator *ref)
+        {
+            add_indent();
+            stream << ref->get_oper();
         }
 
         void dbg_output::add_indent()

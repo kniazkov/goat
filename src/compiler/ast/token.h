@@ -50,6 +50,8 @@ namespace g0at
         class function_call;
         class statement_expression;
         class token_operator;
+        class plus;
+        class custom_operator;
 
         class token
         {
@@ -76,6 +78,8 @@ namespace g0at
             virtual function_call *to_function_call();
             virtual statement_expression *to_statement_expression();
             virtual token_operator *to_token_operator();
+            virtual plus *to_plus();
+            virtual custom_operator *to_custom_operator();
 
             lib::pointer<position> get_position() { return pos; }
 

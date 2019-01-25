@@ -48,6 +48,8 @@ namespace g0at
             void visit(brackets_pair *ref) override;
             void visit(function_call *ref) override;
             void visit(statement_expression *ref) override;
+            void visit(plus *ref) override;
+            void visit(custom_operator *ref) override;
 
         protected:
             void add_indent();

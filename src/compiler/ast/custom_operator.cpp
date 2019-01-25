@@ -20,58 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "token_visitor.h"
+#include "custom_operator.h"
 
 namespace g0at
 {
     namespace ast
     {
-        token_visitor::token_visitor()
+        custom_operator::custom_operator(std::wstring _oper)
+            : oper(_oper)
         {
         }
 
-        token_visitor::~token_visitor()
+        void custom_operator::accept(token_visitor *visitor)
         {
+            visitor->visit(this);
         }
 
-        void token_visitor::visit(function *ref)
+        custom_operator *custom_operator::to_custom_operator()
         {
+            return this;
         }
-
-        void token_visitor::visit(identifier *ref)
-        {
-        }
-
-        void token_visitor::visit(bracket *ref)
-        {
-        }
-
-        void token_visitor::visit(static_string *ref)
-        {
-        }
-
-        void token_visitor::visit(semicolon *ref)
-        {
-        }
-
-        void token_visitor::visit(brackets_pair *ref)
-        {
-        }
-
-        void token_visitor::visit(function_call *ref)
-        {
-        }
-
-        void token_visitor::visit(statement_expression *ref)
-        {
-        }
-
-        void token_visitor::visit(plus *ref)
-        {
-        }
-
-        void token_visitor::visit(custom_operator *ref)
-        {
-        }
-    }
+    };
 };

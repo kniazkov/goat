@@ -25,6 +25,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/bracket.h"
 #include "compiler/ast/static_string.h"
 #include "compiler/ast/semicolon.h"
+#include "compiler/ast/plus.h"
+#include "compiler/ast/custom_operator.h"
 #include <sstream>
 
 namespace g0at
@@ -57,6 +59,7 @@ namespace g0at
             case L'-':
             case L'*':
             case L'/':
+                return true;
             default:
                 return false;
         }
@@ -105,6 +108,20 @@ namespace g0at
             }
             src->next();
             return new ast::static_string(wss.str());
+        }
+
+        if (is_operator(c))
+        {
+            std::wstringstream wss;
+            do
+            {
+                wss << c;
+                c = src->next();
+            } while(is_operator(c));
+            std::wstring oper = wss.str();
+            if (oper == L"+")
+                return new ast::plus();
+            return new ast::custom_operator(oper);
         }
         
         if (c == L'(')

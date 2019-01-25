@@ -137,5 +137,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        plus *token::to_plus()
+        {
+            return nullptr;
+        }
+
+        custom_operator *token::to_custom_operator()
+        {
+            return nullptr;
+        }
     }
 };

@@ -34,6 +34,8 @@ namespace g0at
         class brackets_pair;
         class function_call;
         class statement_expression;
+        class plus;
+        class custom_operator;
 
         class token_visitor
         {
@@ -48,6 +50,8 @@ namespace g0at
             virtual void visit(brackets_pair *ref);
             virtual void visit(function_call *ref);
             virtual void visit(statement_expression *ref);
+            virtual void visit(plus *ref);
+            virtual void visit(custom_operator *ref);
         };
     };
 };
