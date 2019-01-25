@@ -147,5 +147,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        binary *token::to_binary()
+        {
+            return nullptr;
+        }
+
+        addition *token::to_addition()
+        {
+            return nullptr;
+        }
     }
 };

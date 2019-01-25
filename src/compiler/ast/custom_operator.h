@@ -34,6 +34,7 @@ namespace g0at
             custom_operator(std::wstring _oper);
             void accept(token_visitor *visitor) override;
             custom_operator *to_custom_operator() override;
+            lib::pointer<token> create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right) override;
         
             std::wstring get_oper() { return oper; }
 

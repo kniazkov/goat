@@ -33,6 +33,7 @@ namespace g0at
         public:
             void accept(token_visitor *visitor) override;
             plus *to_plus() override;
+            lib::pointer<token> create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right) override;
         };
     };
 };

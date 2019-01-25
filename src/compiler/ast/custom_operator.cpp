@@ -40,5 +40,10 @@ namespace g0at
         {
             return this;
         }
+
+        lib::pointer<token> custom_operator::create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right)
+        {
+            return nullptr; // TODO: new custom_binary_operation(left, right);
+        }
     };
 };

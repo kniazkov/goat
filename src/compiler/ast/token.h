@@ -52,6 +52,8 @@ namespace g0at
         class token_operator;
         class plus;
         class custom_operator;
+        class binary;
+        class addition;
 
         class token
         {
@@ -80,6 +82,8 @@ namespace g0at
             virtual token_operator *to_token_operator();
             virtual plus *to_plus();
             virtual custom_operator *to_custom_operator();
+            virtual binary *to_binary();
+            virtual addition *to_addition();
 
             lib::pointer<position> get_position() { return pos; }
 

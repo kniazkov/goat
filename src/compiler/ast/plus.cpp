@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "plus.h"
+#include "addition.h"
 
 namespace g0at
 {
@@ -34,6 +35,11 @@ namespace g0at
         plus *plus::to_plus()
         {
             return this;
+        }
+
+        lib::pointer<token> plus::create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right)
+        {
+            return new addition(left, right);
         }
     };
 };

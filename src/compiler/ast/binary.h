@@ -22,24 +22,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "grammar.h"
+#include "expression.h"
+#include "nonterminal.h"
 
 namespace g0at
 {
-    namespace parser
+    namespace ast
     {
-        class grammar_factory
+        class binary : public expression, public nonterminal
         {
         public:
-            grammar_factory(parser_data *_data);
-            lib::pointer<grammar> create_grammar();
-        
-        protected:
-            lib::pointer<pattern> create_pattern_function_call();
-            lib::pointer<pattern> create_pattern_statement_expression();
-            lib::pointer<pattern> create_pattern_binary(ast::token_2nd_list *_list);
+            binary(lib::pointer<expression> _left, lib::pointer<expression> _right);
+            binary *to_binary() override;
 
-            parser_data *data;
+            lib::pointer<expression> get_left() { return left; }
+            lib::pointer<expression> get_right() { return right; }
+
+        protected:
+            lib::pointer<expression> left;
+            lib::pointer<expression> right;
         };
     };
 };

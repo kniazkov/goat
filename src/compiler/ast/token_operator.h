@@ -26,12 +26,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
+    class binary;
+    class expression;
+
     namespace ast
     {
         class token_operator : public token
         {
         public:
             token_operator *to_token_operator() override;
+            virtual lib::pointer<token> create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right) = 0;
         };
     };
 };

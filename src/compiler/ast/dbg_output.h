@@ -50,6 +50,7 @@ namespace g0at
             void visit(statement_expression *ref) override;
             void visit(plus *ref) override;
             void visit(custom_operator *ref) override;
+            void visit(addition *ref) override;
 
         protected:
             void add_indent();

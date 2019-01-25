@@ -30,6 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "function_call.h"
 #include "statement_expression.h"
 #include "custom_operator.h"
+#include "addition.h"
 
 namespace g0at
 {
@@ -116,6 +117,15 @@ namespace g0at
         {
             add_indent();
             stream << ref->get_oper();
+        }
+
+        void dbg_output::visit(addition *ref)
+        {
+            add_indent();
+            stream << "+";
+            dbg_output indented(stream, indent + 1);
+            ref->get_left()->accept(&indented);
+            ref->get_right()->accept(&indented);
         }
 
         void dbg_output::add_indent()

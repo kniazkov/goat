@@ -34,6 +34,7 @@ namespace g0at
         public:
             parser_data_filler(parser_data *_data);
             void visit(ast::identifier *ref) override;
+            void visit(ast::plus *ref) override;
 
         protected:
             parser_data *data;

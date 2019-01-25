@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "parser_data_filler.h"
 #include "compiler/ast/identifier.h"
+#include "compiler/ast/plus.h"
 
 namespace g0at
 {
@@ -35,6 +36,11 @@ namespace g0at
         void parser_data_filler::visit(ast::identifier *ref)
         {
             data->identifiers.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::plus *ref)
+        {
+            data->opers_plus_minus.add(ref);
         }
     };
 };
