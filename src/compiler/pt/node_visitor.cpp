@@ -49,5 +49,9 @@ namespace g0at
         void node_visitor::visit(function *ref)
         {
         }
+
+        void node_visitor::visit(addition *ref)
+        {
+        }
     }
 };

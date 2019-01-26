@@ -25,6 +25,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/static_string.h"
 #include "compiler/ast/function_call.h"
 #include "compiler/pt/function_call.h"
+#include "compiler/ast/addition.h"
+#include "compiler/pt/addition.h"
 #include <assert.h>
 
 namespace g0at
@@ -51,6 +53,19 @@ namespace g0at
                 tok_arg = tok_arg->next;
             }
             expr = fcall.cast<pt::expression>();
+        }
+
+        void expression_builder::visit(ast::addition *ref)
+        {
+            expression_builder visitor_left;
+            ref->get_left()->accept(&visitor_left);
+            assert(visitor_left.has_expr());
+
+            expression_builder visitor_right;
+            ref->get_right()->accept(&visitor_right);
+            assert(visitor_right.has_expr());
+
+            expr = new pt::addition(ref->get_position(), visitor_left.get_expr(), visitor_right.get_expr());
         }
     };
 };

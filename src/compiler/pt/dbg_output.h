@@ -43,6 +43,7 @@ namespace g0at
             void visit(static_string *ref) override;
             void visit(function_call *ref) override;
             void visit(statement_expression *ref) override;
+            void visit(addition *ref) override;
 
         protected:
             void add_indent();

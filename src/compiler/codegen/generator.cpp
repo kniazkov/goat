@@ -25,11 +25,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/static_string.h"
 #include "compiler/pt/function_call.h"
 #include "compiler/pt/statement_expression.h"
-#include "compiler/../code/load_string.h"
+#include "compiler/pt/addition.h"
+#include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
 #include "code/pop.h"
 #include "code/end.h"
+#include "code/add.h"
 #include <assert.h>
 
 namespace g0at
@@ -82,6 +84,13 @@ namespace g0at
         void generator::visit(pt::statement_expression *ref)
         {
             ref->get_expression()->accept(this);
+        }
+
+        void generator::visit(pt::addition *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new code::add());
         }
     };
 };

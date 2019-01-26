@@ -64,5 +64,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        binary *node::to_binary()
+        {
+            return nullptr;
+        }
+
+        addition *node::to_addition()
+        {
+            return nullptr;
+        }
     }
 };

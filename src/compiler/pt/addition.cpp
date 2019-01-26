@@ -20,30 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
+#include "addition.h"
 
 namespace g0at
 {
-    namespace code
+    namespace pt
     {
-        class load_string;
-        class load_var;
-        class call;
-        class pop;
-        class end;
-        class add;
-
-        class instruction_visitor
+        addition::addition(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right)
+            : binary(_pos, _left, _right)
         {
-        public:
-            instruction_visitor();
-            ~instruction_visitor();
-            virtual void visit(load_string *ref) = 0;
-            virtual void visit(load_var *ref) = 0;
-            virtual void visit(call *ref) = 0;
-            virtual void visit(pop *ref) = 0;
-            virtual void visit(end *ref) = 0;
-            virtual void visit(add *ref) = 0;
-        };
+        }
+
+        void addition::accept(node_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
+
+        addition *addition::to_addition()
+        {
+            return this;
+        }
     };
 };

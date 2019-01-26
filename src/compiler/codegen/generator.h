@@ -39,6 +39,7 @@ namespace g0at
             void visit(pt::static_string *ref) override;
             void visit(pt::function_call *ref) override;
             void visit(pt::statement_expression *ref) override;
+            void visit(pt::addition *ref) override;
 
             lib::pointer<code::code> get_code() { return code; }
 

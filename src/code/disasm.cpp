@@ -71,5 +71,10 @@ namespace g0at
         {
             stream << L"end";
         }
+
+        void disasm::visit(add *ref)
+        {
+            stream << L"add";
+        }
     };
 };

@@ -22,28 +22,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "expression.h"
+
 namespace g0at
 {
-    namespace code
+    namespace pt
     {
-        class load_string;
-        class load_var;
-        class call;
-        class pop;
-        class end;
-        class add;
-
-        class instruction_visitor
+        class binary : public expression
         {
         public:
-            instruction_visitor();
-            ~instruction_visitor();
-            virtual void visit(load_string *ref) = 0;
-            virtual void visit(load_var *ref) = 0;
-            virtual void visit(call *ref) = 0;
-            virtual void visit(pop *ref) = 0;
-            virtual void visit(end *ref) = 0;
-            virtual void visit(add *ref) = 0;
+            binary(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            binary *to_binary() override;
+
+            lib::pointer<expression> get_left() { return left; }
+            lib::pointer<expression> get_right() { return right; }
+
+        protected:
+            lib::pointer<expression> left;
+            lib::pointer<expression> right;
         };
     };
 };

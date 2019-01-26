@@ -36,6 +36,8 @@ namespace g0at
         class function_call;
         class statement_expression;
         class function;
+        class binary;
+        class addition;
 
         class node
         {
@@ -49,6 +51,8 @@ namespace g0at
             virtual function_call *to_function_call();
             virtual statement_expression *to_statement_expression();
             virtual function *to_function();
+            virtual binary *to_binary();
+            virtual addition *to_addition();
 
             lib::pointer<position> get_position() { return pos; }
 

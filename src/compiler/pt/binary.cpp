@@ -20,30 +20,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
+#include "binary.h"
 
 namespace g0at
 {
-    namespace code
+    namespace pt
     {
-        class load_string;
-        class load_var;
-        class call;
-        class pop;
-        class end;
-        class add;
-
-        class instruction_visitor
+        binary::binary(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right)
+            : expression(_pos), left(_left), right(_right)
         {
-        public:
-            instruction_visitor();
-            ~instruction_visitor();
-            virtual void visit(load_string *ref) = 0;
-            virtual void visit(load_var *ref) = 0;
-            virtual void visit(call *ref) = 0;
-            virtual void visit(pop *ref) = 0;
-            virtual void visit(end *ref) = 0;
-            virtual void visit(add *ref) = 0;
-        };
+        }
+
+        binary *binary::to_binary()
+        {
+            return this;
+        }
     };
 };
