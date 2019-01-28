@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object.h"
+#include <assert.h>
 #include <sstream>
 
 namespace g0at
@@ -103,6 +104,11 @@ namespace g0at
             return var;
         }
 
+        void object::op_add(thread *thr)
+        {
+            assert(false); // not implemented
+        }
+
         /* 
             Generic handler
         */
@@ -133,6 +139,11 @@ namespace g0at
             object *to_object(variable *var, object_list *list) override
             {
                 return var->data.obj;
+            }
+
+            void op_add(variable *var, thread *thr)
+            {
+                var->data.obj->op_add(thr);
             }
         };
 

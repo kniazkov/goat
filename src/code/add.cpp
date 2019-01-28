@@ -34,6 +34,8 @@ namespace g0at
 
         void add::exec(model::thread *thr)
         {
+            model::variable left = thr->peek();
+            left.op_add(thr);
         }
     };
 };

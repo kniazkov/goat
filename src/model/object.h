@@ -31,6 +31,7 @@ namespace g0at
 {
     namespace model
     {
+        class thread;
         class object;
         class object_string;
         class object_function;
@@ -62,6 +63,8 @@ namespace g0at
             inline std::wstring to_string() const;
             inline object *to_object(object_list *list);
 
+            inline void op_add(thread *thr);
+
             handler *hndl;
             union
             {
@@ -84,6 +87,8 @@ namespace g0at
             void add_object(object *key, object *value);
             variable *find_object(object *key);
 
+            virtual void op_add(thread *thr);
+
             object *prev;
             object *next;
 
@@ -99,6 +104,8 @@ namespace g0at
             static handler *get_generic_instance();
             virtual std::wstring to_string(const variable *var) const = 0;
             virtual object *to_object(variable *var, object_list *list) = 0;
+
+            virtual void op_add(variable *var, thread *thr) = 0;
         };
 
         bool object_comparator::operator ()(const object *a, const object *b) const
@@ -129,6 +136,11 @@ namespace g0at
         object *variable::to_object(object_list *list)
         {
             return hndl->to_object(this, list);
+        }
+
+        void variable::op_add(thread *thr)
+        {
+            hndl->op_add(this, thr);
         }
     };
 };

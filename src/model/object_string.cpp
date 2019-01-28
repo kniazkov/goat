@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_string.h"
+#include "thread.h"
 #include <assert.h>
 
 namespace g0at
@@ -52,6 +53,16 @@ namespace g0at
         std::wstring object_string::to_string() const
         {
             return data;
+        }
+
+        void object_string::op_add(thread *thr)
+        {
+            thr->pop();
+            variable right = thr->pop();
+            std::wstring str = data + right.to_string();
+            variable result;
+            result.set_object(new object_string(thr->o_list, str));
+            thr->push(result);
         }
     };
 };
