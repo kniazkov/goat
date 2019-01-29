@@ -53,12 +53,6 @@ namespace g0at
                     tok->remove_2nd();
                     expr->replace(scolon, st_expr);
                 }
-                else
-                {
-                    lib::pointer<ast::token> st_expr  = new ast::statement_expression(expr);
-                    tok->remove_2nd();
-                    expr->replace(st_expr);
-                }
                 return 0;
             }
         };

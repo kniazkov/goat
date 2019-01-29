@@ -34,6 +34,7 @@ namespace g0at
             ast::token_2nd_list identifiers;
             ast::token_2nd_list expressions;
             ast::token_2nd_list opers_plus_minus;
+            ast::token_2nd_list functions;
         };
     };
 };

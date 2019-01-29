@@ -38,6 +38,7 @@ namespace g0at
             lib::pointer<pattern> create_pattern_function_call();
             lib::pointer<pattern> create_pattern_statement_expression();
             lib::pointer<pattern> create_pattern_binary(ast::token_2nd_list *_list);
+            lib::pointer<pattern> create_pattern_function_body();
 
             parser_data *data;
         };

@@ -53,6 +53,7 @@ namespace g0at
             root = new ast::root();
             delete data;
             data = new parser_data();
+            data->functions.add(root.get());
             parser_data_filler data_filler(data);
             parse_brackets_and_fill_data(scan, root.cast<ast::token_with_list>(), &data_filler, L'\0');
         }
