@@ -28,20 +28,14 @@ namespace g0at
 {
     namespace ast
     {
-        int __tok_count;
-
         token::token()
-            : refs(0), pos(nullptr), 
+            : pos(nullptr), 
             list(nullptr), prev(nullptr), next(nullptr), list_2(nullptr), prev_2(nullptr), next_2(nullptr)
         {
-            __tok_count++;
-            //std::cout << "*";
         }
 
         token::~token()
         {
-            __tok_count--;
-            //std::cout << "#";
         }
 
         void token::replace(lib::pointer<token> repl)

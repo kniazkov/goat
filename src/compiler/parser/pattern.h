@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "lib/ref_counter.h"
 #include "compiler/ast/token_2nd_list.h"
 #include "parser_data.h"
 
@@ -29,14 +30,12 @@ namespace g0at
 {
     namespace parser
     {
-        class pattern
+        class pattern : public lib::ref_counter
         {
         public:
             pattern(ast::token_2nd_list *_list, parser_data *_data);
             virtual ~pattern();
             virtual int pass();
-
-            int refs;
         
         protected:
             virtual int check(ast::token *tok) = 0;

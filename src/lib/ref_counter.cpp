@@ -20,37 +20,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "pattern.h"
-#include "compiler/ast/token.h"
-#include <assert.h>
+#include "ref_counter.h"
 
 namespace g0at
 {
-    namespace parser
+    namespace lib
     {
-        pattern::pattern(ast::token_2nd_list *_list, parser_data *_data)
-            : list(_list), data(_data)
+        int __obj_count = 0;
+        
+        ref_counter::ref_counter()
+            : refs(0)
         {
+            __obj_count++;
         }
 
-        pattern::~pattern()
+        ref_counter::~ref_counter()
         {
-        }
-
-        int pattern::pass()
-        {
-            assert(list != nullptr);
-            assert(data != nullptr);
-
-            int count = 0;
-            ast::token *tok = list->first;
-            while(tok)
-            {
-                ast::token *next = tok->next_2;
-                count += check(tok);
-                tok = next;
-            }
-            return count;
+            __obj_count--;
         }
     };
 };

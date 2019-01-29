@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "token_list.h"
 #include "token_2nd_list.h"
 #include "compiler/source/position.h"
+#include "lib/ref_counter.h"
 #include "lib/pointer.h"
 
 namespace g0at
@@ -34,8 +35,6 @@ namespace g0at
 
     namespace ast
     {
-        extern int __tok_count;
-
         class nonterminal;
         class expression;
         class statement;
@@ -55,7 +54,7 @@ namespace g0at
         class binary;
         class addition;
 
-        class token
+        class token : public lib::ref_counter
         {
         friend class g0at::scanner;
         public:
@@ -86,8 +85,6 @@ namespace g0at
             virtual addition *to_addition();
 
             lib::pointer<position> get_position() { return pos; }
-
-            int refs;
 
             token_list *list;
             token *prev;

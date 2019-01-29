@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "pattern.h"
+#include "lib/ref_counter.h"
 #include "lib/pointer.h"
 #include <vector>
 
@@ -30,14 +31,12 @@ namespace g0at
 {
     namespace parser
     {
-        class grammar
+        class grammar : public lib::ref_counter
         {
         friend class grammar_factory;
         public:
             grammar();
             void apply();
-
-            int refs;
         
         protected:
             std::vector<lib::pointer<pattern>> vector;

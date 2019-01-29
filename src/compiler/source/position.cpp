@@ -25,7 +25,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 namespace g0at
 {
     position::position()
-        : refs(0)
     {
     }
 

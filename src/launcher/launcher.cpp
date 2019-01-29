@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "launcher.h"
+#include "lib/ref_counter.h"
 #include "compiler/source/source_file.h"
 #include "compiler/scanner/scanner.h"
 #include "compiler/parser/parser.h"
@@ -39,7 +40,7 @@ namespace g0at
     {
         launcher l_obj(argc, argv);
         int ret_val = l_obj.go();
-        assert(g0at::ast::__tok_count == 0);
+        assert(g0at::lib::__obj_count == 0);
         return ret_val;
     }
 

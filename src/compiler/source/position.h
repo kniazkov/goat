@@ -22,18 +22,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "lib/ref_counter.h"
 #include <istream>
 
 namespace g0at
 {
-    class position
+    class position : public lib::ref_counter
     {
     public:
         position();
         virtual ~position();
         virtual int get_index() = 0;
         virtual void print(std::wostream &stream) = 0;
-
-        int refs;
     };
 };

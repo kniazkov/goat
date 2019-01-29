@@ -27,7 +27,6 @@ namespace g0at
     namespace parser
     {
         grammar::grammar()
-            : refs(0)
         {
         }
 

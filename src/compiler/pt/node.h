@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "node_visitor.h"
 #include "compiler/source/position.h"
+#include "lib/ref_counter.h"
 #include "lib/pointer.h"
 
 namespace g0at
@@ -39,7 +40,7 @@ namespace g0at
         class binary;
         class addition;
 
-        class node
+        class node : public lib::ref_counter
         {
         public:
             node(lib::pointer<position> _pos);
@@ -55,8 +56,6 @@ namespace g0at
             virtual addition *to_addition();
 
             lib::pointer<position> get_position() { return pos; }
-
-            int refs;
 
         protected:
             lib::pointer<position> pos;

@@ -27,7 +27,7 @@ namespace g0at
     namespace pt
     {
         node::node(lib::pointer<position> _pos)
-            : refs(0), pos(_pos)
+            : pos(_pos)
         {
         }
 
