@@ -1,1 +1,3 @@
-print("it" + " " + "works.");
+print("it works.");
+exit();
+print("it should not work.");

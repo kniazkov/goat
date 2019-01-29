@@ -20,9 +20,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "model/context.h"
+#include "context_factory.h"
+#include "model/object_function_built_in.h"
+#include <iostream>
 
 namespace g0at
 {
@@ -30,18 +30,24 @@ namespace g0at
     {
         namespace built_in
         {
-            class context_factory
+            class exit : public object_function_built_in
             {
             public:
-                context_factory(object_list *_list);
-                context *create_context();
-            
-            protected:
-                object *create_function_print();
-                object *create_function_exit();
-
-                object_list *list;
+                exit(object_list *_list)
+                    : object_function_built_in(_list)
+                {
+                }
+                
+                void call(thread *thr) override
+                {
+                    thr->state = model::thread_state::FINISH;
+                }
             };
+
+            object *context_factory::create_function_exit()
+            {
+                return new exit(list);
+            }
         };
     };
 };
