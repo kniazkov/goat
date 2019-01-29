@@ -48,7 +48,9 @@ namespace g0at
                 if (expr->next)
                 {
                     ast::semicolon *scolon = expr->next->to_semicolon();
-                    assert(scolon != nullptr); // TODO: exception ?
+                    if (scolon == nullptr)
+                        return 0;
+
                     lib::pointer<ast::token> st_expr  = new ast::statement_expression(expr);
                     tok->remove_2nd();
                     expr->replace(scolon, st_expr);
