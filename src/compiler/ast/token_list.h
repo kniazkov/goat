@@ -37,8 +37,8 @@ namespace g0at
             void swap(token_list *other);
             void add(lib::pointer<token> item);
             void add_after(lib::pointer<token> item, token *after);
-            void remove(token *item);
-            void replace(token *begin, token *end, lib::pointer<token> repl);
+            void remove(lib::pointer<token> item);
+            void replace(lib::pointer<token> begin, lib::pointer<token> end, lib::pointer<token> repl);
 
             lib::pointer<token> first;
             token *last;

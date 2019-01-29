@@ -72,7 +72,7 @@ namespace g0at
             after->next = item;
         }
 
-        void token_list::remove(token *item)
+        void token_list::remove(lib::pointer<token> item)
         {
             assert (item->list == this);
 
@@ -85,9 +85,13 @@ namespace g0at
                 item->next->prev = item->prev;
             else
                 last = item->prev;
+
+            item->list = nullptr;
+            item->prev = nullptr;
+            item->next.reset();
         }
 
-        void token_list::replace(token *begin, token *end, lib::pointer<token> repl)
+        void token_list::replace(lib::pointer<token> begin, lib::pointer<token> end, lib::pointer<token> repl)
         {
             assert (begin->list == this && end->list == this);
 
@@ -99,7 +103,6 @@ namespace g0at
             {
                 end->next->prev = repl.get();
                 repl->next = end->next;
-                end->next.reset();
             }
             else
             {
@@ -116,6 +119,13 @@ namespace g0at
             {
                 first = repl;
                 repl->prev = nullptr;
+            }
+
+            token *item = end.get();
+            while (item != begin.get())
+            {
+                item->next.reset();
+                item = item->prev;
             }
         }
         

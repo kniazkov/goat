@@ -62,6 +62,10 @@ namespace g0at
                 item->next_2->prev_2 = item->prev_2;
             else
                 last = item->prev_2;
+
+            item->list_2 = nullptr;
+            item->prev_2 = nullptr;
+            item->next_2 = nullptr;
         }
     };
 };
