@@ -40,7 +40,7 @@ namespace g0at
             model::object_list o_list;
             model::object_cache cache(code->get_identifiers_list(), &o_list);
             model::context *ctx = model::built_in::context_factory(&o_list, &cache).create_context();
-            model::thread thr(ctx, &o_list);
+            model::thread thr(ctx, &o_list, &cache);
             thr.state = model::thread_state::WORK;
             uint32_t iid = 0;
             while(thr.state == model::thread_state::WORK)

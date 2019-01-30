@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "context.h"
+#include "object_cache.h"
 #include <deque>
 
 namespace g0at
@@ -39,7 +40,7 @@ namespace g0at
         class thread
         {
         public:
-            thread(context *_ctx, object_list *_o_list);
+            thread(context *_ctx, object_list *_o_list, object_cache *_cache);
 
             void push(variable var) { data.push_front(var); }
             variable pop()
@@ -54,6 +55,7 @@ namespace g0at
             thread_state state;
             context *ctx;
             object_list *o_list;
+            object_cache  *cache;
 
         protected:
             thread(const thread &) { }

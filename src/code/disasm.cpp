@@ -30,15 +30,15 @@ namespace g0at
 {
     namespace code
     {
-        disasm::disasm(std::wstringstream &_stream)
-            : stream(_stream)
+        disasm::disasm(std::wstringstream &_stream, std::vector<std::wstring> &_identifiers)
+            : stream(_stream), identifiers(_identifiers)
         {
         }
 
         std::wstring disasm::to_string(lib::pointer<code> _code)
         {
             std::wstringstream tmp;
-            disasm da(tmp);
+            disasm da(tmp, _code->get_identifiers_list());
             for (int i = 0, size = _code->get_code_size(); i < size; i++)
             {
                 tmp << L"\n";
@@ -54,7 +54,8 @@ namespace g0at
 
         void disasm::visit(load_var *ref)
         {
-            stream << L"load " << ref->get_name();
+            int id = ref->get_id();
+            stream << L"load " << identifiers.at(id) << " (" << id << ")";
         }
 
         void disasm::visit(call *ref)

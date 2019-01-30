@@ -28,8 +28,8 @@ namespace g0at
 {
     namespace code
     {
-        load_var::load_var(std::wstring _name)
-            : name(_name)
+        load_var::load_var(int _id)
+            : id(_id)
         {
         }
 
@@ -40,10 +40,9 @@ namespace g0at
 
         void load_var::exec(model::thread *thr)
         {
-            // TODO: fix it please!
-            model::object_string *key = new model::object_string(thr->o_list, name);
+            model::object_string *key = thr->cache->get_object(id);
             model::variable *var = thr->ctx->find_object(key);
-            assert(var != nullptr); // exception!
+            assert(var != nullptr); // exception (or 'undefined' object)
             thr->push(*var);
         }
     };

@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/pointer.h"
 #include <sstream>
 #include <string>
+#include <vector>
 
 namespace g0at
 {
@@ -35,7 +36,7 @@ namespace g0at
         class disasm : public instruction_visitor
         {
         public:
-            disasm(std::wstringstream &_stream);
+            disasm(std::wstringstream &_stream, std::vector<std::wstring> &_identifiers);
             static std::wstring to_string(lib::pointer<code> _code);
             void visit(load_string *ref) override;
             void visit(load_var *ref) override;
@@ -46,6 +47,7 @@ namespace g0at
 
         protected:
             std::wstringstream &stream;
+            std::vector<std::wstring> &identifiers;
         };
     };
 };

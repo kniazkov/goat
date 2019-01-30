@@ -77,7 +77,8 @@ namespace g0at
             {
                 ref->get_arg(i)->accept(this);
             }
-            code->add_instruction(new code::load_var(ref->get_name()));
+            int id = name_cache.get_id(ref->get_name());
+            code->add_instruction(new code::load_var(id));
             code->add_instruction(new code::call);
             code->add_instruction(new code::pop(static_cast<uint16_t>(args_count)));
         }

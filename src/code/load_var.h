@@ -32,14 +32,14 @@ namespace g0at
         class load_var : public instruction
         {
         public:
-            load_var(std::wstring _name);
+            load_var(int _id);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
 
-            std::wstring get_name() { return name; }
+            int get_id() { return id; }
 
         protected:
-            std::wstring name;
+            int id;
         };
     };
 };
