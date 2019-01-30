@@ -64,6 +64,7 @@ namespace g0at
             inline void set_object(object *obj);
             inline std::wstring to_string() const;
             inline object *to_object(object_list *list);
+            inline bool get_integer(int64_t *pval);
 
             inline void op_add(thread *thr);
 
@@ -90,6 +91,8 @@ namespace g0at
             void add_object(object *key, object *value);
             variable *find_object(object *key);
 
+            virtual bool get_integer(int64_t *pval);
+
             virtual void op_add(thread *thr);
 
             object *prev;
@@ -107,8 +110,22 @@ namespace g0at
             static handler *get_generic_instance();
             virtual std::wstring to_string(const variable *var) const = 0;
             virtual object *to_object(variable *var, object_list *list) = 0;
+            virtual bool get_integer(variable *var, int64_t *val) = 0;
 
             virtual void op_add(variable *var, thread *thr) = 0;
+        };
+
+        class generic_handler : public handler
+        {
+        public:
+            static handler *get_instance();
+            std::wstring to_string(const variable *var) const override;
+            object *to_object(variable *var, object_list *list) override;
+            bool get_integer(variable *var, int64_t *pval) override;
+            void op_add(variable *var, thread *thr)  override;
+
+        protected:
+            generic_handler();
         };
 
         bool object_comparator::operator ()(const object *a, const object *b) const
@@ -125,6 +142,10 @@ namespace g0at
             return x < y;
         }
 
+        /*
+            Variable
+        */
+
         void variable::set_object(object *obj)
         {
             hndl = handler::get_generic_instance();
@@ -139,6 +160,11 @@ namespace g0at
         object *variable::to_object(object_list *list)
         {
             return hndl->to_object(this, list);
+        }
+
+        bool variable::get_integer(int64_t *pval)
+        {
+            return hndl->get_integer(this, pval);
         }
 
         void variable::op_add(thread *thr)

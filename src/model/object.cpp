@@ -109,6 +109,11 @@ namespace g0at
             return var;
         }
 
+        bool object::get_integer(int64_t *pval)
+        {
+            return false;
+        }
+
         void object::op_add(thread *thr)
         {
             assert(false); // not implemented
@@ -122,39 +127,40 @@ namespace g0at
         {
         }
 
-        class generic_handler : public handler
-        {
-        protected:
-            generic_handler()
-            {
-            }
-
-        public:
-            static handler *get_instance()
-            {
-                static generic_handler instance;
-                return &instance;
-            }
-
-            std::wstring to_string(const variable *var) const override
-            {
-                return var->data.obj->to_string();
-            }
-
-            object *to_object(variable *var, object_list *list) override
-            {
-                return var->data.obj;
-            }
-
-            void op_add(variable *var, thread *thr)
-            {
-                var->data.obj->op_add(thr);
-            }
-        };
-
         handler *handler::get_generic_instance()
         {
             return generic_handler::get_instance();
         }
+
+        generic_handler::generic_handler()
+        {
+        }
+
+        handler *generic_handler::get_instance()
+        {
+            static generic_handler instance;
+            return &instance;
+        }
+
+        std::wstring generic_handler::to_string(const variable *var) const
+        {
+            return var->data.obj->to_string();
+        }
+
+        object *generic_handler::to_object(variable *var, object_list *list)
+        {
+            return var->data.obj;
+        }
+
+        bool generic_handler::get_integer(variable *var, int64_t *pval)
+        {
+            return var->data.obj->get_integer(pval);
+        }
+
+        void generic_handler::op_add(variable *var, thread *thr)
+        {
+            var->data.obj->op_add(thr);
+        }
+
     };
 };

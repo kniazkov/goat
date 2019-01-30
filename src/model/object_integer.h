@@ -36,6 +36,7 @@ namespace g0at
             object_integer *to_object_integer() override;
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
+            bool get_integer(int64_t *pval) override;
             void op_add(thread *thr) override;
 
             int64_t get_value() { return value; }

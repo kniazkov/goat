@@ -55,9 +55,22 @@ namespace g0at
             return std::to_wstring(value);
         }
 
+        bool object_integer::get_integer(int64_t *pval)
+        {
+            *pval = value;
+            return true;
+        }
+
         void object_integer::op_add(thread *thr)
         {
-            
+            thr->pop();
+            variable right = thr->pop();
+            int64_t right_value;
+            bool right_is_integer = right.get_integer(&right_value);
+            assert(right_is_integer);
+            variable result;
+            result.set_object(new object_integer(thr->o_list, value + right_value));
+            thr->push(result);
         }
     };
 };
