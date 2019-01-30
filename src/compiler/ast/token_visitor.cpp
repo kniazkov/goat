@@ -77,5 +77,9 @@ namespace g0at
         void token_visitor::visit(addition *ref)
         {
         }
+
+        void token_visitor::visit(integer *ref)
+        {
+        }
     }
 };

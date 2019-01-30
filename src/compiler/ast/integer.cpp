@@ -20,42 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "node_visitor.h"
+#include "integer.h"
 
 namespace g0at
 {
-    namespace pt
+    namespace ast
     {
-        node_visitor::node_visitor()
+        integer::integer(int64_t _value)
+            : value(_value)
         {
         }
 
-        node_visitor::~node_visitor()
+        void integer::accept(token_visitor *visitor)
         {
+            visitor->visit(this);
         }
 
-        void node_visitor::visit(static_string *ref)
+        integer *integer::to_integer()
         {
+            return this;
         }
-
-        void node_visitor::visit(function_call *ref)
-        {
-        }
-
-        void node_visitor::visit(statement_expression *ref)
-        {
-        }
-
-        void node_visitor::visit(function *ref)
-        {
-        }
-
-        void node_visitor::visit(addition *ref)
-        {
-        }
-
-        void node_visitor::visit(integer *ref)
-        {
-        }
-    }
+    };
 };

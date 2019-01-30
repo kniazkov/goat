@@ -1,3 +1,1 @@
-print("it works.");
-exit();
-print("it should not work.");
+print(1024);

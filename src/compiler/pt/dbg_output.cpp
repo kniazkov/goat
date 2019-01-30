@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "function_call.h"
 #include "statement_expression.h"
 #include "addition.h"
+#include "integer.h"
 
 namespace g0at
 {
@@ -92,6 +93,12 @@ namespace g0at
             dbg_output indented(stream, indent + 1);
             ref->get_left()->accept(&indented);
             ref->get_right()->accept(&indented);
+        }
+
+        void dbg_output::visit(integer *ref)
+        {
+            add_indent();
+            stream << ref->get_value();
         }
 
         void dbg_output::add_indent()

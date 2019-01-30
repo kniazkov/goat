@@ -27,6 +27,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/function_call.h"
 #include "compiler/ast/addition.h"
 #include "compiler/pt/addition.h"
+#include "compiler/ast/integer.h"
+#include "compiler/pt/integer.h"
 #include <assert.h>
 
 namespace g0at
@@ -66,6 +68,11 @@ namespace g0at
             assert(visitor_right.has_expr());
 
             expr = new pt::addition(ref->get_position(), visitor_left.get_expr(), visitor_right.get_expr());
+        }
+
+        void expression_builder::visit(ast::integer *ref)
+        {
+            expr = new pt::integer(ref->get_position(), ref->get_value());
         }
     };
 };

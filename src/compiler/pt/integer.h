@@ -20,42 +20,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "node_visitor.h"
+#pragma once
+
+#include "expression.h"
+#include <cstdint>
 
 namespace g0at
 {
     namespace pt
     {
-        node_visitor::node_visitor()
+        class integer : public expression
         {
-        }
+        public:
+            integer(lib::pointer<position> _pos, int64_t _value);
+            void accept(node_visitor *visitor) override;
+            integer *to_integer() override;
 
-        node_visitor::~node_visitor()
-        {
-        }
+            int64_t get_value() { return value; }
 
-        void node_visitor::visit(static_string *ref)
-        {
-        }
-
-        void node_visitor::visit(function_call *ref)
-        {
-        }
-
-        void node_visitor::visit(statement_expression *ref)
-        {
-        }
-
-        void node_visitor::visit(function *ref)
-        {
-        }
-
-        void node_visitor::visit(addition *ref)
-        {
-        }
-
-        void node_visitor::visit(integer *ref)
-        {
-        }
-    }
+        protected:
+            int64_t value;
+        };
+    };
 };

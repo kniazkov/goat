@@ -53,6 +53,7 @@ namespace g0at
         class custom_operator;
         class binary;
         class addition;
+        class integer;
 
         class token : public lib::ref_counter
         {
@@ -83,6 +84,7 @@ namespace g0at
             virtual custom_operator *to_custom_operator();
             virtual binary *to_binary();
             virtual addition *to_addition();
+            virtual integer *to_integer();
 
             lib::pointer<position> get_position() { return pos; }
 

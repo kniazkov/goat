@@ -37,6 +37,7 @@ namespace g0at
         class plus;
         class custom_operator;
         class addition;
+        class integer;
 
         class token_visitor
         {
@@ -54,6 +55,7 @@ namespace g0at
             virtual void visit(plus *ref);
             virtual void visit(custom_operator *ref);
             virtual void visit(addition *ref);
+            virtual void visit(integer *ref);
         };
     };
 };

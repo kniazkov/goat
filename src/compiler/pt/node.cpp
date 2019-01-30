@@ -74,5 +74,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        integer *node::to_integer()
+        {
+            return nullptr;
+        }
     }
 };

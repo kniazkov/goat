@@ -39,6 +39,7 @@ namespace g0at
         class function;
         class binary;
         class addition;
+        class integer;
 
         class node : public lib::ref_counter
         {
@@ -54,6 +55,7 @@ namespace g0at
             virtual function *to_function();
             virtual binary *to_binary();
             virtual addition *to_addition();
+            virtual integer *to_integer();
 
             lib::pointer<position> get_position() { return pos; }
 

@@ -151,5 +151,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        integer *token::to_integer()
+        {
+            return nullptr;
+        }
     }
 };

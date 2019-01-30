@@ -36,6 +36,7 @@ namespace g0at
             void visit(ast::static_string *ref) override;
             void visit(ast::function_call *ref) override;
             void visit(ast::addition *ref) override;
+            void visit(ast::integer *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

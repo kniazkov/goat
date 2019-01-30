@@ -27,7 +27,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/semicolon.h"
 #include "compiler/ast/plus.h"
 #include "compiler/ast/custom_operator.h"
+#include "compiler/ast/integer.h"
 #include <sstream>
+#include <cstdint>
 
 namespace g0at
 {
@@ -108,6 +110,17 @@ namespace g0at
             }
             src->next();
             return new ast::static_string(wss.str());
+        }
+
+        if (is_digit(c))
+        {
+            int64_t val = 0;
+            do
+            {
+                val = val * 10 + c - L'0';
+                c = src->next();
+            } while(is_digit(c));
+            return new ast::integer(val);
         }
 
         if (is_operator(c))
