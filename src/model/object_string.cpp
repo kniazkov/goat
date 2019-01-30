@@ -29,7 +29,12 @@ namespace g0at
     namespace model
     {
         object_string::object_string(object_list *list, std::wstring _data)
-            : object(list), data(_data)
+            : object(list), data(_data), id(-1)
+        {
+        }
+
+        object_string::object_string(object_list *list, std::wstring _data, int _id)
+            : object(list), data(_data), id(_id)
         {
         }
 
@@ -47,7 +52,10 @@ namespace g0at
         {
             assert(obj->get_type() == STRING);
             const object_string *str = static_cast<const object_string*>(obj);
-            return data < str->data;
+            if (id < 0 || str->id < 0)
+                return data < str->data;
+            else
+                return id < str->id;
         }
 
         std::wstring object_string::to_string() const

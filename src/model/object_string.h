@@ -32,6 +32,7 @@ namespace g0at
         {
         public:
             object_string(object_list *list, std::wstring _data);
+            object_string(object_list *list, std::wstring _data, int _id);
             object_type get_type() const override;
             object_string *to_object_string() override;
             bool less(const object *obj) const override;
@@ -42,6 +43,7 @@ namespace g0at
 
         protected:
             std::wstring data;
+            int id;
         };
     };
 };

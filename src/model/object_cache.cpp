@@ -30,12 +30,13 @@ namespace g0at
         object_cache::object_cache(std::vector<std::wstring> _init_list, object_list *_obj_list)
         {
             obj_list = _obj_list;
-            for (int idx = 0, size = (int)_init_list.size(); idx < size; idx++)
+            for (int id = 0, size = (int)_init_list.size(); id < size; id++)
             {
-                std::wstring name = _init_list[idx];
+                std::wstring name = _init_list[id];
                 assert(indexes.find(name) == indexes.end());
-                indexes.insert(std::pair<std::wstring, int>(name, idx));
-                objects.push_back(new object_string(obj_list, name));
+                object_string *obj = new object_string(obj_list, name, id);
+                indexes.insert(std::pair<std::wstring, int>(name, id));
+                objects.push_back(obj);
             }
         }
 
@@ -50,7 +51,7 @@ namespace g0at
             else
             {
                 int id = (int)objects.size();
-                object_string *obj = new object_string(obj_list, name);
+                object_string *obj = new object_string(obj_list, name, id);
                 indexes.insert(std::pair<std::wstring, int>(name, id));
                 objects.push_back(obj);
                 return obj;
