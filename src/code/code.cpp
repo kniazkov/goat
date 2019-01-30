@@ -27,7 +27,6 @@ namespace g0at
     namespace code
     {
         code::code()
-            : refs(0)
         {
         }
 

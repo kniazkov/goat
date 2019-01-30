@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "lib/ref_counter.h"
 #include "instruction.h"
 #include <vector>
 
