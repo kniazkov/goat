@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "load_var.h"
 #include "call.h"
 #include "pop.h"
+#include "load_integer.h"
 
 namespace g0at
 {
@@ -49,7 +50,7 @@ namespace g0at
 
         void disasm::visit(load_string *ref)
         {
-            stream << L"loads \"" << ref->get_text() << L'\"';
+            stream << L"sload \"" << ref->get_text() << L'\"';
         }
 
         void disasm::visit(load_var *ref)
@@ -76,6 +77,11 @@ namespace g0at
         void disasm::visit(add *ref)
         {
             stream << L"add";
+        }
+
+        void disasm::visit(load_integer *ref)
+        {
+            stream << L"iload " << ref->get_value();
         }
     };
 };

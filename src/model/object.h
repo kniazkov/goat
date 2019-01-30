@@ -35,13 +35,15 @@ namespace g0at
         class object;
         class object_string;
         class object_function;
+        class object_integer;
         class handler;
 
         enum object_type
         {
             GENERIC,
             STRING,
-            FUNCTION
+            FUNCTION,
+            INTEGER
         };
 
         class object_comparator
@@ -80,6 +82,7 @@ namespace g0at
             virtual object_type get_type() const;
             virtual object_string *to_object_string();
             virtual object_function *to_object_function();
+            virtual object_integer *to_object_integer();
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;

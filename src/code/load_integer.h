@@ -22,30 +22,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "instruction.h"
+#include <cstdint>
+
 namespace g0at
 {
     namespace code
     {
-        class load_string;
-        class load_var;
-        class call;
-        class pop;
-        class end;
-        class add;
-        class load_integer;
-
-        class instruction_visitor
+        class load_integer : public instruction
         {
         public:
-            instruction_visitor();
-            ~instruction_visitor();
-            virtual void visit(load_string *ref) = 0;
-            virtual void visit(load_var *ref) = 0;
-            virtual void visit(call *ref) = 0;
-            virtual void visit(pop *ref) = 0;
-            virtual void visit(end *ref) = 0;
-            virtual void visit(add *ref) = 0;
-            virtual void visit(load_integer *ref) = 0;
+            load_integer(int64_t _value);
+            void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
+
+            int64_t get_value() { return value; }
+
+        protected:
+            int64_t value;
         };
     };
 };

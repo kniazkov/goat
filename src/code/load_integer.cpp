@@ -20,32 +20,28 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
+#include "load_integer.h"
+#include "model/object_integer.h"
 
 namespace g0at
 {
     namespace code
     {
-        class load_string;
-        class load_var;
-        class call;
-        class pop;
-        class end;
-        class add;
-        class load_integer;
-
-        class instruction_visitor
+        load_integer::load_integer(int64_t _value)
+            : value(_value)
         {
-        public:
-            instruction_visitor();
-            ~instruction_visitor();
-            virtual void visit(load_string *ref) = 0;
-            virtual void visit(load_var *ref) = 0;
-            virtual void visit(call *ref) = 0;
-            virtual void visit(pop *ref) = 0;
-            virtual void visit(end *ref) = 0;
-            virtual void visit(add *ref) = 0;
-            virtual void visit(load_integer *ref) = 0;
-        };
+        }
+
+        void load_integer::accept(instruction_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
+
+        void load_integer::exec(model::thread *thr)
+        {
+            model::variable var;
+            var.set_object(new model::object_integer(thr->o_list, value));
+            thr->push(var);
+        }
     };
 };

@@ -22,30 +22,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "object.h"
+
 namespace g0at
 {
-    namespace code
+    namespace model
     {
-        class load_string;
-        class load_var;
-        class call;
-        class pop;
-        class end;
-        class add;
-        class load_integer;
-
-        class instruction_visitor
+        class object_integer : public object
         {
         public:
-            instruction_visitor();
-            ~instruction_visitor();
-            virtual void visit(load_string *ref) = 0;
-            virtual void visit(load_var *ref) = 0;
-            virtual void visit(call *ref) = 0;
-            virtual void visit(pop *ref) = 0;
-            virtual void visit(end *ref) = 0;
-            virtual void visit(add *ref) = 0;
-            virtual void visit(load_integer *ref) = 0;
+            object_integer(object_list *list, int64_t _value);
+            object_type get_type() const override;
+            object_integer *to_object_integer() override;
+            bool less(const object *obj) const override;
+            std::wstring to_string() const override;
+            void op_add(thread *thr) override;
+
+            int64_t get_value() { return value; }
+
+        protected:
+            int64_t value;
         };
     };
 };
