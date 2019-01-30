@@ -38,6 +38,7 @@ namespace g0at
             {
                 context *ctx = new context(list);
                 ctx->add_object(cache->get_object(L"print"), create_function_print());
+                ctx->add_object(cache->get_object(L"println"), create_function_println());
                 ctx->add_object(cache->get_object(L"exit"), create_function_exit());
                 return ctx;
             }
