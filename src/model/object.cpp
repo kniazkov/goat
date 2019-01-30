@@ -127,7 +127,7 @@ namespace g0at
         {
         }
 
-        handler *handler::get_generic_instance()
+        handler *handler::get_instance_generic()
         {
             return generic_handler::get_instance();
         }

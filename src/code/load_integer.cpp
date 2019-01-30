@@ -40,7 +40,7 @@ namespace g0at
         void load_integer::exec(model::thread *thr)
         {
             model::variable var;
-            var.set_object(new model::object_integer(thr->o_list, value));
+            var.set_integer(value);
             thr->push(var);
         }
     };

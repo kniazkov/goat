@@ -62,6 +62,8 @@ namespace g0at
             }
 
             inline void set_object(object *obj);
+            inline void set_integer(int64_t value);
+
             inline std::wstring to_string() const;
             inline object *to_object(object_list *list);
             inline bool get_integer(int64_t *pval);
@@ -72,6 +74,7 @@ namespace g0at
             union
             {
                 object *obj;
+                int64_t i;
             } data;
         };
 
@@ -107,7 +110,8 @@ namespace g0at
         {
         public:
             virtual ~handler();
-            static handler *get_generic_instance();
+            static handler *get_instance_generic();
+            static handler *get_instance_integer();
             virtual std::wstring to_string(const variable *var) const = 0;
             virtual object *to_object(variable *var, object_list *list) = 0;
             virtual bool get_integer(variable *var, int64_t *val) = 0;
@@ -148,8 +152,14 @@ namespace g0at
 
         void variable::set_object(object *obj)
         {
-            hndl = handler::get_generic_instance();
+            hndl = handler::get_instance_generic();
             data.obj = obj;
+        }
+
+        void variable::set_integer(int64_t value)
+        {
+            hndl = handler::get_instance_integer();
+            data.i = value;
         }
 
         std::wstring variable::to_string() const

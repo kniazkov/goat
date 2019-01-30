@@ -69,8 +69,62 @@ namespace g0at
             bool right_is_integer = right.get_integer(&right_value);
             assert(right_is_integer);
             variable result;
-            result.set_object(new object_integer(thr->o_list, value + right_value));
+            result.set_integer(value + right_value);
             thr->push(result);
+        }
+
+        /*
+            Primitive handler
+        */
+
+        class integer_handler : public handler
+        {
+        public:
+            static handler *get_instance()
+            {
+                static integer_handler instance;
+                return &instance;
+            }
+
+            std::wstring to_string(const variable *var) const override
+            {
+                return std::to_wstring(var->data.i);
+            }
+
+            object *to_object(variable *var, object_list *list) override
+            {
+                object *obj = new object_integer(list, var->data.i);
+                var->set_object(obj);
+                return obj;
+            }
+
+            bool get_integer(variable *var, int64_t *pval)
+            {
+                *pval = var->data.i;
+                return true;
+            }
+
+            void op_add(variable *var, thread *thr)  override
+            {
+                thr->pop();
+                variable right = thr->pop();
+                int64_t right_value;
+                bool right_is_integer = right.get_integer(&right_value);
+                assert(right_is_integer);
+                variable result;
+                result.set_integer(var->data.i + right_value);
+                thr->push(result);
+            }
+
+        protected:
+            integer_handler()
+            {
+            }
+        };
+
+        handler *handler::get_instance_integer()
+        {
+            return integer_handler::get_instance();
         }
     };
 };
