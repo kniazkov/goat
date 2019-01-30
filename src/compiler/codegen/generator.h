@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "compiler/pt/node_visitor.h"
 #include "code/code.h"
+#include "model/name_cache.h"
 #include "lib/pointer.h"
 
 namespace g0at
@@ -41,10 +42,9 @@ namespace g0at
             void visit(pt::statement_expression *ref) override;
             void visit(pt::addition *ref) override;
 
-            lib::pointer<code::code> get_code() { return code; }
-
         protected:
             lib::pointer<code::code> code; 
+            model::name_cache name_cache;
         };
     };
 };

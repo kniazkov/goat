@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "model/context.h"
+#include "model/object_cache.h"
 
 namespace g0at
 {
@@ -33,7 +34,7 @@ namespace g0at
             class context_factory
             {
             public:
-                context_factory(object_list *_list);
+                context_factory(object_list *_list, object_cache *_cache);
                 context *create_context();
             
             protected:
@@ -41,6 +42,7 @@ namespace g0at
                 object *create_function_exit();
 
                 object_list *list;
+                object_cache *cache;
             };
         };
     };

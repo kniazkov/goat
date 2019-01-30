@@ -20,27 +20,32 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "context_factory.h"
-#include "model/object_string.h"
+#pragma once
+
+#include "object_string.h"
+#include "object_list.h"
+#include <string>
+#include <map>
+#include <vector>
 
 namespace g0at
 {
     namespace model
     {
-        namespace built_in
+        class object_cache
         {
-            context_factory::context_factory(object_list *_list, object_cache *_cache)
-                : list(_list), cache(_cache)
-            {
-            }
+        public:
+            object_cache(std::vector<std::wstring> _init_list, object_list *_obj_list);
+            object_string *get_object(std::wstring name);
+            object_string *get_object(int id);
 
-            context *context_factory::create_context()
-            {
-                context *ctx = new context(list);
-                ctx->add_object(cache->get_object(L"print"), create_function_print());
-                ctx->add_object(cache->get_object(L"exit"), create_function_exit());
-                return ctx;
-            }
+        protected:
+            object_cache(const object_cache&) { }
+            void operator=(const object_cache&) { }
+
+            std::map<std::wstring, int> indexes;
+            std::vector<object_string *> objects;
+            object_list *obj_list;
         };
     };
 };

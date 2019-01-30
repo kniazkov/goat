@@ -25,28 +25,30 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/ref_counter.h"
 #include "instruction.h"
 #include <vector>
+#include <string>
 
 namespace g0at
 {
     namespace code
     {
-        class code
+        class code : public lib::ref_counter
         {
         public:
             code();
             ~code();
 
             void add_instruction(instruction *instr);
-            int get_code_size() { return i_list.size(); }
-            instruction *get_instruction(int index) { return i_list.at(index); }
-
-            int refs;
+            int get_code_size() { return instructions.size(); }
+            instruction *get_instruction(int index) { return instructions.at(index); }
+            std::vector<std::wstring> &get_identifiers_list() { return identifiers; }
+            void set_identifiers_list(std::vector<std::wstring> &_identifiers) { identifiers = _identifiers; }
 
         protected:
             code(const code &) { }
             void operator=(const code&) { }
 
-            std::vector<instruction*> i_list;
+            std::vector<instruction*> instructions;
+            std::vector<std::wstring> identifiers;
         };
     };
 };

@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "vm.h"
 #include "model/object.h"
+#include "model/object_cache.h"
 #include "model/built_in/context_factory.h"
 #include <assert.h>
 
@@ -37,7 +38,8 @@ namespace g0at
         void vm::run()
         {
             model::object_list o_list;
-            model::context *ctx = model::built_in::context_factory(&o_list).create_context();
+            model::object_cache cache(code->get_identifiers_list(), &o_list);
+            model::context *ctx = model::built_in::context_factory(&o_list, &cache).create_context();
             model::thread thr(ctx, &o_list);
             thr.state = model::thread_state::WORK;
             uint32_t iid = 0;

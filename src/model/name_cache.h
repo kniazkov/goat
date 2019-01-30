@@ -35,12 +35,13 @@ namespace g0at
         public:
             name_cache();
             int get_id(std::wstring name);
+            
+            std::vector<std::wstring> &get_vector() { return vector; }
 
         protected:
             name_cache(const name_cache&) { }
             void operator=(const name_cache&) { }
 
-            int last_id;
             std::map<std::wstring, int> map;
             std::vector<std::wstring> vector;
         };

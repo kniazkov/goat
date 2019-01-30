@@ -47,7 +47,8 @@ namespace g0at
         {
             generator gen;
             node_root->accept(&gen);
-            return gen.get_code();
+            gen.code->set_identifiers_list(gen.name_cache.get_vector());
+            return gen.code;
         }
 
         void generator::visit(pt::function *ref)

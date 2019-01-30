@@ -32,7 +32,7 @@ namespace g0at
 
         code::~code()
         {
-            for (instruction *i : i_list)
+            for (instruction *i : instructions)
             {
                 delete i;
             }
@@ -40,9 +40,9 @@ namespace g0at
 
         void code::add_instruction(instruction *instr)
         {
-            uint32_t id = i_list.size();
+            uint32_t id = instructions.size();
             instr->id = id;
-            i_list.push_back(instr);
+            instructions.push_back(instr);
         }
     }
 };
