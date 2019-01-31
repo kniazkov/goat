@@ -22,17 +22,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "lib/ref_counter.h"
+#include "compiler/source/position.h"
+#include "lib/pointer.h"
+#include "lib/exception.h"
 #include <string>
 
 namespace g0at
 {
-    class position : public lib::ref_counter
+    class compilation_error : public lib::exception
     {
     public:
-        position();
-        virtual ~position();
-        virtual int get_index() = 0;
-        virtual std::wstring to_string() = 0;
+        compilation_error(lib::pointer<position> pos, std::wstring message);
     };
 };

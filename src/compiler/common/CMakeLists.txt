@@ -17,33 +17,9 @@
 # with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 cmake_minimum_required(VERSION 2.6)
-add_compile_options(-std=c++11 -g)
-project(f_ck)
-set (SOURCE main.cpp)
-add_executable(goat ${SOURCE})
-add_subdirectory(code)
-add_subdirectory(compiler)
-add_subdirectory(launcher)
-add_subdirectory(lib)
-add_subdirectory(global)
-add_subdirectory(resource)
-add_subdirectory(model)
-add_subdirectory(vm)
-target_link_libraries(goat
-    lib
-    global
-    resource
-    code
-    launcher
-    model
-    built_in
-    vm
-    analyzer
-    ast
-    codegen
-    parser
-    ptree
-    scanner
-    source
-    compiler_common
-)
+include_directories(../..)
+cmake_minimum_required(VERSION 2.6)
+project(compiler_common)
+file (GLOB SOURCE "*.cpp")
+add_library(compiler_common STATIC ${SOURCE})
+target_link_libraries(compiler_common source)

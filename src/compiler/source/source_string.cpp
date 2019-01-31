@@ -37,9 +37,9 @@ namespace g0at
             return index;
         }
 
-        void print(std::wostream &stream) override
+        std::wstring to_string() override
         {
-            stream << index;
+            return std::to_wstring(index);
         }
 
     protected:
