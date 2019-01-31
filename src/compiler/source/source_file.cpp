@@ -44,7 +44,7 @@ namespace g0at
 
         std::wstring to_string() override
         {
-            std::to_wstring(index);
+            return std::to_wstring(index);
         }
 
     protected:

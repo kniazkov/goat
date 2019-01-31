@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "resource.h"
+#include <sstream>
 
 namespace g0at
 {
@@ -38,6 +39,13 @@ namespace g0at
             std::wstring bad_utf8() override
             {
                 return L"input data is not utf-8 encoded";
+            }
+
+            std::wstring unknown_character(wchar_t ch) override
+            {
+                std::wstringstream wss;
+                wss  << L"unknown character '" << ch << L'\'';
+                return wss.str();
             }
         };
 

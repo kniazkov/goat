@@ -30,10 +30,14 @@ namespace g0at
 {
     namespace lib
     {
-        bad_utf8::bad_utf8()
-            : exception(global::resource->bad_utf8())
+        class bad_utf8 : public exception
         {
-        }
+        public:
+            bad_utf8()
+                : exception(global::resource->bad_utf8())
+            {
+            }
+        };
 
         utf8_encoder::utf8_encoder()
         {

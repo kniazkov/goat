@@ -33,7 +33,10 @@ namespace g0at
         public:
             virtual ~resource() { }
             static resource *get_instance(const char *lang);
+
             virtual std::wstring bad_utf8() = 0;
+            virtual std::wstring unknown_character(wchar_t ch) = 0;
+            
         protected:
             static resource *get_intance_en();
             static resource *get_intance_ru();

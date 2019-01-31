@@ -33,6 +33,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/disasm.h"
 #include "vm/vm.h"
 #include <iostream>
+#include <exception>
 #include <assert.h>
 
 namespace g0at
@@ -52,21 +53,28 @@ namespace g0at
 
     int launcher::go()
     {
-        assert(opt.prog_name != nullptr);
-        source_file src(opt.prog_name);
-        scanner scan(&src);
-        auto tok_root = g0at::parser::parser::parse(&scan);
-        if (opt.dump_abstract_syntax_tree)
-            std::cout << global::char_encoder->encode(g0at::ast::dbg_output::to_string(tok_root)) << std::endl;
-        auto node_root = g0at::analyzer::analyzer::analyze(tok_root);
-        tok_root.reset();
-        if (opt.dump_parse_tree)
-            std::cout << global::char_encoder->encode(g0at::pt::dbg_output::to_string(node_root)) << std::endl;
-        auto code = g0at::codegen::generator::generate(node_root);
-        if (opt.dump_assembler_code)
-            std::cout << global::char_encoder->encode(g0at::code::disasm::to_string(code)) << std::endl;    
-        vm::vm vm(code);
-        vm.run();
+        try
+        {
+            assert(opt.prog_name != nullptr);
+            source_file src(opt.prog_name);
+            scanner scan(&src);
+            auto tok_root = g0at::parser::parser::parse(&scan);
+            if (opt.dump_abstract_syntax_tree)
+                std::cout << global::char_encoder->encode(g0at::ast::dbg_output::to_string(tok_root)) << std::endl;
+            auto node_root = g0at::analyzer::analyzer::analyze(tok_root);
+            tok_root.reset();
+            if (opt.dump_parse_tree)
+                std::cout << global::char_encoder->encode(g0at::pt::dbg_output::to_string(node_root)) << std::endl;
+            auto code = g0at::codegen::generator::generate(node_root);
+            if (opt.dump_assembler_code)
+                std::cout << global::char_encoder->encode(g0at::code::disasm::to_string(code)) << std::endl;    
+            vm::vm vm(code);
+            vm.run();
+        }
+        catch (std::exception &ex)
+        {
+            std::cerr << ex.what();
+        }
         return 0;
     }
 };

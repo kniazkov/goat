@@ -29,12 +29,6 @@ namespace g0at
 {
     namespace lib
     {
-        class bad_utf8 : public exception
-        {
-        public:
-            bad_utf8();
-        };
-
         class utf8_encoder : public char_encoder
         {
         public:

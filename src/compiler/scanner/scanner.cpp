@@ -21,6 +21,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "scanner.h"
+#include "compiler/common/compilation_error.h"
+#include "global/global.h"
 #include "compiler/ast/identifier.h"
 #include "compiler/ast/bracket.h"
 #include "compiler/ast/static_string.h"
@@ -33,6 +35,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
+    class unknown_symbol : public compilation_error
+    {
+    public:
+        unknown_symbol(lib::pointer<position> pos, wchar_t ch)
+            : compilation_error(pos, global::resource->unknown_character(ch))
+        {
+        }
+    };
+
     scanner::scanner(source *_src)
         : src(_src)
     {
@@ -180,6 +191,11 @@ namespace g0at
             return new ast::semicolon();
         }
 
-        return nullptr;
+        if (c == 0)
+        {
+            return nullptr;
+        }
+
+        throw unknown_symbol(src->get_position(), c);
     }
 };
