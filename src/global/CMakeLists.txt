@@ -17,9 +17,8 @@
 # with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 cmake_minimum_required(VERSION 2.6)
-include_directories(../..)
-cmake_minimum_required(VERSION 2.6)
-project(source)
+include_directories(..)
+project(global)
 file (GLOB SOURCE "*.cpp")
-add_library(source STATIC ${SOURCE})
-target_link_libraries(source global)
+add_library(global STATIC ${SOURCE})
+target_link_libraries(global lib)

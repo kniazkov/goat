@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "context_factory.h"
 #include "model/object_function_built_in.h"
+#include "global/global.h"
 #include <iostream>
 
 namespace g0at
@@ -40,7 +41,7 @@ namespace g0at
                 
                 void call(thread *thr) override
                 {
-                    std::wcout << thr->peek().to_string();
+                    std::cout << global::char_encoder->encode(thr->peek().to_string());
                 }
             };
 

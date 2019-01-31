@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "source_file.h"
+#include "global/global.h"
 #include <string>
 #include <fstream>
 #include <streambuf>
@@ -54,20 +55,15 @@ namespace g0at
     {
         // TODO: exceptions
         assert(_file_name != nullptr);
-        std::ifstream t(_file_name);
-        std::string str;
-
-        t.seekg(0, std::ios::end);
-        str.reserve(t.tellg());
-        t.seekg(0, std::ios::beg);
-
-        str.assign((std::istreambuf_iterator<char>(t)),
+        std::ifstream stream(_file_name);
+        std::string temp;
+        stream.seekg(0, std::ios::end);
+        temp.reserve(stream.tellg());
+        stream.seekg(0, std::ios::beg);
+        temp.assign((std::istreambuf_iterator<char>(stream)),
                     std::istreambuf_iterator<char>());
-        
+        data = global::char_encoder->decode(temp);
         file_name = _file_name;
-        // TODO: UTF-8 encoding
-        data.reserve(str.length());
-        data.assign(str.begin(), str.end());
         index = 0;
         max_index = data.size();
     }

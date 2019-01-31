@@ -20,35 +20,14 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "context_factory.h"
-#include "model/object_function_built_in.h"
-#include "global/global.h"
-#include <iostream>
+#pragma once
+
+#include "lib/char_encoder.h"
 
 namespace g0at
 {
-    namespace model
+    namespace global
     {
-        namespace built_in
-        {
-            class println : public object_function_built_in
-            {
-            public:
-                println(object_list *_list)
-                    : object_function_built_in(_list)
-                {
-                }
-                
-                void call(thread *thr) override
-                {
-                    std::cout << global::char_encoder->encode(thr->peek().to_string()) << std::endl;
-                }
-            };
-
-            object *context_factory::create_function_println()
-            {
-                return new println(list);
-            }
-        };
+        extern lib::char_encoder *char_encoder;
     };
 };

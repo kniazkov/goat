@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "launcher.h"
 #include "lib/ref_counter.h"
+#include "global/global.h"
 #include "compiler/source/source_file.h"
 #include "compiler/scanner/scanner.h"
 #include "compiler/parser/parser.h"
@@ -56,14 +57,14 @@ namespace g0at
         scanner scan(&src);
         auto tok_root = g0at::parser::parser::parse(&scan);
         if (opt.dump_abstract_syntax_tree)
-            std::wcout << g0at::ast::dbg_output::to_string(tok_root) << L"\n";
+            std::cout << global::char_encoder->encode(g0at::ast::dbg_output::to_string(tok_root)) << std::endl;
         auto node_root = g0at::analyzer::analyzer::analyze(tok_root);
         tok_root.reset();
         if (opt.dump_parse_tree)
-            std::wcout << g0at::pt::dbg_output::to_string(node_root) << L"\n";
+            std::cout << global::char_encoder->encode(g0at::pt::dbg_output::to_string(node_root)) << std::endl;
         auto code = g0at::codegen::generator::generate(node_root);
         if (opt.dump_assembler_code)
-            std::wcout << g0at::code::disasm::to_string(code) << L"\n";    
+            std::cout << global::char_encoder->encode(g0at::code::disasm::to_string(code)) << std::endl;    
         vm::vm vm(code);
         vm.run();
         return 0;

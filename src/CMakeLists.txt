@@ -25,10 +25,12 @@ add_subdirectory(code)
 add_subdirectory(compiler)
 add_subdirectory(launcher)
 add_subdirectory(lib)
+add_subdirectory(global)
 add_subdirectory(model)
 add_subdirectory(vm)
 target_link_libraries(goat
     lib
+    global
     code
     launcher
     model
