@@ -47,6 +47,18 @@ namespace g0at
                 wss  << L"неизвестный символ '" << ch << L'\'';
                 return wss.str();
             }
+
+            std::wstring no_input_file() override
+            {
+                return L"не указан файл с исходным кодом";
+            }
+
+            std::wstring file_not_found(const char *file_name) override
+            {
+                std::wstringstream wss;
+                wss  << L"файл \'" << file_name << L"\' не найден";
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_ru()

@@ -47,6 +47,18 @@ namespace g0at
                 wss  << L"unknown character '" << ch << L'\'';
                 return wss.str();
             }
+
+            std::wstring no_input_file() override
+            {
+                return L"no input file";
+            }
+
+            std::wstring file_not_found(const char *file_name) override
+            {
+                std::wstringstream wss;
+                wss  << L"file \'" << file_name << L"\' not found";
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_en()
