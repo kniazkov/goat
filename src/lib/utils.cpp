@@ -20,27 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "source.h"
-#include <string>
+#include "utils.h"
 
 namespace g0at
 {
-    class source_file : public source
+    namespace lib
     {
-    public:
-        source_file(const char *_file_name);
-        wchar_t get_char() override;
-        wchar_t next() override;
-        lib::pointer<position> get_position() override;
+        const char *file_name_from_full_path(const char *path)
+        {
+            if (!path)
+                return nullptr;
 
-    protected:
-        const char *file_name;
-        std::wstring data;
-        int index;
-        int max_index;
-        int row;
-        int column;
+            const char *begin = path;
+            while (*path)
+            {
+                if (*path == '\\' || *path == '/')
+                    begin = path + 1;
+                path++;
+            }
+            return begin;
+        }
     };
 };
