@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "options.h"
+#include "global/global.h"
 #include <cstring>
 
 namespace g0at
@@ -41,11 +42,25 @@ namespace g0at
             if (arg[0] == '-' && arg[1] == '-')
             {
                 if (0 == std::strcmp(arg + 2, "dump-abstract-syntax-tree"))
+                {
                     opt.dump_abstract_syntax_tree = true;
+                }
                 else if (0 == std::strcmp(arg + 2, "dump-parse-tree"))
+                {
                     opt.dump_parse_tree = true;
+                }
                 else if (0 == std::strcmp(arg + 2, "dump-assembler-code"))
+                {
                     opt.dump_assembler_code = true;
+                }
+                else if (0 == std::strncmp(arg + 2, "language=", 9))
+                {
+                    global::resource = resource::resource::get_instance(arg + 11);
+                }
+                else if (0 == std::strncmp(arg + 2, "lang=", 5))
+                {
+                    global::resource = resource::resource::get_instance(arg + 7);
+                }
             }
             else
             {
