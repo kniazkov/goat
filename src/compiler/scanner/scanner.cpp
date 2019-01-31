@@ -44,6 +44,15 @@ namespace g0at
         }
     };
 
+    class missing_closing_quote : public compilation_error
+    {
+    public:
+        missing_closing_quote(lib::pointer<position> pos)
+            : compilation_error(pos, global::resource->missing_closing_quote())
+        {
+        }
+    };
+
     scanner::scanner(source *_src)
         : src(_src)
     {
@@ -116,6 +125,10 @@ namespace g0at
             c = src->next();
             while(c != L'"')
             {
+                if (c == L'\0')
+                {
+                    throw missing_closing_quote(src->get_position());
+                }
                 wss << c;
                 c = src->next();
             }
@@ -191,7 +204,7 @@ namespace g0at
             return new ast::semicolon();
         }
 
-        if (c == 0)
+        if (c == L'\0')
         {
             return nullptr;
         }

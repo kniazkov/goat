@@ -38,6 +38,7 @@ namespace g0at
             virtual std::wstring unknown_character(wchar_t ch) = 0;
             virtual std::wstring no_input_file() = 0;
             virtual std::wstring file_not_found(const char *file_name) = 0;
+            virtual std::wstring missing_closing_quote() = 0;
             
         protected:
             static resource *get_intance_en();

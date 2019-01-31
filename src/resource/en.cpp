@@ -44,7 +44,7 @@ namespace g0at
             std::wstring unknown_character(wchar_t ch) override
             {
                 std::wstringstream wss;
-                wss  << L"unknown character '" << ch << L'\'';
+                wss << L"unknown character '" << ch << L'\'';
                 return wss.str();
             }
 
@@ -56,8 +56,13 @@ namespace g0at
             std::wstring file_not_found(const char *file_name) override
             {
                 std::wstringstream wss;
-                wss  << L"file \'" << file_name << L"\' not found";
+                wss << L"file \'" << file_name << L"\' not found";
                 return wss.str();
+            }
+
+            std::wstring missing_closing_quote() override
+            {
+                return L"missing a closing quote";
             }
         };
 
