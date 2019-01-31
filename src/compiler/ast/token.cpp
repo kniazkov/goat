@@ -156,5 +156,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        minus *token::to_minus()
+        {
+            return nullptr;
+        }
+
+        subtraction *token::to_subtraction()
+        {
+            return nullptr;
+        }
     }
 };

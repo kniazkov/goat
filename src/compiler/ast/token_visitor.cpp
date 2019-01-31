@@ -81,5 +81,13 @@ namespace g0at
         void token_visitor::visit(integer *ref)
         {
         }
+
+        void token_visitor::visit(minus *ref)
+        {
+        }
+
+        void token_visitor::visit(subtraction *ref)
+        {
+        }
     }
 };

@@ -32,6 +32,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "custom_operator.h"
 #include "addition.h"
 #include "integer.h"
+#include "subtraction.h"
 
 namespace g0at
 {
@@ -133,6 +134,21 @@ namespace g0at
         {
             add_indent();
             stream << ref->get_value();
+        }
+
+        void dbg_output::visit(minus *ref)
+        {
+            add_indent();
+            stream << L'-';
+        }
+
+        void dbg_output::visit(subtraction *ref)
+        {
+            add_indent();
+            stream << "-";
+            dbg_output indented(stream, indent + 1);
+            ref->get_left()->accept(&indented);
+            ref->get_right()->accept(&indented);
         }
 
         void dbg_output::add_indent()
