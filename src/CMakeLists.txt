@@ -26,11 +26,13 @@ add_subdirectory(compiler)
 add_subdirectory(launcher)
 add_subdirectory(lib)
 add_subdirectory(global)
+add_subdirectory(resource)
 add_subdirectory(model)
 add_subdirectory(vm)
 target_link_libraries(goat
     lib
     global
+    resource
     code
     launcher
     model

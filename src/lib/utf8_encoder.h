@@ -23,13 +23,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "char_encoder.h"
+#include "exception.h"
 
 namespace g0at
 {
     namespace lib
     {
-        class bad_utf8
+        class bad_utf8 : public exception
         {
+        public:
+            bad_utf8();
         };
 
         class utf8_encoder : public char_encoder

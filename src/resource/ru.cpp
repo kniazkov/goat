@@ -20,16 +20,30 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "lib/char_encoder.h"
-#include "resource/resource.h"
+#include "resource.h"
 
 namespace g0at
 {
-    namespace global
+    namespace resource
     {
-        extern lib::char_encoder *char_encoder;
-        extern resource::resource *resource;
-    }
+        class ru : public resource
+        {
+        public:
+            static resource *get_instance()
+            {
+                static ru instance;
+                return &instance;
+            }
+
+            std::wstring bad_utf8() override
+            {
+                return L"входные данные не соответствуют кодировке utf-8";
+            }
+        };
+
+        resource *resource::get_intance_ru()
+        {
+            return ru::get_instance();
+        }
+    };
 };

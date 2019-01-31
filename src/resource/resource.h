@@ -22,14 +22,21 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "lib/char_encoder.h"
-#include "resource/resource.h"
+#include <string>
 
 namespace g0at
 {
-    namespace global
+    namespace resource
     {
-        extern lib::char_encoder *char_encoder;
-        extern resource::resource *resource;
-    }
+        class resource
+        {
+        public:
+            virtual ~resource() { }
+            static resource *get_instance(const char *lang);
+            virtual std::wstring bad_utf8() = 0;
+        protected:
+            static resource *get_intance_en();
+            static resource *get_intance_ru();
+        };
+    };
 };

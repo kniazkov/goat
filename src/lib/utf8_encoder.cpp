@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "utf8_encoder.h"
+#include "global/global.h"
 #include <cstdint>
 #include <sstream>
 #include <assert.h>
@@ -29,6 +30,11 @@ namespace g0at
 {
     namespace lib
     {
+        bad_utf8::bad_utf8()
+            : exception(global::resource->bad_utf8())
+        {
+        }
+
         utf8_encoder::utf8_encoder()
         {
         }

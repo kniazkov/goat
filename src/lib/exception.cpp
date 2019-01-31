@@ -20,16 +20,21 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "lib/char_encoder.h"
-#include "resource/resource.h"
+#include "exception.h"
+#include "global/global.h"
 
 namespace g0at
 {
-    namespace global
+    namespace lib
     {
-        extern lib::char_encoder *char_encoder;
-        extern resource::resource *resource;
-    }
+        exception::exception(std::wstring message)
+        {
+            data = global::char_encoder->encode(message);
+        }
+
+        const char *exception::what() const throw()
+        {
+            return data.c_str();
+        }
+    };
 };

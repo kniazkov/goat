@@ -20,16 +20,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "lib/char_encoder.h"
-#include "resource/resource.h"
+#include "resource.h"
+#include <cstring>
 
 namespace g0at
 {
-    namespace global
+    namespace resource
     {
-        extern lib::char_encoder *char_encoder;
-        extern resource::resource *resource;
-    }
+        resource * resource::get_instance(const char *lang)
+        {
+            if (0 == std::strcmp(lang, "ru"))
+                return get_intance_ru();
+                
+            return get_intance_en();
+        }
+    };
 };
