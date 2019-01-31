@@ -64,6 +64,13 @@ namespace g0at
             {
                 return L"missing a closing quote";
             }
+
+            std::wstring invalid_escape_sequence(wchar_t ch) override
+            {
+                std::wstringstream wss;
+                wss << L"invalid escape sequence '\\" << ch << L'\'';
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_en()

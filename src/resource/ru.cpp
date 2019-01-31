@@ -64,6 +64,13 @@ namespace g0at
             {
                 return L"пропущена закрывающая кавычка";
             }
+
+            std::wstring invalid_escape_sequence(wchar_t ch) override
+            {
+                std::wstringstream wss;
+                wss << L"неправильная управляющая последовательность '\\" << ch << L'\'';
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_ru()

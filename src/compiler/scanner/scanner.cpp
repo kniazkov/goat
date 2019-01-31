@@ -53,6 +53,15 @@ namespace g0at
         }
     };
 
+    class invalid_escape_sequence : public compilation_error
+    {
+    public:
+        invalid_escape_sequence(lib::pointer<position> pos, wchar_t ch)
+            : compilation_error(pos, global::resource->invalid_escape_sequence(ch))
+        {
+        }
+    };
+
     scanner::scanner(source *_src)
         : src(_src)
     {
@@ -129,7 +138,31 @@ namespace g0at
                 {
                     throw missing_closing_quote(src->get_position());
                 }
-                wss << c;
+                if (c == L'\\')
+                {
+                    wchar_t e = src->next();
+                    switch(e)
+                    {
+                        case L'n':
+                            wss << L'\n'; break;
+                        case L'r':
+                            wss << L'\r'; break;
+                        case L't':
+                            wss << L'\t'; break;
+                        case L'\'':
+                            wss << L'\''; break;
+                        case L'\"':
+                            wss << L'\"'; break;
+                        case L'\\':
+                            wss << L'\\'; break;
+                        default:
+                            throw invalid_escape_sequence(src->get_position(), e);
+                    }
+                }
+                else
+                {
+                    wss << c;
+                }
                 c = src->next();
             }
             src->next();
