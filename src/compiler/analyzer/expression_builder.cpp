@@ -31,6 +31,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/integer.h"
 #include "compiler/ast/subtraction.h"
 #include "compiler/pt/subtraction.h"
+#include "compiler/ast/negation.h"
+#include "compiler/pt/negation.h"
 #include <assert.h>
 
 namespace g0at
@@ -76,6 +78,11 @@ namespace g0at
             expr = new pt::subtraction(ref->get_position(), pair.first, pair.second);
         }
 
+        void expression_builder::visit(ast::negation *ref)
+        {
+            expr = new pt::negation(ref->get_position(), build_expr_for_unary_prefix(ref));
+        }
+
         std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>
         expression_builder::build_expr_for_binary(ast::binary *ref)
         {
@@ -89,6 +96,14 @@ namespace g0at
 
             return std::make_pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>
                 (visitor_left.get_expr(), visitor_right.get_expr());
+        }
+
+        lib::pointer<pt::expression> expression_builder::build_expr_for_unary_prefix(ast::unary_prefix *ref)
+        {
+            expression_builder visitor_right;
+            ref->get_right()->accept(&visitor_right);
+            assert(visitor_right.has_expr());
+            return visitor_right.get_expr();
         }
     };
 };

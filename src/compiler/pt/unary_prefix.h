@@ -20,50 +20,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "node_visitor.h"
+#pragma once
+
+#include "expression.h"
 
 namespace g0at
 {
     namespace pt
     {
-        node_visitor::node_visitor()
+        class unary_prefix : public expression
         {
-        }
+        public:
+            unary_prefix(lib::pointer<position> _pos, lib::pointer<expression> _right);
+            unary_prefix *to_unary_prefix() override;
 
-        node_visitor::~node_visitor()
-        {
-        }
+            lib::pointer<expression> get_right() { return right; }
 
-        void node_visitor::visit(static_string *ref)
-        {
-        }
-
-        void node_visitor::visit(function_call *ref)
-        {
-        }
-
-        void node_visitor::visit(statement_expression *ref)
-        {
-        }
-
-        void node_visitor::visit(function *ref)
-        {
-        }
-
-        void node_visitor::visit(addition *ref)
-        {
-        }
-
-        void node_visitor::visit(integer *ref)
-        {
-        }
-
-        void node_visitor::visit(subtraction *ref)
-        {
-        }
-
-        void node_visitor::visit(negation *ref)
-        {
-        }
-    }
+        protected:
+            lib::pointer<expression> right;
+        };
+    };
 };

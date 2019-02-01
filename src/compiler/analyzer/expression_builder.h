@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/token_visitor.h"
 #include "compiler/pt/expression.h"
 #include "compiler/ast/binary.h"
+#include "compiler/ast/unary_prefix.h"
 #include "lib/pointer.h"
 #include <utility>
 
@@ -40,6 +41,7 @@ namespace g0at
             void visit(ast::addition *ref) override;
             void visit(ast::integer *ref) override;
             void visit(ast::subtraction *ref) override;
+            void visit(ast::negation *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }
@@ -47,6 +49,7 @@ namespace g0at
         protected:
             lib::pointer<pt::expression> expr;
             std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>> build_expr_for_binary(ast::binary *ref);
+            lib::pointer<pt::expression> build_expr_for_unary_prefix(ast::unary_prefix *ref);
         };
     };
 };

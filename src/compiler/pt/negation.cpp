@@ -20,50 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "node_visitor.h"
+#include "negation.h"
 
 namespace g0at
 {
     namespace pt
     {
-        node_visitor::node_visitor()
+        negation::negation(lib::pointer<position> _pos, lib::pointer<expression> _right)
+            : unary_prefix(_pos, _right)
         {
         }
 
-        node_visitor::~node_visitor()
+        void negation::accept(node_visitor *visitor)
         {
+            visitor->visit(this);
         }
 
-        void node_visitor::visit(static_string *ref)
+        negation *negation::to_negation()
         {
+            return this;
         }
-
-        void node_visitor::visit(function_call *ref)
-        {
-        }
-
-        void node_visitor::visit(statement_expression *ref)
-        {
-        }
-
-        void node_visitor::visit(function *ref)
-        {
-        }
-
-        void node_visitor::visit(addition *ref)
-        {
-        }
-
-        void node_visitor::visit(integer *ref)
-        {
-        }
-
-        void node_visitor::visit(subtraction *ref)
-        {
-        }
-
-        void node_visitor::visit(negation *ref)
-        {
-        }
-    }
+    };
 };

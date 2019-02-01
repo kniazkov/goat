@@ -41,6 +41,8 @@ namespace g0at
         class addition;
         class integer;
         class subtraction;
+        class unary_prefix;
+        class negation;
 
         class node : public lib::ref_counter
         {
@@ -58,6 +60,8 @@ namespace g0at
             virtual addition *to_addition();
             virtual integer *to_integer();
             virtual subtraction *to_subtraction();
+            virtual unary_prefix *to_unary_prefix();
+            virtual negation *to_negation();
 
             lib::pointer<position> get_position() { return pos; }
 

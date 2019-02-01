@@ -84,5 +84,15 @@ namespace g0at
         {
             return nullptr;
         }
-    }
+
+        unary_prefix *node::to_unary_prefix()
+        {
+            return nullptr;
+        }
+
+        negation *node::to_negation()
+        {
+            return nullptr;
+        }
+   }
 };

@@ -20,50 +20,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "node_visitor.h"
+#include "unary_prefix.h"
 
 namespace g0at
 {
     namespace pt
     {
-        node_visitor::node_visitor()
+        unary_prefix::unary_prefix(lib::pointer<position> _pos, lib::pointer<expression> _right)
+            : expression(_pos), right(_right)
         {
         }
 
-        node_visitor::~node_visitor()
+        unary_prefix *unary_prefix::to_unary_prefix()
         {
+            return this;
         }
-
-        void node_visitor::visit(static_string *ref)
-        {
-        }
-
-        void node_visitor::visit(function_call *ref)
-        {
-        }
-
-        void node_visitor::visit(statement_expression *ref)
-        {
-        }
-
-        void node_visitor::visit(function *ref)
-        {
-        }
-
-        void node_visitor::visit(addition *ref)
-        {
-        }
-
-        void node_visitor::visit(integer *ref)
-        {
-        }
-
-        void node_visitor::visit(subtraction *ref)
-        {
-        }
-
-        void node_visitor::visit(negation *ref)
-        {
-        }
-    }
+    };
 };
