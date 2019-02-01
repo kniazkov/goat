@@ -57,6 +57,7 @@ namespace g0at
         class minus;
         class subtraction;
         class unary_prefix;
+        class negation;
 
         class token : public lib::ref_counter
         {
@@ -91,6 +92,7 @@ namespace g0at
             virtual minus *to_minus();
             virtual subtraction *to_subtraction();
             virtual unary_prefix *to_unary_prefix();
+            virtual negation *to_negation();
 
             lib::pointer<position> get_position() { return pos; }
 

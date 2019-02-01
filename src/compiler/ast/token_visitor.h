@@ -40,6 +40,7 @@ namespace g0at
         class integer;
         class minus;
         class subtraction;
+        class negation;
 
         class token_visitor
         {
@@ -60,6 +61,7 @@ namespace g0at
             virtual void visit(integer *ref);
             virtual void visit(minus *ref);
             virtual void visit(subtraction *ref);
+            virtual void visit(negation *ref);
         };
     };
 };

@@ -89,5 +89,9 @@ namespace g0at
         void token_visitor::visit(subtraction *ref)
         {
         }
+
+        void token_visitor::visit(negation *ref)
+        {
+        }
     }
 };

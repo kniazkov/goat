@@ -171,5 +171,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        negation *token::to_negation()
+        {
+            return nullptr;
+        }
     }
 };
