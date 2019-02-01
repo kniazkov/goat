@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/addition.h"
 #include "compiler/pt/integer.h"
 #include "compiler/pt/subtraction.h"
+#include "compiler/pt/negation.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -36,6 +37,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/add.h"
 #include "code/load_integer.h"
 #include "code/sub.h"
+#include "code/neg.h"
 #include <assert.h>
 
 namespace g0at
@@ -109,6 +111,12 @@ namespace g0at
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
             code->add_instruction(new code::sub());
+        }
+
+        void generator::visit(pt::negation *ref)
+        {
+            ref->get_right()->accept(this);
+            code->add_instruction(new code::neg());
         }
     };
 };

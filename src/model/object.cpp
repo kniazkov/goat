@@ -124,6 +124,11 @@ namespace g0at
             assert(false); // not implemented
         }
 
+        void object::op_neg(thread *thr)
+        {
+            assert(false); // not implemented
+        }
+
         /* 
             Generic handler
         */
@@ -170,6 +175,11 @@ namespace g0at
         void generic_handler::op_sub(variable *var, thread *thr)
         {
             var->data.obj->op_sub(thr);
+        }
+
+        void generic_handler::op_neg(variable *var, thread *thr)
+        {
+            var->data.obj->op_neg(thr);
         }
     };
 };

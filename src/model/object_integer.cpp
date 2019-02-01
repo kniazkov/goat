@@ -85,6 +85,14 @@ namespace g0at
             thr->push(result);
         }
 
+        void object_integer::op_neg(thread *thr)
+        {
+            thr->pop();
+            variable result;
+            result.set_integer(-value);
+            thr->push(result);
+        }
+
         /*
             Primitive handler
         */
@@ -137,6 +145,14 @@ namespace g0at
                 assert(right_is_integer);
                 variable result;
                 result.set_integer(var->data.i - right_value);
+                thr->push(result);
+            }
+
+            void op_neg(variable *var, thread *thr)  override
+            {
+                thr->pop();
+                variable result;
+                result.set_integer(-var->data.i);
                 thr->push(result);
             }
 

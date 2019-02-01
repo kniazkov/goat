@@ -43,6 +43,7 @@ namespace g0at
             void visit(pt::addition *ref) override;
             void visit(pt::integer *ref) override;
             void visit(pt::subtraction *ref) override;
+            void visit(pt::negation *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

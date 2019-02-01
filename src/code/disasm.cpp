@@ -88,5 +88,10 @@ namespace g0at
         {
             stream << L"sub";
         }
+
+        void disasm::visit(neg *ref)
+        {
+            stream << L"neg";
+        }
     };
 };

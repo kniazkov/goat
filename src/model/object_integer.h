@@ -39,6 +39,7 @@ namespace g0at
             bool get_integer(int64_t *pval) override;
             void op_add(thread *thr) override;
             void op_sub(thread *thr) override;
+            void op_neg(thread *thr) override;
 
             int64_t get_value() { return value; }
 

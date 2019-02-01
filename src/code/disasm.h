@@ -46,6 +46,7 @@ namespace g0at
             void visit(add *ref) override;
             void visit(load_integer *ref) override;
             void visit(sub *ref) override;
+            void visit(neg *ref) override;
 
         protected:
             std::wstringstream &stream;

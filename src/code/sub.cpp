@@ -21,7 +21,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "sub.h"
-#include <assert.h>
 
 namespace g0at
 {
