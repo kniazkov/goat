@@ -166,5 +166,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        unary_prefix *token::to_unary_prefix()
+        {
+            return nullptr;
+        }
     }
 };
