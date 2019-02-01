@@ -73,6 +73,18 @@ namespace g0at
             thr->push(result);
         }
 
+        void object_integer::op_sub(thread *thr)
+        {
+            thr->pop();
+            variable right = thr->pop();
+            int64_t right_value;
+            bool right_is_integer = right.get_integer(&right_value);
+            assert(right_is_integer);
+            variable result;
+            result.set_integer(value - right_value);
+            thr->push(result);
+        }
+
         /*
             Primitive handler
         */
@@ -113,6 +125,18 @@ namespace g0at
                 assert(right_is_integer);
                 variable result;
                 result.set_integer(var->data.i + right_value);
+                thr->push(result);
+            }
+
+            void op_sub(variable *var, thread *thr)  override
+            {
+                thr->pop();
+                variable right = thr->pop();
+                int64_t right_value;
+                bool right_is_integer = right.get_integer(&right_value);
+                assert(right_is_integer);
+                variable result;
+                result.set_integer(var->data.i - right_value);
                 thr->push(result);
             }
 

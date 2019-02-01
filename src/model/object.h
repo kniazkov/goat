@@ -69,6 +69,7 @@ namespace g0at
             inline bool get_integer(int64_t *pval);
 
             inline void op_add(thread *thr);
+            inline void op_sub(thread *thr);
 
             handler *hndl;
             union
@@ -97,6 +98,7 @@ namespace g0at
             virtual bool get_integer(int64_t *pval);
 
             virtual void op_add(thread *thr);
+            virtual void op_sub(thread *thr);
 
             object *prev;
             object *next;
@@ -117,6 +119,7 @@ namespace g0at
             virtual bool get_integer(variable *var, int64_t *val) = 0;
 
             virtual void op_add(variable *var, thread *thr) = 0;
+            virtual void op_sub(variable *var, thread *thr) = 0;
         };
 
         class generic_handler : public handler
@@ -127,6 +130,7 @@ namespace g0at
             object *to_object(variable *var, object_list *list) override;
             bool get_integer(variable *var, int64_t *pval) override;
             void op_add(variable *var, thread *thr)  override;
+            void op_sub(variable *var, thread *thr)  override;
 
         protected:
             generic_handler();
@@ -180,6 +184,11 @@ namespace g0at
         void variable::op_add(thread *thr)
         {
             hndl->op_add(this, thr);
+        }
+
+        void variable::op_sub(thread *thr)
+        {
+            hndl->op_sub(this, thr);
         }
     };
 };

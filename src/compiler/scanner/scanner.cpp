@@ -30,6 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/plus.h"
 #include "compiler/ast/custom_operator.h"
 #include "compiler/ast/integer.h"
+#include "compiler/ast/minus.h"
 #include <sstream>
 #include <cstdint>
 
@@ -191,6 +192,8 @@ namespace g0at
             std::wstring oper = wss.str();
             if (oper == L"+")
                 return new ast::plus();
+            if (oper == L"-")
+                return new ast::minus();
             return new ast::custom_operator(oper);
         }
         

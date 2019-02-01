@@ -20,25 +20,22 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "compiler/ast/token_visitor.h"
-#include "parser_data.h"
+#include "sub.h"
+#include <assert.h>
 
 namespace g0at
 {
-    namespace parser
+    namespace code
     {
-        class parser_data_filler : public ast::token_visitor
+        void sub::accept(instruction_visitor *visitor)
         {
-        public:
-            parser_data_filler(parser_data *_data);
-            void visit(ast::identifier *ref) override;
-            void visit(ast::plus *ref) override;
-            void visit(ast::minus *ref) override;
+            visitor->visit(this);
+        }
 
-        protected:
-            parser_data *data;
-        };
+        void sub::exec(model::thread *thr)
+        {
+            model::variable left = thr->peek();
+            left.op_sub(thr);
+        }
     };
 };

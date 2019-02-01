@@ -22,31 +22,18 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "compiler/pt/node_visitor.h"
-#include "code/code.h"
-#include "model/name_cache.h"
-#include "lib/pointer.h"
+#include "binary.h"
 
 namespace g0at
 {
-    namespace codegen
+    namespace pt
     {
-        class generator : public pt::node_visitor
+        class subtraction : public binary
         {
         public:
-            generator();
-            static lib::pointer<code::code> generate(lib::pointer<pt::function> node_root);
-            void visit(pt::function *ref) override;
-            void visit(pt::static_string *ref) override;
-            void visit(pt::function_call *ref) override;
-            void visit(pt::statement_expression *ref) override;
-            void visit(pt::addition *ref) override;
-            void visit(pt::integer *ref) override;
-            void visit(pt::subtraction *ref) override;
-
-        protected:
-            lib::pointer<code::code> code; 
-            model::name_cache name_cache;
+            subtraction(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            void accept(node_visitor *visitor) override;
+            subtraction *to_subtraction() override;
         };
     };
 };

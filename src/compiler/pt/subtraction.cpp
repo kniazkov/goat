@@ -20,25 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "compiler/ast/token_visitor.h"
-#include "parser_data.h"
+#include "subtraction.h"
 
 namespace g0at
 {
-    namespace parser
+    namespace pt
     {
-        class parser_data_filler : public ast::token_visitor
+        subtraction::subtraction(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right)
+            : binary(_pos, _left, _right)
         {
-        public:
-            parser_data_filler(parser_data *_data);
-            void visit(ast::identifier *ref) override;
-            void visit(ast::plus *ref) override;
-            void visit(ast::minus *ref) override;
+        }
 
-        protected:
-            parser_data *data;
-        };
+        void subtraction::accept(node_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
+
+        subtraction *subtraction::to_subtraction()
+        {
+            return this;
+        }
     };
 };

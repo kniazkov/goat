@@ -45,6 +45,7 @@ namespace g0at
             void visit(statement_expression *ref) override;
             void visit(addition *ref) override;
             void visit(integer *ref) override;
+            void visit(subtraction *ref) override;
 
         protected:
             void add_indent();

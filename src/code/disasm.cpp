@@ -83,5 +83,10 @@ namespace g0at
         {
             stream << L"iload " << ref->get_value();
         }
+
+        void disasm::visit(sub *ref)
+        {
+            stream << L"sub";
+        }
     };
 };

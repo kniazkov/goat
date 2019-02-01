@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_expression.h"
 #include "compiler/pt/addition.h"
 #include "compiler/pt/integer.h"
+#include "compiler/pt/subtraction.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -34,6 +35,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/end.h"
 #include "code/add.h"
 #include "code/load_integer.h"
+#include "code/sub.h"
 #include <assert.h>
 
 namespace g0at
@@ -100,6 +102,13 @@ namespace g0at
         void generator::visit(pt::integer *ref)
         {
             code->add_instruction(new code::load_integer(ref->get_value()));
+        }
+
+        void generator::visit(pt::subtraction *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new code::sub());
         }
     };
 };

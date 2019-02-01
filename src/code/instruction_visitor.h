@@ -33,6 +33,7 @@ namespace g0at
         class end;
         class add;
         class load_integer;
+        class sub;
 
         class instruction_visitor
         {
@@ -46,6 +47,7 @@ namespace g0at
             virtual void visit(end *ref) = 0;
             virtual void visit(add *ref) = 0;
             virtual void visit(load_integer *ref) = 0;
+            virtual void visit(sub *ref) = 0;
         };
     };
 };

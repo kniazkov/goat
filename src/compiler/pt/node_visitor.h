@@ -32,6 +32,7 @@ namespace g0at
         class function;
         class addition;
         class integer;
+        class subtraction;
 
         class node_visitor
         {
@@ -44,6 +45,7 @@ namespace g0at
             virtual void visit(function *ref);
             virtual void visit(addition *ref);
             virtual void visit(integer *ref);
+            virtual void visit(subtraction *ref);
         };
     };
 };

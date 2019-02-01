@@ -57,5 +57,9 @@ namespace g0at
         void node_visitor::visit(integer *ref)
         {
         }
+
+        void node_visitor::visit(subtraction *ref)
+        {
+        }
     }
 };

@@ -79,5 +79,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        subtraction *node::to_subtraction()
+        {
+            return nullptr;
+        }
     }
 };

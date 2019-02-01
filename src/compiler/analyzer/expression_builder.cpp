@@ -29,6 +29,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/addition.h"
 #include "compiler/ast/integer.h"
 #include "compiler/pt/integer.h"
+#include "compiler/ast/subtraction.h"
+#include "compiler/pt/subtraction.h"
 #include <assert.h>
 
 namespace g0at
@@ -59,6 +61,24 @@ namespace g0at
 
         void expression_builder::visit(ast::addition *ref)
         {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::addition(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::integer *ref)
+        {
+            expr = new pt::integer(ref->get_position(), ref->get_value());
+        }
+
+        void expression_builder::visit(ast::subtraction *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::subtraction(ref->get_position(), pair.first, pair.second);
+        }
+
+        std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>
+        expression_builder::build_expr_for_binary(ast::binary *ref)
+        {
             expression_builder visitor_left;
             ref->get_left()->accept(&visitor_left);
             assert(visitor_left.has_expr());
@@ -67,12 +87,8 @@ namespace g0at
             ref->get_right()->accept(&visitor_right);
             assert(visitor_right.has_expr());
 
-            expr = new pt::addition(ref->get_position(), visitor_left.get_expr(), visitor_right.get_expr());
-        }
-
-        void expression_builder::visit(ast::integer *ref)
-        {
-            expr = new pt::integer(ref->get_position(), ref->get_value());
+            return std::make_pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>
+                (visitor_left.get_expr(), visitor_right.get_expr());
         }
     };
 };
