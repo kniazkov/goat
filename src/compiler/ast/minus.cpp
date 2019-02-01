@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "minus.h"
 #include "subtraction.h"
+#include "negation.h"
 
 namespace g0at
 {
@@ -40,6 +41,11 @@ namespace g0at
         lib::pointer<token> minus::create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right)
         {
             return new subtraction(left, right);
+        }
+
+        lib::pointer<token> minus::create_unary_prefix_operation(lib::pointer<expression> right)
+        {
+            return new negation(right);
         }
     };
 };

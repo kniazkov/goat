@@ -45,5 +45,10 @@ namespace g0at
         {
             return nullptr; // TODO: new custom_binary_operation(left, right);
         }
+
+        lib::pointer<token> custom_operator::create_unary_prefix_operation(lib::pointer<expression> right)
+        {
+            return nullptr; // TODO: new custom_binary_operation(left, right);
+        }
     };
 };

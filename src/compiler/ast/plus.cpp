@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "plus.h"
 #include "addition.h"
+#include <assert.h>
 
 namespace g0at
 {
@@ -40,6 +41,11 @@ namespace g0at
         lib::pointer<token> plus::create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right)
         {
             return new addition(left, right);
+        }
+
+        lib::pointer<token> plus::create_unary_prefix_operation(lib::pointer<expression> right)
+        {
+            return nullptr;
         }
     };
 };
