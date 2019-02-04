@@ -31,6 +31,7 @@ namespace g0at
         object_string::object_string(object_list *list, std::wstring _data)
             : object(list), data(_data), id(-1)
         {
+            proto.push_back(list->get_string_proto_instance());
         }
 
         object_string::object_string(object_list *list, std::wstring _data, int _id)
@@ -71,6 +72,15 @@ namespace g0at
             variable result;
             result.set_object(new object_string(thr->o_list, str));
             thr->push(result);
+        }
+
+        /*
+            Prototype
+        */
+
+        object_string_proto::object_string_proto(object_list *list)
+            : object(list)
+        {
         }
     };
 };

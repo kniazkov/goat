@@ -82,6 +82,7 @@ namespace g0at
 
         class object
         {
+        friend class generic_proto;
         public:
             object(object_list *list);
             virtual ~object();
@@ -106,8 +107,17 @@ namespace g0at
             object *next;
 
         protected:
+            object(object_list *list, bool has_proto);
+
             std::map<object*, variable, object_comparator> objects;
             std::vector<object*> proto;
+        };
+
+        class generic_proto : public object
+        {
+        friend class object_list;
+        protected:
+            generic_proto(object_list *list);
         };
 
         class handler

@@ -94,6 +94,15 @@ namespace g0at
         }
 
         /*
+            Prototype
+        */
+
+        object_integer_proto::object_integer_proto(object_list *list)
+            : object(list)
+        {
+        }
+
+        /*
             Primitive handler
         */
 

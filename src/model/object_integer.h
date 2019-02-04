@@ -46,5 +46,12 @@ namespace g0at
         protected:
             int64_t value;
         };
+
+        class object_integer_proto : public object
+        {
+        friend class object_list;
+        protected:
+            object_integer_proto(object_list *list);
+        };
     };
 };

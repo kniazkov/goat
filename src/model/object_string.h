@@ -45,5 +45,12 @@ namespace g0at
             std::wstring data;
             int id;
         };
+
+        class object_string_proto : public object
+        {
+        friend class object_list;
+        protected:
+            object_string_proto(object_list *list);
+        };
     };
 };

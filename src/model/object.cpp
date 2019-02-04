@@ -35,6 +35,16 @@ namespace g0at
         object::object(object_list *list)
         {
             list->add(this);
+            proto.push_back(list->get_generic_proto_instance());
+        }
+
+        object::object(object_list *list, bool has_proto)
+        {
+            list->add(this);
+            if (has_proto)
+            {
+                proto.push_back(list->get_generic_proto_instance());
+            }
         }
 
         object::~object()
@@ -127,6 +137,14 @@ namespace g0at
         void object::op_neg(thread *thr)
         {
             assert(false); // not implemented
+        }
+
+        /* 
+            Generic proto
+        */
+        generic_proto::generic_proto(object_list *list)
+            : object(list, false)
+        {
         }
 
         /* 

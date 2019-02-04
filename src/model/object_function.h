@@ -38,5 +38,12 @@ namespace g0at
             std::wstring to_string() const override;
             virtual void call(thread *thr) = 0;
         };
+
+        class object_function_proto : public object
+        {
+        friend class object_list;
+        protected:
+            object_function_proto(object_list *list);
+        };
     };
 };

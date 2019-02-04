@@ -45,5 +45,13 @@ namespace g0at
         {
             return L"function";
         }
+
+        /* 
+            Generic proto
+        */
+        object_function_proto::object_function_proto(object_list *list)
+            : object(list, false)
+        {
+        }
     };
 };
