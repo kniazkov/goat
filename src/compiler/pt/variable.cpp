@@ -20,36 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
+#include "variable.h"
 
 namespace g0at
 {
     namespace pt
     {
-        class variable;
-        class static_string;
-        class function_call;
-        class statement_expression;
-        class function;
-        class addition;
-        class integer;
-        class subtraction;
-        class negation;
-
-        class node_visitor
+        variable::variable(lib::pointer<position> _pos, std::wstring _name)
+            : expression(_pos), name(_name)
         {
-        public:
-            node_visitor();
-            virtual ~node_visitor();
-            virtual void visit(variable *ref);
-            virtual void visit(static_string *ref);
-            virtual void visit(function_call *ref);
-            virtual void visit(statement_expression *ref);
-            virtual void visit(function *ref);
-            virtual void visit(addition *ref);
-            virtual void visit(integer *ref);
-            virtual void visit(subtraction *ref);
-            virtual void visit(negation *ref);
-        };
+        }
+
+        void variable::accept(node_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
+
+        variable *variable::to_variable()
+        {
+            return this;
+        }
     };
 };

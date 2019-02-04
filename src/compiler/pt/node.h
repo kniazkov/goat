@@ -52,6 +52,7 @@ namespace g0at
             virtual void accept(node_visitor *visitor) = 0;
             virtual expression *to_expression();
             virtual statement *to_statement();
+            virtual variable *to_variable();
             virtual static_string *to_static_string();
             virtual function_call *to_function_call();
             virtual statement_expression *to_statement_expression();

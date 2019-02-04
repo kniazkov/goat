@@ -45,6 +45,11 @@ namespace g0at
             return nullptr;
         }
 
+        variable *node::to_variable()
+        {
+            return nullptr;
+        }
+
         static_string *node::to_static_string()
         {
             return nullptr;

@@ -34,6 +34,10 @@ namespace g0at
         {
         }
 
+        void node_visitor::visit(variable *ref)
+        {
+        }
+
         void node_visitor::visit(static_string *ref)
         {
         }

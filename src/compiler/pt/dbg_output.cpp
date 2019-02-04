@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "dbg_output.h"
+#include "variable.h"
 #include "function.h"
 #include "static_string.h"
 #include "function_call.h"
@@ -50,6 +51,12 @@ namespace g0at
             dbg_output dbg(tmp);
             obj->accept(&dbg);
             return tmp.str();
+        }
+
+        void dbg_output::visit(variable *ref)
+        {
+            add_indent();
+            stream << ref->get_name();
         }
 
         void dbg_output::visit(function *ref)
