@@ -35,6 +35,7 @@ namespace g0at
             lib::pointer<grammar> create_grammar();
         
         protected:
+            lib::pointer<pattern> create_pattern_variable();
             lib::pointer<pattern> create_pattern_function_call();
             lib::pointer<pattern> create_pattern_statement_expression();
             lib::pointer<pattern> create_pattern_binary(ast::token_2nd_list *_list);

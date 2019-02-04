@@ -21,6 +21,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "expression_builder.h"
+#include "compiler/ast/variable.h"
+#include "compiler/pt/variable.h"
 #include "compiler/ast/static_string.h"
 #include "compiler/pt/static_string.h"
 #include "compiler/ast/function_call.h"
@@ -39,6 +41,11 @@ namespace g0at
 {
     namespace analyzer
     {
+        void expression_builder::visit(ast::variable *ref)
+        {
+            expr = new pt::variable(ref->get_position(), ref->get_name());
+        }
+
         void expression_builder::visit(ast::static_string *ref)
         {
             expr = new pt::static_string(ref->get_position(), ref->get_text());

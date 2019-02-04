@@ -20,27 +20,41 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+#include "pattern.h"
 #include "grammar_factory.h"
+#include "compiler/ast/identifier.h"
+#include "compiler/ast/variable.h"
+#include <assert.h>
 
 namespace g0at
 {
     namespace parser
     {
-        grammar_factory::grammar_factory(parser_data *_data)
-            : data(_data)
+        class variable : public pattern
         {
-        }
+        public:
+            variable(parser_data *_data)
+                : pattern(&_data->identifiers, _data)
+            {
+            }
 
-        lib::pointer<grammar> grammar_factory::create_grammar()
+        protected:
+            int check(ast::token *tok) override
+            {
+                ast::identifier *name = tok->to_identifier();
+                assert(name != nullptr);
+                
+                lib::pointer<ast::token> var  = new ast::variable(name);
+                tok->remove_2nd();
+                name->replace(var);
+                data->expressions.add(var.get());
+                return 0;
+            }
+        };
+
+        lib::pointer<pattern> grammar_factory::create_pattern_variable()
         {
-            grammar *gr = new grammar();
-            gr->vector.push_back(create_pattern_unary_prefix(&data->opers_plus_minus));
-            gr->vector.push_back(create_pattern_binary(&data->opers_plus_minus));
-            gr->vector.push_back(create_pattern_function_call());
-            gr->vector.push_back(create_pattern_variable());
-            gr->vector.push_back(create_pattern_statement_expression());
-            gr->vector.push_back(create_pattern_function_body());
-            return gr;
+            return new variable(data);
         }
     };
 };

@@ -56,7 +56,7 @@ namespace g0at
         void dbg_output::visit(variable *ref)
         {
             add_indent();
-            stream << ref->get_name();
+            stream << L'^' << ref->get_name();
         }
 
         void dbg_output::visit(function *ref)

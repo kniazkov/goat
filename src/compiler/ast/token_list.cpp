@@ -36,6 +36,20 @@ namespace g0at
 
         void token_list::swap(token_list *other)
         {
+            lib::pointer<token> tok = first;
+            while (tok)
+            {
+                tok->list = other;
+                tok = tok->next;
+            }
+
+            tok = other->first;
+            while (tok)
+            {
+                tok->list = this;
+                tok = tok->next;
+            }
+
             first.swap(other->first);
             std::swap(last, other->last);
         }

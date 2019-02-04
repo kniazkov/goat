@@ -33,6 +33,7 @@ namespace g0at
     {
         class expression;
         class statement;
+        class variable;
         class static_string;
         class function_call;
         class statement_expression;

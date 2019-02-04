@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "generator.h"
+#include "compiler/pt/variable.h"
 #include "compiler/pt/function.h"
 #include "compiler/pt/static_string.h"
 #include "compiler/pt/function_call.h"
@@ -73,6 +74,12 @@ namespace g0at
         void generator::visit(pt::static_string *ref)
         {
             code->add_instruction(new code::load_string(ref->get_text()));
+        }
+
+        void generator::visit(pt::variable *ref)
+        {
+            int id = name_cache.get_id(ref->get_name());
+            code->add_instruction(new code::load_var(id));
         }
 
         void generator::visit(pt::function_call *ref)

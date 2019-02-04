@@ -36,6 +36,7 @@ namespace g0at
         class expression_builder : public ast::token_visitor
         {
         public:
+            void visit(ast::variable *ref) override;
             void visit(ast::static_string *ref) override;
             void visit(ast::function_call *ref) override;
             void visit(ast::addition *ref) override;

@@ -34,7 +34,7 @@ namespace g0at
         class variable : public expression, public nonterminal
         {
         public:
-            variable(identifier *_name);
+            variable(identifier *ident);
             void accept(token_visitor *visitor) override;
             variable *to_variable() override;
 

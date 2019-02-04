@@ -36,6 +36,7 @@ namespace g0at
         public:
             generator();
             static lib::pointer<code::code> generate(lib::pointer<pt::function> node_root);
+            void visit(pt::variable *ref) override;
             void visit(pt::function *ref) override;
             void visit(pt::static_string *ref) override;
             void visit(pt::function_call *ref) override;
