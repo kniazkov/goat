@@ -28,6 +28,7 @@ namespace g0at
     {
         class function;
         class identifier;
+        class variable;
         class bracket;
         class static_string;
         class semicolon;
@@ -49,6 +50,7 @@ namespace g0at
             virtual ~token_visitor();
             virtual void visit(function *ref);
             virtual void visit(identifier *ref);
+            virtual void visit(variable *ref);
             virtual void visit(bracket *ref);
             virtual void visit(static_string *ref);
             virtual void visit(semicolon *ref);

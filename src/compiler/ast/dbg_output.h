@@ -42,6 +42,7 @@ namespace g0at
             static std::wstring to_string(lib::pointer<root> obj);
             void visit(function *ref) override;
             void visit(identifier *ref) override;
+            void visit(variable *ref) override;
             void visit(bracket *ref) override;
             void visit(static_string *ref) override;
             void visit(semicolon *ref) override;

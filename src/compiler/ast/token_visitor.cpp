@@ -42,6 +42,10 @@ namespace g0at
         {
         }
 
+        void token_visitor::visit(variable *ref)
+        {
+        }
+
         void token_visitor::visit(bracket *ref)
         {
         }

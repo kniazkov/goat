@@ -97,6 +97,11 @@ namespace g0at
             return nullptr;
         }
 
+        variable *token::to_variable()
+        {
+            return nullptr;
+        }
+
         bracket *token::to_bracket()
         {
             return nullptr;

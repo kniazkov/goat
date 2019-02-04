@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "root.h"
 #include "function.h"
 #include "identifier.h"
+#include "variable.h"
 #include "bracket.h"
 #include "static_string.h"
 #include "brackets_pair.h"
@@ -65,6 +66,12 @@ namespace g0at
         }
 
         void dbg_output::visit(identifier *ref)
+        {
+            add_indent();
+            stream << ref->get_name();
+        }
+
+        void dbg_output::visit(variable *ref)
         {
             add_indent();
             stream << ref->get_name();

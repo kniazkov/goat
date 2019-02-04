@@ -42,6 +42,7 @@ namespace g0at
         class function;
         class root;
         class identifier;
+        class variable;
         class bracket;
         class static_string;
         class semicolon;
@@ -77,6 +78,7 @@ namespace g0at
             virtual function *to_function();
             virtual root *to_root();
             virtual identifier *to_identifier();
+            virtual variable *to_variable();
             virtual bracket *to_bracket();
             virtual static_string *to_static_string();
             virtual semicolon *to_semicolon();
