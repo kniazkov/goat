@@ -71,6 +71,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_void *object::to_object_void()
+        {
+            return nullptr;
+        }
+
         bool object::less(const object *obj) const
         {
             return this < obj;

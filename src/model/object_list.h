@@ -40,6 +40,7 @@ namespace g0at
             object *last;
 
             object *get_generic_proto_instance();
+            object *get_void_instance();
             object *get_string_proto_instance();
             object *get_integer_proto_instance();
             object *get_function_proto_instance();
@@ -50,6 +51,7 @@ namespace g0at
             void init();
 
             object *generic_proto_instance;
+            object *void_instance;
             object *string_proto_instance;
             object *integer_proto_instance;
             object *function_proto_instance;

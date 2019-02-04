@@ -31,6 +31,7 @@ namespace g0at
         object_integer::object_integer(object_list *list, int64_t _value)
             : object(list), value(_value)
         {
+            proto.push_back(list->get_integer_proto_instance());
         }
 
         object_type object_integer::get_type() const

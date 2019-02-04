@@ -38,6 +38,7 @@ namespace g0at
             {
                 context *ctx = new context(list);
 
+                ctx->add_object(cache->get_object(L"Void"), list->get_void_instance());
                 ctx->add_object(cache->get_object(L"String"), list->get_string_proto_instance());
                 ctx->add_object(cache->get_object(L"Integer"), list->get_integer_proto_instance());
                 ctx->add_object(cache->get_object(L"Function"), list->get_function_proto_instance());

@@ -20,39 +20,27 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "object_function.h"
+#include "object_void.h"
+#include <assert.h>
 
 namespace g0at
 {
     namespace model
     {
-        object_function::object_function(object_list *list)
+        object_void::object_void(object_list *list)
             : object(list)
         {
-            proto.push_back(list->get_function_proto_instance());
-        } 
-
-        object_type object_function::get_type() const
-        {
-            return FUNCTION;
+            proto.push_back(list->get_generic_proto_instance());
         }
 
-        object_function *object_function::to_object_function()
+        object_void *object_void::to_object_void()
         {
             return this;
         }
 
-        std::wstring object_function::to_string() const
+        std::wstring object_void::to_string() const
         {
-            return L"function";
-        }
-
-        /* 
-            Generic proto
-        */
-        object_function_proto::object_function_proto(object_list *list)
-            : object(list, false)
-        {
+            return L"void";
         }
     };
 };
