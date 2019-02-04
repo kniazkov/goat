@@ -93,5 +93,10 @@ namespace g0at
         {
             stream << L"neg";
         }
+
+        void disasm::visit(load_void *ref)
+        {
+            stream << L"void";
+        }
     };
 };

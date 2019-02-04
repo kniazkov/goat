@@ -35,6 +35,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/subtraction.h"
 #include "compiler/ast/negation.h"
 #include "compiler/pt/negation.h"
+#include "compiler/ast/value_void.h"
+#include "compiler/pt/value_void.h"
 #include <assert.h>
 
 namespace g0at
@@ -88,6 +90,11 @@ namespace g0at
         void expression_builder::visit(ast::negation *ref)
         {
             expr = new pt::negation(ref->get_position(), build_expr_for_unary_prefix(ref));
+        }
+
+        void expression_builder::visit(ast::value_void *ref)
+        {
+            expr = new pt::value_void(ref->get_position());
         }
 
         std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>

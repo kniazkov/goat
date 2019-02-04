@@ -22,36 +22,18 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "expression.h"
+
 namespace g0at
 {
     namespace pt
     {
-        class variable;
-        class static_string;
-        class function_call;
-        class statement_expression;
-        class function;
-        class addition;
-        class integer;
-        class subtraction;
-        class negation;
-        class value_void;
-
-        class node_visitor
+        class value_void : public expression
         {
         public:
-            node_visitor();
-            virtual ~node_visitor();
-            virtual void visit(variable *ref);
-            virtual void visit(static_string *ref);
-            virtual void visit(function_call *ref);
-            virtual void visit(statement_expression *ref);
-            virtual void visit(function *ref);
-            virtual void visit(addition *ref);
-            virtual void visit(integer *ref);
-            virtual void visit(subtraction *ref);
-            virtual void visit(negation *ref);
-            virtual void visit(value_void *ref);
+            value_void(lib::pointer<position> _pos);
+            void accept(node_visitor *visitor) override;
+            value_void *to_value_void() override;
         };
     };
 };

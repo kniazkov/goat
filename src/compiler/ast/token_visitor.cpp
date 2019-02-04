@@ -97,5 +97,9 @@ namespace g0at
         void token_visitor::visit(negation *ref)
         {
         }
+
+        void token_visitor::visit(value_void *ref)
+        {
+        }
     }
 };

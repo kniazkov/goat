@@ -181,5 +181,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        value_void *token::to_value_void()
+        {
+            return nullptr;
+        }
     }
 };

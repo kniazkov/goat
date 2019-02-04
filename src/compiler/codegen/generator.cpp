@@ -39,6 +39,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/load_integer.h"
 #include "code/sub.h"
 #include "code/neg.h"
+#include "code/load_void.h"
 #include <assert.h>
 
 namespace g0at
@@ -124,6 +125,11 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             code->add_instruction(new code::neg());
+        }
+
+        void generator::visit(pt::value_void *ref)
+        {
+            code->add_instruction(new code::load_void());
         }
     };
 };

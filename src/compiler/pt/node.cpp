@@ -99,5 +99,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        value_void *node::to_value_void()
+        {
+            return nullptr;
+        }
    }
 };

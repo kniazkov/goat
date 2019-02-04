@@ -20,58 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "node_visitor.h"
+#include "value_void.h"
 
 namespace g0at
 {
     namespace pt
     {
-        node_visitor::node_visitor()
+        value_void::value_void(lib::pointer<position> _pos)
+            : expression(_pos)
         {
         }
 
-        node_visitor::~node_visitor()
+        void value_void::accept(node_visitor *visitor)
         {
+            visitor->visit(this);
         }
 
-        void node_visitor::visit(variable *ref)
+        value_void *value_void::to_value_void()
         {
+            return this;
         }
-
-        void node_visitor::visit(static_string *ref)
-        {
-        }
-
-        void node_visitor::visit(function_call *ref)
-        {
-        }
-
-        void node_visitor::visit(statement_expression *ref)
-        {
-        }
-
-        void node_visitor::visit(function *ref)
-        {
-        }
-
-        void node_visitor::visit(addition *ref)
-        {
-        }
-
-        void node_visitor::visit(integer *ref)
-        {
-        }
-
-        void node_visitor::visit(subtraction *ref)
-        {
-        }
-
-        void node_visitor::visit(negation *ref)
-        {
-        }
-
-        void node_visitor::visit(value_void *ref)
-        {
-        }
-    }
+    };
 };

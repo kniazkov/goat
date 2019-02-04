@@ -31,6 +31,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/custom_operator.h"
 #include "compiler/ast/integer.h"
 #include "compiler/ast/minus.h"
+#include "compiler/ast/value_void.h"
 #include <sstream>
 #include <cstdint>
 
@@ -125,8 +126,10 @@ namespace g0at
                 wss << c;
                 c = src->next();
             } while(is_letter(c) || is_digit(c));
-            
-            return new ast::identifier(wss.str());
+            std::wstring name = wss.str();
+            if (name == L"void")
+                return new ast::value_void();            
+            return new ast::identifier(name);
         }
 
         if (c == L'"')

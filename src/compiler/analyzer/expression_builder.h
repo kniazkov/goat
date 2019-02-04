@@ -43,6 +43,7 @@ namespace g0at
             void visit(ast::integer *ref) override;
             void visit(ast::subtraction *ref) override;
             void visit(ast::negation *ref) override;
+            void visit(ast::value_void *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

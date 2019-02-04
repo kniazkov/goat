@@ -45,6 +45,7 @@ namespace g0at
             void visit(pt::integer *ref) override;
             void visit(pt::subtraction *ref) override;
             void visit(pt::negation *ref) override;
+            void visit(pt::value_void *ref) override;
 
         protected:
             lib::pointer<code::code> code; 
