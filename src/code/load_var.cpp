@@ -42,8 +42,16 @@ namespace g0at
         {
             model::object_string *key = thr->cache->get_object(id);
             model::variable *var = thr->ctx->find_object(key);
-            assert(var != nullptr); // exception (or 'undefined' object)
-            thr->push(*var);
+            if(var != nullptr)
+            {
+                thr->push(*var);
+            }
+            else
+            {
+                model::variable undef_var;
+                undef_var.set_object(thr->o_list->get_undefined_instance());
+                thr->push(undef_var);
+            }
         }
     };
 };

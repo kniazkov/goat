@@ -50,13 +50,13 @@ namespace g0at
 
         void disasm::visit(load_string *ref)
         {
-            stream << L"sload \"" << ref->get_text() << L'\"';
+            stream << L"sload \t\"" << ref->get_text() << L'\"';
         }
 
         void disasm::visit(load_var *ref)
         {
             int id = ref->get_id();
-            stream << L"load " << identifiers.at(id) << " (" << id << ")";
+            stream << L"load \t" << id << L"\t; " << identifiers.at(id);
         }
 
         void disasm::visit(call *ref)
@@ -66,7 +66,7 @@ namespace g0at
 
         void disasm::visit(pop *ref)
         {
-            stream << L"pop " << ref->get_count();
+            stream << L"pop \t" << ref->get_count();
         }
 
         void disasm::visit(end *ref)
@@ -81,7 +81,7 @@ namespace g0at
 
         void disasm::visit(load_integer *ref)
         {
-            stream << L"iload " << ref->get_value();
+            stream << L"iload \t" << ref->get_value();
         }
 
         void disasm::visit(sub *ref)

@@ -124,7 +124,7 @@ namespace g0at
                 return &iter->second;
             }
             
-            variable *var;
+            variable *var = nullptr;
             for (object *pt : proto)
             {
                 var = pt->find_object(key);
