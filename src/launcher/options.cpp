@@ -22,15 +22,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "options.h"
 #include "global/global.h"
+#include "lib/exception.h"
 #include <cstring>
 
 namespace g0at
 {
+    class incorrect_command_line_parameter : public lib::exception
+    {
+    public:
+        incorrect_command_line_parameter(const char *parameter)
+            : exception(global::resource->incorrect_command_line_parameter(parameter))
+        {
+        }
+    };
+
     options::options()
         : prog_name(nullptr),
             dump_abstract_syntax_tree(false),
             dump_parse_tree(false),
-            dump_assembler_code(false)
+            dump_assembler_code(false),
+            compile_only(false)
     {
     }
 
@@ -60,6 +71,18 @@ namespace g0at
                 else if (0 == std::strncmp(arg + 2, "lang=", 5))
                 {
                     global::resource = resource::resource::get_instance(arg + 7);
+                }
+                else if (0 == std::strcmp(arg + 2, "compile-only"))
+                {
+                    opt.compile_only = true;
+                }
+                else if (0 == std::strncmp(arg + 2, "lib=", 4))
+                {
+                    // TODO: library path
+                }
+                else
+                {
+                    throw incorrect_command_line_parameter(arg);
                 }
             }
             else

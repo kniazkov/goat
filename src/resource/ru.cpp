@@ -71,6 +71,13 @@ namespace g0at
                 wss << L"неправильная управляющая последовательность '\\" << ch << L'\'';
                 return wss.str();
             }
+
+            std::wstring incorrect_command_line_parameter(const char *parameter) override
+            {
+                std::wstringstream wss;
+                wss << L"неправильный параметр командной строки: '" << parameter << L'\'';
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_ru()

@@ -39,10 +39,26 @@ namespace g0at
         std::wstring disasm::to_string(lib::pointer<code> _code)
         {
             std::wstringstream tmp;
-            disasm da(tmp, _code->get_identifiers_list());
-            for (int i = 0, size = _code->get_code_size(); i < size; i++)
+            int i, size;
+            auto i_list = _code->get_identifiers_list();
+#if 0 // we hardly need it
+            tmp << L"  .data\n";
+            for (i = 0, size = (int)i_list.size(); i < size; i++)
             {
-                tmp << L"\n";
+                tmp << i << L"\t" << i_list[i] << "\n";
+            }
+            tmp << L"  .code\n";
+#endif
+            disasm da(tmp, i_list);
+            for (i = 0, size = _code->get_code_size(); i < size; i++)
+            {
+                if (i > 0)
+                {
+                    tmp << L"\n";
+                    if (i % 8 == 0)
+                        tmp << i;
+                    }
+                tmp << L"\t";
                 _code->get_instruction(i)->accept(&da);
             }
             return tmp.str();

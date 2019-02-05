@@ -71,6 +71,13 @@ namespace g0at
                 wss << L"invalid escape sequence '\\" << ch << L'\'';
                 return wss.str();
             }
+
+            std::wstring incorrect_command_line_parameter(const char *parameter) override
+            {
+                std::wstringstream wss;
+                wss << L"incorrect command line parameter: '" << parameter << L'\'';
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_en()
