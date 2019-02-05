@@ -20,10 +20,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "model/context.h"
-#include "model/object_cache.h"
+#include "context_factory.h"
+#include "model/object_function_built_in.h"
+#include "global/global.h"
+#include <iostream>
 
 namespace g0at
 {
@@ -31,21 +31,32 @@ namespace g0at
     {
         namespace built_in
         {
-            class context_factory
+            class abs : public object_function_built_in
             {
             public:
-                context_factory(object_list *_list, object_cache *_cache);
-                context *create_context();
-            
-            protected:
-                object *create_function_print();
-                object *create_function_println();
-                object *create_function_exit();
-                object *create_function_abs();
-
-                object_list *list;
-                object_cache *cache;
+                abs(object_list *_list)
+                    : object_function_built_in(_list)
+                {
+                }
+                
+                void call(thread *thr) override
+                {
+                    variable &result = thr->peek();
+                    variable arg = thr->peek(1);
+                    int64_t int_val;
+                    if (arg.get_integer(&int_val))
+                    {
+                        if (int_val < 0)
+                            int_val = -int_val;
+                        result.set_integer(int_val);
+                    }
+                }
             };
+
+            object *context_factory::create_function_abs()
+            {
+                return new abs(list);
+            }
         };
     };
 };
