@@ -41,7 +41,7 @@ namespace g0at
                 
                 void call(thread *thr) override
                 {
-                    std::cout << global::char_encoder->encode(thr->peek().to_string());
+                    std::cout << global::char_encoder->encode(thr->peek(1).to_string());
                 }
             };
 

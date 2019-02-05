@@ -21,16 +21,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "pop.h"
+#include <assert.h>
 
 namespace g0at
 {
     namespace code
     {
-        pop::pop(uint16_t _count)
-            : count(_count)
-        {
-        }
-
         void pop::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
@@ -38,11 +34,7 @@ namespace g0at
 
         void pop::exec(model::thread *thr)
         {
-            // TODO: optimization ?..
-            for (uint16_t i = 0; i < count; i++)
-            {
-                thr->pop();
-            }
+            thr->pop();
         }
     };
 };

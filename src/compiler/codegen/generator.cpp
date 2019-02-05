@@ -95,13 +95,13 @@ namespace g0at
             }
             int id = name_cache.get_id(ref->get_name());
             code->add_instruction(new code::load_var(id));
-            code->add_instruction(new code::call);
-            code->add_instruction(new code::pop(static_cast<uint16_t>(args_count)));
+            code->add_instruction(new code::call(args_count));
         }
 
         void generator::visit(pt::statement_expression *ref)
         {
             ref->get_expression()->accept(this);
+            code->add_instruction(new code::pop());
         }
 
         void generator::visit(pt::addition *ref)

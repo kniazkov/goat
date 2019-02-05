@@ -31,14 +31,8 @@ namespace g0at
         class pop : public instruction
         {
         public:
-            pop(uint16_t _count);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
-
-            uint16_t get_count() { return count; }
-
-        protected:
-            uint16_t count;
         };
     };
 };

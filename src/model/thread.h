@@ -50,6 +50,7 @@ namespace g0at
                 return var;
             }
             variable peek() { return *(data.begin()); }
+            variable peek(int idx) { return data.begin()[idx]; }
             bool stack_is_empty() { return data.empty(); }
 
             uint32_t iid;

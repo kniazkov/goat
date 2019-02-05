@@ -41,6 +41,10 @@ namespace g0at
                 void call(thread *thr) override
                 {
                     thr->state = model::thread_state::FINISH;
+                    while(!thr->stack_is_empty())
+                    {
+                        thr->pop();
+                    }
                 }
             };
 

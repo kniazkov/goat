@@ -28,6 +28,12 @@ namespace g0at
 {
     namespace code
     {
+        call::call(int _arg_count)
+            : arg_count(_arg_count)
+        {
+            assert(_arg_count >= 0);
+        }
+
         void call::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
@@ -35,10 +41,29 @@ namespace g0at
 
         void call::exec(model::thread *thr)
         {
+            // get func. object from the stack
             model::object *obj = thr->pop().to_object(thr->o_list);
             model::object_function *func = obj->to_object_function();
             assert(func != nullptr); // TODO: exception if is not a function
+
+            // prepare cell to place result (return value)
+            model::variable result;
+            result.set_object(thr->o_list->get_undefined_instance());
+            thr->push(result);
+
+            // call
             func->call(thr);
+            
+            // remove args from the stack
+            if (arg_count > 0)
+            {
+                result = thr->pop();
+                for (int i = 0; i < arg_count; i++)
+                {
+                    thr->pop();
+                }
+                thr->push(result);
+            }
         }
     };
 };

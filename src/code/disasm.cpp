@@ -77,12 +77,12 @@ namespace g0at
 
         void disasm::visit(call *ref)
         {
-            stream << L"call";
+            stream << L"call \t" << ref->get_arg_count();
         }
 
         void disasm::visit(pop *ref)
         {
-            stream << L"pop \t" << ref->get_count();
+            stream << L"pop";
         }
 
         void disasm::visit(end *ref)
