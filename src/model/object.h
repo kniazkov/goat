@@ -37,6 +37,8 @@ namespace g0at
         class object_function;
         class object_integer;
         class object_void;
+        class object_undefined;
+        class object_null;
         class handler;
 
         enum object_type
@@ -92,6 +94,8 @@ namespace g0at
             virtual object_function *to_object_function();
             virtual object_integer *to_object_integer();
             virtual object_void *to_object_void();
+            virtual object_undefined *to_object_undefined();
+            virtual object_null *to_object_null();
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;

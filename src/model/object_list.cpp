@@ -23,6 +23,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_list.h"
 #include "object.h"
 #include "object_void.h"
+#include "object_undefined.h"
+#include "object_null.h"
 #include "object_string.h"
 #include "object_integer.h"
 #include "object_function.h"
@@ -38,6 +40,8 @@ namespace g0at
             last = nullptr;
             generic_proto_instance = nullptr;
             void_instance = nullptr;
+            undefined_instance = nullptr;
+            null_instance = nullptr;
             string_proto_instance = nullptr;
             integer_proto_instance = nullptr;
             function_proto_instance = nullptr;
@@ -93,6 +97,18 @@ namespace g0at
             return void_instance;
         }
 
+        object *object_list::get_undefined_instance()
+        {
+            assert(undefined_instance != nullptr);
+            return undefined_instance;
+        }
+
+        object *object_list::get_null_instance()
+        {
+            assert(null_instance != nullptr);
+            return null_instance;
+        }
+
         object *object_list::get_string_proto_instance()
         {
             assert(string_proto_instance != nullptr);
@@ -115,6 +131,8 @@ namespace g0at
         {
             generic_proto_instance = new generic_proto(this);
             void_instance = new object_void(this);
+            undefined_instance = new object_undefined(this);
+            null_instance = new object_null(this);
             string_proto_instance = new object_string_proto(this);
             integer_proto_instance = new object_integer_proto(this);
             function_proto_instance = new object_function_proto(this);

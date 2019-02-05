@@ -41,6 +41,8 @@ namespace g0at
 
             object *get_generic_proto_instance();
             object *get_void_instance();
+            object *get_undefined_instance();
+            object *get_null_instance();
             object *get_string_proto_instance();
             object *get_integer_proto_instance();
             object *get_function_proto_instance();
@@ -52,6 +54,8 @@ namespace g0at
 
             object *generic_proto_instance;
             object *void_instance;
+            object *undefined_instance;
+            object *null_instance;
             object *string_proto_instance;
             object *integer_proto_instance;
             object *function_proto_instance;

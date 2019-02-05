@@ -20,26 +20,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "object_void.h"
+#pragma once
+
+#include "object.h"
 
 namespace g0at
 {
     namespace model
     {
-        object_void::object_void(object_list *list)
-            : object(list)
+        class object_undefined : public object
         {
-            proto.push_back(list->get_generic_proto_instance());
-        }
+        friend class object_list;
+        protected:
+            object_undefined(object_list *list);
 
-        object_void *object_void::to_object_void()
-        {
-            return this;
-        }
-
-        std::wstring object_void::to_string() const
-        {
-            return L"void";
-        }
+        public:
+            object_undefined *to_object_undefined() override;
+            std::wstring to_string() const override;
+        };
     };
 };
