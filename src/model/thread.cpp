@@ -27,7 +27,7 @@ namespace g0at
     namespace model
     {
         thread::thread(context *_ctx, object_list *_o_list, object_cache *_cache)
-            : state(PAUSE), ctx(_ctx), o_list(_o_list), cache(_cache)
+            : iid(0), state(PAUSE), ctx(_ctx), o_list(_o_list), cache(_cache)
         {
         }
     };

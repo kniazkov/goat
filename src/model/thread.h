@@ -52,6 +52,7 @@ namespace g0at
             variable peek() { return *(data.begin()); }
             bool stack_is_empty() { return data.empty(); }
 
+            uint32_t iid;
             thread_state state;
             context *ctx;
             object_list *o_list;

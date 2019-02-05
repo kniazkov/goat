@@ -42,11 +42,11 @@ namespace g0at
             model::context *ctx = model::built_in::context_factory(&o_list, &cache).create_context();
             model::thread thr(ctx, &o_list, &cache);
             thr.state = model::thread_state::WORK;
-            uint32_t iid = 0;
             while(thr.state == model::thread_state::WORK)
             {
+                uint32_t iid = thr.iid;
+                thr.iid++;
                 code->get_instruction(iid)->exec(&thr);
-                iid++;
             }
             assert(thr.stack_is_empty());
             o_list.destroy_all();
