@@ -73,5 +73,13 @@ namespace g0at
         void node_visitor::visit(value_void *ref)
         {
         }
+
+        void node_visitor::visit(value_undefined *ref)
+        {
+        }
+
+        void node_visitor::visit(value_null *ref)
+        {
+        }
     }
 };

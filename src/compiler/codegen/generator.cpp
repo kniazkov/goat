@@ -40,6 +40,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/sub.h"
 #include "code/neg.h"
 #include "code/load_void.h"
+#include "code/load_undefined.h"
+#include "code/load_null.h"
 #include <assert.h>
 
 namespace g0at
@@ -130,6 +132,16 @@ namespace g0at
         void generator::visit(pt::value_void *ref)
         {
             code->add_instruction(new code::load_void());
+        }
+
+        void generator::visit(pt::value_undefined *ref)
+        {
+            code->add_instruction(new code::load_undefined());
+        }
+
+        void generator::visit(pt::value_null *ref)
+        {
+            code->add_instruction(new code::load_null());
         }
     };
 };

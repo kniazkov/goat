@@ -104,5 +104,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        value_undefined *node::to_value_undefined()
+        {
+            return nullptr;
+        }
+
+        value_null *node::to_value_null()
+        {
+            return nullptr;
+        }
    }
 };

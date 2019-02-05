@@ -173,6 +173,18 @@ namespace g0at
             stream << L"void";
         }
 
+        void dbg_output::visit(value_undefined *ref)
+        {
+            add_indent();
+            stream << L"undefined";
+        }
+
+        void dbg_output::visit(value_null *ref)
+        {
+            add_indent();
+            stream << L"null";
+        }
+
         void dbg_output::add_indent()
         {
             if (!indent)

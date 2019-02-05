@@ -49,6 +49,8 @@ namespace g0at
             void visit(subtraction *ref) override;
             void visit(negation *ref) override;
             void visit(value_void *ref) override;
+            void visit(value_undefined *ref) override;
+            void visit(value_null *ref) override;
 
         protected:
             void add_indent();

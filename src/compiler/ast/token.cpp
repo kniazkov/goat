@@ -186,5 +186,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        value_undefined *token::to_value_undefined()
+        {
+            return nullptr;
+        }
+
+        value_null *token::to_value_null()
+        {
+            return nullptr;
+        }
     }
 };

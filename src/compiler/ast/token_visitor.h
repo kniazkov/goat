@@ -43,6 +43,8 @@ namespace g0at
         class subtraction;
         class negation;
         class value_void;
+        class value_undefined;
+        class value_null;
 
         class token_visitor
         {
@@ -66,6 +68,8 @@ namespace g0at
             virtual void visit(subtraction *ref);
             virtual void visit(negation *ref);
             virtual void visit(value_void *ref);
+            virtual void visit(value_undefined *ref);
+            virtual void visit(value_null *ref);
         };
     };
 };

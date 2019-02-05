@@ -32,6 +32,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/integer.h"
 #include "compiler/ast/minus.h"
 #include "compiler/ast/value_void.h"
+#include "compiler/ast/value_undefined.h"
+#include "compiler/ast/value_null.h"
 #include <sstream>
 #include <cstdint>
 
@@ -129,6 +131,10 @@ namespace g0at
             std::wstring name = wss.str();
             if (name == L"void")
                 return new ast::value_void();            
+            if (name == L"undefined")
+                return new ast::value_undefined();            
+            if (name == L"null")
+                return new ast::value_null();            
             return new ast::identifier(name);
         }
 

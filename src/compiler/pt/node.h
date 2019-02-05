@@ -45,6 +45,8 @@ namespace g0at
         class unary_prefix;
         class negation;
         class value_void;
+        class value_undefined;
+        class value_null;
 
         class node : public lib::ref_counter
         {
@@ -66,6 +68,8 @@ namespace g0at
             virtual unary_prefix *to_unary_prefix();
             virtual negation *to_negation();
             virtual value_void *to_value_void();
+            virtual value_undefined *to_value_undefined();
+            virtual value_null *to_value_null();
 
             lib::pointer<position> get_position() { return pos; }
 

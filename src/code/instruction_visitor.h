@@ -36,6 +36,8 @@ namespace g0at
         class sub;
         class neg;
         class load_void;
+        class load_undefined;
+        class load_null;
 
         class instruction_visitor
         {
@@ -52,6 +54,8 @@ namespace g0at
             virtual void visit(sub *ref) = 0;
             virtual void visit(neg *ref) = 0;
             virtual void visit(load_void *ref) = 0;
+            virtual void visit(load_undefined *ref) = 0;
+            virtual void visit(load_null *ref) = 0;
         };
     };
 };

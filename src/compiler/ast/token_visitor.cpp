@@ -101,5 +101,13 @@ namespace g0at
         void token_visitor::visit(value_void *ref)
         {
         }
+
+        void token_visitor::visit(value_undefined *ref)
+        {
+        }
+
+        void token_visitor::visit(value_null *ref)
+        {
+        }
     }
 };

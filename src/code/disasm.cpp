@@ -98,5 +98,15 @@ namespace g0at
         {
             stream << L"void";
         }
+
+        void disasm::visit(load_undefined *ref)
+        {
+            stream << L"undefined";
+        }
+
+        void disasm::visit(load_null *ref)
+        {
+            stream << L"null";
+        }
     };
 };
