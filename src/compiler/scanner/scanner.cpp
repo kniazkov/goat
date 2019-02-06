@@ -34,6 +34,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/value_void.h"
 #include "compiler/ast/value_undefined.h"
 #include "compiler/ast/value_null.h"
+#include "compiler/ast/keyword_var.h"
 #include <sstream>
 #include <cstdint>
 
@@ -135,6 +136,8 @@ namespace g0at
                 return new ast::value_undefined();            
             if (name == L"null")
                 return new ast::value_null();            
+            if (name == L"var")
+                return new ast::keyword_var();            
             return new ast::identifier(name);
         }
 

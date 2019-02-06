@@ -134,7 +134,7 @@ namespace g0at
         void dbg_output::visit(addition *ref)
         {
             add_indent();
-            stream << "+";
+            stream << L"+";
             dbg_output indented(stream, indent + 1);
             ref->get_left()->accept(&indented);
             ref->get_right()->accept(&indented);
@@ -155,7 +155,7 @@ namespace g0at
         void dbg_output::visit(subtraction *ref)
         {
             add_indent();
-            stream << "-";
+            stream << L"-";
             dbg_output indented(stream, indent + 1);
             ref->get_left()->accept(&indented);
             ref->get_right()->accept(&indented);
@@ -164,7 +164,7 @@ namespace g0at
         void dbg_output::visit(negation *ref)
         {
             add_indent();
-            stream << "-";
+            stream << L"-";
             dbg_output indented(stream, indent + 1);
             ref->get_right()->accept(&indented);
         }
@@ -185,6 +185,12 @@ namespace g0at
         {
             add_indent();
             stream << L"null";
+        }
+
+        void dbg_output::visit(keyword_var *ref)
+        {
+            add_indent();
+            stream << L"var";
         }
 
         void dbg_output::add_indent()

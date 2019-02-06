@@ -196,5 +196,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword *token::to_keyword()
+        {
+            return nullptr;
+        }
+
+        keyword_var *token::to_keyword_var()
+        {
+            return nullptr;
+        }
     }
 };

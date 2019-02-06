@@ -109,5 +109,9 @@ namespace g0at
         void token_visitor::visit(value_null *ref)
         {
         }
+
+        void token_visitor::visit(keyword_var *ref)
+        {
+        }
     }
 };
