@@ -93,8 +93,7 @@ namespace g0at
             {
                 ref->get_arg(i)->accept(this);
             }
-            int id = name_cache.get_id(ref->get_name());
-            code->add_instruction(new code::load_var(id));
+            ref->get_func_object()->accept(this);
             code->add_instruction(new code::call(args_count));
         }
 

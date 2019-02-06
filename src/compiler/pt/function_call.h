@@ -33,17 +33,17 @@ namespace g0at
         class function_call : public expression
         {
         public:
-            function_call(lib::pointer<position> _pos, std::wstring _name);
+            function_call(lib::pointer<position> _pos, lib::pointer<expression> _func_object);
             void accept(node_visitor *visitor) override;
             function_call *to_function_call() override;
 
-            std::wstring get_name() { return name; }
+            lib::pointer<expression> get_func_object() { return func_object; }
             void add_arg(lib::pointer<expression> arg) { args.push_back(arg); }
             int get_args_count() { return args.size(); }
             lib::pointer<expression> get_arg(int index) { return args.at(index); }
 
         protected:
-            std::wstring name;
+            lib::pointer<expression> func_object;
             std::vector<lib::pointer<expression>> args;
         };
     };

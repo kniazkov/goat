@@ -24,7 +24,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "token_with_list.h"
 #include "expression.h"
-#include "identifier.h"
 #include "brackets_pair.h"
 #include <string>
 
@@ -35,14 +34,14 @@ namespace g0at
         class function_call : public expression, public token_with_list
         {
         public:
-            function_call(identifier *_name,  brackets_pair *_args);
+            function_call(lib::pointer<expression> _func_object,  brackets_pair *_args);
             void accept(token_visitor *visitor) override;
             function_call *to_function_call() override;
 
-            std::wstring get_name() { return name; }
+            lib::pointer<expression> get_func_object() { return func_object; }
 
         protected:
-            std::wstring name;
+            lib::pointer<expression> func_object;
         };
     };
 };

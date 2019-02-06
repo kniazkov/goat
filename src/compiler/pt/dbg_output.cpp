@@ -79,8 +79,9 @@ namespace g0at
         void dbg_output::visit(function_call *ref)
         {
             add_indent();
-            stream << "call " << ref->get_name();
+            stream << L"call";
             dbg_output indented(stream, indent + 1);
+            ref->get_func_object()->accept(&indented);
             for (int i = 0, cnt = ref->get_args_count(); i < cnt; i++)
             {
                 ref->get_arg(i)->accept(&indented);
@@ -90,7 +91,7 @@ namespace g0at
         void dbg_output::visit(statement_expression *ref)
         {
             add_indent();
-            stream << "stmt";
+            stream << L"stmt";
             dbg_output indented(stream, indent + 1);
             ref->get_expression()->accept(&indented);
         }
@@ -98,7 +99,7 @@ namespace g0at
         void dbg_output::visit(addition *ref)
         {
             add_indent();
-            stream << "+";
+            stream << L"+";
             dbg_output indented(stream, indent + 1);
             ref->get_left()->accept(&indented);
             ref->get_right()->accept(&indented);
@@ -107,7 +108,7 @@ namespace g0at
         void dbg_output::visit(subtraction *ref)
         {
             add_indent();
-            stream << "-";
+            stream << L"-";
             dbg_output indented(stream, indent + 1);
             ref->get_left()->accept(&indented);
             ref->get_right()->accept(&indented);
@@ -116,7 +117,7 @@ namespace g0at
         void dbg_output::visit(negation *ref)
         {
             add_indent();
-            stream << "-";
+            stream << L"-";
             dbg_output indented(stream, indent + 1);
             ref->get_right()->accept(&indented);
         }

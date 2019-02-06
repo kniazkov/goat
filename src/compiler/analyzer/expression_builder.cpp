@@ -59,16 +59,19 @@ namespace g0at
 
         void expression_builder::visit(ast::function_call *ref)
         {
+            expression_builder func_object_visitor;
+            ref->get_func_object()->accept(&func_object_visitor);
+            assert(func_object_visitor.has_expr()); // exception ?
             lib::pointer<pt::function_call> fcall = 
-                new pt::function_call(ref->get_position(), ref->get_name());
+                new pt::function_call(ref->get_position(), func_object_visitor.get_expr());
             auto args = ref->get_raw_list();
             auto tok_arg = args->first;
             while(tok_arg)
             {
-                expression_builder visitor;
-                tok_arg->accept(&visitor);
-                assert(visitor.has_expr()); // TODO: exception ?
-                fcall->add_arg(visitor.get_expr());
+                expression_builder arg_visitor;
+                tok_arg->accept(&arg_visitor);
+                assert(arg_visitor.has_expr()); // exception ?
+                fcall->add_arg(arg_visitor.get_expr());
                 tok_arg = tok_arg->next;
             }
             expr = fcall.cast<pt::expression>();

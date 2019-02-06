@@ -61,7 +61,7 @@ namespace g0at
         void dbg_output::visit(function *ref)
         {
             add_indent();
-            stream << "$";
+            stream << L"$";
             print_token_list(ref->get_raw_list());
         }
 
@@ -105,14 +105,16 @@ namespace g0at
         void dbg_output::visit(function_call *ref)
         {
             add_indent();
-            stream << "call " << ref->get_name();
+            stream << L"call";
+            dbg_output indented(stream, indent + 1);
+            ref->get_func_object()->accept(&indented);
             print_token_list(ref->get_raw_list());
         }
 
         void dbg_output::visit(statement_expression *ref)
         {
             add_indent();
-            stream << "stmt";
+            stream << L"stmt";
             dbg_output indented(stream, indent + 1);
             ref->get_expression()->accept(&indented);
         }

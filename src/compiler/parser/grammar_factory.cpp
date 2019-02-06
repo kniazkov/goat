@@ -34,10 +34,10 @@ namespace g0at
         lib::pointer<grammar> grammar_factory::create_grammar()
         {
             grammar *gr = new grammar();
+            gr->vector.push_back(create_pattern_variable());
             gr->vector.push_back(create_pattern_unary_prefix(&data->opers_plus_minus));
             gr->vector.push_back(create_pattern_binary(&data->opers_plus_minus));
             gr->vector.push_back(create_pattern_function_call());
-            gr->vector.push_back(create_pattern_variable());
             gr->vector.push_back(create_pattern_statement_expression());
             gr->vector.push_back(create_pattern_function_body());
             return gr;

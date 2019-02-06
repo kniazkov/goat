@@ -35,26 +35,26 @@ namespace g0at
         {
         public:
             function_call(parser_data *_data)
-                : pattern(&_data->identifiers, _data)
+                : pattern(&_data->expressions, _data)
             {
             }
 
         protected:
             int check(ast::token *tok) override
             {
-                ast::identifier *name = tok->to_identifier();
-                assert(name != nullptr);
+                ast::expression *func_object = tok->to_expression();
+                assert(func_object != nullptr);
                 
-                if (!name->next)
+                if (!func_object->next)
                     return 0;
 
-                ast::brackets_pair *args = name->next->to_brackets_pair();
+                ast::brackets_pair *args = func_object->next->to_brackets_pair();
                 if (args == nullptr || args->get_symbol() != '(')
                     return 0;
 
-                lib::pointer<ast::token> fcall  = new ast::function_call(name, args);
+                lib::pointer<ast::token> fcall  = new ast::function_call(func_object, args);
                 tok->remove_2nd();
-                name->replace(args, fcall);
+                func_object->replace(args, fcall);
                 data->expressions.add(fcall.get());
                 return 0;
             }

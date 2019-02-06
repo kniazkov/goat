@@ -26,11 +26,11 @@ namespace g0at
 {
     namespace ast
     {
-        function_call::function_call(identifier *_name,  brackets_pair *_args)
+        function_call::function_call(lib::pointer<expression> _func_object,  brackets_pair *_args)
         {
-            name = _name->get_name();
+            func_object = _func_object;
             raw.swap(_args->get_raw_list());
-            pos = _name->get_position();
+            pos = _args->get_position();
         }
 
         void function_call::accept(token_visitor *visitor)
