@@ -45,6 +45,8 @@ namespace g0at
 
         protected:
             int64_t value;
+
+            template <template<typename R, typename X, typename Y> class F> void binary_operation(thread *thr);
         };
 
         class object_integer_proto : public object

@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_integer.h"
+#include "lib/functional.h"
 #include "thread.h"
 #include <assert.h>
 
@@ -64,26 +65,12 @@ namespace g0at
 
         void object_integer::op_add(thread *thr)
         {
-            thr->pop();
-            variable right = thr->pop();
-            int64_t right_value;
-            bool right_is_integer = right.get_integer(&right_value);
-            assert(right_is_integer);
-            variable result;
-            result.set_integer(value + right_value);
-            thr->push(result);
+            binary_operation<lib::func::plus>(thr);
         }
 
         void object_integer::op_sub(thread *thr)
         {
-            thr->pop();
-            variable right = thr->pop();
-            int64_t right_value;
-            bool right_is_integer = right.get_integer(&right_value);
-            assert(right_is_integer);
-            variable result;
-            result.set_integer(value - right_value);
-            thr->push(result);
+            binary_operation<lib::func::minus>(thr);
         }
 
         void object_integer::op_neg(thread *thr)
@@ -91,6 +78,18 @@ namespace g0at
             thr->pop();
             variable result;
             result.set_integer(-value);
+            thr->push(result);
+        }
+
+        template <template<typename R, typename X, typename Y> class F> void object_integer::binary_operation(thread *thr)
+        {
+            thr->pop();
+            variable right = thr->pop();
+            int64_t right_value;
+            bool right_is_integer = right.get_integer(&right_value);
+            assert(right_is_integer);
+            variable result;
+            result.set_integer(F<int64_t, int64_t, int64_t>::calculate(value, right_value));
             thr->push(result);
         }
 
@@ -136,26 +135,12 @@ namespace g0at
 
             void op_add(variable *var, thread *thr)  override
             {
-                thr->pop();
-                variable right = thr->pop();
-                int64_t right_value;
-                bool right_is_integer = right.get_integer(&right_value);
-                assert(right_is_integer);
-                variable result;
-                result.set_integer(var->data.i + right_value);
-                thr->push(result);
+                binary_operation<lib::func::plus>(var, thr);
             }
 
             void op_sub(variable *var, thread *thr)  override
             {
-                thr->pop();
-                variable right = thr->pop();
-                int64_t right_value;
-                bool right_is_integer = right.get_integer(&right_value);
-                assert(right_is_integer);
-                variable result;
-                result.set_integer(var->data.i - right_value);
-                thr->push(result);
+                binary_operation<lib::func::minus>(var, thr);
             }
 
             void op_neg(variable *var, thread *thr)  override
@@ -169,6 +154,18 @@ namespace g0at
         protected:
             integer_handler()
             {
+            }
+
+            template <template<typename R, typename X, typename Y> class F> void binary_operation(variable *var, thread *thr)
+            {
+                thr->pop();
+                variable right = thr->pop();
+                int64_t right_value;
+                bool right_is_integer = right.get_integer(&right_value);
+                assert(right_is_integer);
+                variable result;
+                result.set_integer(F<int64_t, int64_t, int64_t>::calculate(var->data.i, right_value));
+                thr->push(result);
             }
         };
 
