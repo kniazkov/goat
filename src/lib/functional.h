@@ -28,6 +28,20 @@ namespace g0at
     {
         namespace func
         {
+            template <typename R, typename A> struct unary
+            {
+                typedef R ret_type;
+                typedef A arg_type;
+            };
+
+            template <typename R, typename A> struct neg : public unary <R, A>
+            {
+                static R calculate(const A &a)
+                {
+                    return -a;
+                }
+            };
+
             template <typename R, typename X, typename Y> struct binary
             {
                 typedef R ret_type;

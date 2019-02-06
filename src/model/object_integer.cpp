@@ -75,9 +75,14 @@ namespace g0at
 
         void object_integer::op_neg(thread *thr)
         {
+            unary_operation<lib::func::neg>(thr);
+        }
+
+        template <template<typename R, typename A> class F> void object_integer::unary_operation(thread *thr)
+        {
             thr->pop();
             variable result;
-            result.set_integer(-value);
+            result.set_integer(F<int64_t, int64_t>::calculate(value));
             thr->push(result);
         }
 
@@ -145,15 +150,20 @@ namespace g0at
 
             void op_neg(variable *var, thread *thr)  override
             {
-                thr->pop();
-                variable result;
-                result.set_integer(-var->data.i);
-                thr->push(result);
+                unary_operation<lib::func::neg>(var, thr);
             }
 
         protected:
             integer_handler()
             {
+            }
+
+            template <template<typename R, typename A> class F> void unary_operation(variable *var, thread *thr)
+            {
+                thr->pop();
+                variable result;
+                result.set_integer(F<int64_t, int64_t>::calculate(var->data.i));
+                thr->push(result);
             }
 
             template <template<typename R, typename X, typename Y> class F> void binary_operation(variable *var, thread *thr)

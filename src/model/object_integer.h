@@ -46,6 +46,7 @@ namespace g0at
         protected:
             int64_t value;
 
+            template <template<typename R, typename A> class F> void unary_operation(thread *thr);
             template <template<typename R, typename X, typename Y> class F> void binary_operation(thread *thr);
         };
 
