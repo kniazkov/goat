@@ -24,6 +24,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/identifier.h"
 #include "compiler/ast/plus.h"
 #include "compiler/ast/minus.h"
+#include "compiler/ast/static_string.h"
+#include "compiler/ast/integer.h"
 
 namespace g0at
 {
@@ -47,6 +49,16 @@ namespace g0at
         void parser_data_filler::visit(ast::minus *ref)
         {
             data->opers_plus_minus.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::static_string *ref)
+        {
+            data->expressions.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::integer *ref)
+        {
+            data->expressions.add(ref);
         }
     };
 };
