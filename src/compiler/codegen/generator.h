@@ -48,6 +48,7 @@ namespace g0at
             void visit(pt::value_void *ref) override;
             void visit(pt::value_undefined *ref) override;
             void visit(pt::value_null *ref) override;
+            void visit(pt::declare_variable *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

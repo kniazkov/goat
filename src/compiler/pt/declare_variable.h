@@ -22,28 +22,34 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "grammar.h"
+#include "statement.h"
+#include "expression.h"
+#include <string>
+#include <vector>
 
 namespace g0at
 {
-    namespace parser
+    namespace pt
     {
-        class grammar_factory
+        struct variable_info
+        {
+            std::wstring name;
+            lib::pointer<expression> init_val;
+        };
+
+        class declare_variable : public statement
         {
         public:
-            grammar_factory(parser_data *_data);
-            lib::pointer<grammar> create_grammar();
-        
-        protected:
-            lib::pointer<pattern> create_pattern_variable();
-            lib::pointer<pattern> create_pattern_function_call();
-            lib::pointer<pattern> create_pattern_statement_expression();
-            lib::pointer<pattern> create_pattern_binary(ast::token_2nd_list *_list);
-            lib::pointer<pattern> create_pattern_declare_variable();
-            lib::pointer<pattern> create_pattern_function_body();
-            lib::pointer<pattern> create_pattern_unary_prefix(ast::token_2nd_list *_list);
+            declare_variable(lib::pointer<position> _pos);
+            void accept(node_visitor *visitor) override;
+            declare_variable *to_declare_variable() override;
 
-            parser_data *data;
+            void add_variable(variable_info &item) { items.push_back(item); }
+            int get_count() { return (int)items.size(); }
+            variable_info get_variable(int idx) { return items.at(idx); }
+
+        protected:
+            std::vector<variable_info> items;
         };
     };
 };

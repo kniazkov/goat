@@ -138,9 +138,12 @@ namespace g0at
             token *item = end.get();
             while (item != begin.get())
             {
+                item->remove_2nd();
                 item->next.reset();
                 item = item->prev;
             }
+            
+            begin->remove_2nd();
         }
         
     };

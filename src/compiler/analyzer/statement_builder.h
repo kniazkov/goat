@@ -34,6 +34,7 @@ namespace g0at
         {
         public:
             void visit(ast::statement_expression *ref) override;
+            void visit(ast::declare_variable *ref) override;
 
             bool has_stmt() { return stmt != nullptr; }
             lib::pointer<pt::statement> get_stmt() { return stmt; }

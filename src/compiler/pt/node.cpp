@@ -114,5 +114,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        declare_variable *node::to_declare_variable()
+        {
+            return nullptr;
+        }
    }
 };

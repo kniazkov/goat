@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/minus.h"
 #include "compiler/ast/static_string.h"
 #include "compiler/ast/integer.h"
+#include "compiler/ast/keyword_var.h"
 
 namespace g0at
 {
@@ -59,6 +60,11 @@ namespace g0at
         void parser_data_filler::visit(ast::integer *ref)
         {
             data->expressions.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::keyword_var *ref)
+        {
+            data->var_keywords.add(ref);
         }
     };
 };

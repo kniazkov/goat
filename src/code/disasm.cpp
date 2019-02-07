@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "call.h"
 #include "pop.h"
 #include "load_integer.h"
+#include "decl_var.h"
 
 namespace g0at
 {
@@ -117,12 +118,18 @@ namespace g0at
 
         void disasm::visit(load_undefined *ref)
         {
-            stream << L"undefined";
+            stream << L"undef";
         }
 
         void disasm::visit(load_null *ref)
         {
             stream << L"null";
+        }
+
+        void disasm::visit(decl_var *ref)
+        {
+            int id = ref->get_id();
+            stream << L"var \t" << id << L"\t; " << identifiers.at(id);
         }
     };
 };

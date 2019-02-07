@@ -58,8 +58,10 @@ namespace g0at
 
         void token::remove_2nd()
         {
-            assert(list_2 != nullptr);
-            list_2->remove(this);
+            if(list_2 != nullptr)
+            {
+                list_2->remove(this);
+            }
         }
 
         nonterminal *token::to_nonterminal()
@@ -203,6 +205,11 @@ namespace g0at
         }
 
         keyword_var *token::to_keyword_var()
+        {
+            return nullptr;
+        }
+
+        declare_variable *token::to_declare_variable()
         {
             return nullptr;
         }

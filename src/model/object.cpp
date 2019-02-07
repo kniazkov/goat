@@ -109,8 +109,17 @@ namespace g0at
             return stream.str();
         }
 
+        void object::add_object(object *key, variable &value)
+        {
+            assert(key != nullptr);
+            objects[key] = value;
+        }
+
         void object::add_object(object *key, object *value)
         {
+            assert(key != nullptr);
+            assert(value != nullptr);
+
             variable var;
             var.set_object(value);
             objects[key] = var;
@@ -118,6 +127,8 @@ namespace g0at
 
         variable *object::find_object(object *key)
         {
+            assert(key != nullptr);
+
             auto iter = objects.find(key);
             if (iter != objects.end())
             {

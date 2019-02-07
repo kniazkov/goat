@@ -64,7 +64,6 @@ namespace g0at
                     return 0;
 
                 lib::pointer<ast::token> un_op = oper->create_unary_prefix_operation(right);
-                tok->remove_2nd();
                 oper->replace(right, un_op);
                 data->expressions.add(un_op.get());
                 return 0;

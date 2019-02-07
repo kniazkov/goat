@@ -47,6 +47,7 @@ namespace g0at
         class value_void;
         class value_undefined;
         class value_null;
+        class declare_variable;
 
         class node : public lib::ref_counter
         {
@@ -70,6 +71,7 @@ namespace g0at
             virtual value_void *to_value_void();
             virtual value_undefined *to_value_undefined();
             virtual value_null *to_value_null();
+            virtual declare_variable *to_declare_variable();
 
             lib::pointer<position> get_position() { return pos; }
 

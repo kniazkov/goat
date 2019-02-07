@@ -64,6 +64,7 @@ namespace g0at
         class value_null;
         class keyword;
         class keyword_var;
+        class declare_variable;
 
         class token : public lib::ref_counter
         {
@@ -105,6 +106,7 @@ namespace g0at
             virtual value_null *to_value_null();
             virtual keyword *to_keyword();
             virtual keyword_var *to_keyword_var();
+            virtual declare_variable *to_declare_variable();
             
             lib::pointer<position> get_position() { return pos; }
 

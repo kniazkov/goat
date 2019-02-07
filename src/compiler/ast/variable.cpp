@@ -26,15 +26,20 @@ namespace g0at
 {
     namespace ast
     {
-        variable::variable(identifier *ident)
+        variable::variable(lib::pointer<identifier> _ident)
         {
+            ident = _ident;
             pos = ident->get_position();
-            name = ident->get_name();
         }
 
         void variable::accept(token_visitor *visitor)
         {
             visitor->visit(this);
+        }
+
+        identifier *variable::to_identifier()
+        {
+            return ident.get();
         }
 
         variable *variable::to_variable()

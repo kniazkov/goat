@@ -30,6 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/integer.h"
 #include "compiler/pt/subtraction.h"
 #include "compiler/pt/negation.h"
+#include "compiler/pt/declare_variable.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -42,6 +43,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/load_void.h"
 #include "code/load_undefined.h"
 #include "code/load_null.h"
+#include "code/decl_var.h"
 #include <assert.h>
 
 namespace g0at
@@ -88,7 +90,6 @@ namespace g0at
         void generator::visit(pt::function_call *ref)
         {
             int args_count = ref->get_args_count();
-            assert(args_count < UINT16_MAX);
             for (int i = args_count - 1; i > -1; i--)
             {
                 ref->get_arg(i)->accept(this);
@@ -141,6 +142,20 @@ namespace g0at
         void generator::visit(pt::value_null *ref)
         {
             code->add_instruction(new code::load_null());
+        }
+
+        void generator::visit(pt::declare_variable *ref)
+        {
+            for (int i = 0, count = ref->get_count(); i < count; i++)
+            {
+                pt::variable_info info = ref->get_variable(i);
+                if (info.init_val)
+                    info.init_val->accept(this);
+                else
+                    code->add_instruction(new code::load_undefined());
+                int id = name_cache.get_id(info.name);
+                code->add_instruction(new code::decl_var(id));
+            }
         }
     };
 };

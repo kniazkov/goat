@@ -24,7 +24,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "grammar_factory.h"
 #include "compiler/ast/bracket.h"
 #include "compiler/ast/brackets_pair.h"
+#include "compiler/ast/dbg_output.h"
+#include "global/global.h"
 #include <assert.h>
+#include <iostream>
 
 namespace g0at
 {
@@ -40,11 +43,20 @@ namespace g0at
             delete data;
         }
 
-        lib::pointer<ast::root> parser::parse(scanner *scan)
+        lib::pointer<ast::root> parser::parse(scanner *scan, bool debug)
         {
             parser pobj;
             pobj.create_root(scan);
-            pobj.parse();
+            try
+            {
+                pobj.parse();
+            }
+            catch(...)
+            {
+                if (debug)
+                    std::cout << global::char_encoder->encode(g0at::ast::dbg_output::to_string(pobj.get_root())) << std::endl;
+                throw;
+            }
             return pobj.get_root();
         }
 

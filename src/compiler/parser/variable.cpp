@@ -45,7 +45,6 @@ namespace g0at
                 assert(name != nullptr);
                 
                 lib::pointer<ast::token> var  = new ast::variable(name);
-                tok->remove_2nd();
                 name->replace(var);
                 data->expressions.add(var.get());
                 return 0;

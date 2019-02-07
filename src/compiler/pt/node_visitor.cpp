@@ -81,5 +81,9 @@ namespace g0at
         void node_visitor::visit(value_null *ref)
         {
         }
+
+        void node_visitor::visit(declare_variable *ref)
+        {
+        }
     }
 };

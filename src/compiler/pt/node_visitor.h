@@ -38,6 +38,7 @@ namespace g0at
         class value_void;
         class value_undefined;
         class value_null;
+        class declare_variable;
 
         class node_visitor
         {
@@ -56,6 +57,7 @@ namespace g0at
             virtual void visit(value_void *ref);
             virtual void visit(value_undefined *ref);
             virtual void visit(value_null *ref);
+            virtual void visit(declare_variable *ref);
         };
     };
 };

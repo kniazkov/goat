@@ -24,6 +24,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "expression_builder.h"
 #include "compiler/ast/statement_expression.h"
 #include "compiler/pt/statement_expression.h"
+#include "compiler/ast/declare_variable.h"
+#include "compiler/pt/declare_variable.h"
 #include <assert.h>
 
 namespace g0at
@@ -36,6 +38,26 @@ namespace g0at
             ref->get_expression()->accept(&visitor);
             assert(visitor.has_expr()); // TODO: exception ?
             stmt = new pt::statement_expression(ref->get_position(), visitor.get_expr());
+        }
+        
+        void statement_builder::visit(ast::declare_variable *ref)
+        {
+            lib::pointer<pt::declare_variable> result = new pt::declare_variable(ref->get_position());
+            for (int i = 0, count = ref->get_count(); i < count; i++)
+            {
+                ast::variable_info src = ref->get_variable(i);
+                pt::variable_info dst;
+                dst.name = src.name;
+                if (src.init_val)
+                {
+                    expression_builder visitor;
+                    src.init_val->accept(&visitor);
+                    assert(visitor.has_expr()); // TODO: exception ?
+                    dst.init_val = visitor.get_expr();
+                }
+                result->add_variable(dst);
+            }
+            stmt = result.cast<pt::statement>();
         }
     };
 };

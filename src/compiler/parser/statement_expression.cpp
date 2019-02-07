@@ -43,7 +43,9 @@ namespace g0at
             int check(ast::token *tok) override
             {
                 ast::expression *expr = tok->to_expression();
-                assert(expr != nullptr);
+                if (expr == nullptr)
+                    throw 1;
+                //assert(expr != nullptr);
                 
                 if (expr->next)
                 {
@@ -52,7 +54,6 @@ namespace g0at
                         return 0;
 
                     lib::pointer<ast::token> st_expr  = new ast::statement_expression(expr);
-                    tok->remove_2nd();
                     expr->replace(scolon, st_expr);
                 }
                 return 0;

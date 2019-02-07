@@ -53,7 +53,6 @@ namespace g0at
                     return 0;
 
                 lib::pointer<ast::token> fcall  = new ast::function_call(func_object, args);
-                tok->remove_2nd();
                 func_object->replace(args, fcall);
                 data->expressions.add(fcall.get());
                 return 0;

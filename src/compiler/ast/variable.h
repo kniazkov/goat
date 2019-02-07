@@ -34,14 +34,15 @@ namespace g0at
         class variable : public expression, public nonterminal
         {
         public:
-            variable(identifier *ident);
+            variable(lib::pointer<identifier> _ident);
             void accept(token_visitor *visitor) override;
+            identifier *to_identifier() override;
             variable *to_variable() override;
 
-            std::wstring get_name() { return name; }
+            std::wstring get_name() { return ident->get_name(); }
 
         protected:
-            std::wstring name;
+            lib::pointer<identifier> ident;
         };
     };
 };
