@@ -42,7 +42,7 @@ namespace g0at
             model::object_string *key = thr->cache->get_object(id);
             model::variable *var = thr->ctx->find_object(key);
             assert(var != nullptr);
-            *var = thr->pop();
+            *var = thr->peek();
         }
     };
 };
