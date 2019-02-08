@@ -43,9 +43,7 @@ namespace g0at
             int check(ast::token *tok) override
             {
                 ast::expression *expr = tok->to_expression();
-                if (expr == nullptr)
-                    throw 1;
-                //assert(expr != nullptr);
+                assert(expr != nullptr);
                 
                 if (expr->next)
                 {

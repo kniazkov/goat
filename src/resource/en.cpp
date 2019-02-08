@@ -78,6 +78,11 @@ namespace g0at
                 wss << L"incorrect command line parameter: '" << parameter << L'\'';
                 return wss.str();
             }
+
+            std::wstring unable_to_parse_token_sequence() override
+            {
+                return L"unable to parse token sequence";
+            }
         };
 
         resource *resource::get_intance_en()

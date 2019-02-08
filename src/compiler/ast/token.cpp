@@ -213,5 +213,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        assign *token::to_assign()
+        {
+            return nullptr;
+        }
     }
 };

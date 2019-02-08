@@ -1,2 +1,3 @@
 var a;
+a = 13;
 print(a);

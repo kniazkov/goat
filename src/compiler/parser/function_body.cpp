@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "pattern.h"
 #include "grammar_factory.h"
+#include "common_exceptions.h"
 #include "compiler/ast/function.h"
 #include "compiler/ast/expression.h"
 #include "compiler/ast/statement_expression.h"
@@ -62,7 +63,7 @@ namespace g0at
                                 return 0;
                             }
                         }
-                        assert(false); // TODO: exception - can not parse sequence
+                        throw unable_to_parse_token_sequence(line->get_position());
                     }
                     else
                     {

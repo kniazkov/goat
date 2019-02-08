@@ -117,5 +117,9 @@ namespace g0at
         void token_visitor::visit(declare_variable *ref)
         {
         }
+
+        void token_visitor::visit(assign *ref)
+        {
+        }
     }
 };

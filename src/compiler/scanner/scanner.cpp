@@ -35,6 +35,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/value_undefined.h"
 #include "compiler/ast/value_null.h"
 #include "compiler/ast/keyword_var.h"
+#include "compiler/ast/assign.h"
 #include <sstream>
 #include <cstdint>
 
@@ -95,6 +96,7 @@ namespace g0at
             case L'-':
             case L'*':
             case L'/':
+            case L'=':
                 return true;
             default:
                 return false;
@@ -206,6 +208,8 @@ namespace g0at
                 return new ast::plus();
             if (oper == L"-")
                 return new ast::minus();
+            if (oper == L"=")
+                return new ast::assign();
             return new ast::custom_operator(oper);
         }
         

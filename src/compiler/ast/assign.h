@@ -22,30 +22,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <string>
+#include "token_operator.h"
 
 namespace g0at
 {
-    namespace resource
+    namespace ast
     {
-        class resource
+        class assign : public token_operator
         {
         public:
-            virtual ~resource() { }
-            static resource *get_instance(const char *lang);
-
-            virtual std::wstring bad_utf8() = 0;
-            virtual std::wstring unknown_character(wchar_t ch) = 0;
-            virtual std::wstring no_input_file() = 0;
-            virtual std::wstring file_not_found(const char *file_name) = 0;
-            virtual std::wstring missing_closing_quote() = 0;
-            virtual std::wstring invalid_escape_sequence(wchar_t ch) = 0;
-            virtual std::wstring incorrect_command_line_parameter(const char *parameter) = 0;
-            virtual std::wstring unable_to_parse_token_sequence() = 0;
-            
-        protected:
-            static resource *get_intance_en();
-            static resource *get_intance_ru();
+            void accept(token_visitor *visitor) override;
+            assign *to_assign() override;
+            lib::pointer<token> create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right) override;
+            lib::pointer<token> create_unary_prefix_operation(lib::pointer<expression> right) override;
         };
     };
 };

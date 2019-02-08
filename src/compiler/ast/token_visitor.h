@@ -47,6 +47,7 @@ namespace g0at
         class value_null;
         class keyword_var;
         class declare_variable;
+        class assign;
 
         class token_visitor
         {
@@ -74,6 +75,7 @@ namespace g0at
             virtual void visit(value_null *ref);
             virtual void visit(keyword_var *ref);
             virtual void visit(declare_variable *ref);
+            virtual void visit(assign *ref);
         };
     };
 };

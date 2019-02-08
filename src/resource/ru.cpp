@@ -78,6 +78,11 @@ namespace g0at
                 wss << L"неправильный параметр командной строки: '" << parameter << L'\'';
                 return wss.str();
             }
+
+            std::wstring unable_to_parse_token_sequence() override
+            {
+                return L"невозможно разобрать последовательность токенов";
+            }
         };
 
         resource *resource::get_intance_ru()
