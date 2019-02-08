@@ -46,6 +46,7 @@ namespace g0at
             void visit(ast::value_void *ref) override;
             void visit(ast::value_undefined *ref) override;
             void visit(ast::value_null *ref) override;
+            void visit(ast::assignment *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

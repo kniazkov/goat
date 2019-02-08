@@ -119,5 +119,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        assignment *node::to_assignment()
+        {
+            return nullptr;
+        }
    }
 };

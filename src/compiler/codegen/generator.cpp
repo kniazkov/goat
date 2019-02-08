@@ -31,6 +31,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/subtraction.h"
 #include "compiler/pt/negation.h"
 #include "compiler/pt/declare_variable.h"
+#include "compiler/pt/assignment.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -53,6 +54,7 @@ namespace g0at
         generator::generator()
         {
             code = new code::code();
+            lgen = new lvalue_generator(code, &name_cache);
         }
 
         lib::pointer<code::code> generator::generate(lib::pointer<pt::function> node_root)
@@ -156,6 +158,12 @@ namespace g0at
                 int id = name_cache.get_id(info.name);
                 code->add_instruction(new code::decl_var(id));
             }
+        }
+
+        void generator::visit(pt::assignment *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(lgen.get());
         }
     };
 };

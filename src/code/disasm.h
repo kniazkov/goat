@@ -51,6 +51,7 @@ namespace g0at
             void visit(load_undefined *ref) override;
             void visit(load_null *ref) override;
             void visit(decl_var *ref) override;
+            void visit(store *ref) override;
 
         protected:
             std::wstringstream &stream;

@@ -20,37 +20,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "load_var.h"
-#include <assert.h>
+#pragma once
+
+#include "binary.h"
 
 namespace g0at
 {
-    namespace code
+    namespace pt
     {
-        load_var::load_var(int _id)
-            : id(_id)
+        class assignment : public binary
         {
-        }
-
-        void load_var::accept(instruction_visitor *visitor)
-        {
-            visitor->visit(this);
-        }
-
-        void load_var::exec(model::thread *thr)
-        {
-            model::object_string *key = thr->cache->get_object(id);
-            model::variable *var = thr->ctx->find_object(key);
-            if(var != nullptr)
-            {
-                thr->push(*var);
-            }
-            else
-            {
-                model::variable undef_var;
-                undef_var.set_object(thr->o_list->get_undefined_instance());
-                thr->push(undef_var);
-            }
-        }
+        public:
+            assignment(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            void accept(node_visitor *visitor) override;
+            assignment *to_assignment() override;
+        };
     };
 };

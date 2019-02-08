@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "lvalue_generator.h"
 #include "compiler/pt/node_visitor.h"
 #include "code/code.h"
 #include "model/name_cache.h"
@@ -49,10 +50,12 @@ namespace g0at
             void visit(pt::value_undefined *ref) override;
             void visit(pt::value_null *ref) override;
             void visit(pt::declare_variable *ref) override;
+            void visit(pt::assignment *ref) override;
 
         protected:
             lib::pointer<code::code> code; 
             model::name_cache name_cache;
+            lib::pointer<lvalue_generator> lgen;
         };
     };
 };

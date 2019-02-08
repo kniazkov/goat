@@ -20,37 +20,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "load_var.h"
+#include "lvalue_generator.h"
+#include "compiler/pt/variable.h"
+#include "code/store.h"
 #include <assert.h>
 
 namespace g0at
 {
-    namespace code
+    namespace codegen
     {
-        load_var::load_var(int _id)
-            : id(_id)
+        lvalue_generator::lvalue_generator(lib::pointer<code::code> _code, model::name_cache *_name_cache)
+            : code(_code), name_cache(_name_cache)
         {
         }
 
-        void load_var::accept(instruction_visitor *visitor)
+        void lvalue_generator::visit(pt::variable *ref)
         {
-            visitor->visit(this);
-        }
-
-        void load_var::exec(model::thread *thr)
-        {
-            model::object_string *key = thr->cache->get_object(id);
-            model::variable *var = thr->ctx->find_object(key);
-            if(var != nullptr)
-            {
-                thr->push(*var);
-            }
-            else
-            {
-                model::variable undef_var;
-                undef_var.set_object(thr->o_list->get_undefined_instance());
-                thr->push(undef_var);
-            }
+            int id = name_cache->get_id(ref->get_name());
+            code->add_instruction(new code::store(id));
         }
     };
 };

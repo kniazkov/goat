@@ -20,37 +20,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "load_var.h"
-#include <assert.h>
+#pragma once
+
+#include "instruction.h"
+#include <string>
 
 namespace g0at
 {
     namespace code
     {
-        load_var::load_var(int _id)
-            : id(_id)
+        class store : public instruction
         {
-        }
+        public:
+            store(int _id);
+            void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
 
-        void load_var::accept(instruction_visitor *visitor)
-        {
-            visitor->visit(this);
-        }
+            int get_id() { return id; }
 
-        void load_var::exec(model::thread *thr)
-        {
-            model::object_string *key = thr->cache->get_object(id);
-            model::variable *var = thr->ctx->find_object(key);
-            if(var != nullptr)
-            {
-                thr->push(*var);
-            }
-            else
-            {
-                model::variable undef_var;
-                undef_var.set_object(thr->o_list->get_undefined_instance());
-                thr->push(undef_var);
-            }
-        }
+        protected:
+            int id;
+        };
     };
 };

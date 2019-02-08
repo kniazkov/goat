@@ -39,6 +39,7 @@ namespace g0at
         class load_undefined;
         class load_null;
         class decl_var;
+        class store;
 
         class instruction_visitor
         {
@@ -58,6 +59,7 @@ namespace g0at
             virtual void visit(load_undefined *ref) = 0;
             virtual void visit(load_null *ref) = 0;
             virtual void visit(decl_var *ref) = 0;
+            virtual void visit(store *ref) = 0;
         };
     };
 };

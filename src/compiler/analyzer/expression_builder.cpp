@@ -41,6 +41,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/value_undefined.h"
 #include "compiler/ast/value_null.h"
 #include "compiler/pt/value_null.h"
+#include "compiler/ast/assignment.h"
+#include "compiler/pt/assignment.h"
 #include <assert.h>
 
 namespace g0at
@@ -112,6 +114,12 @@ namespace g0at
         void expression_builder::visit(ast::value_null *ref)
         {
             expr = new pt::value_null(ref->get_position());
+        }
+
+        void expression_builder::visit(ast::assignment *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::assignment(ref->get_position(), pair.first, pair.second);
         }
 
         std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>

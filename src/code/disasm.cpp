@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "pop.h"
 #include "load_integer.h"
 #include "decl_var.h"
+#include "store.h"
 
 namespace g0at
 {
@@ -43,13 +44,13 @@ namespace g0at
             int i, size;
             auto i_list = _code->get_identifiers_list();
 #if 0 // we hardly need it
-            tmp << L"  .data\n";
+            tmp << L".data\n";
             for (i = 0, size = (int)i_list.size(); i < size; i++)
             {
                 tmp << i << L"\t" << i_list[i] << "\n";
             }
-            tmp << L"  .code\n";
 #endif
+            tmp << L".code\n";
             disasm da(tmp, i_list);
             for (i = 0, size = _code->get_code_size(); i < size; i++)
             {
@@ -57,7 +58,7 @@ namespace g0at
                 {
                     tmp << L"\n";
                     if (i % 8 == 0)
-                        tmp << i;
+                        tmp << L"  " << i;
                     }
                 tmp << L"\t";
                 _code->get_instruction(i)->accept(&da);
@@ -130,6 +131,12 @@ namespace g0at
         {
             int id = ref->get_id();
             stream << L"var \t" << id << L"\t; " << identifiers.at(id);
+        }
+
+        void disasm::visit(store *ref)
+        {
+            int id = ref->get_id();
+            stream << L"store \t" << id << L"\t; " << identifiers.at(id);
         }
     };
 };
