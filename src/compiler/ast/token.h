@@ -37,6 +37,7 @@ namespace g0at
     {
         class nonterminal;
         class expression;
+        class left_expression;
         class statement;
         class token_with_list;
         class function;
@@ -66,6 +67,7 @@ namespace g0at
         class keyword_var;
         class declare_variable;
         class assign;
+        class assignment;
 
         class token : public lib::ref_counter
         {
@@ -80,6 +82,7 @@ namespace g0at
             void remove_2nd();
             virtual nonterminal *to_nonterminal();
             virtual expression *to_expression();
+            virtual left_expression *to_left_expression();
             virtual statement *to_statement();
             virtual token_with_list *to_token_with_list();
             virtual function *to_function();
@@ -109,6 +112,7 @@ namespace g0at
             virtual keyword_var *to_keyword_var();
             virtual declare_variable *to_declare_variable();
             virtual assign *to_assign();
+            virtual assignment *to_assignment();
             
             lib::pointer<position> get_position() { return pos; }
 

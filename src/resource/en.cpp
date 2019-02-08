@@ -83,6 +83,16 @@ namespace g0at
             {
                 return L"unable to parse token sequence";
             }
+
+            std::wstring invald_lvalue_expression() override
+            {
+                return L"invalid lvalue expression for the assingment operator";
+            }
+
+            std::wstring expected_an_expression_after_operator() override
+            {
+                return L"expected an expression after operator";
+            }
         };
 
         resource *resource::get_intance_en()

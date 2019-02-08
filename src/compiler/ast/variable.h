@@ -23,7 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "nonterminal.h"
-#include "expression.h"
+#include "left_expression.h"
 #include "identifier.h"
 #include <string>
 
@@ -31,7 +31,7 @@ namespace g0at
 {
     namespace ast
     {
-        class variable : public expression, public nonterminal
+        class variable : public left_expression, public nonterminal
         {
         public:
             variable(lib::pointer<identifier> _ident);

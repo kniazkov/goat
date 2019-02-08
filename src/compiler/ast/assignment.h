@@ -22,28 +22,18 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "grammar.h"
+#include "binary.h"
 
 namespace g0at
 {
-    namespace parser
+    namespace ast
     {
-        class grammar_factory
+        class assignment : public binary
         {
         public:
-            grammar_factory(parser_data *_data);
-            lib::pointer<grammar> create_grammar();
-        
-        protected:
-            lib::pointer<pattern> create_pattern_variable();
-            lib::pointer<pattern> create_pattern_function_call();
-            lib::pointer<pattern> create_pattern_statement_expression();
-            lib::pointer<pattern> create_pattern_binary(ast::token_2nd_list *_list);
-            lib::pointer<pattern> create_pattern_declare_variable();
-            lib::pointer<pattern> create_pattern_function_body();
-            lib::pointer<pattern> create_pattern_unary_prefix(ast::token_2nd_list *_list);
-            lib::pointer<pattern> create_pattern_assignment();
-            parser_data *data;
+            assignment(lib::pointer<expression> _left, lib::pointer<expression> _right);
+            void accept(token_visitor *visitor) override;
+            assignment *to_assignment() override;
         };
     };
 };

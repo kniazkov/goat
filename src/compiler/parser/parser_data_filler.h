@@ -39,6 +39,7 @@ namespace g0at
             void visit(ast::static_string *ref) override;
             void visit(ast::integer *ref) override;
             void visit(ast::keyword_var *ref) override;
+            void visit(ast::assign *ref) override;
 
         protected:
             parser_data *data;

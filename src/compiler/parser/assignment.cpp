@@ -20,23 +20,34 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "pattern.h"
-#include "grammar_factory.h"
+#include "pattern_right_to_left.h"
 #include "common_exceptions.h"
+#include "grammar_factory.h"
 #include "compiler/ast/token_operator.h"
-#include "compiler/ast/expression.h"
+#include "compiler/ast/left_expression.h"
 #include "compiler/ast/binary.h"
+#include "compiler/common/compilation_error.h"
+#include "global/global.h"
 #include <assert.h>
 
 namespace g0at
 {
     namespace parser
     {
-        class binary : public pattern
+        class invald_lvalue_expression : public compilation_error
         {
         public:
-            binary(ast::token_2nd_list *_list, parser_data *_data)
-                : pattern(_list, _data)
+            invald_lvalue_expression(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->invald_lvalue_expression())
+            {
+            }
+        };
+
+        class assignment : public pattern_right_to_left
+        {
+        public:
+            assignment(parser_data *_data)
+                : pattern_right_to_left(&_data->opers_assign, _data)
             {
             }
 
@@ -47,11 +58,11 @@ namespace g0at
                 assert(oper != nullptr);
                 
                 if (!oper->prev)
-                    return 0;
+                    throw invald_lvalue_expression(oper->get_position());
 
-                ast::expression *left = oper->prev->to_expression();
+                ast::left_expression *left = oper->prev->to_left_expression();
                 if (!left)
-                    return 0;
+                    throw invald_lvalue_expression(oper->get_position());
 
                 if (!oper->next)
                     throw expected_an_expression_after_operator(oper->get_position());
@@ -67,9 +78,9 @@ namespace g0at
             }
         };
 
-        lib::pointer<pattern> grammar_factory::create_pattern_binary(ast::token_2nd_list *_list)
+        lib::pointer<pattern> grammar_factory::create_pattern_assignment()
         {
-            return new binary(_list, data);
+            return new assignment(data);
         }
     };
 };

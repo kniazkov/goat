@@ -37,5 +37,14 @@ namespace g0at
             {
             }
         };
+
+        class expected_an_expression_after_operator : public compilation_error
+        {
+        public:
+            expected_an_expression_after_operator(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->expected_an_expression_after_operator())
+            {
+            }
         };
+    };
 };

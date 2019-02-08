@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "assign.h"
+#include "assignment.h"
 
 namespace g0at
 {
@@ -38,7 +39,7 @@ namespace g0at
 
         lib::pointer<token> assign::create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right)
         {
-            return nullptr;
+            return new assignment(left, right);
         }
 
         lib::pointer<token> assign::create_unary_prefix_operation(lib::pointer<expression> right)

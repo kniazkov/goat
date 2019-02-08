@@ -74,6 +74,11 @@ namespace g0at
             return nullptr;
         }
 
+        left_expression *token::to_left_expression()
+        {
+            return nullptr;
+        }
+
         statement *token::to_statement()
         {
             return nullptr;
@@ -215,6 +220,11 @@ namespace g0at
         }
 
         assign *token::to_assign()
+        {
+            return nullptr;
+        }
+
+        assignment *token::to_assignment()
         {
             return nullptr;
         }

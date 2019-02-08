@@ -20,23 +20,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "compiler/ast/token_2nd_list.h"
+#include "left_expression.h"
 
 namespace g0at
 {
-    namespace parser
+    namespace ast
     {
-        class parser_data
+        left_expression *left_expression::to_left_expression()
         {
-        public:
-            ast::token_2nd_list identifiers;
-            ast::token_2nd_list expressions;
-            ast::token_2nd_list opers_plus_minus;
-            ast::token_2nd_list opers_assign;
-            ast::token_2nd_list functions;
-            ast::token_2nd_list var_keywords;
-        };
+            return this;
+        }
     };
 };

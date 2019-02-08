@@ -121,5 +121,9 @@ namespace g0at
         void token_visitor::visit(assign *ref)
         {
         }
+
+        void token_visitor::visit(assignment *ref)
+        {
+        }
     }
 };

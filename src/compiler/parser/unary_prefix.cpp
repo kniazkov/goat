@@ -20,7 +20,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "pattern.h"
+#include "pattern_right_to_left.h"
 #include "grammar_factory.h"
 #include "compiler/ast/token_operator.h"
 #include "compiler/ast/expression.h"
@@ -31,11 +31,11 @@ namespace g0at
 {
     namespace parser
     {
-        class unary_prefix : public pattern
+        class unary_prefix : public pattern_right_to_left
         {
         public:
             unary_prefix(ast::token_2nd_list *_list, parser_data *_data)
-                : pattern(_list, _data)
+                : pattern_right_to_left(_list, _data)
             {
             }
 

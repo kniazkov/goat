@@ -83,6 +83,16 @@ namespace g0at
             {
                 return L"невозможно разобрать последовательность токенов";
             }
+
+            std::wstring invald_lvalue_expression() override
+            {
+                return L"неправильное левостороннее выражение для оператора присваивания";
+            }
+
+            std::wstring expected_an_expression_after_operator() override
+            {
+                return L"после оператора должно быть выражение";
+            }
         };
 
         resource *resource::get_intance_ru()

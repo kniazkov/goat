@@ -20,23 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "compiler/ast/token_2nd_list.h"
+#include "assignment.h"
 
 namespace g0at
 {
-    namespace parser
+    namespace ast
     {
-        class parser_data
+        assignment::assignment(lib::pointer<expression> _left, lib::pointer<expression> _right)
+            : binary(_left, _right)
         {
-        public:
-            ast::token_2nd_list identifiers;
-            ast::token_2nd_list expressions;
-            ast::token_2nd_list opers_plus_minus;
-            ast::token_2nd_list opers_assign;
-            ast::token_2nd_list functions;
-            ast::token_2nd_list var_keywords;
-        };
+        }
+
+        void assignment::accept(token_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
+
+        assignment *assignment::to_assignment()
+        {
+            return this;
+        }
     };
 };

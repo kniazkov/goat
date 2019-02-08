@@ -62,6 +62,7 @@ namespace g0at
             void visit(keyword_var *ref) override;
             void visit(declare_variable *ref) override;
             void visit(assign *ref) override;
+            void visit(assignment *ref) override;
 
         protected:
             void add_indent();

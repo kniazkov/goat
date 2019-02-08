@@ -36,6 +36,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "subtraction.h"
 #include "negation.h"
 #include "declare_variable.h"
+#include "assignment.h"
 
 namespace g0at
 {
@@ -213,6 +214,15 @@ namespace g0at
         {
             add_indent();
             stream << L'=';
+        }
+
+        void dbg_output::visit(assignment *ref)
+        {
+            add_indent();
+            stream << L"=";
+            dbg_output indented(stream, indent + 1);
+            ref->get_left()->accept(&indented);
+            ref->get_right()->accept(&indented);
         }
 
         void dbg_output::add_indent()
