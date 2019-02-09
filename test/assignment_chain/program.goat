@@ -1,0 +1,5 @@
+var a;
+var b;
+b = a = 13;
+println(a);
+println(b);

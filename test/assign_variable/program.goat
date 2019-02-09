@@ -1,0 +1,3 @@
+var a;
+a = 13;
+println(a);
