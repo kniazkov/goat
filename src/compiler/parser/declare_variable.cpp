@@ -23,8 +23,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "pattern.h"
 #include "grammar_factory.h"
 #include "compiler/ast/keyword_var.h"
+#include "compiler/ast/variable.h"
 #include "compiler/ast/identifier.h"
 #include "compiler/ast/semicolon.h"
+#include "compiler/ast/expression.h"
+#include "compiler/ast/assignment.h"
 #include "compiler/ast/declare_variable.h"
 #include <assert.h>
 
@@ -50,16 +53,36 @@ namespace g0at
 
                 assert(kw->next != nullptr); // exception, expected identifier
                 ast::identifier *name = kw->next->to_identifier();
-                assert(name != nullptr); // exception, expected identifier
-                assert(name->next != nullptr); // exception, expected ; or ,
-                ast::semicolon *semicolon = name->next->to_semicolon();
-                assert(semicolon != nullptr); // exception, expected ;
-                
-                ast::variable_info var;
-                var.name = name->get_name();
-                stmt->add_variable(var);
+                if (name != nullptr)
+                {
+                    assert(name->next != nullptr); // exception, expected ; or ,
+                    ast::semicolon *semicolon = name->next->to_semicolon();
+                    assert(semicolon != nullptr); // exception, expected ;
+                    
+                    ast::variable_info var_info;
+                    var_info.name = name->get_name();
+                    stmt->add_variable(var_info);
 
-                kw->replace(semicolon, stmt.cast<ast::token>());
+                    kw->replace(semicolon, stmt.cast<ast::token>());
+                }
+                else
+                {
+                    ast::assignment *at = kw->next->to_assignment();
+                    assert(at != nullptr);
+                    ast::variable *var = at->get_left()->to_variable();
+                    assert(var != nullptr);
+                    ast::identifier *name = var->to_identifier();
+                    lib::pointer<ast::expression> init_val = at->get_right();
+                    ast::semicolon *semicolon = at->next->to_semicolon();
+                    assert(semicolon != nullptr); // exception, expected ;
+
+                    ast::variable_info var_info;
+                    var_info.name = name->get_name();
+                    var_info.init_val = init_val;
+                    stmt->add_variable(var_info);
+
+                    kw->replace(semicolon, stmt.cast<ast::token>());
+                }
 
                 return 0;
             }
