@@ -20,7 +20,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "object_integer.h"
+#include "object_real.h"
 #include "lib/functional.h"
 #include "thread.h"
 #include <assert.h>
@@ -29,78 +29,72 @@ namespace g0at
 {
     namespace model
     {
-        object_integer::object_integer(object_list *list, int64_t _value)
+        object_real::object_real(object_list *list, double _value)
             : object(list), value(_value)
         {
             proto.push_back(list->get_integer_proto_instance());
         }
 
-        object_type object_integer::get_type() const
+        object_type object_real::get_type() const
         {
-            return INTEGER;
+            return REAL;
         }
 
-        object_integer *object_integer::to_object_integer()
+        object_real *object_real::to_object_real()
         {
             return this;
         }
 
-        bool object_integer::less(const object *obj) const
+        bool object_real::less(const object *obj) const
         {
-            assert(obj->get_type() == INTEGER);
-            const object_integer *obj_int = static_cast<const object_integer*>(obj);
-            return value < obj_int->value;
+            assert(obj->get_type() == REAL);
+            const object_real *obj_real = static_cast<const object_real*>(obj);
+            return value < obj_real->value;
         }
 
-        std::wstring object_integer::to_string() const
+        std::wstring object_real::to_string() const
         {
             return std::to_wstring(value);
         }
 
-        bool object_integer::get_integer(int64_t *pval)
+        bool object_real::get_real(double *pval)
         {
             *pval = value;
             return true;
         }
 
-        bool object_integer::get_real(double *pval)
-        {
-            *pval = value;
-            return true;
-        }
-
-        void object_integer::op_add(thread *thr)
+        void object_real::op_add(thread *thr)
         {
             binary_operation<lib::func::plus>(thr);
         }
 
-        void object_integer::op_sub(thread *thr)
+        void object_real::op_sub(thread *thr)
         {
             binary_operation<lib::func::minus>(thr);
         }
 
-        void object_integer::op_neg(thread *thr)
+        void object_real::op_neg(thread *thr)
         {
             unary_operation<lib::func::neg>(thr);
         }
 
-        template <template<typename R, typename A> class F> void object_integer::unary_operation(thread *thr)
+        template <template<typename R, typename A> class F> void object_real::unary_operation(thread *thr)
         {
             thr->pop();
             variable result;
-            result.set_integer(F<int64_t, int64_t>::calculate(value));
+            result.set_real(F<double, double>::calculate(value));
             thr->push(result);
         }
 
-        template <template<typename R, typename X, typename Y> class F> void object_integer::binary_operation(thread *thr)
+        template <template<typename R, typename X, typename Y> class F> void object_real::binary_operation(thread *thr)
         {
             thr->pop();
             variable right = thr->pop();
-            int64_t right_value;
-            bool right_is_integer = right.get_integer(&right_value);
-            assert(right_is_integer);
+            double right_value;
+            bool right_is_real = right.get_real(&right_value);
+            assert(right_is_real);
             variable result;
-            result.set_integer(F<int64_t, int64_t, int64_t>::calculate(value, right_value));
+            result.set_real(F<double, double, double>::calculate(value, right_value));
             thr->push(result);
         }
 
@@ -108,7 +102,7 @@ namespace g0at
             Prototype
         */
 
-        object_integer_proto::object_integer_proto(object_list *list)
+        object_real_proto::object_real_proto(object_list *list)
             : object(list)
         {
         }
@@ -117,36 +111,35 @@ namespace g0at
             Primitive handler
         */
 
-        class integer_handler : public handler
+        class real_handler : public handler
         {
         public:
             static handler *get_instance()
             {
-                static integer_handler instance;
+                static real_handler instance;
                 return &instance;
             }
 
             std::wstring to_string(const variable *var) const override
             {
-                return std::to_wstring(var->data.i);
+                return std::to_wstring(var->data.r);
             }
 
             object *to_object(variable *var, object_list *list) override
             {
-                object *obj = new object_integer(list, var->data.i);
+                object *obj = new object_real(list, var->data.r);
                 var->set_object(obj);
                 return obj;
             }
 
             bool get_integer(variable *var, int64_t *pval)
             {
-                *pval = var->data.i;
-                return true;
+                return false;
             }
 
             bool get_real(variable *var, double *pval)
             {
-                *pval = var->data.i;
+                *pval = var->data.r;
                 return true;
             }
 
@@ -166,7 +159,7 @@ namespace g0at
             }
 
         protected:
-            integer_handler()
+            real_handler()
             {
             }
 
@@ -174,7 +167,7 @@ namespace g0at
             {
                 thr->pop();
                 variable result;
-                result.set_integer(F<int64_t, int64_t>::calculate(var->data.i));
+                result.set_real(F<double, double>::calculate(var->data.r));
                 thr->push(result);
             }
 
@@ -182,18 +175,18 @@ namespace g0at
             {
                 thr->pop();
                 variable right = thr->pop();
-                int64_t right_value;
-                bool right_is_integer = right.get_integer(&right_value);
-                assert(right_is_integer);
+                double right_value;
+                bool right_is_real = right.get_real(&right_value);
+                assert(right_is_real);
                 variable result;
-                result.set_integer(F<int64_t, int64_t, int64_t>::calculate(var->data.i, right_value));
+                result.set_real(F<double, double, double>::calculate(var->data.r, right_value));
                 thr->push(result);
             }
         };
 
-        handler *handler::get_instance_integer()
+        handler *handler::get_instance_real()
         {
-            return integer_handler::get_instance();
+            return real_handler::get_instance();
         }
     };
 };

@@ -36,6 +36,7 @@ namespace g0at
         class object_string;
         class object_function;
         class object_integer;
+        class object_real;
         class object_void;
         class object_undefined;
         class object_null;
@@ -46,7 +47,8 @@ namespace g0at
             GENERIC,
             STRING,
             FUNCTION,
-            INTEGER
+            INTEGER,
+            REAL
         };
 
         class object_comparator
@@ -66,10 +68,12 @@ namespace g0at
 
             inline void set_object(object *obj);
             inline void set_integer(int64_t value);
+            inline void set_real(double value);
 
             inline std::wstring to_string() const;
             inline object *to_object(object_list *list);
             inline bool get_integer(int64_t *pval);
+            inline bool get_real(double *pval);
 
             inline void op_add(thread *thr);
             inline void op_sub(thread *thr);
@@ -80,6 +84,7 @@ namespace g0at
             {
                 object *obj;
                 int64_t i;
+                double r;
             } data;
         };
 
@@ -93,6 +98,7 @@ namespace g0at
             virtual object_string *to_object_string();
             virtual object_function *to_object_function();
             virtual object_integer *to_object_integer();
+            virtual object_real *to_object_real();
             virtual object_void *to_object_void();
             virtual object_undefined *to_object_undefined();
             virtual object_null *to_object_null();
@@ -105,6 +111,7 @@ namespace g0at
             variable *find_object(object *key);
 
             virtual bool get_integer(int64_t *pval);
+            virtual bool get_real(double *pval);
 
             virtual void op_add(thread *thr);
             virtual void op_sub(thread *thr);
@@ -133,9 +140,11 @@ namespace g0at
             virtual ~handler();
             static handler *get_instance_generic();
             static handler *get_instance_integer();
+            static handler *get_instance_real();
             virtual std::wstring to_string(const variable *var) const = 0;
             virtual object *to_object(variable *var, object_list *list) = 0;
             virtual bool get_integer(variable *var, int64_t *val) = 0;
+            virtual bool get_real(variable *var, double *val) = 0;
 
             virtual void op_add(variable *var, thread *thr) = 0;
             virtual void op_sub(variable *var, thread *thr) = 0;
@@ -149,6 +158,7 @@ namespace g0at
             std::wstring to_string(const variable *var) const override;
             object *to_object(variable *var, object_list *list) override;
             bool get_integer(variable *var, int64_t *pval) override;
+            bool get_real(variable *var, double *pval) override;
             void op_add(variable *var, thread *thr)  override;
             void op_sub(variable *var, thread *thr)  override;
             void op_neg(variable *var, thread *thr)  override;
@@ -187,6 +197,12 @@ namespace g0at
             data.i = value;
         }
 
+        void variable::set_real(double value)
+        {
+            hndl = handler::get_instance_real();
+            data.r = value;
+        }
+
         std::wstring variable::to_string() const
         {
             return hndl->to_string(this);
@@ -200,6 +216,11 @@ namespace g0at
         bool variable::get_integer(int64_t *pval)
         {
             return hndl->get_integer(this, pval);
+        }
+
+        bool variable::get_real(double *pval)
+        {
+            return hndl->get_real(this, pval);
         }
 
         void variable::op_add(thread *thr)

@@ -28,34 +28,33 @@ namespace g0at
 {
     namespace model
     {
-        class object_integer : public object
+        class object_real : public object
         {
         public:
-            object_integer(object_list *list, int64_t _value);
+            object_real(object_list *list, double _value);
             object_type get_type() const override;
-            object_integer *to_object_integer() override;
+            object_real *to_object_real() override;
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
-            bool get_integer(int64_t *pval) override;
             bool get_real(double *pval) override;
             void op_add(thread *thr) override;
             void op_sub(thread *thr) override;
             void op_neg(thread *thr) override;
 
-            int64_t get_value() { return value; }
+            double get_value() { return value; }
 
         protected:
-            int64_t value;
+            double value;
 
             template <template<typename R, typename A> class F> void unary_operation(thread *thr);
             template <template<typename R, typename X, typename Y> class F> void binary_operation(thread *thr);
         };
 
-        class object_integer_proto : public object
+        class object_real_proto : public object
         {
         friend class object_list;
         protected:
-            object_integer_proto(object_list *list);
+            object_real_proto(object_list *list);
         };
     };
 };

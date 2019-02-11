@@ -71,6 +71,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_real *object::to_object_real()
+        {
+            return nullptr;
+        }
+
         object_void *object::to_object_void()
         {
             return nullptr;
@@ -150,6 +155,11 @@ namespace g0at
             return false;
         }
 
+        bool object::get_real(double *pval)
+        {
+            return false;
+        }
+
         void object::op_add(thread *thr)
         {
             assert(false); // not implemented
@@ -209,6 +219,11 @@ namespace g0at
         bool generic_handler::get_integer(variable *var, int64_t *pval)
         {
             return var->data.obj->get_integer(pval);
+        }
+
+        bool generic_handler::get_real(variable *var, double *pval)
+        {
+            return var->data.obj->get_real(pval);
         }
 
         void generic_handler::op_add(variable *var, thread *thr)
