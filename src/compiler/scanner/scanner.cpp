@@ -36,6 +36,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/value_null.h"
 #include "compiler/ast/keyword_var.h"
 #include "compiler/ast/assign.h"
+#include "compiler/ast/comma.h"
 #include <sstream>
 #include <cstdint>
 
@@ -254,6 +255,12 @@ namespace g0at
         {
             src->next();
             return new ast::semicolon();
+        }
+
+        if (c == L',')
+        {
+            src->next();
+            return new ast::comma();
         }
 
         if (c == L'\0')

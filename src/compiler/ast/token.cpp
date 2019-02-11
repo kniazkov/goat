@@ -228,5 +228,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        comma *token::to_comma()
+        {
+            return nullptr;
+        }
     }
 };

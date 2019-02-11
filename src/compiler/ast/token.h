@@ -68,6 +68,7 @@ namespace g0at
         class declare_variable;
         class assign;
         class assignment;
+        class comma;
 
         class token : public lib::ref_counter
         {
@@ -113,6 +114,7 @@ namespace g0at
             virtual declare_variable *to_declare_variable();
             virtual assign *to_assign();
             virtual assignment *to_assignment();
+            virtual comma *to_comma();
             
             lib::pointer<position> get_position() { return pos; }
 

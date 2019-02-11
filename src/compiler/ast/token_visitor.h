@@ -49,6 +49,7 @@ namespace g0at
         class declare_variable;
         class assign;
         class assignment;
+        class comma;
 
         class token_visitor
         {
@@ -78,6 +79,7 @@ namespace g0at
             virtual void visit(declare_variable *ref);
             virtual void visit(assign *ref);
             virtual void visit(assignment *ref);
+            virtual void visit(comma *ref);
         };
     };
 };
