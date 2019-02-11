@@ -129,5 +129,9 @@ namespace g0at
         void token_visitor::visit(comma *ref)
         {
         }
+
+        void token_visitor::visit(real *ref)
+        {
+        }
     }
 };

@@ -37,6 +37,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_var.h"
 #include "compiler/ast/assign.h"
 #include "compiler/ast/comma.h"
+#include "compiler/ast/real.h"
 #include <sstream>
 #include <cstdint>
 
@@ -187,13 +188,26 @@ namespace g0at
 
         if (is_digit(c))
         {
-            int64_t val = 0;
+            int64_t int_val = 0;
             do
             {
-                val = val * 10 + c - L'0';
+                int_val = int_val * 10 + c - L'0';
                 c = src->next();
             } while(is_digit(c));
-            return new ast::integer(val);
+            if (c != L'.')
+                return new ast::integer(int_val);
+            c = src->next();
+            if (!is_digit(c))
+                return new ast::integer(int_val);
+            int64_t fract_val = 0;
+            int64_t divisor = 1;
+            do
+            {
+                fract_val = fract_val * 10 + c - L'0';
+                divisor *= 10;
+                c = src->next();
+            } while(is_digit(c));
+            return new ast::real((double)int_val + (double)fract_val / (double)divisor);
         }
 
         if (is_operator(c))

@@ -50,6 +50,7 @@ namespace g0at
         class assign;
         class assignment;
         class comma;
+        class real;
 
         class token_visitor
         {
@@ -80,6 +81,7 @@ namespace g0at
             virtual void visit(assign *ref);
             virtual void visit(assignment *ref);
             virtual void visit(comma *ref);
+            virtual void visit(real *ref);
         };
     };
 };

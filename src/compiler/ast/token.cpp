@@ -233,5 +233,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        real *token::to_real()
+        {
+            return nullptr;
+        }
     }
 };
