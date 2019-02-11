@@ -1,0 +1,1 @@
+program.goat, 2.9: the next token must be a comma or a semicolon

@@ -103,7 +103,7 @@ namespace g0at
                         {
                             semicolon = at->next->to_semicolon();
                             if (!semicolon)
-                                throw the_next_token_must_be_a_comma_or_a_semicolon(at->next->get_position());
+                                throw the_next_token_must_be_a_comma_or_a_semicolon(at->get_right()->get_position());
                         }
                         else
                         {
