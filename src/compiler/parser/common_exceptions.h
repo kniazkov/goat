@@ -46,5 +46,14 @@ namespace g0at
             {
             }
         };
+
+        class expected_an_identifier : public compilation_error
+        {
+        public:
+            expected_an_identifier(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->expected_an_identifier())
+            {
+            }
+        };
     };
 };

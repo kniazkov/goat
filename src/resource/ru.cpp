@@ -93,6 +93,11 @@ namespace g0at
             {
                 return L"после оператора должно быть выражение";
             }
+
+            std::wstring expected_an_identifier() override
+            {
+                return L"ожидается идентификатор";
+            }
         };
 
         resource *resource::get_intance_ru()

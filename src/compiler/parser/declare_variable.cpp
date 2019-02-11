@@ -22,9 +22,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "pattern.h"
 #include "grammar_factory.h"
+#include "common_exceptions.h"
 #include "compiler/ast/keyword_var.h"
 #include "compiler/ast/variable.h"
 #include "compiler/ast/identifier.h"
+#include "compiler/ast/comma.h"
 #include "compiler/ast/semicolon.h"
 #include "compiler/ast/expression.h"
 #include "compiler/ast/assignment.h"
@@ -51,7 +53,9 @@ namespace g0at
                 
                 lib::pointer<ast::declare_variable> stmt = new ast::declare_variable(kw);
 
-                assert(kw->next != nullptr); // exception, expected identifier
+                if(!kw->next)
+                    throw expected_an_identifier(kw->get_position());
+
                 ast::identifier *name = kw->next->to_identifier();
                 if (name != nullptr)
                 {
