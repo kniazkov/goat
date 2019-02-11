@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "context_factory.h"
 #include "model/object_string.h"
+#include <cmath>
 
 namespace g0at
 {
@@ -49,6 +50,11 @@ namespace g0at
                 ctx->add_object(cache->get_object(L"println"), create_function_println());
                 ctx->add_object(cache->get_object(L"exit"), create_function_exit());
                 ctx->add_object(cache->get_object(L"abs"), create_function_abs());
+
+                model::variable tmp;
+                tmp.set_real(std::atan((double)1.0) * 4);
+                ctx->add_object(cache->get_object(L"PI"), tmp);
+
                 return ctx;
             }
         };
