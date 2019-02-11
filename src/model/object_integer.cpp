@@ -96,12 +96,23 @@ namespace g0at
         {
             thr->pop();
             variable right = thr->pop();
-            int64_t right_value;
-            bool right_is_integer = right.get_integer(&right_value);
-            assert(right_is_integer);
-            variable result;
-            result.set_integer(F<int64_t, int64_t, int64_t>::calculate(value, right_value));
-            thr->push(result);
+            int64_t right_int_value;
+            bool right_is_integer = right.get_integer(&right_int_value);
+            if (right_is_integer)
+            {
+                variable result;
+                result.set_integer(F<int64_t, int64_t, int64_t>::calculate(value, right_int_value));
+                thr->push(result);
+            }
+            else
+            {
+                double right_real_value;
+                bool right_is_real = right.get_real(&right_real_value);
+                assert(right_is_real);
+                variable result;
+                result.set_real(F<double, int64_t, double>::calculate(value, right_real_value));
+                thr->push(result);
+            }
         }
 
         /*
@@ -182,12 +193,23 @@ namespace g0at
             {
                 thr->pop();
                 variable right = thr->pop();
-                int64_t right_value;
-                bool right_is_integer = right.get_integer(&right_value);
-                assert(right_is_integer);
-                variable result;
-                result.set_integer(F<int64_t, int64_t, int64_t>::calculate(var->data.i, right_value));
-                thr->push(result);
+                int64_t right_int_value;
+                bool right_is_integer = right.get_integer(&right_int_value);
+                if(right_is_integer)
+                {
+                    variable result;
+                    result.set_integer(F<int64_t, int64_t, int64_t>::calculate(var->data.i, right_int_value));
+                    thr->push(result);
+                }
+                else
+                {
+                    double right_real_value;
+                    bool right_is_real = right.get_real(&right_real_value);
+                    assert(right_is_real);                    
+                    variable result;
+                    result.set_real(F<double, int64_t, double>::calculate(var->data.i, right_real_value));
+                    thr->push(result);
+                }
             }
         };
 
