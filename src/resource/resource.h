@@ -45,6 +45,7 @@ namespace g0at
             virtual std::wstring invald_lvalue_expression() = 0;
             virtual std::wstring expected_an_expression_after_operator() = 0;
             virtual std::wstring expected_an_identifier() = 0;
+            virtual std::wstring the_next_token_must_be_a_comma_or_a_semicolon() = 0;
             
         protected:
             static resource *get_intance_en();

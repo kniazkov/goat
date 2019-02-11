@@ -98,6 +98,11 @@ namespace g0at
             {
                 return L"ожидается идентификатор";
             }
+
+            std::wstring the_next_token_must_be_a_comma_or_a_semicolon() override
+            {
+                return L"следующий токен должен быть запятой или точкой с запятой";
+            }
         };
 
         resource *resource::get_intance_ru()

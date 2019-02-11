@@ -150,9 +150,9 @@ namespace g0at
 
         void dbg_output::visit(declare_variable *ref)
         {
-            add_indent();
             for (int i = 0, cnt = ref->get_count(); i < cnt; i++)
             {
+                add_indent();
                 variable_info info = ref->get_variable(i);
                 stream << L"var " << info.name;
                 if (info.init_val)

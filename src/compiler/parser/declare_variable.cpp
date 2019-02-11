@@ -53,41 +53,71 @@ namespace g0at
                 
                 lib::pointer<ast::declare_variable> stmt = new ast::declare_variable(kw);
 
-                if(!kw->next)
-                    throw expected_an_identifier(kw->get_position());
+                ast::token *begin_decl = tok;
+                ast::semicolon *semicolon = nullptr;
 
-                ast::identifier *name = kw->next->to_identifier();
-                if (name != nullptr)
+                while(!semicolon)
                 {
-                    assert(name->next != nullptr); // exception, expected ; or ,
-                    ast::semicolon *semicolon = name->next->to_semicolon();
-                    assert(semicolon != nullptr); // exception, expected ;
+                    if(!begin_decl->next)
+                        throw expected_an_identifier(begin_decl->get_position());
                     
-                    ast::variable_info var_info;
-                    var_info.name = name->get_name();
-                    stmt->add_variable(var_info);
+                    ast::identifier *name = begin_decl->next->to_identifier();
+                    if (name != nullptr)
+                    {
+                        if (!name->next)
+                            throw the_next_token_must_be_a_comma_or_a_semicolon(name->get_position());
 
-                    kw->replace(semicolon, stmt.cast<ast::token>());
+                        ast::comma *comma = name->next->to_comma();
+                        if (!comma)
+                        {
+                            semicolon = name->next->to_semicolon();
+                            if (!semicolon)
+                                throw the_next_token_must_be_a_comma_or_a_semicolon(name->next->get_position());
+                        }
+                        else
+                        {
+                            begin_decl = comma;
+                        }
+                        
+                        ast::variable_info var_info;
+                        var_info.name = name->get_name();
+                        stmt->add_variable(var_info);
+                    }
+                    else
+                    {
+                        ast::assignment *at = begin_decl->next->to_assignment();
+                        if (!at)
+                            throw expected_an_identifier(begin_decl->next->get_position());
+                        
+                        ast::variable *name_as_var = at->get_left()->to_variable();
+                        if (!name_as_var)
+                            throw expected_an_identifier(begin_decl->next->get_position());
+                        name = name_as_var->to_identifier();
+                        assert(name != nullptr);
+
+                        if (!at->next)
+                            throw the_next_token_must_be_a_comma_or_a_semicolon(at->get_right()->get_position());
+
+                        ast::comma *comma = at->next->to_comma();
+                        if (!comma)
+                        {
+                            semicolon = at->next->to_semicolon();
+                            if (!semicolon)
+                                throw the_next_token_must_be_a_comma_or_a_semicolon(at->next->get_position());
+                        }
+                        else
+                        {
+                            begin_decl = comma;
+                        }
+
+                        ast::variable_info var_info;
+                        var_info.name = name->get_name();
+                        var_info.init_val = at->get_right();
+                        stmt->add_variable(var_info);
+                    }
                 }
-                else
-                {
-                    ast::assignment *at = kw->next->to_assignment();
-                    assert(at != nullptr);
-                    ast::variable *var = at->get_left()->to_variable();
-                    assert(var != nullptr);
-                    ast::identifier *name = var->to_identifier();
-                    lib::pointer<ast::expression> init_val = at->get_right();
-                    ast::semicolon *semicolon = at->next->to_semicolon();
-                    assert(semicolon != nullptr); // exception, expected ;
 
-                    ast::variable_info var_info;
-                    var_info.name = name->get_name();
-                    var_info.init_val = init_val;
-                    stmt->add_variable(var_info);
-
-                    kw->replace(semicolon, stmt.cast<ast::token>());
-                }
-
+                kw->replace(semicolon, stmt.cast<ast::token>());
                 return 0;
             }
         };

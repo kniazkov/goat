@@ -98,6 +98,11 @@ namespace g0at
             {
                 return L"expected an identifier";
             }
+
+            std::wstring the_next_token_must_be_a_comma_or_a_semicolon() override
+            {
+                return L"the next token must be a comma or a semicolon";
+            }
         };
 
         resource *resource::get_intance_en()
