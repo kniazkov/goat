@@ -20,35 +20,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "utils.h"
-#include <sstream>
+#pragma once
+
+#include "instruction.h"
+#include <cstdint>
 
 namespace g0at
 {
-    namespace lib
+    namespace code
     {
-        const char *file_name_from_full_path(const char *path)
+        class load_real : public instruction
         {
-            if (!path)
-                return nullptr;
+        public:
+            load_real(double _value);
+            void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
 
-            const char *begin = path;
-            while (*path)
-            {
-                if (*path == '\\' || *path == '/')
-                    begin = path + 1;
-                path++;
-            }
-            return begin;
-        }
+            double get_value() { return value; }
 
-        std::wstring double_to_wstring(double value)
-        {
-            // really, there must be an easier way to do it (and this is NOT std::to_wstring())
-            std::wstringstream wss;
-            wss << value;
-            return wss.str();
-        }
+        protected:
+            double value;
+        };
     };
-
 };

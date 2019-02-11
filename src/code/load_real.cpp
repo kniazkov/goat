@@ -20,35 +20,28 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "utils.h"
-#include <sstream>
+#include "load_real.h"
+#include "model/object_real.h"
 
 namespace g0at
 {
-    namespace lib
+    namespace code
     {
-        const char *file_name_from_full_path(const char *path)
+        load_real::load_real(double _value)
+            : value(_value)
         {
-            if (!path)
-                return nullptr;
-
-            const char *begin = path;
-            while (*path)
-            {
-                if (*path == '\\' || *path == '/')
-                    begin = path + 1;
-                path++;
-            }
-            return begin;
         }
 
-        std::wstring double_to_wstring(double value)
+        void load_real::accept(instruction_visitor *visitor)
         {
-            // really, there must be an easier way to do it (and this is NOT std::to_wstring())
-            std::wstringstream wss;
-            wss << value;
-            return wss.str();
+            visitor->visit(this);
+        }
+
+        void load_real::exec(model::thread *thr)
+        {
+            model::variable var;
+            var.set_real(value);
+            thr->push(var);
         }
     };
-
 };

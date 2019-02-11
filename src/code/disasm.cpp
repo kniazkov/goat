@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "load_integer.h"
 #include "decl_var.h"
 #include "store.h"
+#include "load_real.h"
 
 namespace g0at
 {
@@ -137,6 +138,11 @@ namespace g0at
         {
             int id = ref->get_id();
             stream << L"store \t" << id << L"\t; " << identifiers.at(id);
+        }
+
+        void disasm::visit(load_real *ref)
+        {
+            stream << L"rload \t" << ref->get_value();
         }
     };
 };

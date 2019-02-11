@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_real.h"
 #include "lib/functional.h"
+#include "lib/utils.h"
 #include "thread.h"
 #include <assert.h>
 
@@ -54,7 +55,7 @@ namespace g0at
 
         std::wstring object_real::to_string() const
         {
-            return std::to_wstring(value);
+            return lib::double_to_wstring(value);
         }
 
         bool object_real::get_real(double *pval)
@@ -122,7 +123,7 @@ namespace g0at
 
             std::wstring to_string(const variable *var) const override
             {
-                return std::to_wstring(var->data.r);
+                return lib::double_to_wstring(var->data.r);
             }
 
             object *to_object(variable *var, object_list *list) override

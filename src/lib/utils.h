@@ -22,10 +22,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include <string>
+
 namespace g0at
 {
     namespace lib
     {
         const char *file_name_from_full_path(const char *path);
+        std::wstring double_to_wstring(double value);
     };
 };

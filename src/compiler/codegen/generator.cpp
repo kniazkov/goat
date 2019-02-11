@@ -32,6 +32,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/negation.h"
 #include "compiler/pt/declare_variable.h"
 #include "compiler/pt/assignment.h"
+#include "compiler/pt/real.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -45,6 +46,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/load_undefined.h"
 #include "code/load_null.h"
 #include "code/decl_var.h"
+#include "code/load_real.h"
 #include <assert.h>
 
 namespace g0at
@@ -164,6 +166,11 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::real *ref)
+        {
+            code->add_instruction(new code::load_real(ref->get_value()));
         }
     };
 };
