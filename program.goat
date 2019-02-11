@@ -1,1 +1,1 @@
-println(PI);
+println(sin(1));

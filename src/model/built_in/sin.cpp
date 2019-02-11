@@ -20,10 +20,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "model/context.h"
-#include "model/object_cache.h"
+#include "context_factory.h"
+#include "model/object_function_built_in.h"
+#include "global/global.h"
+#include <cmath>
 
 namespace g0at
 {
@@ -31,22 +31,30 @@ namespace g0at
     {
         namespace built_in
         {
-            class context_factory
+            class sin : public object_function_built_in
             {
             public:
-                context_factory(object_list *_list, object_cache *_cache);
-                context *create_context();
-            
-            protected:
-                object *create_function_print();
-                object *create_function_println();
-                object *create_function_exit();
-                object *create_function_abs();
-                object *create_function_sin();
-
-                object_list *list;
-                object_cache *cache;
+                sin(object_list *_list)
+                    : object_function_built_in(_list)
+                {
+                }
+                
+                void call(thread *thr) override
+                {
+                    variable &result = thr->peek();
+                    variable arg = thr->peek(1);
+                    double real_val;
+                    if (arg.get_real(&real_val))
+                    {
+                        result.set_real(std::sin(real_val));
+                    }
+                }
             };
+
+            object *context_factory::create_function_sin()
+            {
+                return new sin(list);
+            }
         };
     };
 };

@@ -50,6 +50,7 @@ namespace g0at
                 ctx->add_object(cache->get_object(L"println"), create_function_println());
                 ctx->add_object(cache->get_object(L"exit"), create_function_exit());
                 ctx->add_object(cache->get_object(L"abs"), create_function_abs());
+                ctx->add_object(cache->get_object(L"sin"), create_function_sin());
 
                 model::variable tmp;
                 tmp.set_real(std::atan((double)1.0) * 4);
