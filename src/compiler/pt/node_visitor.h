@@ -40,6 +40,7 @@ namespace g0at
         class value_null;
         class declare_variable;
         class assignment;
+        class real;
 
         class node_visitor
         {
@@ -60,6 +61,7 @@ namespace g0at
             virtual void visit(value_null *ref);
             virtual void visit(declare_variable *ref);
             virtual void visit(assignment *ref);
+            virtual void visit(real *ref);
         };
     };
 };

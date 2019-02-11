@@ -124,5 +124,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        real *node::to_real()
+        {
+            return nullptr;
+        }
    }
 };
