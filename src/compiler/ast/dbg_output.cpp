@@ -112,6 +112,7 @@ namespace g0at
             dbg_output indented(stream, indent + 1);
             ref->get_func_object()->accept(&indented);
             print_token_list(ref->get_raw_list());
+            print_token_list(ref->get_args_list());
         }
 
         void dbg_output::visit(statement_expression *ref)

@@ -53,6 +53,9 @@ namespace g0at
                     if (oper->prev->to_token_operator())
                         break;
 
+                    if (oper->prev->to_comma())
+                        break;
+
                     return 0;
                 } while(false);
 

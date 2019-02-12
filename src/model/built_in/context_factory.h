@@ -44,6 +44,7 @@ namespace g0at
                 object *create_function_abs();
                 object *create_function_sin();
                 object *create_function_sqrt();
+                object *create_function_atan2();
 
                 object_list *list;
                 object_cache *cache;
