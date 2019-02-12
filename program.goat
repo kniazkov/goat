@@ -1,1 +1,4 @@
-println(atan2(0,-1));
+println(0.00001);
+println(-123456.789);
+println(-123456.0);
+println(0.123456789123456789);

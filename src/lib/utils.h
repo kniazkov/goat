@@ -30,5 +30,6 @@ namespace g0at
     {
         const char *file_name_from_full_path(const char *path);
         std::wstring double_to_wstring(double value);
+        std::wstring double_to_wstring(double value, int precision);
     };
 };

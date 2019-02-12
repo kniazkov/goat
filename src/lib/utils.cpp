@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "utils.h"
 #include <sstream>
+#include <cfloat>
 
 namespace g0at
 {
@@ -44,10 +45,61 @@ namespace g0at
 
         std::wstring double_to_wstring(double value)
         {
+            return double_to_wstring(value, 13);
+        }
+
+        std::wstring double_to_wstring(double value, int precision)
+        {
             // really, there must be an easier way to do it (and this is NOT std::to_wstring())
-            std::wstringstream wss;
-            wss << value;
-            return wss.str();
+            std::stringstream buff;
+            bool neg = false;
+            if (value < 0)
+            {
+                neg = true;
+                value = -value;
+            }
+            long int factor = 1;
+            if (precision > DBL_DIG - 2) precision = DBL_DIG - 2;
+            for (int i = 0; i < precision; i++)
+            {
+                factor *= 10;
+            }
+            long int ip = (long int)value;
+            double dfp = value * factor - ip * factor;
+            long int fp = (long int)dfp;
+            if (fp > 0)
+            {
+                bool flag = false;
+                while(precision > 0)
+                {
+                    char v = fp % 10;
+                    if (v != 0)
+                        flag = true;
+                    if (flag)
+                    {
+                        char c = v + '0';
+                        buff << c;
+                    }
+                    fp = fp / 10;
+                    precision--;
+                };
+                buff << '.';
+            }
+            do
+            {
+                char c = ip % 10 + '0';
+                buff << c;
+                ip = ip / 10;
+            } while(ip != 0);
+            if (neg)
+            {
+                buff << '-';
+            }
+            std::string str = buff.str();
+            std::wstring result;
+            result.reserve(str.length());
+            result.assign(str.rbegin(), str.rend());
+            return result;
         }
     };
 
