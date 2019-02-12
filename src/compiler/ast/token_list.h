@@ -40,6 +40,8 @@ namespace g0at
             void remove(lib::pointer<token> item);
             void replace(lib::pointer<token> begin, lib::pointer<token> end, lib::pointer<token> repl);
 
+            bool is_empty() { return first == nullptr; }
+
             lib::pointer<token> first;
             token *last;
 

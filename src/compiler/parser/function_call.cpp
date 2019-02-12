@@ -52,9 +52,10 @@ namespace g0at
                 if (args == nullptr || args->get_symbol() != '(')
                     return 0;
 
-                lib::pointer<ast::token> fcall  = new ast::function_call(func_object, args);
-                func_object->replace(args, fcall);
+                lib::pointer<ast::function_call> fcall  = new ast::function_call(func_object, args);
+                func_object->replace(args, fcall.cast<ast::token>());
                 data->expressions.add(fcall.get());
+                data->function_calls.push_back(fcall.get());
                 return 0;
             }
         };

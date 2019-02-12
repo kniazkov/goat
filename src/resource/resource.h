@@ -43,9 +43,11 @@ namespace g0at
             virtual std::wstring incorrect_command_line_parameter(const char *parameter) = 0;
             virtual std::wstring unable_to_parse_token_sequence() = 0;
             virtual std::wstring invald_lvalue_expression() = 0;
+            virtual std::wstring expected_an_expression() = 0;
             virtual std::wstring expected_an_expression_after_operator() = 0;
             virtual std::wstring expected_an_identifier() = 0;
             virtual std::wstring the_next_token_must_be_a_comma_or_a_semicolon() = 0;
+            virtual std::wstring function_arguments_must_be_separated_by_commas() = 0;
             
         protected:
             static resource *get_intance_en();

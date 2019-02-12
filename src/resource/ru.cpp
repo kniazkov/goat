@@ -89,6 +89,11 @@ namespace g0at
                 return L"неправильное левостороннее выражение для оператора присваивания";
             }
 
+            std::wstring expected_an_expression() override
+            {
+                return L"здесь должно быть выражение";
+            }
+
             std::wstring expected_an_expression_after_operator() override
             {
                 return L"после оператора должно быть выражение";
@@ -102,6 +107,11 @@ namespace g0at
             std::wstring the_next_token_must_be_a_comma_or_a_semicolon() override
             {
                 return L"следующий токен должен быть запятой или точкой с запятой";
+            }
+
+            std::wstring function_arguments_must_be_separated_by_commas() override
+            {
+                return L"аргументы функции должны разделяться запятыми";
             }
         };
 

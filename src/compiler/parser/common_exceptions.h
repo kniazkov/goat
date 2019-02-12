@@ -64,5 +64,23 @@ namespace g0at
             {
             }
         };
+
+        class expected_an_expression : public compilation_error
+        {
+        public:
+            expected_an_expression(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->expected_an_expression())
+            {
+            }
+        };
+
+        class function_arguments_must_be_separated_by_commas : public compilation_error
+        {
+        public:
+            function_arguments_must_be_separated_by_commas(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->function_arguments_must_be_separated_by_commas())
+            {
+            }
+        };
     };
 };

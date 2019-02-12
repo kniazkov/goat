@@ -65,16 +65,17 @@ namespace g0at
         {
             expression_builder func_object_visitor;
             ref->get_func_object()->accept(&func_object_visitor);
-            assert(func_object_visitor.has_expr()); // exception ?
+            assert(func_object_visitor.has_expr());
             lib::pointer<pt::function_call> fcall = 
                 new pt::function_call(ref->get_position(), func_object_visitor.get_expr());
-            auto args = ref->get_raw_list();
+            auto args = ref->get_args_list();
             auto tok_arg = args->first;
             while(tok_arg)
             {
+                assert(tok_arg->to_expression() != nullptr);
                 expression_builder arg_visitor;
                 tok_arg->accept(&arg_visitor);
-                assert(arg_visitor.has_expr()); // exception ?
+                assert(arg_visitor.has_expr());
                 fcall->add_arg(arg_visitor.get_expr());
                 tok_arg = tok_arg->next;
             }

@@ -89,6 +89,11 @@ namespace g0at
                 return L"invalid lvalue expression for the assingment operator";
             }
 
+            std::wstring expected_an_expression() override
+            {
+                return L"expected an expression";
+            }
+
             std::wstring expected_an_expression_after_operator() override
             {
                 return L"expected an expression after operator";
@@ -102,6 +107,11 @@ namespace g0at
             std::wstring the_next_token_must_be_a_comma_or_a_semicolon() override
             {
                 return L"the next token must be a comma or a semicolon";
+            }
+
+            std::wstring function_arguments_must_be_separated_by_commas() override
+            {
+                return L"function arguments must be separated by commas";
             }
         };
 

@@ -39,9 +39,11 @@ namespace g0at
             function_call *to_function_call() override;
 
             lib::pointer<expression> get_func_object() { return func_object; }
+            token_list *get_args_list() { return &args; }
 
         protected:
             lib::pointer<expression> func_object;
+            token_list args;
         };
     };
 };

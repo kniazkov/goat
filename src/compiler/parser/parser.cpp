@@ -76,9 +76,14 @@ namespace g0at
         void parser::parse()
         {
             assert(data != nullptr);
-            
+
             lib::pointer<grammar> gr = grammar_factory(data).create_grammar();
             gr->apply();
+
+            for (auto fcall : data->function_calls)
+            {
+                parse_function_call_args(fcall);
+            }
 
             for (auto func : data->functions)
             {
@@ -148,6 +153,33 @@ namespace g0at
                     tok = tok->next;
                 }
             }
+        }
+
+        void parser::parse_function_call_args(ast::function_call *fcall)
+        {
+            auto src = fcall->get_raw_list();
+            auto dst = fcall->get_args_list();
+            auto tok = src->first;
+            bool even = false;
+            while(tok)
+            {
+                auto next = tok->next;
+                if (even)
+                {
+                    if (!tok->to_comma())
+                        throw function_arguments_must_be_separated_by_commas(tok->get_position());
+                    tok->remove();
+                }
+                else
+                {
+                    if (!tok->to_expression())
+                        throw expected_an_expression(tok->get_position());
+                    dst->add(tok);
+                }
+                tok = next;
+                even = !even;
+            }
+            assert(src->is_empty());
         }
     };
 };
