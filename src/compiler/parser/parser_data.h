@@ -23,6 +23,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "compiler/ast/token_2nd_list.h"
+#include "compiler/ast/function.h"
+#include "compiler/ast/function_call.h"
+#include <vector>
 
 namespace g0at
 {
@@ -35,8 +38,10 @@ namespace g0at
             ast::token_2nd_list expressions;
             ast::token_2nd_list opers_plus_minus;
             ast::token_2nd_list opers_assign;
-            ast::token_2nd_list functions;
             ast::token_2nd_list var_keywords;
+
+            std::vector<ast::function*> functions;
+            std::vector<ast::function_call*> function_calls;
         };
     };
 };

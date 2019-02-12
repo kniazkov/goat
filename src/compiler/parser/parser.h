@@ -47,6 +47,7 @@ namespace g0at
             void operator=(const parser &) { }
             static void parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
                 parser_data_filler *data_filler, wchar_t open_bracket);
+            static void parse_function_body(ast::function *func);
 
             lib::pointer<ast::root> root;
             parser_data *data;

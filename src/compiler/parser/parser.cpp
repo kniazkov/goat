@@ -22,8 +22,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "parser.h"
 #include "grammar_factory.h"
+#include "common_exceptions.h"
 #include "compiler/ast/bracket.h"
 #include "compiler/ast/brackets_pair.h"
+#include "compiler/ast/expression.h"
+#include "compiler/ast/statement_expression.h"
 #include "compiler/ast/dbg_output.h"
 #include "global/global.h"
 #include <assert.h>
@@ -65,7 +68,7 @@ namespace g0at
             root = new ast::root();
             delete data;
             data = new parser_data();
-            data->functions.add(root.get());
+            data->functions.push_back(root.get());
             parser_data_filler data_filler(data);
             parse_brackets_and_fill_data(scan, root.cast<ast::token_with_list>(), &data_filler, L'\0');
         }
@@ -73,8 +76,14 @@ namespace g0at
         void parser::parse()
         {
             assert(data != nullptr);
+            
             lib::pointer<grammar> gr = grammar_factory(data).create_grammar();
             gr->apply();
+
+            for (auto func : data->functions)
+            {
+                parse_function_body(func);
+            }
         }
 
         void parser::parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
@@ -109,6 +118,34 @@ namespace g0at
                 {
                     tok_list->add(tok);
                     tok->accept(data_filler);
+                }
+            }
+        }
+
+        void parser::parse_function_body(ast::function *func)
+        {
+            auto list = func->get_raw_list();
+            auto tok = list->first;
+            while(tok)
+            {
+                if (!tok->to_statement())
+                {
+                    if (!tok->next)
+                    {
+                        ast::expression *expr = tok->to_expression();
+                        if (expr)
+                        {
+                            // last expression w/o semicolon
+                            lib::pointer<ast::token> st_expr  = new ast::statement_expression(expr);
+                            expr->replace(st_expr);
+                            return;
+                        }
+                    }
+                    throw unable_to_parse_token_sequence(tok->get_position());
+                }
+                else
+                {
+                    tok = tok->next;
                 }
             }
         }
