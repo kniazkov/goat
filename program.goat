@@ -1,1 +1,1 @@
-println(sin(1));
+println(sqrt(65536));
