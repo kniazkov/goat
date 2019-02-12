@@ -29,6 +29,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "decl_var.h"
 #include "store.h"
 #include "load_real.h"
+#include "lib/utils.h"
 
 namespace g0at
 {
@@ -142,7 +143,7 @@ namespace g0at
 
         void disasm::visit(load_real *ref)
         {
-            stream << L"rload \t" << ref->get_value();
+            stream << L"rload \t" << lib::double_to_wstring(ref->get_value());
         }
     };
 };

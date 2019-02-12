@@ -38,6 +38,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "declare_variable.h"
 #include "assignment.h"
 #include "real.h"
+#include "lib/utils.h"
 
 namespace g0at
 {
@@ -236,7 +237,7 @@ namespace g0at
         void dbg_output::visit(real *ref)
         {
             add_indent();
-            stream << ref->get_value();
+            stream << lib::double_to_wstring(ref->get_value());
         }
 
         void dbg_output::add_indent()
