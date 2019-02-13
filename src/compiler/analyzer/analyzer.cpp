@@ -51,6 +51,7 @@ namespace g0at
 
         lib::pointer<pt::function> analyzer::build_function(lib::pointer<ast::function> tok_func)
         {
+            // TODO: use expr. builder
             lib::pointer<pt::function> node_func = new pt::function(tok_func->get_position());
             
             auto list = tok_func->get_raw_list();
