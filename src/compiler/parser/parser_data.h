@@ -39,6 +39,7 @@ namespace g0at
             ast::token_2nd_list opers_plus_minus;
             ast::token_2nd_list opers_assign;
             ast::token_2nd_list var_keywords;
+            ast::token_2nd_list function_keywords;
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;

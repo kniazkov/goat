@@ -82,5 +82,23 @@ namespace g0at
             {
             }
         };
+
+        class expected_an_argument_list : public compilation_error
+        {
+        public:
+            expected_an_argument_list(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->expected_an_argument_list())
+            {
+            }
+        };
+
+        class expected_a_function_body : public compilation_error
+        {
+        public:
+            expected_a_function_body(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->expected_a_function_body())
+            {
+            }
+        };
     };
 };

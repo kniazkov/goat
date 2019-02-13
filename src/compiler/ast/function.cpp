@@ -21,11 +21,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "function.h"
+#include <assert.h>
 
 namespace g0at
 {
     namespace ast
     {
+        function::function()
+        {
+        }
+
+        function::function(keyword_function *_kw, brackets_pair *_args, brackets_pair *_body)
+        {
+            assert(_args->get_symbol() == L'(');
+            assert(_body->get_symbol() == L'{');
+            pos = _kw->get_position();
+            args_raw.swap(_args->get_raw_list());
+            raw.swap(_body->get_raw_list());
+        }
+
         void function::accept(token_visitor *visitor)
         {
             visitor->visit(this);

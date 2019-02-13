@@ -113,6 +113,16 @@ namespace g0at
             {
                 return L"аргументы функции должны разделяться запятыми";
             }
+
+            std::wstring expected_an_argument_list() override
+            {
+                return L"ожидается список аргументов";
+            }
+
+            std::wstring expected_a_function_body() override
+            {
+                return L"ожидается тело функции";
+            }
         };
 
         resource *resource::get_intance_ru()

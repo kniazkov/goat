@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "function_call.h"
+#include <assert.h>
 
 namespace g0at
 {
@@ -28,6 +29,7 @@ namespace g0at
     {
         function_call::function_call(lib::pointer<expression> _func_object,  brackets_pair *_args)
         {
+            assert(_args->get_symbol() == L'(');
             func_object = _func_object;
             raw.swap(_args->get_raw_list());
             pos = _args->get_position();

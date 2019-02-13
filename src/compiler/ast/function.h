@@ -22,17 +22,27 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "expression.h"
 #include "token_with_list.h"
+#include "keyword_function.h"
+#include "brackets_pair.h"
 
 namespace g0at
 {
     namespace ast
     {
-        class function : public token_with_list
+        class function : public expression, public token_with_list
         {
         public:
+            function();
+            function(keyword_function *_kw, brackets_pair *_args, brackets_pair *_body);
             void accept(token_visitor *visitor) override;
             function *to_function() override;
+
+            token_list *get_raw_args_list() { return &args_raw; }
+
+        protected:
+            token_list args_raw;
         };
     };
 };

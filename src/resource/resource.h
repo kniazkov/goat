@@ -48,6 +48,8 @@ namespace g0at
             virtual std::wstring expected_an_identifier() = 0;
             virtual std::wstring the_next_token_must_be_a_comma_or_a_semicolon() = 0;
             virtual std::wstring function_arguments_must_be_separated_by_commas() = 0;
+            virtual std::wstring expected_an_argument_list() = 0;
+            virtual std::wstring expected_a_function_body() = 0;
             
         protected:
             static resource *get_intance_en();

@@ -113,6 +113,16 @@ namespace g0at
             {
                 return L"function arguments must be separated by commas";
             }
+
+            std::wstring expected_an_argument_list() override
+            {
+                return L"expected an argument list";
+            }
+
+            std::wstring expected_a_function_body() override
+            {
+                return L"expected a function body";
+            }
         };
 
         resource *resource::get_intance_en()

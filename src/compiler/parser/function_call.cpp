@@ -22,7 +22,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "pattern.h"
 #include "grammar_factory.h"
-#include "compiler/ast/identifier.h"
 #include "compiler/ast/brackets_pair.h"
 #include "compiler/ast/function_call.h"
 #include <assert.h>
