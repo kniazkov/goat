@@ -1,4 +1,6 @@
-var α = 2;
-var β = 3;
-var γ = α + β;
-println("γ = " + γ);
+var x = function()
+{
+    println("it works.");
+};
+
+x();

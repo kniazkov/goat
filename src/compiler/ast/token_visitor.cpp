@@ -133,5 +133,9 @@ namespace g0at
         void token_visitor::visit(real *ref)
         {
         }
+
+        void token_visitor::visit(keyword_function *ref)
+        {
+        }
     }
 };

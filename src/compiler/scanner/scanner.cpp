@@ -38,6 +38,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/assign.h"
 #include "compiler/ast/comma.h"
 #include "compiler/ast/real.h"
+#include "compiler/ast/keyword_function.h"
 #include <sstream>
 #include <cstdint>
 
@@ -99,6 +100,7 @@ namespace g0at
             case L'*':
             case L'/':
             case L'=':
+            case L'$':
                 return true;
             default:
                 return false;
@@ -142,6 +144,8 @@ namespace g0at
                 return new ast::value_null();            
             if (name == L"var")
                 return new ast::keyword_var();            
+            if (name == L"function")
+                return new ast::keyword_function();            
             return new ast::identifier(name);
         }
 
@@ -225,6 +229,8 @@ namespace g0at
                 return new ast::minus();
             if (oper == L"=")
                 return new ast::assign();
+            if (oper == L"$")
+                return new ast::keyword_function();
             return new ast::custom_operator(oper);
         }
         

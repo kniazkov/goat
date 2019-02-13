@@ -240,6 +240,12 @@ namespace g0at
             stream << lib::double_to_wstring(ref->get_value());
         }
 
+        void dbg_output::visit(keyword_function *ref)
+        {
+            add_indent();
+            stream << L"function";
+        }
+
         void dbg_output::add_indent()
         {
             if (!indent)
