@@ -52,6 +52,7 @@ namespace g0at
         class comma;
         class real;
         class keyword_function;
+        class declare_function;
 
         class token_visitor
         {
@@ -84,6 +85,7 @@ namespace g0at
             virtual void visit(comma *ref);
             virtual void visit(real *ref);
             virtual void visit(keyword_function *ref);
+            virtual void visit(declare_function *ref);
         };
     };
 };

@@ -30,7 +30,7 @@ namespace g0at
 {
     namespace pt
     {
-        class function : public expression
+        class function : public node
         {
         public:
             function(lib::pointer<position> _pos);

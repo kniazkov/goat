@@ -20,25 +20,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+#pragma once
+
 #include "function.h"
+#include "expression.h"
 
 namespace g0at
 {
-    namespace pt
+    namespace ast
     {
-        function::function(lib::pointer<position> _pos)
-            : node(_pos)
+        class declare_function : public expression
         {
-        }
+        public:
+            declare_function(lib::pointer<function> _func);
+            void accept(token_visitor *visitor) override;
+            declare_function *to_declare_function() override;
 
-        void function::accept(node_visitor *visitor)
-        {
-            visitor->visit(this);
-        }
+            lib::pointer<function> get_func() { return func; }
 
-        function *function::to_function()
-        {
-            return this;
-        }
+        protected:
+            lib::pointer<function> func;
+        };
     };
 };

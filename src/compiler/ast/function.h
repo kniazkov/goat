@@ -31,7 +31,7 @@ namespace g0at
 {
     namespace ast
     {
-        class function : public expression, public token_with_list
+        class function : public token_with_list
         {
         public:
             function();

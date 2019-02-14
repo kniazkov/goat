@@ -129,5 +129,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        declare_function *node::to_declare_function()
+        {
+            return nullptr;
+        }
    }
 };

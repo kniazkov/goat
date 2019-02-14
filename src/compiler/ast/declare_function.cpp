@@ -20,23 +20,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "function.h"
+#include "declare_function.h"
 
 namespace g0at
 {
-    namespace pt
+    namespace ast
     {
-        function::function(lib::pointer<position> _pos)
-            : node(_pos)
+        declare_function::declare_function(lib::pointer<function> _func)
         {
+            func = _func;
+            pos = func->get_position();
         }
 
-        void function::accept(node_visitor *visitor)
+        void declare_function::accept(token_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        function *function::to_function()
+        declare_function *declare_function::to_declare_function()
         {
             return this;
         }

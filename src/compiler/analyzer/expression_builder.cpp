@@ -48,6 +48,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/real.h"
 #include "compiler/ast/function.h"
 #include "compiler/pt/function.h"
+#include "compiler/ast/declare_function.h"
+#include "compiler/pt/declare_function.h"
 #include <assert.h>
 
 namespace g0at
@@ -133,22 +135,22 @@ namespace g0at
             expr = new pt::real(ref->get_position(), ref->get_value());
         }
 
-        void expression_builder::visit(ast::function *ref)
+        void expression_builder::visit(ast::declare_function *ref)
         {
             lib::pointer<pt::function> node_func = new pt::function(ref->get_position());
             
-            auto list = ref->get_raw_list();
+            auto list = ref->get_func()->get_raw_list();
             auto tok = list->first;
             while(tok)
             {
                 statement_builder visitor;
                 tok->accept(&visitor);
-                assert(visitor.has_stmt()); // TODO: exception ?
+                assert(visitor.has_stmt());
                 node_func->add_stmt(visitor.get_stmt());
                 tok = tok->next;
             }
 
-            expr = node_func.cast<pt::expression>();
+            expr = new pt::declare_function(node_func);
         }
 
         std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>

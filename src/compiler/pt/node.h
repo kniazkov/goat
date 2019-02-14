@@ -50,6 +50,7 @@ namespace g0at
         class declare_variable;
         class assignment;
         class real;
+        class declare_function;
 
         class node : public lib::ref_counter
         {
@@ -76,6 +77,7 @@ namespace g0at
             virtual declare_variable *to_declare_variable();
             virtual assignment *to_assignment();
             virtual real *to_real();
+            virtual declare_function *to_declare_function();
 
             lib::pointer<position> get_position() { return pos; }
 
