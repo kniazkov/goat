@@ -29,6 +29,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "decl_var.h"
 #include "store.h"
 #include "load_real.h"
+#include "load_func.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -144,6 +145,26 @@ namespace g0at
         void disasm::visit(load_real *ref)
         {
             stream << L"rload \t" << lib::double_to_wstring(ref->get_value());
+        }
+
+        void disasm::visit(load_func *ref)
+        {
+            int i, size = ref->get_arg_ids_count();
+            stream << L"func \t" << ref->get_first_iid();
+            for (i = 0; i < size; i++)
+            {
+                stream  << L", " << ref->get_arg_id(i);
+            }
+            if (size > 0)
+            {
+                stream << L"\t; ";
+                for (i = 0; i < size; i++)
+                {
+                    if (i)
+                        stream << L", ";
+                    stream << identifiers.at(ref->get_arg_id(i));
+                }
+            }
         }
     };
 };

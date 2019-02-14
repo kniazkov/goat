@@ -23,15 +23,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "lvalue_generator.h"
+#include "compiler/pt/node.h"
 #include "compiler/pt/node_visitor.h"
 #include "code/code.h"
 #include "model/name_cache.h"
 #include "lib/pointer.h"
+#include <deque>
 
 namespace g0at
 {
     namespace codegen
     {
+        struct deferred_node
+        {
+            int *iid_ptr;
+            pt::node *node;
+        };
+
         class generator : public pt::node_visitor
         {
         public:
@@ -52,11 +60,13 @@ namespace g0at
             void visit(pt::declare_variable *ref) override;
             void visit(pt::assignment *ref) override;
             void visit(pt::real *ref) override;
+            void visit(pt::declare_function *ref) override;
 
         protected:
             lib::pointer<code::code> code; 
             model::name_cache name_cache;
             lib::pointer<lvalue_generator> lgen;
+            std::deque<deferred_node> queue;
         };
     };
 };

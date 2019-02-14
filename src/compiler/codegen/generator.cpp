@@ -33,6 +33,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/declare_variable.h"
 #include "compiler/pt/assignment.h"
 #include "compiler/pt/real.h"
+#include "compiler/pt/declare_function.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -47,6 +48,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/load_null.h"
 #include "code/decl_var.h"
 #include "code/load_real.h"
+#include "code/load_func.h"
 #include <assert.h>
 
 namespace g0at
@@ -63,6 +65,13 @@ namespace g0at
         {
             generator gen;
             node_root->accept(&gen);
+            while(!gen.queue.empty())
+            {
+                deferred_node def = gen.queue.back();
+                gen.queue.pop_back();
+                *(def.iid_ptr) = gen.code->get_code_size();
+                def.node->accept(&gen);
+            }
             gen.code->set_identifiers_list(gen.name_cache.get_vector());
             return gen.code;
         }
@@ -171,6 +180,18 @@ namespace g0at
         void generator::visit(pt::real *ref)
         {
             code->add_instruction(new code::load_real(ref->get_value()));
+        }
+
+        void generator::visit(pt::declare_function *ref)
+        {
+            code::load_func *instr = new code::load_func(-1);
+            code->add_instruction(instr);
+            deferred_node def;
+            def.iid_ptr = instr->get_first_iid_ptr();
+            def.node = ref->get_func().get();            
+            queue.push_front(def);
+
+            //TODO: args
         }
     };
 };
