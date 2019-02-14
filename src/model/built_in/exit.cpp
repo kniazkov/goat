@@ -38,7 +38,7 @@ namespace g0at
                 {
                 }
                 
-                void call(thread *thr) override
+                void call(thread *thr, int arg_count) override
                 {
                     thr->state = model::thread_state::FINISH;
                     while(!thr->stack_is_empty())

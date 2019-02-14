@@ -52,7 +52,7 @@ namespace g0at
             thr->push(result);
 
             // call
-            func->call(thr);
+            func->call(thr, arg_count);
             
             // remove args from the stack
             if (arg_count > 0)

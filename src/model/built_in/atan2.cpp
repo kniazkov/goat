@@ -39,7 +39,7 @@ namespace g0at
                 {
                 }
                 
-                void call(thread *thr) override
+                void call(thread *thr, int arg_count) override
                 {
                     variable &result = thr->peek();
                     variable arg_1 = thr->peek(1);
