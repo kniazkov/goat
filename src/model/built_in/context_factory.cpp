@@ -58,7 +58,7 @@ namespace g0at
                 tmp.set_real(std::atan((double)1.0) * 4);
                 ctx->add_object(cache->get_object(L"PI"), tmp);
 
-                return ctx;
+                return new context(list, ctx);
             }
         };
     };

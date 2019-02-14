@@ -38,6 +38,12 @@ namespace g0at
             proto.push_back(list->get_generic_proto_instance());
         }
 
+        object::object(object_list *list, object *proto)
+        {
+            list->add(this);
+            this->proto.push_back(proto);
+        }
+
         object::object(object_list *list, bool has_proto)
         {
             list->add(this);

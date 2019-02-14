@@ -32,9 +32,11 @@ namespace g0at
         {
         public:
             context(object_list *list);
+            context(object_list *list, context *proto);
 
             context *prev;
             object *this_ptr;
+            int ret_iid;
         };
     };
 };

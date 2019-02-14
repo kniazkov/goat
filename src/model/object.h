@@ -93,6 +93,7 @@ namespace g0at
         friend class generic_proto;
         public:
             object(object_list *list);
+            object(object_list *list, object *proto);
             virtual ~object();
             virtual object_type get_type() const;
             virtual object_string *to_object_string();
