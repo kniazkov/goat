@@ -42,6 +42,7 @@ namespace g0at
         class store;
         class load_real;
         class load_func;
+        class ret;
 
         class instruction_visitor
         {
@@ -64,6 +65,7 @@ namespace g0at
             virtual void visit(store *ref) = 0;
             virtual void visit(load_real *ref) = 0;
             virtual void visit(load_func *ref) = 0;
+            virtual void visit(ret *ref) = 0;
         };
     };
 };

@@ -20,26 +20,35 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "object_function_user_defined.h"
+#include "ret.h"
 #include <assert.h>
 
 namespace g0at
 {
-    namespace model
+    namespace code
     {
-        object_function_user_defined::object_function_user_defined(object_list *list, int _first_iid)
-            : object_function(list), first_iid(_first_iid)
+        void ret::accept(instruction_visitor *visitor)
         {
-            assert(_first_iid > 0);
+            visitor->visit(this);
         }
 
-        void object_function_user_defined::call(thread *thr, int arg_count)
+        void ret::exec(model::thread *thr)
         {
-            context *new_ctx = new context(thr->o_list, thr->ctx);
-            new_ctx->value = thr->iid;
-            new_ctx->value_type = context_value_type::ret_address;
-            thr->ctx = new_ctx;
-            thr->iid = first_iid;
+            while(thr->ctx && thr->ctx->value_type != model::context_value_type::ret_address)
+            {
+                thr->ctx = thr->ctx->prev;
+            }
+
+            if (!thr->ctx)
+            {
+                thr->state = model::thread_state::zombie;
+            }
+            else
+            {
+                thr->iid = thr->ctx->value;
+                thr->ctx = thr->ctx->prev;
+                assert(thr->ctx != nullptr);
+            }
         }
     };
 };

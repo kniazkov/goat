@@ -49,6 +49,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/decl_var.h"
 #include "code/load_real.h"
 #include "code/load_func.h"
+#include "code/ret.h"
 #include <assert.h>
 
 namespace g0at
@@ -86,6 +87,10 @@ namespace g0at
             if (ref->is_root_function())
             {
                 code->add_instruction(new code::end);
+            }
+            else
+            {
+                code->add_instruction(new code::ret);
             }
         }
 

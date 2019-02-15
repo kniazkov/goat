@@ -166,5 +166,10 @@ namespace g0at
                 }
             }
         }
+
+        void disasm::visit(ret *ref)
+        {
+            stream << L"ret";
+        }
     };
 };

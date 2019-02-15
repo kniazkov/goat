@@ -20,26 +20,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "object_function_user_defined.h"
-#include <assert.h>
+#pragma once
+
+#include "instruction.h"
 
 namespace g0at
 {
-    namespace model
+    namespace code
     {
-        object_function_user_defined::object_function_user_defined(object_list *list, int _first_iid)
-            : object_function(list), first_iid(_first_iid)
+        class ret : public instruction
         {
-            assert(_first_iid > 0);
-        }
-
-        void object_function_user_defined::call(thread *thr, int arg_count)
-        {
-            context *new_ctx = new context(thr->o_list, thr->ctx);
-            new_ctx->value = thr->iid;
-            new_ctx->value_type = context_value_type::ret_address;
-            thr->ctx = new_ctx;
-            thr->iid = first_iid;
-        }
+        public:
+            void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
+        };
     };
 };

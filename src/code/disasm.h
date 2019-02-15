@@ -54,6 +54,7 @@ namespace g0at
             void visit(store *ref) override;
             void visit(load_real *ref) override;
             void visit(load_func *ref) override;
+            void visit(ret *ref) override;
 
         protected:
             std::wstringstream &stream;
