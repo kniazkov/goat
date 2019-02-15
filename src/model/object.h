@@ -42,13 +42,13 @@ namespace g0at
         class object_null;
         class handler;
 
-        enum object_type
+        enum class object_type
         {
-            GENERIC,
-            STRING,
-            FUNCTION,
-            INTEGER,
-            REAL
+            generic,
+            string,
+            function,
+            integer,
+            real
         };
 
         class object_comparator

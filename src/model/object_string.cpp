@@ -41,7 +41,7 @@ namespace g0at
 
         object_type object_string::get_type() const
         {
-            return STRING;
+            return object_type::string;
         }
 
         object_string *object_string::to_object_string()
@@ -51,7 +51,7 @@ namespace g0at
 
         bool object_string::less(const object *obj) const
         {
-            assert(obj->get_type() == STRING);
+            assert(obj->get_type() == object_type::string);
             const object_string *str = static_cast<const object_string*>(obj);
             if (id < 0 || str->id < 0)
                 return data < str->data;

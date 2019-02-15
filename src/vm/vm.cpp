@@ -41,8 +41,8 @@ namespace g0at
             model::object_cache cache(code->get_identifiers_list(), &o_list);
             model::context *ctx = model::built_in::context_factory(&o_list, &cache).create_context();
             model::thread thr(ctx, &o_list, &cache);
-            thr.state = model::thread_state::WORK;
-            while(thr.state == model::thread_state::WORK)
+            thr.state = model::thread_state::ok;
+            while(thr.state == model::thread_state::ok)
             {
                 uint32_t iid = thr.iid;
                 thr.iid++;

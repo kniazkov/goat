@@ -27,12 +27,12 @@ namespace g0at
     namespace model
     {
         context::context(object_list *list)
-            : object(list), prev(nullptr), this_ptr(nullptr), ret_iid(-1)
+            : object(list), prev(nullptr), this_ptr(nullptr), value(0), value_type(context_value_type::none)
         {
         }
 
         context::context(object_list *list, context *proto)
-            : object(list, proto), prev(proto), this_ptr(nullptr), ret_iid(proto->ret_iid)
+            : object(list, proto), prev(proto), this_ptr(nullptr), value_type(context_value_type::none)
         {
         }
     };

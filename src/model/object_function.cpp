@@ -34,7 +34,7 @@ namespace g0at
 
         object_type object_function::get_type() const
         {
-            return FUNCTION;
+            return object_type::function;
         }
 
         object_function *object_function::to_object_function()

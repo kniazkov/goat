@@ -37,7 +37,7 @@ namespace g0at
 
         object_type object_integer::get_type() const
         {
-            return INTEGER;
+            return object_type::integer;
         }
 
         object_integer *object_integer::to_object_integer()
@@ -47,7 +47,7 @@ namespace g0at
 
         bool object_integer::less(const object *obj) const
         {
-            assert(obj->get_type() == INTEGER);
+            assert(obj->get_type() == object_type::integer);
             const object_integer *obj_int = static_cast<const object_integer*>(obj);
             return value < obj_int->value;
         }

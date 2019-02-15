@@ -30,11 +30,11 @@ namespace g0at
 {
     namespace model
     {
-        enum thread_state
+        enum class thread_state
         {
-            PAUSE,
-            WORK,
-            FINISH
+            pause,
+            ok,
+            zombie
         };
 
         class thread

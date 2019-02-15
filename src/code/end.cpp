@@ -33,7 +33,7 @@ namespace g0at
 
         void end::exec(model::thread *thr)
         {
-            thr->state = model::thread_state::FINISH;
+            thr->state = model::thread_state::zombie;
         }
     };
 };

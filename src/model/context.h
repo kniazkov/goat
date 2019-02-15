@@ -28,6 +28,12 @@ namespace g0at
 {
     namespace model
     {
+        enum class context_value_type
+        {
+            none,
+            ret_address
+        };
+
         class context : public object
         {
         public:
@@ -36,7 +42,8 @@ namespace g0at
 
             context *prev;
             object *this_ptr;
-            int ret_iid;
+            int value;
+            context_value_type value_type;
         };
     };
 };

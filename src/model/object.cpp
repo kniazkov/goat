@@ -59,7 +59,7 @@ namespace g0at
 
         object_type object::get_type() const
         {
-            return GENERIC;
+            return object_type::generic;
         }
 
         object_string *object::to_object_string()

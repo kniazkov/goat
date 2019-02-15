@@ -38,7 +38,7 @@ namespace g0at
 
         object_type object_real::get_type() const
         {
-            return REAL;
+            return object_type::real;
         }
 
         object_real *object_real::to_object_real()
@@ -48,7 +48,7 @@ namespace g0at
 
         bool object_real::less(const object *obj) const
         {
-            assert(obj->get_type() == REAL);
+            assert(obj->get_type() == object_type::real);
             const object_real *obj_real = static_cast<const object_real*>(obj);
             return value < obj_real->value;
         }
