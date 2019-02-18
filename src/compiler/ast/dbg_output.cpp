@@ -66,8 +66,11 @@ namespace g0at
         void dbg_output::visit(function *ref)
         {
             add_indent();
-            stream << L"$";
-            print_token_list(ref->get_raw_list());
+            stream << L'$';
+            print_token_list(ref->get_raw_args_list(), L"args (raw)");
+            print_token_list(ref->get_args_list(), L"args");
+            print_token_list(ref->get_raw_list(), L"raw");
+            print_token_list(ref->get_body(), L"body");
         }
 
         void dbg_output::visit(identifier *ref)
@@ -104,7 +107,7 @@ namespace g0at
         {
             add_indent();
             stream << ref->get_symbol() << ref->get_inverse_symbol();
-            print_token_list(ref->get_raw_list());
+            print_token_list(ref->get_raw_list(), L"tokens");
         }
 
         void dbg_output::visit(function_call *ref)
@@ -113,8 +116,8 @@ namespace g0at
             stream << L"call";
             dbg_output indented(stream, indent + 1);
             ref->get_func_object()->accept(&indented);
-            print_token_list(ref->get_raw_list());
-            print_token_list(ref->get_args_list());
+            print_token_list(ref->get_raw_list(), L"raw");
+            print_token_list(ref->get_args_list(), L"args");
         }
 
         void dbg_output::visit(statement_expression *ref)
@@ -263,10 +266,25 @@ namespace g0at
             }
         }
 
-        void dbg_output::print_token_list(token_list *list)
+        void dbg_output::add_indent(int value)
+        {
+            if (!value)
+                return;
+            stream << L"\n";
+            for (int k = 0; k < value; k++)
+            {
+                stream << "  ";
+            }
+        }
+
+        void dbg_output::print_token_list(token_list *list, const wchar_t *title)
         {
             auto tok = list->first;
-            dbg_output indented(stream, indent + 1);
+            if (!tok)
+                return;
+            add_indent(indent + 1);
+            stream << title;
+            dbg_output indented(stream, indent + 2);
             while(tok)
             {
                 tok->accept(&indented);

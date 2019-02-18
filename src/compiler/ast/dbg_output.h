@@ -70,7 +70,8 @@ namespace g0at
 
         protected:
             void add_indent();
-            void print_token_list(token_list *list);
+            void add_indent(int value);
+            void print_token_list(token_list *list, const wchar_t *title);
 
             std::wstringstream &stream;
             int indent;

@@ -67,7 +67,14 @@ namespace g0at
         void dbg_output::visit(function *ref)
         {
             add_indent();
-            stream << "$";
+            stream << L"$ (";
+            for (int i = 0, count = ref->get_args_count(); i < count; i++)
+            {
+                if (i)
+                    stream << L", ";
+                stream << ref->get_arg(i);
+            }
+            stream << L')';
             dbg_output indented(stream, indent + 1);
             for (int i = 0, size = ref->get_code_size(); i < size; i++)
             {
@@ -192,6 +199,17 @@ namespace g0at
                 return;
             stream << L"\n";
             for (int k = 0; k < indent; k++)
+            {
+                stream << "  ";
+            }
+        }
+
+        void dbg_output::add_indent(int value)
+        {
+            if (!value)
+                return;
+            stream << L"\n";
+            for (int k = 0; k < value; k++)
             {
                 stream << "  ";
             }

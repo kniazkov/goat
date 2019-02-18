@@ -58,6 +58,7 @@ namespace g0at
 
         protected:
             void add_indent();
+            void add_indent(int value);
 
             std::wstringstream &stream;
             int indent;
