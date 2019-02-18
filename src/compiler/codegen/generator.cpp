@@ -198,6 +198,12 @@ namespace g0at
             def.iid_ptr = instr->get_first_iid_ptr();
             def.node = func;            
             queue.push_front(def);
+
+            for (int i = 0, count = func->get_args_count(); i < count; i++)
+            {
+                int id = name_cache.get_id(func->get_arg(i));
+                instr->add_arg_id(id);
+            }
         }
     };
 };

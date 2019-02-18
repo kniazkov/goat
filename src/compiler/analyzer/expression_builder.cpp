@@ -139,8 +139,20 @@ namespace g0at
         {
             lib::pointer<pt::function> node_func = new pt::function(ref->get_position());
             
-            auto body = ref->get_func()->get_body();
-            auto tok = body->first;
+            auto tok_func = ref->get_func();
+
+            auto args = tok_func->get_args_list();
+            auto tok = args->first;
+            while(tok)
+            {
+                ast::identifier *ident = tok->to_identifier();
+                assert(ident != nullptr);
+                node_func->add_arg(ident->get_name());
+                tok = tok->next;
+            }
+
+            auto body = tok_func->get_body();
+            tok = body->first;
             while(tok)
             {
                 statement_builder visitor;

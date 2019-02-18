@@ -88,6 +88,7 @@ namespace g0at
             for (auto func : data->functions)
             {
                 parse_function_body(func);
+                parse_function_args(func);
             }
         }
 
@@ -144,7 +145,7 @@ namespace g0at
                             // last expression w/o semicolon
                             lib::pointer<ast::token> st_expr  = new ast::statement_expression(expr);
                             expr->replace(st_expr);
-                            return;
+                            break;
                         }
                     }
                     throw unable_to_parse_token_sequence(tok->get_position());
@@ -155,6 +156,34 @@ namespace g0at
                 }
             }
             dst->swap(src);
+        }
+
+
+        void parser::parse_function_args(ast::function *func)
+        {
+            auto src = func->get_raw_args_list();
+            auto dst = func->get_args_list();
+            auto tok = src->first;
+            bool even = false;
+            while(tok)
+            {
+                auto next = tok->next;
+                if (even)
+                {
+                    if (!tok->to_comma())
+                        throw function_arguments_must_be_separated_by_commas(tok->get_position());
+                    tok->remove();
+                }
+                else
+                {
+                    if (!tok->to_identifier())
+                        throw expected_an_identifier(tok->get_position());
+                    dst->add(tok);
+                }
+                tok = next;
+                even = !even;
+            }
+            assert(src->is_empty());
         }
 
         void parser::parse_function_call_args(ast::function_call *fcall)

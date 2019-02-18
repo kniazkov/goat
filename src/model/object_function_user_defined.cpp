@@ -35,10 +35,18 @@ namespace g0at
 
         void object_function_user_defined::call(thread *thr, int arg_count)
         {
-            context *new_ctx = new context(thr->o_list, thr->ctx);
-            new_ctx->value = thr->iid;
-            new_ctx->value_type = context_value_type::ret_address;
-            thr->ctx = new_ctx;
+            context *ctx = new context(thr->o_list, thr->ctx);
+            ctx->value = thr->iid;
+            ctx->value_type = context_value_type::ret_address;
+            for (int i = 0, decl_arg_count = (int)arg_names.size(); i < decl_arg_count; i++)
+            {
+                object *key = arg_names[i];
+                if (i < arg_count)
+                    ctx->add_object(key, thr->peek(i + 1));
+                else
+                    ctx->add_object(key, thr->o_list->get_undefined_instance());
+            }
+            thr->ctx = ctx;
             thr->iid = first_iid;
         }
     };

@@ -38,12 +38,16 @@ namespace g0at
             function *to_function() override;
 
             void add_stmt(lib::pointer<statement> stmt) { code.push_back(stmt); }
-            int get_code_size() { return code.size(); }
+            int get_code_size() { return (int)code.size(); }
             lib::pointer<statement> get_stmt(int index) { return code.at(index); }
+            void add_arg(std::wstring arg) { args.push_back(arg); }
+            int get_args_count() { return (int)args.size(); }
+            std::wstring get_arg(int index) { return args.at(index); }
             bool is_root_function() { return pos == nullptr; }
 
         protected:
             std::vector<lib::pointer<statement>> code;
+            std::vector<std::wstring> args;
         };
     };
 };

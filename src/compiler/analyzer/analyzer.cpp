@@ -51,7 +51,6 @@ namespace g0at
 
         lib::pointer<pt::function> analyzer::build_function(lib::pointer<ast::function> tok_func)
         {
-            // TODO: use expr. builder
             lib::pointer<pt::function> node_func = new pt::function(tok_func->get_position());
             
             auto body = tok_func->get_body();
@@ -60,7 +59,7 @@ namespace g0at
             {
                 statement_builder visitor;
                 tok->accept(&visitor);
-                assert(visitor.has_stmt()); // TODO: exception ?
+                assert(visitor.has_stmt());
                 node_func->add_stmt(visitor.get_stmt());
                 tok = tok->next;
             }
