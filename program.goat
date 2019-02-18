@@ -1,1 +1,6 @@
-$(){ print(0) }();
+var f = $(x)
+{
+    println(x);
+};
+
+f("it works.");

@@ -54,8 +54,8 @@ namespace g0at
             // TODO: use expr. builder
             lib::pointer<pt::function> node_func = new pt::function(tok_func->get_position());
             
-            auto list = tok_func->get_raw_list();
-            auto tok = list->first;
+            auto body = tok_func->get_body();
+            auto tok = body->first;
             while(tok)
             {
                 statement_builder visitor;

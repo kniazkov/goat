@@ -40,9 +40,13 @@ namespace g0at
             function *to_function() override;
 
             token_list *get_raw_args_list() { return &args_raw; }
+            token_list *get_args_list() { return &args; }
+            token_list *get_body() { return &body; }
 
         protected:
             token_list args_raw;
+            token_list args;
+            token_list body;
         };
     };
 };

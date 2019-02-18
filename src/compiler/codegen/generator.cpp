@@ -191,12 +191,13 @@ namespace g0at
         {
             code::load_func *instr = new code::load_func(-1);
             code->add_instruction(instr);
+
+            pt::function *func = ref->get_func().get();
+
             deferred_node def;
             def.iid_ptr = instr->get_first_iid_ptr();
-            def.node = ref->get_func().get();            
+            def.node = func;            
             queue.push_front(def);
-
-            //TODO: args
         }
     };
 };

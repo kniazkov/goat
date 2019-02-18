@@ -129,8 +129,9 @@ namespace g0at
 
         void parser::parse_function_body(ast::function *func)
         {
-            auto list = func->get_raw_list();
-            auto tok = list->first;
+            auto src = func->get_raw_list();
+            auto dst = func->get_body();
+            auto tok = src->first;
             while(tok)
             {
                 if (!tok->to_statement())
@@ -153,6 +154,7 @@ namespace g0at
                     tok = tok->next;
                 }
             }
+            dst->swap(src);
         }
 
         void parser::parse_function_call_args(ast::function_call *fcall)
