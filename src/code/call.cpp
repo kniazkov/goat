@@ -47,22 +47,18 @@ namespace g0at
             assert(func != nullptr); // TODO: exception if is not a function
 
             // prepare cell to place result (return value)
-            model::variable result;
-            result.set_object(thr->o_list->get_undefined_instance());
-            thr->push(result);
+            thr->ret.set_object(thr->o_list->get_undefined_instance());
 
             // call
             func->call(thr, arg_count);
             
             // remove args from the stack
-            if (arg_count > 0)
+            thr->pop(arg_count);
+
+            // push return value to the stack
+            if (thr->state != model::thread_state::zombie)
             {
-                result = thr->pop();
-                for (int i = 0; i < arg_count; i++)
-                {
-                    thr->pop();
-                }
-                thr->push(result);
+                thr->push(thr->ret);
             }
         }
     };

@@ -42,7 +42,7 @@ namespace g0at
             {
                 object *key = arg_names[i];
                 if (i < arg_count)
-                    ctx->add_object(key, thr->peek(i + 1));
+                    ctx->add_object(key, thr->peek(i));
                 else
                     ctx->add_object(key, thr->o_list->get_undefined_instance());
             }

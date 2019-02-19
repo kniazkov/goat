@@ -41,12 +41,11 @@ namespace g0at
                 
                 void call(thread *thr, int arg_count) override
                 {
-                    variable &result = thr->peek();
-                    variable arg = thr->peek(1);
+                    variable arg = thr->peek();
                     double real_val;
                     if (arg.get_real(&real_val))
                     {
-                        result.set_real(std::sqrt(real_val));
+                        thr->ret.set_real(std::sqrt(real_val));
                     }
                 }
             };

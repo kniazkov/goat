@@ -41,14 +41,13 @@ namespace g0at
                 
                 void call(thread *thr, int arg_count) override
                 {
-                    variable &result = thr->peek();
-                    variable arg_1 = thr->peek(1);
-                    variable arg_2 = thr->peek(2);
+                    variable arg_1 = thr->peek(0);
+                    variable arg_2 = thr->peek(1);
                     double val_arg_1,
                         val_arg_2;
                     if (arg_1.get_real(&val_arg_1) && arg_2.get_real(&val_arg_2))
                     {
-                        result.set_real(std::atan2(val_arg_1, val_arg_2));
+                        thr->ret.set_real(std::atan2(val_arg_1, val_arg_2));
                     }
                 }
             };

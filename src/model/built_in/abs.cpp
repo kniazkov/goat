@@ -41,14 +41,13 @@ namespace g0at
                 
                 void call(thread *thr, int arg_count) override
                 {
-                    variable &result = thr->peek();
-                    variable arg = thr->peek(1);
+                    variable arg = thr->peek();
                     int64_t int_val;
                     if (arg.get_integer(&int_val))
                     {
                         if (int_val < 0)
                             int_val = -int_val;
-                        result.set_integer(int_val);
+                        thr->ret.set_integer(int_val);
                     }
                 }
             };

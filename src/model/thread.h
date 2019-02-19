@@ -49,6 +49,14 @@ namespace g0at
                 data.pop_front();
                 return var;
             }
+            void pop(int n)
+            {
+                while (n > 0)
+                {
+                    data.pop_front();
+                    n--;
+                }
+            }
             variable &peek() { return *(data.begin()); }
             variable &peek(int idx) { return data.begin()[idx]; }
             bool stack_is_empty() { return data.empty(); }
@@ -58,6 +66,7 @@ namespace g0at
             context *ctx;
             object_list *o_list;
             object_cache  *cache;
+            variable ret;
 
         protected:
             thread(const thread &) { }
