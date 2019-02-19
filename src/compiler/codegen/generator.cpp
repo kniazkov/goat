@@ -80,7 +80,8 @@ namespace g0at
 
         void generator::visit(pt::function *ref)
         {
-            for (int i = 0, cnt = ref->get_code_size(); i < cnt; i++)
+            int code_size = ref->get_code_size();
+            for (int i = 0; i < code_size; i++)
             {
                 ref->get_stmt(i)->accept(this);
             }
@@ -91,7 +92,8 @@ namespace g0at
             }
             else
             {
-                code->add_instruction(new code::ret(false));
+                if (code_size > 0 && ref->get_stmt(code_size - 1)->to_statement_return() == nullptr)
+                    code->add_instruction(new code::ret(false));
             }
         }
 
