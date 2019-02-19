@@ -123,6 +123,11 @@ namespace g0at
             {
                 return L"expected a function body";
             }
+
+            std::wstring the_next_token_must_be_a_semicolon() override
+            {
+                return L"the next token must be a semicolon";
+            }
         };
 
         resource *resource::get_intance_en()

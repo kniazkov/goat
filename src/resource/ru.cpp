@@ -123,6 +123,11 @@ namespace g0at
             {
                 return L"ожидается тело функции";
             }
+
+            std::wstring the_next_token_must_be_a_semicolon() override
+            {
+                return L"следующий токен должен быть точкой с запятой";
+            }
         };
 
         resource *resource::get_intance_ru()

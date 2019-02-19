@@ -29,6 +29,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_var.h"
 #include "compiler/ast/keyword_function.h"
 #include "compiler/ast/assign.h"
+#include "compiler/ast/keyword_return.h"
 
 namespace g0at
 {
@@ -77,6 +78,11 @@ namespace g0at
         void parser_data_filler::visit(ast::keyword_function *ref)
         {
             data->function_keywords.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::keyword_return *ref)
+        {
+            data->return_keywords.add(ref);
         }
     };
 };
