@@ -248,5 +248,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_return *token::to_keyword_return()
+        {
+            return nullptr;
+        }
     }
 };

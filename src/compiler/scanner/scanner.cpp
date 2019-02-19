@@ -39,6 +39,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/comma.h"
 #include "compiler/ast/real.h"
 #include "compiler/ast/keyword_function.h"
+#include "compiler/ast/keyword_return.h"
 #include <sstream>
 #include <cstdint>
 
@@ -146,6 +147,8 @@ namespace g0at
                 return new ast::keyword_var();            
             if (name == L"function")
                 return new ast::keyword_function();            
+             if (name == L"return")
+                return new ast::keyword_return();            
             return new ast::identifier(name);
         }
 

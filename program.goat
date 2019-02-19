@@ -1,7 +1,8 @@
-var f = $(x, y)
+var f = $()
 {
-    println(x);
-    println(y);
+    println(0);
+    return;
+    println(1);
 };
 
-f(2, 3, 4, 5);
+f();

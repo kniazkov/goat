@@ -53,6 +53,7 @@ namespace g0at
         class real;
         class keyword_function;
         class declare_function;
+        class keyword_return;
 
         class token_visitor
         {
@@ -86,6 +87,7 @@ namespace g0at
             virtual void visit(real *ref);
             virtual void visit(keyword_function *ref);
             virtual void visit(declare_function *ref);
+            virtual void visit(keyword_return *ref);
         };
     };
 };

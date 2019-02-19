@@ -255,6 +255,12 @@ namespace g0at
             ref->get_func()->accept(this);
         }
 
+        void dbg_output::visit(keyword_return *ref)
+        {
+            add_indent();
+            stream << L"return";
+        }
+
         void dbg_output::add_indent()
         {
             if (!indent)
