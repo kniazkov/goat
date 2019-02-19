@@ -198,8 +198,12 @@ namespace g0at
         {
             add_indent();
             stream << L"return";
-            dbg_output indented(stream, indent + 1);
-            ref->get_expression()->accept(&indented);
+            auto expr = ref->get_expression();
+            if (expr)
+            {
+                dbg_output indented(stream, indent + 1);
+                expr->accept(&indented);
+            }
         }
 
         void dbg_output::add_indent()
