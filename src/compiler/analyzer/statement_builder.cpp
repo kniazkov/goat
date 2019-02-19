@@ -26,6 +26,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_expression.h"
 #include "compiler/ast/declare_variable.h"
 #include "compiler/pt/declare_variable.h"
+#include "compiler/ast/statement_return.h"
+#include "compiler/pt/statement_return.h"
 #include <assert.h>
 
 namespace g0at
@@ -36,7 +38,7 @@ namespace g0at
         {
             expression_builder visitor;
             ref->get_expression()->accept(&visitor);
-            assert(visitor.has_expr()); // TODO: exception ?
+            assert(visitor.has_expr());
             stmt = new pt::statement_expression(ref->get_position(), visitor.get_expr());
         }
         
@@ -52,12 +54,28 @@ namespace g0at
                 {
                     expression_builder visitor;
                     src.init_val->accept(&visitor);
-                    assert(visitor.has_expr()); // TODO: exception ?
+                    assert(visitor.has_expr());
                     dst.init_val = visitor.get_expr();
                 }
                 result->add_variable(dst);
             }
             stmt = result.cast<pt::statement>();
         }
-    };
+
+        void statement_builder::visit(ast::statement_return *ref)
+        {
+            expression_builder visitor;
+            auto tok_expr = ref->get_expression();
+            if (tok_expr)
+            {
+                tok_expr->accept(&visitor);
+                assert(visitor.has_expr());
+                stmt = new pt::statement_return(ref->get_position(), visitor.get_expr());
+            }
+            else
+            {
+                stmt = new pt::statement_return(ref->get_position(), nullptr);
+            }
+        }
+     };
 };

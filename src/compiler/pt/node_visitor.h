@@ -42,6 +42,7 @@ namespace g0at
         class assignment;
         class real;
         class declare_function;
+        class statement_return;
 
         class node_visitor
         {
@@ -64,6 +65,7 @@ namespace g0at
             virtual void visit(assignment *ref);
             virtual void visit(real *ref);
             virtual void visit(declare_function *ref);
+            virtual void visit(statement_return *ref);
         };
     };
 };

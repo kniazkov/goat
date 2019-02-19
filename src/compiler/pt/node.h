@@ -51,6 +51,7 @@ namespace g0at
         class assignment;
         class real;
         class declare_function;
+        class statement_return;
 
         class node : public lib::ref_counter
         {
@@ -78,6 +79,7 @@ namespace g0at
             virtual assignment *to_assignment();
             virtual real *to_real();
             virtual declare_function *to_declare_function();
+            virtual statement_return *to_statement_return();
 
             lib::pointer<position> get_position() { return pos; }
 

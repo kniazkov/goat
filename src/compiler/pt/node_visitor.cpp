@@ -97,5 +97,9 @@ namespace g0at
         void node_visitor::visit(declare_function *ref)
         {
         }
+
+        void node_visitor::visit(statement_return *ref)
+        {
+        }
     }
 };

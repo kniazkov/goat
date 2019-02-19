@@ -134,5 +134,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_return *node::to_statement_return()
+        {
+            return nullptr;
+        }
    }
 };
