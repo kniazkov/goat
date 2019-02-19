@@ -39,6 +39,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "assignment.h"
 #include "real.h"
 #include "declare_function.h"
+#include "statement_return.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -259,6 +260,18 @@ namespace g0at
         {
             add_indent();
             stream << L"return";
+        }
+
+        void dbg_output::visit(statement_return *ref)
+        {
+            add_indent();
+            stream << L"return";
+            auto expr = ref->get_expression();
+            if (expr)
+            {
+                dbg_output indented(stream, indent + 1);
+                expr->accept(&indented);
+            }
         }
 
         void dbg_output::add_indent()

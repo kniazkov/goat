@@ -73,6 +73,7 @@ namespace g0at
         class keyword_function;
         class declare_function;
         class keyword_return;
+        class statement_return;
 
         class token : public lib::ref_counter
         {
@@ -123,6 +124,7 @@ namespace g0at
             virtual keyword_function *to_keyword_function();
             virtual declare_function *to_declare_function();
             virtual keyword_return *to_keyword_return();
+            virtual statement_return *to_statement_return();
             
             lib::pointer<position> get_position() { return pos; }
 

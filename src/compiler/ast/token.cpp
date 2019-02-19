@@ -253,5 +253,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_return *token::to_statement_return()
+        {
+            return nullptr;
+        }
     }
 };

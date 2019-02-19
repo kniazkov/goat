@@ -68,6 +68,7 @@ namespace g0at
             void visit(keyword_function *ref) override;
             void visit(declare_function *ref) override;
             void visit(keyword_return *ref) override;
+            void visit(statement_return *ref) override;
 
         protected:
             void add_indent();
