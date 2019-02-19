@@ -30,6 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "store.h"
 #include "load_real.h"
 #include "load_func.h"
+#include "ret.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -169,7 +170,7 @@ namespace g0at
 
         void disasm::visit(ret *ref)
         {
-            stream << L"ret";
+            stream << L"ret \t" << (ref->has_expr() ? L"true" : L"false");
         }
     };
 };

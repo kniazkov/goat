@@ -34,6 +34,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/assignment.h"
 #include "compiler/pt/real.h"
 #include "compiler/pt/declare_function.h"
+#include "compiler/pt/statement_return.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -86,11 +87,11 @@ namespace g0at
 
             if (ref->is_root_function())
             {
-                code->add_instruction(new code::end);
+                code->add_instruction(new code::end());
             }
             else
             {
-                code->add_instruction(new code::ret);
+                code->add_instruction(new code::ret(false));
             }
         }
 
@@ -203,6 +204,20 @@ namespace g0at
             {
                 int id = name_cache.get_id(func->get_arg(i));
                 instr->add_arg_id(id);
+            }
+        }
+
+        void generator::visit(pt::statement_return *ref)
+        {
+            auto expr = ref->get_expression();
+            if (expr)
+            {
+                ref->get_expression()->accept(this);
+                code->add_instruction(new code::ret(true));
+            }
+            else
+            {
+                code->add_instruction(new code::ret(false));
             }
         }
     };

@@ -27,6 +27,11 @@ namespace g0at
 {
     namespace code
     {
+        ret::ret(bool _expr)
+            : expr(_expr)
+        {
+        }
+
         void ret::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
@@ -34,6 +39,11 @@ namespace g0at
 
         void ret::exec(model::thread *thr)
         {
+            if (expr)
+            {
+                thr->ret = thr->pop();
+            }
+
             while(thr->ctx && thr->ctx->value_type != model::context_value_type::ret_address)
             {
                 thr->ctx = thr->ctx->prev;

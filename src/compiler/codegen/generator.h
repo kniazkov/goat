@@ -61,6 +61,7 @@ namespace g0at
             void visit(pt::assignment *ref) override;
             void visit(pt::real *ref) override;
             void visit(pt::declare_function *ref) override;
+            void visit(pt::statement_return *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

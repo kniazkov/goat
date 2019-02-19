@@ -49,8 +49,8 @@ namespace g0at
 
                 if (!kw->next)
                 {
-                    tok->remove_2nd();
-                    tok->remove();
+                    lib::pointer<ast::token> stmt = new ast::statement_return(kw, nullptr);
+                    kw->replace(stmt);
                     return 0;
                 }
                 
