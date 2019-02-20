@@ -1,7 +1,11 @@
+var g = $()
+{
+    return 2;
+};
+
 var f = $()
 {
-    println(0);
-    return 1;
+    return g();
 };
 
 println(f());

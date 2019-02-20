@@ -47,9 +47,7 @@ namespace g0at
             }
             else
             {
-                model::variable undef_var;
-                undef_var.set_object(thr->o_list->get_undefined_instance());
-                thr->push(undef_var);
+                thr->push_undefined();
             }
         }
     };

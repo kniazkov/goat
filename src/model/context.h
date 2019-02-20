@@ -44,6 +44,7 @@ namespace g0at
             object *this_ptr;
             int value;
             context_value_type value_type;
+            variable *ret;
         };
     };
 };

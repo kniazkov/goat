@@ -57,7 +57,7 @@ namespace g0at
             }
 
             // prepare cell to place result (return value)
-            thr->ret = thr->push_undefined();
+            ctx->ret = thr->push_undefined();
 
             // change context
             thr->ctx = ctx;

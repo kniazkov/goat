@@ -60,7 +60,6 @@ namespace g0at
             context *ctx;
             object_list *o_list;
             object_cache  *cache;
-            variable *ret;
 
         protected:
             thread(const thread &) { }

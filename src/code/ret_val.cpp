@@ -34,8 +34,6 @@ namespace g0at
 
         void ret_val::exec(model::thread *thr)
         {
-            *(thr->ret) = thr->pop();
-
             while(thr->ctx && thr->ctx->value_type != model::context_value_type::ret_address)
             {
                 thr->ctx = thr->ctx->prev;
@@ -47,6 +45,7 @@ namespace g0at
             }
             else
             {
+                *(thr->ctx->ret) = thr->pop();
                 thr->iid = thr->ctx->value;
                 thr->ctx = thr->ctx->prev;
                 assert(thr->ctx != nullptr);
