@@ -30,7 +30,7 @@ namespace g0at
         {
         public:
             stack()
-                : top(nullptr)
+                : top(nullptr), used_count(0), pool(nullptr), free_count(0)
             {
             }
 
@@ -39,7 +39,14 @@ namespace g0at
                 item *it = top;
                 while(it)
                 {
-                    item *next = top->next;
+                    item *next = it->next;
+                    delete it;
+                    it = next;
+                }
+                it = pool;
+                while(it)
+                {
+                    item *next = it->next;
                     delete it;
                     it = next;
                 }
@@ -47,10 +54,21 @@ namespace g0at
 
             variable *push(variable &var)
             {
-                item *it = new item();
+                item *it;
+                if (pool != nullptr)
+                {
+                    it = pool;
+                    pool = pool->next;
+                    free_count--;
+                }
+                else
+                {
+                    it = new item();
+                }
                 it->var = var;
                 it->next = top;
                 top = it;
+                used_count++;
                 return &it->var;
             }
 
@@ -59,7 +77,8 @@ namespace g0at
                 item *it = top;
                 variable var = top->var;
                 top = top->next;
-                delete it;
+                delete_or_cache_item(it);
+                used_count--;
                 return var;              
             }
 
@@ -69,7 +88,8 @@ namespace g0at
                 {
                     item *it = top;
                     top = top->next;
-                    delete it;
+                    delete_or_cache_item(it);
+                    used_count--;
                     n--;
                 }
             }
@@ -104,8 +124,32 @@ namespace g0at
 
             stack(const stack &) { }
             void operator=(const stack &) { }
+            
+            bool item_should_be_deleted()
+            {
+                return free_count > free_count_min && used_count * factor > free_count;
+            }
+
+            void delete_or_cache_item(item *it)
+            {
+                if (item_should_be_deleted())
+                {
+                    delete it;
+                }
+                else
+                {
+                    it->next = pool;
+                    pool = it;
+                    free_count++;
+                }
+            }
 
             item *top;
+            int used_count;
+            item *pool;
+            int free_count;
+            static const int free_count_min = 1024;
+            static const int factor = 2;
         };
     };
 };
