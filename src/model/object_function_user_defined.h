@@ -32,13 +32,14 @@ namespace g0at
         class object_function_user_defined : public object_function
         {
         public:
-            object_function_user_defined(object_list *list, int _first_iid);
+            object_function_user_defined(object_list *list, int _first_iid, context *_parent_ctx);
             void call(thread *thr, int arg_count) override;
 
             void add_arg_name(object *arg_name) { arg_names.push_back(arg_name); }
 
         protected:
             int first_iid;
+            context *parent_ctx;
             std::vector<object *> arg_names;
         };
     };
