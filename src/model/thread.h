@@ -24,7 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "context.h"
 #include "object_cache.h"
-#include <deque>
+#include "stack.h"
 
 namespace g0at
 {
@@ -42,23 +42,11 @@ namespace g0at
         public:
             thread(context *_ctx, object_list *_o_list, object_cache *_cache);
 
-            void push(variable var) { data.push_front(var); }
-            variable pop()
-            {
-                variable var = data.front();
-                data.pop_front();
-                return var;
-            }
-            void pop(int n)
-            {
-                while (n > 0)
-                {
-                    data.pop_front();
-                    n--;
-                }
-            }
-            variable &peek() { return *(data.begin()); }
-            variable &peek(int idx) { return data.begin()[idx]; }
+            variable *push(variable var) { return data.push(var); }
+            variable pop() { return data.pop(); }
+            void pop(int n) { data.pop(n); }
+            variable &peek() { return data.peek(); }
+            variable &peek(int n) { return data.peek(n); }
             bool stack_is_empty() { return data.empty(); }
 
             uint32_t iid;
@@ -72,7 +60,7 @@ namespace g0at
             thread(const thread &) { }
             void operator=(const thread &) { }
 
-            std::deque<variable> data;
+            stack data;
         };
     };
 };
