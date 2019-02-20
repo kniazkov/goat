@@ -35,17 +35,31 @@ namespace g0at
 
         void object_function_user_defined::call(thread *thr, int arg_count)
         {
+            // prepare a new context
             context *ctx = new context(thr->o_list, thr->ctx);
             ctx->value = thr->iid;
             ctx->value_type = context_value_type::ret_address;
-            for (int i = 0, decl_arg_count = (int)arg_names.size(); i < decl_arg_count; i++)
+            int decl_arg_count = (int)arg_names.size();
+            for (int i = 0; i < decl_arg_count; i++)
             {
                 object *key = arg_names[i];
                 if (i < arg_count)
-                    ctx->add_object(key, thr->peek(i));
+                {
+                    variable arg = thr->pop();
+                    ctx->add_object(key, arg);
+                }
                 else
                     ctx->add_object(key, thr->o_list->get_undefined_instance());
             }
+            if (arg_count > decl_arg_count)
+            {
+                thr->pop(arg_count - decl_arg_count);
+            }
+
+            // prepare cell to place result (return value)
+            thr->ret = thr->push_undefined();
+
+            // change context
             thr->ctx = ctx;
             thr->iid = first_iid;
         }

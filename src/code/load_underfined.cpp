@@ -33,9 +33,7 @@ namespace g0at
 
         void load_undefined::exec(model::thread *thr)
         {
-            model::variable var;
-            var.set_object(thr->o_list->get_undefined_instance());
-            thr->push(var);
+            thr->push_undefined();
         }
     };
 };

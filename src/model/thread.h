@@ -43,6 +43,12 @@ namespace g0at
             thread(context *_ctx, object_list *_o_list, object_cache *_cache);
 
             variable *push(variable var) { return data.push(var); }
+            variable *push_undefined()
+            {
+                variable var;
+                var.set_object(o_list->get_undefined_instance());
+                return data.push(var);
+            }
             variable pop() { return data.pop(); }
             void pop(int n) { data.pop(n); }
             variable &peek() { return data.peek(); }
@@ -54,7 +60,7 @@ namespace g0at
             context *ctx;
             object_list *o_list;
             object_cache  *cache;
-            variable ret;
+            variable *ret;
 
         protected:
             thread(const thread &) { }

@@ -31,14 +31,8 @@ namespace g0at
         class ret : public instruction
         {
         public:
-            ret(bool _expr);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
-
-            bool has_expr() { return expr; }
-
-        protected:
-            bool expr;
         };
     };
 };

@@ -42,10 +42,13 @@ namespace g0at
                 void call(thread *thr, int arg_count) override
                 {
                     variable arg = thr->peek();
+                    thr->pop(arg_count);
                     double real_val;
                     if (arg.get_real(&real_val))
                     {
-                        thr->ret.set_real(std::sqrt(real_val));
+                        variable tmp;
+                        tmp.set_real(std::sqrt(real_val));
+                        thr->push(tmp);
                     }
                 }
             };

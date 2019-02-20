@@ -1,7 +1,7 @@
 var f = $()
 {
     println(0);
-    return;
+    return 1;
 };
 
 println(f());

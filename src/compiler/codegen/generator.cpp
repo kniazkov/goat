@@ -51,6 +51,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/load_real.h"
 #include "code/load_func.h"
 #include "code/ret.h"
+#include "code/ret_val.h"
 #include <assert.h>
 
 namespace g0at
@@ -93,7 +94,7 @@ namespace g0at
             else
             {
                 if (code_size > 0 && ref->get_stmt(code_size - 1)->to_statement_return() == nullptr)
-                    code->add_instruction(new code::ret(false));
+                    code->add_instruction(new code::ret());
             }
         }
 
@@ -215,11 +216,11 @@ namespace g0at
             if (expr)
             {
                 ref->get_expression()->accept(this);
-                code->add_instruction(new code::ret(true));
+                code->add_instruction(new code::ret_val());
             }
             else
             {
-                code->add_instruction(new code::ret(false));
+                code->add_instruction(new code::ret());
             }
         }
     };

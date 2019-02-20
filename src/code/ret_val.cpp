@@ -20,34 +20,37 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "call.h"
-#include "model/object_function.h"
+#include "ret_val.h"
 #include <assert.h>
 
 namespace g0at
 {
     namespace code
     {
-        call::call(int _arg_count)
-            : arg_count(_arg_count)
-        {
-            assert(_arg_count >= 0);
-        }
-
-        void call::accept(instruction_visitor *visitor)
+        void ret_val::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void call::exec(model::thread *thr)
+        void ret_val::exec(model::thread *thr)
         {
-            // get func. object from the stack
-            model::object *obj = thr->pop().to_object(thr->o_list);
-            model::object_function *func = obj->to_object_function();
-            assert(func != nullptr); // TODO: exception if is not a function
+            *(thr->ret) = thr->pop();
 
-            // call
-            func->call(thr, arg_count);
+            while(thr->ctx && thr->ctx->value_type != model::context_value_type::ret_address)
+            {
+                thr->ctx = thr->ctx->prev;
+            }
+
+            if (!thr->ctx)
+            {
+                thr->state = model::thread_state::zombie;
+            }
+            else
+            {
+                thr->iid = thr->ctx->value;
+                thr->ctx = thr->ctx->prev;
+                assert(thr->ctx != nullptr);
+            }
         }
     };
 };

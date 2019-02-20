@@ -20,34 +20,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "call.h"
-#include "model/object_function.h"
-#include <assert.h>
+#pragma once
+
+#include "instruction.h"
 
 namespace g0at
 {
     namespace code
     {
-        call::call(int _arg_count)
-            : arg_count(_arg_count)
+        class ret_val : public instruction
         {
-            assert(_arg_count >= 0);
-        }
-
-        void call::accept(instruction_visitor *visitor)
-        {
-            visitor->visit(this);
-        }
-
-        void call::exec(model::thread *thr)
-        {
-            // get func. object from the stack
-            model::object *obj = thr->pop().to_object(thr->o_list);
-            model::object_function *func = obj->to_object_function();
-            assert(func != nullptr); // TODO: exception if is not a function
-
-            // call
-            func->call(thr, arg_count);
-        }
+        public:
+            void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
+        };
     };
 };
