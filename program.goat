@@ -1,9 +1,6 @@
-var factory = $()
+var calc = $()
 {
-    return $()
-    {
-        return 7;
-    };
+    return sqrt(4) + 0.1;
 };
 
-println(factory()());
+println(calc());
