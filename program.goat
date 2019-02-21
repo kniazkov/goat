@@ -1,13 +1,6 @@
-var a = $()
+var calc = $()
 {
-    
+    return sqrt(4) + 0.1;
 };
 
-var b = $()
-{
-    a();
-};
-
-b();
-
-
+println(calc());
