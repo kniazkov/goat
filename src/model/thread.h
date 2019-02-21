@@ -54,6 +54,7 @@ namespace g0at
             variable &peek() { return data.peek(); }
             variable &peek(int n) { return data.peek(n); }
             bool stack_is_empty() { return data.empty(); }
+            int get_stack_size() { return data.size(); }
 
             uint32_t iid;
             thread_state state;

@@ -115,6 +115,11 @@ namespace g0at
                 return top == nullptr;
             }
 
+            int size()
+            {
+                return used_count;
+            }
+
         protected:
             struct item
             {
