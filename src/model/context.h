@@ -39,6 +39,7 @@ namespace g0at
         public:
             context(object_list *list);
             context(object_list *list, context *proto);
+            context(object_list *list, context *proto, context *parent);
 
             context *prev;
             object *this_ptr;

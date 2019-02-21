@@ -27,8 +27,8 @@ namespace g0at
 {
     namespace model
     {
-        object_function_user_defined::object_function_user_defined(object_list *list, int _first_iid, context *_parent_ctx)
-            : object_function(list), first_iid(_first_iid), parent_ctx(_parent_ctx)
+        object_function_user_defined::object_function_user_defined(object_list *list, int _first_iid, context *_proto_ctx)
+            : object_function(list), first_iid(_first_iid), proto_ctx(_proto_ctx)
         {
             assert(_first_iid > 0);
         }
@@ -36,7 +36,7 @@ namespace g0at
         void object_function_user_defined::call(thread *thr, int arg_count)
         {
             // prepare a new context
-            context *ctx = new context(thr->o_list, parent_ctx);
+            context *ctx = new context(thr->o_list, proto_ctx, thr->ctx);
             ctx->value = thr->iid;
             ctx->value_type = context_value_type::ret_address;
             int decl_arg_count = (int)arg_names.size();

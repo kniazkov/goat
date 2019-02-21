@@ -1,16 +1,13 @@
-var factory = $()
+var a = $()
 {
-    var x = 0;
-
-    return $()
-    {
-        x = x + 1;
-        return x;
-    };
+    
 };
 
-var gen = factory();
+var b = $()
+{
+    a();
+};
 
-println(gen());
-println(gen());
-println(gen());
+b();
+
+

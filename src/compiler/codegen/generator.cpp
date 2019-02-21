@@ -93,7 +93,7 @@ namespace g0at
             }
             else
             {
-                if (code_size > 0 && ref->get_stmt(code_size - 1)->to_statement_return() == nullptr)
+                if ((code_size > 0 && ref->get_stmt(code_size - 1)->to_statement_return() == nullptr) || code_size == 0)
                     code->add_instruction(new code::ret());
             }
         }

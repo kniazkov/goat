@@ -24,7 +24,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "model/object.h"
 #include "model/object_cache.h"
 #include "model/built_in/context_factory.h"
+#include "code/disasm.h"
+#include "global/global.h"
 #include <assert.h>
+#include <iostream>
 
 namespace g0at
 {
@@ -46,7 +49,14 @@ namespace g0at
             {
                 uint32_t iid = thr.iid;
                 thr.iid++;
-                code->get_instruction(iid)->exec(&thr);
+                auto instr = code->get_instruction(iid);
+                instr->exec(&thr);
+#if 0                
+                std::wstringstream tmp;
+                code::disasm visitor(tmp, code->get_identifiers_list());
+                instr->accept(&visitor);
+                std::cout << std::endl << instr->get_id() << "\t" << global::char_encoder->encode(tmp.str()) << " (" << thr.get_stack_size() << ") ";
+#endif
             }
             assert(thr.stack_is_empty());
             o_list.destroy_all();
