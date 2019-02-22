@@ -58,15 +58,15 @@ namespace g0at
                 neg = true;
                 value = -value;
             }
-            long int factor = 1;
+            int64_t factor = 1;
             if (precision > DBL_DIG - 2) precision = DBL_DIG - 2;
             for (int i = 0; i < precision; i++)
             {
                 factor *= 10;
             }
-            long int ip = (long int)value;
+            int64_t ip = (long int)value;
             double dfp = value * factor - ip * factor;
-            long int fp = (long int)dfp;
+            int64_t fp = (long int)dfp;
             if (fp > 0)
             {
                 bool flag = false;
