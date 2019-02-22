@@ -45,7 +45,7 @@ namespace g0at
 
         std::wstring double_to_wstring(double value)
         {
-            return double_to_wstring(value, 13);
+            return double_to_wstring(value, 7);
         }
 
         std::wstring double_to_wstring(double value, int precision)
@@ -59,7 +59,7 @@ namespace g0at
                 value = -value;
             }
             int64_t factor = 1;
-            if (precision > DBL_DIG - 2) precision = DBL_DIG - 2;
+            if (precision > 7) precision = 7;
             for (int i = 0; i < precision; i++)
             {
                 factor *= 10;
