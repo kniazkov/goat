@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "token_operator.h"
+#include "expression.h"
 
 namespace g0at
 {

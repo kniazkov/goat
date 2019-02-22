@@ -78,7 +78,7 @@ namespace g0at
             throw file_not_found(_file_name);            
         }
         stream.seekg(0, std::ios::end);
-        temp.reserve(stream.tellg());
+        temp.reserve((size_t)stream.tellg());
         stream.seekg(0, std::ios::beg);
         temp.assign((std::istreambuf_iterator<char>(stream)),
                     std::istreambuf_iterator<char>());

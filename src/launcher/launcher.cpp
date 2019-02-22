@@ -36,6 +36,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <exception>
 #include <assert.h>
+#ifdef _WIN32
+#include <io.h>
+#include <fcntl.h>
+#endif
 
 namespace g0at
 {
@@ -50,6 +54,11 @@ namespace g0at
 
     int launcher::go(int argc, char **argv)
     {
+#ifdef _WIN32
+        _setmode(_fileno(stdout), O_BINARY);
+        _setmode(_fileno(stdin), O_BINARY);
+        _setmode(_fileno(stderr), O_BINARY);
+#endif
         try
         {
             launcher l_obj(argc, argv);

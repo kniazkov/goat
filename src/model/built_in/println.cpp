@@ -41,7 +41,7 @@ namespace g0at
                 
                 void call(thread *thr, int arg_count) override
                 {
-                    std::cout << global::char_encoder->encode(thr->peek().to_string()) << std::endl;
+                    std::cout << global::char_encoder->encode(thr->peek().to_string()) << "\n";
                     thr->pop(arg_count);
                     thr->push_undefined();
                 }

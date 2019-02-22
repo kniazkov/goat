@@ -65,7 +65,7 @@ namespace g0at
 
         bool object_integer::get_real(double *pval)
         {
-            *pval = value;
+            *pval = (double)value;
             return true;
         }
 
@@ -157,7 +157,7 @@ namespace g0at
 
             bool get_real(variable *var, double *pval)
             {
-                *pval = var->data.i;
+                *pval = (double)var->data.i;
                 return true;
             }
 
