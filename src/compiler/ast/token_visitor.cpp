@@ -149,5 +149,9 @@ namespace g0at
         void token_visitor::visit(statement_return *ref)
         {
         }
+
+        void token_visitor::visit(token_object *ref)
+        {
+        }
     }
 };

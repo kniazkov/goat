@@ -40,6 +40,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "real.h"
 #include "declare_function.h"
 #include "statement_return.h"
+#include "token_object.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -272,6 +273,14 @@ namespace g0at
                 dbg_output indented(stream, indent + 1);
                 expr->accept(&indented);
             }
+        }
+
+        void dbg_output::visit(token_object *ref)
+        {
+            add_indent();
+            stream << L"object";
+            print_token_list(ref->get_raw_list(), L"raw");
+            print_token_list(ref->get_body(), L"body");
         }
 
         void dbg_output::add_indent()

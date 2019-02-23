@@ -30,6 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_function.h"
 #include "compiler/ast/assign.h"
 #include "compiler/ast/keyword_return.h"
+#include "compiler/ast/brackets_pair.h"
 
 namespace g0at
 {
@@ -83,6 +84,12 @@ namespace g0at
         void parser_data_filler::visit(ast::keyword_return *ref)
         {
             data->return_keywords.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::brackets_pair *ref)
+        {
+            if (ref->get_symbol() == L'{')
+                data->pairs_of_curly_brackets.add(ref);
         }
     };
 };

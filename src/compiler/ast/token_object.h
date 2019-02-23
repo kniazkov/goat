@@ -22,30 +22,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "compiler/ast/token_visitor.h"
-#include "parser_data.h"
+#include "token_with_list.h"
+#include "expression.h"
+#include "brackets_pair.h"
+#include <string>
 
 namespace g0at
 {
-    namespace parser
+    namespace ast
     {
-        class parser_data_filler : public ast::token_visitor
+        class token_object : public expression, public token_with_list
         {
         public:
-            parser_data_filler(parser_data *_data);
-            void visit(ast::identifier *ref) override;
-            void visit(ast::plus *ref) override;
-            void visit(ast::minus *ref) override;
-            void visit(ast::static_string *ref) override;
-            void visit(ast::integer *ref) override;
-            void visit(ast::keyword_var *ref) override;
-            void visit(ast::assign *ref) override;
-            void visit(ast::keyword_function *ref) override;
-            void visit(ast::keyword_return *ref) override;
-            void visit(ast::brackets_pair *ref) override;
+            token_object(brackets_pair *_body);
+            void accept(token_visitor *visitor) override;
+            token_object *to_token_object() override;
+
+            token_list *get_body() { return &body; }
 
         protected:
-            parser_data *data;
+            token_list body;
         };
     };
 };

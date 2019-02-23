@@ -118,6 +118,7 @@ namespace g0at
                         lib::pointer<ast::brackets_pair> bracket_expr = new ast::brackets_pair(bracket);
                         tok_list->add(bracket_expr.cast<ast::token>());
                         parse_brackets_and_fill_data(scan, bracket_expr.cast<ast::token_with_list>(), data_filler, bracket->get_symbol());
+                        bracket_expr->accept(data_filler);
                     }
                 }
                 else
