@@ -20,25 +20,38 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "instruction.h"
+#include "create.h"
+#include <assert.h>
 
 namespace g0at
 {
     namespace code
     {
-        class call : public instruction
+        create::create(int _count)
+            : count(_count)
         {
-        public:
-            call(int _arg_count);
-            void accept(instruction_visitor *visitor) override;
-            void exec(model::thread *thr) override;
+            assert(_count >= 0);
+        }
 
-            int get_arg_count() { return arg_count; }
+        void create::accept(instruction_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
 
-        protected:
-            int arg_count;
-        };
+        void create::exec(model::thread *thr)
+        {
+            model::object *result = new model::object(thr->o_list);
+            model::variable var;
+            var.set_object(result);
+
+            for (int i = 0; i < count; i++)
+            {
+                model::object *key = thr->pop().to_object(thr->o_list);
+                model::variable value = thr->pop();
+                result->add_object(key, value);
+            }
+
+            thr->push(var);
+        }
     };
 };

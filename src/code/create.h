@@ -28,17 +28,17 @@ namespace g0at
 {
     namespace code
     {
-        class call : public instruction
+        class create : public instruction
         {
         public:
-            call(int _arg_count);
+            create(int _count);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
 
-            int get_arg_count() { return arg_count; }
+            int get_count() { return count; }
 
         protected:
-            int arg_count;
+            int count;
         };
     };
 };
