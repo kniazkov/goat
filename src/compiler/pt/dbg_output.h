@@ -56,6 +56,7 @@ namespace g0at
             void visit(real *ref) override;
             void visit(declare_function *ref) override;
             void visit(statement_return *ref) override;
+            void visit(node_object *ref) override;
 
         protected:
             void add_indent();

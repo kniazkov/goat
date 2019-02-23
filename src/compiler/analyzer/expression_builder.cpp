@@ -50,6 +50,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/function.h"
 #include "compiler/ast/declare_function.h"
 #include "compiler/pt/declare_function.h"
+#include "compiler/ast/token_object.h"
+#include "compiler/pt/node_object.h"
 #include <assert.h>
 
 namespace g0at
@@ -163,6 +165,13 @@ namespace g0at
             }
 
             expr = new pt::declare_function(node_func);
+        }
+
+        void expression_builder::visit(ast::token_object *ref)
+        {
+            lib::pointer<pt::node_object> result = new pt::node_object(ref->get_position());
+            // TODO: parse, parse it!
+            expr = result.cast<pt::expression>();
         }
 
         std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>

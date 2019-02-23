@@ -139,5 +139,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        node_object *node::to_node_object()
+        {
+            return nullptr;
+        }
    }
 };
