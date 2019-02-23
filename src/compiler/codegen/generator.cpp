@@ -100,7 +100,8 @@ namespace g0at
 
         void generator::visit(pt::static_string *ref)
         {
-            code->add_instruction(new code::load_string(ref->get_text()));
+            int id = name_cache.get_id(ref->get_text());
+            code->add_instruction(new code::load_string(id));
         }
 
         void generator::visit(pt::variable *ref)

@@ -1,6 +1,1 @@
-var calc = $()
-{
-    return sqrt(4) + 0.1;
-};
-
-println(calc());
+println("it works.");

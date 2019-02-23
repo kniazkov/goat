@@ -32,14 +32,14 @@ namespace g0at
         class load_string : public instruction
         {
         public:
-            load_string(std::wstring _text);
+            load_string(int _id);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
 
-            std::wstring get_text() { return text; }
+            int get_id() { return id; }
 
         protected:
-            std::wstring text;
+            int id;
         };
     };
 };

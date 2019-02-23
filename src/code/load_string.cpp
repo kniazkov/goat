@@ -27,8 +27,8 @@ namespace g0at
 {
     namespace code
     {
-        load_string::load_string(std::wstring _text)
-            : text(_text)
+        load_string::load_string(int _id)
+            : id(_id)
         {
         }
 
@@ -40,7 +40,8 @@ namespace g0at
         void load_string::exec(model::thread *thr)
         {
             model::variable var;
-            var.set_object(new model::object_string(thr->o_list, text));
+            model::object_string *obj = thr->cache->get_object(id);
+            var.set_object(obj);
             thr->push(var);
         }
     };
