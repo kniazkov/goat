@@ -86,7 +86,7 @@ namespace g0at
         void dbg_output::visit(static_string *ref)
         {
             add_indent();
-            stream << L'\"' << ref->get_text() << L'\"';
+            stream << L'\"' << lib::escape_special_chars(ref->get_text()) << L'\"';
         }
 
         void dbg_output::visit(function_call *ref)

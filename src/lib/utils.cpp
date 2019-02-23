@@ -101,6 +101,33 @@ namespace g0at
             result.assign(str.rbegin(), str.rend());
             return result;
         }
+
+        std::wstring escape_special_chars(std::wstring src)
+        {
+            std::wstringstream dst;
+            for (size_t i = 0, len = src.size(); i < len; i++)
+            {
+                wchar_t c = src[i];
+                switch(c)
+                {
+                    case L'\n':
+                        dst << L"\\n"; break;
+                    case L'\r':
+                        dst << L"\\r"; break;
+                    case L'\t':
+                        dst << L"\\t"; break;
+                    case L'\'':
+                        dst << L"\\\'"; break;
+                    case L'\"':
+                        dst << L"\\\""; break;
+                    case L'\\':
+                        dst << L"\\\\"; break;
+                    default:
+                        dst << c;
+                }
+            }
+            return dst.str();
+        }
     };
 
 };

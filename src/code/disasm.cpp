@@ -72,7 +72,7 @@ namespace g0at
         void disasm::visit(load_string *ref)
         {
             int id = ref->get_id();
-            stream << L"sload \t" << id << L"\t; \"" << identifiers.at(id) << '"';
+            stream << L"sload \t" << id << L"\t; \"" <<  lib::escape_special_chars(identifiers.at(id)) << '"';
         }
 
         void disasm::visit(load_var *ref)

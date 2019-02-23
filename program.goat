@@ -1,1 +1,1 @@
-println("it works.");
+println("it \\works.\n");
