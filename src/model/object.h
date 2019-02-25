@@ -40,6 +40,7 @@ namespace g0at
         class object_void;
         class object_undefined;
         class object_null;
+        class object_boolean;
         class handler;
 
         enum class object_type
@@ -48,7 +49,8 @@ namespace g0at
             string,
             function,
             integer,
-            real
+            real,
+            boolean
         };
 
         class object_comparator
@@ -69,12 +71,14 @@ namespace g0at
             inline void set_object(object *obj);
             inline void set_integer(int64_t value);
             inline void set_real(double value);
+            inline void set_boolean(bool value);
 
             inline std::wstring to_string() const;
             inline std::wstring to_string_notation() const;
             inline object *to_object(object_list *list);
             inline bool get_integer(int64_t *pval);
             inline bool get_real(double *pval);
+            inline bool get_boolean(bool *pval);
 
             inline void op_add(thread *thr);
             inline void op_sub(thread *thr);
@@ -86,6 +90,7 @@ namespace g0at
                 object *obj;
                 int64_t i;
                 double r;
+                bool b;
             } data;
         };
 
@@ -104,6 +109,7 @@ namespace g0at
             virtual object_void *to_object_void();
             virtual object_undefined *to_object_undefined();
             virtual object_null *to_object_null();
+            virtual object_boolean *to_object_boolean();
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
@@ -115,6 +121,7 @@ namespace g0at
 
             virtual bool get_integer(int64_t *pval);
             virtual bool get_real(double *pval);
+            virtual bool get_boolean(bool *pval);
 
             virtual void op_add(thread *thr);
             virtual void op_sub(thread *thr);
@@ -144,15 +151,18 @@ namespace g0at
             static handler *get_instance_generic();
             static handler *get_instance_integer();
             static handler *get_instance_real();
+            static handler *get_instance_boolean();
             virtual std::wstring to_string(const variable *var) const = 0;
             virtual std::wstring to_string_notation(const variable *var) const = 0;
             virtual object *to_object(variable *var, object_list *list) = 0;
-            virtual bool get_integer(variable *var, int64_t *val) = 0;
-            virtual bool get_real(variable *var, double *val) = 0;
+            
+            virtual bool get_integer(variable *var, int64_t *val);
+            virtual bool get_real(variable *var, double *val);
+            virtual bool get_boolean(variable *var, bool *val);
 
-            virtual void op_add(variable *var, thread *thr) = 0;
-            virtual void op_sub(variable *var, thread *thr) = 0;
-            virtual void op_neg(variable *var, thread *thr) = 0;
+            virtual void op_add(variable *var, thread *thr);
+            virtual void op_sub(variable *var, thread *thr);
+            virtual void op_neg(variable *var, thread *thr);
         };
 
         class generic_handler : public handler
@@ -164,6 +174,7 @@ namespace g0at
             object *to_object(variable *var, object_list *list) override;
             bool get_integer(variable *var, int64_t *pval) override;
             bool get_real(variable *var, double *pval) override;
+            bool get_boolean(variable *var, bool *pval) override;
             void op_add(variable *var, thread *thr)  override;
             void op_sub(variable *var, thread *thr)  override;
             void op_neg(variable *var, thread *thr)  override;
@@ -208,6 +219,12 @@ namespace g0at
             data.r = value;
         }
 
+        void variable::set_boolean(bool value)
+        {
+            hndl = handler::get_instance_boolean();
+            data.b = value;
+        }
+
         std::wstring variable::to_string() const
         {
             return hndl->to_string(this);
@@ -231,6 +248,11 @@ namespace g0at
         bool variable::get_real(double *pval)
         {
             return hndl->get_real(this, pval);
+        }
+
+        bool variable::get_boolean(bool *pval)
+        {
+            return hndl->get_boolean(this, pval);
         }
 
         void variable::op_add(thread *thr)

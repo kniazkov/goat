@@ -45,6 +45,7 @@ namespace g0at
                 ctx->add_object(cache->get_object(L"String"), list->get_string_proto_instance());
                 ctx->add_object(cache->get_object(L"Integer"), list->get_integer_proto_instance());
                 ctx->add_object(cache->get_object(L"Function"), list->get_function_proto_instance());
+                ctx->add_object(cache->get_object(L"Boolean"), list->get_boolean_proto_instance());
 
                 ctx->add_object(cache->get_object(L"print"), create_function_print());
                 ctx->add_object(cache->get_object(L"println"), create_function_println());

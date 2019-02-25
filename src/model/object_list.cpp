@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_string.h"
 #include "object_integer.h"
 #include "object_function.h"
+#include "object_boolean.h"
 #include <assert.h>
 
 namespace g0at
@@ -45,6 +46,7 @@ namespace g0at
             string_proto_instance = nullptr;
             integer_proto_instance = nullptr;
             function_proto_instance = nullptr;
+            boolean_proto_instance = nullptr;
 
             init();
         }
@@ -127,6 +129,12 @@ namespace g0at
             return function_proto_instance;
         }
 
+        object *object_list::get_boolean_proto_instance()
+        {
+            assert(boolean_proto_instance != nullptr);
+            return boolean_proto_instance;
+        }
+
         void object_list::init()
         {
             generic_proto_instance = new generic_proto(this);
@@ -136,6 +144,7 @@ namespace g0at
             string_proto_instance = new object_string_proto(this);
             integer_proto_instance = new object_integer_proto(this);
             function_proto_instance = new object_function_proto(this);
+            boolean_proto_instance = new object_boolean_proto(this);
         }
     };
 };

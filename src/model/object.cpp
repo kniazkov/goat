@@ -97,6 +97,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_boolean *object::to_object_boolean()
+        {
+            return nullptr;
+        }
+
         bool object::less(const object *obj) const
         {
             return this < obj;
@@ -171,6 +176,11 @@ namespace g0at
             return false;
         }
 
+        bool object::get_boolean(bool *pval)
+        {
+            return false;
+        }
+
         void object::op_add(thread *thr)
         {
             assert(false); // not implemented
@@ -192,6 +202,39 @@ namespace g0at
         generic_proto::generic_proto(object_list *list)
             : object(list, false)
         {
+        }
+
+        /*
+            Base handler
+        */
+        bool handler::get_integer(variable *var, int64_t *pval)
+        {
+            return false;
+        }
+
+        bool handler::get_real(variable *var, double *pval)
+        {
+            return false;
+        }
+
+        bool handler::get_boolean(variable *var, bool *pval)
+        {
+            return false;
+        }
+
+        void handler::op_add(variable *var, thread *thr)
+        {
+            assert(false);
+        }
+
+        void handler::op_sub(variable *var, thread *thr)
+        {
+            assert(false);
+        }
+
+        void handler::op_neg(variable *var, thread *thr)
+        {
+            assert(false);
         }
 
         /* 
@@ -240,6 +283,11 @@ namespace g0at
         bool generic_handler::get_real(variable *var, double *pval)
         {
             return var->data.obj->get_real(pval);
+        }
+
+        bool generic_handler::get_boolean(variable *var, bool *pval)
+        {
+            return var->data.obj->get_boolean(pval);
         }
 
         void generic_handler::op_add(variable *var, thread *thr)

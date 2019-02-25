@@ -46,6 +46,7 @@ namespace g0at
             object *get_string_proto_instance();
             object *get_integer_proto_instance();
             object *get_function_proto_instance();
+            object *get_boolean_proto_instance();
 
         private:
             object_list(const object_list &) { }
@@ -59,6 +60,7 @@ namespace g0at
             object *string_proto_instance;
             object *integer_proto_instance;
             object *function_proto_instance;
+            object *boolean_proto_instance;
         };
     };
 };

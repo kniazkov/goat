@@ -1,9 +1,2 @@
-var MyUtil =
-{
-    add : $(x, y)
-    {
-        return x + y;
-    }
-};
-
-println(MyUtil.add(2, 3));
+println(true);
+println(false);
