@@ -142,6 +142,11 @@ namespace g0at
                 return std::to_wstring(var->data.i);
             }
 
+            std::wstring to_string_notation(const variable *var) const override
+            {
+                return std::to_wstring(var->data.i);
+            }
+
             object *to_object(variable *var, object_list *list) override
             {
                 object *obj = new object_integer(list, var->data.i);

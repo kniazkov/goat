@@ -71,6 +71,7 @@ namespace g0at
             inline void set_real(double value);
 
             inline std::wstring to_string() const;
+            inline std::wstring to_string_notation() const;
             inline object *to_object(object_list *list);
             inline bool get_integer(int64_t *pval);
             inline bool get_real(double *pval);
@@ -106,6 +107,7 @@ namespace g0at
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
+            virtual std::wstring to_string_notation() const;
 
             void add_object(object *key, variable &value);
             void add_object(object *key, object *value);
@@ -143,6 +145,7 @@ namespace g0at
             static handler *get_instance_integer();
             static handler *get_instance_real();
             virtual std::wstring to_string(const variable *var) const = 0;
+            virtual std::wstring to_string_notation(const variable *var) const = 0;
             virtual object *to_object(variable *var, object_list *list) = 0;
             virtual bool get_integer(variable *var, int64_t *val) = 0;
             virtual bool get_real(variable *var, double *val) = 0;
@@ -157,6 +160,7 @@ namespace g0at
         public:
             static handler *get_instance();
             std::wstring to_string(const variable *var) const override;
+            std::wstring to_string_notation(const variable *var) const override;
             object *to_object(variable *var, object_list *list) override;
             bool get_integer(variable *var, int64_t *pval) override;
             bool get_real(variable *var, double *pval) override;
@@ -207,6 +211,11 @@ namespace g0at
         std::wstring variable::to_string() const
         {
             return hndl->to_string(this);
+        }
+
+        std::wstring variable::to_string_notation() const
+        {
+            return hndl->to_string_notation(this);
         }
 
         object *variable::to_object(object_list *list)

@@ -113,11 +113,16 @@ namespace g0at
                 if (k)
                     stream << ',';
                 k++;
-                stream << pair.first->to_string() << ':' << pair.second.to_string();
+                stream << pair.first->to_string_notation() << ':' << pair.second.to_string_notation();
             }
 
             stream << '}';
             return stream.str();
+        }
+
+        std::wstring object::to_string_notation() const
+        {
+            return to_string();
         }
 
         void object::add_object(object *key, variable &value)
@@ -215,6 +220,11 @@ namespace g0at
         std::wstring generic_handler::to_string(const variable *var) const
         {
             return var->data.obj->to_string();
+        }
+
+        std::wstring generic_handler::to_string_notation(const variable *var) const
+        {
+            return var->data.obj->to_string_notation();
         }
 
         object *generic_handler::to_object(variable *var, object_list *list)

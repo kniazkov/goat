@@ -126,6 +126,11 @@ namespace g0at
                 return lib::double_to_wstring(var->data.r);
             }
 
+            std::wstring to_string_notation(const variable *var) const override
+            {
+                return lib::double_to_wstring(var->data.r);
+            }
+
             object *to_object(variable *var, object_list *list) override
             {
                 object *obj = new object_real(list, var->data.r);

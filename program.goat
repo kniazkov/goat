@@ -1,5 +1,6 @@
 println(
 {
-    x : 100,
-    y : 200
+    z : 0.01,
+    y : 7,
+    x : "text value"
 });

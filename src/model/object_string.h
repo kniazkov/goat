@@ -37,6 +37,7 @@ namespace g0at
             object_string *to_object_string() override;
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
+            std::wstring to_string_notation() const override;
             void op_add(thread *thr) override;
 
             std::wstring get_data() { return data; }

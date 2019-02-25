@@ -22,7 +22,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_string.h"
 #include "thread.h"
+#include "lib/utils.h"
 #include <assert.h>
+#include <sstream>
 
 namespace g0at
 {
@@ -62,6 +64,13 @@ namespace g0at
         std::wstring object_string::to_string() const
         {
             return data;
+        }
+
+        std::wstring object_string::to_string_notation() const
+        {
+            std::wstringstream wss;
+            wss << L'\"' << lib::escape_special_chars(data) << L'\"';
+            return wss.str();
         }
 
         void object_string::op_add(thread *thr)
