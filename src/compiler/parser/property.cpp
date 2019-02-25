@@ -69,7 +69,7 @@ namespace g0at
                 if (!dot->prev)
                     throw expected_an_expression_before_dot(dot->get_position());
 
-                ast::expression *left = dot->prev->to_expression();
+                lib::pointer<ast::expression> left = dot->prev->to_expression();
                 if (!left)
                     throw expected_an_expression_before_dot(dot->get_position());
 
@@ -81,9 +81,8 @@ namespace g0at
                     throw expected_an_identifier_after_dot(dot->get_position());
 
                 lib::pointer<ast::token> prop = new ast::property(left, right);
-                left->replace(right, prop);
+                left->replace(dot->next.get(), prop);
                 data->expressions.add(prop.get());
-
                 return 0;
             }
         };
