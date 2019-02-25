@@ -71,6 +71,7 @@ namespace g0at
             void visit(statement_return *ref) override;
             void visit(token_object *ref) override;
             void visit(colon *ref) override;
+            void visit(dot *ref) override;
 
         protected:
             void add_indent();

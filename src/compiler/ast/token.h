@@ -76,6 +76,7 @@ namespace g0at
         class statement_return;
         class token_object;
         class colon;
+        class dot;
 
         class token : public lib::ref_counter
         {
@@ -129,6 +130,7 @@ namespace g0at
             virtual statement_return *to_statement_return();
             virtual token_object *to_token_object();
             virtual colon *to_colon();
+            virtual dot *to_dot();
             
             lib::pointer<position> get_position() { return pos; }
 

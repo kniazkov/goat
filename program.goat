@@ -5,4 +5,4 @@ var obj =
     x : 13
 };
 
-println(obj);
+println(obj.x);

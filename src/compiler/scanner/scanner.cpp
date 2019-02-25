@@ -41,6 +41,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_function.h"
 #include "compiler/ast/keyword_return.h"
 #include "compiler/ast/colon.h"
+#include "compiler/ast/dot.h"
 #include <sstream>
 #include <cstdint>
 
@@ -291,6 +292,12 @@ namespace g0at
         {
             src->next();
             return new ast::colon();
+        }
+
+        if (c == L'.')
+        {
+            src->next();
+            return new ast::dot();
         }
 
         if (c == L'\0')

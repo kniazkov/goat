@@ -303,6 +303,12 @@ namespace g0at
             stream << L':';
         }
 
+        void dbg_output::visit(dot *ref)
+        {
+            add_indent();
+            stream << L'.';
+        }
+
         void dbg_output::add_indent()
         {
             if (!indent)
