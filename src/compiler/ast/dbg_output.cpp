@@ -280,7 +280,27 @@ namespace g0at
             add_indent();
             stream << L"object";
             print_token_list(ref->get_raw_list(), L"raw");
-            print_token_list(ref->get_body(), L"body");
+            int count = ref->get_items_count();
+            if (count > 0)
+            {
+                dbg_output indented(stream, indent + 2);
+                for (int i = 0; i < count; i++)
+                {
+                    auto item = ref->get_item(i);
+                    add_indent(indent + 1);
+                    stream << L"key";
+                    item.first->accept(&indented);
+                    add_indent(indent + 1);
+                    stream << L"value";
+                    item.second->accept(&indented);
+                }
+            }
+        }
+
+        void dbg_output::visit(colon *ref)
+        {
+            add_indent();
+            stream << L':';
         }
 
         void dbg_output::add_indent()

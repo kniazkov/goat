@@ -170,7 +170,17 @@ namespace g0at
         void expression_builder::visit(ast::token_object *ref)
         {
             lib::pointer<pt::node_object> result = new pt::node_object(ref->get_position());
-            // TODO: parse, parse it!
+            for (int i = 0, count = ref->get_items_count(); i < count; i++)
+            {
+                auto item = ref->get_item(i);
+                expression_builder key_visitor;
+                item.first->accept(&key_visitor);
+                assert(key_visitor.has_expr());
+                expression_builder value_visitor;
+                item.second->accept(&value_visitor);
+                assert(value_visitor.has_expr());
+                result->add_item(key_visitor.get_expr(), value_visitor.get_expr());
+            }
             expr = result.cast<pt::expression>();
         }
 

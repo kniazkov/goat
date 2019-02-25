@@ -20,39 +20,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "lib/pointer.h"
+#include "colon.h"
 
 namespace g0at
 {
     namespace ast
     {
-        class token;
-
-        class token_list
+        void colon::accept(token_visitor *visitor)
         {
-        public:
-            token_list();
-            void swap(token_list *other);
-            void add(lib::pointer<token> item);
-            void add_after(lib::pointer<token> item, token *after);
-            void remove(lib::pointer<token> item);
-            void replace(lib::pointer<token> begin, lib::pointer<token> end, lib::pointer<token> repl);
+            visitor->visit(this);
+        }
 
-            bool is_empty() { return first == nullptr; }
-            void clear()
-            {
-                last = nullptr;
-                first.reset();
-            }
-
-            lib::pointer<token> first;
-            token *last;
-
-        private:
-            token_list(const token_list &) { }
-            void operator=(const token_list &) { }
-        };
+        colon *colon::to_colon()
+        {
+            return this;
+        }
     };
 };

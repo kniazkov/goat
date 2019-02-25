@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "expression.h"
+#include "identifier.h"
 #include <string>
 
 namespace g0at
@@ -33,6 +34,7 @@ namespace g0at
         {
         public:
             static_string(std::wstring _text);
+            static_string(identifier *_ident);
             void accept(token_visitor *visitor) override;
             static_string *to_static_string() override;
 

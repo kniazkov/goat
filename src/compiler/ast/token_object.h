@@ -25,7 +25,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "token_with_list.h"
 #include "expression.h"
 #include "brackets_pair.h"
-#include <string>
+#include <utility>
+#include <vector>
 
 namespace g0at
 {
@@ -34,14 +35,21 @@ namespace g0at
         class token_object : public expression, public token_with_list
         {
         public:
+            typedef std::pair<lib::pointer<expression>, lib::pointer<expression>> token_object_item;
+
             token_object(brackets_pair *_body);
             void accept(token_visitor *visitor) override;
             token_object *to_token_object() override;
 
-            token_list *get_body() { return &body; }
+            void add_item(lib::pointer<expression> key, lib::pointer<expression> value)
+            {
+                 items.push_back(std::make_pair(key, value));
+            }
+            int get_items_count() { return (int)items.size(); }
+            token_object_item get_item(int index) { return items.at(index); }
 
         protected:
-            token_list body;
+            std::vector<token_object_item> items;
         };
     };
 };

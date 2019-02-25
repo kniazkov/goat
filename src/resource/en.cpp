@@ -128,6 +128,21 @@ namespace g0at
             {
                 return L"the next token must be a semicolon";
             }
+
+            std::wstring the_next_token_must_be_a_colon() override
+            {
+                return L"the next token must be a colon";
+            }
+
+            std::wstring key_must_be_separated_by_a_colon() override
+            {
+                return L"the key must be separated from the value by a colon";
+            }
+
+            std::wstring pairs_must_be_separated_by_commas() override
+            {
+                return L"pairs of keys and values must be separated by commas";
+            }
         };
 
         resource *resource::get_intance_en()

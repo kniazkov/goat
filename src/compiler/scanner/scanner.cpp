@@ -40,6 +40,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/real.h"
 #include "compiler/ast/keyword_function.h"
 #include "compiler/ast/keyword_return.h"
+#include "compiler/ast/colon.h"
 #include <sstream>
 #include <cstdint>
 
@@ -284,6 +285,12 @@ namespace g0at
         {
             src->next();
             return new ast::comma();
+        }
+
+        if (c == L':')
+        {
+            src->next();
+            return new ast::colon();
         }
 
         if (c == L'\0')

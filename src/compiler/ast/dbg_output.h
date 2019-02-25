@@ -70,6 +70,7 @@ namespace g0at
             void visit(keyword_return *ref) override;
             void visit(statement_return *ref) override;
             void visit(token_object *ref) override;
+            void visit(colon *ref) override;
 
         protected:
             void add_indent();

@@ -128,6 +128,21 @@ namespace g0at
             {
                 return L"следующий токен должен быть точкой с запятой";
             }
+
+            std::wstring the_next_token_must_be_a_colon() override
+            {
+                return L"следующий токен должен быть двоеточием";
+            }
+
+            std::wstring key_must_be_separated_by_a_colon() override
+            {
+                return L"ключ и значение должны разделяться двоеточием";
+            }
+
+            std::wstring pairs_must_be_separated_by_commas() override
+            {
+                return L"пары ключ:значение должны разделяться запятыми";
+            }
         };
 
         resource *resource::get_intance_ru()

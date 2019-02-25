@@ -27,6 +27,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/brackets_pair.h"
 #include "compiler/ast/expression.h"
 #include "compiler/ast/statement_expression.h"
+#include "compiler/ast/token_object.h"
+#include "compiler/ast/colon.h"
+#include "compiler/ast/comma.h"
+#include "compiler/ast/identifier.h"
+#include "compiler/ast/static_string.h"
 #include "compiler/ast/dbg_output.h"
 #include "global/global.h"
 #include <assert.h>
@@ -36,6 +41,24 @@ namespace g0at
 {
     namespace parser
     {
+        class key_must_be_separated_by_a_colon : public compilation_error
+        {
+        public:
+            key_must_be_separated_by_a_colon(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->key_must_be_separated_by_a_colon())
+            {
+            }
+        };
+
+        class pairs_must_be_separated_by_commas : public compilation_error
+        {
+        public:
+            pairs_must_be_separated_by_commas(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->pairs_must_be_separated_by_commas())
+            {
+            }
+        };
+
         parser::parser()
             : root(nullptr), data(nullptr)
         {
@@ -89,6 +112,11 @@ namespace g0at
             {
                 parse_function_body(func);
                 parse_function_args(func);
+            }
+
+            for (auto obj : data->objects)
+            {
+                parse_object_body(obj);
             }
         }
 
@@ -212,6 +240,56 @@ namespace g0at
                 even = !even;
             }
             assert(src->is_empty());
+        }
+
+        void parser::parse_object_body(ast::token_object *obj)
+        {
+            auto src = obj->get_raw_list();
+            auto tok = src->first;
+            while(tok)
+            {
+                ast::expression *key = tok->to_expression();
+                if (!key)
+                    throw expected_an_expression(tok->get_position());
+
+                if (!key->next)
+                    throw the_next_token_must_be_a_colon(key->get_position());
+
+                ast::colon *colon = key->next->to_colon();
+                if (!colon)
+                    throw key_must_be_separated_by_a_colon(key->next->get_position());
+
+                if (!colon->next)
+                    throw expected_an_expression(colon->get_position());
+
+                ast::expression *value = colon->next->to_expression();
+                if (!value)
+                    throw expected_an_expression(colon->next->get_position());
+
+                if (value->next)
+                {
+                    ast::comma *comma = value->next->to_comma();
+                    if (!comma)
+                        throw pairs_must_be_separated_by_commas(value->next->get_position());
+
+                    tok = comma->next;
+                }
+                else
+                {
+                    tok = nullptr;
+                }
+
+                ast::identifier *ident = key->to_identifier();
+                if (ident)
+                {
+                    obj->add_item(new ast::static_string(ident), value);
+                }
+                else
+                {
+                    obj->add_item(key, value);
+                }
+            }
+            src->clear();
         }
     };
 };

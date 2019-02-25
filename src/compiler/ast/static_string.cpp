@@ -31,6 +31,12 @@ namespace g0at
         {
         }
 
+        static_string::static_string(identifier *_ident)
+        {
+            pos = _ident->get_position();
+            text = _ident->get_name();
+        }
+
         void static_string::accept(token_visitor *visitor)
         {
             visitor->visit(this);

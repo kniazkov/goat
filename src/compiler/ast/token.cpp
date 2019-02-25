@@ -263,5 +263,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        colon *token::to_colon()
+        {
+            return nullptr;
+        }
     }
 };

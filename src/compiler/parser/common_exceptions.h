@@ -109,5 +109,14 @@ namespace g0at
             {
             }
         };
+
+        class the_next_token_must_be_a_colon : public compilation_error
+        {
+        public:
+            the_next_token_must_be_a_colon(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->the_next_token_must_be_a_colon())
+            {
+            }
+        };
     };
 };
