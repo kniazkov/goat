@@ -51,6 +51,8 @@ namespace g0at
             void visit(ast::declare_function *ref) override;
             void visit(ast::token_object *ref) override;
             void visit(ast::property *ref) override;
+            void visit(ast::value_true *ref) override;
+            void visit(ast::value_false *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

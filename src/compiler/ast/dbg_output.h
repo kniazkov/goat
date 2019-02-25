@@ -73,6 +73,8 @@ namespace g0at
             void visit(colon *ref) override;
             void visit(dot *ref) override;
             void visit(property *ref) override;
+            void visit(value_true *ref) override;
+            void visit(value_false *ref) override;
 
         protected:
             void add_indent();

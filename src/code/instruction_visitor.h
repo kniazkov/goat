@@ -46,6 +46,8 @@ namespace g0at
         class ret_val;
         class create;
         class load_prop;
+        class load_true;
+        class load_false;
 
         class instruction_visitor
         {
@@ -72,6 +74,8 @@ namespace g0at
             virtual void visit(ret_val *ref) = 0;
             virtual void visit(create *ref) = 0;
             virtual void visit(load_prop *ref) = 0;
+            virtual void visit(load_true *ref) = 0;
+            virtual void visit(load_false *ref) = 0;
         };
     };
 };

@@ -59,6 +59,8 @@ namespace g0at
         class colon;
         class dot;
         class property;
+        class value_true;
+        class value_false;
 
         class token_visitor
         {
@@ -98,6 +100,8 @@ namespace g0at
             virtual void visit(colon *ref);
             virtual void visit(dot *ref);
             virtual void visit(property *ref);
+            virtual void visit(value_true *ref);
+            virtual void visit(value_false *ref);
         };
     };
 };

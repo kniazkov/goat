@@ -165,5 +165,13 @@ namespace g0at
         void token_visitor::visit(property *ref)
         {
         }
+
+        void token_visitor::visit(value_true *ref)
+        {
+        }
+
+        void token_visitor::visit(value_false *ref)
+        {
+        }
     }
 };

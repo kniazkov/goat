@@ -58,6 +58,8 @@ namespace g0at
             void visit(ret_val *ref) override;
             void visit(create *ref) override;
             void visit(load_prop *ref) override;
+            void visit(load_true *ref) override;
+            void visit(load_false *ref) override;
 
         protected:
             std::wstringstream &stream;

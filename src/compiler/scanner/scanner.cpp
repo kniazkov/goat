@@ -42,6 +42,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_return.h"
 #include "compiler/ast/colon.h"
 #include "compiler/ast/dot.h"
+#include "compiler/ast/value_true.h"
+#include "compiler/ast/value_false.h"
 #include <sstream>
 #include <cstdint>
 
@@ -145,6 +147,10 @@ namespace g0at
                 return new ast::value_undefined();            
             if (name == L"null")
                 return new ast::value_null();            
+            if (name == L"true")
+                return new ast::value_true();            
+            if (name == L"false")
+                return new ast::value_false();            
             if (name == L"var")
                 return new ast::keyword_var();            
             if (name == L"function")

@@ -109,5 +109,13 @@ namespace g0at
         void node_visitor::visit(property *ref)
         {
         }
+
+        void node_visitor::visit(value_true *ref)
+        {
+        }
+
+        void node_visitor::visit(value_false *ref)
+        {
+        }
     }
 };

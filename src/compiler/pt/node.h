@@ -54,6 +54,8 @@ namespace g0at
         class statement_return;
         class node_object;
         class property;
+        class value_true;
+        class value_false;
 
         class node : public lib::ref_counter
         {
@@ -84,6 +86,8 @@ namespace g0at
             virtual statement_return *to_statement_return();
             virtual node_object *to_node_object();
             virtual property *to_property();
+            virtual value_true *to_value_true();
+            virtual value_false *to_value_false();
 
             lib::pointer<position> get_position() { return pos; }
 

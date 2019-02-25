@@ -233,6 +233,18 @@ namespace g0at
             ref->get_left()->accept(&indented);
         }
 
+        void dbg_output::visit(value_true *ref)
+        {
+            add_indent();
+            stream << L"true";
+        }
+
+        void dbg_output::visit(value_false *ref)
+        {
+            add_indent();
+            stream << L"false";
+        }
+
         void dbg_output::add_indent()
         {
             if (!indent)

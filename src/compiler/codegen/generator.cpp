@@ -56,6 +56,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/ret_val.h"
 #include "code/create.h"
 #include "code/load_prop.h"
+#include "code/load_true.h"
+#include "code/load_false.h"
 #include <assert.h>
 
 namespace g0at
@@ -246,6 +248,16 @@ namespace g0at
             ref->get_left()->accept(this);
             int id = name_cache.get_id(ref->get_name());
             code->add_instruction(new code::load_prop(id));
+        }
+
+        void generator::visit(pt::value_true *ref)
+        {
+            code->add_instruction(new code::load_true());
+        }
+
+        void generator::visit(pt::value_false *ref)
+        {
+            code->add_instruction(new code::load_false());
         }
     };
 };

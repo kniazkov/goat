@@ -58,6 +58,8 @@ namespace g0at
             void visit(statement_return *ref) override;
             void visit(node_object *ref) override;
             void visit(property *ref) override;
+            void visit(value_true *ref) override;
+            void visit(value_false *ref) override;
 
         protected:
             void add_indent();

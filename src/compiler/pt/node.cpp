@@ -149,5 +149,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        value_true *node::to_value_true()
+        {
+            return nullptr;
+        }
+
+        value_false *node::to_value_false()
+        {
+            return nullptr;
+        }
    }
 };

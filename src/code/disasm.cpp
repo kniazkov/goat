@@ -190,5 +190,15 @@ namespace g0at
             int id = ref->get_id();
             stream << L"prop \t" << id << L"\t; " << identifiers.at(id);
         }
+
+        void disasm::visit(load_true *ref)
+        {
+            stream << L"true";
+        }
+
+        void disasm::visit(load_false *ref)
+        {
+            stream << L"false";
+        }
     };
 };

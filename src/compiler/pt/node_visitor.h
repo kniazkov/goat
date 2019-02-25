@@ -45,6 +45,8 @@ namespace g0at
         class statement_return;
         class node_object;
         class property;
+        class value_true;
+        class value_false;
 
         class node_visitor
         {
@@ -70,6 +72,8 @@ namespace g0at
             virtual void visit(statement_return *ref);
             virtual void visit(node_object *ref);
             virtual void visit(property *ref);
+            virtual void visit(value_true *ref);
+            virtual void visit(value_false *ref);
         };
     };
 };
