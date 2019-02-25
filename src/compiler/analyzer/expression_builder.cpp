@@ -52,6 +52,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/declare_function.h"
 #include "compiler/ast/token_object.h"
 #include "compiler/pt/node_object.h"
+#include "compiler/ast/property.h"
+#include "compiler/pt/property.h"
 #include <assert.h>
 
 namespace g0at
@@ -182,6 +184,14 @@ namespace g0at
                 result->add_item(key_visitor.get_expr(), value_visitor.get_expr());
             }
             expr = result.cast<pt::expression>();
+        }
+
+        void expression_builder::visit(ast::property *ref)
+        {
+            expression_builder left_visitor;
+            ref->get_left()->accept(&left_visitor);
+            assert(left_visitor.has_expr());
+            expr = new pt::property(ref->get_position(), left_visitor.get_expr(), ref->get_right());
         }
 
         std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>

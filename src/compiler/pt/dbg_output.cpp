@@ -36,6 +36,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "declare_function.h"
 #include "statement_return.h"
 #include "node_object.h"
+#include "property.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -222,6 +223,14 @@ namespace g0at
                 stream << L"value";
                 item.first->accept(&indented);
             }
+        }
+
+        void dbg_output::visit(property *ref)
+        {
+            add_indent();
+            stream << L'.' << ref->get_name();
+            dbg_output indented(stream, indent + 1);
+            ref->get_left()->accept(&indented);
         }
 
         void dbg_output::add_indent()

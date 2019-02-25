@@ -144,5 +144,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        property *node::to_property()
+        {
+            return nullptr;
+        }
    }
 };

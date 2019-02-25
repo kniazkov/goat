@@ -105,5 +105,9 @@ namespace g0at
         void node_visitor::visit(node_object *ref)
         {
         }
+
+        void node_visitor::visit(property *ref)
+        {
+        }
     }
 };
