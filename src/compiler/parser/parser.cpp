@@ -80,7 +80,7 @@ namespace g0at
             catch(...)
             {
                 if (debug)
-                    std::cout << global::char_encoder->encode(g0at::ast::dbg_output::to_string(pobj.get_root())) << std::endl;
+                    std::cout << global::char_encoder->encode(g0at::ast::dbg_output::to_string(pobj.get_root().get())) << std::endl;
                 throw;
             }
             return pobj.get_root();

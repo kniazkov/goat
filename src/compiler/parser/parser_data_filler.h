@@ -43,6 +43,7 @@ namespace g0at
             void visit(ast::keyword_function *ref) override;
             void visit(ast::keyword_return *ref) override;
             void visit(ast::brackets_pair *ref) override;
+            void visit(ast::dot *ref) override;
 
         protected:
             parser_data *data;

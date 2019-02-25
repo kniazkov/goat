@@ -39,7 +39,7 @@ namespace g0at
         public:
             dbg_output(std::wstringstream &_stream);
             dbg_output(std::wstringstream &_stream, int _indent);
-            static std::wstring to_string(lib::pointer<root> obj);
+            static std::wstring to_string(token *obj);
             void visit(function *ref) override;
             void visit(identifier *ref) override;
             void visit(variable *ref) override;

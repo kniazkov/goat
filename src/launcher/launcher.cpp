@@ -88,7 +88,7 @@ namespace g0at
         auto tok_root = g0at::parser::parser::parse(&scan, opt.dump_abstract_syntax_tree);
         if (opt.dump_abstract_syntax_tree)
         {
-            std::cout << global::char_encoder->encode(g0at::ast::dbg_output::to_string(tok_root)) << std::endl;
+            std::cout << global::char_encoder->encode(g0at::ast::dbg_output::to_string(tok_root.get())) << std::endl;
         }
         auto node_root = g0at::analyzer::analyzer::analyze(tok_root);
         tok_root.reset();

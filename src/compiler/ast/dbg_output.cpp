@@ -58,7 +58,7 @@ namespace g0at
         {
         }
 
-        std::wstring dbg_output::to_string(lib::pointer<root> obj)
+        std::wstring dbg_output::to_string(token *obj)
         {
             std::wstringstream tmp;
             dbg_output dbg(tmp);

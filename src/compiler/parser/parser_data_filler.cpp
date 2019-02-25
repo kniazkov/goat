@@ -31,6 +31,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/assign.h"
 #include "compiler/ast/keyword_return.h"
 #include "compiler/ast/brackets_pair.h"
+#include "compiler/ast/dot.h"
 
 namespace g0at
 {
@@ -90,6 +91,11 @@ namespace g0at
         {
             if (ref->get_symbol() == L'{')
                 data->pairs_of_curly_brackets.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::dot *ref)
+        {
+            data->dots.add(ref);
         }
     };
 };

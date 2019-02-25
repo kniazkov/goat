@@ -143,6 +143,16 @@ namespace g0at
             {
                 return L"pairs of keys and values must be separated by commas";
             }
+
+            std::wstring expected_an_expression_before_dot() override
+            {
+                return L"expected a primary expression before '.' operator";
+            }
+
+            std::wstring expected_an_identifier_after_dot() override
+            {
+                return L"expected an identifier after '.' operator";
+            }
         };
 
         resource *resource::get_intance_en()

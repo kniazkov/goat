@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/function_call.h"
 #include <assert.h>
 
+
 namespace g0at
 {
     namespace parser

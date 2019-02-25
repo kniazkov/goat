@@ -143,6 +143,16 @@ namespace g0at
             {
                 return L"пары ключ:значение должны разделяться запятыми";
             }
+
+            std::wstring expected_an_expression_before_dot() override
+            {
+                return L"перед оператором '.' должно быть выражение";
+            }
+
+            std::wstring expected_an_identifier_after_dot() override
+            {
+                return L"после оператора '.' должен быть идентификатор";
+            }
         };
 
         resource *resource::get_intance_ru()

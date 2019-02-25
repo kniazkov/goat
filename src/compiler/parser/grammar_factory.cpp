@@ -37,6 +37,7 @@ namespace g0at
             gr->vector.push_back(create_pattern_function_decl());
             gr->vector.push_back(create_pattern_variable());
             gr->vector.push_back(create_pattern_object());
+            gr->vector.push_back(create_pattern_property());
             gr->vector.push_back(create_pattern_function_call());
             gr->vector.push_back(create_pattern_unary_prefix(&data->opers_plus_minus));
             gr->vector.push_back(create_pattern_binary(&data->opers_plus_minus));
