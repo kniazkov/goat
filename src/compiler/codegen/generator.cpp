@@ -36,6 +36,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/declare_function.h"
 #include "compiler/pt/statement_return.h"
 #include "compiler/pt/node_object.h"
+#include "compiler/pt/property.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -54,6 +55,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/ret.h"
 #include "code/ret_val.h"
 #include "code/create.h"
+#include "code/load_prop.h"
 #include <assert.h>
 
 namespace g0at
@@ -237,6 +239,13 @@ namespace g0at
                 item.first->accept(this);
             }
             code->add_instruction(new code::create(count));
+        }
+
+        void generator::visit(pt::property *ref)
+        {
+            ref->get_left()->accept(this);
+            int id = name_cache.get_id(ref->get_name());
+            code->add_instruction(new code::load_prop(id));
         }
     };
 };

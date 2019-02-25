@@ -31,6 +31,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "load_real.h"
 #include "load_func.h"
 #include "create.h"
+#include "load_prop.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -182,6 +183,12 @@ namespace g0at
         void disasm::visit(create *ref)
         {
             stream << L"create \t" << ref->get_count();
+        }
+
+        void disasm::visit(load_prop *ref)
+        {
+            int id = ref->get_id();
+            stream << L"prop \t" << id << L"\t; " << identifiers.at(id);
         }
     };
 };
