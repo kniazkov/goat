@@ -1,0 +1,6 @@
+println(
+{
+    z : 0.01,
+    y : 7,
+    x : "text value"
+});
