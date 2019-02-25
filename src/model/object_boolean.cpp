@@ -107,12 +107,12 @@ namespace g0at
 
             std::wstring to_string(const variable *var) const override
             {
-                return std::to_wstring(var->data.i);
+                return var->data.b ? L"true" : L"false";
             }
 
             std::wstring to_string_notation(const variable *var) const override
             {
-                return std::to_wstring(var->data.i);
+                return var->data.b ? L"true" : L"false";
             }
 
             object *to_object(variable *var, object_list *list) override
