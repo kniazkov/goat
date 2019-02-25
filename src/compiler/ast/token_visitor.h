@@ -58,6 +58,7 @@ namespace g0at
         class token_object;
         class colon;
         class dot;
+        class property;
 
         class token_visitor
         {
@@ -96,6 +97,7 @@ namespace g0at
             virtual void visit(token_object *ref);
             virtual void visit(colon *ref);
             virtual void visit(dot *ref);
+            virtual void visit(property *ref);
         };
     };
 };

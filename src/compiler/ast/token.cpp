@@ -273,5 +273,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        property *token::to_property()
+        {
+            return nullptr;
+        }
     }
 };
