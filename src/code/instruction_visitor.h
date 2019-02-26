@@ -50,6 +50,8 @@ namespace g0at
         class load_false;
         class eq;
         class neq;
+        class if_not;
+        class jmp;
 
         class instruction_visitor
         {
@@ -80,6 +82,8 @@ namespace g0at
             virtual void visit(load_false *ref) = 0;
             virtual void visit(eq *ref) = 0;
             virtual void visit(neq *ref) = 0;
+            virtual void visit(if_not *ref) = 0;
+            virtual void visit(jmp *ref) = 0;
         };
     };
 };

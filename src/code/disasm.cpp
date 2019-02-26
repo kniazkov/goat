@@ -32,6 +32,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "load_func.h"
 #include "create.h"
 #include "load_prop.h"
+#include "if_not.h"
+#include "jmp.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -209,6 +211,16 @@ namespace g0at
         void disasm::visit(neq *ref)
         {
             stream << L"neq";
+        }
+
+        void disasm::visit(if_not *ref)
+        {
+            stream << L"ifnot \t" << ref->get_iid();
+        }
+
+        void disasm::visit(jmp *ref)
+        {
+            stream << L"jmp \t" << ref->get_iid();
         }
     };
 };

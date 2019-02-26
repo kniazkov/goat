@@ -62,6 +62,8 @@ namespace g0at
             void visit(load_false *ref) override;
             void visit(eq *ref) override;
             void visit(neq *ref) override;
+            void visit(if_not *ref) override;
+            void visit(jmp *ref) override;
 
         protected:
             std::wstringstream &stream;

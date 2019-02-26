@@ -39,6 +39,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/property.h"
 #include "compiler/pt/is_equal_to.h"
 #include "compiler/pt/is_not_equal_to.h"
+#include "compiler/pt/statement_while.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -62,6 +63,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/load_false.h"
 #include "code/eq.h"
 #include "code/neq.h"
+#include "code/if_not.h"
+#include "code/jmp.h"
 #include <assert.h>
 
 namespace g0at
@@ -276,6 +279,17 @@ namespace g0at
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
             code->add_instruction(new code::neq());
+        }
+
+        void generator::visit(pt::statement_while *ref)
+        {
+            int iid_begin = code->get_code_size();
+            ref->get_expression()->accept(this);
+            code::if_not *if_not = new code::if_not(-1);
+            code->add_instruction(if_not);
+            ref->get_statement()->accept(this);
+            code->add_instruction(new code::jmp(iid_begin));
+            *(if_not->get_iid_ptr()) = code->get_code_size();
         }
     };
 };
