@@ -261,6 +261,16 @@ namespace g0at
             assert(false);
         }
 
+        void handler::op_eq(variable *var, thread *thr)
+        {
+            assert(false);
+        }
+
+        void handler::op_neq(variable *var, thread *thr)
+        {
+            assert(false);
+        }
+
         /* 
             Generic handler
         */
@@ -332,6 +342,16 @@ namespace g0at
         void generic_handler::op_neg(variable *var, thread *thr)
         {
             var->data.obj->op_neg(thr);
+        }
+
+        void generic_handler::op_eq(variable *var, thread *thr)
+        {
+            var->data.obj->op_eq(thr);
+        }
+
+        void generic_handler::op_neq(variable *var, thread *thr)
+        {
+            var->data.obj->op_neq(thr);
         }
     };
 };
