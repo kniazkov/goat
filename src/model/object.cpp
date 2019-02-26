@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object.h"
+#include "thread.h"
 #include <assert.h>
 #include <sstream>
 
@@ -196,6 +197,24 @@ namespace g0at
             assert(false); // not implemented
         }
 
+        void object::op_eq(thread *thr)
+        {
+            thr->pop();
+            object *right = thr->pop().get_object();
+            variable result;
+            result.set_boolean(this == right);
+            thr->push(result);
+        }
+
+        void object::op_neq(thread *thr)
+        {
+            thr->pop();
+            object *right = thr->pop().get_object();
+            variable result;
+            result.set_boolean(this != right);
+            thr->push(result);
+        }
+
         /* 
             Generic proto
         */
@@ -207,6 +226,11 @@ namespace g0at
         /*
             Base handler
         */
+        object* handler::get_object(variable *var)
+        {
+            return nullptr;
+        }
+
         bool handler::get_integer(variable *var, int64_t *pval)
         {
             return false;
@@ -271,6 +295,11 @@ namespace g0at
         }
 
         object *generic_handler::to_object(variable *var, object_list *list)
+        {
+            return var->data.obj;
+        }
+
+        object *generic_handler::get_object(variable *var)
         {
             return var->data.obj;
         }

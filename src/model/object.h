@@ -76,6 +76,8 @@ namespace g0at
             inline std::wstring to_string() const;
             inline std::wstring to_string_notation() const;
             inline object *to_object(object_list *list);
+
+            inline object *get_object();
             inline bool get_integer(int64_t *pval);
             inline bool get_real(double *pval);
             inline bool get_boolean(bool *pval);
@@ -126,6 +128,8 @@ namespace g0at
             virtual void op_add(thread *thr);
             virtual void op_sub(thread *thr);
             virtual void op_neg(thread *thr);
+            virtual void op_eq(thread *thr);
+            virtual void op_neq(thread *thr);
 
             object *prev;
             object *next;
@@ -156,6 +160,7 @@ namespace g0at
             virtual std::wstring to_string_notation(const variable *var) const = 0;
             virtual object *to_object(variable *var, object_list *list) = 0;
             
+            virtual object* get_object(variable *var);
             virtual bool get_integer(variable *var, int64_t *val);
             virtual bool get_real(variable *var, double *val);
             virtual bool get_boolean(variable *var, bool *val);
@@ -172,9 +177,12 @@ namespace g0at
             std::wstring to_string(const variable *var) const override;
             std::wstring to_string_notation(const variable *var) const override;
             object *to_object(variable *var, object_list *list) override;
+            
+            object *get_object(variable *var);
             bool get_integer(variable *var, int64_t *pval) override;
             bool get_real(variable *var, double *pval) override;
             bool get_boolean(variable *var, bool *pval) override;
+            
             void op_add(variable *var, thread *thr)  override;
             void op_sub(variable *var, thread *thr)  override;
             void op_neg(variable *var, thread *thr)  override;
@@ -238,6 +246,11 @@ namespace g0at
         object *variable::to_object(object_list *list)
         {
             return hndl->to_object(this, list);
+        }
+
+        object *variable::get_object()
+        {
+            return hndl->get_object(this);
         }
 
         bool variable::get_integer(int64_t *pval)
