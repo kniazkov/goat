@@ -60,6 +60,8 @@ namespace g0at
             void visit(property *ref) override;
             void visit(value_true *ref) override;
             void visit(value_false *ref) override;
+            void visit(is_equal_to *ref) override;
+            void visit(is_not_equal_to *ref) override;
 
         protected:
             void add_indent();

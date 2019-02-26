@@ -53,6 +53,8 @@ namespace g0at
             void visit(ast::property *ref) override;
             void visit(ast::value_true *ref) override;
             void visit(ast::value_false *ref) override;
+            void visit(ast::is_equal_to *ref) override;
+            void visit(ast::is_not_equal_to *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

@@ -159,5 +159,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        is_equal_to *node::to_is_equal_to()
+        {
+            return nullptr;
+        }
+        
+        is_not_equal_to *node::to_is_not_equal_to()
+        {
+            return nullptr;
+        }
    }
 };

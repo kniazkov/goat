@@ -47,6 +47,8 @@ namespace g0at
         class property;
         class value_true;
         class value_false;
+        class is_equal_to;
+        class is_not_equal_to;
 
         class node_visitor
         {
@@ -74,6 +76,8 @@ namespace g0at
             virtual void visit(property *ref);
             virtual void visit(value_true *ref);
             virtual void visit(value_false *ref);
+            virtual void visit(is_equal_to *ref);
+            virtual void visit(is_not_equal_to *ref);
         };
     };
 };

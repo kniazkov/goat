@@ -58,6 +58,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/value_true.h"
 #include "compiler/ast/value_false.h"
 #include "compiler/pt/value_false.h"
+#include "compiler/ast/is_equal_to.h"
+#include "compiler/pt/is_equal_to.h"
+#include "compiler/ast/is_not_equal_to.h"
+#include "compiler/pt/is_not_equal_to.h"
 #include <assert.h>
 
 namespace g0at
@@ -206,6 +210,18 @@ namespace g0at
         void expression_builder::visit(ast::value_false *ref)
         {
             expr = new pt::value_false(ref->get_position());
+        }
+
+        void expression_builder::visit(ast::is_equal_to *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::is_equal_to(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::is_not_equal_to *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::is_not_equal_to(ref->get_position(), pair.first, pair.second);
         }
 
         std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>

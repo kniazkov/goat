@@ -117,5 +117,13 @@ namespace g0at
         void node_visitor::visit(value_false *ref)
         {
         }
+
+        void node_visitor::visit(is_equal_to *ref)
+        {
+        }
+
+        void node_visitor::visit(is_not_equal_to *ref)
+        {
+        }
     }
 };
