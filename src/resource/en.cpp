@@ -153,6 +153,16 @@ namespace g0at
             {
                 return L"expected an identifier after '.' operator";
             }
+
+            std::wstring expected_a_statement() override
+            {
+                return L"expected a statement";
+            }
+
+            std::wstring expected_a_conditional_expression() override
+            {
+                return L"expected a conditional expression";
+            }
         };
 
         resource *resource::get_intance_en()

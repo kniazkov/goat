@@ -46,6 +46,7 @@ namespace g0at
             void visit(ast::dot *ref) override;
             void visit(ast::equals *ref) override;
             void visit(ast::not_equal *ref) override;
+            void visit(ast::keyword_while *ref) override;
 
         protected:
             parser_data *data;

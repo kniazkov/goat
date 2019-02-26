@@ -118,5 +118,23 @@ namespace g0at
             {
             }
         };
+
+        class expected_a_statement : public compilation_error
+        {
+        public:
+            expected_a_statement(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->expected_a_statement())
+            {
+            }
+        };
+
+        class expected_a_conditional_expression : public compilation_error
+        {
+        public:
+            expected_a_conditional_expression(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->expected_a_conditional_expression())
+            {
+            }
+        };
     };
 };

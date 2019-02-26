@@ -56,6 +56,8 @@ namespace g0at
             virtual std::wstring pairs_must_be_separated_by_commas() = 0;
             virtual std::wstring expected_an_expression_before_dot() = 0;
             virtual std::wstring expected_an_identifier_after_dot() = 0;
+            virtual std::wstring expected_a_statement() = 0;
+            virtual std::wstring expected_a_conditional_expression() = 0;
             
         protected:
             static resource *get_intance_en();

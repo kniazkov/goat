@@ -34,6 +34,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/dot.h"
 #include "compiler/ast/equals.h"
 #include "compiler/ast/not_equal.h"
+#include "compiler/ast/keyword_while.h"
 
 namespace g0at
 {
@@ -108,6 +109,11 @@ namespace g0at
         void parser_data_filler::visit(ast::not_equal *ref)
         {
             data->opers_equals_and_not.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::keyword_while *ref)
+        {
+            data->while_keywords.add(ref);
         }
     };
 };

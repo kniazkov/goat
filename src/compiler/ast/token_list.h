@@ -46,6 +46,7 @@ namespace g0at
                 last = nullptr;
                 first.reset();
             }
+            bool has_only_one_item() { return first != nullptr && first == last; }
 
             lib::pointer<token> first;
             token *last;

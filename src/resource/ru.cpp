@@ -153,6 +153,16 @@ namespace g0at
             {
                 return L"после оператора '.' должен быть идентификатор";
             }
+
+            std::wstring expected_a_statement() override
+            {
+                return L"ожидается инструкция";
+            }
+
+            std::wstring expected_a_conditional_expression() override
+            {
+                return L"ожидается выражение-условие";
+            }
         };
 
         resource *resource::get_intance_ru()
