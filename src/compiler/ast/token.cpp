@@ -313,5 +313,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_while *token::to_statement_while()
+        {
+            return nullptr;
+        }
     }
 };

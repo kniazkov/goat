@@ -80,6 +80,7 @@ namespace g0at
             void visit(is_equal_to *ref) override;
             void visit(is_not_equal_to *ref) override;
             void visit(keyword_while *ref) override;
+            void visit(statement_while *ref) override;
 
         protected:
             void add_indent();

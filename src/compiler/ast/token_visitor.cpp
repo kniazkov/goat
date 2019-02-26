@@ -193,5 +193,9 @@ namespace g0at
         void token_visitor::visit(keyword_while *ref)
         {
         }
+
+        void token_visitor::visit(statement_while *ref)
+        {
+        }
     }
 };
