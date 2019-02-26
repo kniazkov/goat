@@ -1,0 +1,3 @@
+println(7.0 == 11);
+println(7.0 == 7);
+println(7.0 != 11);
