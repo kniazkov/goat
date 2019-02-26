@@ -169,5 +169,10 @@ namespace g0at
         {
             return nullptr;
         }
+        
+        statement_while *node::to_statement_while()
+        {
+            return nullptr;
+        }
    }
 };

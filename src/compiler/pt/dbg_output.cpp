@@ -39,6 +39,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "property.h"
 #include "is_equal_to.h"
 #include "is_not_equal_to.h"
+#include "statement_while.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -263,6 +264,19 @@ namespace g0at
             dbg_output indented(stream, indent + 1);
             ref->get_left()->accept(&indented);
             ref->get_right()->accept(&indented);
+        }
+
+        void dbg_output::visit(statement_while *ref)
+        {
+            add_indent();
+            stream << L"while";
+            dbg_output indented(stream, indent + 2);
+            add_indent(indent + 1);
+            stream << L"expr";
+            ref->get_expression()->accept(&indented);
+            add_indent(indent + 1);
+            stream << L"stmt";
+            ref->get_statement()->accept(&indented);
         }
 
         void dbg_output::add_indent()

@@ -28,6 +28,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/declare_variable.h"
 #include "compiler/ast/statement_return.h"
 #include "compiler/pt/statement_return.h"
+#include "compiler/ast/statement_while.h"
+#include "compiler/pt/statement_while.h"
 #include <assert.h>
 
 namespace g0at
@@ -76,6 +78,17 @@ namespace g0at
             {
                 stmt = new pt::statement_return(ref->get_position(), nullptr);
             }
+        }
+
+        void statement_builder::visit(ast::statement_while *ref)
+        {
+            expression_builder expr_visitor;
+            ref->get_expression()->accept(&expr_visitor);
+            assert(expr_visitor.has_expr());
+            statement_builder stmt_visitor;
+            ref->get_statement()->accept(&stmt_visitor);
+            assert(stmt_visitor.has_stmt());
+            stmt = new pt::statement_while(ref->get_position(), expr_visitor.get_expr(), stmt_visitor.get_stmt());
         }
      };
 };

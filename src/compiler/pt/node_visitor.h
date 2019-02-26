@@ -49,6 +49,7 @@ namespace g0at
         class value_false;
         class is_equal_to;
         class is_not_equal_to;
+        class statement_while;
 
         class node_visitor
         {
@@ -78,6 +79,7 @@ namespace g0at
             virtual void visit(value_false *ref);
             virtual void visit(is_equal_to *ref);
             virtual void visit(is_not_equal_to *ref);
+            virtual void visit(statement_while *ref);
         };
     };
 };

@@ -58,6 +58,7 @@ namespace g0at
         class value_false;
         class is_equal_to;
         class is_not_equal_to;
+        class statement_while;
 
         class node : public lib::ref_counter
         {
@@ -92,6 +93,7 @@ namespace g0at
             virtual value_false *to_value_false();
             virtual is_equal_to *to_is_equal_to();
             virtual is_not_equal_to *to_is_not_equal_to();
+            virtual statement_while *to_statement_while();
 
             lib::pointer<position> get_position() { return pos; }
 
