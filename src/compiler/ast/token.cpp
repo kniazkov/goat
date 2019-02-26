@@ -308,5 +308,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_while *token::to_keyword_while()
+        {
+            return nullptr;
+        }
     }
 };

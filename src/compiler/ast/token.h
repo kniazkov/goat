@@ -84,6 +84,7 @@ namespace g0at
         class not_equal;
         class is_equal_to;
         class is_not_equal_to;
+        class keyword_while;
 
         class token : public lib::ref_counter
         {
@@ -145,6 +146,7 @@ namespace g0at
             virtual not_equal *to_not_equal();
             virtual is_equal_to *to_is_equal_to();
             virtual is_not_equal_to *to_is_not_equal_to();
+            virtual keyword_while *to_keyword_while();
             
             lib::pointer<position> get_position() { return pos; }
 

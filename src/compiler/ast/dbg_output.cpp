@@ -362,6 +362,12 @@ namespace g0at
             ref->get_right()->accept(&indented);
         }
 
+        void dbg_output::visit(keyword_while *ref)
+        {
+            add_indent();
+            stream << L"while";
+        }
+
         void dbg_output::add_indent()
         {
             if (!indent)

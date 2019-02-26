@@ -1,3 +1,6 @@
-println(7.0 == 11);
-println(7.0 == 7);
-println(7.0 != 11);
+var x = 0;
+
+while (x != 1000000)
+    x = x + 1;
+
+println(x);
