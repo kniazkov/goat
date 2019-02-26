@@ -44,6 +44,8 @@ namespace g0at
             void visit(ast::keyword_return *ref) override;
             void visit(ast::brackets_pair *ref) override;
             void visit(ast::dot *ref) override;
+            void visit(ast::equals *ref) override;
+            void visit(ast::not_equal *ref) override;
 
         protected:
             parser_data *data;

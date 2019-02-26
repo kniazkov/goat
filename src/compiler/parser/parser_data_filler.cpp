@@ -32,6 +32,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_return.h"
 #include "compiler/ast/brackets_pair.h"
 #include "compiler/ast/dot.h"
+#include "compiler/ast/equals.h"
+#include "compiler/ast/not_equal.h"
 
 namespace g0at
 {
@@ -96,6 +98,16 @@ namespace g0at
         void parser_data_filler::visit(ast::dot *ref)
         {
             data->dots.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::equals *ref)
+        {
+            data->opers_equals_and_not.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::not_equal *ref)
+        {
+            data->opers_equals_and_not.add(ref);
         }
     };
 };

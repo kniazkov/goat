@@ -173,5 +173,21 @@ namespace g0at
         void token_visitor::visit(value_false *ref)
         {
         }
+
+        void token_visitor::visit(equals *ref)
+        {
+        }
+
+        void token_visitor::visit(not_equal *ref)
+        {
+        }
+
+        void token_visitor::visit(is_equal_to *ref)
+        {
+        }
+
+        void token_visitor::visit(is_not_equal_to *ref)
+        {
+        }
     }
 };

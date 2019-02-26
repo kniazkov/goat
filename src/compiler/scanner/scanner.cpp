@@ -44,6 +44,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/dot.h"
 #include "compiler/ast/value_true.h"
 #include "compiler/ast/value_false.h"
+#include "compiler/ast/equals.h"
+#include "compiler/ast/not_equal.h"
 #include <sstream>
 #include <cstdint>
 
@@ -106,6 +108,7 @@ namespace g0at
             case L'/':
             case L'=':
             case L'$':
+            case L'!':
                 return true;
             default:
                 return false;
@@ -240,6 +243,10 @@ namespace g0at
                 return new ast::minus();
             if (oper == L"=")
                 return new ast::assign();
+            if (oper == L"==")
+                return new ast::equals();
+            if (oper == L"!=")
+                return new ast::not_equal();
             if (oper == L"$")
                 return new ast::keyword_function();
             return new ast::custom_operator(oper);

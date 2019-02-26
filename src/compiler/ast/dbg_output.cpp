@@ -42,6 +42,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_return.h"
 #include "token_object.h"
 #include "property.h"
+#include "is_equal_to.h"
+#include "is_not_equal_to.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -328,6 +330,36 @@ namespace g0at
         {
             add_indent();
             stream << L"false";
+        }
+
+        void dbg_output::visit(equals *ref)
+        {
+            add_indent();
+            stream << L"==";
+        }
+
+        void dbg_output::visit(not_equal *ref)
+        {
+            add_indent();
+            stream << L"!=";
+        }
+
+        void dbg_output::visit(is_equal_to *ref)
+        {
+            add_indent();
+            stream << L"==";
+            dbg_output indented(stream, indent + 1);
+            ref->get_left()->accept(&indented);
+            ref->get_right()->accept(&indented);
+        }
+
+        void dbg_output::visit(is_not_equal_to *ref)
+        {
+            add_indent();
+            stream << L"!=";
+            dbg_output indented(stream, indent + 1);
+            ref->get_left()->accept(&indented);
+            ref->get_right()->accept(&indented);
         }
 
         void dbg_output::add_indent()

@@ -30,5 +30,15 @@ namespace g0at
         {
             return this;
         }
+
+        lib::pointer<token> token_operator::create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right)
+        {
+            return nullptr;
+        }
+
+        lib::pointer<token> token_operator::create_unary_prefix_operation(lib::pointer<expression> right)
+        {
+            return nullptr;
+        }
     };
 };

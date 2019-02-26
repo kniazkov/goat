@@ -288,5 +288,25 @@ namespace g0at
         {
             return nullptr;
         }
+
+        equals *token::to_equals()
+        {
+            return nullptr;
+        }
+
+        not_equal *token::to_not_equal()
+        {
+            return nullptr;
+        }
+
+        is_equal_to *token::to_is_equal_to()
+        {
+            return nullptr;
+        }
+
+        is_not_equal_to *token::to_is_not_equal_to()
+        {
+            return nullptr;
+        }
     }
 };

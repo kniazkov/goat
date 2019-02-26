@@ -80,6 +80,10 @@ namespace g0at
         class property;
         class value_true;
         class value_false;
+        class equals;
+        class not_equal;
+        class is_equal_to;
+        class is_not_equal_to;
 
         class token : public lib::ref_counter
         {
@@ -137,6 +141,10 @@ namespace g0at
             virtual property *to_property();
             virtual value_true *to_value_true();
             virtual value_false *to_value_false();
+            virtual equals *to_equals();
+            virtual not_equal *to_not_equal();
+            virtual is_equal_to *to_is_equal_to();
+            virtual is_not_equal_to *to_is_not_equal_to();
             
             lib::pointer<position> get_position() { return pos; }
 

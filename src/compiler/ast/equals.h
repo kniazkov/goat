@@ -28,11 +28,11 @@ namespace g0at
 {
     namespace ast
     {
-        class assign : public token_operator
+        class equals : public token_operator
         {
         public:
             void accept(token_visitor *visitor) override;
-            assign *to_assign() override;
+            equals *to_equals() override;
             lib::pointer<token> create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right) override;
         };
     };

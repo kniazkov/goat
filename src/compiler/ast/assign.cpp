@@ -41,10 +41,5 @@ namespace g0at
         {
             return new assignment(left, right);
         }
-
-        lib::pointer<token> assign::create_unary_prefix_operation(lib::pointer<expression> right)
-        {
-            return nullptr;
-        }
     };
 };

@@ -44,6 +44,7 @@ namespace g0at
             ast::token_2nd_list return_keywords;
             ast::token_2nd_list pairs_of_curly_brackets;
             ast::token_2nd_list dots;
+            ast::token_2nd_list opers_equals_and_not;
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;

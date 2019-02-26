@@ -22,18 +22,18 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "token_operator.h"
+#include "binary.h"
 
 namespace g0at
 {
     namespace ast
     {
-        class assign : public token_operator
+        class is_equal_to : public binary
         {
         public:
+            is_equal_to(lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(token_visitor *visitor) override;
-            assign *to_assign() override;
-            lib::pointer<token> create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right) override;
+            is_equal_to *to_is_equal_to() override;
         };
     };
 };

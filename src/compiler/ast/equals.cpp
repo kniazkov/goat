@@ -20,20 +20,27 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "token_operator.h"
+#include "equals.h"
+#include "is_equal_to.h"
+#include <assert.h>
 
 namespace g0at
 {
     namespace ast
     {
-        class assign : public token_operator
+        void equals::accept(token_visitor *visitor)
         {
-        public:
-            void accept(token_visitor *visitor) override;
-            assign *to_assign() override;
-            lib::pointer<token> create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right) override;
-        };
+            visitor->visit(this);
+        }
+
+        equals *equals::to_equals()
+        {
+            return this;
+        }
+
+        lib::pointer<token> equals::create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right)
+        {
+            return new is_equal_to(left, right);
+        }
     };
 };
