@@ -66,6 +66,8 @@ namespace g0at
             void visit(pt::property *ref) override;
             void visit(pt::value_true *ref) override;
             void visit(pt::value_false *ref) override;
+            void visit(pt::is_equal_to *ref) override;
+            void visit(pt::is_not_equal_to *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

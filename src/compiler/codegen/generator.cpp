@@ -37,6 +37,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_return.h"
 #include "compiler/pt/node_object.h"
 #include "compiler/pt/property.h"
+#include "compiler/pt/is_equal_to.h"
+#include "compiler/pt/is_not_equal_to.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -58,6 +60,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/load_prop.h"
 #include "code/load_true.h"
 #include "code/load_false.h"
+#include "code/eq.h"
+#include "code/neq.h"
 #include <assert.h>
 
 namespace g0at
@@ -258,6 +262,20 @@ namespace g0at
         void generator::visit(pt::value_false *ref)
         {
             code->add_instruction(new code::load_false());
+        }
+
+        void generator::visit(pt::is_equal_to *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new code::eq());
+        }
+
+        void generator::visit(pt::is_not_equal_to *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new code::neq());
         }
     };
 };

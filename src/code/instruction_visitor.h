@@ -48,6 +48,8 @@ namespace g0at
         class load_prop;
         class load_true;
         class load_false;
+        class eq;
+        class neq;
 
         class instruction_visitor
         {
@@ -76,6 +78,8 @@ namespace g0at
             virtual void visit(load_prop *ref) = 0;
             virtual void visit(load_true *ref) = 0;
             virtual void visit(load_false *ref) = 0;
+            virtual void visit(eq *ref) = 0;
+            virtual void visit(neq *ref) = 0;
         };
     };
 };

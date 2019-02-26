@@ -200,5 +200,15 @@ namespace g0at
         {
             stream << L"false";
         }
+
+        void disasm::visit(eq *ref)
+        {
+            stream << L"eq";
+        }
+
+        void disasm::visit(neq *ref)
+        {
+            stream << L"neq";
+        }
     };
 };
