@@ -37,9 +37,12 @@ namespace g0at
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
             bool get_real(double *pval) override;
+
             void op_add(thread *thr) override;
             void op_sub(thread *thr) override;
             void op_neg(thread *thr) override;
+            void op_eq(thread *thr) override;
+            void op_neq(thread *thr) override;
 
             double get_value() { return value; }
 
@@ -47,7 +50,8 @@ namespace g0at
             double value;
 
             template <template<typename R, typename A> class F> void unary_operation(thread *thr);
-            template <template<typename R, typename X, typename Y> class F> void binary_operation(thread *thr);
+            template <template<typename R, typename X, typename Y> class F> void binary_math_operation(thread *thr);
+            template <template<typename R, typename X, typename Y> class F, bool Def> void binary_logical_operation(thread *thr);
         };
 
         class object_real_proto : public object

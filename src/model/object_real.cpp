@@ -66,17 +66,27 @@ namespace g0at
 
         void object_real::op_add(thread *thr)
         {
-            binary_operation<lib::func::plus>(thr);
+            binary_math_operation<lib::func::plus>(thr);
         }
 
         void object_real::op_sub(thread *thr)
         {
-            binary_operation<lib::func::minus>(thr);
+            binary_math_operation<lib::func::minus>(thr);
         }
 
         void object_real::op_neg(thread *thr)
         {
             unary_operation<lib::func::neg>(thr);
+        }
+
+        void object_real::op_eq(thread *thr)
+        {
+            binary_logical_operation<lib::func::equals, false>(thr);
+        }
+
+        void object_real::op_neq(thread *thr)
+        {
+            binary_logical_operation<lib::func::not_equal, true>(thr);
         }
 
         template <template<typename R, typename A> class F> void object_real::unary_operation(thread *thr)
@@ -87,7 +97,7 @@ namespace g0at
             thr->push(result);
         }
 
-        template <template<typename R, typename X, typename Y> class F> void object_real::binary_operation(thread *thr)
+        template <template<typename R, typename X, typename Y> class F> void object_real::binary_math_operation(thread *thr)
         {
             thr->pop();
             variable right = thr->pop();
@@ -96,6 +106,24 @@ namespace g0at
             assert(right_is_real);
             variable result;
             result.set_real(F<double, double, double>::calculate(value, right_value));
+            thr->push(result);
+        }
+
+        template <template<typename R, typename X, typename Y> class F, bool Def> void object_real::binary_logical_operation(thread *thr)
+        {
+            thr->pop();
+            variable right = thr->pop();
+            double right_value;
+            bool right_is_real = right.get_real(&right_value);
+            variable result;
+            if(right_is_real)
+            {
+                result.set_boolean(F<bool, double, double>::calculate(value, right_value));
+            }
+            else
+            {
+                result.set_boolean(Def);
+            }
             thr->push(result);
         }
 
@@ -151,17 +179,27 @@ namespace g0at
 
             void op_add(variable *var, thread *thr)  override
             {
-                binary_operation<lib::func::plus>(var, thr);
+                binary_math_operation<lib::func::plus>(var, thr);
             }
 
             void op_sub(variable *var, thread *thr)  override
             {
-                binary_operation<lib::func::minus>(var, thr);
+                binary_math_operation<lib::func::minus>(var, thr);
             }
 
             void op_neg(variable *var, thread *thr)  override
             {
                 unary_operation<lib::func::neg>(var, thr);
+            }
+
+            void op_eq(variable *var, thread *thr)  override
+            {
+                binary_logical_operation<lib::func::equals, false>(var, thr);
+            }
+
+            void op_neq(variable *var, thread *thr)  override
+            {
+                binary_logical_operation<lib::func::not_equal, false>(var, thr);
             }
 
         protected:
@@ -177,7 +215,7 @@ namespace g0at
                 thr->push(result);
             }
 
-            template <template<typename R, typename X, typename Y> class F> void binary_operation(variable *var, thread *thr)
+            template <template<typename R, typename X, typename Y> class F> void binary_math_operation(variable *var, thread *thr)
             {
                 thr->pop();
                 variable right = thr->pop();
@@ -186,6 +224,24 @@ namespace g0at
                 assert(right_is_real);
                 variable result;
                 result.set_real(F<double, double, double>::calculate(var->data.r, right_value));
+                thr->push(result);
+            }
+
+            template <template<typename R, typename X, typename Y> class F, bool Def> void binary_logical_operation(variable *var, thread *thr)
+            {
+                thr->pop();
+                variable right = thr->pop();
+                double right_value;
+                bool right_is_real = right.get_real(&right_value);
+                variable result;
+                if(right_is_real)
+                {
+                    result.set_boolean(F<bool, double, double>::calculate(var->data.r, right_value));
+                }
+                else
+                {
+                    result.set_boolean(Def);
+                }
                 thr->push(result);
             }
         };
