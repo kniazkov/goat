@@ -39,6 +39,39 @@ namespace g0at
             }
         };
 
+        static int encode_utf8_char(wchar_t w, char *c)
+        {
+            if (w < 0x80)
+            {
+                c[0] = (char)w;
+                return 1;
+            }
+            if (w < 0x800)
+            {
+                c[0] = (char)((w & 0x7C0) >> 6) + 0xC0;
+                c[1] = (char)(w & 0x3F) + 0x80;
+                return 2;
+            }
+            if (w < 0x10000)
+            {
+                c[0] = (char)((w & 0xF000) >> 12) + 0xE0;
+                c[1] = (char)((w & 0xFC0) >> 6) + 0x80;
+                c[2] = (char)(w & 0x3F) + 0x80;
+                return 3;
+            }
+#if WCHAR_MAX > 0xFFFF
+            if (w < 0x200000)
+            {
+                c[0] = (char)((w & 0x1C0000) >> 18) + 0xF0;
+                c[1] = (char)((w & 0x3F000) >> 12) + 0x80;
+                c[2] = (char)((w & 0xFC0) >> 6) + 0x80;
+                c[3] = (char)(w & 0x3F) + 0x80;
+                return 3;
+            }
+#endif
+		    return 0;
+        }
+
         utf8_encoder::utf8_encoder()
         {
         }
@@ -51,12 +84,17 @@ namespace g0at
 
         std::string utf8_encoder::encode(std::wstring wstr)
         {
+            return encode_utf8(wstr);
+        }
+
+        std::string encode_utf8(std::wstring wstr)
+        {
             std::stringstream ss;
             int i, n;
             char tmp[4];
             for (wchar_t w : wstr)
             {
-                n = encode_char(w, tmp);
+                n = encode_utf8_char(w, tmp);
                 assert(n > 0);
                 for (i = 0; i < n; i++)
                     ss << tmp[i];
@@ -65,6 +103,11 @@ namespace g0at
         }
 
         std::wstring utf8_encoder::decode(std::string str)
+        {
+            return decode_utf8(str);
+        }
+
+        std::wstring decode_utf8(std::string str)
         {
             unsigned int i = 0,
                 len = str.size();
@@ -132,39 +175,6 @@ namespace g0at
                 wss << w;
             }
             return wss.str();
-        }
-
-        int utf8_encoder::encode_char(wchar_t w, char *c)
-        {
-            if (w < 0x80)
-            {
-                c[0] = (char)w;
-                return 1;
-            }
-            if (w < 0x800)
-            {
-                c[0] = (char)((w & 0x7C0) >> 6) + 0xC0;
-                c[1] = (char)(w & 0x3F) + 0x80;
-                return 2;
-            }
-            if (w < 0x10000)
-            {
-                c[0] = (char)((w & 0xF000) >> 12) + 0xE0;
-                c[1] = (char)((w & 0xFC0) >> 6) + 0x80;
-                c[2] = (char)(w & 0x3F) + 0x80;
-                return 3;
-            }
-#if WCHAR_MAX > 0xFFFF
-            if (w < 0x200000)
-            {
-                c[0] = (char)((w & 0x1C0000) >> 18) + 0xF0;
-                c[1] = (char)((w & 0x3F000) >> 12) + 0x80;
-                c[2] = (char)((w & 0xFC0) >> 6) + 0x80;
-                c[3] = (char)(w & 0x3F) + 0x80;
-                return 3;
-            }
-#endif
-		    return 0;
         }
     };
 };

@@ -22,40 +22,49 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <string>
 #include <cstdint>
 
 namespace g0at
 {
-    namespace lib
+    namespace code
     {
-        union uint16_converter
+        enum class opcode : uint16_t
         {
-            uint8_t buff[2];
-            uint16_t val;
-        };
+            nop,
+            end,
 
-        union int32_converter
-        {
-            uint8_t buff[4];
-            uint32_t val;
-        };
+            pop,
 
-        union int64_converter
-        {
-            uint8_t buff[8];
-            uint64_t val;
-        };
+            load,
+            prop,
+            sload,
+            iload,
+            rload,
 
-        union double_converter
-        {
-            uint8_t buff[8];
-            double val;
-        };
+            void_,
+            undefined,
+            null,
+            true_,
+            false_,
 
-        const char *file_name_from_full_path(const char *path);
-        std::wstring double_to_wstring(double value);
-        std::wstring double_to_wstring(double value, int precision);
-        std::wstring escape_special_chars(std::wstring src);
+            func,
+            create,
+
+            var,
+            store,
+
+            call,
+            ret,
+            retv,
+            ifnot,
+            jmp,
+
+            add,
+            sub,
+            neg,
+
+            eq,
+            neq
+        };
     };
 };

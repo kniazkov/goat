@@ -29,6 +29,9 @@ namespace g0at
 {
     namespace lib
     {
+        std::string encode_utf8(std::wstring wstr);
+        std::wstring decode_utf8(std::string str);
+        
         class utf8_encoder : public char_encoder
         {
         public:
@@ -38,7 +41,6 @@ namespace g0at
 
         protected:
             utf8_encoder();
-            static int encode_char(wchar_t w, char *c);
         };
     };
 };
