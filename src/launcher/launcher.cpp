@@ -38,6 +38,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <exception>
 #include <assert.h>
+#include <fstream>
+#include <streambuf>
+#include <cstring>
 #ifdef _WIN32
 #include <io.h>
 #include <fcntl.h>
@@ -85,6 +88,30 @@ namespace g0at
         {
             throw no_input_file();
         }
+        if (opt.bin)
+        {
+            std::vector<uint8_t> binary;
+            std::ifstream bin_file(opt.prog_name);
+            if (bin_file.good() == false)
+            {
+                //throw file_not_found(_file_name);
+                assert(false);
+            }
+            bin_file.seekg(0, std::ios::end);
+            binary.reserve((size_t)bin_file.tellg());
+            bin_file.seekg(0, std::ios::beg);
+            binary.assign((std::istreambuf_iterator<char>(bin_file)),
+                        std::istreambuf_iterator<char>());
+            auto code = code::deserializer::deserialize(binary);
+            if (opt.dump_assembler_code)
+            {
+                std::cout << global::char_encoder->encode(code::disasm::to_string(code)) << std::endl;
+            }
+            vm::vm vm(code);
+            vm.run();
+            return 0;
+        }
+
         source_file src(opt.prog_name);
         scanner scan(&src);
         auto tok_root = parser::parser::parse(&scan, opt.dump_abstract_syntax_tree);
@@ -99,10 +126,6 @@ namespace g0at
             std::cout << global::char_encoder->encode(pt::dbg_output::to_string(node_root)) << std::endl;
         }
         auto code = codegen::generator::generate(node_root);
-        if (opt.dump_assembler_code)
-        {
-            std::cout << global::char_encoder->encode(code::disasm::to_string(code)) << std::endl;
-        }
         std::vector<uint8_t> binary;
         code::serializer::serialize(code, binary);
         auto code_2 = code::deserializer::deserialize(binary);
@@ -110,10 +133,21 @@ namespace g0at
         {
             std::cout << global::char_encoder->encode(code::disasm::to_string(code_2)) << std::endl;
         }
-        if (!opt.compile_only)
+        if (!opt.compile)
         {
             vm::vm vm(code_2);
             vm.run();
+        }
+        else
+        {
+            auto name_len = std::strlen(opt.prog_name);
+            char *tmp = new char[name_len + 4 + 1];
+            strcpy(tmp, opt.prog_name);
+            strcat(tmp, ".bin");
+            std::ofstream bin_file(tmp);
+            bin_file.write((const char*)(&binary[0]), binary.size());
+            bin_file.close();
+            delete tmp;
         }
         return 0;
     }

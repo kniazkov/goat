@@ -37,6 +37,7 @@ namespace g0at
         bool dump_abstract_syntax_tree;
         bool dump_parse_tree;
         bool dump_assembler_code;
-        bool compile_only;
+        bool compile;
+        bool bin;
     };
 };

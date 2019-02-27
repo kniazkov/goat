@@ -41,7 +41,8 @@ namespace g0at
             dump_abstract_syntax_tree(false),
             dump_parse_tree(false),
             dump_assembler_code(false),
-            compile_only(false)
+            compile(false),
+            bin(false)
     {
     }
 
@@ -72,9 +73,13 @@ namespace g0at
                 {
                     global::resource = resource::resource::get_instance(arg + 7);
                 }
-                else if (0 == std::strcmp(arg + 2, "compile-only"))
+                else if (0 == std::strcmp(arg + 2, "compile"))
                 {
-                    opt.compile_only = true;
+                    opt.compile = true;
+                }
+                else if (0 == std::strcmp(arg + 2, "bin"))
+                {
+                    opt.bin = true;
                 }
                 else if (0 == std::strncmp(arg + 2, "lib=", 4))
                 {
