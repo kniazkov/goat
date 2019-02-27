@@ -68,6 +68,7 @@ namespace g0at
             static double pop_double(source *src);
             static std::wstring pop_wstring(source *src);
             
+            static void creator_nop(source *src, code *dst);
             static void creator_load_string(source *src, code *dst);
             static void creator_load_var(source *src, code *dst);
             static void creator_call(source *src, code *dst);

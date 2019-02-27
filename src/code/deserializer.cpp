@@ -146,7 +146,7 @@ namespace g0at
             if (size > 0)
             {
                 char *tmp = new char[size + 1];
-                tmp[size = 0];
+                tmp[size] = 0;
                 for (int32_t i = 0; i < size; i++)
                 {
                     tmp[i] = src->pop();
@@ -159,6 +159,11 @@ namespace g0at
             {
                 return L"";                
             }
+        }
+
+        void deserializer::creator_nop(source *src, code *dst)
+        {
+
         }
 
         void deserializer::creator_load_string(source *src, code *dst)
@@ -312,8 +317,9 @@ namespace g0at
 
         deserializer::deserializer()
         {
+            creators[opcode::nop]       = creator_nop;
             creators[opcode::sload]     = creator_load_string;
-            creators[opcode::var]       = creator_load_var;
+            creators[opcode::load]       = creator_load_var;
             creators[opcode::call]      = creator_call;
             creators[opcode::pop]       = creator_pop;
             creators[opcode::end]       = creator_end;

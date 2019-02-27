@@ -51,19 +51,21 @@ namespace g0at
             buff.push_back('a');
             buff.push_back('t');
             int i;
+
             auto i_list = code->get_identifiers_list();
             int i_list_size = (int)i_list.size();
+            push_int32(buff, i_list_size);
             for (i = 0; i < i_list_size; i++)
             {
                 push_wstring(buff, i_list[i]);
             }
+
             serializer visitor(buff);
             int code_size = code->get_code_size();
             for (i = 0; i < code_size; i++)
             {
                 code->get_instruction(i)->accept(&visitor);
             }
-            push_opcode(buff, opcode::nop);
         }
 
         serializer::serializer(std::vector<uint8_t> &_buff)

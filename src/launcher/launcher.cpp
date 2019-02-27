@@ -32,6 +32,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/dbg_output.h"
 #include "compiler/codegen/generator.h"
 #include "code/disasm.h"
+#include "code/serializer.h"
+#include "code/deserializer.h"
 #include "vm/vm.h"
 #include <iostream>
 #include <exception>
@@ -85,25 +87,32 @@ namespace g0at
         }
         source_file src(opt.prog_name);
         scanner scan(&src);
-        auto tok_root = g0at::parser::parser::parse(&scan, opt.dump_abstract_syntax_tree);
+        auto tok_root = parser::parser::parse(&scan, opt.dump_abstract_syntax_tree);
         if (opt.dump_abstract_syntax_tree)
         {
-            std::cout << global::char_encoder->encode(g0at::ast::dbg_output::to_string(tok_root.get())) << std::endl;
+            std::cout << global::char_encoder->encode(ast::dbg_output::to_string(tok_root.get())) << std::endl;
         }
-        auto node_root = g0at::analyzer::analyzer::analyze(tok_root);
+        auto node_root = analyzer::analyzer::analyze(tok_root);
         tok_root.reset();
         if (opt.dump_parse_tree)
         {
-            std::cout << global::char_encoder->encode(g0at::pt::dbg_output::to_string(node_root)) << std::endl;
+            std::cout << global::char_encoder->encode(pt::dbg_output::to_string(node_root)) << std::endl;
         }
-        auto code = g0at::codegen::generator::generate(node_root);
+        auto code = codegen::generator::generate(node_root);
         if (opt.dump_assembler_code)
         {
-            std::cout << global::char_encoder->encode(g0at::code::disasm::to_string(code)) << std::endl;
+            std::cout << global::char_encoder->encode(code::disasm::to_string(code)) << std::endl;
+        }
+        std::vector<uint8_t> binary;
+        code::serializer::serialize(code, binary);
+        auto code_2 = code::deserializer::deserialize(binary);
+        if (opt.dump_assembler_code)
+        {
+            std::cout << global::char_encoder->encode(code::disasm::to_string(code_2)) << std::endl;
         }
         if (!opt.compile_only)
         {
-            vm::vm vm(code);
+            vm::vm vm(code_2);
             vm.run();
         }
         return 0;
