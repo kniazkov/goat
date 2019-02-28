@@ -21,7 +21,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "source_file.h"
-#include "global/global.h"
 #include "lib/utils.h"
 #include "lib/exception.h"
 #include <string>
@@ -32,15 +31,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    class file_not_found : public lib::exception
-    {
-    public:
-        file_not_found(const char *file_name)
-            : exception(global::resource->file_not_found(file_name))
-        {
-        }
-    };
-
     class source_file_position : public position
     {
     public:
@@ -75,7 +65,7 @@ namespace g0at
         std::ifstream stream(_file_name);
         if (stream.good() == false)
         {
-            throw file_not_found(_file_name);            
+            throw lib::file_not_found(_file_name);            
         }
         stream.seekg(0, std::ios::end);
         temp.reserve((size_t)stream.tellg());

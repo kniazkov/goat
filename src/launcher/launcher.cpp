@@ -94,8 +94,7 @@ namespace g0at
             std::ifstream bin_file(opt.prog_name);
             if (bin_file.good() == false)
             {
-                //throw file_not_found(_file_name);
-                assert(false);
+                throw lib::file_not_found(opt.prog_name);
             }
             bin_file.seekg(0, std::ios::end);
             binary.reserve((size_t)bin_file.tellg());
@@ -109,45 +108,46 @@ namespace g0at
             }
             vm::vm vm(code);
             vm.run();
-            return 0;
-        }
-
-        source_file src(opt.prog_name);
-        scanner scan(&src);
-        auto tok_root = parser::parser::parse(&scan, opt.dump_abstract_syntax_tree);
-        if (opt.dump_abstract_syntax_tree)
-        {
-            std::cout << global::char_encoder->encode(ast::dbg_output::to_string(tok_root.get())) << std::endl;
-        }
-        auto node_root = analyzer::analyzer::analyze(tok_root);
-        tok_root.reset();
-        if (opt.dump_parse_tree)
-        {
-            std::cout << global::char_encoder->encode(pt::dbg_output::to_string(node_root)) << std::endl;
-        }
-        auto code = codegen::generator::generate(node_root);
-        std::vector<uint8_t> binary;
-        code::serializer::serialize(code, binary);
-        auto code_2 = code::deserializer::deserialize(binary);
-        if (opt.dump_assembler_code)
-        {
-            std::cout << global::char_encoder->encode(code::disasm::to_string(code_2)) << std::endl;
-        }
-        if (!opt.compile)
-        {
-            vm::vm vm(code_2);
-            vm.run();
         }
         else
         {
-            auto name_len = std::strlen(opt.prog_name);
-            char *tmp = new char[name_len + 4 + 1];
-            strcpy(tmp, opt.prog_name);
-            strcat(tmp, ".bin");
-            std::ofstream bin_file(tmp);
-            bin_file.write((const char*)(&binary[0]), binary.size());
-            bin_file.close();
-            delete tmp;
+            source_file src(opt.prog_name);
+            scanner scan(&src);
+            auto tok_root = parser::parser::parse(&scan, opt.dump_abstract_syntax_tree);
+            if (opt.dump_abstract_syntax_tree)
+            {
+                std::cout << global::char_encoder->encode(ast::dbg_output::to_string(tok_root.get())) << std::endl;
+            }
+            auto node_root = analyzer::analyzer::analyze(tok_root);
+            tok_root.reset();
+            if (opt.dump_parse_tree)
+            {
+                std::cout << global::char_encoder->encode(pt::dbg_output::to_string(node_root)) << std::endl;
+            }
+            auto code = codegen::generator::generate(node_root);
+            std::vector<uint8_t> binary;
+            code::serializer::serialize(code, binary);
+            auto code_2 = code::deserializer::deserialize(binary);
+            if (opt.dump_assembler_code)
+            {
+                std::cout << global::char_encoder->encode(code::disasm::to_string(code_2)) << std::endl;
+            }
+            if (!opt.compile)
+            {
+                vm::vm vm(code_2);
+                vm.run();
+            }
+            else
+            {
+                auto name_len = std::strlen(opt.prog_name);
+                char *tmp = new char[name_len + 4 + 1];
+                strcpy(tmp, opt.prog_name);
+                strcat(tmp, ".bin");
+                std::ofstream bin_file(tmp);
+                bin_file.write((const char*)(&binary[0]), binary.size());
+                bin_file.close();
+                delete tmp;
+            }
         }
         return 0;
     }

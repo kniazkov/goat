@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "global/global.h"
 #include <exception>
 #include <string>
 
@@ -37,6 +38,15 @@ namespace g0at
 
         protected:
             std::string data;
+        };
+
+        class file_not_found : public lib::exception
+        {
+        public:
+            file_not_found(const char *file_name)
+                : exception(global::resource->file_not_found(file_name))
+            {
+            }
         };
     };
 };
