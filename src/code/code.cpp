@@ -40,8 +40,6 @@ namespace g0at
 
         void code::add_instruction(instruction *instr)
         {
-            uint32_t id = instructions.size();
-            instr->id = id;
             instructions.push_back(instr);
         }
     }

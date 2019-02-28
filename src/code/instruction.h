@@ -32,17 +32,11 @@ namespace g0at
     {
         class instruction
         {
-        friend class code;
         public:
             instruction();
             ~instruction();
             virtual void accept(instruction_visitor *visitor) = 0;
             virtual void exec(model::thread *thr) = 0;
-
-            uint32_t get_id() { return id; }
-
-        private:
-            uint32_t id;
         };
     };
 };
