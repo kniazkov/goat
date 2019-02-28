@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "global/global.h"
 #include "lib/exception.h"
 #include <cstring>
+#include <cstdlib>
 
 namespace g0at
 {
@@ -48,6 +49,12 @@ namespace g0at
 
     void options::parse(int argc, char **argv, options &opt)
     {
+        const char *env_language = std::getenv("GOAT_LANGUAGE");
+        if (env_language)
+        {
+            global::resource = resource::resource::get_instance(env_language);
+        }
+
         for (int i = 1; i < argc; i++)
         {
             char *arg = argv[i];

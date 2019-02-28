@@ -166,7 +166,7 @@ namespace g0at
 
             std::wstring is_not_binary_file() override
             {
-                return L"'это не исполняемый файл goat'";
+                return L"это не исполняемый файл goat";
             }
 
             std::wstring file_is_corrupted() override

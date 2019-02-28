@@ -29,11 +29,14 @@ namespace g0at
     {
         resource * resource::get_instance(const char *lang)
         {
-            if (0 == std::strcmp(lang, "ru") || 0 == std::strcmp(lang, "russian"))
-                return get_intance_ru();
+            if (lang)
+            {
+                if (0 == std::strcmp(lang, "ru") || 0 == std::strcmp(lang, "russian"))
+                    return get_intance_ru();
 
-            if (0 == std::strcmp(lang, "en") || 0 == std::strcmp(lang, "english"))
-                return get_intance_en();
+                if (0 == std::strcmp(lang, "en") || 0 == std::strcmp(lang, "english"))
+                    return get_intance_en();
+            }
 
             // default:
 
