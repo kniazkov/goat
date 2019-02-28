@@ -31,5 +31,6 @@ namespace g0at
     {
         extern lib::char_encoder *char_encoder;
         extern resource::resource *resource;
+        extern bool debug;
     }
 };

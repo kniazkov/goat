@@ -55,6 +55,12 @@ namespace g0at
             global::resource = resource::resource::get_instance(env_language);
         }
 
+        const char *env_debug = std::getenv("GOAT_DEBUG");
+        if (env_debug && 0 == std::strcmp(env_debug, "1"))
+        {
+            global::debug = true;
+        }
+
         for (int i = 1; i < argc; i++)
         {
             char *arg = argv[i];
@@ -87,6 +93,10 @@ namespace g0at
                 else if (0 == std::strcmp(arg + 2, "bin"))
                 {
                     opt.bin = true;
+                }
+                else if (0 == std::strcmp(arg + 2, "debug"))
+                {
+                    global::debug = true;
                 }
                 else if (0 == std::strncmp(arg + 2, "lib=", 4))
                 {

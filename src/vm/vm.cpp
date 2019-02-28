@@ -45,18 +45,37 @@ namespace g0at
             model::context *ctx = model::built_in::context_factory(&o_list, &cache).create_context();
             model::thread thr(ctx, &o_list, &cache);
             thr.state = model::thread_state::ok;
-            while(thr.state == model::thread_state::ok)
+            if (!global::debug)
             {
-                uint32_t iid = thr.iid;
-                thr.iid++;
-                auto instr = code->get_instruction(iid);
-                instr->exec(&thr);
+                while(thr.state == model::thread_state::ok)
+                {
+                    uint32_t iid = thr.iid;
+                    thr.iid++;
+                    auto instr = code->get_instruction(iid);
+                    instr->exec(&thr);
 #if 0                
-                std::wstringstream tmp;
-                code::disasm visitor(tmp, code->get_identifiers_list());
-                instr->accept(&visitor);
-                std::cout << std::endl << instr->get_id() << "\t" << global::char_encoder->encode(tmp.str()) << " (" << thr.get_stack_size() << ") ";
+                    std::wstringstream tmp;
+                    code::disasm visitor(tmp, code->get_identifiers_list());
+                    instr->accept(&visitor);
+                    std::cout << std::endl << instr->get_id() << "\t" << global::char_encoder->encode(tmp.str()) << " (" << thr.get_stack_size() << ") ";
 #endif
+                }
+            }
+            else
+            {
+                // debug mode
+                while(thr.state == model::thread_state::ok)
+                {
+                    uint32_t iid = thr.iid;
+                    thr.iid++;
+                    auto instr = code->get_instruction(iid);
+                    instr->exec(&thr);
+                    if (!thr.stack_is_empty())
+                    {
+                        // convert any value to real object
+                        thr.peek().to_object(&o_list);
+                    }
+                }
             }
             assert(thr.stack_is_empty());
             o_list.destroy_all();
