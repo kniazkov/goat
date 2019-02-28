@@ -90,7 +90,7 @@ namespace g0at
                 throw is_not_binary_file();
             
             int32_t i_list_size = pop_int32(&src);
-            std::vector<std::wstring> i_list;
+            std::vector<std::wstring> &i_list = dst->get_identifiers_list();
             while(src.has_data() && i_list_size > 0)
             {
                 i_list.push_back(pop_wstring(&src));
@@ -98,7 +98,6 @@ namespace g0at
             }
             if (i_list_size != 0)
                 throw file_is_corrupted();
-            dst->set_identifiers_list(i_list);
             
             deserializer d_obj;
             while(src.has_data())
