@@ -163,6 +163,16 @@ namespace g0at
             {
                 return L"expected a conditional expression";
             }
+
+            std::wstring is_not_binary_file() override
+            {
+                return L"is not goat binary file";
+            }
+
+            std::wstring file_is_corrupted() override
+            {
+                return L"file is corrupted";
+            }
         };
 
         resource *resource::get_intance_en()

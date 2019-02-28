@@ -163,6 +163,16 @@ namespace g0at
             {
                 return L"ожидается выражение-условие";
             }
+
+            std::wstring is_not_binary_file() override
+            {
+                return L"'это не исполняемый файл goat'";
+            }
+
+            std::wstring file_is_corrupted() override
+            {
+                return L"файл повреждён";
+            }
         };
 
         resource *resource::get_intance_ru()

@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "opcode.h"
 #include "lib/utils.h"
 #include "lib/utf8_encoder.h"
+#include "lib/exception.h"
 #include <assert.h>
 #include <memory.h>
 #include "load_string.h"
@@ -57,24 +58,46 @@ namespace g0at
 {
     namespace code
     {
+        class is_not_binary_file : public lib::exception
+        {
+        public:
+            is_not_binary_file()
+                : exception(global::resource->is_not_binary_file())
+            {
+            }
+        };
+
+        class file_is_corrupted : public lib::exception
+        {
+        public:
+            file_is_corrupted()
+                : exception(global::resource->file_is_corrupted())
+            {
+            }
+        };
+
         lib::pointer<code> deserializer::deserialize(std::vector<uint8_t> &buff)
         {
             source src(buff);
             lib::pointer<code> dst = new code();
             
-            uint8_t header[4];
-            header[0] = src.pop();
-            header[1] = src.pop();
-            header[2] = src.pop();
-            header[3] = src.pop();
-            assert(memcmp((void*)header, (void*)"goat", 4) == 0); // exception
+            uint8_t header[sizeof(signature)];
+            for (unsigned k = 0; k < sizeof(signature); k++)
+            {
+                header[k] = src.pop();
+            }
+            if (memcmp((void*)header, (void*)signature, sizeof(signature)) != 0)
+                throw is_not_binary_file();
             
             int32_t i_list_size = pop_int32(&src);
             std::vector<std::wstring> i_list;
-            while(src.has_data() && i_list_size--)
+            while(src.has_data() && i_list_size > 0)
             {
                 i_list.push_back(pop_wstring(&src));
+                i_list_size--;
             }
+            if (i_list_size != 0)
+                throw file_is_corrupted();
             dst->set_identifiers_list(i_list);
             
             deserializer d_obj;
@@ -90,7 +113,8 @@ namespace g0at
         deserializer::creator deserializer::get_creator(opcode op)
         {
             auto iter = creators.find(op);
-            assert(iter != creators.end());
+            if(iter == creators.end())
+                throw file_is_corrupted();
             return iter->second;
         }
 

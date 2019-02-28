@@ -46,10 +46,10 @@ namespace g0at
         void serializer::serialize(lib::pointer<code> code, std::vector<uint8_t> &buff)
         {
             buff.clear();
-            buff.push_back('g');
-            buff.push_back('o');
-            buff.push_back('a');
-            buff.push_back('t');
+            for (unsigned k = 0; k < sizeof(signature); k++)
+            {
+                buff.push_back(signature[k]);
+            }
             int i;
 
             auto i_list = code->get_identifiers_list();

@@ -31,6 +31,8 @@ namespace g0at
 {
     namespace code
     {
+        const char signature[] = "goat ;)";
+
         class code : public lib::ref_counter
         {
         public:
