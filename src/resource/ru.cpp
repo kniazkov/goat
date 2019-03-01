@@ -173,6 +173,11 @@ namespace g0at
             {
                 return L"файл повреждён";
             }
+
+            std::wstring index_out_of_bounds() override
+            {
+                return L"индекс вышел за пределы массива";
+            }
         };
 
         resource *resource::get_intance_ru()

@@ -173,6 +173,11 @@ namespace g0at
             {
                 return L"file is corrupted";
             }
+
+            std::wstring index_out_of_bounds() override
+            {
+                return L"index out of bounds";
+            }
         };
 
         resource *resource::get_intance_en()

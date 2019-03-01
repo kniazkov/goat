@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object_list.h"
+#include "lib/light_vector.h"
 #include <map>
 #include <vector>
 #include <string>
@@ -140,7 +141,11 @@ namespace g0at
             object(object_list *list, bool has_proto);
 
             std::map<object*, variable, object_comparator> objects;
+#if 0
             std::vector<object*> proto;
+#else
+            lib::light_vector<object*, 2> proto;
+#endif
         };
 
         class generic_proto : public object

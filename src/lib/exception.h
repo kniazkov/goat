@@ -48,5 +48,14 @@ namespace g0at
             {
             }
         };
+
+        class index_out_of_bounds : public lib::exception
+        {
+        public:
+            index_out_of_bounds()
+                : exception(global::resource->index_out_of_bounds())
+            {
+            }
+        };
     };
 };

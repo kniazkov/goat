@@ -2,7 +2,7 @@
 mkdir -p build
 cd build
 cmake ../src
-make
+make -j8
 cd ..
 ls -l build/goat
 [ -f build/goat ] && cp build/goat .
