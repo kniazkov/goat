@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_pool.h"
 #include "object.h"
+#include <assert.h>
 #include "object_void.h"
 #include "object_undefined.h"
 #include "object_null.h"
@@ -29,7 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_integer.h"
 #include "object_function.h"
 #include "object_boolean.h"
-#include <assert.h>
+#include "object_real.h"
 
 namespace g0at
 {
@@ -45,6 +46,7 @@ namespace g0at
             integer_proto_instance = nullptr;
             function_proto_instance = nullptr;
             boolean_proto_instance = nullptr;
+            real_proto_instance = nullptr;
 
             init();
         }
@@ -97,6 +99,12 @@ namespace g0at
             return boolean_proto_instance;
         }
 
+        object *object_pool::get_real_proto_instance()
+        {
+            assert(real_proto_instance != nullptr);
+            return real_proto_instance;
+        }
+
         void object_pool::init()
         {
             generic_proto_instance = new generic_proto(this);
@@ -107,6 +115,7 @@ namespace g0at
             integer_proto_instance = new object_integer_proto(this);
             function_proto_instance = new object_function_proto(this);
             boolean_proto_instance = new object_boolean_proto(this);
+            real_proto_instance = new object_real_proto(this);
         }
     };
 };

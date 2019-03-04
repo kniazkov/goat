@@ -33,7 +33,7 @@ namespace g0at
         object_real::object_real(object_pool *pool, double _value)
             : object(pool), value(_value)
         {
-            proto.push_back(pool->get_integer_proto_instance());
+            proto.push_back(pool->get_real_proto_instance());
         }
 
         object_type object_real::get_type() const

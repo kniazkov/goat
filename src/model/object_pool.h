@@ -40,10 +40,12 @@ namespace g0at
                 population.add(item);
             }
 
+/*
             void remove(object *item)
             {
                 population.remove(item);
             }
+*/
 
             void destroy_all()
             {
@@ -58,6 +60,7 @@ namespace g0at
             object *get_integer_proto_instance();
             object *get_function_proto_instance();
             object *get_boolean_proto_instance();
+            object *get_real_proto_instance();
 
         private:
             object_pool(const object_pool &) { }
@@ -74,6 +77,7 @@ namespace g0at
             object *integer_proto_instance;
             object *function_proto_instance;
             object *boolean_proto_instance;
+            object *real_proto_instance;
         };
     };
 };
