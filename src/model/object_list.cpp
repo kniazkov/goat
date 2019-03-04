@@ -28,7 +28,7 @@ namespace g0at
     namespace model
     {
         object_list::object_list()
-            : first(nullptr), last(nullptr)
+            : first(nullptr), last(nullptr), count(0)
         {
         }
 
@@ -42,6 +42,7 @@ namespace g0at
             else
                 first = item;
             last = item;
+            count++;
         }
 
         void object_list::remove(object *item)
@@ -55,6 +56,7 @@ namespace g0at
                 item->next->prev = item->prev;
             else
                 last = item->prev;
+            count--;
         }
 
         void object_list::destroy_all()

@@ -132,7 +132,7 @@ namespace g0at
             
             bool item_should_be_deleted()
             {
-                return free_count > free_count_min && used_count * factor > free_count;
+                return free_count > free_count_min && free_count > used_count * factor;
             }
 
             void delete_or_cache_item(item *it)

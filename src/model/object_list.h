@@ -36,12 +36,15 @@ namespace g0at
             void remove(object *item);
             void destroy_all();
 
+            int get_count() { return count; }
+
             object *first;
             object *last;
 
-        private:
+        protected:
             object_list(const object_list &) { }
             void operator=(const object_list &) { }
+            int count;
         };
     };
 };

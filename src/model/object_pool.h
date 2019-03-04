@@ -30,6 +30,26 @@ namespace g0at
     {
         class object;
 
+        class object_pool_typed
+        {
+        public:
+            object_pool_typed()
+                : alive_count(0), factor(2), min_count(128)
+            {
+            }
+
+            void destroy_or_cache_object(object *obj);
+
+            bool object_should_be_destroyed()
+            {
+            }
+
+            int alive_count;
+            object_list dead;
+            int factor;
+            int min_count;
+        };
+
         class object_pool
         {
         public:
@@ -50,6 +70,12 @@ namespace g0at
             void destroy_all()
             {
                 population.destroy_all();
+                generic_objects.dead.destroy_all();
+                contexts.dead.destroy_all();
+                strings.dead.destroy_all();
+                integers.dead.destroy_all();
+                real_numbers.dead.destroy_all();
+                booleans.dead.destroy_all();
             }
 
             object *get_generic_proto_instance();
@@ -62,12 +88,25 @@ namespace g0at
             object *get_boolean_proto_instance();
             object *get_real_proto_instance();
 
+            object_pool_typed *get_pool_generic_objects() { return &generic_objects; }
+            object_pool_typed *get_pool_contexts() { return &contexts; }
+            object_pool_typed *get_pool_strings() { return &strings; }
+            object_pool_typed *get_pool_integers() { return &integers; }
+            object_pool_typed *get_pool_real_numbers() { return &real_numbers; }
+            object_pool_typed *get_pool_booleans() { return &booleans; }
+
         private:
             object_pool(const object_pool &) { }
             void operator=(const object_pool &) { }
             void init();
             
             object_list population;
+            object_pool_typed generic_objects;
+            object_pool_typed contexts;
+            object_pool_typed strings;
+            object_pool_typed integers;
+            object_pool_typed real_numbers;
+            object_pool_typed booleans;
 
             object *generic_proto_instance;
             object *void_instance;
