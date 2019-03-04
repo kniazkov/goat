@@ -185,6 +185,14 @@ namespace g0at
                 wss << L"утечка памяти; блоков: " << blocks_count << L", байт: " << size;
                 return wss.str();
             }
+
+            std::wstring memory_usage_report(unsigned long int max_size) override
+            {
+                std::wstringstream wss;
+                wss << L"Отчет об использованной памяти" << std::endl <<
+                    "  максимально выделено, байт: " << max_size;
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_ru()

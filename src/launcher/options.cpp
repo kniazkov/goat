@@ -43,7 +43,8 @@ namespace g0at
             dump_parse_tree(false),
             dump_assembler_code(false),
             compile(false),
-            bin(false)
+            bin(false),
+            print_memory_usage_report(false)
     {
     }
 
@@ -97,6 +98,10 @@ namespace g0at
                 else if (0 == std::strcmp(arg + 2, "debug"))
                 {
                     global::debug = true;
+                }
+                else if (0 == std::strcmp(arg + 2, "print-memory-usage-report"))
+                {
+                    opt.print_memory_usage_report = true;
                 }
                 else if (0 == std::strncmp(arg + 2, "lib=", 4))
                 {

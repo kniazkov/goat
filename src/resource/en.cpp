@@ -185,6 +185,14 @@ namespace g0at
                 wss << L"memory leak; blocks: " << blocks_count << L", bytes: " << size;
                 return wss.str();
             }
+
+            std::wstring memory_usage_report(unsigned long int max_size) override
+            {
+                std::wstringstream wss;
+                wss << L"Memory usage report" << std::endl <<
+                    "  peak usage, bytes: " << max_size;
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_en()

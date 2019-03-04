@@ -120,6 +120,11 @@ namespace g0at
             }
             vm::vm vm(code);
             vm.run();
+            if (opt.print_memory_usage_report)
+            {
+                std::cout << global::char_encoder->encode(global::resource->memory_usage_report(
+                    lib::get_max_used_memory_size())) << std::endl;
+            }
         }
         else
         {
@@ -159,6 +164,11 @@ namespace g0at
                 bin_file.write((const char*)(&binary[0]), binary.size());
                 bin_file.close();
                 delete tmp;
+            }
+            if (opt.print_memory_usage_report)
+            {
+                std::cout << global::char_encoder->encode(global::resource->memory_usage_report(
+                    lib::get_max_used_memory_size())) << std::endl;
             }
         }
         return 0;
