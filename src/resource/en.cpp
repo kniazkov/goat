@@ -178,6 +178,13 @@ namespace g0at
             {
                 return L"index out of bounds";
             }
+
+            std::wstring memory_leak(int blocks_count, unsigned long int size) override
+            {
+                std::wstringstream wss;
+                wss << L"memory leak; blocks: " << blocks_count << L", bytes: " << size;
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_en()

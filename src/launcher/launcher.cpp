@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "launcher.h"
 #include "lib/ref_counter.h"
 #include "lib/exception.h"
+#include "lib/new.h"
 #include "global/global.h"
 #include "compiler/source/source_file.h"
 #include "compiler/scanner/scanner.h"
@@ -57,6 +58,15 @@ namespace g0at
         }
     };
 
+    class memory_leak : public lib::exception
+    {
+    public:
+        memory_leak(int blocks_count, unsigned long int size)
+            : exception(global::resource->memory_leak(blocks_count, size))
+        {
+        }
+    };
+
     int launcher::go(int argc, char **argv)
     {
 #ifdef _WIN32
@@ -68,7 +78,9 @@ namespace g0at
         {
             launcher l_obj(argc, argv);
             int ret_val = l_obj.go();
-            assert(g0at::lib::get_ref_counter_instances_count() == 0);
+            assert(lib::get_ref_counter_instances_count() == 0);
+            if (lib::get_used_memory_size() != 0)
+                throw memory_leak(lib::get_allocated_blocks_count(), lib::get_used_memory_size());
             return ret_val;
         }
         catch (std::exception &ex)

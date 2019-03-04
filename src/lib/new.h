@@ -29,6 +29,7 @@ namespace g0at
 {
     namespace lib
     {
+        int get_allocated_blocks_count();
         unsigned long int get_used_memory_size();
         unsigned long int get_max_used_memory_size();
 

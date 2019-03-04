@@ -178,6 +178,13 @@ namespace g0at
             {
                 return L"индекс вышел за пределы массива";
             }
+
+            std::wstring memory_leak(int blocks_count, unsigned long int size) override
+            {
+                std::wstringstream wss;
+                wss << L"утечка памяти; блоков: " << blocks_count << L", байт: " << size;
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_ru()

@@ -27,9 +27,15 @@ namespace g0at
 {
     namespace lib
     {
+        static int __allocated_blocks_count = 0;
         static unsigned long int __used_memory_size = 0;
         static unsigned long int __max_used_memory_size = 0;
         
+        int get_allocated_blocks_count()
+        {
+            return __allocated_blocks_count;
+        }
+
         unsigned long int get_used_memory_size()
         {
             return __used_memory_size;
@@ -57,6 +63,7 @@ namespace g0at
                 throw out_of_memory();
             d->size = size;
             __used_memory_size += sizeof(memory_descriptor) + size;
+            __allocated_blocks_count++;
             if (__max_used_memory_size < __used_memory_size)
                 __max_used_memory_size = __used_memory_size;
             return (void*)(d + 1);
@@ -68,6 +75,7 @@ namespace g0at
                 return;
             memory_descriptor *d = (memory_descriptor*)p - 1;
             __used_memory_size -= sizeof(memory_descriptor) + d->size;
+            __allocated_blocks_count--;
             std::free(d);
         }
     };
