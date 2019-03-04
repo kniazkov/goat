@@ -31,7 +31,7 @@ namespace g0at
         class object_boolean : public object
         {
         public:
-            object_boolean(object_list *list, bool _value);
+            object_boolean(object_pool *pool, bool _value);
             object_type get_type() const override;
             object_boolean *to_object_boolean() override;
             bool less(const object *obj) const override;
@@ -49,9 +49,9 @@ namespace g0at
 
         class object_boolean_proto : public object
         {
-        friend class object_list;
+        friend class object_pool;
         protected:
-            object_boolean_proto(object_list *list);
+            object_boolean_proto(object_pool *pool);
         };
     };
 };

@@ -30,22 +30,22 @@ namespace g0at
     {
         namespace built_in
         {
-            context_factory::context_factory(object_list *_list, object_cache *_cache)
-                : list(_list), cache(_cache)
+            context_factory::context_factory(object_pool *_pool, object_cache *_cache)
+                : pool(_pool), cache(_cache)
             {
             }
 
             context *context_factory::create_context()
             {
-                context *ctx = new context(list);
+                context *ctx = new context(pool);
 
-                ctx->add_object(cache->get_object(L"Void"), list->get_void_instance());
-                ctx->add_object(cache->get_object(L"Undefined"), list->get_undefined_instance());
-                ctx->add_object(cache->get_object(L"Null"), list->get_null_instance());
-                ctx->add_object(cache->get_object(L"String"), list->get_string_proto_instance());
-                ctx->add_object(cache->get_object(L"Integer"), list->get_integer_proto_instance());
-                ctx->add_object(cache->get_object(L"Function"), list->get_function_proto_instance());
-                ctx->add_object(cache->get_object(L"Boolean"), list->get_boolean_proto_instance());
+                ctx->add_object(cache->get_object(L"Void"), pool->get_void_instance());
+                ctx->add_object(cache->get_object(L"Undefined"), pool->get_undefined_instance());
+                ctx->add_object(cache->get_object(L"Null"), pool->get_null_instance());
+                ctx->add_object(cache->get_object(L"String"), pool->get_string_proto_instance());
+                ctx->add_object(cache->get_object(L"Integer"), pool->get_integer_proto_instance());
+                ctx->add_object(cache->get_object(L"Function"), pool->get_function_proto_instance());
+                ctx->add_object(cache->get_object(L"Boolean"), pool->get_boolean_proto_instance());
 
                 ctx->add_object(cache->get_object(L"print"), create_function_print());
                 ctx->add_object(cache->get_object(L"println"), create_function_println());
@@ -59,7 +59,7 @@ namespace g0at
                 tmp.set_real(std::atan((double)1.0) * 4);
                 ctx->add_object(cache->get_object(L"PI"), tmp);
 
-                return new context(list, ctx);
+                return new context(pool, ctx);
             }
         };
     };

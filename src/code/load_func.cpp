@@ -40,7 +40,7 @@ namespace g0at
 
         void load_func::exec(model::thread *thr)
         {
-            model::object_function_user_defined *obj = new model::object_function_user_defined(thr->o_list, first_iid, thr->ctx);
+            model::object_function_user_defined *obj = new model::object_function_user_defined(thr->o_pool, first_iid, thr->ctx);
             for (int i = 0, size = (int)arg_ids.size(); i < size; i++)
             {
                 model::object_string *name = thr->cache->get_object(arg_ids[i]);

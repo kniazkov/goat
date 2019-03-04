@@ -34,8 +34,8 @@ namespace g0at
             class atan2 : public object_function_built_in
             {
             public:
-                atan2(object_list *_list)
-                    : object_function_built_in(_list)
+                atan2(object_pool *_pool)
+                    : object_function_built_in(_pool)
                 {
                 }
                 
@@ -57,7 +57,7 @@ namespace g0at
 
             object *context_factory::create_function_atan2()
             {
-                return new atan2(list);
+                return new atan2(pool);
             }
         };
     };

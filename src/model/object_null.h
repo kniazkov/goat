@@ -30,9 +30,9 @@ namespace g0at
     {
         class object_null : public object
         {
-        friend class object_list;
+        friend class object_pool;
         protected:
-            object_null(object_list *list);
+            object_null(object_pool *pool);
 
         public:
             object_null *to_object_null() override;

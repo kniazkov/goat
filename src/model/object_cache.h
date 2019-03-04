@@ -23,7 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object_string.h"
-#include "object_list.h"
+#include "object_pool.h"
 #include <string>
 #include <map>
 #include <vector>
@@ -35,7 +35,7 @@ namespace g0at
         class object_cache
         {
         public:
-            object_cache(std::vector<std::wstring> _init_list, object_list *_obj_list);
+            object_cache(std::vector<std::wstring> _init_list, object_pool *_obj_list);
             object_string *get_object(std::wstring name);
             object_string *get_object(int id);
 
@@ -45,7 +45,7 @@ namespace g0at
 
             std::map<std::wstring, int> indexes;
             std::vector<object_string *> objects;
-            object_list *obj_list;
+            object_pool *obj_pool;
         };
     };
 };

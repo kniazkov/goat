@@ -34,7 +34,7 @@ namespace g0at
             class context_factory
             {
             public:
-                context_factory(object_list *_list, object_cache *_cache);
+                context_factory(object_pool *_pool, object_cache *_cache);
                 context *create_context();
             
             protected:
@@ -46,7 +46,7 @@ namespace g0at
                 object *create_function_sqrt();
                 object *create_function_atan2();
 
-                object_list *list;
+                object_pool *pool;
                 object_cache *cache;
             };
         };

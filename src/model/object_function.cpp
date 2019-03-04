@@ -26,10 +26,10 @@ namespace g0at
 {
     namespace model
     {
-        object_function::object_function(object_list *list)
-            : object(list)
+        object_function::object_function(object_pool *pool)
+            : object(pool)
         {
-            proto.push_back(list->get_function_proto_instance());
+            proto.push_back(pool->get_function_proto_instance());
         } 
 
         object_type object_function::get_type() const
@@ -50,8 +50,8 @@ namespace g0at
         /* 
             Generic proto
         */
-        object_function_proto::object_function_proto(object_list *list)
-            : object(list, false)
+        object_function_proto::object_function_proto(object_pool *pool)
+            : object(pool, false)
         {
         }
     };

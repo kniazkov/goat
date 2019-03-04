@@ -30,10 +30,10 @@ namespace g0at
 {
     namespace model
     {
-        object_real::object_real(object_list *list, double _value)
-            : object(list), value(_value)
+        object_real::object_real(object_pool *pool, double _value)
+            : object(pool), value(_value)
         {
-            proto.push_back(list->get_integer_proto_instance());
+            proto.push_back(pool->get_integer_proto_instance());
         }
 
         object_type object_real::get_type() const
@@ -131,8 +131,8 @@ namespace g0at
             Prototype
         */
 
-        object_real_proto::object_real_proto(object_list *list)
-            : object(list)
+        object_real_proto::object_real_proto(object_pool *pool)
+            : object(pool)
         {
         }
 
@@ -159,9 +159,9 @@ namespace g0at
                 return lib::double_to_wstring(var->data.r);
             }
 
-            object *to_object(variable *var, object_list *list) override
+            object *to_object(variable *var, object_pool *pool) override
             {
-                object *obj = new object_real(list, var->data.r);
+                object *obj = new object_real(pool, var->data.r);
                 var->set_object(obj);
                 return obj;
             }

@@ -31,7 +31,7 @@ namespace g0at
         class object_real : public object
         {
         public:
-            object_real(object_list *list, double _value);
+            object_real(object_pool *pool, double _value);
             object_type get_type() const override;
             object_real *to_object_real() override;
             bool less(const object *obj) const override;
@@ -56,9 +56,9 @@ namespace g0at
 
         class object_real_proto : public object
         {
-        friend class object_list;
+        friend class object_pool;
         protected:
-            object_real_proto(object_list *list);
+            object_real_proto(object_pool *pool);
         };
     };
 };

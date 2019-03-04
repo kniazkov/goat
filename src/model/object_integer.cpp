@@ -29,10 +29,10 @@ namespace g0at
 {
     namespace model
     {
-        object_integer::object_integer(object_list *list, int64_t _value)
-            : object(list), value(_value)
+        object_integer::object_integer(object_pool *pool, int64_t _value)
+            : object(pool), value(_value)
         {
-            proto.push_back(list->get_integer_proto_instance());
+            proto.push_back(pool->get_integer_proto_instance());
         }
 
         object_type object_integer::get_type() const
@@ -156,8 +156,8 @@ namespace g0at
             Prototype
         */
 
-        object_integer_proto::object_integer_proto(object_list *list)
-            : object(list)
+        object_integer_proto::object_integer_proto(object_pool *pool)
+            : object(pool)
         {
         }
 
@@ -184,9 +184,9 @@ namespace g0at
                 return std::to_wstring(var->data.i);
             }
 
-            object *to_object(variable *var, object_list *list) override
+            object *to_object(variable *var, object_pool *pool) override
             {
-                object *obj = new object_integer(list, var->data.i);
+                object *obj = new object_integer(pool, var->data.i);
                 var->set_object(obj);
                 return obj;
             }

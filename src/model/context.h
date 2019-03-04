@@ -37,9 +37,9 @@ namespace g0at
         class context : public object
         {
         public:
-            context(object_list *list);
-            context(object_list *list, context *proto);
-            context(object_list *list, context *proto, context *parent);
+            context(object_pool *pool);
+            context(object_pool *pool, context *proto);
+            context(object_pool *pool, context *proto, context *parent);
 
             context *prev;
             object *this_ptr;

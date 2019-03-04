@@ -33,8 +33,8 @@ namespace g0at
             class exit : public object_function_built_in
             {
             public:
-                exit(object_list *_list)
-                    : object_function_built_in(_list)
+                exit(object_pool *_pool)
+                    : object_function_built_in(_pool)
                 {
                 }
                 
@@ -50,7 +50,7 @@ namespace g0at
 
             object *context_factory::create_function_exit()
             {
-                return new exit(list);
+                return new exit(pool);
             }
         };
     };

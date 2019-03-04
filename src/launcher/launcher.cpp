@@ -149,8 +149,10 @@ namespace g0at
                 std::cout << global::char_encoder->encode(pt::dbg_output::to_string(node_root)) << std::endl;
             }
             auto code = codegen::generator::generate(node_root);
+            node_root.reset();
             std::vector<uint8_t> binary;
             code::serializer::serialize(code, binary);
+            code.reset();
             auto code_2 = code::deserializer::deserialize(binary);
             if (opt.dump_assembler_code)
             {

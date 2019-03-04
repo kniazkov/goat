@@ -34,8 +34,8 @@ namespace g0at
             class sin : public object_function_built_in
             {
             public:
-                sin(object_list *_list)
-                    : object_function_built_in(_list)
+                sin(object_pool *_pool)
+                    : object_function_built_in(_pool)
                 {
                 }
                 
@@ -55,7 +55,7 @@ namespace g0at
 
             object *context_factory::create_function_sin()
             {
-                return new sin(list);
+                return new sin(pool);
             }
         };
     };

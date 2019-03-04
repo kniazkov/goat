@@ -31,8 +31,8 @@ namespace g0at
         class object_string : public object
         {
         public:
-            object_string(object_list *list, std::wstring _data);
-            object_string(object_list *list, std::wstring _data, int _id);
+            object_string(object_pool *pool, std::wstring _data);
+            object_string(object_pool *pool, std::wstring _data, int _id);
             object_type get_type() const override;
             object_string *to_object_string() override;
             bool less(const object *obj) const override;
@@ -49,9 +49,9 @@ namespace g0at
 
         class object_string_proto : public object
         {
-        friend class object_list;
+        friend class object_pool;
         protected:
-            object_string_proto(object_list *list);
+            object_string_proto(object_pool *pool);
         };
     };
 };

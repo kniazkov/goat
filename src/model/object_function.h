@@ -32,7 +32,7 @@ namespace g0at
         class object_function : public object
         {
         public:
-            object_function(object_list *list);
+            object_function(object_pool *pool);
             object_type get_type() const override;
             object_function *to_object_function() override;
             std::wstring to_string() const override;
@@ -41,9 +41,9 @@ namespace g0at
 
         class object_function_proto : public object
         {
-        friend class object_list;
+        friend class object_pool;
         protected:
-            object_function_proto(object_list *list);
+            object_function_proto(object_pool *pool);
         };
     };
 };

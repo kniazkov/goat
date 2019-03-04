@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace model
     {
-        object_function_built_in::object_function_built_in(object_list *list)
-            : object_function(list)
+        object_function_built_in::object_function_built_in(object_pool *pool)
+            : object_function(pool)
         {
         } 
     };

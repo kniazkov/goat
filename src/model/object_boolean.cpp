@@ -29,10 +29,10 @@ namespace g0at
 {
     namespace model
     {
-        object_boolean::object_boolean(object_list *list, bool _value)
-            : object(list), value(_value)
+        object_boolean::object_boolean(object_pool *pool, bool _value)
+            : object(pool), value(_value)
         {
-            proto.push_back(list->get_boolean_proto_instance());
+            proto.push_back(pool->get_boolean_proto_instance());
         }
 
         object_type object_boolean::get_type() const
@@ -87,8 +87,8 @@ namespace g0at
             Prototype
         */
 
-        object_boolean_proto::object_boolean_proto(object_list *list)
-            : object(list)
+        object_boolean_proto::object_boolean_proto(object_pool *pool)
+            : object(pool)
         {
         }
 
@@ -115,9 +115,9 @@ namespace g0at
                 return var->data.b ? L"true" : L"false";
             }
 
-            object *to_object(variable *var, object_list *list) override
+            object *to_object(variable *var, object_pool *pool) override
             {
-                object *obj = new object_boolean(list, var->data.b);
+                object *obj = new object_boolean(pool, var->data.b);
                 var->set_object(obj);
                 return obj;
             }

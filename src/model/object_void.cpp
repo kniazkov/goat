@@ -26,10 +26,10 @@ namespace g0at
 {
     namespace model
     {
-        object_void::object_void(object_list *list)
-            : object(list)
+        object_void::object_void(object_pool *pool)
+            : object(pool)
         {
-            proto.push_back(list->get_generic_proto_instance());
+            proto.push_back(pool->get_generic_proto_instance());
         }
 
         object_void *object_void::to_object_void()

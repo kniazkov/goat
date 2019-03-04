@@ -22,7 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "object_list.h"
+#include "object_pool.h"
 #include "lib/light_vector.h"
 #include <map>
 #include <vector>
@@ -76,7 +76,7 @@ namespace g0at
 
             inline std::wstring to_string() const;
             inline std::wstring to_string_notation() const;
-            inline object *to_object(object_list *list);
+            inline object *to_object(object_pool *pool);
 
             inline object *get_object();
             inline bool get_integer(int64_t *pval);
@@ -103,8 +103,8 @@ namespace g0at
         {
         friend class generic_proto;
         public:
-            object(object_list *list);
-            object(object_list *list, object *proto);
+            object(object_pool *pool);
+            object(object_pool *pool, object *proto);
             virtual ~object();
             virtual object_type get_type() const;
             virtual object_string *to_object_string();
@@ -138,7 +138,7 @@ namespace g0at
             object *next;
 
         protected:
-            object(object_list *list, bool has_proto);
+            object(object_pool *pool, bool has_proto);
 
             std::map<object*, variable, object_comparator> objects;
 #if 0
@@ -150,9 +150,9 @@ namespace g0at
 
         class generic_proto : public object
         {
-        friend class object_list;
+        friend class object_pool;
         protected:
-            generic_proto(object_list *list);
+            generic_proto(object_pool *pool);
         };
 
         class handler
@@ -165,7 +165,7 @@ namespace g0at
             static handler *get_instance_boolean();
             virtual std::wstring to_string(const variable *var) const = 0;
             virtual std::wstring to_string_notation(const variable *var) const = 0;
-            virtual object *to_object(variable *var, object_list *list) = 0;
+            virtual object *to_object(variable *var, object_pool *pool) = 0;
             
             virtual object* get_object(variable *var);
             virtual bool get_integer(variable *var, int64_t *val);
@@ -185,7 +185,7 @@ namespace g0at
             static handler *get_instance();
             std::wstring to_string(const variable *var) const override;
             std::wstring to_string_notation(const variable *var) const override;
-            object *to_object(variable *var, object_list *list) override;
+            object *to_object(variable *var, object_pool *pool) override;
             
             object *get_object(variable *var);
             bool get_integer(variable *var, int64_t *pval) override;
@@ -254,9 +254,9 @@ namespace g0at
             return hndl->to_string_notation(this);
         }
 
-        object *variable::to_object(object_list *list)
+        object *variable::to_object(object_pool *pool)
         {
-            return hndl->to_object(this, list);
+            return hndl->to_object(this, pool);
         }
 
         object *variable::get_object()

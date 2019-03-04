@@ -30,9 +30,9 @@ namespace g0at
     {
         class object_void : public object
         {
-        friend class object_list;
+        friend class object_pool;
         protected:
-            object_void(object_list *list);
+            object_void(object_pool *pool);
 
         public:
             object_void *to_object_void() override;

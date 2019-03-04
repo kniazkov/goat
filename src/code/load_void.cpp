@@ -34,7 +34,7 @@ namespace g0at
         void load_void::exec(model::thread *thr)
         {
             model::variable var;
-            var.set_object(thr->o_list->get_void_instance());
+            var.set_object(thr->o_pool->get_void_instance());
             thr->push(var);
         }
     };

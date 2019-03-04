@@ -31,7 +31,7 @@ namespace g0at
         class object_integer : public object
         {
         public:
-            object_integer(object_list *list, int64_t _value);
+            object_integer(object_pool *pool, int64_t _value);
             object_type get_type() const override;
             object_integer *to_object_integer() override;
             bool less(const object *obj) const override;
@@ -57,9 +57,9 @@ namespace g0at
 
         class object_integer_proto : public object
         {
-        friend class object_list;
+        friend class object_pool;
         protected:
-            object_integer_proto(object_list *list);
+            object_integer_proto(object_pool *pool);
         };
     };
 };

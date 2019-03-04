@@ -34,7 +34,7 @@ namespace g0at
         void load_null::exec(model::thread *thr)
         {
             model::variable var;
-            var.set_object(thr->o_list->get_null_instance());
+            var.set_object(thr->o_pool->get_null_instance());
             thr->push(var);
         }
     };

@@ -39,28 +39,9 @@ namespace g0at
             object *first;
             object *last;
 
-            object *get_generic_proto_instance();
-            object *get_void_instance();
-            object *get_undefined_instance();
-            object *get_null_instance();
-            object *get_string_proto_instance();
-            object *get_integer_proto_instance();
-            object *get_function_proto_instance();
-            object *get_boolean_proto_instance();
-
         private:
             object_list(const object_list &) { }
             void operator=(const object_list &) { }
-            void init();
-
-            object *generic_proto_instance;
-            object *void_instance;
-            object *undefined_instance;
-            object *null_instance;
-            object *string_proto_instance;
-            object *integer_proto_instance;
-            object *function_proto_instance;
-            object *boolean_proto_instance;
         };
     };
 };

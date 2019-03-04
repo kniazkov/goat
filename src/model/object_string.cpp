@@ -30,14 +30,14 @@ namespace g0at
 {
     namespace model
     {
-        object_string::object_string(object_list *list, std::wstring _data)
-            : object(list), data(_data), id(-1)
+        object_string::object_string(object_pool *pool, std::wstring _data)
+            : object(pool), data(_data), id(-1)
         {
-            proto.push_back(list->get_string_proto_instance());
+            proto.push_back(pool->get_string_proto_instance());
         }
 
-        object_string::object_string(object_list *list, std::wstring _data, int _id)
-            : object(list), data(_data), id(_id)
+        object_string::object_string(object_pool *pool, std::wstring _data, int _id)
+            : object(pool), data(_data), id(_id)
         {
         }
 
@@ -79,7 +79,7 @@ namespace g0at
             variable right = thr->pop();
             std::wstring str = data + right.to_string();
             variable result;
-            result.set_object(new object_string(thr->o_list, str));
+            result.set_object(new object_string(thr->o_pool, str));
             thr->push(result);
         }
 
@@ -87,8 +87,8 @@ namespace g0at
             Prototype
         */
 
-        object_string_proto::object_string_proto(object_list *list)
-            : object(list)
+        object_string_proto::object_string_proto(object_pool *pool)
+            : object(pool)
         {
         }
     };

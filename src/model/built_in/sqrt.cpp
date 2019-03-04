@@ -34,8 +34,8 @@ namespace g0at
             class sqrt : public object_function_built_in
             {
             public:
-                sqrt(object_list *_list)
-                    : object_function_built_in(_list)
+                sqrt(object_pool *_pool)
+                    : object_function_built_in(_pool)
                 {
                 }
                 
@@ -55,7 +55,7 @@ namespace g0at
 
             object *context_factory::create_function_sqrt()
             {
-                return new sqrt(list);
+                return new sqrt(pool);
             }
         };
     };

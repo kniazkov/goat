@@ -33,24 +33,24 @@ namespace g0at
             Generic object
         */
 
-        object::object(object_list *list)
+        object::object(object_pool *pool)
         {
-            list->add(this);
-            proto.push_back(list->get_generic_proto_instance());
+            pool->add(this);
+            proto.push_back(pool->get_generic_proto_instance());
         }
 
-        object::object(object_list *list, object *proto)
+        object::object(object_pool *pool, object *proto)
         {
-            list->add(this);
+            pool->add(this);
             this->proto.push_back(proto);
         }
 
-        object::object(object_list *list, bool has_proto)
+        object::object(object_pool *pool, bool has_proto)
         {
-            list->add(this);
+            pool->add(this);
             if (has_proto)
             {
-                proto.push_back(list->get_generic_proto_instance());
+                proto.push_back(pool->get_generic_proto_instance());
             }
         }
 
@@ -218,8 +218,8 @@ namespace g0at
         /* 
             Generic proto
         */
-        generic_proto::generic_proto(object_list *list)
-            : object(list, false)
+        generic_proto::generic_proto(object_pool *pool)
+            : object(pool, false)
         {
         }
 
@@ -304,7 +304,7 @@ namespace g0at
             return var->data.obj->to_string_notation();
         }
 
-        object *generic_handler::to_object(variable *var, object_list *list)
+        object *generic_handler::to_object(variable *var, object_pool *pool)
         {
             return var->data.obj;
         }

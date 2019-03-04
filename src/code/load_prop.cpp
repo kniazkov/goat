@@ -39,7 +39,7 @@ namespace g0at
         void load_prop::exec(model::thread *thr)
         {
             model::object_string *key = thr->cache->get_object(id);
-            model::variable *var = thr->pop().to_object(thr->o_list)->find_object(key);
+            model::variable *var = thr->pop().to_object(thr->o_pool)->find_object(key);
             if(var != nullptr)
             {
                 thr->push(*var);

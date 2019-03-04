@@ -31,7 +31,7 @@ namespace g0at
         class object_function_built_in : public object_function
         {
         public:
-            object_function_built_in(object_list *list);
+            object_function_built_in(object_pool *pool);
         };
     };
 };

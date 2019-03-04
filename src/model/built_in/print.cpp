@@ -34,8 +34,8 @@ namespace g0at
             class print : public object_function_built_in
             {
             public:
-                print(object_list *_list)
-                    : object_function_built_in(_list)
+                print(object_pool *_pool)
+                    : object_function_built_in(_pool)
                 {
                 }
                 
@@ -49,7 +49,7 @@ namespace g0at
 
             object *context_factory::create_function_print()
             {
-                return new print(list);
+                return new print(pool);
             }
         };
     };

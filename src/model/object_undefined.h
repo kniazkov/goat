@@ -30,9 +30,9 @@ namespace g0at
     {
         class object_undefined : public object
         {
-        friend class object_list;
+        friend class object_pool;
         protected:
-            object_undefined(object_list *list);
+            object_undefined(object_pool *pool);
 
         public:
             object_undefined *to_object_undefined() override;

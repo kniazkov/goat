@@ -34,8 +34,8 @@ namespace g0at
             class abs : public object_function_built_in
             {
             public:
-                abs(object_list *_list)
-                    : object_function_built_in(_list)
+                abs(object_pool *_pool)
+                    : object_function_built_in(_pool)
                 {
                 }
                 
@@ -57,7 +57,7 @@ namespace g0at
 
             object *context_factory::create_function_abs()
             {
-                return new abs(list);
+                return new abs(pool);
             }
         };
     };

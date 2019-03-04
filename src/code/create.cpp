@@ -40,13 +40,13 @@ namespace g0at
 
         void create::exec(model::thread *thr)
         {
-            model::object *result = new model::object(thr->o_list);
+            model::object *result = new model::object(thr->o_pool);
             model::variable var;
             var.set_object(result);
 
             for (int i = 0; i < count; i++)
             {
-                model::object *key = thr->pop().to_object(thr->o_list);
+                model::object *key = thr->pop().to_object(thr->o_pool);
                 model::variable value = thr->pop();
                 result->add_object(key, value);
             }
