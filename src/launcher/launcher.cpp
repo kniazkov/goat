@@ -68,7 +68,7 @@ namespace g0at
         {
             launcher l_obj(argc, argv);
             int ret_val = l_obj.go();
-            assert(g0at::lib::__obj_count == 0);
+            assert(g0at::lib::get_ref_counter_instances_count() == 0);
             return ret_val;
         }
         catch (std::exception &ex)

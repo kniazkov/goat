@@ -1,1 +1,1 @@
-print("it works.");
+println("it works.");

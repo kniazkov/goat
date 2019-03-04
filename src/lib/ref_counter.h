@@ -26,7 +26,7 @@ namespace g0at
 {
     namespace lib
     {
-        extern int __obj_count;
+        int get_ref_counter_instances_count();
 
         class ref_counter
         {

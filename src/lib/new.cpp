@@ -20,28 +20,46 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "ref_counter.h"
+#include "new.h"
+#include <cstdlib>
 
 namespace g0at
 {
     namespace lib
     {
-        static int __obj_count = 0;
-
-        int get_ref_counter_instances_count()
-        {
-            return __obj_count;
-        }
+        static long int __used_memory_size = 0;
+        static long int __max_used_memory_size = 0;
         
-        ref_counter::ref_counter()
-            : refs(0)
+        long int get_used_memory_size()
         {
-            __obj_count++;
+            return __used_memory_size;
         }
 
-        ref_counter::~ref_counter()
+        long int get_max_used_memory_size()
         {
-            __obj_count--;
+            return __max_used_memory_size;
         }
     };
 };
+
+void *operator new(size_t size)
+{
+    void *p = malloc(size);
+    return p;
+}
+
+void operator delete(void *p)
+{
+    free(p);
+}
+
+void *operator new[](size_t size)
+{
+    void *p = malloc(size);
+    return p;
+}
+
+void operator delete[](void *p)
+{
+    free(p);
+}
