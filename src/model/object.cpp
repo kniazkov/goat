@@ -131,6 +131,12 @@ namespace g0at
             return to_string();
         }
 
+        void object::clear()
+        {
+            objects.clear();
+            proto.clear();
+        }
+
         void object::add_object(object *key, variable &value)
         {
             assert(key != nullptr);

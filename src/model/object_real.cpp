@@ -58,6 +58,11 @@ namespace g0at
             return lib::double_to_wstring(value);
         }
 
+        void object_real::clear()
+        {
+            objects.clear();
+        }
+
         bool object_real::get_real(double *pval)
         {
             *pval = value;

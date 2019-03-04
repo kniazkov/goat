@@ -73,6 +73,12 @@ namespace g0at
             return wss.str();
         }
 
+        void object_string::clear()
+        {
+            objects.clear();
+            data.clear();
+        }
+
         void object_string::op_add(thread *thr)
         {
             thr->pop();

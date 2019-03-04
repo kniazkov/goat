@@ -36,6 +36,7 @@ namespace g0at
             object_boolean *to_object_boolean() override;
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
+            void clear() override;
             bool get_boolean(bool *pval) override;
 
             bool get_value() { return value; }

@@ -57,6 +57,11 @@ namespace g0at
             return std::to_wstring(value);
         }
 
+        void object_integer::clear()
+        {
+            objects.clear();
+        }
+
         bool object_integer::get_integer(int64_t *pval)
         {
             *pval = value;

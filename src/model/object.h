@@ -119,6 +119,7 @@ namespace g0at
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
             virtual std::wstring to_string_notation() const;
+            virtual void clear();
 
             void add_object(object *key, variable &value);
             void add_object(object *key, object *value);

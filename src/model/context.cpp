@@ -40,5 +40,16 @@ namespace g0at
             : object(pool, proto), prev(parent), this_ptr(nullptr), value_type(context_value_type::none), ret(nullptr)
         {
         }
+
+        void context::clear()
+        {
+            objects.clear();
+            proto.clear();
+            prev = nullptr;
+            this_ptr = nullptr;
+            value = 0;
+            value_type = context_value_type::none;
+            ret = nullptr;
+        }
     };
 };

@@ -36,6 +36,7 @@ namespace g0at
             object_type get_type() const override;
             object_function *to_object_function() override;
             std::wstring to_string() const override;
+            virtual void clear() override;
             virtual void call(thread *thr, int arg_count) = 0;
         };
 

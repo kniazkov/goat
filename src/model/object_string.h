@@ -38,6 +38,7 @@ namespace g0at
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
             std::wstring to_string_notation() const override;
+            void clear() override;
             void op_add(thread *thr) override;
 
             std::wstring get_data() { return data; }

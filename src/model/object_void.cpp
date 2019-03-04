@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_void.h"
+#include <assert.h>
 
 namespace g0at
 {
@@ -40,6 +41,11 @@ namespace g0at
         std::wstring object_void::to_string() const
         {
             return L"void";
+        }
+
+        void object_void::clear()
+        {
+            assert(false);
         }
     };
 };

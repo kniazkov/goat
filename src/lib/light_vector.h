@@ -154,6 +154,14 @@ namespace g0at
                 return iterator(this, length);
             }
 
+            void clear()
+            {
+                length = 0;
+                capacity = 0;
+                delete tail;
+                tail = nullptr;
+            }
+
         protected:
             light_vector(const light_vector& ) { }
             void operator=(const light_vector &) { }

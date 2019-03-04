@@ -57,6 +57,11 @@ namespace g0at
             return value ? L"true" : L"false";
         }
 
+        void object_boolean::clear()
+        {
+            objects.clear();
+        }
+
         bool object_boolean::get_boolean(bool *pval)
         {
             *pval = value;
