@@ -46,6 +46,7 @@ namespace g0at
                 ctx->add_object(cache->get_object(L"Integer"), pool->get_integer_proto_instance());
                 ctx->add_object(cache->get_object(L"Function"), pool->get_function_proto_instance());
                 ctx->add_object(cache->get_object(L"Boolean"), pool->get_boolean_proto_instance());
+                ctx->add_object(cache->get_object(L"Real"), pool->get_real_proto_instance());
 
                 ctx->add_object(cache->get_object(L"print"), create_function_print());
                 ctx->add_object(cache->get_object(L"println"), create_function_println());
