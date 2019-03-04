@@ -23,13 +23,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <cstddef>
+#include <exception>
 
 namespace g0at
 {
     namespace lib
     {
-        long int get_used_memory_size();
-        long int get_max_used_memory_size();
+        unsigned long int get_used_memory_size();
+        unsigned long int get_max_used_memory_size();
+
+        class out_of_memory : public std::exception
+        {
+        public:
+            const char* what() const throw() override;
+        };
     };
 };
 

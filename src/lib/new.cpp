@@ -27,39 +27,68 @@ namespace g0at
 {
     namespace lib
     {
-        static long int __used_memory_size = 0;
-        static long int __max_used_memory_size = 0;
+        static unsigned long int __used_memory_size = 0;
+        static unsigned long int __max_used_memory_size = 0;
         
-        long int get_used_memory_size()
+        unsigned long int get_used_memory_size()
         {
             return __used_memory_size;
         }
 
-        long int get_max_used_memory_size()
+        unsigned long int get_max_used_memory_size()
         {
             return __max_used_memory_size;
+        }
+
+        const char* out_of_memory::what() const throw()
+        {
+            return "out of memory";
+        }
+
+        struct memory_descriptor
+        {
+            size_t size;
+        };
+
+        static void * alloc(size_t size)
+        {
+            memory_descriptor *d = (memory_descriptor*)std::malloc(sizeof(memory_descriptor) + size);
+            if (!d)
+                throw out_of_memory();
+            d->size = size;
+            __used_memory_size += sizeof(memory_descriptor) + size;
+            if (__max_used_memory_size < __used_memory_size)
+                __max_used_memory_size = __used_memory_size;
+            return (void*)(d + 1);
+        }
+
+        static void free(void *p)
+        {
+            if (!p)
+                return;
+            memory_descriptor *d = (memory_descriptor*)p - 1;
+            __used_memory_size -= sizeof(memory_descriptor) + d->size;
+            std::free(d);
         }
     };
 };
 
 void *operator new(size_t size)
 {
-    void *p = malloc(size);
-    return p;
+    return g0at::lib::alloc(size);
 }
 
 void operator delete(void *p)
 {
-    free(p);
+    g0at::lib::free(p);
 }
 
 void *operator new[](size_t size)
 {
-    void *p = malloc(size);
-    return p;
+    return g0at::lib::alloc(size);
 }
 
 void operator delete[](void *p)
 {
-    free(p);
+    g0at::lib::free(p);
 }
