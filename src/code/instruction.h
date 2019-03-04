@@ -34,7 +34,7 @@ namespace g0at
         {
         public:
             instruction();
-            ~instruction();
+            virtual ~instruction();
             virtual void accept(instruction_visitor *visitor) = 0;
             virtual void exec(model::thread *thr) = 0;
         };
