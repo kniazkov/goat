@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "new.h"
 #include <cstdlib>
+#include <cstdint>
 
 namespace g0at
 {
@@ -30,6 +31,7 @@ namespace g0at
         static int __allocated_blocks_count = 0;
         static unsigned long int __used_memory_size = 0;
         static unsigned long int __max_used_memory_size = 0;
+        static unsigned long int __heap_size = UINTPTR_MAX;
         
         int get_allocated_blocks_count()
         {
@@ -46,6 +48,16 @@ namespace g0at
             return __max_used_memory_size;
         }
 
+        void set_heap_size(unsigned long int size)
+        {
+            __heap_size = size;
+        }
+
+        unsigned long int get_heap_size()
+        {
+            return __heap_size;
+        }
+
         const char* out_of_memory::what() const throw()
         {
             return "out of memory";
@@ -58,6 +70,8 @@ namespace g0at
 
         static void * alloc(size_t size)
         {
+            if (sizeof(memory_descriptor) + size + __used_memory_size > __heap_size)
+                throw out_of_memory();
             memory_descriptor *d = (memory_descriptor*)std::malloc(sizeof(memory_descriptor) + size);
             if (!d)
                 throw out_of_memory();

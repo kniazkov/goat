@@ -186,11 +186,12 @@ namespace g0at
                 return wss.str();
             }
 
-            std::wstring memory_usage_report(unsigned long int max_size) override
+            std::wstring memory_usage_report(unsigned long int heap_size, unsigned long int max_size) override
             {
                 std::wstringstream wss;
                 wss << L"Memory usage report" << std::endl <<
-                    "  peak usage, bytes: " << max_size;
+                    L"  heap size, bytes: " << heap_size << std::endl <<
+                    L"  peak usage, bytes: " << max_size;
                 return wss.str();
             }
         };

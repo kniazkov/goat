@@ -94,6 +94,14 @@ namespace g0at
         options::parse(argc, argv, opt);
     }
 
+    static void print_memory_usage_report()
+    {
+        std::cout << global::char_encoder->encode(global::resource->memory_usage_report(
+            lib::get_heap_size(),
+            lib::get_max_used_memory_size()
+        )) << std::endl;
+    }
+
     int launcher::go()
     {
         if (opt.prog_name == nullptr)
@@ -122,8 +130,7 @@ namespace g0at
             vm.run();
             if (opt.print_memory_usage_report)
             {
-                std::cout << global::char_encoder->encode(global::resource->memory_usage_report(
-                    lib::get_max_used_memory_size())) << std::endl;
+                print_memory_usage_report();
             }
         }
         else
@@ -167,8 +174,7 @@ namespace g0at
             }
             if (opt.print_memory_usage_report)
             {
-                std::cout << global::char_encoder->encode(global::resource->memory_usage_report(
-                    lib::get_max_used_memory_size())) << std::endl;
+                print_memory_usage_report();
             }
         }
         return 0;

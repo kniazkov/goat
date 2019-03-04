@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "options.h"
 #include "global/global.h"
 #include "lib/exception.h"
+#include "lib/new.h"
 #include <cstring>
 #include <cstdlib>
 
@@ -102,6 +103,13 @@ namespace g0at
                 else if (0 == std::strcmp(arg + 2, "print-memory-usage-report"))
                 {
                     opt.print_memory_usage_report = true;
+                }
+                else if (0 == std::strncmp(arg + 2, "heap-size=", 10))
+                {
+                    int heap_size = std::atoi(arg + 12);
+                    if (heap_size <= 0)
+                        throw incorrect_command_line_parameter(arg);
+                    lib::set_heap_size((unsigned long int)heap_size * 1024 * 1024);
                 }
                 else if (0 == std::strncmp(arg + 2, "lib=", 4))
                 {

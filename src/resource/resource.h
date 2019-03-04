@@ -62,7 +62,7 @@ namespace g0at
             virtual std::wstring file_is_corrupted() = 0;
             virtual std::wstring index_out_of_bounds() = 0;
             virtual std::wstring memory_leak(int blocks_count, unsigned long int size) = 0;
-            virtual std::wstring memory_usage_report(unsigned long int max_size) = 0;
+            virtual std::wstring memory_usage_report(unsigned long int heap_size, unsigned long int max_size) = 0;
             
         protected:
             static resource *get_intance_en();
