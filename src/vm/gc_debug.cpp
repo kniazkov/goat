@@ -20,15 +20,33 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "thread.h"
+#include "gc.h"
 
 namespace g0at
 {
-    namespace model
+    namespace vm
     {
-        thread::thread(context *_ctx, object_pool *_o_pool, object_cache *_cache)
-            : next(nullptr), iid(0), state(thread_state::pause), ctx(_ctx), o_pool(_o_pool), cache(_cache)
+        class gc_debug : public gc
         {
+        protected:
+            gc_debug() { }
+
+        public:
+            static gc * get_instance()
+            {
+                static gc_debug instance;
+                return &instance;
+            }
+
+            void collect_garbage(process *proc)
+            {
+
+            }
+        };
+
+        gc * gc::get_instance_debug()
+        {
+            return gc_debug::get_instance();
         }
     };
 };

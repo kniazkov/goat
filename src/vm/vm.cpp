@@ -21,6 +21,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "vm.h"
+#include "gc.h"
+#include "process.h"
 #include "model/object.h"
 #include "model/object_cache.h"
 #include "model/built_in/context_factory.h"
@@ -44,7 +46,12 @@ namespace g0at
             model::object_cache cache(code->get_identifiers_list(), &pool);
             model::context *ctx = model::built_in::context_factory(&pool, &cache).create_context();
             model::thread thr(ctx, &pool, &cache);
+            thr.next = &thr;
             thr.state = model::thread_state::ok;
+            gc *gci = gc::get_instance_debug();
+            process proc;
+            proc.pool = &pool;
+            proc.threads = &thr;
             if (!global::debug)
             {
                 while(thr.state == model::thread_state::ok)
@@ -53,6 +60,7 @@ namespace g0at
                     thr.iid++;
                     auto instr = code->get_instruction(iid);
                     instr->exec(&thr);
+                    gci->collect_garbage(&proc);
 #if 0                
                     std::wstringstream tmp;
                     code::disasm visitor(tmp, code->get_identifiers_list());
@@ -75,6 +83,7 @@ namespace g0at
                         // convert any value to real object
                         thr.peek().to_object(&pool);
                     }
+                    gci->collect_garbage(&proc);
                 }
             }
             assert(thr.stack_is_empty());

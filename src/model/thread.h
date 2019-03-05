@@ -40,7 +40,7 @@ namespace g0at
         class thread
         {
         public:
-            thread(context *_ctx, object_pool *_o_list, object_cache *_cache);
+            thread(context *_ctx, object_pool *_o_pool, object_cache *_cache);
 
             variable *push(variable var) { return data.push(var); }
             variable *push_undefined()
@@ -56,6 +56,7 @@ namespace g0at
             bool stack_is_empty() { return data.empty(); }
             int get_stack_size() { return data.size(); }
 
+            thread *next;
             uint32_t iid;
             thread_state state;
             context *ctx;

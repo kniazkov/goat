@@ -20,15 +20,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "thread.h"
+#pragma once
+
+#include "model/object_pool.h"
+#include "model/thread.h"
 
 namespace g0at
 {
-    namespace model
+    namespace vm
     {
-        thread::thread(context *_ctx, object_pool *_o_pool, object_cache *_cache)
-            : next(nullptr), iid(0), state(thread_state::pause), ctx(_ctx), o_pool(_o_pool), cache(_cache)
+        class process
         {
-        }
+        public:
+            process() : pool(nullptr), threads(nullptr)
+            {
+            }
+
+            model::object_pool *pool;
+            model::thread* threads;
+        };
     };
 };
