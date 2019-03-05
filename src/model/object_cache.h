@@ -35,7 +35,7 @@ namespace g0at
         class object_cache
         {
         public:
-            object_cache(std::vector<std::wstring> _init_list, object_pool *_obj_list);
+            object_cache(std::vector<std::wstring> _init_list, object_pool *_obj_pool);
             object_string *get_object(std::wstring name);
             object_string *get_object(int id);
 

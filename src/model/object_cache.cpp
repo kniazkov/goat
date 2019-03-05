@@ -27,14 +27,14 @@ namespace g0at
 {
     namespace model
     {
-        object_cache::object_cache(std::vector<std::wstring> _init_list, object_pool *_obj_list)
+        object_cache::object_cache(std::vector<std::wstring> _init_list, object_pool *_obj_pool)
         {
-            obj_pool = _obj_list;
+            obj_pool = _obj_pool;
             for (int id = 0, size = (int)_init_list.size(); id < size; id++)
             {
                 std::wstring name = _init_list[id];
                 assert(indexes.find(name) == indexes.end());
-                object_string *obj = new object_string(obj_pool, name, id);
+                object_string *obj = obj_pool->create_object_string(name, id);
                 indexes.insert(std::pair<std::wstring, int>(name, id));
                 objects.push_back(obj);
             }
@@ -51,7 +51,7 @@ namespace g0at
             else
             {
                 int id = (int)objects.size();
-                object_string *obj = new object_string(obj_pool, name, id);
+                object_string *obj = obj_pool->create_object_string(name, id);
                 indexes.insert(std::pair<std::wstring, int>(name, id));
                 objects.push_back(obj);
                 return obj;

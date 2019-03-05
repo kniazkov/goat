@@ -30,9 +30,13 @@ namespace g0at
     {
         class object_string : public object
         {
-        public:
+        friend class object_pool;
+        protected:
             object_string(object_pool *pool, std::wstring _data);
             object_string(object_pool *pool, std::wstring _data, int _id);
+            void reinit(std::wstring _data);
+            void reinit(std::wstring _data, int _id);
+        public:
             void kill(object_pool *pool) override;
             object_type get_type() const override;
             object_string *to_object_string() override;

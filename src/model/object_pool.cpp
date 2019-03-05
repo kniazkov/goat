@@ -64,5 +64,37 @@ namespace g0at
             }
             return obj;
         }
+
+        object_string * object_pool::create_object_string(std::wstring data)
+        {
+            object_string *obj;
+            strings.alive++;
+            if (strings.dead.count > 0)
+            {
+                obj = static_cast<object_string*>(strings.dead.remove());
+                obj->reinit(data);
+            }
+            else
+            {
+                obj = new object_string(this, data);
+            }
+            return obj;
+        }
+
+        object_string * object_pool::create_object_string(std::wstring data, int id)
+        {
+            object_string *obj;
+            strings.alive++;
+            if (strings.dead.count > 0)
+            {
+                obj = static_cast<object_string*>(strings.dead.remove());
+                obj->reinit(data, id);
+            }
+            else
+            {
+                obj = new object_string(this, data, id);
+            }
+            return obj;
+        }
     };
 };

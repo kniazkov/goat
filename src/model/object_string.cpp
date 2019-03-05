@@ -49,6 +49,19 @@ namespace g0at
                 data.clear();
             }
         }
+        
+        void object_string::reinit(std::wstring _data)
+        {
+            data = _data;
+            id = -1;
+        }
+
+        void object_string::reinit(std::wstring _data, int _id)
+        {
+            data = _data;
+            id = _id;
+        }
+
 
         object_type object_string::get_type() const
         {
@@ -88,7 +101,7 @@ namespace g0at
             variable right = thr->pop();
             std::wstring str = data + right.to_string();
             variable result;
-            result.set_object(new object_string(thr->o_pool, str));
+            result.set_object(thr->o_pool->create_object_string(str));
             thr->push(result);
         }
 

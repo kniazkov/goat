@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object_list.h"
+#include <string>
 
 namespace g0at
 {
@@ -31,6 +32,7 @@ namespace g0at
         class object;
         class object_pool;
         class generic_object;
+        class object_string;
 
         template <int Factor, int Count> class object_pool_typed
         {
@@ -86,6 +88,8 @@ namespace g0at
             object *get_real_proto_instance() { return real_proto_instance; }
 
             generic_object *create_generic_object();
+            object_string *create_object_string(std::wstring data);
+            object_string *create_object_string(std::wstring data, int id);
 
             object_list population;
             object_pool_typed<4, 256> generic_objects;
