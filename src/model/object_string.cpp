@@ -101,7 +101,7 @@ namespace g0at
             variable right = thr->pop();
             std::wstring str = data + right.to_string();
             variable result;
-            result.set_object(thr->o_pool->create_object_string(str));
+            result.set_object(thr->pool->create_object_string(str));
             thr->push(result);
         }
 

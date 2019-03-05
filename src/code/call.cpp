@@ -42,7 +42,7 @@ namespace g0at
         void call::exec(model::thread *thr)
         {
             // get func. object from the stack
-            model::object *obj = thr->pop().to_object(thr->o_pool);
+            model::object *obj = thr->pop().to_object(thr->pool);
             model::object_function *func = obj->to_object_function();
             assert(func != nullptr); // TODO: exception if is not a function
 

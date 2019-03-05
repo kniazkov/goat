@@ -40,13 +40,13 @@ namespace g0at
         class thread
         {
         public:
-            thread(context *_ctx, object_pool *_o_pool, object_cache *_cache);
+            thread(context *_ctx, object_pool *_pool, object_cache *_cache);
 
             variable *push(variable var) { return data.push(var); }
             variable *push_undefined()
             {
                 variable var;
-                var.set_object(o_pool->get_undefined_instance());
+                var.set_object(pool->get_undefined_instance());
                 return data.push(var);
             }
             variable pop() { return data.pop(); }
@@ -60,7 +60,7 @@ namespace g0at
             uint32_t iid;
             thread_state state;
             context *ctx;
-            object_pool *o_pool;
+            object_pool *pool;
             object_cache  *cache;
 
         protected:

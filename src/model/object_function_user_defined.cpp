@@ -36,7 +36,7 @@ namespace g0at
         void object_function_user_defined::call(thread *thr, int arg_count)
         {
             // prepare a new context
-            context *ctx = thr->o_pool->create_context(proto_ctx, thr->ctx);
+            context *ctx = thr->pool->create_context(proto_ctx, thr->ctx);
             ctx->value = thr->iid;
             ctx->value_type = context_value_type::ret_address;
             int decl_arg_count = (int)arg_names.size();
@@ -49,7 +49,7 @@ namespace g0at
                     ctx->add_object(key, arg);
                 }
                 else
-                    ctx->add_object(key, thr->o_pool->get_undefined_instance());
+                    ctx->add_object(key, thr->pool->get_undefined_instance());
             }
             if (arg_count > decl_arg_count)
             {
