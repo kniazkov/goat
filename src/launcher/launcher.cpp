@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/ref_counter.h"
 #include "lib/exception.h"
 #include "lib/new.h"
+#include "lib/dbg_print.h"
 #include "global/global.h"
 #include "compiler/source/source_file.h"
 #include "compiler/scanner/scanner.h"
