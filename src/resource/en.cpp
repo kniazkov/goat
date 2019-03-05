@@ -190,8 +190,8 @@ namespace g0at
             {
                 std::wstringstream wss;
                 wss << L"Memory usage report" << std::endl <<
-                    L"  heap size, bytes: " << heap_size << std::endl <<
-                    L"  peak usage, bytes: " << max_size;
+                    L"   heap size, bytes: " << heap_size << std::endl <<
+                    L"   peak usage, bytes: " << max_size;
                 return wss.str();
             }
         };

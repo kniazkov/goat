@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "model/object_pool.h"
+#include "model/object_cache.h"
 #include "model/thread.h"
 
 namespace g0at
@@ -32,11 +33,12 @@ namespace g0at
         class process
         {
         public:
-            process() : pool(nullptr), threads(nullptr)
+            process() : pool(nullptr), cache(nullptr), threads(nullptr)
             {
             }
 
             model::object_pool *pool;
+            model::object_cache *cache;
             model::thread* threads;
         };
     };

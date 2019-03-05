@@ -40,7 +40,24 @@ namespace g0at
 
             void collect_garbage(process *proc)
             {
+                // mark
+                proc->cache->mark_all();
+                model::thread *thr_start = proc->threads;
+                model::thread *thr = thr_start;
+                do
+                {
+                    thr->mark_all();
+                    thr = thr->next;
+                } while(thr != thr_start);
 
+                // sweep
+                model::object *obj = proc->pool->population.first;
+                while (obj)
+                {
+                    model::object *next = obj->next;
+                    obj->sweep(proc->pool);
+                    obj = next;
+                }
             }
         };
 

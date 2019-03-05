@@ -38,6 +38,14 @@ namespace g0at
             object_cache(std::vector<std::wstring> _init_list, object_pool *_obj_pool);
             object_string *get_object(std::wstring name);
             object_string *get_object(int id);
+            
+            void mark_all()
+            {
+                for (auto obj: objects)
+                {
+                    obj->mark();
+                }
+            }
 
         protected:
             object_cache(const object_cache&) { }

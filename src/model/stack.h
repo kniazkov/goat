@@ -120,6 +120,16 @@ namespace g0at
                 return used_count;
             }
 
+            void mark_all()
+            {
+                item *it = top;
+                while(it)
+                {
+                    it->var.mark();
+                    it = it->next;
+                }
+            }
+
         protected:
             struct item
             {

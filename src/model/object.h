@@ -360,9 +360,9 @@ namespace g0at
         void object::sweep(object_pool *pool)
         {
             if (!marked)
-            {
                 kill(pool);
-            }
+            else
+                unmark();
         }
     };
 };

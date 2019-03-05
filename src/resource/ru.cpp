@@ -189,9 +189,9 @@ namespace g0at
             std::wstring memory_usage_report(unsigned long int heap_size, unsigned long int max_size) override
             {
                 std::wstringstream wss;
-                wss << L"Отчет об использовании памяти" << std::endl <<
-                    L"  размер кучи, байт: " << heap_size << std::endl <<
-                    L"  максимально выделено, байт: " << max_size;
+                wss << L"Отчет о расходовании памяти:" << std::endl <<
+                    L"   размер кучи, байт: " << heap_size << std::endl <<
+                    L"   пиковое значение, байт: " << max_size;
                 return wss.str();
             }
         };

@@ -55,6 +55,11 @@ namespace g0at
             variable &peek(int n) { return data.peek(n); }
             bool stack_is_empty() { return data.empty(); }
             int get_stack_size() { return data.size(); }
+            void mark_all()
+            {
+                ctx->mark();
+                data.mark_all();
+            }
 
             thread *next;
             uint32_t iid;
