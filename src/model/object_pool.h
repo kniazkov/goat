@@ -30,24 +30,24 @@ namespace g0at
     {
         class object;
 
-        class object_pool_typed
+        template <int Factor, int Count> class object_pool_typed
         {
         public:
             object_pool_typed()
-                : alive_count(0), factor(2), min_count(128)
+                : alive_count(0)
             {
             }
 
-            void destroy_or_cache_object(object *obj);
-
             bool object_should_be_destroyed()
             {
+                int dead_count = dead.get_count();
+                return dead_count > min_count && dead_count > alive_count * factor;
             }
 
             int alive_count;
             object_list dead;
-            int factor;
-            int min_count;
+            static const int factor = Factor;
+            static const int min_count = Count;
         };
 
         class object_pool
@@ -59,13 +59,6 @@ namespace g0at
             {
                 population.add(item);
             }
-
-/*
-            void remove(object *item)
-            {
-                population.remove(item);
-            }
-*/
 
             void destroy_all()
             {
@@ -88,26 +81,19 @@ namespace g0at
             object *get_boolean_proto_instance();
             object *get_real_proto_instance();
 
-            object_pool_typed *get_pool_generic_objects() { return &generic_objects; }
-            object_pool_typed *get_pool_contexts() { return &contexts; }
-            object_pool_typed *get_pool_strings() { return &strings; }
-            object_pool_typed *get_pool_integers() { return &integers; }
-            object_pool_typed *get_pool_real_numbers() { return &real_numbers; }
-            object_pool_typed *get_pool_booleans() { return &booleans; }
+            object_list population;
+            object_pool_typed<2, 128> generic_objects;
+            object_pool_typed<8, 1024> contexts;
+            object_pool_typed<2, 64> strings;
+            object_pool_typed<2, 64> integers;
+            object_pool_typed<2, 64> real_numbers;
+            object_pool_typed<2, 64> booleans;
 
         private:
             object_pool(const object_pool &) { }
             void operator=(const object_pool &) { }
             void init();
-            
-            object_list population;
-            object_pool_typed generic_objects;
-            object_pool_typed contexts;
-            object_pool_typed strings;
-            object_pool_typed integers;
-            object_pool_typed real_numbers;
-            object_pool_typed booleans;
-
+ 
             object *generic_proto_instance;
             object *void_instance;
             object *undefined_instance;

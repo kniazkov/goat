@@ -36,21 +36,6 @@ namespace g0at
 {
     namespace model
     {
-        void object_pool_typed::destroy_or_cache_object(object *obj)
-        {
-            int dead_count = dead.get_count();
-            bool object_should_be_destroyed = dead_count > min_count && dead_count > alive_count * factor;
-            if (object_should_be_destroyed)
-            {
-                delete obj;
-            }
-            else
-            {
-                dead.add(obj);
-            }
-            alive_count--;
-        }
-
         object_pool::object_pool()
         {
             generic_proto_instance = nullptr;
