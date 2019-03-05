@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_list.h"
 #include <string>
+#include <cstdint>
 
 namespace g0at
 {
@@ -34,6 +35,9 @@ namespace g0at
         class generic_object;
         class context;
         class object_string;
+        class object_integer;
+        class object_real;
+        class object_boolean;
 
         template <int Factor, int Count> class object_pool_typed
         {
@@ -94,6 +98,9 @@ namespace g0at
             context *create_context(context *proto, context *parent);
             object_string *create_object_string(std::wstring data);
             object_string *create_object_string(std::wstring data, int id);
+            object_integer *create_object_integer(int64_t value);
+            object_real *create_object_real(double value);
+            object_boolean *create_object_boolean(bool value);
 
             object_list population;
             object_pool_typed<4, 256> generic_objects;

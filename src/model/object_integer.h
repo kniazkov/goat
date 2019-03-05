@@ -30,8 +30,12 @@ namespace g0at
     {
         class object_integer : public object
         {
-        public:
+        friend class object_pool;
+        protected:
             object_integer(object_pool *pool, int64_t _value);
+            void reinit(int64_t _value);
+
+        public:
             void kill(object_pool *pool) override;
             object_type get_type() const override;
             object_integer *to_object_integer() override;

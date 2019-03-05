@@ -30,8 +30,12 @@ namespace g0at
     {
         class object_boolean : public object
         {
-        public:
+        friend class object_pool;
+        protected:
             object_boolean(object_pool *pool, bool _value);
+            void reinit(bool _value);
+
+        public:
             void kill(object_pool *pool) override;
             object_type get_type() const override;
             object_boolean *to_object_boolean() override;

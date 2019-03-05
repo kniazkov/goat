@@ -35,6 +35,11 @@ namespace g0at
             proto.push_back(pool->get_boolean_proto_instance());
         }
 
+        void object_boolean::reinit(bool _value)
+        {
+            value = _value;
+        }
+
         void object_boolean::kill(object_pool *pool)
         {
             if (pool->booleans.destroy_or_cache(this, pool))
@@ -125,7 +130,7 @@ namespace g0at
 
             object *to_object(variable *var, object_pool *pool) override
             {
-                object *obj = new object_boolean(pool, var->data.b);
+                object *obj = pool->create_object_boolean(var->data.b);
                 var->set_object(obj);
                 return obj;
             }

@@ -145,5 +145,53 @@ namespace g0at
             }
             return obj;
         }
+
+        object_integer * object_pool::create_object_integer(int64_t value)
+        {
+            object_integer *obj;
+            integers.alive++;
+            if (integers.dead.count > 0)
+            {
+                obj = static_cast<object_integer*>(integers.dead.remove());
+                obj->reinit(value);
+            }
+            else
+            {
+                obj = new object_integer(this, value);
+            }
+            return obj;
+        }
+
+        object_real * object_pool::create_object_real(double value)
+        {
+            object_real *obj;
+            real_numbers.alive++;
+            if (real_numbers.dead.count > 0)
+            {
+                obj = static_cast<object_real*>(real_numbers.dead.remove());
+                obj->reinit(value);
+            }
+            else
+            {
+                obj = new object_real(this, value);
+            }
+            return obj;
+        }
+
+        object_boolean * object_pool::create_object_boolean(bool value)
+        {
+            object_boolean *obj;
+            booleans.alive++;
+            if (booleans.dead.count > 0)
+            {
+                obj = static_cast<object_boolean*>(booleans.dead.remove());
+                obj->reinit(value);
+            }
+            else
+            {
+                obj = new object_boolean(this, value);
+            }
+            return obj;
+        }
     };
 };

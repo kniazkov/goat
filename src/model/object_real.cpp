@@ -36,6 +36,11 @@ namespace g0at
             proto.push_back(pool->get_real_proto_instance());
         }
 
+        void object_real::reinit(double _value)
+        {
+            value = _value;
+        }
+
         void object_real::kill(object_pool *pool)
         {
             if (pool->real_numbers.destroy_or_cache(this, pool))
@@ -169,7 +174,7 @@ namespace g0at
 
             object *to_object(variable *var, object_pool *pool) override
             {
-                object *obj = new object_real(pool, var->data.r);
+                object *obj = pool->create_object_real(var->data.r);
                 var->set_object(obj);
                 return obj;
             }

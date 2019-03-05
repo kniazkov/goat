@@ -30,8 +30,12 @@ namespace g0at
     {
         class object_real : public object
         {
-        public:
+        friend class object_pool;
+        protected:
             object_real(object_pool *pool, double _value);
+            void reinit(double _value);
+
+        public:
             void kill(object_pool *pool) override;
             object_type get_type() const override;
             object_real *to_object_real() override;

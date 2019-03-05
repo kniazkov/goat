@@ -36,6 +36,7 @@ namespace g0at
             object_string(object_pool *pool, std::wstring _data, int _id);
             void reinit(std::wstring _data);
             void reinit(std::wstring _data, int _id);
+            
         public:
             void kill(object_pool *pool) override;
             object_type get_type() const override;

@@ -43,6 +43,11 @@ namespace g0at
             }
         }
 
+        void object_integer::reinit(int64_t _value)
+        {
+            value = _value;
+        }
+
         object_type object_integer::get_type() const
         {
             return object_type::integer;
@@ -194,7 +199,7 @@ namespace g0at
 
             object *to_object(variable *var, object_pool *pool) override
             {
-                object *obj = new object_integer(pool, var->data.i);
+                object *obj = pool->create_object_integer(var->data.i);
                 var->set_object(obj);
                 return obj;
             }
