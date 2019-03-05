@@ -71,15 +71,15 @@ namespace g0at
                 booleans.dead.destroy_all();
             }
 
-            object *get_generic_proto_instance();
-            object *get_void_instance();
-            object *get_undefined_instance();
-            object *get_null_instance();
-            object *get_string_proto_instance();
-            object *get_integer_proto_instance();
-            object *get_function_proto_instance();
-            object *get_boolean_proto_instance();
-            object *get_real_proto_instance();
+            object *get_generic_proto_instance() { return generic_proto_instance; }
+            object *get_void_instance() { return void_instance; }
+            object *get_undefined_instance() { return undefined_instance; };
+            object *get_null_instance() { return null_instance; }
+            object *get_string_proto_instance() { return string_proto_instance; }
+            object *get_integer_proto_instance() { return integer_proto_instance; }
+            object *get_function_proto_instance() { return function_proto_instance; }
+            object *get_boolean_proto_instance() { return boolean_proto_instance; }
+            object *get_real_proto_instance() { return real_proto_instance; }
 
             object_list population;
             object_pool_typed<2, 128> generic_objects;
@@ -92,7 +92,6 @@ namespace g0at
         private:
             object_pool(const object_pool &) { }
             void operator=(const object_pool &) { }
-            void init();
  
             object *generic_proto_instance;
             object *void_instance;
