@@ -40,10 +40,10 @@ namespace g0at
 
         void vm::run()
         {
-            model::object_pool o_pool;
-            model::object_cache cache(code->get_identifiers_list(), &o_pool);
-            model::context *ctx = model::built_in::context_factory(&o_pool, &cache).create_context();
-            model::thread thr(ctx, &o_pool, &cache);
+            model::object_pool pool;
+            model::object_cache cache(code->get_identifiers_list(), &pool);
+            model::context *ctx = model::built_in::context_factory(&pool, &cache).create_context();
+            model::thread thr(ctx, &pool, &cache);
             thr.state = model::thread_state::ok;
             if (!global::debug)
             {
@@ -73,12 +73,12 @@ namespace g0at
                     if (!thr.stack_is_empty())
                     {
                         // convert any value to real object
-                        thr.peek().to_object(&o_pool);
+                        thr.peek().to_object(&pool);
                     }
                 }
             }
             assert(thr.stack_is_empty());
-            o_pool.destroy_all();
+            pool.destroy_all();
         }
     };
 };

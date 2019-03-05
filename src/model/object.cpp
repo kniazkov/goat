@@ -34,12 +34,14 @@ namespace g0at
         */
 
         object::object(object_pool *pool)
+            : marked(true)
         {
             pool->add(this);
             proto.push_back(pool->get_generic_proto_instance());
         }
 
         object::object(object_pool *pool, object *proto)
+            : marked(true)
         {
             pool->add(this);
             if (proto)
@@ -56,6 +58,10 @@ namespace g0at
         {
             pool->population.remove(this);
             delete this;
+        }
+
+        void object::trace()
+        {
         }
 
         object_type object::get_type() const

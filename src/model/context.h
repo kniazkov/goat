@@ -46,6 +46,7 @@ namespace g0at
             void reinit(context *proto, context *parent);
         public:
             void kill(object_pool *pool) override;
+            void trace() override;
 
             context *prev;
             object *this_ptr;

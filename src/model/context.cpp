@@ -75,5 +75,14 @@ namespace g0at
                 ret = nullptr;
             }
         }
+
+        void context::trace()
+        {
+            if (prev)
+                prev->mark();
+
+            if (ret)
+                ret->mark();
+        }
     };
 };

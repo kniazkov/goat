@@ -79,6 +79,7 @@ namespace g0at
             inline object *to_object(object_pool *pool);
 
             inline object *get_object();
+            inline void mark();
             inline bool get_integer(int64_t *pval);
             inline bool get_real(double *pval);
             inline bool get_boolean(bool *pval);
@@ -106,6 +107,10 @@ namespace g0at
             object(object_pool *pool, object *proto);
             virtual ~object();
             virtual void kill(object_pool *pool);
+            virtual void trace();
+            inline void mark();
+            inline void unmark();
+            inline void sweep(object_pool *pool);
 
             virtual object_type get_type() const;
             virtual object_string *to_object_string();
@@ -139,6 +144,7 @@ namespace g0at
             object *next;
 
         protected:
+            bool marked;
             std::map<object*, variable, object_comparator> objects;
 #if 0
             std::vector<object*> proto;
@@ -226,7 +232,7 @@ namespace g0at
         }
 
         /*
-            Variable
+            Variable inline methods
         */
 
         void variable::set_object(object *obj)
@@ -273,6 +279,15 @@ namespace g0at
             return hndl->get_object(this);
         }
 
+        void variable::mark()
+        {
+            object *obj = hndl->get_object(this);
+            if (obj)
+            {
+                obj->mark();
+            }
+        }
+
         bool variable::get_integer(int64_t *pval)
         {
             return hndl->get_integer(this, pval);
@@ -311,6 +326,43 @@ namespace g0at
         void variable::op_neq(thread *thr)
         {
             hndl->op_neq(this, thr);
+        }
+
+        /*
+            Object inline methods
+        */
+        void object::mark()
+        {
+            if (!marked)
+            {
+                marked = true;
+
+                for (auto pair : objects)
+                {
+                    pair.first->mark();
+                    pair.second.mark();
+                }
+
+                for (object *pr : proto)
+                {
+                    pr->mark();
+                }
+
+                trace();
+            }
+        }
+
+        void object::unmark()
+        {
+            marked = false;
+        }
+
+        void object::sweep(object_pool *pool)
+        {
+            if (!marked)
+            {
+                kill(pool);
+            }
         }
     };
 };

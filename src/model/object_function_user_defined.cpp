@@ -63,5 +63,14 @@ namespace g0at
             thr->ctx = ctx;
             thr->iid = first_iid;
         }
+
+        void object_function_user_defined::trace()
+        {
+            proto_ctx->mark();
+            for (object *arg : arg_names)
+            {
+                arg->mark();
+            }
+        }
     };
 };
