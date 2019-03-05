@@ -29,25 +29,29 @@ namespace g0at
     namespace model
     {
         class object;
+        class object_pool;
 
         template <int Factor, int Count> class object_pool_typed
         {
         public:
             object_pool_typed()
-                : alive_count(0)
+                : alive(0)
             {
             }
 
-            bool object_should_be_destroyed()
-            {
-                int dead_count = dead.get_count();
-                return dead_count > min_count && dead_count > alive_count * factor;
-            }
+            inline bool destroy_or_cache_object(object *obj, object_pool *pool);
 
-            int alive_count;
+            int alive;
             object_list dead;
             static const int factor = Factor;
             static const int min_count = Count;
+
+        protected:
+            bool next_object_should_be_destroyed()
+            {
+                int dead_count = dead.get_count();
+                return dead_count > min_count && dead_count > alive * factor;
+            }
         };
 
         class object_pool
@@ -103,5 +107,21 @@ namespace g0at
             object *boolean_proto_instance;
             object *real_proto_instance;
         };
+
+        template <int Factor, int Count> bool object_pool_typed<Factor, Count>::destroy_or_cache_object(object *obj, object_pool *pool)
+        {
+            pool->population.remove(obj);
+            alive--;
+            if (next_object_should_be_destroyed())
+            {
+                delete obj;
+                return false;
+            }
+            else
+            {
+                dead.add(obj);
+                return true;
+            }
+        }
     };
 };
