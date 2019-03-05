@@ -40,7 +40,7 @@ namespace g0at
             context(object_pool *pool);
             context(object_pool *pool, context *proto);
             context(object_pool *pool, context *proto, context *parent);
-            void clear() override;
+            void kill(object_pool *pool) override;
 
             context *prev;
             object *this_ptr;

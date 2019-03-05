@@ -35,6 +35,14 @@ namespace g0at
             proto.push_back(pool->get_integer_proto_instance());
         }
 
+        void object_integer::kill(object_pool *pool)
+        {
+            if (pool->integers.destroy_or_cache(this, pool))
+            {
+                objects.clear();
+            }
+        }
+
         object_type object_integer::get_type() const
         {
             return object_type::integer;
@@ -55,11 +63,6 @@ namespace g0at
         std::wstring object_integer::to_string() const
         {
             return std::to_wstring(value);
-        }
-
-        void object_integer::clear()
-        {
-            objects.clear();
         }
 
         bool object_integer::get_integer(int64_t *pval)

@@ -21,7 +21,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_undefined.h"
-#include <assert.h>
 
 namespace g0at
 {
@@ -41,11 +40,6 @@ namespace g0at
         std::wstring object_undefined::to_string() const
         {
             return L"undefined";
-        }
-
-        void object_undefined::clear()
-        {
-            assert(false);
         }
     };
 };

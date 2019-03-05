@@ -21,7 +21,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_function.h"
-#include <assert.h>
 
 namespace g0at
 {
@@ -46,11 +45,6 @@ namespace g0at
         std::wstring object_function::to_string() const
         {
             return L"function";
-        }
-
-        void object_function::clear()
-        {
-            assert(false);
         }
 
         /* 

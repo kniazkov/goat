@@ -39,7 +39,7 @@ namespace g0at
             {
             }
 
-            inline bool destroy_or_cache_object(object *obj, object_pool *pool);
+            inline bool destroy_or_cache(object *obj, object_pool *pool);
 
             int alive;
             object_list dead;
@@ -86,12 +86,12 @@ namespace g0at
             object *get_real_proto_instance() { return real_proto_instance; }
 
             object_list population;
-            object_pool_typed<2, 128> generic_objects;
+            object_pool_typed<4, 256> generic_objects;
             object_pool_typed<8, 1024> contexts;
-            object_pool_typed<2, 64> strings;
-            object_pool_typed<2, 64> integers;
-            object_pool_typed<2, 64> real_numbers;
-            object_pool_typed<2, 64> booleans;
+            object_pool_typed<2, 128> strings;
+            object_pool_typed<1, 64> integers;
+            object_pool_typed<1, 64> real_numbers;
+            object_pool_typed<1, 64> booleans;
 
         private:
             object_pool(const object_pool &) { }
@@ -108,7 +108,7 @@ namespace g0at
             object *real_proto_instance;
         };
 
-        template <int Factor, int Count> bool object_pool_typed<Factor, Count>::destroy_or_cache_object(object *obj, object_pool *pool)
+        template <int Factor, int Count> bool object_pool_typed<Factor, Count>::destroy_or_cache(object *obj, object_pool *pool)
         {
             pool->population.remove(obj);
             alive--;

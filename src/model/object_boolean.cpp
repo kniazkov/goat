@@ -35,6 +35,14 @@ namespace g0at
             proto.push_back(pool->get_boolean_proto_instance());
         }
 
+        void object_boolean::kill(object_pool *pool)
+        {
+            if (pool->booleans.destroy_or_cache(this, pool))
+            {
+                objects.clear();
+            }
+        }
+
         object_type object_boolean::get_type() const
         {
             return object_type::boolean;
@@ -55,11 +63,6 @@ namespace g0at
         std::wstring object_boolean::to_string() const
         {
             return value ? L"true" : L"false";
-        }
-
-        void object_boolean::clear()
-        {
-            objects.clear();
         }
 
         bool object_boolean::get_boolean(bool *pval)

@@ -32,11 +32,11 @@ namespace g0at
         {
         public:
             object_integer(object_pool *pool, int64_t _value);
+            void kill(object_pool *pool) override;
             object_type get_type() const override;
             object_integer *to_object_integer() override;
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
-            void clear() override;
             bool get_integer(int64_t *pval) override;
             bool get_real(double *pval) override;\
             

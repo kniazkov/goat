@@ -33,12 +33,12 @@ namespace g0at
         public:
             object_string(object_pool *pool, std::wstring _data);
             object_string(object_pool *pool, std::wstring _data, int _id);
+            void kill(object_pool *pool) override;
             object_type get_type() const override;
             object_string *to_object_string() override;
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
             std::wstring to_string_notation() const override;
-            void clear() override;
             void op_add(thread *thr) override;
 
             std::wstring get_data() { return data; }

@@ -21,7 +21,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_null.h"
-#include <assert.h>
 
 namespace g0at
 {
@@ -41,11 +40,6 @@ namespace g0at
         std::wstring object_null::to_string() const
         {
             return L"null";
-        }
-
-        void object_null::clear()
-        {
-            assert(false);
         }
     };
 };

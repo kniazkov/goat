@@ -41,15 +41,18 @@ namespace g0at
         {
         }
 
-        void context::clear()
+        void context::kill(object_pool *pool)
         {
-            objects.clear();
-            proto.clear();
-            prev = nullptr;
-            this_ptr = nullptr;
-            value = 0;
-            value_type = context_value_type::none;
-            ret = nullptr;
+            if (pool->contexts.destroy_or_cache(this, pool))
+            {
+                objects.clear();
+                proto.clear();
+                prev = nullptr;
+                this_ptr = nullptr;
+                value = 0;
+                value_type = context_value_type::none;
+                ret = nullptr;
+            }
         }
     };
 };

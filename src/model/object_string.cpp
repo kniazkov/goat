@@ -41,6 +41,15 @@ namespace g0at
         {
         }
 
+        void object_string::kill(object_pool *pool)
+        {
+            if (pool->strings.destroy_or_cache(this, pool))
+            {
+                objects.clear();
+                data.clear();
+            }
+        }
+
         object_type object_string::get_type() const
         {
             return object_type::string;
@@ -71,12 +80,6 @@ namespace g0at
             std::wstringstream wss;
             wss << L'\"' << lib::escape_special_chars(data) << L'\"';
             return wss.str();
-        }
-
-        void object_string::clear()
-        {
-            objects.clear();
-            data.clear();
         }
 
         void object_string::op_add(thread *thr)

@@ -105,6 +105,8 @@ namespace g0at
             object(object_pool *pool);
             object(object_pool *pool, object *proto);
             virtual ~object();
+            virtual void kill(object_pool *pool);
+
             virtual object_type get_type() const;
             virtual object_string *to_object_string();
             virtual object_function *to_object_function();
@@ -118,7 +120,6 @@ namespace g0at
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
             virtual std::wstring to_string_notation() const;
-            virtual void clear();
 
             void add_object(object *key, variable &value);
             void add_object(object *key, object *value);
@@ -150,6 +151,7 @@ namespace g0at
         {
         public:
             generic_object(object_pool *pool);
+            void kill(object_pool *pool) override;
         };
 
         class generic_proto : public object

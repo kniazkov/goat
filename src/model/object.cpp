@@ -30,7 +30,7 @@ namespace g0at
     namespace model
     {
         /* 
-            Generic object
+            Base object
         */
 
         object::object(object_pool *pool)
@@ -50,6 +50,12 @@ namespace g0at
 
         object::~object()
         {
+        }
+
+        void object::kill(object_pool *pool)
+        {
+            pool->population.remove(this);
+            delete this;
         }
 
         object_type object::get_type() const
@@ -123,12 +129,6 @@ namespace g0at
         std::wstring object::to_string_notation() const
         {
             return to_string();
-        }
-
-        void object::clear()
-        {
-            objects.clear();
-            proto.clear();
         }
 
         void object::add_object(object *key, variable &value)
@@ -221,6 +221,15 @@ namespace g0at
         generic_object::generic_object(object_pool *pool)
             : object(pool)
         {
+        }
+
+        void generic_object::kill(object_pool *pool)
+        {
+            if (pool->generic_objects.destroy_or_cache(this, pool))
+            {
+                objects.clear();
+                proto.clear();
+            }
         }
 
         /* 

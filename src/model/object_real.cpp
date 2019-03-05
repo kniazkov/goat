@@ -36,6 +36,14 @@ namespace g0at
             proto.push_back(pool->get_real_proto_instance());
         }
 
+        void object_real::kill(object_pool *pool)
+        {
+            if (pool->real_numbers.destroy_or_cache(this, pool))
+            {
+                objects.clear();
+            }
+        }
+
         object_type object_real::get_type() const
         {
             return object_type::real;
@@ -56,11 +64,6 @@ namespace g0at
         std::wstring object_real::to_string() const
         {
             return lib::double_to_wstring(value);
-        }
-
-        void object_real::clear()
-        {
-            objects.clear();
         }
 
         bool object_real::get_real(double *pval)

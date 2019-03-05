@@ -37,7 +37,6 @@ namespace g0at
         public:
             object_undefined *to_object_undefined() override;
             std::wstring to_string() const override;
-            void clear() override;
         };
     };
 };
