@@ -34,14 +34,14 @@ namespace g0at
         */
 
         object::object(object_pool *pool)
-            : marked(true)
+            : marked(false)
         {
             pool->add(this);
             proto.push_back(pool->get_generic_proto_instance());
         }
 
         object::object(object_pool *pool, object *proto)
-            : marked(true)
+            : marked(false)
         {
             pool->add(this);
             if (proto)

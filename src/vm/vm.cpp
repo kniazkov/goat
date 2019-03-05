@@ -61,7 +61,7 @@ namespace g0at
                     thr.iid++;
                     auto instr = code->get_instruction(iid);
                     instr->exec(&thr);
-                    //gci->collect_garbage(&proc);
+                    gci->collect_garbage(&proc);
 #if 0                
                     std::wstringstream tmp;
                     code::disasm visitor(tmp, code->get_identifiers_list());
@@ -84,7 +84,7 @@ namespace g0at
                         // convert any value to real object
                         thr.peek().to_object(&pool);
                     }
-                    //gci->collect_garbage(&proc);
+                    gci->collect_garbage(&proc);
                 }
             }
             assert(thr.stack_is_empty());
