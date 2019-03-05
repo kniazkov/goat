@@ -149,9 +149,12 @@ namespace g0at
 
         class generic_object : public object
         {
+        friend class object_pool;
         public:
-            generic_object(object_pool *pool);
             void kill(object_pool *pool) override;
+        protected:
+            generic_object(object_pool *pool);
+            void reinit(object_pool *pool);
         };
 
         class generic_proto : public object

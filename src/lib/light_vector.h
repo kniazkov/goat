@@ -47,6 +47,11 @@ namespace g0at
                 return length;
             }
 
+            bool empty()
+            {
+                return length == 0;
+            }
+
             T at(int idx)
             {
                 if (idx < 0 || idx >= length)

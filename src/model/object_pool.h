@@ -30,6 +30,7 @@ namespace g0at
     {
         class object;
         class object_pool;
+        class generic_object;
 
         template <int Factor, int Count> class object_pool_typed
         {
@@ -49,8 +50,7 @@ namespace g0at
         protected:
             bool next_object_should_be_destroyed()
             {
-                int dead_count = dead.get_count();
-                return dead_count > min_count && dead_count > alive * factor;
+                return dead.count > min_count && dead.count > alive * factor;
             }
         };
 
@@ -84,6 +84,8 @@ namespace g0at
             object *get_function_proto_instance() { return function_proto_instance; }
             object *get_boolean_proto_instance() { return boolean_proto_instance; }
             object *get_real_proto_instance() { return real_proto_instance; }
+
+            generic_object *create_generic_object();
 
             object_list population;
             object_pool_typed<4, 256> generic_objects;

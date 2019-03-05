@@ -34,17 +34,16 @@ namespace g0at
             object_list();
             void add(object *item);
             void remove(object *item);
+            object *remove();
             void destroy_all();
-
-            int get_count() { return count; }
 
             object *first;
             object *last;
+            int count;
 
         protected:
             object_list(const object_list &) { }
             void operator=(const object_list &) { }
-            int count;
         };
     };
 };

@@ -232,6 +232,12 @@ namespace g0at
             }
         }
 
+        void generic_object::reinit(object_pool *pool)
+        {
+            assert(proto.empty());
+            proto.push_back(pool->get_generic_proto_instance());
+        }
+
         /* 
             Generic proto
         */

@@ -48,5 +48,21 @@ namespace g0at
             boolean_proto_instance = new object_boolean_proto(this);
             real_proto_instance = new object_real_proto(this);
         }
+
+        generic_object * object_pool::create_generic_object()
+        {
+            generic_object *obj;
+            generic_objects.alive++;
+            if (generic_objects.dead.count > 0)
+            {
+                obj = static_cast<generic_object*>(generic_objects.dead.remove());
+                obj->reinit(this);
+            }
+            else
+            {
+                obj = new generic_object(this);
+            }
+            return obj;
+        }
     };
 };

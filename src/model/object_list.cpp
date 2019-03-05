@@ -59,6 +59,22 @@ namespace g0at
             count--;
         }
 
+        object * object_list::remove()
+        {
+            object *item = last;
+            if (item)
+            {
+                if (item->prev)
+                    item->prev->next = nullptr;
+                else
+                    first = nullptr;
+
+                last = item->prev;
+                count--;
+            }
+            return item;
+        }
+
         void object_list::destroy_all()
         {
             object *obj = first;

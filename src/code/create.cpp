@@ -40,7 +40,7 @@ namespace g0at
 
         void create::exec(model::thread *thr)
         {
-            model::object *result = new model::generic_object(thr->o_pool);
+            model::object *result = thr->o_pool->create_generic_object();
             model::variable var;
             var.set_object(result);
 
