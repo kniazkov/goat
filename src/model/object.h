@@ -101,7 +101,6 @@ namespace g0at
 
         class object
         {
-        friend class generic_proto;
         public:
             object(object_pool *pool);
             object(object_pool *pool, object *proto);
@@ -139,14 +138,18 @@ namespace g0at
             object *next;
 
         protected:
-            object(object_pool *pool, bool has_proto);
-
             std::map<object*, variable, object_comparator> objects;
 #if 0
             std::vector<object*> proto;
 #else
             lib::light_vector<object*, 2> proto;
 #endif
+        };
+
+        class generic_object : public object
+        {
+        public:
+            generic_object(object_pool *pool);
         };
 
         class generic_proto : public object

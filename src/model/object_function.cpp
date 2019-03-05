@@ -54,10 +54,10 @@ namespace g0at
         }
 
         /* 
-            Generic proto
+            Prototype
         */
         object_function_proto::object_function_proto(object_pool *pool)
-            : object(pool, false)
+            : object(pool)
         {
         }
     };

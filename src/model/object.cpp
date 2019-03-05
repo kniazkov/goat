@@ -42,15 +42,9 @@ namespace g0at
         object::object(object_pool *pool, object *proto)
         {
             pool->add(this);
-            this->proto.push_back(proto);
-        }
-
-        object::object(object_pool *pool, bool has_proto)
-        {
-            pool->add(this);
-            if (has_proto)
+            if (proto)
             {
-                proto.push_back(pool->get_generic_proto_instance());
+                this->proto.push_back(proto);
             }
         }
 
@@ -222,10 +216,18 @@ namespace g0at
         }
 
         /* 
+            Generic object
+        */
+        generic_object::generic_object(object_pool *pool)
+            : object(pool)
+        {
+        }
+
+        /* 
             Generic proto
         */
         generic_proto::generic_proto(object_pool *pool)
-            : object(pool, false)
+            : object(pool, nullptr)
         {
         }
 
