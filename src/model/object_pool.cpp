@@ -31,6 +31,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_function.h"
 #include "object_boolean.h"
 #include "object_real.h"
+#include "context.h"
 
 namespace g0at
 {
@@ -61,6 +62,54 @@ namespace g0at
             else
             {
                 obj = new generic_object(this);
+            }
+            return obj;
+        }
+
+        context * object_pool::create_context()
+        {
+            context *obj;
+            contexts.alive++;
+            if (contexts.dead.count > 0)
+            {
+                obj = static_cast<context*>(contexts.dead.remove());
+                obj->reinit(this);
+            }
+            else
+            {
+                obj = new context(this);
+            }
+            return obj;
+        }
+
+        context * object_pool::create_context(context *proto)
+        {
+            context *obj;
+            contexts.alive++;
+            if (contexts.dead.count > 0)
+            {
+                obj = static_cast<context*>(contexts.dead.remove());
+                obj->reinit(proto);
+            }
+            else
+            {
+                obj = new context(this, proto);
+            }
+            return obj;
+        }
+
+        context * object_pool::create_context(context *proto, context *parent)
+        {
+            context *obj;
+            contexts.alive++;
+            if (contexts.dead.count > 0)
+            {
+                obj = static_cast<context*>(contexts.dead.remove());
+                obj->reinit(proto, parent);
+            }
+            else
+            {
+                obj = new context(this, proto, parent);
             }
             return obj;
         }

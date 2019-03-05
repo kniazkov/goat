@@ -36,10 +36,15 @@ namespace g0at
 
         class context : public object
         {
-        public:
+        friend class object_pool;
+        protected:
             context(object_pool *pool);
             context(object_pool *pool, context *proto);
             context(object_pool *pool, context *proto, context *parent);
+            void reinit(object_pool *pool);
+            void reinit(context *proto);
+            void reinit(context *proto, context *parent);
+        public:
             void kill(object_pool *pool) override;
 
             context *prev;

@@ -32,6 +32,7 @@ namespace g0at
         class object;
         class object_pool;
         class generic_object;
+        class context;
         class object_string;
 
         template <int Factor, int Count> class object_pool_typed
@@ -88,6 +89,9 @@ namespace g0at
             object *get_real_proto_instance() { return real_proto_instance; }
 
             generic_object *create_generic_object();
+            context *create_context();
+            context *create_context(context *proto);
+            context *create_context(context *proto, context *parent);
             object_string *create_object_string(std::wstring data);
             object_string *create_object_string(std::wstring data, int id);
 

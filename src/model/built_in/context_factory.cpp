@@ -37,7 +37,7 @@ namespace g0at
 
             context *context_factory::create_context()
             {
-                context *ctx = new context(pool);
+                context *ctx = pool->create_context();
 
                 ctx->add_object(cache->get_object(L"Void"), pool->get_void_instance());
                 ctx->add_object(cache->get_object(L"Undefined"), pool->get_undefined_instance());
@@ -60,7 +60,7 @@ namespace g0at
                 tmp.set_real(std::atan((double)1.0) * 4);
                 ctx->add_object(cache->get_object(L"PI"), tmp);
 
-                return new context(pool, ctx);
+                return pool->create_context(ctx);
             }
         };
     };
