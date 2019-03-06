@@ -20,6 +20,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+#include "lib/new.h"
 #include "vm.h"
 #include "gc.h"
 #include "process.h"
@@ -53,6 +54,7 @@ namespace g0at
             proc.cache = &cache;
             proc.threads = &thr;
             lib::pointer<lib::gc> gc = create_garbage_collector(env->gct, &proc);
+            lib::set_garbage_collector(gc.get());
             if (!global::debug)
             {
                 while(thr.state == model::thread_state::ok)
@@ -83,6 +85,7 @@ namespace g0at
             }
             assert(thr.stack_is_empty());
             pool.destroy_all();
+            lib::set_garbage_collector(nullptr);
             vm_report r;
             r.ret_value = 0; // TODO: write here something
             r.gcr = gc->get_report();

@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "gc.h"
 #include <cstddef>
 #include <exception>
 
@@ -34,6 +35,7 @@ namespace g0at
         size_t get_max_used_memory_size();
         void set_heap_size(size_t size);
         size_t get_heap_size();
+        void set_garbage_collector(gc *gc_ptr);
 
         class out_of_memory : public std::exception
         {
@@ -44,6 +46,6 @@ namespace g0at
 };
 
 void *operator new(size_t size);
-void operator delete(void *p);
+void operator delete(void *p) noexcept;
 void *operator new[](size_t size);
-void operator delete[](void *p);
+void operator delete[](void *p) noexcept;

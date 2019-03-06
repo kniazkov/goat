@@ -32,6 +32,7 @@ namespace g0at
         static size_t __used_memory_size = 0;
         static size_t __max_used_memory_size = 0;
         static size_t __heap_size = UINTPTR_MAX;
+        static gc *__gc = nullptr;
         
         int get_allocated_blocks_count()
         {
@@ -58,6 +59,11 @@ namespace g0at
             return __heap_size;
         }
 
+        void set_garbage_collector(gc *gc_ptr)
+        {
+            __gc = gc_ptr;
+        }
+
         const char* out_of_memory::what() const throw()
         {
             return "out of memory";
@@ -70,13 +76,35 @@ namespace g0at
 
         static void * alloc(size_t size)
         {
-            if (sizeof(memory_descriptor) + size + __used_memory_size > __heap_size)
-                throw out_of_memory();
-            memory_descriptor *d = (memory_descriptor*)std::malloc(sizeof(memory_descriptor) + size);
-            if (!d)
+            memory_descriptor *d = nullptr;
+            size_t total_size = sizeof(memory_descriptor) + size;
+            do
+            {
+                if (total_size + __used_memory_size > __heap_size)
+                {
+                    if (!__gc)
+                        break;
+                    __gc->collect_garbage();
+                    if (total_size + __used_memory_size > __heap_size)
+                        break;
+                    d = (memory_descriptor*)std::malloc(total_size);
+                }
+                else
+                {
+                    d = (memory_descriptor*)std::malloc(total_size);
+                    if (!d)
+                    {
+                        if (!__gc)
+                            break;
+                        __gc->collect_garbage();
+                        d = (memory_descriptor*)std::malloc(total_size);
+                    }
+                }
+            } while(false);
+            if(!d)
                 throw out_of_memory();
             d->size = size;
-            __used_memory_size += sizeof(memory_descriptor) + size;
+            __used_memory_size += total_size;
             __allocated_blocks_count++;
             if (__max_used_memory_size < __used_memory_size)
                 __max_used_memory_size = __used_memory_size;
@@ -100,7 +128,7 @@ void *operator new(size_t size)
     return g0at::lib::alloc(size);
 }
 
-void operator delete(void *p)
+void operator delete(void *p) noexcept
 {
     g0at::lib::free(p);
 }
@@ -110,7 +138,7 @@ void *operator new[](size_t size)
     return g0at::lib::alloc(size);
 }
 
-void operator delete[](void *p)
+void operator delete[](void *p) noexcept
 {
     g0at::lib::free(p);
 }

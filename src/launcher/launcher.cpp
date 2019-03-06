@@ -101,7 +101,7 @@ namespace g0at
         std::cout << global::char_encoder->encode(global::resource->memory_usage_report(
             lib::get_heap_size(),
             lib::get_max_used_memory_size(),
-            vmr.gcr.name,
+            vmr.gcr.name ? vmr.gcr.name : L"none",
             vmr.gcr.count_of_launches
         )) << std::endl;
     }
