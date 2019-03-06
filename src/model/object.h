@@ -22,6 +22,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#define MODEL_DEBUG
+
 #include "object_pool.h"
 #include "lib/light_vector.h"
 #include <map>
@@ -106,6 +108,11 @@ namespace g0at
             object(object_pool *pool);
             object(object_pool *pool, object *proto);
             virtual ~object();
+#ifdef MODEL_DEBUG
+            int get_id() { return id; }
+#else
+            int get_id() { return 0; }
+#endif
             virtual void kill(object_pool *pool);
             virtual void trace();
             inline void mark();
@@ -144,6 +151,9 @@ namespace g0at
             object *next;
 
         protected:
+#ifdef MODEL_DEBUG
+            int id;
+#endif
             bool marked;
             std::map<object*, variable, object_comparator> objects;
 #if 0
@@ -360,9 +370,13 @@ namespace g0at
         void object::sweep(object_pool *pool)
         {
             if (!marked)
+            {
                 kill(pool);
+            }
             else
+            {
                 unmark();
+            }
         }
     };
 };

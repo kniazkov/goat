@@ -39,6 +39,8 @@ namespace g0at
     {
         object_pool::object_pool()
         {
+            id = 0;
+
             generic_proto_instance = new generic_proto(this);
             void_instance = new object_void(this);
             undefined_instance = new object_undefined(this);
@@ -50,6 +52,22 @@ namespace g0at
             real_proto_instance = new object_real_proto(this);
         }
 
+        void object_pool::add(object *item)
+        {
+            population.add(item);
+        }
+
+        void object_pool::destroy_all()
+        {
+            population.destroy_all();
+            generic_objects.dead.destroy_all();
+            contexts.dead.destroy_all();
+            strings.dead.destroy_all();
+            integers.dead.destroy_all();
+            real_numbers.dead.destroy_all();
+            booleans.dead.destroy_all();
+        }
+
         generic_object * object_pool::create_generic_object()
         {
             generic_object *obj;
@@ -58,6 +76,7 @@ namespace g0at
             {
                 obj = static_cast<generic_object*>(generic_objects.dead.remove());
                 obj->reinit(this);
+                population.add(obj);
             }
             else
             {
@@ -74,6 +93,7 @@ namespace g0at
             {
                 obj = static_cast<context*>(contexts.dead.remove());
                 obj->reinit(this);
+                population.add(obj);
             }
             else
             {
@@ -90,6 +110,7 @@ namespace g0at
             {
                 obj = static_cast<context*>(contexts.dead.remove());
                 obj->reinit(proto);
+                population.add(obj);
             }
             else
             {
@@ -106,6 +127,7 @@ namespace g0at
             {
                 obj = static_cast<context*>(contexts.dead.remove());
                 obj->reinit(proto, parent);
+                population.add(obj);
             }
             else
             {
@@ -122,6 +144,7 @@ namespace g0at
             {
                 obj = static_cast<object_string*>(strings.dead.remove());
                 obj->reinit(data);
+                population.add(obj);
             }
             else
             {
@@ -138,6 +161,7 @@ namespace g0at
             {
                 obj = static_cast<object_string*>(strings.dead.remove());
                 obj->reinit(data, id);
+                population.add(obj);
             }
             else
             {
@@ -154,6 +178,7 @@ namespace g0at
             {
                 obj = static_cast<object_integer*>(integers.dead.remove());
                 obj->reinit(value);
+                population.add(obj);
             }
             else
             {
@@ -170,6 +195,7 @@ namespace g0at
             {
                 obj = static_cast<object_real*>(real_numbers.dead.remove());
                 obj->reinit(value);
+                population.add(obj);
             }
             else
             {
@@ -186,6 +212,7 @@ namespace g0at
             {
                 obj = static_cast<object_boolean*>(booleans.dead.remove());
                 obj->reinit(value);
+                population.add(obj);
             }
             else
             {

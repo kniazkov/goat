@@ -36,6 +36,9 @@ namespace g0at
         object::object(object_pool *pool)
             : marked(false)
         {
+#ifdef MODEL_DEBUG
+            id = pool->get_next_id();
+#endif
             pool->add(this);
             proto.push_back(pool->get_generic_proto_instance());
         }
@@ -43,6 +46,9 @@ namespace g0at
         object::object(object_pool *pool, object *proto)
             : marked(false)
         {
+#ifdef MODEL_DEBUG
+            id = pool->get_next_id();
+#endif
             pool->add(this);
             if (proto)
             {

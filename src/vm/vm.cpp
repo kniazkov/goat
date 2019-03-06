@@ -62,12 +62,6 @@ namespace g0at
                     auto instr = code->get_instruction(iid);
                     instr->exec(&thr);
                     gci->collect_garbage(&proc);
-#if 0                
-                    std::wstringstream tmp;
-                    code::disasm visitor(tmp, code->get_identifiers_list());
-                    instr->accept(&visitor);
-                    std::cout << std::endl << instr->get_id() << "\t" << global::char_encoder->encode(tmp.str()) << " (" << thr.get_stack_size() << ") ";
-#endif
                 }
             }
             else

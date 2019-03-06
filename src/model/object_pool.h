@@ -65,22 +65,10 @@ namespace g0at
         {
         public:
             object_pool();
+            void add(object *item);
+            void destroy_all();
 
-            void add(object *item)
-            {
-                population.add(item);
-            }
-
-            void destroy_all()
-            {
-                population.destroy_all();
-                generic_objects.dead.destroy_all();
-                contexts.dead.destroy_all();
-                strings.dead.destroy_all();
-                integers.dead.destroy_all();
-                real_numbers.dead.destroy_all();
-                booleans.dead.destroy_all();
-            }
+            int get_next_id() { return id++; }
 
             object *get_generic_proto_instance() { return generic_proto_instance; }
             object *get_void_instance() { return void_instance; }
@@ -114,6 +102,8 @@ namespace g0at
             object_pool(const object_pool &) { }
             void operator=(const object_pool &) { }
  
+            int id;
+
             object *generic_proto_instance;
             object *void_instance;
             object *undefined_instance;

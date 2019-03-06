@@ -22,70 +22,70 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#if 1
+#if 0
 #include "global/global.h"
 #include <iostream> 
 #include <string> 
 namespace g0at
 {
-    void dbg_print()
+    static inline void dbg_print()
     {
         std::cout << std::endl;
     }
 
-    void dbg_print(std::wstring value)
+    static inline void __dbg_print(std::wstring value)
     {
         std::cout << global::char_encoder->encode(value);
     }
 
-    void dbg_print(const wchar_t *value)
+    static inline void __dbg_print(const wchar_t *value)
     {
-        dbg_print(std::wstring(value));
+        __dbg_print(std::wstring(value));
     }
 
-    void dbg_print(int value)
+    static inline void __dbg_print(int value)
     {
-        dbg_print(std::to_wstring(value));
+        __dbg_print(std::to_wstring(value));
     }
 
-    void dbg_print(long int value)
+    static inline void __dbg_print(long int value)
     {
-        dbg_print(std::to_wstring(value));
+        __dbg_print(std::to_wstring(value));
     }
 
-    void dbg_print(long long int value)
+    static inline void __dbg_print(long long int value)
     {
-        dbg_print(std::to_wstring(value));
+        __dbg_print(std::to_wstring(value));
     }
 
-    void dbg_print(unsigned int value)
+    static inline void __dbg_print(unsigned int value)
     {
-        dbg_print(std::to_wstring(value));
+        __dbg_print(std::to_wstring(value));
     }
 
-    void dbg_print(unsigned long int value)
+    static inline void __dbg_print(unsigned long int value)
     {
-        dbg_print(std::to_wstring(value));
+        __dbg_print(std::to_wstring(value));
     }
 
-    void dbg_print(unsigned long long int value)
+    static inline void __dbg_print(unsigned long long int value)
     {
-        dbg_print(std::to_wstring(value));
+        __dbg_print(std::to_wstring(value));
     }
 
-    void dbg_print(float value)
+    static inline void __dbg_print(float value)
     {
-        dbg_print(std::to_wstring(value));
+        __dbg_print(std::to_wstring(value));
     }
 
-    void dbg_print(double value)
+    static inline void __dbg_print(double value)
     {
-        dbg_print(std::to_wstring(value));
+        __dbg_print(std::to_wstring(value));
     }
 
     template <typename Head, typename... Tail> void dbg_print(Head head, Tail... tail)
     {
-        dbg_print(head);
+        __dbg_print(head);
         dbg_print(tail...);
     }
 };

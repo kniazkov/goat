@@ -1,1 +1,16 @@
-println("it works.");
+var factory = $()
+{
+    var x = 0;
+
+    return $()
+    {
+        x = x + 1;
+        return x;
+    };
+};
+
+var gen = factory();
+
+println(gen());
+println(gen());
+println(gen());
