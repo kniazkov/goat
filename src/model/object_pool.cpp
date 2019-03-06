@@ -54,6 +54,7 @@ namespace g0at
 
         void object_pool::add(object *item)
         {
+            report.new_count++;
             population.add(item);
         }
 
@@ -77,6 +78,7 @@ namespace g0at
                 obj = static_cast<generic_object*>(generic_objects.dead.remove());
                 obj->reinit(this);
                 population.add(obj);
+                report.reinit_count++;
             }
             else
             {
@@ -94,6 +96,7 @@ namespace g0at
                 obj = static_cast<context*>(contexts.dead.remove());
                 obj->reinit(this);
                 population.add(obj);
+                report.reinit_count++;
             }
             else
             {
@@ -111,6 +114,7 @@ namespace g0at
                 obj = static_cast<context*>(contexts.dead.remove());
                 obj->reinit(proto);
                 population.add(obj);
+                report.reinit_count++;
             }
             else
             {
@@ -128,6 +132,7 @@ namespace g0at
                 obj = static_cast<context*>(contexts.dead.remove());
                 obj->reinit(proto, parent);
                 population.add(obj);
+                report.reinit_count++;
             }
             else
             {
@@ -145,6 +150,7 @@ namespace g0at
                 obj = static_cast<object_string*>(strings.dead.remove());
                 obj->reinit(data);
                 population.add(obj);
+                report.reinit_count++;
             }
             else
             {
@@ -162,6 +168,7 @@ namespace g0at
                 obj = static_cast<object_string*>(strings.dead.remove());
                 obj->reinit(data, id);
                 population.add(obj);
+                report.reinit_count++;
             }
             else
             {
@@ -179,6 +186,7 @@ namespace g0at
                 obj = static_cast<object_integer*>(integers.dead.remove());
                 obj->reinit(value);
                 population.add(obj);
+                report.reinit_count++;
             }
             else
             {
@@ -196,6 +204,7 @@ namespace g0at
                 obj = static_cast<object_real*>(real_numbers.dead.remove());
                 obj->reinit(value);
                 population.add(obj);
+                report.reinit_count++;
             }
             else
             {
@@ -213,6 +222,7 @@ namespace g0at
                 obj = static_cast<object_boolean*>(booleans.dead.remove());
                 obj->reinit(value);
                 population.add(obj);
+                report.reinit_count++;
             }
             else
             {

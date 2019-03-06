@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "gc.h"
 #include "code/code.h"
 #include "lib/pointer.h"
+#include "model/object_pool.h"
 
 namespace g0at
 {
@@ -35,6 +36,7 @@ namespace g0at
         {
             int ret_value;
             lib::gc_report gcr;
+            model::object_pool_report opr;
         };
 
         class vm

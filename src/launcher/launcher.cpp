@@ -102,7 +102,9 @@ namespace g0at
             lib::get_heap_size(),
             lib::get_max_used_memory_size(),
             vmr.gcr.name ? vmr.gcr.name : L"none",
-            vmr.gcr.count_of_launches
+            vmr.gcr.count_of_launches,
+            vmr.opr.new_count + vmr.opr.reinit_count,
+            vmr.opr.reinit_count
         )) << std::endl;
     }
 

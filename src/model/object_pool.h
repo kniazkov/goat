@@ -61,6 +61,17 @@ namespace g0at
             }
         };
 
+        struct object_pool_report
+        {
+            uint64_t new_count;
+            uint64_t reinit_count;
+
+            object_pool_report()
+                : new_count(0), reinit_count(0)
+            {
+            }
+        };
+
         class object_pool
         {
         public:
@@ -69,6 +80,7 @@ namespace g0at
             void destroy_all();
 
             int get_next_id() { return id++; }
+            object_pool_report get_report() { return report; }
 
             object *get_generic_proto_instance() { return generic_proto_instance; }
             object *get_void_instance() { return void_instance; }
@@ -103,6 +115,7 @@ namespace g0at
             void operator=(const object_pool &) { }
  
             int id;
+            object_pool_report report;
 
             object *generic_proto_instance;
             object *void_instance;

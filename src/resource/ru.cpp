@@ -187,14 +187,17 @@ namespace g0at
             }
 
             std::wstring memory_usage_report(size_t heap_size, size_t max_size,
-                const wchar_t *gc_algorithm, int gc_count_launches) override
+                const wchar_t *gc_algorithm, int gc_count_launches,
+                uint64_t total_objects, uint64_t reused_objects) override
             {
                 std::wstringstream wss;
-                wss << L"Отчет о расходовании памяти:" << std::endl <<
-                    L"   размер кучи, байт:            " << heap_size << std::endl <<
-                    L"   пиковое значение, байт:       " << max_size << std::endl <<
-                    L"   алгоритм сборщика мусора:     '" << gc_algorithm << L'\'' << std::endl <<
-                    L"   число итераций сборки мусора: " << gc_count_launches;
+                wss << L"Отчет о расходовании памяти:    " << std::endl <<
+                    L"   размер кучи, байт:              " << heap_size << std::endl <<
+                    L"   пиковое значение, байт:         " << max_size << std::endl <<
+                    L"   алгоритм сборщика мусора:       '" << gc_algorithm << L'\'' << std::endl <<
+                    L"   число итераций сборки мусора:   " << gc_count_launches << std::endl <<
+                    L"   всего объектов:                 " << total_objects << std::endl <<
+                    L"   из них повторно использованных: " << reused_objects;
                 return wss.str();
             }
         };

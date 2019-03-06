@@ -63,7 +63,8 @@ namespace g0at
             virtual std::wstring index_out_of_bounds() = 0;
             virtual std::wstring memory_leak(int blocks_count, size_t size) = 0;
             virtual std::wstring memory_usage_report(size_t heap_size, size_t max_size,
-                const wchar_t *gc_algorithm, int gc_count_launches) = 0;
+                const wchar_t *gc_algorithm, int gc_count_launches,
+                uint64_t total_objects, uint64_t reused_objects) = 0;
             
         protected:
             static resource *get_intance_en();

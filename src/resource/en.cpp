@@ -187,14 +187,17 @@ namespace g0at
             }
 
             std::wstring memory_usage_report(size_t heap_size, size_t max_size,
-                const wchar_t *gc_algorithm, int gc_count_launches) override
+                const wchar_t *gc_algorithm, int gc_count_launches,
+                uint64_t total_objects, uint64_t reused_objects) override
             {
                 std::wstringstream wss;
-                wss << L"Memory usage report:" << std::endl <<
+                wss << L"Memory usage report:  " << std::endl <<
                     L"   heap size, bytes:     " << heap_size << std::endl <<
                     L"   peak usage, bytes:    " << max_size << std::endl <<
                     L"   gc algorithm:         '" << gc_algorithm << L'\'' << std::endl <<
-                    L"   gc count of launches: " << gc_count_launches;
+                    L"   count of gc launches: " << gc_count_launches << std::endl <<
+                    L"   total objects:        " << total_objects << std::endl <<
+                    L"   reused objects:       " << reused_objects;
                 return wss.str();
             }
         };

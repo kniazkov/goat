@@ -89,6 +89,7 @@ namespace g0at
             vm_report r;
             r.ret_value = 0; // TODO: write here something
             r.gcr = gc->get_report();
+            r.opr = pool.get_report();
             return r;
         }
     };
