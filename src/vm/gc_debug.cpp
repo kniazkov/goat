@@ -26,21 +26,15 @@ namespace g0at
 {
     namespace vm
     {
-        class gc_debug : public gc
+        class gc_debug : public lib::gc
         {
-        protected:
-            gc_debug() : count(0)
+        public:
+            gc_debug(process *_proc)
+                : count(0), proc(_proc)
             {    
             }
 
-        public:
-            static gc * get_instance()
-            {
-                static gc_debug instance;
-                return &instance;
-            }
-
-            void collect_garbage(process *proc)
+            void collect_garbage() override
             {
                 count++;
 
@@ -64,22 +58,26 @@ namespace g0at
                 }
             }
 
-            const wchar_t *get_name() override
+            void collect_garbage_if_necessary() override
             {
-                return L"debug";
+                collect_garbage();
             }
 
-            int get_count_of_launches() override
+            lib::gc_report get_report() override
             {
-                return count;
+                lib::gc_report r;
+                r.name = L"debug";
+                r.count_of_launches = count;
+                return r;
             }
 
             int count;
+            process *proc;
         };
 
-        gc * gc::get_instance_debug()
+        lib::pointer<lib::gc> create_grabage_collector_debug(process *proc)
         {
-            return gc_debug::get_instance();
+            return new gc_debug(proc);
         }
     };
 };

@@ -22,32 +22,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "lib/pointer.h"
-#include "lib/gc.h"
-#include "process.h"
+#include "ref_counter.h"
 
 namespace g0at
 {
-    namespace vm
+    namespace lib
     {
-        enum class gc_type
+        struct gc_report
         {
-            serial,
-            debug
+            const wchar_t *name;
+            int count_of_launches;
         };
 
-        lib::pointer<lib::gc> create_grabage_collector_serial(process *proc);
-        lib::pointer<lib::gc> create_grabage_collector_debug(process *proc);
-
-        static inline lib::pointer<lib::gc> create_garbage_collector(gc_type type, process *proc)
+        class gc : public ref_counter
         {
-            switch(type)
-            {
-                case gc_type::serial:
-                    return create_grabage_collector_serial(proc);
-                case gc_type::debug:
-                    return create_grabage_collector_debug(proc);
-            }
-        }
+        public:
+            virtual ~gc() { }
+            virtual void collect_garbage() = 0;
+            virtual void collect_garbage_if_necessary() = 0;
+            virtual gc_report get_report() = 0;
+        };
     };
 };

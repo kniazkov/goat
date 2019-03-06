@@ -96,13 +96,13 @@ namespace g0at
         options::parse(argc, argv, opt);
     }
 
-    static void print_memory_usage_report(vm::environment *env)
+    static void print_memory_usage_report(vm::vm_report &vmr)
     {
         std::cout << global::char_encoder->encode(global::resource->memory_usage_report(
             lib::get_heap_size(),
             lib::get_max_used_memory_size(),
-            env->gc->get_name(),
-            env->gc->get_count_of_launches()
+            vmr.gcr.name,
+            vmr.gcr.count_of_launches
         )) << std::endl;
     }
 
@@ -114,15 +114,11 @@ namespace g0at
         }
         
         vm::environment env;
-        switch(opt.gc)
+        env.gct = vm::gc_type::serial;
+        if (opt.gc_type_str)
         {
-            case gc_type::debug:
-                env.gc = vm::gc::get_instance_debug();
-                break;
-
-            case gc_type::serial:
-                env.gc = vm::gc::get_instance_serial();
-                break;
+            if (0 == strcmp(opt.gc_type_str, "debug"))
+                env.gct = vm::gc_type::debug;
         }
 
         if (opt.bin)
@@ -144,10 +140,10 @@ namespace g0at
                 std::cout << global::char_encoder->encode(code::disasm::to_string(code)) << std::endl;
             }
             vm::vm vm(code);
-            vm.run(&env);
+            auto vmr = vm.run(&env);
             if (opt.print_memory_usage_report)
             {
-                print_memory_usage_report(&env);
+                print_memory_usage_report(vmr);
             }
         }
         else
@@ -175,10 +171,11 @@ namespace g0at
             {
                 std::cout << global::char_encoder->encode(code::disasm::to_string(code_2)) << std::endl;
             }
+            vm::vm_report vmr = { 0 };
             if (!opt.compile)
             {
                 vm::vm vm(code_2);
-                vm.run(&env);
+                vmr = vm.run(&env);
             }
             else
             {
@@ -193,7 +190,7 @@ namespace g0at
             }
             if (opt.print_memory_usage_report)
             {
-                print_memory_usage_report(&env);
+                print_memory_usage_report(vmr);
             }
         }
         return 0;

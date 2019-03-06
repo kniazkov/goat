@@ -46,7 +46,7 @@ namespace g0at
             compile(false),
             bin(false),
             print_memory_usage_report(false),
-            gc(gc_type::serial)
+            gc_type_str(nullptr)
     {
     }
 
@@ -114,12 +114,7 @@ namespace g0at
                 }
                 else if (0 == std::strncmp(arg + 2, "gc=", 3))
                 {
-                    if (0 == std::strcmp(arg + 5, "serial"))
-                        opt.gc = gc_type::serial;
-                    else if (0 == std::strcmp(arg + 5, "debug"))
-                        opt.gc = gc_type::debug;
-                    else
-                        throw incorrect_command_line_parameter(arg);
+                    opt.gc_type_str = arg + 5;
                 }
                 else if (0 == std::strncmp(arg + 2, "lib=", 4))
                 {

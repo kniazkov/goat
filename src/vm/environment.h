@@ -28,14 +28,9 @@ namespace g0at
 {
     namespace vm
     {
-        class environment
+        struct environment
         {
-        public:
-            environment() : gc(nullptr)
-            {
-            }
-
-            g0at::vm::gc *gc;
+            gc_type gct;
         };
     };
 };

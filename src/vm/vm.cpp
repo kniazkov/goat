@@ -40,7 +40,7 @@ namespace g0at
         {
         }
 
-        void vm::run(environment *env)
+        vm_report vm::run(environment *env)
         {
             model::object_pool pool;
             model::object_cache cache(code->get_identifiers_list(), &pool);
@@ -52,6 +52,7 @@ namespace g0at
             proc.pool = &pool;
             proc.cache = &cache;
             proc.threads = &thr;
+            lib::pointer<lib::gc> gc = create_garbage_collector(env->gct, &proc);
             if (!global::debug)
             {
                 while(thr.state == model::thread_state::ok)
@@ -60,7 +61,7 @@ namespace g0at
                     thr.iid++;
                     auto instr = code->get_instruction(iid);
                     instr->exec(&thr);
-                    env->gc->collect_garbage(&proc);
+                    gc->collect_garbage_if_necessary();
                 }
             }
             else
@@ -77,11 +78,15 @@ namespace g0at
                         // convert any value to real object
                         thr.peek().to_object(&pool);
                     }
-                    env->gc->collect_garbage(&proc);
+                    gc->collect_garbage_if_necessary();
                 }
             }
             assert(thr.stack_is_empty());
             pool.destroy_all();
+            vm_report r;
+            r.ret_value = 0; // TODO: write here something
+            r.gcr = gc->get_report();
+            return r;
         }
     };
 };

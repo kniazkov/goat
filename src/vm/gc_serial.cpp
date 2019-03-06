@@ -27,31 +27,18 @@ namespace g0at
 {
     namespace vm
     {
-        class gc_serial : public gc
+        class gc_serial : public lib::gc
         {
-        protected:
-            gc_serial()
+        public:
+            gc_serial(process *_proc)
             {
                 count = 0;
+                proc = _proc;
                 prev_used_memory_size = lib::get_used_memory_size();
             }
 
-        public:
-            static gc * get_instance()
+            void collect_garbage() override
             {
-                static gc_serial instance;
-                return &instance;
-            }
-
-
-            void collect_garbage(process *proc)
-            {
-                if ( lib::get_used_memory_size() - prev_used_memory_size < threshold )
-                {
-                    // keep calm
-                    return;
-                }
-
                 count++;
 
                 // mark
@@ -76,24 +63,34 @@ namespace g0at
                 prev_used_memory_size = lib::get_used_memory_size();
             }
 
-            const wchar_t *get_name() override
+            void collect_garbage_if_necessary() override
             {
-                return L"serial";
+                if ( lib::get_used_memory_size() - prev_used_memory_size < threshold )
+                {
+                    // keep calm
+                    return;
+                }
+
+                collect_garbage();
             }
 
-            int get_count_of_launches() override
+            lib::gc_report get_report() override
             {
-                return count;
+                lib::gc_report r;
+                r.name = L"serial";
+                r.count_of_launches = count;
+                return r;
             }
 
             int count;
+            process *proc;
             size_t prev_used_memory_size;
             const size_t threshold = 1 * 1024 * 1024;
         };
 
-        gc * gc::get_instance_serial()
+        lib::pointer<lib::gc> create_grabage_collector_serial(process *proc)
         {
-            return gc_serial::get_instance();
+            return new gc_serial(proc);
         }
     };
 };

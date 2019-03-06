@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "environment.h"
+#include "gc.h"
 #include "code/code.h"
 #include "lib/pointer.h"
 
@@ -30,11 +31,17 @@ namespace g0at
 {
     namespace vm
     {
+        struct vm_report
+        {
+            int ret_value;
+            lib::gc_report gcr;
+        };
+
         class vm
         {
         public:
             vm(lib::pointer<code::code> _code);
-            void run(environment *env);
+            vm_report run(environment *env);
         
         protected:
             vm(const vm&) { }
