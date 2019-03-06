@@ -48,7 +48,7 @@ namespace g0at
             model::thread thr(ctx, &pool, &cache);
             thr.next = &thr;
             thr.state = model::thread_state::ok;
-            gc *gci = gc::get_instance_debug();
+            gc *gci = gc::get_instance_serial();
             process proc;
             proc.pool = &pool;
             proc.cache = &cache;

@@ -61,7 +61,7 @@ namespace g0at
     class memory_leak : public lib::exception
     {
     public:
-        memory_leak(int blocks_count, unsigned long int size)
+        memory_leak(int blocks_count, size_t size)
             : exception(global::resource->memory_leak(blocks_count, size))
         {
         }

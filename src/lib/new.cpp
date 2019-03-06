@@ -29,31 +29,31 @@ namespace g0at
     namespace lib
     {
         static int __allocated_blocks_count = 0;
-        static unsigned long int __used_memory_size = 0;
-        static unsigned long int __max_used_memory_size = 0;
-        static unsigned long int __heap_size = UINTPTR_MAX;
+        static size_t __used_memory_size = 0;
+        static size_t __max_used_memory_size = 0;
+        static size_t __heap_size = UINTPTR_MAX;
         
         int get_allocated_blocks_count()
         {
             return __allocated_blocks_count;
         }
 
-        unsigned long int get_used_memory_size()
+        size_t get_used_memory_size()
         {
             return __used_memory_size;
         }
 
-        unsigned long int get_max_used_memory_size()
+        size_t get_max_used_memory_size()
         {
             return __max_used_memory_size;
         }
 
-        void set_heap_size(unsigned long int size)
+        void set_heap_size(size_t size)
         {
             __heap_size = size;
         }
 
-        unsigned long int get_heap_size()
+        size_t get_heap_size()
         {
             return __heap_size;
         }

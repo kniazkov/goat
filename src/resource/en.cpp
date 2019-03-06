@@ -179,14 +179,14 @@ namespace g0at
                 return L"index out of bounds";
             }
 
-            std::wstring memory_leak(int blocks_count, unsigned long int size) override
+            std::wstring memory_leak(int blocks_count, size_t size) override
             {
                 std::wstringstream wss;
                 wss << L"memory leak; blocks: " << blocks_count << L", bytes: " << size;
                 return wss.str();
             }
 
-            std::wstring memory_usage_report(unsigned long int heap_size, unsigned long int max_size) override
+            std::wstring memory_usage_report(size_t heap_size, size_t max_size) override
             {
                 std::wstringstream wss;
                 wss << L"Memory usage report" << std::endl <<

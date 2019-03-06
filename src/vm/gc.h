@@ -35,6 +35,7 @@ namespace g0at
             virtual void collect_garbage(process *proc) = 0;
 
             static gc * get_instance_debug();
+            static gc * get_instance_serial();
         };
     };
 };

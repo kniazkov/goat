@@ -30,10 +30,10 @@ namespace g0at
     namespace lib
     {
         int get_allocated_blocks_count();
-        unsigned long int get_used_memory_size();
-        unsigned long int get_max_used_memory_size();
-        void set_heap_size(unsigned long int size);
-        unsigned long int get_heap_size();
+        size_t get_used_memory_size();
+        size_t get_max_used_memory_size();
+        void set_heap_size(size_t size);
+        size_t get_heap_size();
 
         class out_of_memory : public std::exception
         {
