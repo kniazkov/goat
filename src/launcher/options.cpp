@@ -45,7 +45,8 @@ namespace g0at
             dump_assembler_code(false),
             compile(false),
             bin(false),
-            print_memory_usage_report(false)
+            print_memory_usage_report(false),
+            gc(gc_type::serial)
     {
     }
 
@@ -110,6 +111,15 @@ namespace g0at
                     if (heap_size <= 0)
                         throw incorrect_command_line_parameter(arg);
                     lib::set_heap_size((unsigned long int)heap_size * 1024 * 1024);
+                }
+                else if (0 == std::strncmp(arg + 2, "gc=", 3))
+                {
+                    if (0 == std::strcmp(arg + 5, "serial"))
+                        opt.gc = gc_type::serial;
+                    else if (0 == std::strcmp(arg + 5, "debug"))
+                        opt.gc = gc_type::debug;
+                    else
+                        throw incorrect_command_line_parameter(arg);
                 }
                 else if (0 == std::strncmp(arg + 2, "lib=", 4))
                 {

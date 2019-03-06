@@ -26,6 +26,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
+    enum class gc_type
+    {
+        serial,
+        debug
+    };
+
     class options
     {
     public:
@@ -40,5 +46,6 @@ namespace g0at
         bool compile;
         bool bin;
         bool print_memory_usage_report;
+        gc_type gc;
     };
 };

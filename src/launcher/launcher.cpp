@@ -35,6 +35,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/disasm.h"
 #include "code/serializer.h"
 #include "code/deserializer.h"
+#include "vm/environment.h"
+#include "vm/gc.h"
 #include "vm/vm.h"
 #include <iostream>
 #include <exception>
@@ -108,6 +110,19 @@ namespace g0at
         {
             throw no_input_file();
         }
+        
+        vm::environment env;
+        switch(opt.gc)
+        {
+            case gc_type::debug:
+                env.gc = vm::gc::get_instance_debug();
+                break;
+
+            case gc_type::serial:
+                env.gc = vm::gc::get_instance_serial();
+                break;
+        }
+
         if (opt.bin)
         {
             std::vector<uint8_t> binary;
@@ -127,7 +142,7 @@ namespace g0at
                 std::cout << global::char_encoder->encode(code::disasm::to_string(code)) << std::endl;
             }
             vm::vm vm(code);
-            vm.run();
+            vm.run(&env);
             if (opt.print_memory_usage_report)
             {
                 print_memory_usage_report();
@@ -161,7 +176,7 @@ namespace g0at
             if (!opt.compile)
             {
                 vm::vm vm(code_2);
-                vm.run();
+                vm.run(&env);
             }
             else
             {
