@@ -33,6 +33,8 @@ namespace g0at
         public:
             virtual ~gc() { }
             virtual void collect_garbage(process *proc) = 0;
+            virtual const wchar_t *get_name() = 0;
+            virtual int get_count_of_launches() = 0;
 
             static gc * get_instance_debug();
             static gc * get_instance_serial();

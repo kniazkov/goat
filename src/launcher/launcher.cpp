@@ -96,11 +96,13 @@ namespace g0at
         options::parse(argc, argv, opt);
     }
 
-    static void print_memory_usage_report()
+    static void print_memory_usage_report(vm::environment *env)
     {
         std::cout << global::char_encoder->encode(global::resource->memory_usage_report(
             lib::get_heap_size(),
-            lib::get_max_used_memory_size()
+            lib::get_max_used_memory_size(),
+            env->gc->get_name(),
+            env->gc->get_count_of_launches()
         )) << std::endl;
     }
 
@@ -145,7 +147,7 @@ namespace g0at
             vm.run(&env);
             if (opt.print_memory_usage_report)
             {
-                print_memory_usage_report();
+                print_memory_usage_report(&env);
             }
         }
         else
@@ -191,7 +193,7 @@ namespace g0at
             }
             if (opt.print_memory_usage_report)
             {
-                print_memory_usage_report();
+                print_memory_usage_report(&env);
             }
         }
         return 0;

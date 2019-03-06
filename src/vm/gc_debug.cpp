@@ -29,7 +29,9 @@ namespace g0at
         class gc_debug : public gc
         {
         protected:
-            gc_debug() { }
+            gc_debug() : count(0)
+            {    
+            }
 
         public:
             static gc * get_instance()
@@ -40,6 +42,8 @@ namespace g0at
 
             void collect_garbage(process *proc)
             {
+                count++;
+
                 // mark
                 proc->cache->mark_all();
                 model::thread *thr_start = proc->threads;
@@ -59,6 +63,18 @@ namespace g0at
                     obj = next;
                 }
             }
+
+            const wchar_t *get_name() override
+            {
+                return L"debug";
+            }
+
+            int get_count_of_launches() override
+            {
+                return count;
+            }
+
+            int count;
         };
 
         gc * gc::get_instance_debug()

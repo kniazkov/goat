@@ -32,6 +32,7 @@ namespace g0at
         protected:
             gc_serial()
             {
+                count = 0;
                 prev_used_memory_size = lib::get_used_memory_size();
             }
 
@@ -50,6 +51,8 @@ namespace g0at
                     // keep calm
                     return;
                 }
+
+                count++;
 
                 // mark
                 proc->cache->mark_all();
@@ -73,6 +76,17 @@ namespace g0at
                 prev_used_memory_size = lib::get_used_memory_size();
             }
 
+            const wchar_t *get_name() override
+            {
+                return L"serial";
+            }
+
+            int get_count_of_launches() override
+            {
+                return count;
+            }
+
+            int count;
             size_t prev_used_memory_size;
             const size_t threshold = 1 * 1024 * 1024;
         };
