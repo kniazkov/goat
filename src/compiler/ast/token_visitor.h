@@ -67,6 +67,7 @@ namespace g0at
         class is_not_equal_to;
         class keyword_while;
         class statement_while;
+        class method_call;
 
         class token_visitor
         {
@@ -114,6 +115,7 @@ namespace g0at
             virtual void visit(is_not_equal_to *ref);
             virtual void visit(keyword_while *ref);
             virtual void visit(statement_while *ref);
+            virtual void visit(method_call *ref);
         };
     };
 };

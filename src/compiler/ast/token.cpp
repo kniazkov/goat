@@ -318,5 +318,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        method_call *token::to_method_call()
+        {
+            return nullptr;
+        }
     }
 };
