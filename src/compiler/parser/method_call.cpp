@@ -22,39 +22,38 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "pattern.h"
 #include "grammar_factory.h"
-#include "compiler/ast/expression.h"
+#include "common_exceptions.h"
 #include "compiler/ast/dot.h"
 #include "compiler/ast/identifier.h"
-#include "compiler/ast/property.h"
-#include "common_exceptions.h"
-#include "global/global.h"
+#include "compiler/ast/brackets_pair.h"
+#include "compiler/ast/method_call.h"
 #include <assert.h>
+
 
 namespace g0at
 {
     namespace parser
     {
-
-        class property : public pattern
+        class method_call : public pattern
         {
         public:
-            property(parser_data *_data)
-                : pattern(&_data->dots, _data)
+            method_call(parser_data *_data)
+                : pattern(&_data->expressions, _data)
             {
             }
 
         protected:
             int check(ast::token *tok) override
             {
-                ast::dot *dot = tok->to_dot();
-                assert(dot != nullptr);
+                ast::expression *left = tok->to_expression();
+                assert(left != nullptr);
+                
+                if (!left->next)
+                    return 0;
 
-                if (!dot->prev)
-                    throw expected_an_expression_before_dot(dot->get_position());
-
-                lib::pointer<ast::expression> left = dot->prev->to_expression();
-                if (!left)
-                    throw expected_an_expression_before_dot(dot->get_position());
+                ast::dot *dot = left->next->to_dot();
+                if(!dot)
+                    return 0;
 
                 if (!dot->next)
                     throw expected_an_identifier_after_dot(dot->get_position());
@@ -63,16 +62,24 @@ namespace g0at
                 if (!right)
                     throw expected_an_identifier_after_dot(dot->get_position());
 
-                lib::pointer<ast::token> prop = new ast::property(left, right);
-                left->replace(dot->next.get(), prop);
-                data->expressions.add(prop.get());
+                if (!right->next) // TODO: maybe it is a property
+                    return 0;
+
+                ast::brackets_pair *args = right->next->to_brackets_pair();
+                if (args == nullptr || args->get_symbol() != '(')
+                    return 0;
+
+                lib::pointer<ast::method_call> vcall  = new ast::method_call(left, right->get_name(), args);
+                left->replace(args, vcall.cast<ast::token>());
+                data->expressions.add(vcall.get());
+                data->method_calls.push_back(vcall.get());
                 return 0;
             }
         };
 
-        lib::pointer<pattern> grammar_factory::create_pattern_property()
+        lib::pointer<pattern> grammar_factory::create_pattern_method_call()
         {
-            return new property(data);
+            return new method_call(data);
         }
     };
 };

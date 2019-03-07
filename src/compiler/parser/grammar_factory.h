@@ -47,6 +47,7 @@ namespace g0at
             lib::pointer<pattern> create_pattern_object();
             lib::pointer<pattern> create_pattern_property();
             lib::pointer<pattern> create_pattern_statement_while();
+            lib::pointer<pattern> create_pattern_method_call();
 
             parser_data *data;
         };

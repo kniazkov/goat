@@ -136,5 +136,23 @@ namespace g0at
             {
             }
         };
+        
+        class expected_an_expression_before_dot : public compilation_error
+        {
+        public:
+            expected_an_expression_before_dot(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->expected_an_expression_before_dot())
+            {
+            }
+        };
+
+        class expected_an_identifier_after_dot : public compilation_error
+        {
+        public:
+            expected_an_identifier_after_dot(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->expected_an_identifier_after_dot())
+            {
+            }
+        };
     };
 };

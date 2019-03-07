@@ -49,7 +49,9 @@ namespace g0at
                 parser_data_filler *data_filler, wchar_t open_bracket);
             static void parse_function_body(ast::function *func);
             static void parse_function_args(ast::function *func);
+            static void parse_function_and_method_call_args(ast::token_list *src, ast::token_list *dst);
             static void parse_function_call_args(ast::function_call *fcall);
+            static void parse_method_call_args(ast::method_call *vcall);
             static void parse_object_body(ast::token_object *obj);
 
             lib::pointer<ast::root> root;

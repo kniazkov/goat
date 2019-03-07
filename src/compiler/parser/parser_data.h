@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/function.h"
 #include "compiler/ast/function_call.h"
 #include "compiler/ast/token_object.h"
+#include "compiler/ast/method_call.h"
 #include <vector>
 
 namespace g0at
@@ -49,6 +50,7 @@ namespace g0at
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;
+            std::vector<ast::method_call*> method_calls;
             std::vector<ast::token_object*> objects;
         };
     };

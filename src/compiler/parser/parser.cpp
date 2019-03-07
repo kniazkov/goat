@@ -103,6 +103,11 @@ namespace g0at
             lib::pointer<grammar> gr = grammar_factory(data).create_grammar();
             gr->apply();
 
+            for (auto vcall : data->method_calls)
+            {
+                parse_method_call_args(vcall);
+            }
+
             for (auto fcall : data->function_calls)
             {
                 parse_function_call_args(fcall);
@@ -215,10 +220,8 @@ namespace g0at
             assert(src->is_empty());
         }
 
-        void parser::parse_function_call_args(ast::function_call *fcall)
+        void parser::parse_function_and_method_call_args(ast::token_list *src, ast::token_list *dst)
         {
-            auto src = fcall->get_raw_list();
-            auto dst = fcall->get_args_list();
             auto tok = src->first;
             bool even = false;
             while(tok)
@@ -240,6 +243,20 @@ namespace g0at
                 even = !even;
             }
             assert(src->is_empty());
+        }
+
+        void parser::parse_function_call_args(ast::function_call *fcall)
+        {
+            auto src = fcall->get_raw_list();
+            auto dst = fcall->get_args_list();
+            parse_function_and_method_call_args(src, dst);
+        }
+
+        void parser::parse_method_call_args(ast::method_call *vcall)
+        {
+            auto src = vcall->get_raw_list();
+            auto dst = vcall->get_args_list();
+            parse_function_and_method_call_args(src, dst);
         }
 
         void parser::parse_object_body(ast::token_object *obj)
