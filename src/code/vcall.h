@@ -22,28 +22,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "object_function.h"
-#include <vector>
+#include "instruction.h"
 
 namespace g0at
 {
-    namespace model
+    namespace code
     {
-        class object_function_user_defined : public object_function
+        class vcall : public instruction
         {
         public:
-            object_function_user_defined(object_pool *pool, int _first_iid, context *_proto_ctx);
-            void call(thread *thr, int arg_count, bool is_method);
-            void call(thread *thr, int arg_count) override;
-            void vcall(thread *thr, int arg_count) override;
-            void trace() override;
+            vcall(int _id, int _arg_count);
+            void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
 
-            void add_arg_name(object *arg_name) { arg_names.push_back(arg_name); }
+            int get_id() { return id; }
+            int get_arg_count() { return arg_count; }
 
         protected:
-            int first_iid;
-            context *proto_ctx;
-            std::vector<object *> arg_names;
+            int id;
+            int arg_count;
         };
     };
 };

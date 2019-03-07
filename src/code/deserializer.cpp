@@ -53,6 +53,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "load_false.h"
 #include "eq.h"
 #include "neq.h"
+#include "vcall.h"
 
 namespace g0at
 {
@@ -338,11 +339,18 @@ namespace g0at
             dst->add_instruction(new jmp(iid));
         }
 
+        void deserializer::creator_vcall(source *src, code *dst)
+        {
+            int id = pop_int32(src);
+            int arg_count = pop_int32(src);
+            dst->add_instruction(new vcall(id, arg_count));
+        }
+
         deserializer::deserializer()
         {
             creators[opcode::nop]       = creator_nop;
             creators[opcode::sload]     = creator_load_string;
-            creators[opcode::load]       = creator_load_var;
+            creators[opcode::load]      = creator_load_var;
             creators[opcode::call]      = creator_call;
             creators[opcode::pop]       = creator_pop;
             creators[opcode::end]       = creator_end;
@@ -367,6 +375,7 @@ namespace g0at
             creators[opcode::neq]       = creator_neq;
             creators[opcode::ifnot]     = creator_if_not;
             creators[opcode::jmp]       = creator_jmp;
+            creators[opcode::vcall]     = creator_vcall;
         }
     };
 };

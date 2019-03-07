@@ -54,6 +54,7 @@ namespace g0at
             store,
 
             call,
+            vcall,
             ret,
             retv,
             ifnot,

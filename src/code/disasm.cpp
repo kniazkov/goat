@@ -34,6 +34,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "load_prop.h"
 #include "if_not.h"
 #include "jmp.h"
+#include "vcall.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -221,6 +222,12 @@ namespace g0at
         void disasm::visit(jmp *ref)
         {
             stream << L"jmp \t" << ref->get_iid();
+        }
+
+        void disasm::visit(vcall *ref)
+        {
+            int id = ref->get_id();
+            stream << L"vcall \t" << id << L", " << ref->get_arg_count() << L"\t; " << identifiers.at(id);
         }
     };
 };

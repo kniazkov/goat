@@ -33,12 +33,16 @@ namespace g0at
             assert(_first_iid > 0);
         }
 
-        void object_function_user_defined::call(thread *thr, int arg_count)
+        void object_function_user_defined::call(thread *thr, int arg_count, bool is_method)
         {
             // prepare a new context
             context *ctx = thr->pool->create_context(proto_ctx, thr->ctx);
             ctx->value = thr->iid;
             ctx->value_type = context_value_type::ret_address;
+            if (is_method)
+            {
+                ctx->this_ptr = thr->pop().get_object();
+            }
             int decl_arg_count = (int)arg_names.size();
             for (int i = 0; i < decl_arg_count; i++)
             {
@@ -62,6 +66,16 @@ namespace g0at
             // change context
             thr->ctx = ctx;
             thr->iid = first_iid;
+        }
+
+        void object_function_user_defined::call(thread *thr, int arg_count)
+        {
+            call(thr, arg_count, false);
+        }
+
+        void object_function_user_defined::vcall(thread *thr, int arg_count)
+        {
+            call(thr, arg_count, true);
         }
 
         void object_function_user_defined::trace()

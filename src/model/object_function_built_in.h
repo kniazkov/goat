@@ -32,6 +32,7 @@ namespace g0at
         {
         public:
             object_function_built_in(object_pool *pool);
+            void vcall(thread *thr, int arg_count) override;
         };
     };
 };

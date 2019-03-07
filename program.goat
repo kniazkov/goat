@@ -1,1 +1,11 @@
-println("it works.");
+var obj =
+{
+    y : 3,
+
+    add : $(x)
+    {
+        return x + y;
+    }
+};
+
+println(obj.add(2));

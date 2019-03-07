@@ -38,6 +38,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "load_prop.h"
 #include "if_not.h"
 #include "jmp.h"
+#include "vcall.h"
 
 namespace g0at
 {
@@ -270,6 +271,13 @@ namespace g0at
         {
             push_opcode(opcode::jmp);
             push_int32(ref->get_iid());
+        }
+
+        void serializer::visit(vcall *ref)
+        {
+            push_opcode(opcode::vcall);
+            push_int32(ref->get_id());
+            push_int32(ref->get_arg_count());
         }
     };
 };
