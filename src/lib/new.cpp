@@ -30,6 +30,7 @@ namespace g0at
     {
         static int __allocated_blocks_count = 0;
         static size_t __used_memory_size = 0;
+        static size_t __cached_memory_size = 0;
         static size_t __max_used_memory_size = 0;
         static size_t __heap_size = UINTPTR_MAX;
         static gc *__gc = nullptr;
@@ -42,6 +43,11 @@ namespace g0at
         size_t get_used_memory_size()
         {
             return __used_memory_size;
+        }
+
+        size_t get_cached_memory_size()
+        {
+            return __cached_memory_size;
         }
 
         size_t get_max_used_memory_size()
@@ -73,6 +79,14 @@ namespace g0at
         {
             size_t size;
         };
+
+        inline static size_t size_of_memory_block(void *p)
+        {
+            if (!p)
+                return 0;
+            memory_descriptor *d = (memory_descriptor*)p - 1;
+            return d->size;
+        }
 
         static void * alloc(size_t size)
         {
@@ -119,6 +133,16 @@ namespace g0at
             __used_memory_size -= sizeof(memory_descriptor) + d->size;
             __allocated_blocks_count--;
             std::free(d);
+        }
+
+        void it_is_a_cached_block(void *p)
+        {
+            __cached_memory_size += size_of_memory_block(p);
+        }
+
+        void it_is_a_not_cached_block(void *p)
+        {
+            __cached_memory_size -= size_of_memory_block(p);
         }
     };
 };

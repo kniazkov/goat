@@ -60,12 +60,12 @@ namespace g0at
                     obj = next;
                 }
 
-                prev_used_memory_size = lib::get_used_memory_size();
+                prev_used_memory_size = lib::get_used_memory_size() - lib::get_cached_memory_size();
             }
 
             void collect_garbage_if_necessary() override
             {
-                if ( lib::get_used_memory_size() - prev_used_memory_size < threshold )
+                if ( lib::get_used_memory_size() - lib::get_cached_memory_size() - prev_used_memory_size < threshold )
                 {
                     // keep calm
                     return;

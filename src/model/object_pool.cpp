@@ -79,6 +79,7 @@ namespace g0at
                 obj->reinit(this);
                 population.add(obj);
                 report.reinit_count++;
+                lib::it_is_a_not_cached_block(obj);
             }
             else
             {
@@ -97,6 +98,7 @@ namespace g0at
                 obj->reinit(this);
                 population.add(obj);
                 report.reinit_count++;
+                lib::it_is_a_not_cached_block(obj);
             }
             else
             {
@@ -115,6 +117,7 @@ namespace g0at
                 obj->reinit(proto);
                 population.add(obj);
                 report.reinit_count++;
+                lib::it_is_a_not_cached_block(obj);
             }
             else
             {
@@ -133,6 +136,7 @@ namespace g0at
                 obj->reinit(proto, parent);
                 population.add(obj);
                 report.reinit_count++;
+                lib::it_is_a_not_cached_block(obj);
             }
             else
             {
@@ -151,6 +155,7 @@ namespace g0at
                 obj->reinit(data);
                 population.add(obj);
                 report.reinit_count++;
+                lib::it_is_a_not_cached_block(obj);
             }
             else
             {
@@ -169,6 +174,7 @@ namespace g0at
                 obj->reinit(data, id);
                 population.add(obj);
                 report.reinit_count++;
+                lib::it_is_a_not_cached_block(obj);
             }
             else
             {
@@ -187,6 +193,7 @@ namespace g0at
                 obj->reinit(value);
                 population.add(obj);
                 report.reinit_count++;
+                lib::it_is_a_not_cached_block(obj);
             }
             else
             {
@@ -205,6 +212,7 @@ namespace g0at
                 obj->reinit(value);
                 population.add(obj);
                 report.reinit_count++;
+                lib::it_is_a_not_cached_block(obj);
             }
             else
             {
@@ -223,6 +231,7 @@ namespace g0at
                 obj->reinit(value);
                 population.add(obj);
                 report.reinit_count++;
+                lib::it_is_a_not_cached_block(obj);
             }
             else
             {

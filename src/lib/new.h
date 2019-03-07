@@ -32,10 +32,13 @@ namespace g0at
     {
         int get_allocated_blocks_count();
         size_t get_used_memory_size();
+        size_t get_cached_memory_size();
         size_t get_max_used_memory_size();
         void set_heap_size(size_t size);
         size_t get_heap_size();
         void set_garbage_collector(gc *gc_ptr);
+        void it_is_a_cached_block(void *p);
+        void it_is_a_not_cached_block(void *p);
 
         class out_of_memory : public std::exception
         {

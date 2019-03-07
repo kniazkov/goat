@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "resource.h"
+#include "lib/utils.h"
 #include <sstream>
 
 namespace g0at
@@ -186,9 +187,10 @@ namespace g0at
                 return wss.str();
             }
 
-            std::wstring memory_usage_report(size_t heap_size, size_t max_size,
+            virtual std::wstring memory_usage_report(size_t heap_size, size_t max_size,
                 const wchar_t *gc_algorithm, int gc_count_launches,
-                uint64_t total_objects, uint64_t reused_objects) override
+                uint64_t total_objects, uint64_t created_objects,
+                uint64_t reused_objects, double reused_percent) override
             {
                 std::wstringstream wss;
                 wss << L"Memory usage report:  " << std::endl <<
@@ -197,7 +199,8 @@ namespace g0at
                     L"   gc algorithm:         '" << gc_algorithm << L'\'' << std::endl <<
                     L"   count of gc launches: " << gc_count_launches << std::endl <<
                     L"   total objects:        " << total_objects << std::endl <<
-                    L"   reused objects:       " << reused_objects;
+                    L"      actually created:  " << created_objects << std::endl <<
+                    L"      reused:            " << reused_objects << L" (" << lib::double_to_wstring(reused_percent, 1) << L" %)";
                 return wss.str();
             }
         };

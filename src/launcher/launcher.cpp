@@ -104,7 +104,9 @@ namespace g0at
             vmr.gcr.name ? vmr.gcr.name : L"none",
             vmr.gcr.count_of_launches,
             vmr.opr.new_count + vmr.opr.reinit_count,
-            vmr.opr.reinit_count
+            vmr.opr.new_count,
+            vmr.opr.reinit_count,
+            100.0 * vmr.opr.reinit_count / ( vmr.opr.new_count + vmr.opr.reinit_count )
         )) << std::endl;
     }
 

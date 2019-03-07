@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object_list.h"
+#include "lib/new.h"
 #include <string>
 #include <cstdint>
 
@@ -140,6 +141,7 @@ namespace g0at
             else
             {
                 dead.add(obj);
+                lib::it_is_a_cached_block(obj);
                 return true;
             }
         }
