@@ -71,172 +71,91 @@ namespace g0at
 
         generic_object * object_pool::create_generic_object()
         {
-            generic_object *obj;
-            generic_objects.alive++;
-            if (generic_objects.dead.count > 0)
-            {
-                obj = static_cast<generic_object*>(generic_objects.dead.remove());
+            generic_object *obj = static_cast<generic_object*>(generic_objects.get(this));
+            if (obj)
                 obj->reinit(this);
-                population.add(obj);
-                report.reinit_count++;
-                lib::it_is_a_not_cached_block(obj);
-            }
             else
-            {
                 obj = new generic_object(this);
-            }
             return obj;
         }
 
         context * object_pool::create_context()
         {
-            context *obj;
-            contexts.alive++;
-            if (contexts.dead.count > 0)
-            {
-                obj = static_cast<context*>(contexts.dead.remove());
+            context *obj = static_cast<context*>(contexts.get(this));
+            if (obj)
                 obj->reinit(this);
-                population.add(obj);
-                report.reinit_count++;
-                lib::it_is_a_not_cached_block(obj);
-            }
             else
-            {
                 obj = new context(this);
-            }
             return obj;
         }
 
         context * object_pool::create_context(context *proto)
         {
-            context *obj;
-            contexts.alive++;
-            if (contexts.dead.count > 0)
-            {
-                obj = static_cast<context*>(contexts.dead.remove());
+            context *obj = static_cast<context*>(contexts.get(this));
+            if (obj)
                 obj->reinit(proto);
-                population.add(obj);
-                report.reinit_count++;
-                lib::it_is_a_not_cached_block(obj);
-            }
             else
-            {
                 obj = new context(this, proto);
-            }
             return obj;
         }
 
         context * object_pool::create_context(context *proto, context *parent)
         {
-            context *obj;
-            contexts.alive++;
-            if (contexts.dead.count > 0)
-            {
-                obj = static_cast<context*>(contexts.dead.remove());
+            context *obj = static_cast<context*>(contexts.get(this));
+            if (obj)
                 obj->reinit(proto, parent);
-                population.add(obj);
-                report.reinit_count++;
-                lib::it_is_a_not_cached_block(obj);
-            }
             else
-            {
                 obj = new context(this, proto, parent);
-            }
             return obj;
         }
 
         object_string * object_pool::create_object_string(std::wstring data)
         {
-            object_string *obj;
-            strings.alive++;
-            if (strings.dead.count > 0)
-            {
-                obj = static_cast<object_string*>(strings.dead.remove());
+            object_string *obj = static_cast<object_string*>(strings.get(this));
+            if (obj)
                 obj->reinit(data);
-                population.add(obj);
-                report.reinit_count++;
-                lib::it_is_a_not_cached_block(obj);
-            }
             else
-            {
                 obj = new object_string(this, data);
-            }
             return obj;
         }
 
         object_string * object_pool::create_object_string(std::wstring data, int id)
         {
-            object_string *obj;
-            strings.alive++;
-            if (strings.dead.count > 0)
-            {
-                obj = static_cast<object_string*>(strings.dead.remove());
+            object_string *obj = static_cast<object_string*>(strings.get(this));
+            if (obj)
                 obj->reinit(data, id);
-                population.add(obj);
-                report.reinit_count++;
-                lib::it_is_a_not_cached_block(obj);
-            }
             else
-            {
                 obj = new object_string(this, data, id);
-            }
             return obj;
         }
 
         object_integer * object_pool::create_object_integer(int64_t value)
         {
-            object_integer *obj;
-            integers.alive++;
-            if (integers.dead.count > 0)
-            {
-                obj = static_cast<object_integer*>(integers.dead.remove());
+            object_integer *obj = static_cast<object_integer*>(integers.get(this));
+            if (obj)
                 obj->reinit(value);
-                population.add(obj);
-                report.reinit_count++;
-                lib::it_is_a_not_cached_block(obj);
-            }
             else
-            {
                 obj = new object_integer(this, value);
-            }
             return obj;
         }
 
         object_real * object_pool::create_object_real(double value)
         {
-            object_real *obj;
-            real_numbers.alive++;
-            if (real_numbers.dead.count > 0)
-            {
-                obj = static_cast<object_real*>(real_numbers.dead.remove());
+            object_real *obj = static_cast<object_real*>(real_numbers.get(this));
+            if (obj)
                 obj->reinit(value);
-                population.add(obj);
-                report.reinit_count++;
-                lib::it_is_a_not_cached_block(obj);
-            }
             else
-            {
                 obj = new object_real(this, value);
-            }
             return obj;
         }
 
         object_boolean * object_pool::create_object_boolean(bool value)
         {
-            object_boolean *obj;
-            booleans.alive++;
-            if (booleans.dead.count > 0)
-            {
-                obj = static_cast<object_boolean*>(booleans.dead.remove());
+            object_boolean *obj = static_cast<object_boolean*>(booleans.get(this));
+            if (obj)
                 obj->reinit(value);
-                population.add(obj);
-                report.reinit_count++;
-                lib::it_is_a_not_cached_block(obj);
-            }
             else
-            {
                 obj = new object_boolean(this, value);
-            }
             return obj;
         }
     };

@@ -49,6 +49,7 @@ namespace g0at
             }
 
             inline bool destroy_or_cache(object *obj, object_pool *pool);
+            inline object *get(object_pool *pool);
 
             int alive;
             object_list dead;
@@ -81,7 +82,7 @@ namespace g0at
             void destroy_all();
 
             int get_next_id() { return id++; }
-            object_pool_report get_report() { return report; }
+            object_pool_report &get_report() { return report; }
 
             object *get_generic_proto_instance() { return generic_proto_instance; }
             object *get_void_instance() { return void_instance; }
@@ -144,6 +145,20 @@ namespace g0at
                 lib::it_is_a_cached_block(obj);
                 return true;
             }
+        }
+
+        template <int Factor, int Count> object *object_pool_typed<Factor, Count>::get(object_pool *pool)
+        {
+            alive++;
+            if (dead.count > 0)
+            {
+                object *obj = dead.remove();
+                pool->population.add(obj);
+                pool->get_report().reinit_count++;
+                lib::it_is_a_not_cached_block(obj);
+                return obj;
+            }
+            return nullptr;
         }
     };
 };
