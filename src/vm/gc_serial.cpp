@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "gc.h"
 #include "lib/new.h"
+#include "model/context.h"
 
 namespace g0at
 {
@@ -85,7 +86,7 @@ namespace g0at
             int count;
             process *proc;
             size_t prev_used_memory_size;
-            const size_t threshold = 1 * 1024 * 1024;
+            const size_t threshold = 1024 * sizeof(model::context) * 2;
         };
 
         lib::pointer<lib::gc> create_grabage_collector_serial(process *proc)

@@ -105,7 +105,7 @@ namespace g0at
 
             object_list population;
             object_pool_typed<4, 256> generic_objects;
-            object_pool_typed<8, 1024> contexts;
+            object_pool_typed<8, 4096> contexts;
             object_pool_typed<2, 128> strings;
             object_pool_typed<1, 64> integers;
             object_pool_typed<1, 64> real_numbers;
