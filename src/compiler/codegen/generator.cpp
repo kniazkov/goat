@@ -40,6 +40,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/is_equal_to.h"
 #include "compiler/pt/is_not_equal_to.h"
 #include "compiler/pt/statement_while.h"
+#include "compiler/pt/method_call.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -65,6 +66,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/neq.h"
 #include "code/if_not.h"
 #include "code/jmp.h"
+#include "code/vcall.h"
 #include <assert.h>
 
 namespace g0at
@@ -291,5 +293,18 @@ namespace g0at
             code->add_instruction(new code::jmp(iid_begin));
             *(if_not->get_iid_ptr()) = code->get_code_size();
         }
+
+        void generator::visit(pt::method_call *ref)
+        {
+            int args_count = ref->get_args_count();
+            for (int i = args_count - 1; i > -1; i--)
+            {
+                ref->get_arg(i)->accept(this);
+            }
+            ref->get_left()->accept(this);
+            int id = name_cache.get_id(ref->get_name());
+            code->add_instruction(new code::vcall(id, args_count));
+        }
+
     };
 };

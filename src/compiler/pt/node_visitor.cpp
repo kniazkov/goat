@@ -129,5 +129,9 @@ namespace g0at
         void node_visitor::visit(statement_while *ref)
         {
         }
+
+        void node_visitor::visit(method_call *ref)
+        {
+        }
     }
 };

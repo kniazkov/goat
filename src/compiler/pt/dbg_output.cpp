@@ -40,6 +40,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "is_equal_to.h"
 #include "is_not_equal_to.h"
 #include "statement_while.h"
+#include "method_call.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -277,6 +278,18 @@ namespace g0at
             add_indent(indent + 1);
             stream << L"stmt";
             ref->get_statement()->accept(&indented);
+        }
+
+        void dbg_output::visit(method_call *ref)
+        {
+            add_indent();
+            stream << L"vcall " << ref->get_name();
+            dbg_output indented(stream, indent + 1);
+            ref->get_left()->accept(&indented);
+            for (int i = 0, cnt = ref->get_args_count(); i < cnt; i++)
+            {
+                ref->get_arg(i)->accept(&indented);
+            }
         }
 
         void dbg_output::add_indent()

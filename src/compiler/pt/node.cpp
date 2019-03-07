@@ -174,5 +174,10 @@ namespace g0at
         {
             return nullptr;
         }
+        
+        method_call *node::to_method_call()
+        {
+            return nullptr;
+        }
    }
 };
