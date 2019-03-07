@@ -123,6 +123,8 @@ namespace g0at
         {
             if (0 == strcmp(opt.gc_type_str, "debug"))
                 env.gct = vm::gc_type::debug;
+            else if (0 == strcmp(opt.gc_type_str, "disabled"))
+                env.gct = vm::gc_type::disabled;
         }
 
         if (opt.bin)

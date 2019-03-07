@@ -20,38 +20,41 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "lib/pointer.h"
-#include "lib/gc.h"
-#include "process.h"
+#include "gc.h"
 
 namespace g0at
 {
     namespace vm
     {
-        enum class gc_type
+        class gc_disabled : public lib::gc
         {
-            serial,
-            debug,
-            disabled
+        public:
+            gc_disabled()
+            {    
+            }
+
+            void collect_garbage() override
+            {
+                // relax
+            }
+
+            void collect_garbage_if_necessary() override
+            {
+                // relax again
+            }
+
+            lib::gc_report get_report() override
+            {
+                lib::gc_report r;
+                r.name = L"disabled";
+                r.count_of_launches = 0;
+                return r;
+            }
         };
 
-        lib::pointer<lib::gc> create_grabage_collector_serial(process *proc);
-        lib::pointer<lib::gc> create_grabage_collector_debug(process *proc);
-        lib::pointer<lib::gc> create_grabage_collector_disabled();
-
-        static inline lib::pointer<lib::gc> create_garbage_collector(gc_type type, process *proc)
+        lib::pointer<lib::gc> create_grabage_collector_disabled()
         {
-            switch(type)
-            {
-                case gc_type::serial:
-                    return create_grabage_collector_serial(proc);
-                case gc_type::debug:
-                    return create_grabage_collector_debug(proc);
-                case gc_type::disabled:
-                    return create_grabage_collector_disabled();
-            }
+            return new gc_disabled();
         }
     };
 };
