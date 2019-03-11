@@ -38,9 +38,25 @@ namespace g0at
             virtual bool pass();
         
         protected:
+            /**
+             * @brief Pattern matching check
+             * 
+             * Applies a pattern to a sequence of tokens.
+             * Optionally, replaces a sequence of tokens with a non-terminal token.
+             * 
+             * @param tok A start token (not necessarily the first)
+             * @return true if the second tokens list was changed as a result of applying the template,
+             *   otherwise false
+             */
             virtual bool check(ast::token *tok) = 0;
             
+            /**
+             * @brief The second token list which contains start tokens
+             */
             ast::token_2nd_list *list;
+            /**
+             * @brief Parser data
+             */
             parser_data *data;
         };
     };
