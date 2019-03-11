@@ -41,9 +41,11 @@ namespace g0at
             context(object_pool *pool);
             context(object_pool *pool, context *proto);
             context(object_pool *pool, context *proto, context *parent);
+            context(object_pool *pool, object *this_ptr, context *proto, context *parent);
             void reinit(object_pool *pool);
             void reinit(context *proto);
             void reinit(context *proto, context *parent);
+            void reinit(object *this_ptr, context *proto, context *parent);
         public:
             void kill(object_pool *pool) override;
             void trace() override;

@@ -109,6 +109,16 @@ namespace g0at
             return obj;
         }
 
+        context * object_pool::create_context(object *this_ptr, context *proto, context *parent)
+        {
+            context *obj = static_cast<context*>(contexts.get(this));
+            if (obj)
+                obj->reinit(this_ptr, proto, parent);
+            else
+                obj = new context(this, this_ptr, proto, parent);
+            return obj;
+        }
+
         object_string * object_pool::create_object_string(std::wstring data)
         {
             object_string *obj = static_cast<object_string*>(strings.get(this));

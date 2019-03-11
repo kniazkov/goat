@@ -21,7 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "context.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {
@@ -35,11 +35,22 @@ namespace g0at
         context::context(object_pool *pool, context *proto)
             : object(pool, proto), prev(proto), this_ptr(nullptr), value_type(context_value_type::none), ret(nullptr)
         {
+            assert(proto != nullptr);
         }
 
         context::context(object_pool *pool, context *proto, context *parent)
             : object(pool, proto), prev(parent), this_ptr(nullptr), value_type(context_value_type::none), ret(nullptr)
         {
+            assert(proto != nullptr);
+            assert(parent != nullptr);
+        }
+
+        context::context(object_pool *pool, object *_this_ptr, context *proto, context *parent)
+            : object(pool, _this_ptr, proto), prev(parent), this_ptr(_this_ptr), value_type(context_value_type::none), ret(nullptr)
+        {
+            assert(this_ptr != nullptr);
+            assert(proto != nullptr);
+            assert(parent != nullptr);
         }
 
         void context::reinit(object_pool *pool)
@@ -51,6 +62,7 @@ namespace g0at
         void context::reinit(context *proto)
         {
             assert(this->proto.empty());
+            assert(proto != nullptr);
             this->proto.push_back(proto);
             prev = proto;
         }
@@ -58,6 +70,20 @@ namespace g0at
         void context::reinit(context *proto, context *parent)
         {
             assert(this->proto.empty());
+            assert(proto != nullptr);
+            assert(parent != nullptr);
+            this->proto.push_back(proto);
+            prev = parent;
+        }
+
+        void context::reinit(object *this_ptr, context *proto, context *parent)
+        {
+            assert(this->proto.empty());
+            assert(this_ptr != nullptr);
+            assert(proto != nullptr);
+            assert(parent != nullptr);
+            this->this_ptr = this_ptr;
+            this->proto.push_back(this_ptr);
             this->proto.push_back(proto);
             prev = parent;
         }

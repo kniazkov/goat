@@ -98,6 +98,7 @@ namespace g0at
             context *create_context();
             context *create_context(context *proto);
             context *create_context(context *proto, context *parent);
+            context *create_context(object *this_ptr, context *proto, context *parent);
             object_string *create_object_string(std::wstring data);
             object_string *create_object_string(std::wstring data, int id);
             object_integer *create_object_integer(int64_t value);

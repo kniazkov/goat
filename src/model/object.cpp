@@ -22,7 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object.h"
 #include "thread.h"
-#include <assert.h>
+#include "lib/assert.h"
 #include <sstream>
 
 namespace g0at
@@ -54,6 +54,20 @@ namespace g0at
             {
                 this->proto.push_back(proto);
             }
+        }
+
+        object::object(object_pool *pool, object *proto_1, object *proto_2)
+            : marked(false)
+        {
+            assert(proto_1 != nullptr);
+            assert(proto_2 != nullptr);
+#ifdef MODEL_DEBUG
+            id = pool->get_next_id();
+#endif
+            pool->add(this);
+
+            this->proto.push_back(proto_1);
+            this->proto.push_back(proto_2);
         }
 
         object::~object()

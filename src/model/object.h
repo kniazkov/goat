@@ -107,6 +107,7 @@ namespace g0at
         public:
             object(object_pool *pool);
             object(object_pool *pool, object *proto);
+            object(object_pool *pool, object *proto_1, object *proto_2);
             virtual ~object();
 #ifdef MODEL_DEBUG
             int get_id() { return id; }

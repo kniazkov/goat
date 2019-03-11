@@ -225,7 +225,7 @@ namespace g0at
                 item.first->accept(&indented);
                 add_indent(indent + 1);
                 stream << L"value";
-                item.first->accept(&indented);
+                item.second->accept(&indented);
             }
         }
 

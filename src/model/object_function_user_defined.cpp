@@ -36,13 +36,18 @@ namespace g0at
         void object_function_user_defined::call(thread *thr, int arg_count, bool is_method)
         {
             // prepare a new context
-            context *ctx = thr->pool->create_context(proto_ctx, thr->ctx);
-            ctx->value = thr->iid;
-            ctx->value_type = context_value_type::ret_address;
+            context *ctx;
             if (is_method)
             {
-                ctx->this_ptr = thr->pop().get_object();
+                object *this_ptr = thr->pop().get_object();
+                ctx = thr->pool->create_context(this_ptr, proto_ctx, thr->ctx);
             }
+            else
+            {
+                ctx = thr->pool->create_context(proto_ctx, thr->ctx);
+            }
+            ctx->value = thr->iid;
+            ctx->value_type = context_value_type::ret_address;
             int decl_arg_count = (int)arg_names.size();
             for (int i = 0; i < decl_arg_count; i++)
             {
