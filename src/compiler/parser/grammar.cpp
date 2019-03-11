@@ -34,11 +34,11 @@ namespace g0at
         {
             for (lib::pointer<pattern> p : vector)
             {
-                int i;
+                bool flag;
                 do
                 {
-                    i = p->pass();
-                } while(i != 0);
+                    flag = p->pass();
+                } while(flag);
             }
         }
     };

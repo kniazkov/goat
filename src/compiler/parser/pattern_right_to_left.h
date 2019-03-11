@@ -32,7 +32,7 @@ namespace g0at
         {
         public:
             pattern_right_to_left(ast::token_2nd_list *_list, parser_data *_data);
-            int pass() override;
+            bool pass() override;
         };
     };
 };

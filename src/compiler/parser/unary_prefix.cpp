@@ -40,7 +40,7 @@ namespace g0at
             }
 
         protected:
-            int check(ast::token *tok) override
+            bool check(ast::token *tok) override
             {
                 ast::token_operator *oper = tok->to_token_operator();
                 assert(oper != nullptr);
@@ -69,7 +69,7 @@ namespace g0at
                 lib::pointer<ast::token> un_op = oper->create_unary_prefix_operation(right);
                 oper->replace(right, un_op);
                 data->expressions.add(un_op.get());
-                return 0;
+                return false;
             }
         };
 

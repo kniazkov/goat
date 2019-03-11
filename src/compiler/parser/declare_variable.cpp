@@ -46,7 +46,7 @@ namespace g0at
             }
 
         protected:
-            int check(ast::token *tok) override
+            bool check(ast::token *tok) override
             {
                 ast::keyword_var *kw = tok->to_keyword_var();
                 assert(kw != nullptr);
@@ -118,7 +118,7 @@ namespace g0at
                 }
 
                 kw->replace(semicolon, stmt.cast<ast::token>());
-                return 0;
+                return false;
             }
         };
 

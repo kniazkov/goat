@@ -43,18 +43,17 @@ namespace g0at
             }
 
         protected:
-            int check(ast::token *tok) override
+            bool check(ast::token *tok) override
             {
                 ast::expression *left = tok->to_expression();
-                if (!left) return 0;
-                //assert(left != nullptr);
+                assert(left != nullptr);
                 
                 if (!left->next)
-                    return 0;
+                    return false;
 
                 ast::dot *dot = left->next->to_dot();
                 if(!dot)
-                    return 0;
+                    return false;
 
                 if (!dot->next)
                     throw expected_an_identifier_after_dot(dot->get_position());
@@ -64,17 +63,17 @@ namespace g0at
                     throw expected_an_identifier_after_dot(dot->get_position());
 
                 if (!right->next) // TODO: maybe it is a property
-                    return 0;
+                    return false;
 
                 ast::brackets_pair *args = right->next->to_brackets_pair();
                 if (args == nullptr || args->get_symbol() != '(')
-                    return 0;
+                    return false;
 
                 lib::pointer<ast::method_call> vcall  = new ast::method_call(left, right->get_name(), args);
                 left->replace(args, vcall.cast<ast::token>());
                 data->expressions.add(vcall.get());
                 data->method_calls.push_back(vcall.get());
-                return 0;
+                return true;
             }
         };
 

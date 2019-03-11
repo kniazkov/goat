@@ -42,7 +42,7 @@ namespace g0at
             }
 
         protected:
-            int check(ast::token *tok) override
+            bool check(ast::token *tok) override
             {
                 ast::keyword_function *kw = tok->to_keyword_function();
                 assert(kw != nullptr);
@@ -66,7 +66,7 @@ namespace g0at
                 kw->replace(body, decl_func.cast<ast::token>());
                 data->expressions.add(decl_func.get());
                 data->functions.push_back(func.get());
-                return 0;
+                return false;
             }
         };
 

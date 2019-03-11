@@ -39,7 +39,7 @@ namespace g0at
             }
 
         protected:
-            int check(ast::token *tok) override
+            bool check(ast::token *tok) override
             {
                 ast::brackets_pair *body = tok->to_brackets_pair();
                 assert (body != nullptr && body->get_symbol() == L'{');
@@ -48,7 +48,7 @@ namespace g0at
                 body->replace(obj.cast<ast::token>());
                 data->expressions.add(obj.get());
                 data->objects.push_back(obj.get());
-                return 0;
+                return false;
             }
         };
 

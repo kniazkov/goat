@@ -35,10 +35,10 @@ namespace g0at
         public:
             pattern(ast::token_2nd_list *_list, parser_data *_data);
             virtual ~pattern();
-            virtual int pass();
+            virtual bool pass();
         
         protected:
-            virtual int check(ast::token *tok) = 0;
+            virtual bool check(ast::token *tok) = 0;
             
             ast::token_2nd_list *list;
             parser_data *data;

@@ -43,7 +43,7 @@ namespace g0at
             }
 
         protected:
-            int check(ast::token *tok) override
+            bool check(ast::token *tok) override
             {
                 ast::keyword_while *kw = tok->to_keyword_while();
                 assert(kw != nullptr);
@@ -73,7 +73,7 @@ namespace g0at
                 lib::pointer<ast::token> result = new ast::statement_while(kw, expr, stmt);
                 kw->replace(stmt, result);
 
-                return 0;
+                return false;
             }
         };
 

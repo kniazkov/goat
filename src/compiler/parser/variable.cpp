@@ -39,7 +39,7 @@ namespace g0at
             }
 
         protected:
-            int check(ast::token *tok) override
+            bool check(ast::token *tok) override
             {
                 ast::identifier *name = tok->to_identifier();
                 assert(name != nullptr);
@@ -47,7 +47,7 @@ namespace g0at
                 lib::pointer<ast::token> var  = new ast::variable(name);
                 name->replace(var);
                 data->expressions.add(var.get());
-                return 0;
+                return false;
             }
         };
 

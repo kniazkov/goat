@@ -40,7 +40,7 @@ namespace g0at
             }
 
         protected:
-            int check(ast::token *tok) override
+            bool check(ast::token *tok) override
             {
                 ast::expression *func_object = tok->to_expression();
                 assert(func_object != nullptr);
@@ -56,7 +56,7 @@ namespace g0at
                 func_object->replace(args, fcall.cast<ast::token>());
                 data->expressions.add(fcall.get());
                 data->function_calls.push_back(fcall.get());
-                return 0;
+                return false;
             }
         };
 

@@ -44,7 +44,7 @@ namespace g0at
             }
 
         protected:
-            int check(ast::token *tok) override
+            bool check(ast::token *tok) override
             {
                 ast::dot *dot = tok->to_dot();
                 assert(dot != nullptr);
@@ -66,7 +66,7 @@ namespace g0at
                 lib::pointer<ast::token> prop = new ast::property(left, right);
                 left->replace(dot->next.get(), prop);
                 data->expressions.add(prop.get());
-                return 0;
+                return false;
             }
         };
 

@@ -40,7 +40,7 @@ namespace g0at
             }
 
         protected:
-            int check(ast::token *tok) override
+            bool check(ast::token *tok) override
             {
                 ast::expression *expr = tok->to_expression();
                 assert(expr != nullptr);
@@ -54,7 +54,7 @@ namespace g0at
                     lib::pointer<ast::token> st_expr  = new ast::statement_expression(expr);
                     expr->replace(scolon, st_expr);
                 }
-                return 0;
+                return false;
             }
         };
 

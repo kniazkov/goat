@@ -37,20 +37,22 @@ namespace g0at
         {
         }
 
-        int pattern::pass()
+        bool pattern::pass()
         {
             assert(list != nullptr);
             assert(data != nullptr);
 
-            int count = 0;
             ast::token *tok = list->first;
+            bool flag = false;
             while(tok)
             {
                 ast::token *next = tok->next_2;
-                count += check(tok);
+                flag = check(tok);
+                if (flag)
+                    break;
                 tok = next;
             }
-            return count;
+            return flag;
         }
     };
 };

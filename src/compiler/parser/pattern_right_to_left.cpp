@@ -34,20 +34,22 @@ namespace g0at
         {
         }
 
-        int pattern_right_to_left::pass()
+        bool pattern_right_to_left::pass()
         {
             assert(list != nullptr);
             assert(data != nullptr);
 
-            int count = 0;
+            bool flag = false;
             ast::token *tok = list->last;
             while(tok)
             {
                 ast::token *prev = tok->prev_2;
-                count += check(tok);
+                flag = check(tok);
+                if (flag)
+                    break;
                 tok = prev;
             }
-            return count;
+            return flag;
         }
     };
 };
