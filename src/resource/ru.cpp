@@ -203,6 +203,13 @@ namespace g0at
                     L"      повторно использованных:   " << reused_objects << L" (" << lib::double_to_wstring(reused_percent, 1) << L" %)";
                 return wss.str();
             }
+
+            std::wstring assertion_failed(const char *file, int line, const char *assertion) override
+            {
+                std::wstringstream wss;
+                wss << file << L", " << line << L", утверждение ложно: \'" << assertion << L'\'';
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_ru()

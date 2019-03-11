@@ -66,6 +66,8 @@ namespace g0at
                 const wchar_t *gc_algorithm, int gc_count_launches,
                 uint64_t total_objects, uint64_t created_objects,
                 uint64_t reused_objects, double reused_percent) = 0;
+            virtual std::wstring assertion_failed(const char *file, int line,
+                const char *assertion) = 0;
             
         protected:
             static resource *get_intance_en();
