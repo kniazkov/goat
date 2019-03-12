@@ -1,0 +1,2 @@
+{"clone":function,"val":1}
+false
