@@ -30,9 +30,8 @@ namespace g0at
     namespace model
     {
         object_integer::object_integer(object_pool *pool, int64_t _value)
-            : object(pool), value(_value)
+            : object(pool, pool->get_integer_proto_instance()), value(_value)
         {
-            proto.push_back(pool->get_integer_proto_instance());
         }
 
         void object_integer::kill(object_pool *pool)

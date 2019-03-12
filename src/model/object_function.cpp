@@ -27,9 +27,8 @@ namespace g0at
     namespace model
     {
         object_function::object_function(object_pool *pool)
-            : object(pool)
+            : object(pool, pool->get_function_proto_instance())
         {
-            proto.push_back(pool->get_function_proto_instance());
         } 
 
         object_type object_function::get_type() const

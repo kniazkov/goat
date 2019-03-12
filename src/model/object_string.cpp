@@ -31,9 +31,8 @@ namespace g0at
     namespace model
     {
         object_string::object_string(object_pool *pool, std::wstring _data)
-            : object(pool), data(_data), id(-1)
+            : object(pool, pool->get_string_proto_instance()), data(_data), id(-1)
         {
-            proto.push_back(pool->get_string_proto_instance());
         }
 
         object_string::object_string(object_pool *pool, std::wstring _data, int _id)

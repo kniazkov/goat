@@ -27,9 +27,8 @@ namespace g0at
     namespace model
     {
         object_undefined::object_undefined(object_pool *pool)
-            : object(pool)
+            : object(pool, pool->get_void_instance())
         {
-            proto.push_back(pool->get_void_instance());
         }
 
         object_undefined *object_undefined::to_object_undefined()

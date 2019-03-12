@@ -31,9 +31,8 @@ namespace g0at
     namespace model
     {
         object_real::object_real(object_pool *pool, double _value)
-            : object(pool), value(_value)
+            : object(pool, pool->get_real_proto_instance()), value(_value)
         {
-            proto.push_back(pool->get_real_proto_instance());
         }
 
         void object_real::reinit(double _value)

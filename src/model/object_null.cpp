@@ -27,9 +27,8 @@ namespace g0at
     namespace model
     {
         object_null::object_null(object_pool *pool)
-            : object(pool)
+            : object(pool, pool->get_void_instance())
         {
-            proto.push_back(pool->get_void_instance());
         }
 
         object_null *object_null::to_object_null()

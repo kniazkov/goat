@@ -30,9 +30,8 @@ namespace g0at
     namespace model
     {
         object_boolean::object_boolean(object_pool *pool, bool _value)
-            : object(pool), value(_value)
+            : object(pool, pool->get_boolean_proto_instance()), value(_value)
         {
-            proto.push_back(pool->get_boolean_proto_instance());
         }
 
         void object_boolean::reinit(bool _value)

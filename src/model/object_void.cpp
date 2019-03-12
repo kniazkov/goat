@@ -29,7 +29,6 @@ namespace g0at
         object_void::object_void(object_pool *pool)
             : object(pool)
         {
-            proto.push_back(pool->get_generic_proto_instance());
         }
 
         object_void *object_void::to_object_void()
