@@ -30,8 +30,8 @@ namespace g0at
     {
         namespace built_in
         {
-            context_factory::context_factory(object_pool *_pool, object_cache *_cache)
-                : pool(_pool), cache(_cache)
+            context_factory::context_factory(object_pool *_pool)
+                : pool(_pool)
             {
             }
 
@@ -39,26 +39,26 @@ namespace g0at
             {
                 context *ctx = pool->create_context();
 
-                ctx->add_object(cache->get_object(L"Void"), pool->get_void_instance());
-                ctx->add_object(cache->get_object(L"Undefined"), pool->get_undefined_instance());
-                ctx->add_object(cache->get_object(L"Null"), pool->get_null_instance());
-                ctx->add_object(cache->get_object(L"String"), pool->get_string_proto_instance());
-                ctx->add_object(cache->get_object(L"Integer"), pool->get_integer_proto_instance());
-                ctx->add_object(cache->get_object(L"Function"), pool->get_function_proto_instance());
-                ctx->add_object(cache->get_object(L"Boolean"), pool->get_boolean_proto_instance());
-                ctx->add_object(cache->get_object(L"Real"), pool->get_real_proto_instance());
+                ctx->add_object(pool->get_static_string(L"Void"), pool->get_void_instance());
+                ctx->add_object(pool->get_static_string(L"Undefined"), pool->get_undefined_instance());
+                ctx->add_object(pool->get_static_string(L"Null"), pool->get_null_instance());
+                ctx->add_object(pool->get_static_string(L"String"), pool->get_string_proto_instance());
+                ctx->add_object(pool->get_static_string(L"Integer"), pool->get_integer_proto_instance());
+                ctx->add_object(pool->get_static_string(L"Function"), pool->get_function_proto_instance());
+                ctx->add_object(pool->get_static_string(L"Boolean"), pool->get_boolean_proto_instance());
+                ctx->add_object(pool->get_static_string(L"Real"), pool->get_real_proto_instance());
 
-                ctx->add_object(cache->get_object(L"print"), create_function_print());
-                ctx->add_object(cache->get_object(L"println"), create_function_println());
-                ctx->add_object(cache->get_object(L"exit"), create_function_exit());
-                ctx->add_object(cache->get_object(L"abs"), create_function_abs());
-                ctx->add_object(cache->get_object(L"sin"), create_function_sin());
-                ctx->add_object(cache->get_object(L"sqrt"), create_function_sqrt());
-                ctx->add_object(cache->get_object(L"atan2"), create_function_atan2());
+                ctx->add_object(pool->get_static_string(L"print"), create_function_print());
+                ctx->add_object(pool->get_static_string(L"println"), create_function_println());
+                ctx->add_object(pool->get_static_string(L"exit"), create_function_exit());
+                ctx->add_object(pool->get_static_string(L"abs"), create_function_abs());
+                ctx->add_object(pool->get_static_string(L"sin"), create_function_sin());
+                ctx->add_object(pool->get_static_string(L"sqrt"), create_function_sqrt());
+                ctx->add_object(pool->get_static_string(L"atan2"), create_function_atan2());
 
                 model::variable tmp;
                 tmp.set_real(std::atan((double)1.0) * 4);
-                ctx->add_object(cache->get_object(L"PI"), tmp);
+                ctx->add_object(pool->get_static_string(L"PI"), tmp);
 
                 return pool->create_context(ctx);
             }

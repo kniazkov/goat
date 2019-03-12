@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace model
     {
-        thread::thread(context *_ctx, object_pool *_pool, object_cache *_cache)
-            : next(nullptr), iid(0), state(thread_state::pause), ctx(_ctx), pool(_pool), cache(_cache)
+        thread::thread(context *_ctx, object_pool *_pool)
+            : next(nullptr), iid(0), state(thread_state::pause), ctx(_ctx), pool(_pool)
         {
         }
     };

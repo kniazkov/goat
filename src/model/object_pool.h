@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object_list.h"
+#include "object_cache.h"
 #include "lib/new.h"
 #include <string>
 #include <cstdint>
@@ -34,6 +35,7 @@ namespace g0at
         class object;
         class object_pool;
         class generic_object;
+        class generic_proto;
         class context;
         class object_string;
         class object_integer;
@@ -77,7 +79,7 @@ namespace g0at
         class object_pool
         {
         public:
-            object_pool();
+            object_pool(std::vector<std::wstring> &identifiers_list);
             void add(object *item);
             void destroy_all();
 
@@ -105,6 +107,10 @@ namespace g0at
             object_real *create_object_real(double value);
             object_boolean *create_object_boolean(bool value);
 
+            void mark_all_static_strings() { static_strings.mark_all(); }
+            object_string *get_static_string(std::wstring name) { return static_strings.get_object(name, this); }
+            object_string *get_static_string(int id) { return static_strings.get_object(id); }
+
             object_list population;
             object_pool_typed<4, 256> generic_objects;
             object_pool_typed<8, 4096> contexts;
@@ -129,6 +135,8 @@ namespace g0at
             object *function_proto_instance;
             object *boolean_proto_instance;
             object *real_proto_instance;
+
+            object_cache static_strings;
         };
 
         template <int Factor, int Count> bool object_pool_typed<Factor, Count>::destroy_or_cache(object *obj, object_pool *pool)

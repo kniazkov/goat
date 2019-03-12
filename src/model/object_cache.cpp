@@ -21,26 +21,31 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_cache.h"
-#include <assert.h>
+#include "object_pool.h"
+#include "object_string.h"
+#include "lib/assert.h"
 
 namespace g0at
 {
     namespace model
     {
-        object_cache::object_cache(std::vector<std::wstring> _init_list, object_pool *_obj_pool)
+        object_cache::object_cache()
         {
-            obj_pool = _obj_pool;
-            for (int id = 0, size = (int)_init_list.size(); id < size; id++)
+        }
+
+        void object_cache::init(std::vector<std::wstring> &init_list, object_pool *pool)
+        {
+            for (int id = 0, size = (int)init_list.size(); id < size; id++)
             {
-                std::wstring name = _init_list[id];
+                std::wstring name = init_list[id];
                 assert(indexes.find(name) == indexes.end());
-                object_string *obj = obj_pool->create_object_string(name, id);
+                object_string *obj = pool->create_object_string(name, id);
                 indexes.insert(std::pair<std::wstring, int>(name, id));
                 objects.push_back(obj);
             }
         }
 
-        object_string *object_cache::get_object(std::wstring name)
+        object_string *object_cache::get_object(std::wstring name, object_pool *pool)
         {
             auto iter = indexes.find(name);
             if (iter != indexes.end())
@@ -51,7 +56,7 @@ namespace g0at
             else
             {
                 int id = (int)objects.size();
-                object_string *obj = obj_pool->create_object_string(name, id);
+                object_string *obj = pool->create_object_string(name, id);
                 indexes.insert(std::pair<std::wstring, int>(name, id));
                 objects.push_back(obj);
                 return obj;
@@ -61,6 +66,14 @@ namespace g0at
         object_string *object_cache::get_object(int id)
         {
             return objects.at(id);
+        }
+            
+        void object_cache::mark_all()
+        {
+            for (auto obj: objects)
+            {
+                obj->mark();
+            }
         }
     };
 };

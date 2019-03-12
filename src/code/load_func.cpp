@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "load_func.h"
 #include "model/object_function_user_defined.h"
+#include "model/object_string.h"
 #include <assert.h>
 
 namespace g0at
@@ -43,7 +44,7 @@ namespace g0at
             model::object_function_user_defined *obj = new model::object_function_user_defined(thr->pool, first_iid, thr->ctx);
             for (int i = 0, size = (int)arg_ids.size(); i < size; i++)
             {
-                model::object_string *name = thr->cache->get_object(arg_ids[i]);
+                model::object_string *name = thr->pool->get_static_string(arg_ids[i]);
                 obj->add_arg_name(name);
             }
             model::variable var;

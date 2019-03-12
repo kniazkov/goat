@@ -22,8 +22,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "object_string.h"
-#include "object_pool.h"
 #include <string>
 #include <map>
 #include <vector>
@@ -32,20 +30,17 @@ namespace g0at
 {
     namespace model
     {
+        class object_pool;
+        class object_string;
+        
         class object_cache
         {
         public:
-            object_cache(std::vector<std::wstring> _init_list, object_pool *_obj_pool);
-            object_string *get_object(std::wstring name);
+            object_cache();
+            void init(std::vector<std::wstring> &init_list, object_pool *pool);
+            object_string *get_object(std::wstring name, object_pool *pool);
             object_string *get_object(int id);
-            
-            void mark_all()
-            {
-                for (auto obj: objects)
-                {
-                    obj->mark();
-                }
-            }
+            void mark_all();
 
         protected:
             object_cache(const object_cache&) { }
@@ -53,7 +48,6 @@ namespace g0at
 
             std::map<std::wstring, int> indexes;
             std::vector<object_string *> objects;
-            object_pool *obj_pool;
         };
     };
 };

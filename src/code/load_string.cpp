@@ -40,7 +40,7 @@ namespace g0at
         void load_string::exec(model::thread *thr)
         {
             model::variable var;
-            model::object_string *obj = thr->cache->get_object(id);
+            model::object_string *obj = thr->pool->get_static_string(id);
             var.set_object(obj);
             thr->push(var);
         }

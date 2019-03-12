@@ -37,11 +37,14 @@ namespace g0at
 {
     namespace model
     {
-        object_pool::object_pool()
+        object_pool::object_pool(std::vector<std::wstring> &identifiers_list)
         {
             id = 0;
 
-            generic_proto_instance = new generic_proto(this);
+            generic_proto *gp = new generic_proto(this);
+            generic_proto_instance = gp;
+            static_strings.init(identifiers_list, this);
+            gp->init(this);
             void_instance = new object_void(this);
             undefined_instance = new object_undefined(this);
             null_instance = new object_null(this);

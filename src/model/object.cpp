@@ -22,6 +22,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object.h"
 #include "thread.h"
+#include "object_string.h"
+#include "object_function_built_in.h"
 #include "lib/assert.h"
 #include <sstream>
 
@@ -267,9 +269,34 @@ namespace g0at
         /* 
             Generic proto
         */
+        class generic_clone : public object_function_built_in
+        {
+        public:
+            generic_clone(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count) override
+            {
+                thr->pop(arg_count);
+                object *this_ptr = thr->ctx->this_ptr;
+                assert(this_ptr != nullptr);
+                variable tmp;
+                tmp.set_object(this_ptr);
+                thr->push(tmp);
+            }
+        };
+
+
         generic_proto::generic_proto(object_pool *pool)
             : object(pool, nullptr)
         {
+        }
+
+        void generic_proto::init(object_pool *pool)
+        {
+            //add_object(pool->get_static_string(L"clone"), new generic_clone(pool));
         }
 
         /*

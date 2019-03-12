@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "store.h"
+#include "model/object_string.h"
 #include <assert.h>
 
 namespace g0at
@@ -39,7 +40,7 @@ namespace g0at
 
         void store::exec(model::thread *thr)
         {
-            model::object_string *key = thr->cache->get_object(id);
+            model::object_string *key = thr->pool->get_static_string(id);
             model::variable *var = thr->ctx->find_object(key);
             assert(var != nullptr);
             *var = thr->peek();

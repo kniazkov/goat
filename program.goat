@@ -1,13 +1,10 @@
-var gen = $(y)
+var obj =
 {
-    return $(x)
-    {
-        return x + y;
-    }
+    x : 1,
+    y : "test",
+    z : { a : true, b : false }
 };
 
-var func = gen(7);
+var obj_1 = obj.clone();
 
-println(func(0));
-println(func(4));
-println(func(6));
+println(obj_1);

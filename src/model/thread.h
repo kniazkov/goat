@@ -40,7 +40,7 @@ namespace g0at
         class thread
         {
         public:
-            thread(context *_ctx, object_pool *_pool, object_cache *_cache);
+            thread(context *_ctx, object_pool *_pool);
 
             variable *push(variable var) { return data.push(var); }
             variable *push_undefined()
@@ -66,7 +66,6 @@ namespace g0at
             thread_state state;
             context *ctx;
             object_pool *pool;
-            object_cache  *cache;
 
         protected:
             thread(const thread &) { }

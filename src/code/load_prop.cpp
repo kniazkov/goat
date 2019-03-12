@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "load_prop.h"
+#include "model/object_string.h"
 
 namespace g0at
 {
@@ -38,7 +39,7 @@ namespace g0at
 
         void load_prop::exec(model::thread *thr)
         {
-            model::object_string *key = thr->cache->get_object(id);
+            model::object_string *key = thr->pool->get_static_string(id);
             model::variable *var = thr->pop().to_object(thr->pool)->find_object(key);
             if(var != nullptr)
             {

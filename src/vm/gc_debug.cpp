@@ -39,7 +39,7 @@ namespace g0at
                 count++;
 
                 // mark
-                proc->cache->mark_all();
+                proc->pool->mark_all_static_strings();
                 model::thread *thr_start = proc->threads;
                 model::thread *thr = thr_start;
                 do

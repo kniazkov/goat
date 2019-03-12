@@ -33,12 +33,11 @@ namespace g0at
         class process
         {
         public:
-            process() : pool(nullptr), cache(nullptr), threads(nullptr)
+            process() : pool(nullptr), threads(nullptr)
             {
             }
 
             model::object_pool *pool;
-            model::object_cache *cache;
             model::thread* threads;
         };
     };

@@ -43,15 +43,13 @@ namespace g0at
 
         vm_report vm::run(environment *env)
         {
-            model::object_pool pool;
-            model::object_cache cache(code->get_identifiers_list(), &pool);
-            model::context *ctx = model::built_in::context_factory(&pool, &cache).create_context();
-            model::thread thr(ctx, &pool, &cache);
+            model::object_pool pool(code->get_identifiers_list());
+            model::context *ctx = model::built_in::context_factory(&pool).create_context();
+            model::thread thr(ctx, &pool);
             thr.next = &thr;
             thr.state = model::thread_state::ok;
             process proc;
             proc.pool = &pool;
-            proc.cache = &cache;
             proc.threads = &thr;
             lib::pointer<lib::gc> gc = create_garbage_collector(env->gct, &proc);
             lib::set_garbage_collector(gc.get());
