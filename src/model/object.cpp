@@ -159,6 +159,23 @@ namespace g0at
             return to_string();
         }
 
+        void object::copy_objects_to(object *dst)
+        {
+            for (auto pair : objects)
+            {
+                dst->add_object(pair.first, pair.second);
+            }
+        }
+
+        void object::copy_proto_to(object *dst)
+        {
+            dst->proto.clear();
+            for (auto pt : proto)
+            {
+                dst->proto.push_back(pt);
+            }
+        }
+
         void object::add_object(object *key, variable &value)
         {
             assert(key != nullptr);
@@ -282,8 +299,13 @@ namespace g0at
                 thr->pop(arg_count);
                 object *this_ptr = thr->pop().get_object();
                 assert(this_ptr != nullptr);
+
+                object *clone = thr->pool->create_generic_object();
+                this_ptr->copy_objects_to(clone);
+                this_ptr->copy_proto_to(clone);
+
                 variable tmp;
-                tmp.set_object(this_ptr);
+                tmp.set_object(clone);
                 thr->push(tmp);
             }
         };
