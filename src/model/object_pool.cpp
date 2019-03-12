@@ -41,16 +41,26 @@ namespace g0at
         {
             id = 0;
 
+            generic_proto_instance = nullptr;
+            string_proto_instance = nullptr;
+            void_instance = nullptr;
+            undefined_instance = nullptr;
+            null_instance = nullptr;
+            integer_proto_instance = nullptr;
+            function_proto_instance = nullptr;
+            boolean_proto_instance = nullptr;
+            real_proto_instance = nullptr;
+
             generic_proto *gp = new generic_proto(this);
             generic_proto_instance = gp;
+            string_proto_instance = new object_string_proto(this);
             static_strings.init(identifiers_list, this);
+            function_proto_instance = new object_function_proto(this);
             gp->init(this);
             void_instance = new object_void(this);
             undefined_instance = new object_undefined(this);
             null_instance = new object_null(this);
-            string_proto_instance = new object_string_proto(this);
             integer_proto_instance = new object_integer_proto(this);
-            function_proto_instance = new object_function_proto(this);
             boolean_proto_instance = new object_boolean_proto(this);
             real_proto_instance = new object_real_proto(this);
         }

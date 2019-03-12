@@ -280,7 +280,7 @@ namespace g0at
             void call(thread *thr, int arg_count) override
             {
                 thr->pop(arg_count);
-                object *this_ptr = thr->ctx->this_ptr;
+                object *this_ptr = thr->pop().get_object();
                 assert(this_ptr != nullptr);
                 variable tmp;
                 tmp.set_object(this_ptr);
@@ -296,7 +296,7 @@ namespace g0at
 
         void generic_proto::init(object_pool *pool)
         {
-            //add_object(pool->get_static_string(L"clone"), new generic_clone(pool));
+            add_object(pool->get_static_string(L"clone"), new generic_clone(pool));
         }
 
         /*
