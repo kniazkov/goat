@@ -279,5 +279,10 @@ namespace g0at
             push_int32(ref->get_id());
             push_int32(ref->get_arg_count());
         }
+
+        void serializer::visit(this_ptr *ref)
+        {
+            push_opcode(opcode::this_);
+        }
     };
 };

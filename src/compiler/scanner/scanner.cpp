@@ -47,6 +47,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/equals.h"
 #include "compiler/ast/not_equal.h"
 #include "compiler/ast/keyword_while.h"
+#include "compiler/ast/this_ptr.h"
 #include <sstream>
 #include <cstdint>
 
@@ -155,6 +156,8 @@ namespace g0at
                 return new ast::value_true();            
             if (name == L"false")
                 return new ast::value_false();            
+            if (name == L"this")
+                return new ast::this_ptr();            
             if (name == L"var")
                 return new ast::keyword_var();            
             if (name == L"function")

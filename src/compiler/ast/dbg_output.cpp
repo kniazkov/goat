@@ -393,6 +393,12 @@ namespace g0at
             print_token_list(ref->get_args_list(), L"args");
         }
 
+        void dbg_output::visit(this_ptr *ref)
+        {
+            add_indent();
+            stream << L"this";
+        }
+
         void dbg_output::add_indent()
         {
             if (!indent)

@@ -179,5 +179,10 @@ namespace g0at
         {
             return nullptr;
         }
+        
+        this_ptr *node::to_this_ptr()
+        {
+            return nullptr;
+        }
    }
 };

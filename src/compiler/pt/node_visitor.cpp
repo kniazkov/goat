@@ -133,5 +133,9 @@ namespace g0at
         void node_visitor::visit(method_call *ref)
         {
         }
+
+        void node_visitor::visit(this_ptr *ref)
+        {
+        }
     }
 };

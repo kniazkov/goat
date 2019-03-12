@@ -53,6 +53,7 @@ namespace g0at
         class if_not;
         class jmp;
         class vcall;
+        class this_ptr;
 
         class instruction_visitor
         {
@@ -86,6 +87,7 @@ namespace g0at
             virtual void visit(if_not *ref) = 0;
             virtual void visit(jmp *ref) = 0;
             virtual void visit(vcall *ref) = 0;
+            virtual void visit(this_ptr *ref) = 0;
         };
     };
 };

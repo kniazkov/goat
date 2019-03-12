@@ -22,52 +22,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <cstdint>
+#include "expression.h"
 
 namespace g0at
 {
-    namespace code
+    namespace ast
     {
-        enum class opcode : uint16_t
+        class this_ptr : public expression
         {
-            nop,
-            end,
-
-            pop,
-
-            load,
-            prop,
-            sload,
-            iload,
-            rload,
-
-            void_,
-            undefined,
-            null,
-            true_,
-            false_,
-
-            this_,
-
-            func,
-            create,
-
-            var,
-            store,
-
-            call,
-            vcall,
-            ret,
-            retv,
-            ifnot,
-            jmp,
-
-            add,
-            sub,
-            neg,
-
-            eq,
-            neq
+        public:
+            void accept(token_visitor *visitor) override;
+            this_ptr *to_this_ptr() override;
         };
     };
 };

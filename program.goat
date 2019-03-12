@@ -4,7 +4,7 @@ var obj =
 
     add : $(x)
     {
-        return x + y;
+        return x + this.y;
     }
 };
 

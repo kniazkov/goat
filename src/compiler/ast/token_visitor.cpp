@@ -201,5 +201,9 @@ namespace g0at
         void token_visitor::visit(method_call *ref)
         {
         }
+
+        void token_visitor::visit(this_ptr *ref)
+        {
+        }
     }
 };

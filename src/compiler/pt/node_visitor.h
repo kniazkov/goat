@@ -51,6 +51,7 @@ namespace g0at
         class is_not_equal_to;
         class statement_while;
         class method_call;
+        class this_ptr;
 
         class node_visitor
         {
@@ -82,6 +83,7 @@ namespace g0at
             virtual void visit(is_not_equal_to *ref);
             virtual void visit(statement_while *ref);
             virtual void visit(method_call *ref);
+            virtual void visit(this_ptr *ref);
         };
     };
 };

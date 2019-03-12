@@ -64,7 +64,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/is_not_equal_to.h"
 #include "compiler/ast/method_call.h"
 #include "compiler/pt/method_call.h"
-#include <assert.h>
+#include "compiler/ast/this_ptr.h"
+#include "compiler/pt/this_ptr.h"
+#include "lib/assert.h"
 
 namespace g0at
 {
@@ -245,6 +247,11 @@ namespace g0at
                 tok_arg = tok_arg->next;
             }
             expr = vcall.cast<pt::expression>();
+        }
+
+        void expression_builder::visit(ast::this_ptr *ref)
+        {
+            expr = new pt::this_ptr(ref->get_position());
         }
 
         std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>

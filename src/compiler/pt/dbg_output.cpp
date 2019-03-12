@@ -292,6 +292,12 @@ namespace g0at
             }
         }
 
+        void dbg_output::visit(this_ptr *ref)
+        {
+            add_indent();
+            stream << L"this";
+        }
+
         void dbg_output::add_indent()
         {
             if (!indent)

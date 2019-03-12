@@ -82,6 +82,7 @@ namespace g0at
             void visit(keyword_while *ref) override;
             void visit(statement_while *ref) override;
             void visit(method_call *ref) override;
+            void visit(this_ptr *ref) override;
 
         protected:
             void add_indent();

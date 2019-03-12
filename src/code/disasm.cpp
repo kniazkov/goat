@@ -229,5 +229,10 @@ namespace g0at
             int id = ref->get_id();
             stream << L"vcall \t" << id << L", " << ref->get_arg_count() << L"\t; " << identifiers.at(id);
         }
+
+        void disasm::visit(this_ptr *ref)
+        {
+            stream << L"this";
+        }
     };
 };

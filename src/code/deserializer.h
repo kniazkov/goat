@@ -96,6 +96,7 @@ namespace g0at
             static void creator_if_not(source *src, code *dst);
             static void creator_jmp(source *src, code *dst);
             static void creator_vcall(source *src, code *dst);
+            static void creator_this_ptr(source *src, code *dst);
 
             std::map<opcode, creator> creators;
         };

@@ -20,54 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include <cstdint>
+#include "this_ptr.h"
 
 namespace g0at
 {
-    namespace code
+    namespace pt
     {
-        enum class opcode : uint16_t
+        this_ptr::this_ptr(lib::pointer<position> _pos)
+            : expression(_pos)
         {
-            nop,
-            end,
+        }
 
-            pop,
+        void this_ptr::accept(node_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
 
-            load,
-            prop,
-            sload,
-            iload,
-            rload,
-
-            void_,
-            undefined,
-            null,
-            true_,
-            false_,
-
-            this_,
-
-            func,
-            create,
-
-            var,
-            store,
-
-            call,
-            vcall,
-            ret,
-            retv,
-            ifnot,
-            jmp,
-
-            add,
-            sub,
-            neg,
-
-            eq,
-            neq
-        };
+        this_ptr *this_ptr::to_this_ptr()
+        {
+            return this;
+        }
     };
 };

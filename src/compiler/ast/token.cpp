@@ -323,5 +323,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        this_ptr *token::to_this_ptr()
+        {
+            return nullptr;
+        }
     }
 };

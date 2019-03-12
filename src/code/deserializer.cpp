@@ -54,6 +54,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "eq.h"
 #include "neq.h"
 #include "vcall.h"
+#include "this_ptr.h"
 
 namespace g0at
 {
@@ -346,6 +347,11 @@ namespace g0at
             dst->add_instruction(new vcall(id, arg_count));
         }
 
+        void deserializer::creator_this_ptr(source *src, code *dst)
+        {
+            dst->add_instruction(new this_ptr());
+        }
+
         deserializer::deserializer()
         {
             creators[opcode::nop]       = creator_nop;
@@ -376,6 +382,7 @@ namespace g0at
             creators[opcode::ifnot]     = creator_if_not;
             creators[opcode::jmp]       = creator_jmp;
             creators[opcode::vcall]     = creator_vcall;
+            creators[opcode::this_]     = creator_this_ptr;
         }
     };
 };
