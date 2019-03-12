@@ -1,0 +1,11 @@
+var obj =
+{
+    y : 3,
+
+    add : $(x)
+    {
+        return x + this.y;
+    }
+};
+
+println(obj.add(2));
