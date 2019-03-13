@@ -64,8 +64,8 @@ namespace g0at
             std::wstringstream tmp;
             tmp << L"digraph abstract_syntax_tree" << std::endl <<
                 L"{" << std::endl <<
-                L"  node [fontname=\"Arial, sans-serif\", fontsize=12 shape=box style=rounded]" << std::endl << 
-                L"  edge [fontname=\"Arial, sans-serif\", fontsize=12]" << std::endl;
+                L"  node [fontname=\"serif\", fontsize=11 shape=box style=rounded penwidth=0.5]" << std::endl << 
+                L"  edge [fontname=\"serif\", fontsize=11 penwidth=0.5]" << std::endl;
             dbg_output dbg(tmp, uid);
             obj->accept(&dbg);
             tmp << L"}";
@@ -74,17 +74,17 @@ namespace g0at
 
         void dbg_output::print(const wchar_t *title)
         {
-            stream << L"  node_" << id << L" [label=<<b>" << title << L"</b>>]" << std::endl;
+            stream << L"  node_" << id << L" [label=<" << title << L">]" << std::endl;
         }
 
         void dbg_output::print(const wchar_t *title, const wchar_t *content)
         {
-            stream << L"  node_" << id << L" [label=<<b>" << title << L"</b><br/>" << content << ">]" << std::endl;
+            stream << L"  node_" << id << L" [label=<" << title << L"<br/><font color=\"blue\">" << content << "</font>>]" << std::endl;
         }
 
         void dbg_output::print(const wchar_t *title, std::wstring content)
         {
-            stream << L"  node_" << id << L" [label=<<b>" << title << L"</b><br/>" << content << ">]" << std::endl;
+            stream << L"  node_" << id << L" [label=<" << title << L"<br/><font color=\"blue\">" << content << "</font>>]" << std::endl;
         }
 
         void dbg_output::link(int pred_id, int succ_id, bool dashed)
