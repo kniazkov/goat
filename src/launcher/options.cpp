@@ -45,7 +45,7 @@ namespace g0at
             dump_assembler_code(false),
             compile(false),
             bin(false),
-            print_memory_usage_report(false),
+            dump_memory_usage_report(false),
             gc_type_str(nullptr)
     {
     }
@@ -101,9 +101,9 @@ namespace g0at
                 {
                     global::debug = true;
                 }
-                else if (0 == std::strcmp(arg + 2, "print-memory-usage-report"))
+                else if (0 == std::strcmp(arg + 2, "dump-memory-usage-report"))
                 {
-                    opt.print_memory_usage_report = true;
+                    opt.dump_memory_usage_report = true;
                 }
                 else if (0 == std::strncmp(arg + 2, "heap-size=", 10))
                 {

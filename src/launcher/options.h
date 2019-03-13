@@ -39,7 +39,7 @@ namespace g0at
         bool dump_assembler_code;
         bool compile;
         bool bin;
-        bool print_memory_usage_report;
+        bool dump_memory_usage_report;
         char *gc_type_str;
     };
 };
