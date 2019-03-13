@@ -187,7 +187,7 @@ namespace g0at
             tok_root.reset();
             if (opt.dump_parse_tree)
             {
-                dump_file(opt.prog_name, "ptree.txt", pt::dbg_output::to_string(node_root));
+                dump_file(opt.prog_name, "ptree.txt", pt::dbg_output::to_string(node_root.get()));
             }
             auto code = codegen::generator::generate(node_root);
             node_root.reset();

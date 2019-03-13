@@ -31,14 +31,13 @@ namespace g0at
 {
     namespace pt
     {
+        class node;
         class function;
 
         class dbg_output : public node_visitor
         {
         public:
-            dbg_output(std::wstringstream &_stream);
-            dbg_output(std::wstringstream &_stream, int _indent);
-            static std::wstring to_string(lib::pointer<function> obj);
+            static std::wstring to_string(node* obj);
             void visit(variable *ref) override;
             void visit(function *ref) override;
             void visit(static_string *ref) override;
@@ -67,11 +66,18 @@ namespace g0at
             void visit(this_ptr *ref) override;
 
         protected:
-            void add_indent();
-            void add_indent(int value);
+            dbg_output(std::wstringstream &_stream, int &_uid);
+            void print(const wchar_t *title);
+            void print(const wchar_t *title, const wchar_t* content);
+            void print(const wchar_t *title, std::wstring content);
+            void link(int pred_id, int succ_id, bool dashed);
+            void link(int pred_id, int succ_id, bool dashed, const wchar_t *label);
+            void link_child(const dbg_output &child);
+            void link_child(const dbg_output &child, const wchar_t *label);
 
             std::wstringstream &stream;
-            int indent;
+            int &uid;
+            int id;
         };
     };
 };
