@@ -37,8 +37,6 @@ namespace g0at
         class dbg_output : public token_visitor
         {
         public:
-            dbg_output(std::wstringstream &_stream);
-            dbg_output(std::wstringstream &_stream, int _indent);
             static std::wstring to_string(token *obj);
             void visit(function *ref) override;
             void visit(identifier *ref) override;
@@ -85,12 +83,19 @@ namespace g0at
             void visit(this_ptr *ref) override;
 
         protected:
-            void add_indent();
-            void add_indent(int value);
+            dbg_output(std::wstringstream &_stream, int &_uid);
+            void print(const wchar_t *title);
+            void print(const wchar_t *title, const wchar_t* content);
+            void print(const wchar_t *title, std::wstring content);
+            void link(int pred_id, int succ_id, bool dashed);
+            void link(int pred_id, int succ_id, bool dashed, const wchar_t *label);
+            void link_child(const dbg_output &child);
+            void link_child(const dbg_output &child, const wchar_t *label);
             void print_token_list(token_list *list, const wchar_t *title);
 
             std::wstringstream &stream;
-            int indent;
+            int &uid;
+            int id;
         };
     };
 };

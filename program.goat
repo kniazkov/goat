@@ -1,14 +1,1 @@
-var obj =
-{
-    val : 1,
-
-    clone : $()
-    {
-        return 0;
-    }
-};
-
-var copy = obj.clone();
-
-println(copy);
-println(copy != obj);
+println("ok.");
