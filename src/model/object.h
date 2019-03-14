@@ -178,6 +178,8 @@ namespace g0at
         protected:
             generic_object(object_pool *pool);
             void reinit(object_pool *pool);
+        public:
+            virtual void m_clone(thread *thr, int arg_count) override;
         };
 
         class generic_proto : public object
@@ -212,31 +214,6 @@ namespace g0at
             virtual void op_neq(variable *var, thread *thr);
 
             virtual void m_clone(variable *var, thread *thr, int arg_count);
-        };
-
-        class generic_handler : public handler
-        {
-        public:
-            static handler *get_instance();
-            std::wstring to_string(const variable *var) const override;
-            std::wstring to_string_notation(const variable *var) const override;
-            object *to_object(variable *var, object_pool *pool) override;
-            
-            object *get_object(variable *var);
-            bool get_integer(variable *var, int64_t *pval) override;
-            bool get_real(variable *var, double *pval) override;
-            bool get_boolean(variable *var, bool *pval) override;
-            
-            void op_add(variable *var, thread *thr)  override;
-            void op_sub(variable *var, thread *thr)  override;
-            void op_neg(variable *var, thread *thr)  override;
-            void op_eq(variable *var, thread *thr) override;
-            void op_neq(variable *var, thread *thr) override;
-
-            void m_clone(variable *var, thread *thr, int arg_count) override;
-
-        protected:
-            generic_handler();
         };
 
         bool object_comparator::operator ()(const object *a, const object *b) const
