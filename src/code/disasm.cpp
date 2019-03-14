@@ -37,6 +37,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "jmp.h"
 #include "vcall.h"
 #include "clone.h"
+#include "instance_of.h"
 
 namespace g0at
 {
@@ -239,6 +240,11 @@ namespace g0at
         void disasm::visit(clone *ref)
         {
             stream << L"clone \t" << ref->get_arg_count();
+        }
+
+        void disasm::visit(instance_of *ref)
+        {
+            stream << L"insof \t" << ref->get_arg_count();
         }
     };
 };

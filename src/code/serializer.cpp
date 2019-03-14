@@ -40,6 +40,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "jmp.h"
 #include "vcall.h"
 #include "clone.h"
+#include "instance_of.h"
 
 namespace g0at
 {
@@ -289,6 +290,12 @@ namespace g0at
         void serializer::visit(clone *ref)
         {
             push_opcode(opcode::clone);
+            push_int32(ref->get_arg_count());
+        }
+
+        void serializer::visit(instance_of *ref)
+        {
+            push_opcode(opcode::insof);
             push_int32(ref->get_arg_count());
         }
     };

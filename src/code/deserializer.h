@@ -98,6 +98,7 @@ namespace g0at
             static void creator_vcall(source *src, code *dst);
             static void creator_this_ptr(source *src, code *dst);
             static void creator_clone(source *src, code *dst);
+            static void creator_instance_of(source *src, code *dst);
 
             std::map<opcode, creator> creators;
         };

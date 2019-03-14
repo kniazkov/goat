@@ -22,63 +22,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <cstdint>
+#include "instruction.h"
 
 namespace g0at
 {
     namespace code
     {
-        enum class opcode : uint16_t
+        class instance_of : public instruction
         {
-            // various
-            nop,
-            end,
+        public:
+            instance_of(int _arg_count);
+            void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
 
-            // stack
-            pop,
+            int get_arg_count() { return arg_count; }
 
-            // load instructions
-            load,
-            prop,
-            sload,
-            iload,
-            rload,
-
-            void_,
-            undefined,
-            null,
-            true_,
-            false_,
-
-            this_,
-
-            // store instructions
-            var,
-            store,
-
-            // creators
-            func,
-            create,
-
-            // branching
-            call,
-            vcall,
-            ret,
-            retv,
-            ifnot,
-            jmp,
-
-            // methods
-            clone,
-            insof,
-
-            // operators
-            add,
-            sub,
-            neg,
-
-            eq,
-            neq
+        protected:
+            int arg_count;
         };
     };
 };

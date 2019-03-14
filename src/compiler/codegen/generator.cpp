@@ -71,6 +71,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/vcall.h"
 #include "code/this_ptr.h"
 #include "code/clone.h"
+#include "code/instance_of.h"
 
 namespace g0at
 {
@@ -307,9 +308,9 @@ namespace g0at
             ref->get_left()->accept(this);
             std::wstring name = ref->get_name();
             if (name == L"clone")
-            {
                 code->add_instruction(new code::clone(args_count));
-            }
+            else if (name == L"instanceOf")
+                code->add_instruction(new code::instance_of(args_count));
             else
             {
                 int id = name_cache.get_id(name);
