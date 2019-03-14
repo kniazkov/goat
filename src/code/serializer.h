@@ -67,6 +67,7 @@ namespace g0at
             void visit(jmp *ref) override;
             void visit(vcall *ref) override;
             void visit(this_ptr *ref) override;
+            void visit(clone *ref) override;
 
         protected:
             std::vector<uint8_t> &buff;

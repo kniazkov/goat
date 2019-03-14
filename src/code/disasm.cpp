@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "disasm.h"
+#include "lib/utils.h"
 #include "load_string.h"
 #include "load_var.h"
 #include "call.h"
@@ -35,7 +36,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "if_not.h"
 #include "jmp.h"
 #include "vcall.h"
-#include "lib/utils.h"
+#include "clone.h"
 
 namespace g0at
 {
@@ -233,6 +234,11 @@ namespace g0at
         void disasm::visit(this_ptr *ref)
         {
             stream << L"this";
+        }
+
+        void disasm::visit(clone *ref)
+        {
+            stream << L"clone \t" << ref->get_arg_count();
         }
     };
 };
