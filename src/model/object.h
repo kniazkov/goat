@@ -93,6 +93,7 @@ namespace g0at
             inline void op_neq(thread *thr);
 
             inline void m_clone(thread *thr, int arg_count);
+            inline void m_instance_of(thread *thr, int arg_count);
 
             handler *hndl;
             union
@@ -137,10 +138,12 @@ namespace g0at
             virtual std::wstring to_string_notation() const;
             void copy_objects_to(object *dst);
             void copy_proto_to(object *dst);
+            bool instance_of(object *base);
 
             void add_object(object *key, variable &value);
             void add_object(object *key, object *value);
             variable *find_object(object *key);
+            void find_and_vcall(thread *thr, int arg_count, std::wstring name);
 
             virtual bool get_integer(int64_t *pval);
             virtual bool get_real(double *pval);
@@ -153,6 +156,7 @@ namespace g0at
             virtual void op_neq(thread *thr);
 
             virtual void m_clone(thread *thr, int arg_count);
+            virtual void m_instance_of(thread *thr, int arg_count);
 
             object *prev;
             object *next;
@@ -214,6 +218,7 @@ namespace g0at
             virtual void op_neq(variable *var, thread *thr);
 
             virtual void m_clone(variable *var, thread *thr, int arg_count);
+            virtual void m_instance_of(variable *var, thread *thr, int arg_count);
         };
 
         bool object_comparator::operator ()(const object *a, const object *b) const
@@ -332,6 +337,10 @@ namespace g0at
             hndl->m_clone(this, thr, arg_count);
         }
 
+        void variable::m_instance_of(thread *thr, int arg_count)
+        {
+            hndl->m_instance_of(this, thr, arg_count);
+        }
 
         /*
             Object inline methods
