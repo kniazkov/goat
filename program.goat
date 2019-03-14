@@ -1,4 +1,1 @@
-var obj = {};
-
-println(obj.instanceOf(obj));
-println(obj.instanceOf(Null));
+println(null.instanceOf(Null));

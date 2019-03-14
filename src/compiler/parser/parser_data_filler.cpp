@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/minus.h"
 #include "compiler/ast/static_string.h"
 #include "compiler/ast/integer.h"
+#include "compiler/ast/real.h"
 #include "compiler/ast/keyword_var.h"
 #include "compiler/ast/keyword_function.h"
 #include "compiler/ast/assign.h"
@@ -35,6 +36,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/equals.h"
 #include "compiler/ast/not_equal.h"
 #include "compiler/ast/keyword_while.h"
+#include "compiler/ast/value_void.h"
+#include "compiler/ast/value_undefined.h"
+#include "compiler/ast/value_null.h"
+#include "compiler/ast/value_true.h"
+#include "compiler/ast/value_false.h"
+#include "compiler/ast/this_ptr.h"
 
 namespace g0at
 {
@@ -66,6 +73,11 @@ namespace g0at
         }
 
         void parser_data_filler::visit(ast::integer *ref)
+        {
+            data->expressions.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::real *ref)
         {
             data->expressions.add(ref);
         }
@@ -114,6 +126,36 @@ namespace g0at
         void parser_data_filler::visit(ast::keyword_while *ref)
         {
             data->while_keywords.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::value_void *ref)
+        {
+            data->expressions.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::value_undefined *ref)
+        {
+            data->expressions.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::value_null *ref)
+        {
+            data->expressions.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::value_true *ref)
+        {
+            data->expressions.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::value_false *ref)
+        {
+            data->expressions.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::this_ptr *ref)
+        {
+            data->expressions.add(ref);
         }
     };
 };
