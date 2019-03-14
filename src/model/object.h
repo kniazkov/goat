@@ -92,6 +92,8 @@ namespace g0at
             inline void op_eq(thread *thr);
             inline void op_neq(thread *thr);
 
+            inline void m_clone(thread *thr, int arg_count);
+
             handler *hndl;
             union
             {
@@ -150,6 +152,8 @@ namespace g0at
             virtual void op_eq(thread *thr);
             virtual void op_neq(thread *thr);
 
+            virtual void m_clone(thread *thr, int arg_count);
+
             object *prev;
             object *next;
 
@@ -206,6 +210,8 @@ namespace g0at
             virtual void op_neg(variable *var, thread *thr);
             virtual void op_eq(variable *var, thread *thr);
             virtual void op_neq(variable *var, thread *thr);
+
+            virtual void m_clone(variable *var, thread *thr, int arg_count);
         };
 
         class generic_handler : public handler
@@ -226,6 +232,8 @@ namespace g0at
             void op_neg(variable *var, thread *thr)  override;
             void op_eq(variable *var, thread *thr) override;
             void op_neq(variable *var, thread *thr) override;
+
+            void m_clone(variable *var, thread *thr, int arg_count) override;
 
         protected:
             generic_handler();
@@ -341,6 +349,12 @@ namespace g0at
         {
             hndl->op_neq(this, thr);
         }
+        
+        void variable::m_clone(thread *thr, int arg_count)
+        {
+            hndl->m_clone(this, thr, arg_count);
+        }
+
 
         /*
             Object inline methods

@@ -1,1 +1,9 @@
-println("ok.");
+var obj =
+{
+    val : 1
+};
+
+var copy = obj.clone();
+
+println(copy);
+println(copy != obj);

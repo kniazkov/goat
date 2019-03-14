@@ -242,6 +242,24 @@ namespace g0at
             assert(false); // not implemented
         }
 
+        void object::m_clone(thread *thr, int arg_count)
+        {
+            // find and call own 'clone()' method
+            model::object_function *func = nullptr;
+            model::object_string *key = thr->pool->get_static_string(L"clone");
+            model::variable *var = thr->peek().to_object(thr->pool)->find_object(key);
+            if (var)
+            {
+                model::object *obj = var->get_object();
+                if(obj)
+                    func = obj->to_object_function();
+            }
+            assert(func != nullptr); // TODO: exception if is not a function
+
+            // call
+            func->vcall(thr, arg_count);
+        }
+
         void object::op_eq(thread *thr)
         {
             thr->pop();
@@ -369,6 +387,14 @@ namespace g0at
             assert(false);
         }
 
+        void handler::m_clone(variable *var, thread *thr, int arg_count)
+        {
+            // base handler just returns the object itself, so, primitives are not cloneable
+            variable tmp = thr->pop();
+            thr->pop(arg_count);
+            thr->push(tmp);
+        }
+
         /* 
             Generic handler
         */
@@ -450,6 +476,11 @@ namespace g0at
         void generic_handler::op_neq(variable *var, thread *thr)
         {
             var->data.obj->op_neq(thr);
+        }
+
+        void generic_handler::m_clone(variable *var, thread *thr, int arg_count)
+        {
+            var->data.obj->m_clone(thr, arg_count);
         }
     };
 };
