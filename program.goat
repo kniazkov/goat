@@ -1,5 +1,4 @@
-println(true.instanceOf(Boolean));
-println(false.instanceOf(Boolean));
+var obj  = 1;
 
-println(true.instanceOf(Null));
-println(false.instanceOf(Null));
+println(obj.instanceOf(Integer));
+println(obj.instanceOf(Null));
