@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_undefined.h"
 #include "object_null.h"
 #include "object_string.h"
+#include "object_number.h"
 #include "object_integer.h"
 #include "object_function.h"
 #include "object_boolean.h"
@@ -46,6 +47,7 @@ namespace g0at
             void_instance = nullptr;
             undefined_instance = nullptr;
             null_instance = nullptr;
+            number_proto_instance = nullptr;
             integer_proto_instance = nullptr;
             function_proto_instance = nullptr;
             boolean_proto_instance = nullptr;
@@ -60,6 +62,7 @@ namespace g0at
             void_instance = new object_void(this);
             undefined_instance = new object_undefined(this);
             null_instance = new object_null(this);
+            number_proto_instance = new object_number_proto(this);
             integer_proto_instance = new object_integer_proto(this);
             boolean_proto_instance = new object_boolean_proto(this);
             real_proto_instance = new object_real_proto(this);
