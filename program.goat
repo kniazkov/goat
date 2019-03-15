@@ -1,11 +1,1 @@
-println(void.instanceOf(Void));
-println(void.instanceOf(Undefined));
-println(void.instanceOf(Null));
-
-println(undefined.instanceOf(Void));
-println(undefined.instanceOf(Undefined));
-println(undefined.instanceOf(Null));
-
-println(null.instanceOf(Void));
-println(null.instanceOf(Undefined));
-println(null.instanceOf(Null));
+println("test".instanceOf(String));
