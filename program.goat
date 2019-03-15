@@ -1,1 +1,5 @@
-println("test".instanceOf(String));
+println(true.instanceOf(Boolean));
+println(false.instanceOf(Boolean));
+
+println(true.instanceOf(Null));
+println(false.instanceOf(Null));
