@@ -20,34 +20,28 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "call.h"
-#include "model/object_function.h"
+#include "clone.h"
 #include "lib/assert.h"
 
 namespace g0at
 {
     namespace code
     {
-        call::call(int _arg_count)
+        clone::clone(int _arg_count)
             : arg_count(_arg_count)
         {
             assert(_arg_count >= 0);
         }
 
-        void call::accept(instruction_visitor *visitor)
+        void clone::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void call::exec(model::thread *thr)
+        void clone::exec(model::thread *thr)
         {
-            // get func. object from the stack
-            model::object *obj = thr->pop().to_object(thr->pool);
-            model::object_function *func = obj->to_object_function();
-            assert(func != nullptr); // TODO: exception if is not a function
-
-            // call
-            func->call(thr, arg_count);
+            model::variable left = thr->peek();
+            left.m_clone(thr, arg_count);        
         }
     };
 };

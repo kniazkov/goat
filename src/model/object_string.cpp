@@ -36,7 +36,7 @@ namespace g0at
         }
 
         object_string::object_string(object_pool *pool, std::wstring _data, int _id)
-            : object(pool), data(_data), id(_id)
+            : object(pool, pool->get_string_proto_instance()), data(_data), id(_id)
         {
         }
 

@@ -140,6 +140,19 @@ namespace g0at
                 return true;
             }
 
+            void m_instance_of(variable *var, thread *thr, int arg_count) override
+            {
+                thr->pop();
+                object *base = thr->peek().get_object();
+                thr->pop(arg_count);
+                variable result;
+                if (base)
+                    result.set_boolean(base == thr->pool->get_boolean_proto_instance());
+                else
+                    result.set_boolean(false);
+                thr->push(result);
+            }
+
         protected:
             boolean_handler()
             {

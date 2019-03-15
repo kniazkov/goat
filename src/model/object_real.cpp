@@ -214,6 +214,19 @@ namespace g0at
                 binary_logical_operation<lib::func::not_equal, false>(var, thr);
             }
 
+            void m_instance_of(variable *var, thread *thr, int arg_count) override
+            {
+                thr->pop();
+                object *base = thr->peek().get_object();
+                thr->pop(arg_count);
+                variable result;
+                if (base)
+                    result.set_boolean(base == thr->pool->get_real_proto_instance());
+                else
+                    result.set_boolean(false);
+                thr->push(result);
+            }
+
         protected:
             real_handler()
             {

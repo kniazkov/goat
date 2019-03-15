@@ -176,6 +176,19 @@ namespace g0at
             }
         }
 
+        bool object::instance_of(object *base)
+        {
+            if (base == this)
+                return true;
+
+            for (object *pr : proto)
+            {
+                if (pr->instance_of(base))
+                    return true;
+            }
+            return false;
+        }
+
         void object::add_object(object *key, variable &value)
         {
             assert(key != nullptr);
@@ -210,6 +223,23 @@ namespace g0at
                     break;
             }
             return var;
+        }
+
+        void object::find_and_vcall(thread *thr, int arg_count, std::wstring name)
+        {
+            model::object_function *func = nullptr;
+            model::object_string *key = thr->pool->get_static_string(name);
+            model::variable *var = thr->peek().to_object(thr->pool)->find_object(key);
+            if (var)
+            {
+                model::object *obj = var->get_object();
+                if(obj)
+                    func = obj->to_object_function();
+            }
+            assert(func != nullptr); // TODO: exception if is not a function
+
+            // call
+            func->vcall(thr, arg_count);
         }
 
         bool object::get_integer(int64_t *pval)
@@ -260,6 +290,20 @@ namespace g0at
             thr->push(result);
         }
 
+        void object::m_clone(thread *thr, int arg_count)
+        {
+            // base object just returns the object itself, so, primitives are not cloneable
+            variable tmp = thr->pop();
+            thr->pop(arg_count);
+            thr->push(tmp);
+        }
+
+        void object::m_instance_of(thread *thr, int arg_count)
+        {
+            // find and call own 'instanceOf()' method
+            find_and_vcall(thr, arg_count, L"instanceOf");
+        }
+
         /* 
             Generic object
         */
@@ -281,6 +325,12 @@ namespace g0at
         {
             assert(proto.empty());
             proto.push_back(pool->get_generic_proto_instance());
+        }
+
+        void generic_object::m_clone(thread *thr, int arg_count)
+        {
+            // find and call own 'clone()' method
+            find_and_vcall(thr, arg_count, L"clone");
         }
 
         /* 
@@ -310,6 +360,26 @@ namespace g0at
             }
         };
 
+        class generic_instance_of : public object_function_built_in
+        {
+        public:
+            generic_instance_of(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count) override
+            {
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                assert(arg_count >= 1);
+                object *base = thr->peek().to_object(thr->pool);
+                thr->pop(arg_count);
+                variable tmp;
+                tmp.set_boolean(this_ptr->instance_of(base));
+                thr->push(tmp);
+            }
+        };
 
         generic_proto::generic_proto(object_pool *pool)
             : object(pool, nullptr)
@@ -319,11 +389,16 @@ namespace g0at
         void generic_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(L"clone"), new generic_clone(pool));
+            add_object(pool->get_static_string(L"instanceOf"), new generic_instance_of(pool));
         }
 
         /*
             Base handler
         */
+        handler::~handler()
+        {
+        }
+
         object* handler::get_object(variable *var)
         {
             return nullptr;
@@ -369,87 +444,115 @@ namespace g0at
             assert(false);
         }
 
+        void handler::m_clone(variable *var, thread *thr, int arg_count)
+        {
+            // base handler just returns the object itself, so, primitives are not cloneable
+            variable tmp = thr->pop();
+            thr->pop(arg_count);
+            thr->push(tmp);
+        }
+
+        void handler::m_instance_of(variable *var, thread *thr, int arg_count)
+        {
+            thr->pop();
+            thr->pop(arg_count);
+            variable tmp;
+            tmp.set_boolean(false);
+            thr->push(tmp);
+        }
+
         /* 
             Generic handler
         */
 
-        handler::~handler()
+        class generic_handler : public handler
         {
-        }
+        protected:
+            generic_handler()
+            {
+            }
+
+        public:
+            static handler *get_instance()
+            {
+                static generic_handler instance;
+                return &instance;
+            }
+
+            std::wstring to_string(const variable *var) const override
+            {
+                return var->data.obj->to_string();
+            }
+
+            std::wstring to_string_notation(const variable *var) const override
+            {
+                return var->data.obj->to_string_notation();
+            }
+
+            object *to_object(variable *var, object_pool *pool) override
+            {
+                return var->data.obj;
+            }
+            
+            object *get_object(variable *var) override
+            {
+                return var->data.obj;
+            }
+
+            bool get_integer(variable *var, int64_t *pval) override
+            {
+                return var->data.obj->get_integer(pval);
+            }
+
+            bool get_real(variable *var, double *pval) override
+            {
+                return var->data.obj->get_real(pval);
+            }
+
+            bool get_boolean(variable *var, bool *pval) override
+            {
+                return var->data.obj->get_boolean(pval);
+            }
+            
+            void op_add(variable *var, thread *thr)  override
+            {
+                var->data.obj->op_add(thr);
+            }
+
+            void op_sub(variable *var, thread *thr)  override
+            {
+                var->data.obj->op_sub(thr);
+            }
+
+            void op_neg(variable *var, thread *thr)  override
+            {
+                var->data.obj->op_neg(thr);
+            }
+
+            void op_eq(variable *var, thread *thr) override
+            {
+                var->data.obj->op_eq(thr);
+            }
+
+            void op_neq(variable *var, thread *thr) override
+            {
+                var->data.obj->op_neq(thr);
+            }
+
+            void m_clone(variable *var, thread *thr, int arg_count) override
+            {
+                var->data.obj->m_clone(thr, arg_count);
+            }
+
+            void m_instance_of(variable *var, thread *thr, int arg_count) override
+            {
+                var->data.obj->m_instance_of(thr, arg_count);
+            }
+        };
 
         handler *handler::get_instance_generic()
         {
             return generic_handler::get_instance();
-        }
-
-        generic_handler::generic_handler()
-        {
-        }
-
-        handler *generic_handler::get_instance()
-        {
-            static generic_handler instance;
-            return &instance;
-        }
-
-        std::wstring generic_handler::to_string(const variable *var) const
-        {
-            return var->data.obj->to_string();
-        }
-
-        std::wstring generic_handler::to_string_notation(const variable *var) const
-        {
-            return var->data.obj->to_string_notation();
-        }
-
-        object *generic_handler::to_object(variable *var, object_pool *pool)
-        {
-            return var->data.obj;
-        }
-
-        object *generic_handler::get_object(variable *var)
-        {
-            return var->data.obj;
-        }
-
-        bool generic_handler::get_integer(variable *var, int64_t *pval)
-        {
-            return var->data.obj->get_integer(pval);
-        }
-
-        bool generic_handler::get_real(variable *var, double *pval)
-        {
-            return var->data.obj->get_real(pval);
-        }
-
-        bool generic_handler::get_boolean(variable *var, bool *pval)
-        {
-            return var->data.obj->get_boolean(pval);
-        }
-
-        void generic_handler::op_add(variable *var, thread *thr)
-        {
-            var->data.obj->op_add(thr);
-        }
-
-        void generic_handler::op_sub(variable *var, thread *thr)
-        {
-            var->data.obj->op_sub(thr);
-        }
-
-        void generic_handler::op_neg(variable *var, thread *thr)
-        {
-            var->data.obj->op_neg(thr);
-        }
-
-        void generic_handler::op_eq(variable *var, thread *thr)
-        {
-            var->data.obj->op_eq(thr);
-        }
-
-        void generic_handler::op_neq(variable *var, thread *thr)
-        {
-            var->data.obj->op_neq(thr);
         }
     };
 };

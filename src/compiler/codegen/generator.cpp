@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "generator.h"
+#include "lib/assert.h"
 #include "compiler/pt/variable.h"
 #include "compiler/pt/function.h"
 #include "compiler/pt/static_string.h"
@@ -69,7 +70,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/jmp.h"
 #include "code/vcall.h"
 #include "code/this_ptr.h"
-#include "lib/assert.h"
+#include "code/clone.h"
+#include "code/instance_of.h"
 
 namespace g0at
 {
@@ -304,8 +306,16 @@ namespace g0at
                 ref->get_arg(i)->accept(this);
             }
             ref->get_left()->accept(this);
-            int id = name_cache.get_id(ref->get_name());
-            code->add_instruction(new code::vcall(id, args_count));
+            std::wstring name = ref->get_name();
+            if (name == L"clone")
+                code->add_instruction(new code::clone(args_count));
+            else if (name == L"instanceOf")
+                code->add_instruction(new code::instance_of(args_count));
+            else
+            {
+                int id = name_cache.get_id(name);
+                code->add_instruction(new code::vcall(id, args_count));
+            }
         }
 
         void generator::visit(pt::this_ptr *ref)

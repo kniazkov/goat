@@ -55,6 +55,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "neq.h"
 #include "vcall.h"
 #include "this_ptr.h"
+#include "clone.h"
+#include "instance_of.h"
 
 namespace g0at
 {
@@ -352,6 +354,18 @@ namespace g0at
             dst->add_instruction(new this_ptr());
         }
 
+        void deserializer::creator_clone(source *src, code *dst)
+        {
+            int arg_count = pop_int32(src);
+            dst->add_instruction(new clone(arg_count));
+        }
+
+        void deserializer::creator_instance_of(source *src, code *dst)
+        {
+            int arg_count = pop_int32(src);
+            dst->add_instruction(new instance_of(arg_count));
+        }
+
         deserializer::deserializer()
         {
             creators[opcode::nop]       = creator_nop;
@@ -383,6 +397,8 @@ namespace g0at
             creators[opcode::jmp]       = creator_jmp;
             creators[opcode::vcall]     = creator_vcall;
             creators[opcode::this_]     = creator_this_ptr;
+            creators[opcode::clone]     = creator_clone;
+            creators[opcode::insof]     = creator_instance_of;
         }
     };
 };

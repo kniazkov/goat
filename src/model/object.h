@@ -92,6 +92,9 @@ namespace g0at
             inline void op_eq(thread *thr);
             inline void op_neq(thread *thr);
 
+            inline void m_clone(thread *thr, int arg_count);
+            inline void m_instance_of(thread *thr, int arg_count);
+
             handler *hndl;
             union
             {
@@ -135,10 +138,12 @@ namespace g0at
             virtual std::wstring to_string_notation() const;
             void copy_objects_to(object *dst);
             void copy_proto_to(object *dst);
+            bool instance_of(object *base);
 
             void add_object(object *key, variable &value);
             void add_object(object *key, object *value);
             variable *find_object(object *key);
+            void find_and_vcall(thread *thr, int arg_count, std::wstring name);
 
             virtual bool get_integer(int64_t *pval);
             virtual bool get_real(double *pval);
@@ -149,6 +154,9 @@ namespace g0at
             virtual void op_neg(thread *thr);
             virtual void op_eq(thread *thr);
             virtual void op_neq(thread *thr);
+
+            virtual void m_clone(thread *thr, int arg_count);
+            virtual void m_instance_of(thread *thr, int arg_count);
 
             object *prev;
             object *next;
@@ -174,6 +182,8 @@ namespace g0at
         protected:
             generic_object(object_pool *pool);
             void reinit(object_pool *pool);
+        public:
+            virtual void m_clone(thread *thr, int arg_count) override;
         };
 
         class generic_proto : public object
@@ -206,29 +216,9 @@ namespace g0at
             virtual void op_neg(variable *var, thread *thr);
             virtual void op_eq(variable *var, thread *thr);
             virtual void op_neq(variable *var, thread *thr);
-        };
 
-        class generic_handler : public handler
-        {
-        public:
-            static handler *get_instance();
-            std::wstring to_string(const variable *var) const override;
-            std::wstring to_string_notation(const variable *var) const override;
-            object *to_object(variable *var, object_pool *pool) override;
-            
-            object *get_object(variable *var);
-            bool get_integer(variable *var, int64_t *pval) override;
-            bool get_real(variable *var, double *pval) override;
-            bool get_boolean(variable *var, bool *pval) override;
-            
-            void op_add(variable *var, thread *thr)  override;
-            void op_sub(variable *var, thread *thr)  override;
-            void op_neg(variable *var, thread *thr)  override;
-            void op_eq(variable *var, thread *thr) override;
-            void op_neq(variable *var, thread *thr) override;
-
-        protected:
-            generic_handler();
+            virtual void m_clone(variable *var, thread *thr, int arg_count);
+            virtual void m_instance_of(variable *var, thread *thr, int arg_count);
         };
 
         bool object_comparator::operator ()(const object *a, const object *b) const
@@ -340,6 +330,16 @@ namespace g0at
         void variable::op_neq(thread *thr)
         {
             hndl->op_neq(this, thr);
+        }
+        
+        void variable::m_clone(thread *thr, int arg_count)
+        {
+            hndl->m_clone(this, thr, arg_count);
+        }
+
+        void variable::m_instance_of(thread *thr, int arg_count)
+        {
+            hndl->m_instance_of(this, thr, arg_count);
         }
 
         /*

@@ -30,11 +30,14 @@ namespace g0at
     {
         enum class opcode : uint16_t
         {
+            // various
             nop,
             end,
 
+            // stack
             pop,
 
+            // load instructions
             load,
             prop,
             sload,
@@ -49,12 +52,15 @@ namespace g0at
 
             this_,
 
-            func,
-            create,
-
+            // store instructions
             var,
             store,
 
+            // creators
+            func,
+            create,
+
+            // branching
             call,
             vcall,
             ret,
@@ -62,6 +68,11 @@ namespace g0at
             ifnot,
             jmp,
 
+            // methods
+            clone,
+            insof,
+
+            // operators
             add,
             sub,
             neg,

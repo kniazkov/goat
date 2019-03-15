@@ -38,6 +38,7 @@ namespace g0at
             void visit(ast::minus *ref) override;
             void visit(ast::static_string *ref) override;
             void visit(ast::integer *ref) override;
+            void visit(ast::real *ref) override;
             void visit(ast::keyword_var *ref) override;
             void visit(ast::assign *ref) override;
             void visit(ast::keyword_function *ref) override;
@@ -47,6 +48,12 @@ namespace g0at
             void visit(ast::equals *ref) override;
             void visit(ast::not_equal *ref) override;
             void visit(ast::keyword_while *ref) override;
+            void visit(ast::value_void *ref) override;
+            void visit(ast::value_undefined *ref) override;
+            void visit(ast::value_null *ref) override;
+            void visit(ast::value_true *ref) override;
+            void visit(ast::value_false *ref) override;
+            void visit(ast::this_ptr *ref) override;
 
         protected:
             parser_data *data;
