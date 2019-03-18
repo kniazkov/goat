@@ -137,5 +137,9 @@ namespace g0at
         void node_visitor::visit(this_ptr *ref)
         {
         }
+
+        void node_visitor::visit(node_array *ref)
+        {
+        }
     }
 };

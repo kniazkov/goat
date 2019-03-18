@@ -57,6 +57,7 @@ namespace g0at
             void visit(ast::is_not_equal_to *ref) override;
             void visit(ast::method_call *ref) override;
             void visit(ast::this_ptr *ref) override;
+            void visit(ast::token_array *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

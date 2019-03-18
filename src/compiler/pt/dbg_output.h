@@ -64,6 +64,7 @@ namespace g0at
             void visit(statement_while *ref) override;
             void visit(method_call *ref) override;
             void visit(this_ptr *ref) override;
+            void visit(node_array *ref) override;
 
         protected:
             dbg_output(std::wstringstream &_stream, int &_uid);
