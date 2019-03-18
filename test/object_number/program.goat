@@ -1,0 +1,9 @@
+var a = 1;
+println(a.instanceOf(Number));
+println(a.instanceOf(Integer));
+println(a.instanceOf(Real));
+
+var b = 1.1;
+println(b.instanceOf(Number));
+println(b.instanceOf(Integer));
+println(b.instanceOf(Real));
