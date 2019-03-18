@@ -1,2 +1,1 @@
-var a = [];
-println(a.length());
+println("test".length());

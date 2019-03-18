@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_string.h"
+#include "object_function_built_in.h"
 #include "thread.h"
 #include "lib/utils.h"
 #include <assert.h>
@@ -108,9 +109,35 @@ namespace g0at
             Prototype
         */
 
+        class object_string_length : public object_function_built_in
+        {
+        public:
+            object_string_length(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count) override
+            {
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_string *this_ptr_string = this_ptr->to_object_string();
+                assert(this_ptr_string != nullptr);
+                thr->pop(arg_count);
+                variable tmp;
+                tmp.set_integer(this_ptr_string->get_data().length());
+                thr->push(tmp);
+            }
+        };
+
         object_string_proto::object_string_proto(object_pool *pool)
             : object(pool)
         {
+        }
+
+        void object_string_proto::init(object_pool *pool)
+        {
+            add_object(pool->get_static_string(L"length"), new object_string_length(pool));
         }
     };
 };

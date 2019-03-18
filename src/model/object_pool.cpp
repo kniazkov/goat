@@ -57,7 +57,8 @@ namespace g0at
 
             generic_proto *gp = new generic_proto(this);
             generic_proto_instance = gp;
-            string_proto_instance = new object_string_proto(this);
+            object_string_proto *osp = new object_string_proto(this);
+            string_proto_instance = osp;
             static_strings.init(identifiers_list, this);
             function_proto_instance = new object_function_proto(this);
             gp->init(this);
@@ -70,6 +71,7 @@ namespace g0at
             real_proto_instance = new object_real_proto(this);
             object_array_proto *oap = new object_array_proto(this);
             array_proto_instance = oap;
+            osp->init(this);
             oap->init(this);
         }
 
