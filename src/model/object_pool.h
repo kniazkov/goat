@@ -96,6 +96,7 @@ namespace g0at
             object *get_function_proto_instance() { return function_proto_instance; }
             object *get_boolean_proto_instance() { return boolean_proto_instance; }
             object *get_real_proto_instance() { return real_proto_instance; }
+            object *get_array_proto_instance() { return array_proto_instance; }
 
             generic_object *create_generic_object();
             context *create_context();
@@ -137,6 +138,7 @@ namespace g0at
             object *function_proto_instance;
             object *boolean_proto_instance;
             object *real_proto_instance;
+            object *array_proto_instance;
 
             object_cache static_strings;
         };
