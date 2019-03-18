@@ -29,6 +29,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/expression.h"
 #include "compiler/ast/statement_expression.h"
 #include "compiler/ast/token_object.h"
+#include "compiler/ast/token_array.h"
 #include "compiler/ast/colon.h"
 #include "compiler/ast/comma.h"
 #include "compiler/ast/identifier.h"
@@ -56,6 +57,15 @@ namespace g0at
         public:
             pairs_must_be_separated_by_commas(lib::pointer<position> pos)
                 : compilation_error(pos, global::resource->pairs_must_be_separated_by_commas())
+            {
+            }
+        };
+
+        class objects_must_be_separated_by_commas : public compilation_error
+        {
+        public:
+            objects_must_be_separated_by_commas(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->objects_must_be_separated_by_commas())
             {
             }
         };
@@ -123,6 +133,11 @@ namespace g0at
             for (auto obj : data->objects)
             {
                 parse_object_body(obj);
+            }
+
+            for (auto arr : data->arrays)
+            {
+                parse_array_body(arr);
             }
         }
 
@@ -308,6 +323,33 @@ namespace g0at
                 }
             }
             src->clear();
+        }
+
+        void parser::parse_array_body(ast::token_array *func)
+        {
+            auto src = func->get_raw_list();
+            auto dst = func->get_object_list();
+            auto tok = src->first;
+            bool even = false;
+            while(tok)
+            {
+                auto next = tok->next;
+                if (even)
+                {
+                    if (!tok->to_comma())
+                        throw objects_must_be_separated_by_commas(tok->get_position());
+                    tok->remove();
+                }
+                else
+                {
+                    if (!tok->to_expression())
+                        throw expected_an_expression(tok->get_position());
+                    dst->add(tok);
+                }
+                tok = next;
+                even = !even;
+            }
+            assert(src->is_empty());
         }
     };
 };

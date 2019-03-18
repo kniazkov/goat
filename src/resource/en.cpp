@@ -210,6 +210,11 @@ namespace g0at
                 wss << file << L", " << line << L", assertion failed: \'" << assertion << L'\'';
                 return wss.str();
             }
+
+            std::wstring objects_must_be_separated_by_commas() override
+            {
+                return L"objects must be separated by commas";
+            }
         };
 
         resource *resource::get_intance_en()

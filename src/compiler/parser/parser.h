@@ -53,6 +53,7 @@ namespace g0at
             static void parse_function_call_args(ast::function_call *fcall);
             static void parse_method_call_args(ast::method_call *vcall);
             static void parse_object_body(ast::token_object *obj);
+            static void parse_array_body(ast::token_array *obj);
 
             lib::pointer<ast::root> root;
             parser_data *data;
