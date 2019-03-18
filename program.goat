@@ -1,1 +1,6 @@
-println("test".length());
+var s = "";
+
+while(s.length() != 10)
+    s = s + "A";
+
+println(s);

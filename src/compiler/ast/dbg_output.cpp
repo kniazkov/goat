@@ -165,7 +165,8 @@ namespace g0at
 
         void dbg_output::visit(static_string *ref)
         {
-            print(L"static text", lib::escape_special_chars(ref->get_text()));
+            std::wstring text = lib::escape_special_chars(ref->get_text());
+            print(L"static text", text.length() > 0 ? text : L"&nbsp;");
         }
 
         void dbg_output::visit(semicolon *ref)
