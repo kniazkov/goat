@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/function_call.h"
 #include "compiler/ast/token_object.h"
 #include "compiler/ast/method_call.h"
+#include "compiler/ast/token_array.h"
 #include <vector>
 
 namespace g0at
@@ -44,6 +45,7 @@ namespace g0at
             ast::token_2nd_list function_keywords;
             ast::token_2nd_list return_keywords;
             ast::token_2nd_list pairs_of_curly_brackets;
+            ast::token_2nd_list pairs_of_square_brackets;
             ast::token_2nd_list dots;
             ast::token_2nd_list opers_equals_and_not;
             ast::token_2nd_list while_keywords;
@@ -52,6 +54,7 @@ namespace g0at
             std::vector<ast::function_call*> function_calls;
             std::vector<ast::method_call*> method_calls;
             std::vector<ast::token_object*> objects;
+            std::vector<ast::token_array*> arrays;
         };
     };
 };
