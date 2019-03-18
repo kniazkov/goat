@@ -43,6 +43,7 @@ namespace g0at
             void trace() override;
 
             void add_item(variable &item) { vector.push_back(item); }
+            int64_t get_length() { return (int64_t)vector.size(); }
 
         protected:
             std::vector<variable> vector;
@@ -53,6 +54,7 @@ namespace g0at
         friend class object_pool;
         protected:
             object_array_proto(object_pool *pool);
+            void init(object_pool *pool);
         };
     };
 };

@@ -68,7 +68,9 @@ namespace g0at
             integer_proto_instance = new object_integer_proto(this);
             boolean_proto_instance = new object_boolean_proto(this);
             real_proto_instance = new object_real_proto(this);
-            array_proto_instance = new object_array_proto(this);
+            object_array_proto *oap = new object_array_proto(this);
+            array_proto_instance = oap;
+            oap->init(this);
         }
 
         void object_pool::add(object *item)
