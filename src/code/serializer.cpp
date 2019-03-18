@@ -41,6 +41,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "vcall.h"
 #include "clone.h"
 #include "instance_of.h"
+#include "array.h"
 
 namespace g0at
 {
@@ -297,6 +298,12 @@ namespace g0at
         {
             push_opcode(opcode::insof);
             push_int32(ref->get_arg_count());
+        }
+
+        void serializer::visit(array *ref)
+        {
+            push_opcode(opcode::array);
+            push_int32(ref->get_count());
         }
     };
 };

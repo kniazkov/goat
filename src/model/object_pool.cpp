@@ -32,6 +32,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_function.h"
 #include "object_boolean.h"
 #include "object_real.h"
+#include "object_array.h"
 #include "context.h"
 
 namespace g0at
@@ -52,6 +53,7 @@ namespace g0at
             function_proto_instance = nullptr;
             boolean_proto_instance = nullptr;
             real_proto_instance = nullptr;
+            array_proto_instance = nullptr;
 
             generic_proto *gp = new generic_proto(this);
             generic_proto_instance = gp;
@@ -66,6 +68,9 @@ namespace g0at
             integer_proto_instance = new object_integer_proto(this);
             boolean_proto_instance = new object_boolean_proto(this);
             real_proto_instance = new object_real_proto(this);
+            object_array_proto *oap = new object_array_proto(this);
+            array_proto_instance = oap;
+            oap->init(this);
         }
 
         void object_pool::add(object *item)
@@ -182,6 +187,16 @@ namespace g0at
                 obj->reinit(value);
             else
                 obj = new object_boolean(this, value);
+            return obj;
+        }
+
+        object_array * object_pool::create_object_array()
+        {
+            object_array *obj = static_cast<object_array*>(arrays.get(this));
+            if (obj)
+                obj->reinit();
+            else
+                obj = new object_array(this);
             return obj;
         }
     };

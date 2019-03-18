@@ -66,6 +66,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/method_call.h"
 #include "compiler/ast/this_ptr.h"
 #include "compiler/pt/this_ptr.h"
+#include "compiler/ast/token_array.h"
+#include "compiler/pt/node_array.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -252,6 +254,24 @@ namespace g0at
         void expression_builder::visit(ast::this_ptr *ref)
         {
             expr = new pt::this_ptr(ref->get_position());
+        }
+
+        void expression_builder::visit(ast::token_array *ref)
+        {
+            lib::pointer<pt::node_array> arr = 
+                new pt::node_array(ref->get_position());
+            auto list = ref->get_object_list();
+            auto tok_obj = list->first;
+            while(tok_obj)
+            {
+                assert(tok_obj->to_expression() != nullptr);
+                expression_builder expr_visitor;
+                tok_obj->accept(&expr_visitor);
+                assert(expr_visitor.has_expr());
+                arr->add_object(expr_visitor.get_expr());
+                tok_obj = tok_obj->next;
+            }
+            expr = arr.cast<pt::expression>();
         }
 
         std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>

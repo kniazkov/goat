@@ -30,7 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_return.h"
 #include "compiler/ast/statement_while.h"
 #include "compiler/pt/statement_while.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

@@ -43,6 +43,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_while.h"
 #include "compiler/pt/method_call.h"
 #include "compiler/pt/this_ptr.h"
+#include "compiler/pt/node_array.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -72,6 +73,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/this_ptr.h"
 #include "code/clone.h"
 #include "code/instance_of.h"
+#include "code/array.h"
 
 namespace g0at
 {
@@ -321,6 +323,17 @@ namespace g0at
         void generator::visit(pt::this_ptr *ref)
         {
             code->add_instruction(new code::this_ptr());
+        }
+
+        void generator::visit(pt::node_array *ref)
+        {
+            int count = ref->get_objects_count();
+            for (int i = count - 1; i > -1; i--)
+            {
+                auto item = ref->get_object(i);
+                item->accept(this);
+            }
+            code->add_instruction(new code::array(count));
         }
     };
 };

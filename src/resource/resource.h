@@ -68,6 +68,7 @@ namespace g0at
                 uint64_t reused_objects, double reused_percent) = 0;
             virtual std::wstring assertion_failed(const char *file, int line,
                 const char *assertion) = 0;
+            virtual std::wstring objects_must_be_separated_by_commas() = 0;
             
         protected:
             static resource *get_intance_en();

@@ -43,6 +43,7 @@ namespace g0at
             sload,
             iload,
             rload,
+            func,
 
             void_,
             undefined,
@@ -57,8 +58,8 @@ namespace g0at
             store,
 
             // creators
-            func,
             create,
+            array,
 
             // branching
             call,

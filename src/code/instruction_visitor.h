@@ -56,6 +56,7 @@ namespace g0at
         class this_ptr;
         class clone;
         class instance_of;
+        class array;
 
         class instruction_visitor
         {
@@ -92,6 +93,7 @@ namespace g0at
             virtual void visit(this_ptr *ref) = 0;
             virtual void visit(clone *ref) = 0;
             virtual void visit(instance_of *ref) = 0;
+            virtual void visit(array *ref) = 0;
         };
     };
 };

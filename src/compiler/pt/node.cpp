@@ -184,5 +184,10 @@ namespace g0at
         {
             return nullptr;
         }
+        
+        node_array *node::to_node_array()
+        {
+            return nullptr;
+        }
    }
 };

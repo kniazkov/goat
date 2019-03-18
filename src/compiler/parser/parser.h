@@ -37,7 +37,7 @@ namespace g0at
         public:
             parser();
             ~parser();
-            static lib::pointer<ast::root> parse(scanner *scan, bool debug);
+            static lib::pointer<ast::root> parse(scanner *scan, bool debug, const char *prog_name);
             void create_root(scanner *scan);
             void parse();
             lib::pointer<ast::root> get_root() { return root; }
@@ -53,6 +53,7 @@ namespace g0at
             static void parse_function_call_args(ast::function_call *fcall);
             static void parse_method_call_args(ast::method_call *vcall);
             static void parse_object_body(ast::token_object *obj);
+            static void parse_array_body(ast::token_array *obj);
 
             lib::pointer<ast::root> root;
             parser_data *data;

@@ -44,6 +44,7 @@ namespace g0at
         class object_undefined;
         class object_null;
         class object_boolean;
+        class object_array;
         class handler;
 
         enum class object_type
@@ -132,6 +133,7 @@ namespace g0at
             virtual object_undefined *to_object_undefined();
             virtual object_null *to_object_null();
             virtual object_boolean *to_object_boolean();
+            virtual object_array *to_object_array();
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;

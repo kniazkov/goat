@@ -69,6 +69,7 @@ namespace g0at
         class statement_while;
         class method_call;
         class this_ptr;
+        class token_array;
 
         class token_visitor
         {
@@ -118,6 +119,7 @@ namespace g0at
             virtual void visit(statement_while *ref);
             virtual void visit(method_call *ref);
             virtual void visit(this_ptr *ref);
+            virtual void visit(token_array *ref);
         };
     };
 };

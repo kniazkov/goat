@@ -41,6 +41,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "is_not_equal_to.h"
 #include "statement_while.h"
 #include "method_call.h"
+#include "node_array.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -398,6 +399,28 @@ namespace g0at
         void dbg_output::visit(this_ptr *ref)
         {
             print(L"this");
+        }
+
+        void dbg_output::visit(node_array *ref)
+        {
+            print(L"array", L"[]");
+            int objects_count = ref->get_objects_count();
+            if (objects_count > 0)
+            {
+                dbg_output objects(stream, uid);
+                objects.print(L"objects");
+                link_child(objects);
+                int pred_id = objects.id;
+                bool dashed = false;
+                for (int i = 0; i < objects_count; i++)
+                {
+                    dbg_output obj(stream, uid);
+                    ref->get_object(i)->accept(&obj);
+                    link(pred_id, obj.id, dashed);
+                    pred_id = obj.id;
+                    dashed = true;
+                }
+            }
         }
     };
 };

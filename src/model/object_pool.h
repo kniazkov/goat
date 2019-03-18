@@ -41,6 +41,7 @@ namespace g0at
         class object_integer;
         class object_real;
         class object_boolean;
+        class object_array;
 
         template <int Factor, int Count> class object_pool_typed
         {
@@ -96,6 +97,7 @@ namespace g0at
             object *get_function_proto_instance() { return function_proto_instance; }
             object *get_boolean_proto_instance() { return boolean_proto_instance; }
             object *get_real_proto_instance() { return real_proto_instance; }
+            object *get_array_proto_instance() { return array_proto_instance; }
 
             generic_object *create_generic_object();
             context *create_context();
@@ -107,6 +109,7 @@ namespace g0at
             object_integer *create_object_integer(int64_t value);
             object_real *create_object_real(double value);
             object_boolean *create_object_boolean(bool value);
+            object_array *create_object_array();
 
             void mark_all_static_strings() { static_strings.mark_all(); }
             object_string *get_static_string(std::wstring name) { return static_strings.get_object(name, this); }
@@ -119,6 +122,7 @@ namespace g0at
             object_pool_typed<1, 64> integers;
             object_pool_typed<1, 64> real_numbers;
             object_pool_typed<1, 64> booleans;
+            object_pool_typed<2, 128> arrays;
 
         private:
             object_pool(const object_pool &) { }
@@ -137,6 +141,7 @@ namespace g0at
             object *function_proto_instance;
             object *boolean_proto_instance;
             object *real_proto_instance;
+            object *array_proto_instance;
 
             object_cache static_strings;
         };
