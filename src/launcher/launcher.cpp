@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/ref_counter.h"
 #include "lib/exception.h"
 #include "lib/new.h"
+#include "lib/utils.h"
 #include "global/global.h"
 #include "compiler/source/source_file.h"
 #include "compiler/scanner/scanner.h"
@@ -96,31 +97,9 @@ namespace g0at
         options::parse(argc, argv, opt);
     }
 
-    static char * file_name_postfix(const char *head, const char *tail)
-    {
-        auto head_len = std::strlen(head);
-        auto tail_len = std::strlen(tail);
-        char *dst = new char[head_len + tail_len + 2];
-        std::memcpy(dst, head, head_len);
-        dst[head_len] = '.';
-        std::memcpy(dst + head_len + 1, tail, tail_len);
-        dst[head_len + 1 + tail_len] = 0;
-        return dst;
-    }
-
-    static void dump_file(const char *file_name, const char *postfix, std::wstring data)
-    {
-        std::string tmp = global::char_encoder->encode(data);
-        char *full_file_name = file_name_postfix(file_name, postfix);
-        std::ofstream file(full_file_name);
-        file.write(tmp.c_str(), tmp.size());
-        file.close();
-        delete full_file_name;
-    }
-
     static void dump_memory_usage_report(const char *file_name, vm::vm_report &vmr)
     {
-        dump_file(file_name, "memory.txt", global::resource->memory_usage_report(
+        lib::dump_file(file_name, "memory.txt", global::resource->memory_usage_report(
             lib::get_heap_size(),
             lib::get_max_used_memory_size(),
             vmr.gcr.name ? vmr.gcr.name : L"none",
@@ -165,7 +144,7 @@ namespace g0at
             auto code = code::deserializer::deserialize(binary);
             if (opt.dump_assembler_code)
             {
-                dump_file(opt.prog_name, "asm", code::disasm::to_string(code));
+                lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code));
             }
             vm::vm vm(code);
             auto vmr = vm.run(&env);
@@ -178,16 +157,16 @@ namespace g0at
         {
             source_file src(opt.prog_name);
             scanner scan(&src);
-            auto tok_root = parser::parser::parse(&scan, opt.dump_abstract_syntax_tree);
+            auto tok_root = parser::parser::parse(&scan, opt.dump_abstract_syntax_tree, opt.prog_name);
             if (opt.dump_abstract_syntax_tree)
             {
-                dump_file(opt.prog_name, "tokens.txt", ast::dbg_output::to_string(tok_root.get()));
+                lib::dump_file(opt.prog_name, "tokens.txt", ast::dbg_output::to_string(tok_root.get()));
             }
             auto node_root = analyzer::analyzer::analyze(tok_root);
             tok_root.reset();
             if (opt.dump_parse_tree)
             {
-                dump_file(opt.prog_name, "ptree.txt", pt::dbg_output::to_string(node_root.get()));
+                lib::dump_file(opt.prog_name, "ptree.txt", pt::dbg_output::to_string(node_root.get()));
             }
             auto code = codegen::generator::generate(node_root);
             node_root.reset();
@@ -197,7 +176,7 @@ namespace g0at
             auto code_2 = code::deserializer::deserialize(binary);
             if (opt.dump_assembler_code)
             {
-                dump_file(opt.prog_name, "asm", code::disasm::to_string(code_2));
+                lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code_2));
             }
             vm::vm_report vmr = { 0 };
             if (!opt.compile)
@@ -207,7 +186,7 @@ namespace g0at
             }
             else
             {
-                char *full_file_name = file_name_postfix(opt.prog_name, "bin");
+                char *full_file_name = lib::file_name_postfix(opt.prog_name, "bin");
                 std::ofstream bin_file(full_file_name);
                 bin_file.write((const char*)(&binary[0]), binary.size());
                 bin_file.close();

@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "parser.h"
 #include "grammar_factory.h"
 #include "common_exceptions.h"
+#include "lib/utils.h"
 #include "compiler/ast/bracket.h"
 #include "compiler/ast/brackets_pair.h"
 #include "compiler/ast/expression.h"
@@ -69,7 +70,7 @@ namespace g0at
             delete data;
         }
 
-        lib::pointer<ast::root> parser::parse(scanner *scan, bool debug)
+        lib::pointer<ast::root> parser::parse(scanner *scan, bool debug, const char *prog_name)
         {
             parser pobj;
             pobj.create_root(scan);
@@ -80,7 +81,7 @@ namespace g0at
             catch(...)
             {
                 if (debug)
-                    std::cout << global::char_encoder->encode(g0at::ast::dbg_output::to_string(pobj.get_root().get())) << std::endl;
+                    lib::dump_file(prog_name, "tokens.txt", ast::dbg_output::to_string(pobj.get_root().get()));
                 throw;
             }
             return pobj.get_root();

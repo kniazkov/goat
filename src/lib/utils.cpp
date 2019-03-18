@@ -21,9 +21,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "utils.h"
+#include "global/global.h"
+#include <sstream>
 #include <sstream>
 #include <cfloat>
-
+#include <cstring>
+#include <fstream>
+#include <streambuf>
 namespace g0at
 {
     namespace lib
@@ -127,6 +131,28 @@ namespace g0at
                 }
             }
             return dst.str();
+        }
+
+        char * file_name_postfix(const char *head, const char *tail)
+        {
+            auto head_len = std::strlen(head);
+            auto tail_len = std::strlen(tail);
+            char *dst = new char[head_len + tail_len + 2];
+            std::memcpy(dst, head, head_len);
+            dst[head_len] = '.';
+            std::memcpy(dst + head_len + 1, tail, tail_len);
+            dst[head_len + 1 + tail_len] = 0;
+            return dst;
+        }
+
+        void dump_file(const char *file_name, const char *postfix, std::wstring data)
+        {
+            std::string tmp = global::char_encoder->encode(data);
+            char *full_file_name = file_name_postfix(file_name, postfix);
+            std::ofstream file(full_file_name);
+            file.write(tmp.c_str(), tmp.size());
+            file.close();
+            delete full_file_name;
         }
     };
 
