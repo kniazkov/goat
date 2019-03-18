@@ -91,6 +91,7 @@ namespace g0at
             object *get_undefined_instance() { return undefined_instance; };
             object *get_null_instance() { return null_instance; }
             object *get_string_proto_instance() { return string_proto_instance; }
+            object *get_number_proto_instance() { return number_proto_instance; }
             object *get_integer_proto_instance() { return integer_proto_instance; }
             object *get_function_proto_instance() { return function_proto_instance; }
             object *get_boolean_proto_instance() { return boolean_proto_instance; }
@@ -131,6 +132,7 @@ namespace g0at
             object *undefined_instance;
             object *null_instance;
             object *string_proto_instance;
+            object *number_proto_instance;
             object *integer_proto_instance;
             object *function_proto_instance;
             object *boolean_proto_instance;

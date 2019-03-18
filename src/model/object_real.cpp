@@ -144,7 +144,7 @@ namespace g0at
         */
 
         object_real_proto::object_real_proto(object_pool *pool)
-            : object(pool)
+            : object(pool, pool->get_number_proto_instance())
         {
         }
 
@@ -221,7 +221,8 @@ namespace g0at
                 thr->pop(arg_count);
                 variable result;
                 if (base)
-                    result.set_boolean(base == thr->pool->get_real_proto_instance());
+                    result.set_boolean(base == thr->pool->get_real_proto_instance()
+                        || base == thr->pool->get_number_proto_instance());
                 else
                     result.set_boolean(false);
                 thr->push(result);
