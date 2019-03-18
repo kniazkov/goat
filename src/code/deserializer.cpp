@@ -57,6 +57,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "this_ptr.h"
 #include "clone.h"
 #include "instance_of.h"
+#include "array.h"
 
 namespace g0at
 {
@@ -366,6 +367,12 @@ namespace g0at
             dst->add_instruction(new instance_of(arg_count));
         }
 
+        void deserializer::creator_array(source *src, code *dst)
+        {
+            int count = pop_int32(src);
+            dst->add_instruction(new array(count));
+        }
+
         deserializer::deserializer()
         {
             creators[opcode::nop]       = creator_nop;
@@ -399,6 +406,7 @@ namespace g0at
             creators[opcode::this_]     = creator_this_ptr;
             creators[opcode::clone]     = creator_clone;
             creators[opcode::insof]     = creator_instance_of;
+            creators[opcode::array]     = creator_array;
         }
     };
 };

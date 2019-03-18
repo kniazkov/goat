@@ -20,39 +20,38 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "object.h"
-#include <vector>
+#include "array.h"
+#include "model/object_array.h"
+#include <assert.h>
 
 namespace g0at
 {
-    namespace model
+    namespace code
     {
-        class object_array : public object
+        array::array(int _count)
+            : count(_count)
         {
-        friend class object_pool;
-        protected:
-            object_array(object_pool *pool);
-            void reinit();
-            
-        public:
-            void kill(object_pool *pool) override;
-            object_array *to_object_array() override;
-            std::wstring to_string() const override;
-            void trace() override;
+            assert(_count >= 0);
+        }
 
-            void add_item(variable &item) { vector.push_back(item); }
-
-        protected:
-            std::vector<variable> vector;
-        };
-
-        class object_array_proto : public object
+        void array::accept(instruction_visitor *visitor)
         {
-        friend class object_pool;
-        protected:
-            object_array_proto(object_pool *pool);
-        };
+            visitor->visit(this);
+        }
+
+        void array::exec(model::thread *thr)
+        {
+            model::object_array *result = thr->pool->create_object_array();
+            model::variable var;
+            var.set_object(result);
+
+            for (int i = 0; i < count; i++)
+            {
+                model::variable item = thr->pop();
+                result->add_item(item);
+            }
+
+            thr->push(var);
+        }
     };
 };

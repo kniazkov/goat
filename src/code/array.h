@@ -22,37 +22,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "object.h"
-#include <vector>
+#include "instruction.h"
 
 namespace g0at
 {
-    namespace model
+    namespace code
     {
-        class object_array : public object
+        class array : public instruction
         {
-        friend class object_pool;
-        protected:
-            object_array(object_pool *pool);
-            void reinit();
-            
         public:
-            void kill(object_pool *pool) override;
-            object_array *to_object_array() override;
-            std::wstring to_string() const override;
-            void trace() override;
+            array(int _count);
+            void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
 
-            void add_item(variable &item) { vector.push_back(item); }
+            int get_count() { return count; }
 
         protected:
-            std::vector<variable> vector;
-        };
-
-        class object_array_proto : public object
-        {
-        friend class object_pool;
-        protected:
-            object_array_proto(object_pool *pool);
+            int count;
         };
     };
 };

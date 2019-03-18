@@ -68,6 +68,14 @@ namespace g0at
             return wss.str();
         }
 
+        void object_array::trace() 
+        {
+            for (variable &item : vector)
+            {
+                item.mark();
+            }
+        }
+
         /*
             Prototype
         */

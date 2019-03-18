@@ -38,6 +38,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "vcall.h"
 #include "clone.h"
 #include "instance_of.h"
+#include "array.h"
 
 namespace g0at
 {
@@ -245,6 +246,11 @@ namespace g0at
         void disasm::visit(instance_of *ref)
         {
             stream << L"insof \t" << ref->get_arg_count();
+        }
+
+        void disasm::visit(array *ref)
+        {
+            stream << L"array \t" << ref->get_count();
         }
     };
 };

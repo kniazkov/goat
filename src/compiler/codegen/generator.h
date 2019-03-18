@@ -71,6 +71,7 @@ namespace g0at
             void visit(pt::statement_while *ref) override;
             void visit(pt::method_call *ref) override;
             void visit(pt::this_ptr *ref) override;
+            void visit(pt::node_array *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

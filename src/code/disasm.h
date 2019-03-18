@@ -68,6 +68,7 @@ namespace g0at
             void visit(this_ptr *ref) override;
             void visit(clone *ref) override;
             void visit(instance_of *ref) override;
+            void visit(array *ref) override;
 
         protected:
             std::wstringstream &stream;
