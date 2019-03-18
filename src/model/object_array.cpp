@@ -37,7 +37,7 @@ namespace g0at
 
         void object_array::kill(object_pool *pool)
         {
-            if (pool->strings.destroy_or_cache(this, pool))
+            if (pool->arrays.destroy_or_cache(this, pool))
             {
                 objects.clear();
                 vector.clear();

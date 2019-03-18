@@ -187,5 +187,15 @@ namespace g0at
                 obj = new object_boolean(this, value);
             return obj;
         }
+
+        object_array * object_pool::create_object_array()
+        {
+            object_array *obj = static_cast<object_array*>(arrays.get(this));
+            if (obj)
+                obj->reinit();
+            else
+                obj = new object_array(this);
+            return obj;
+        }
     };
 };
