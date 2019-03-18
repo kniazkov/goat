@@ -328,5 +328,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        token_array *token::to_token_array()
+        {
+            return nullptr;
+        }
     }
 };

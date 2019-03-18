@@ -205,5 +205,9 @@ namespace g0at
         void token_visitor::visit(this_ptr *ref)
         {
         }
+
+        void token_visitor::visit(token_array *ref)
+        {
+        }
     }
 };

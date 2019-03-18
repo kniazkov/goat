@@ -88,6 +88,7 @@ namespace g0at
         class statement_while;
         class method_call;
         class this_ptr;
+        class token_array;
 
         class token : public lib::ref_counter
         {
@@ -153,6 +154,7 @@ namespace g0at
             virtual statement_while *to_statement_while();
             virtual method_call *to_method_call();
             virtual this_ptr *to_this_ptr();
+            virtual token_array *to_token_array();
             
             lib::pointer<position> get_position() { return pos; }
 

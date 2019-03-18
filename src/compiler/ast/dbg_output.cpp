@@ -46,6 +46,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "is_not_equal_to.h"
 #include "statement_while.h"
 #include "method_call.h"
+#include "token_array.h"
 #include "lib/utils.h"
 
 namespace g0at
@@ -459,6 +460,13 @@ namespace g0at
         void dbg_output::visit(this_ptr *ref)
         {
             print(L"this");
+        }
+
+        void dbg_output::visit(token_array *ref)
+        {
+            print(L"array", L"[]");
+            print_token_list(ref->get_raw_list(), L"raw");
+            print_token_list(ref->get_object_list(), L"objects");
         }
     };
 };
