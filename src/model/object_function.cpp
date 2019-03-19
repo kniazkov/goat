@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_function.h"
 #include "object_function_built_in.h"
 #include "object_string.h"
+#include "object_array.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -54,7 +55,7 @@ namespace g0at
         */
         
         /**
-         * @brief Built-in method 'call' for methods
+         * @brief Built-in method 'call()' for methods
          * 
          * The 'call()' method calls a Goat function with a given 'this' value
          * and arguments provided individually.
@@ -75,7 +76,7 @@ namespace g0at
                       [ ctx  ]
                       [ arg0 ]
                       [ arg1 ]
-                      [ ...  ]
+                      [ .... ]
                     Need to remove 'this' from the stack, and pass the rest
                     to the 'call' method.
                 */
@@ -87,6 +88,57 @@ namespace g0at
             }
         };
 
+        /**
+         * @brief Built-in method 'apply()' for methods
+         * 
+         * The 'apply()' method calls a function with a given this value,
+         * and arguments provided as an array.
+         */
+        class object_function_apply : public object_function_built_in
+        {
+        public:
+            object_function_apply(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count) override
+            {
+                /*
+                    Current stack:
+                      [ this ]
+                      [ ctx  ]
+                      [ args ]
+                      [ .... ]
+                    Need to get this stack:
+                      [ ctx  ]
+                      [ arg0 ]
+                      [ arg1 ]
+                      [ .... ]
+                */
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_function *this_ptr_func = this_ptr->to_object_function();
+                assert(this_ptr_func != nullptr);
+
+                variable ctx = thr->pop();
+
+                object *args = thr->pop().get_object();
+                assert(args != nullptr);
+                object_array *array_args = args->to_object_array();
+                assert(array_args != nullptr);
+
+                int length = array_args->get_length();
+                for (int i = length - 1; i > -1; i--)
+                {
+                    thr->push(array_args->get_item(i));
+                }
+                thr->push(ctx);
+
+                this_ptr_func->vcall(thr, length);
+            }
+        };
+
         object_function_proto::object_function_proto(object_pool *pool)
             : object(pool)
         {
@@ -95,6 +147,7 @@ namespace g0at
         void object_function_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(L"call"), new object_function_call(pool));
+            add_object(pool->get_static_string(L"apply"), new object_function_apply(pool));
         }
     };
 };

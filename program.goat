@@ -14,4 +14,4 @@ var surrogate =
 
 obj.method(3, 4);
 var copy = obj.method;
-copy.call(surrogate, 3, 4);
+copy.apply(surrogate, [3, 4]);
