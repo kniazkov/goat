@@ -1,0 +1,4 @@
+// single-line comment
+    /////////////
+
+println("okay, it works again.");
