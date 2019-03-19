@@ -215,6 +215,11 @@ namespace g0at
             {
                 return L"объекты должны разделяться запятыми";
             }
+
+            std::wstring unclosed_comment() override
+            {
+                return L"не закрыт многострочный комментарий";
+            }
         };
 
         resource *resource::get_intance_ru()

@@ -69,6 +69,7 @@ namespace g0at
             virtual std::wstring assertion_failed(const char *file, int line,
                 const char *assertion) = 0;
             virtual std::wstring objects_must_be_separated_by_commas() = 0;
+            virtual std::wstring unclosed_comment() = 0;
             
         protected:
             static resource *get_intance_en();

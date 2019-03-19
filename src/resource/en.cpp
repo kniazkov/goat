@@ -215,6 +215,11 @@ namespace g0at
             {
                 return L"objects must be separated by commas";
             }
+
+            std::wstring unclosed_comment() override
+            {
+                return L"unclosed multiline comment";
+            }
         };
 
         resource *resource::get_intance_en()

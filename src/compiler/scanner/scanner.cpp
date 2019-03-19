@@ -80,6 +80,15 @@ namespace g0at
         }
     };
 
+    class unclosed_comment : public compilation_error
+    {
+    public:
+        unclosed_comment(lib::pointer<position> pos)
+            : compilation_error(pos, global::resource->unclosed_comment())
+        {
+        }
+    };
+
     scanner::scanner(source *_src)
         : src(_src)
     {
@@ -142,11 +151,12 @@ namespace g0at
         {
             if (c == L'/')
             {
-                if (src->get_char(1) == L'/')
+                wchar_t c_1 = src->get_char(1);
+                if (c_1 == L'/')
                 {
                     src->next();
                     c = src->next();
-                    while (c != L'\n')
+                    while (c != L'\n' && c != '\0')
                     {
                         c = src->next();
                     }
@@ -154,6 +164,35 @@ namespace g0at
                     {
                         c = src->next();
                     }
+                }
+                else if (c_1 == L'*')
+                {
+                    src->next();
+                    while (true)
+                    {
+                        c = src->next();
+                        if (c == '\0')
+                        {
+                            throw unclosed_comment(src->get_position());
+                        }
+                        if (c == L'*')
+                        {
+                            if (src->get_char(1) == L'/')
+                            {
+                                src->next();
+                                c = src->next();
+                                break;
+                            }
+                        }
+                    }
+                    while(is_space(c))
+                    {
+                        c = src->next();
+                    }
+                }
+                else
+                {
+                    break;
                 }
             }
             else
