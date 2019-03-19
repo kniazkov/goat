@@ -55,12 +55,18 @@ namespace g0at
             real_proto_instance = nullptr;
             array_proto_instance = nullptr;
 
-            generic_proto *gp = new generic_proto(this);
+            /*
+                "It's a kind of magic"
+                That is, we must initialize the objects one by one,
+                but in such a way as to maintain the correct dependency.
+            */
+            auto *gp = new generic_proto(this);
             generic_proto_instance = gp;
-            object_string_proto *osp = new object_string_proto(this);
+            auto *osp = new object_string_proto(this);
             string_proto_instance = osp;
             static_strings.init(identifiers_list, this);
-            function_proto_instance = new object_function_proto(this);
+            auto ofp = new object_function_proto(this);
+            function_proto_instance = ofp;
             gp->init(this);
             void_instance = new object_void(this);
             undefined_instance = new object_undefined(this);
@@ -69,9 +75,10 @@ namespace g0at
             integer_proto_instance = new object_integer_proto(this);
             boolean_proto_instance = new object_boolean_proto(this);
             real_proto_instance = new object_real_proto(this);
-            object_array_proto *oap = new object_array_proto(this);
+            auto *oap = new object_array_proto(this);
             array_proto_instance = oap;
             osp->init(this);
+            ofp->init(this);
             oap->init(this);
         }
 

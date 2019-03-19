@@ -1,11 +1,17 @@
 var obj =
 {
-    method : $()
+    method : $(a, b)
     {
         println(this);
+        println(a + b);
     }
 };
 
-obj.method();
+var surrogate =
+{
+    val: 13
+};
+
+obj.method(3, 4);
 var copy = obj.method;
-copy();
+copy.call(surrogate, 3, 4);

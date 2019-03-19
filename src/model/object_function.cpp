@@ -21,6 +21,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_function.h"
+#include "object_function_built_in.h"
+#include "object_string.h"
+#include "lib/assert.h"
 
 namespace g0at
 {
@@ -49,9 +52,49 @@ namespace g0at
         /* 
             Prototype
         */
+        
+        /**
+         * @brief Built-in method 'call' for methods
+         * 
+         * The 'call()' method calls a Goat function with a given 'this' value
+         * and arguments provided individually.
+         */
+        class object_function_call : public object_function_built_in
+        {
+        public:
+            object_function_call(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count) override
+            {
+                /*
+                    Current stack:
+                      [ this ]
+                      [ ctx  ]
+                      [ arg0 ]
+                      [ arg1 ]
+                      [ ...  ]
+                    Need to remove 'this' from the stack, and pass the rest
+                    to the 'call' method.
+                */
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_function *this_ptr_func = this_ptr->to_object_function();
+                assert(this_ptr_func != nullptr);
+                this_ptr_func->vcall(thr, arg_count - 1);
+            }
+        };
+
         object_function_proto::object_function_proto(object_pool *pool)
             : object(pool)
         {
+        }
+
+        void object_function_proto::init(object_pool *pool)
+        {
+            add_object(pool->get_static_string(L"call"), new object_function_call(pool));
         }
     };
 };
