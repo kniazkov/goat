@@ -137,6 +137,31 @@ namespace g0at
     {
         wchar_t c = src->get_char();
 
+
+        while(true)
+        {
+            if (c == L'/')
+            {
+                if (src->get_char(1) == L'/')
+                {
+                    src->next();
+                    c = src->next();
+                    while (c != L'\n')
+                    {
+                        c = src->next();
+                    }
+                    while(is_space(c))
+                    {
+                        c = src->next();
+                    }
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+
         if (is_letter(c))
         {
             std::wstringstream wss;

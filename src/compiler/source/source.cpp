@@ -31,4 +31,9 @@ namespace g0at
     source::~source()
     {
     }
+
+    wchar_t source::get_char()
+    {
+        return get_char(0);
+    }
 };

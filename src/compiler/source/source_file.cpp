@@ -85,6 +85,11 @@ namespace g0at
         return index < max_index ? data[index] : L'\0';
     }
 
+    wchar_t source_file::get_char(int offset)
+    {
+        return index + offset < max_index ? data[index + offset] : L'\0';
+    }
+
     wchar_t source_file::next()
     {
         if (index < max_index)

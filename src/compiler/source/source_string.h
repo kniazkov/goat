@@ -32,6 +32,7 @@ namespace g0at
     public:
         source_string(std::wstring _data);
         wchar_t get_char() override;
+        wchar_t get_char(int offset) override;
         wchar_t next() override;
         lib::pointer<position> get_position() override;
 

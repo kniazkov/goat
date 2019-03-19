@@ -1,17 +1,4 @@
-var obj =
-{
-    method : $(a, b)
-    {
-        println(this);
-        println(a + b);
-    }
-};
+// single-line comment
+    /////////////
 
-var surrogate =
-{
-    val: 13
-};
-
-obj.method(3, 4);
-var copy = obj.method;
-copy.apply(surrogate, [3, 4]);
+println("okay, it works again.");

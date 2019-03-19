@@ -32,7 +32,8 @@ namespace g0at
     public:
         source();
         virtual ~source();
-        virtual wchar_t get_char() = 0;
+        virtual wchar_t get_char();
+        virtual wchar_t get_char(int offset) = 0;
         virtual wchar_t next() = 0;
         virtual lib::pointer<position> get_position() = 0;
     };
