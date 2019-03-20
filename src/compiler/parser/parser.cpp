@@ -130,6 +130,11 @@ namespace g0at
                 parse_function_args(func);
             }
 
+            for (auto block : data->blocks)
+            {
+                parse_statement_block_body(block);
+            }
+
             for (auto obj : data->objects)
             {
                 parse_object_body(obj);

@@ -44,6 +44,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/method_call.h"
 #include "compiler/pt/this_ptr.h"
 #include "compiler/pt/node_array.h"
+#include "compiler/pt/statement_block.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -334,6 +335,15 @@ namespace g0at
                 item->accept(this);
             }
             code->add_instruction(new code::array(count));
+        }
+
+        void generator::visit(pt::statement_block *ref)
+        {
+            int code_size = ref->get_code_size();
+            for (int i = 0; i < code_size; i++)
+            {
+                ref->get_stmt(i)->accept(this);
+            }
         }
     };
 };
