@@ -1,0 +1,12 @@
+var x = 0;
+var y = 13;
+
+while(x != 7)
+{
+    var y;
+    y = 666;
+    x = x + 1;
+}
+
+println(x);
+println(y);
