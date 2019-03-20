@@ -178,10 +178,8 @@ namespace g0at
             }
         }
 
-        void parser::parse_function_body(ast::function *func)
+        void parser::parse_block_body(ast::token_list *src, ast::token_list *dst)
         {
-            auto src = func->get_raw_list();
-            auto dst = func->get_body();
             auto tok = src->first;
             while(tok)
             {
@@ -208,6 +206,19 @@ namespace g0at
             dst->swap(src);
         }
 
+        void parser::parse_function_body(ast::function *func)
+        {
+            auto src = func->get_raw_list();
+            auto dst = func->get_body();
+            parse_block_body(src, dst);
+        }
+
+        void parser::parse_statement_block_body(ast::statement_block *block)
+        {
+            auto src = block->get_raw_list();
+            auto dst = block->get_body();
+            parse_block_body(src, dst);
+        }
 
         void parser::parse_function_args(ast::function *func)
         {
@@ -325,10 +336,10 @@ namespace g0at
             src->clear();
         }
 
-        void parser::parse_array_body(ast::token_array *func)
+        void parser::parse_array_body(ast::token_array *arr)
         {
-            auto src = func->get_raw_list();
-            auto dst = func->get_object_list();
+            auto src = arr->get_raw_list();
+            auto dst = arr->get_object_list();
             auto tok = src->first;
             bool even = false;
             while(tok)
