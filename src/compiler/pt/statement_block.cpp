@@ -27,7 +27,7 @@ namespace g0at
     namespace pt
     {
         statement_block::statement_block(lib::pointer<position> _pos)
-            : statement(_pos)
+            : statement(_pos), vars(false)
         {
         }
 
@@ -39,6 +39,15 @@ namespace g0at
         statement_block *statement_block::to_statement_block()
         {
             return this;
+        }
+
+        void statement_block::add_stmt(lib::pointer<statement> stmt)
+        {
+            code.push_back(stmt);
+            if (stmt->to_declare_variable() != nullptr)
+            {
+                vars = true;
+            }
         }
     };
 };

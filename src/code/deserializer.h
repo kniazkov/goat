@@ -100,6 +100,8 @@ namespace g0at
             static void creator_clone(source *src, code *dst);
             static void creator_instance_of(source *src, code *dst);
             static void creator_array(source *src, code *dst);
+            static void creator_enter(source *src, code *dst);
+            static void creator_leave(source *src, code *dst);
 
             std::map<opcode, creator> creators;
         };

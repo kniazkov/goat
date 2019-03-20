@@ -252,5 +252,15 @@ namespace g0at
         {
             stream << L"array \t" << ref->get_count();
         }
+
+        void disasm::visit(enter *ref)
+        {
+            stream << L"enter";
+        }
+
+        void disasm::visit(leave *ref)
+        {
+            stream << L"leave";
+        }
     };
 };

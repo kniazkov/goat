@@ -57,6 +57,8 @@ namespace g0at
         class clone;
         class instance_of;
         class array;
+        class enter;
+        class leave;
 
         class instruction_visitor
         {
@@ -94,6 +96,8 @@ namespace g0at
             virtual void visit(clone *ref) = 0;
             virtual void visit(instance_of *ref) = 0;
             virtual void visit(array *ref) = 0;
+            virtual void visit(enter *ref) = 0;
+            virtual void visit(leave *ref) = 0;
         };
     };
 };

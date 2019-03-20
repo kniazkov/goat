@@ -20,30 +20,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "statement.h"
-#include <vector>
+#include "enter.h"
 
 namespace g0at
 {
-    namespace pt
+    namespace code
     {
-        class statement_block : public statement
+        void enter::accept(instruction_visitor *visitor)
         {
-        public:
-            statement_block(lib::pointer<position> _pos);
-            void accept(node_visitor *visitor) override;
-            statement_block *to_statement_block() override;
-            void add_stmt(lib::pointer<statement> stmt);
+            visitor->visit(this);
+        }
 
-            int get_code_size() { return (int)code.size(); }
-            lib::pointer<statement> get_stmt(int index) { return code.at(index); }
-            bool has_variables() { return vars; }
-
-        protected:
-            std::vector<lib::pointer<statement>> code;
-            bool vars;
-        };
+        void enter::exec(model::thread *thr)
+        {
+            thr->ctx = thr->pool->create_context(thr->ctx);
+        }
     };
 };

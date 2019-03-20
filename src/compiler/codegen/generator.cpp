@@ -75,6 +75,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/clone.h"
 #include "code/instance_of.h"
 #include "code/array.h"
+#include "code/enter.h"
+#include "code/leave.h"
 
 namespace g0at
 {
@@ -340,9 +342,19 @@ namespace g0at
         void generator::visit(pt::statement_block *ref)
         {
             int code_size = ref->get_code_size();
+            bool has_variables = ref->has_variables();
+
+            if (has_variables)
+            {
+                code->add_instruction(new code::enter());
+            }
             for (int i = 0; i < code_size; i++)
             {
                 ref->get_stmt(i)->accept(this);
+            }
+            if (has_variables)
+            {
+                code->add_instruction(new code::leave());
             }
         }
     };

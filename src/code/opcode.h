@@ -68,6 +68,8 @@ namespace g0at
             retv,
             ifnot,
             jmp,
+            enter,
+            leave,
 
             // methods
             clone,
