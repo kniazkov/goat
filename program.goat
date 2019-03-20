@@ -1,7 +1,8 @@
-/* multi-line comment
-    second line
-    another one line ******/
+var x = 0;
 
-println("okay, it works again.");
+while(x != 10)
+{
+    x = x + 1;
+}
 
-/* ------ the end ------ */
+print(x);
