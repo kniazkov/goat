@@ -53,6 +53,7 @@ namespace g0at
         class method_call;
         class this_ptr;
         class node_array;
+        class statement_block;
 
         class node_visitor
         {
@@ -86,6 +87,7 @@ namespace g0at
             virtual void visit(method_call *ref);
             virtual void visit(this_ptr *ref);
             virtual void visit(node_array *ref);
+            virtual void visit(statement_block *ref);
         };
     };
 };

@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "dbg_output.h"
+#include "lib/utils.h"
 #include "variable.h"
 #include "function.h"
 #include "static_string.h"
@@ -42,7 +43,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_while.h"
 #include "method_call.h"
 #include "node_array.h"
-#include "lib/utils.h"
+#include "statement_block.h"
 
 namespace g0at
 {
@@ -419,6 +420,25 @@ namespace g0at
                     ref->get_object(i)->accept(&obj);
                     link(pred_id, obj.id, dashed);
                     pred_id = obj.id;
+                    dashed = true;
+                }
+            }
+        }
+
+        void dbg_output::visit(statement_block *ref)
+        {
+            print(L"block");
+            int code_size = ref->get_code_size();
+            if (code_size > 0)
+            {
+                int pred_id = id;
+                bool dashed = false;
+                for (int i = 0; i < code_size; i++)
+                {
+                    dbg_output stmt(stream, uid);
+                    ref->get_stmt(i)->accept(&stmt);
+                    link(pred_id, stmt.id, dashed);
+                    pred_id = stmt.id;
                     dashed = true;
                 }
             }
