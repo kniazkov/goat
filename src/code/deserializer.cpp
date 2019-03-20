@@ -58,6 +58,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "clone.h"
 #include "instance_of.h"
 #include "array.h"
+#include "enter.h"
+#include "leave.h"
 
 namespace g0at
 {
@@ -373,6 +375,16 @@ namespace g0at
             dst->add_instruction(new array(count));
         }
 
+        void deserializer::creator_enter(source *src, code *dst)
+        {
+            dst->add_instruction(new enter());
+        }
+
+        void deserializer::creator_leave(source *src, code *dst)
+        {
+            dst->add_instruction(new leave());
+        }
+
         deserializer::deserializer()
         {
             creators[opcode::nop]       = creator_nop;
@@ -407,6 +419,8 @@ namespace g0at
             creators[opcode::clone]     = creator_clone;
             creators[opcode::insof]     = creator_instance_of;
             creators[opcode::array]     = creator_array;
+            creators[opcode::enter]     = creator_enter;
+            creators[opcode::leave]     = creator_leave;
         }
     };
 };

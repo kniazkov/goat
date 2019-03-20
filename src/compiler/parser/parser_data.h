@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/token_object.h"
 #include "compiler/ast/method_call.h"
 #include "compiler/ast/token_array.h"
+#include "compiler/ast/statement_block.h"
 #include <vector>
 
 namespace g0at
@@ -55,6 +56,7 @@ namespace g0at
             std::vector<ast::method_call*> method_calls;
             std::vector<ast::token_object*> objects;
             std::vector<ast::token_array*> arrays;
+            std::vector<ast::statement_block*> blocks;
         };
     };
 };

@@ -189,5 +189,10 @@ namespace g0at
         {
             return nullptr;
         }
+        
+        statement_block *node::to_statement_block()
+        {
+            return nullptr;
+        }
    }
 };

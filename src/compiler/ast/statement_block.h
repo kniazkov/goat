@@ -22,28 +22,27 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "compiler/ast/token_visitor.h"
-#include "compiler/pt/statement.h"
-#include "lib/pointer.h"
+#include "token_with_list.h"
+#include "statement.h"
+#include "brackets_pair.h"
+#include <utility>
+#include <vector>
 
 namespace g0at
 {
-    namespace analyzer
+    namespace ast
     {
-        class statement_builder : public ast::token_visitor
+        class statement_block : public statement, public token_with_list
         {
         public:
-            void visit(ast::statement_expression *ref) override;
-            void visit(ast::declare_variable *ref) override;
-            void visit(ast::statement_return *ref) override;
-            void visit(ast::statement_while *ref) override;
-            void visit(ast::statement_block *ref) override;
+            statement_block(brackets_pair *_body);
+            void accept(token_visitor *visitor) override;
+            statement_block *to_statement_block() override;
 
-            bool has_stmt() { return stmt != nullptr; }
-            lib::pointer<pt::statement> get_stmt() { return stmt; }
+            token_list *get_body() { return &body; }
 
         protected:
-            lib::pointer<pt::statement> stmt;
+            token_list body;
         };
     };
 };

@@ -47,13 +47,15 @@ namespace g0at
             void operator=(const parser &) { }
             static void parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
                 parser_data_filler *data_filler, wchar_t open_bracket);
+            static void parse_block_body(ast::token_list *src, ast::token_list *dst);
             static void parse_function_body(ast::function *func);
+            static void parse_statement_block_body(ast::statement_block *block);
             static void parse_function_args(ast::function *func);
             static void parse_function_and_method_call_args(ast::token_list *src, ast::token_list *dst);
             static void parse_function_call_args(ast::function_call *fcall);
             static void parse_method_call_args(ast::method_call *vcall);
             static void parse_object_body(ast::token_object *obj);
-            static void parse_array_body(ast::token_array *obj);
+            static void parse_array_body(ast::token_array *arr);
 
             lib::pointer<ast::root> root;
             parser_data *data;

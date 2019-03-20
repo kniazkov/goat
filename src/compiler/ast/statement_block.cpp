@@ -20,30 +20,28 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "compiler/ast/token_visitor.h"
-#include "compiler/pt/statement.h"
-#include "lib/pointer.h"
+#include "statement_block.h"
+#include <assert.h>
 
 namespace g0at
 {
-    namespace analyzer
+    namespace ast
     {
-        class statement_builder : public ast::token_visitor
+        statement_block::statement_block(brackets_pair *_body)
         {
-        public:
-            void visit(ast::statement_expression *ref) override;
-            void visit(ast::declare_variable *ref) override;
-            void visit(ast::statement_return *ref) override;
-            void visit(ast::statement_while *ref) override;
-            void visit(ast::statement_block *ref) override;
+            assert(_body->get_symbol() == L'{');
+            raw.swap(_body->get_raw_list());
+            pos = _body->get_position();
+        }
 
-            bool has_stmt() { return stmt != nullptr; }
-            lib::pointer<pt::statement> get_stmt() { return stmt; }
+        void statement_block::accept(token_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
 
-        protected:
-            lib::pointer<pt::statement> stmt;
-        };
+        statement_block *statement_block::to_statement_block()
+        {
+            return this;
+        }
     };
 };

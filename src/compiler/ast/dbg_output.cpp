@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "dbg_output.h"
+#include "lib/utils.h"
 #include "root.h"
 #include "function.h"
 #include "identifier.h"
@@ -47,7 +48,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_while.h"
 #include "method_call.h"
 #include "token_array.h"
-#include "lib/utils.h"
+#include "statement_block.h"
 
 namespace g0at
 {
@@ -114,16 +115,6 @@ namespace g0at
             link(id, child.id, false, label);
         }
 
-        void dbg_output::visit(function *ref)
-        {
-            print(L"function");
-            print_token_list(ref->get_raw_args_list(), L"args (raw)");
-            print_token_list(ref->get_args_list(), L"args");
-            print_token_list(ref->get_raw_list(), L"body (raw)");
-            print_token_list(ref->get_body(), L"body");
-        }
-
-
         void dbg_output::print_token_list(token_list *list, const wchar_t *title)
         {
             auto tok = list->first;
@@ -143,6 +134,15 @@ namespace g0at
                 dashed = true;
                 tok = tok->next;
             }
+        }
+
+        void dbg_output::visit(function *ref)
+        {
+            print(L"function");
+            print_token_list(ref->get_raw_args_list(), L"args (raw)");
+            print_token_list(ref->get_args_list(), L"args");
+            print_token_list(ref->get_raw_list(), L"body (raw)");
+            print_token_list(ref->get_body(), L"body");
         }
 
         void dbg_output::visit(identifier *ref)
@@ -468,6 +468,13 @@ namespace g0at
             print(L"array", L"[]");
             print_token_list(ref->get_raw_list(), L"raw");
             print_token_list(ref->get_object_list(), L"objects");
+        }
+
+        void dbg_output::visit(statement_block *ref)
+        {
+            print(L"block");
+            print_token_list(ref->get_raw_list(), L"body (raw)");
+            print_token_list(ref->get_body(), L"body");
         }
     };
 };

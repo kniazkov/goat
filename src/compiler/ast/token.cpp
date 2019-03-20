@@ -333,5 +333,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_block *token::to_statement_block()
+        {
+            return nullptr;
+        }
     }
 };

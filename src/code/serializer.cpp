@@ -305,5 +305,15 @@ namespace g0at
             push_opcode(opcode::array);
             push_int32(ref->get_count());
         }
+
+        void serializer::visit(enter *ref)
+        {
+            push_opcode(opcode::enter);
+        }
+
+        void serializer::visit(leave *ref)
+        {
+            push_opcode(opcode::leave);
+        }
     };
 };

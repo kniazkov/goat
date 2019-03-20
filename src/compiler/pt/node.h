@@ -62,6 +62,7 @@ namespace g0at
         class method_call;
         class this_ptr;
         class node_array;
+        class statement_block;
 
         class node : public lib::ref_counter
         {
@@ -100,6 +101,7 @@ namespace g0at
             virtual method_call *to_method_call();
             virtual this_ptr *to_this_ptr();
             virtual node_array *to_node_array();
+            virtual statement_block *to_statement_block();
 
             lib::pointer<position> get_position() { return pos; }
 
