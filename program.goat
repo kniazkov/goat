@@ -1,12 +1,17 @@
-var func = $(x)
+if (true)
 {
-	if (x == 1000)
-	{
-		println(x);
-		return;
-	}
-	
-	func(x + 1);
-};
+    println("ok.");
+}
+else
+{
+    println("fail!");
+}
 
-func(0);
+if (false)
+{
+    println("fail.");
+}
+else
+{
+    println("ok!");
+}

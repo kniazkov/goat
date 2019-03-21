@@ -39,6 +39,7 @@ namespace g0at
 
         void jmp::exec(model::thread *thr)
         {
+            assert(iid >= 0);
             thr->iid = iid;
         }
     };

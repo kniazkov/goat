@@ -20,10 +20,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "pattern.h"
+#include "pattern_right_to_left.h"
 #include "grammar_factory.h"
 #include "common_exceptions.h"
 #include "compiler/ast/keyword_if.h"
+#include "compiler/ast/keyword_else.h"
 #include "compiler/ast/brackets_pair.h"
 #include "compiler/ast/expression.h"
 #include "compiler/ast/statement.h"
@@ -34,11 +35,11 @@ namespace g0at
 {
     namespace parser
     {
-        class statement_if : public pattern
+        class statement_if : public pattern_right_to_left
         {
         public:
             statement_if(parser_data *_data)
-                : pattern(&_data->if_keywords, _data)
+                : pattern_right_to_left(&_data->if_keywords, _data)
             {
             }
 
@@ -66,13 +67,36 @@ namespace g0at
                 if (!condition->next)
                     throw expected_a_statement(condition->get_position());
 
-                ast::statement *stmt = condition->next->to_statement();
-                if (!stmt)
+                ast::statement *stmt_if = condition->next->to_statement();
+                if (!stmt_if)
                     throw expected_a_statement(condition->next->get_position());
-                
-                lib::pointer<ast::token> result = new ast::statement_if(kw, expr, stmt);
-                kw->replace(stmt, result);
 
+                ast::statement *stmt_else = nullptr;
+
+                if (stmt_if->next)
+                {
+                    ast::keyword_else *kw_else = stmt_if->next->to_keyword_else();
+                    if (kw_else)
+                    {
+                        if (!kw_else->next)
+                            throw expected_a_statement(kw_else->get_position());
+                        
+                        stmt_else = kw_else->next->to_statement();
+                        if (!stmt_else)
+                            throw expected_a_statement(kw_else->next->get_position());
+                    }
+                }
+
+                if (stmt_else)
+                {
+                    lib::pointer<ast::token> result = new ast::statement_if(kw, expr, stmt_if, stmt_else);
+                    kw->replace(stmt_else, result);
+                }
+                else
+                {
+                    lib::pointer<ast::token> result = new ast::statement_if(kw, expr, stmt_if);
+                    kw->replace(stmt_if, result);
+                }
                 return false;
             }
         };

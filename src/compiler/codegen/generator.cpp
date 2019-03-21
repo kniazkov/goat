@@ -365,7 +365,20 @@ namespace g0at
             code::if_not *if_not = new code::if_not(-1);
             code->add_instruction(if_not);
             ref->get_stmt_if()->accept(this);
+            int *iid_ptr_end = nullptr;
+            auto stmt_else = ref->get_stmt_else();
+            if (stmt_else)
+            {
+                code::jmp *jmp = new code::jmp(-1);
+                iid_ptr_end = jmp->get_iid_ptr();
+                code->add_instruction(jmp);
+            }
             *(if_not->get_iid_ptr()) = code->get_code_size();
+            if (stmt_else)
+            {
+                stmt_else->accept(this);
+                *iid_ptr_end = code->get_code_size();
+            }
         }
     };
 };

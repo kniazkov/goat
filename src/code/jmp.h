@@ -36,6 +36,7 @@ namespace g0at
             void exec(model::thread *thr) override;
 
             int get_iid() { return iid; }
+            int *get_iid_ptr() { return &iid; }
 
         protected:
             int iid;
