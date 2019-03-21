@@ -45,6 +45,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/this_ptr.h"
 #include "compiler/pt/node_array.h"
 #include "compiler/pt/statement_block.h"
+#include "compiler/pt/statement_if.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -356,6 +357,15 @@ namespace g0at
             {
                 code->add_instruction(new code::leave());
             }
+        }
+
+        void generator::visit(pt::statement_if *ref)
+        {
+            ref->get_expression()->accept(this);
+            code::if_not *if_not = new code::if_not(-1);
+            code->add_instruction(if_not);
+            ref->get_stmt_if()->accept(this);
+            *(if_not->get_iid_ptr()) = code->get_code_size();
         }
     };
 };
