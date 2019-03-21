@@ -23,6 +23,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "scanner.h"
 #include "compiler/common/compilation_error.h"
 #include "global/global.h"
+#include <sstream>
+#include <cstdint>
 #include "compiler/ast/identifier.h"
 #include "compiler/ast/bracket.h"
 #include "compiler/ast/static_string.h"
@@ -48,8 +50,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/not_equal.h"
 #include "compiler/ast/keyword_while.h"
 #include "compiler/ast/this_ptr.h"
-#include <sstream>
-#include <cstdint>
+#include "compiler/ast/keyword_if.h"
+#include "compiler/ast/keyword_else.h"
 
 namespace g0at
 {
@@ -227,9 +229,13 @@ namespace g0at
             if (name == L"function")
                 return new ast::keyword_function();            
             if (name == L"return")
-                return new ast::keyword_return();            
+                return new ast::keyword_return();
             if (name == L"while")
                 return new ast::keyword_while();            
+            if (name == L"if")
+                return new ast::keyword_if();            
+            if (name == L"else")
+                return new ast::keyword_else();            
             return new ast::identifier(name);
         }
 

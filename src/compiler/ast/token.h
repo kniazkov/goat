@@ -90,6 +90,8 @@ namespace g0at
         class this_ptr;
         class token_array;
         class statement_block;
+        class keyword_if;
+        class keyword_else;
 
         class token : public lib::ref_counter
         {
@@ -157,6 +159,8 @@ namespace g0at
             virtual this_ptr *to_this_ptr();
             virtual token_array *to_token_array();
             virtual statement_block *to_statement_block();
+            virtual keyword_if *to_keyword_if();
+            virtual keyword_else *to_keyword_else();
             
             lib::pointer<position> get_position() { return pos; }
 

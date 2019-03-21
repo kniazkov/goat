@@ -83,6 +83,8 @@ namespace g0at
             void visit(this_ptr *ref) override;
             void visit(token_array *ref) override;
             void visit(statement_block *ref) override;
+            void visit(keyword_if *ref) override;
+            void visit(keyword_else *ref) override;
 
         protected:
             dbg_output(std::wstringstream &_stream, int &_uid);

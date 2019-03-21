@@ -338,5 +338,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_if *token::to_keyword_if()
+        {
+            return nullptr;
+        }
+
+        keyword_else *token::to_keyword_else()
+        {
+            return nullptr;
+        }
     }
 };

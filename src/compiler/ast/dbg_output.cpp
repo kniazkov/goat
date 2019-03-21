@@ -476,5 +476,15 @@ namespace g0at
             print_token_list(ref->get_raw_list(), L"body (raw)");
             print_token_list(ref->get_body(), L"body");
         }
+
+        void dbg_output::visit(keyword_if *ref)
+        {
+            print(L"keyword", L"if");
+        }
+
+        void dbg_output::visit(keyword_else *ref)
+        {
+            print(L"keyword", L"else");
+        }
     };
 };
