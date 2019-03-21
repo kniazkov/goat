@@ -54,6 +54,7 @@ namespace g0at
             void visit(ast::value_true *ref) override;
             void visit(ast::value_false *ref) override;
             void visit(ast::this_ptr *ref) override;
+            void visit(ast::keyword_if *ref) override;
 
         protected:
             parser_data *data;

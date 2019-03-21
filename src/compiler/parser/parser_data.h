@@ -50,6 +50,7 @@ namespace g0at
             ast::token_2nd_list dots;
             ast::token_2nd_list opers_equals_and_not;
             ast::token_2nd_list while_keywords;
+            ast::token_2nd_list if_keywords;
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;
