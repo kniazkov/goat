@@ -73,6 +73,7 @@ namespace g0at
             void visit(pt::this_ptr *ref) override;
             void visit(pt::node_array *ref) override;
             void visit(pt::statement_block *ref) override;
+            void visit(pt::statement_if *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

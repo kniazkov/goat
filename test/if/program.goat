@@ -1,0 +1,9 @@
+if (true)
+{
+    println("this string should be printed");
+}
+
+if (false)
+{
+    println("this string should not be printed");
+}

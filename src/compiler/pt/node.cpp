@@ -194,5 +194,10 @@ namespace g0at
         {
             return nullptr;
         }
+        
+        statement_if *node::to_statement_if()
+        {
+            return nullptr;
+        }
    }
 };

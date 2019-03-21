@@ -20,31 +20,32 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "compiler/ast/token_visitor.h"
-#include "compiler/pt/statement.h"
-#include "lib/pointer.h"
+#include "statement_if.h"
 
 namespace g0at
 {
-    namespace analyzer
+    namespace ast
     {
-        class statement_builder : public ast::token_visitor
+        statement_if::statement_if(keyword_if *_kw, lib::pointer<expression> _expr, lib::pointer<statement> _stmt_if)
+            : expr(_expr), stmt_if(_stmt_if), stmt_else(nullptr)
         {
-        public:
-            void visit(ast::statement_expression *ref) override;
-            void visit(ast::declare_variable *ref) override;
-            void visit(ast::statement_return *ref) override;
-            void visit(ast::statement_while *ref) override;
-            void visit(ast::statement_block *ref) override;
-            void visit(ast::statement_if *ref) override;
+            pos = _kw->get_position();
+        }
 
-            bool has_stmt() { return stmt != nullptr; }
-            lib::pointer<pt::statement> get_stmt() { return stmt; }
+        statement_if::statement_if(keyword_if *_kw, lib::pointer<expression> _expr, lib::pointer<statement> _stmt_if, lib::pointer<statement> _stmt_else)
+            : expr(_expr), stmt_if(_stmt_if), stmt_else(_stmt_else)
+        {
+            pos = _kw->get_position();
+        }
 
-        protected:
-            lib::pointer<pt::statement> stmt;
-        };
+        void statement_if::accept(token_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
+
+        statement_if *statement_if::to_statement_if()
+        {
+            return this;
+        }
     };
 };

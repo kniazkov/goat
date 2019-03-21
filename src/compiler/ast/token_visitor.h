@@ -71,6 +71,9 @@ namespace g0at
         class this_ptr;
         class token_array;
         class statement_block;
+        class keyword_if;
+        class keyword_else;
+        class statement_if;
 
         class token_visitor
         {
@@ -122,6 +125,9 @@ namespace g0at
             virtual void visit(this_ptr *ref);
             virtual void visit(token_array *ref);
             virtual void visit(statement_block *ref);
+            virtual void visit(keyword_if *ref);
+            virtual void visit(keyword_else *ref);
+            virtual void visit(statement_if *ref);
         };
     };
 };

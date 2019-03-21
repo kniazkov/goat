@@ -64,10 +64,15 @@ namespace g0at
                             {
                                 if (prev_br_pair->prev->to_keyword_while())
                                     goto okay;
+                                if (prev_br_pair->prev->to_keyword_if())
+                                    goto okay;
                             }
                         }
                         goto error;
-                    }                    
+                    }
+                    
+                    if (body->prev->to_keyword_else())
+                        goto okay;                
                 } while(false);
 
                 return false;

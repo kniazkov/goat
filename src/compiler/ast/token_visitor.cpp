@@ -213,5 +213,17 @@ namespace g0at
         void token_visitor::visit(statement_block *ref)
         {
         }
+
+        void token_visitor::visit(keyword_if *ref)
+        {
+        }
+
+        void token_visitor::visit(keyword_else *ref)
+        {
+        }
+
+        void token_visitor::visit(statement_if *ref)
+        {
+        }
     }
 };

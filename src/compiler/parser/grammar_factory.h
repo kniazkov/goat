@@ -50,6 +50,7 @@ namespace g0at
             lib::pointer<pattern> create_pattern_method_call();
             lib::pointer<pattern> create_pattern_array();
             lib::pointer<pattern> create_pattern_statement_block();
+            lib::pointer<pattern> create_pattern_statement_if();
 
             parser_data *data;
         };

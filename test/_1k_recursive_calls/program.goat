@@ -1,0 +1,12 @@
+var func = $(x)
+{
+	if (x == 1000)
+	{
+		println(x);
+		return;
+	}
+	
+	func(x + 1);
+};
+
+func(0);
