@@ -103,6 +103,28 @@ namespace g0at
             }
         };
 
+        class object_array_push : public object_function_built_in
+        {
+        public:
+            object_array_push(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count) override
+            {
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_array *this_ptr_array = this_ptr->to_object_array();
+                assert(this_ptr_array != nullptr);
+                assert(arg_count > 0);
+                variable item = thr->peek();
+                thr->pop(arg_count);
+                this_ptr_array->add_item(item);
+                thr->push_undefined();
+            }
+        };
+
         object_array_proto::object_array_proto(object_pool *pool)
             : object(pool)
         {
@@ -111,6 +133,7 @@ namespace g0at
         void object_array_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(L"length"), new object_array_length(pool));
+            add_object(pool->get_static_string(L"push"), new object_array_push(pool));
         }
     };
 };
