@@ -348,5 +348,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_if *token::to_statement_if()
+        {
+            return nullptr;
+        }
     }
 };

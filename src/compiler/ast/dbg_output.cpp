@@ -49,6 +49,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "method_call.h"
 #include "token_array.h"
 #include "statement_block.h"
+#include "statement_if.h"
 
 namespace g0at
 {
@@ -485,6 +486,24 @@ namespace g0at
         void dbg_output::visit(keyword_else *ref)
         {
             print(L"keyword", L"else");
+        }
+
+        void dbg_output::visit(statement_if *ref)
+        {
+            print(L"if");
+            dbg_output condition(stream, uid);
+            ref->get_expression()->accept(&condition);
+            link_child(condition, L"condition");
+            dbg_output stmt_if(stream, uid);
+            ref->get_stmt_if()->accept(&stmt_if);
+            link_child(stmt_if, L"stmt if");
+            auto se = ref->get_stmt_else();
+            if (se)
+            {
+                dbg_output stmt_else(stream, uid);
+                se->accept(&stmt_else);
+                link_child(stmt_else, L"stmt else");
+            }
         }
     };
 };
