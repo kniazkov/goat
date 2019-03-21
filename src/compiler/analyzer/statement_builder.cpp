@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "statement_builder.h"
 #include "expression_builder.h"
+#include "lib/assert.h"
 #include "compiler/ast/statement_expression.h"
 #include "compiler/pt/statement_expression.h"
 #include "compiler/ast/declare_variable.h"
@@ -32,7 +33,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_while.h"
 #include "compiler/ast/statement_block.h"
 #include "compiler/pt/statement_block.h"
-#include "lib/assert.h"
+#include "compiler/ast/statement_if.h"
+#include "compiler/pt/statement_if.h"
 
 namespace g0at
 {
@@ -108,5 +110,28 @@ namespace g0at
             }
             stmt = result.cast<pt::statement>();
         }
-     };
+
+        void statement_builder::visit(ast::statement_if *ref)
+        {
+            expression_builder expr_visitor;
+            ref->get_expression()->accept(&expr_visitor);
+            assert(expr_visitor.has_expr());
+            statement_builder stmt_if_visitor;
+            ref->get_stmt_if()->accept(&stmt_if_visitor);
+            assert(stmt_if_visitor.has_stmt());
+            auto stmt_else = ref->get_stmt_else();
+            if (stmt_else)
+            {
+                statement_builder stmt_else_visitor;
+                stmt_else->accept(&stmt_else_visitor);
+                assert(stmt_else_visitor.has_stmt());
+                stmt = new pt::statement_if(ref->get_position(), expr_visitor.get_expr(),
+                    stmt_if_visitor.get_stmt(), stmt_else_visitor.get_stmt());
+            }
+            else
+            {
+                stmt = new pt::statement_if(ref->get_position(), expr_visitor.get_expr(), stmt_if_visitor.get_stmt());
+            }
+        }
+    };
 };

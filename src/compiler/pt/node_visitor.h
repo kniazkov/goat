@@ -54,6 +54,7 @@ namespace g0at
         class this_ptr;
         class node_array;
         class statement_block;
+        class statement_if;
 
         class node_visitor
         {
@@ -88,6 +89,7 @@ namespace g0at
             virtual void visit(this_ptr *ref);
             virtual void visit(node_array *ref);
             virtual void visit(statement_block *ref);
+            virtual void visit(statement_if *ref);
         };
     };
 };

@@ -494,15 +494,15 @@ namespace g0at
             dbg_output condition(stream, uid);
             ref->get_expression()->accept(&condition);
             link_child(condition, L"condition");
-            dbg_output stmt_if(stream, uid);
-            ref->get_stmt_if()->accept(&stmt_if);
-            link_child(stmt_if, L"stmt if");
-            auto se = ref->get_stmt_else();
-            if (se)
+            dbg_output out_if(stream, uid);
+            ref->get_stmt_if()->accept(&out_if);
+            link_child(out_if, L"stmt if");
+            auto stmt_else = ref->get_stmt_else();
+            if (stmt_else)
             {
-                dbg_output stmt_else(stream, uid);
-                se->accept(&stmt_else);
-                link_child(stmt_else, L"stmt else");
+                dbg_output out_else(stream, uid);
+                stmt_else->accept(&out_else);
+                link_child(out_else, L"stmt else");
             }
         }
     };
