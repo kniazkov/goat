@@ -136,6 +136,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_exception *object::to_object_exception()
+        {
+            return nullptr;
+        }
+
         bool object::less(const object *obj) const
         {
             return this < obj;
