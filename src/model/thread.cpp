@@ -21,14 +21,42 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "thread.h"
+#include "lib/assert.h"
+#include "lib/exception.h"
 
 namespace g0at
 {
     namespace model
     {
+        class unhandled_runtime_exception : public lib::exception
+        {
+        public:
+            unhandled_runtime_exception(std::wstring str)
+                : exception(global::resource->unhandled_exception(str))
+            {
+            }
+        };
+
         thread::thread(context *_ctx, object_pool *_pool)
             : next(nullptr), iid(0), state(thread_state::pause), ctx(_ctx), pool(_pool)
         {
+        }
+
+        void thread::raise_exception(variable &var)
+        {
+            while(ctx && ctx->value_type != model::context_value_type::ex_address)
+            {
+                ctx = ctx->prev;
+            }
+
+            if (!ctx)
+            {
+                throw unhandled_runtime_exception(var.to_string());
+            }
+            else
+            {
+                assert(false && "Not implemented"); 
+            }
         }
     };
 };

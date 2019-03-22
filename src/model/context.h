@@ -31,7 +31,8 @@ namespace g0at
         enum class context_value_type
         {
             none,
-            ret_address
+            ret_address,
+            ex_address
         };
 
         class context : public object

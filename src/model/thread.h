@@ -60,6 +60,13 @@ namespace g0at
                 ctx->mark();
                 data.mark_all();
             }
+            void raise_exception(variable &var);
+            void raise_exception(object *obj)
+            {
+                variable var;
+                var.set_object(obj);
+                raise_exception(var);
+            }
 
             thread *next;
             uint32_t iid;

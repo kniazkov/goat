@@ -223,6 +223,13 @@ namespace g0at
 
 
 
+            std::wstring unhandled_exception(std::wstring str) override
+            {
+                std::wstringstream wss;
+                wss << L"unhandled exception: "<< str;
+                return wss.str();
+            }
+
             std::wstring unknown_exception() override
             {
                 return L"unknown exception";
@@ -230,7 +237,7 @@ namespace g0at
 
             std::wstring illegal_argument() override
             {
-                return L"unknown exception";
+                return L"illegal argument";
             }
         };
 

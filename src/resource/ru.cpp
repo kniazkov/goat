@@ -223,6 +223,13 @@ namespace g0at
 
 
 
+            std::wstring unhandled_exception(std::wstring str) override
+            {
+                std::wstringstream wss;
+                wss << L"необработанное исключение: " << str;
+                return wss.str();
+            }
+
             std::wstring unknown_exception() override
             {
                 return L"неизвестный тип исключения";

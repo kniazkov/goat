@@ -380,9 +380,13 @@ namespace g0at
             
             void call(thread *thr, int arg_count) override
             {
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
                 object *this_ptr = thr->pop().get_object();
                 assert(this_ptr != nullptr);
-                assert(arg_count >= 1);
                 object *base = thr->peek().to_object(thr->pool);
                 thr->pop(arg_count);
                 variable tmp;

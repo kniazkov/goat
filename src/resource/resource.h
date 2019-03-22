@@ -71,6 +71,7 @@ namespace g0at
             virtual std::wstring objects_must_be_separated_by_commas() = 0;
             virtual std::wstring unclosed_comment() = 0;
 
+            virtual std::wstring unhandled_exception(std::wstring str) = 0;
             virtual std::wstring unknown_exception() = 0;
             virtual std::wstring illegal_argument() = 0;
             
