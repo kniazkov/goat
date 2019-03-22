@@ -46,6 +46,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/node_array.h"
 #include "compiler/pt/statement_block.h"
 #include "compiler/pt/statement_if.h"
+#include "compiler/pt/statement_throw.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -78,6 +79,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/array.h"
 #include "code/enter.h"
 #include "code/leave.h"
+#include "code/raise.h"
 
 namespace g0at
 {
@@ -378,6 +380,20 @@ namespace g0at
             {
                 stmt_else->accept(this);
                 *iid_ptr_end = code->get_code_size();
+            }
+        }
+
+        void generator::visit(pt::statement_throw *ref)
+        {
+            auto expr = ref->get_expression();
+            if (expr)
+            {
+                ref->get_expression()->accept(this);
+                code->add_instruction(new code::raise());
+            }
+            else
+            {
+                assert(false && "Not implemented");
             }
         }
     };

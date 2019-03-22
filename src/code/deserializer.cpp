@@ -60,6 +60,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "array.h"
 #include "enter.h"
 #include "leave.h"
+#include "raise.h"
 
 namespace g0at
 {
@@ -385,6 +386,11 @@ namespace g0at
             dst->add_instruction(new leave());
         }
 
+        void deserializer::creator_raise(source *src, code *dst)
+        {
+            dst->add_instruction(new raise());
+        }
+
         deserializer::deserializer()
         {
             creators[opcode::nop]       = creator_nop;
@@ -421,6 +427,7 @@ namespace g0at
             creators[opcode::array]     = creator_array;
             creators[opcode::enter]     = creator_enter;
             creators[opcode::leave]     = creator_leave;
+            creators[opcode::raise]     = creator_raise;
         }
     };
 };

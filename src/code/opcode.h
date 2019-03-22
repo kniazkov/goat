@@ -66,6 +66,7 @@ namespace g0at
             vcall,
             ret,
             retv,
+            raise,
             ifnot,
             jmp,
             enter,

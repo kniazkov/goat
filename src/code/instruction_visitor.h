@@ -59,6 +59,7 @@ namespace g0at
         class array;
         class enter;
         class leave;
+        class raise;
 
         class instruction_visitor
         {
@@ -98,6 +99,7 @@ namespace g0at
             virtual void visit(array *ref) = 0;
             virtual void visit(enter *ref) = 0;
             virtual void visit(leave *ref) = 0;
+            virtual void visit(raise *ref) = 0;
         };
     };
 };

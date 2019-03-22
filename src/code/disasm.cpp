@@ -262,5 +262,10 @@ namespace g0at
         {
             stream << L"leave";
         }
+
+        void disasm::visit(raise *ref)
+        {
+            stream << L"raise";
+        }
     };
 };
