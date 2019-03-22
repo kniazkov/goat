@@ -70,6 +70,9 @@ namespace g0at
                 const char *assertion) = 0;
             virtual std::wstring objects_must_be_separated_by_commas() = 0;
             virtual std::wstring unclosed_comment() = 0;
+
+            virtual std::wstring unknown_exception() = 0;
+            virtual std::wstring illegal_argument() = 0;
             
         protected:
             static resource *get_intance_en();

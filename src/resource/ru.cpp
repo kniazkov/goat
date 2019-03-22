@@ -220,6 +220,18 @@ namespace g0at
             {
                 return L"не закрыт многострочный комментарий";
             }
+
+
+
+            std::wstring unknown_exception() override
+            {
+                return L"неизвестный тип исключения";
+            }
+
+            std::wstring illegal_argument() override
+            {
+                return L"недопустимый аргумент";
+            }        
         };
 
         resource *resource::get_intance_ru()

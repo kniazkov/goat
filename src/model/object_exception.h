@@ -32,9 +32,9 @@ namespace g0at
         {
         public:
             object_exception(object_pool *pool);
-
             object_exception *to_object_exception() override;
             std::wstring to_string() const override;
+            std::wstring to_string_notation() const override;
         };
 
         class object_exception_proto : public object
@@ -43,6 +43,14 @@ namespace g0at
         protected:
             object_exception_proto(object_pool *pool);
             void init(object_pool *pool);
+        };
+
+        class object_exception_illegal_argument : public object_exception
+        {
+        friend class object_pool;
+        protected:
+            object_exception_illegal_argument(object_pool *pool);
+            std::wstring to_string() const override;
         };
     };
 };

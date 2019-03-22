@@ -21,6 +21,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_exception.h"
+#include "object_string.h"
+#include "global/global.h"
 
 namespace g0at
 {
@@ -38,6 +40,11 @@ namespace g0at
 
         std::wstring object_exception::to_string() const
         {
+            return global::resource->unknown_exception();
+        }
+
+        std::wstring object_exception::to_string_notation() const
+        {
             return L"exception";
         }
 
@@ -52,6 +59,20 @@ namespace g0at
 
         void object_exception_proto::init(object_pool *pool)
         {
+            add_object(pool->get_static_string(L"IllegalArgument"), pool->get_exception_illegal_argument_instance());
+        }
+
+        /*
+            IllegalArgument
+        */
+        object_exception_illegal_argument::object_exception_illegal_argument(object_pool *pool)
+            : object_exception(pool)
+        {
+        }
+
+        std::wstring object_exception_illegal_argument::to_string() const
+        {
+            return global::resource->illegal_argument();
         }
     };
 };

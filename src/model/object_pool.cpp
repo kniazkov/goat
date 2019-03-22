@@ -56,6 +56,7 @@ namespace g0at
             real_proto_instance = nullptr;
             array_proto_instance = nullptr;
             exception_proto_instance = nullptr;
+            exception_illegal_argument_instance = nullptr;
 
             /*
                 "It's a kind of magic"
@@ -84,6 +85,7 @@ namespace g0at
             string_proto->init(this);
             function_proto->init(this);
             array_proto->init(this);
+            exception_illegal_argument_instance = new object_exception_illegal_argument(this);
             exception_proto->init(this);
         }
 

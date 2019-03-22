@@ -220,6 +220,18 @@ namespace g0at
             {
                 return L"unclosed multiline comment";
             }
+
+
+
+            std::wstring unknown_exception() override
+            {
+                return L"unknown exception";
+            }
+
+            std::wstring illegal_argument() override
+            {
+                return L"unknown exception";
+            }
         };
 
         resource *resource::get_intance_en()
