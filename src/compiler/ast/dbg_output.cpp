@@ -50,6 +50,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "token_array.h"
 #include "statement_block.h"
 #include "statement_if.h"
+#include "statement_throw.h"
 
 namespace g0at
 {
@@ -509,6 +510,18 @@ namespace g0at
         void dbg_output::visit(keyword_throw *ref)
         {
             print(L"keyword", L"throw");
+        }
+
+        void dbg_output::visit(statement_throw *ref)
+        {
+            print(L"throw");
+            auto expr = ref->get_expression();
+            if (expr)
+            {
+                dbg_output child(stream, uid);
+                expr->accept(&child);
+                link_child(child);
+            }
         }
     };
 };

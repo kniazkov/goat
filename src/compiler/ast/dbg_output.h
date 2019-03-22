@@ -87,6 +87,7 @@ namespace g0at
             void visit(keyword_else *ref) override;
             void visit(statement_if *ref) override;
             void visit(keyword_throw *ref) override;
+            void visit(statement_throw *ref) override;
 
         protected:
             dbg_output(std::wstringstream &_stream, int &_uid);

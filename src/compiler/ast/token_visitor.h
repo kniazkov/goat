@@ -75,6 +75,7 @@ namespace g0at
         class keyword_else;
         class statement_if;
         class keyword_throw;
+        class statement_throw;
 
         class token_visitor
         {
@@ -130,6 +131,7 @@ namespace g0at
             virtual void visit(keyword_else *ref);
             virtual void visit(statement_if *ref);
             virtual void visit(keyword_throw *ref);
+            virtual void visit(statement_throw *ref);
         };
     };
 };
