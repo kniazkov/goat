@@ -93,6 +93,7 @@ namespace g0at
         class keyword_if;
         class keyword_else;
         class statement_if;
+        class keyword_throw;
 
         class token : public lib::ref_counter
         {
@@ -163,6 +164,7 @@ namespace g0at
             virtual keyword_if *to_keyword_if();
             virtual keyword_else *to_keyword_else();
             virtual statement_if *to_statement_if();
+            virtual keyword_throw *to_keyword_throw();
             
             lib::pointer<position> get_position() { return pos; }
 

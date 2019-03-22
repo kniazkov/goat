@@ -52,6 +52,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/this_ptr.h"
 #include "compiler/ast/keyword_if.h"
 #include "compiler/ast/keyword_else.h"
+#include "compiler/ast/keyword_throw.h"
 
 namespace g0at
 {
@@ -230,6 +231,8 @@ namespace g0at
                 return new ast::keyword_function();            
             if (name == L"return")
                 return new ast::keyword_return();
+            if (name == L"throw")
+                return new ast::keyword_throw();            
             if (name == L"while")
                 return new ast::keyword_while();            
             if (name == L"if")

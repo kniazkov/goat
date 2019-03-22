@@ -225,5 +225,9 @@ namespace g0at
         void token_visitor::visit(statement_if *ref)
         {
         }
+
+        void token_visitor::visit(keyword_throw *ref)
+        {
+        }
     }
 };

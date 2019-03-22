@@ -353,5 +353,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_throw *token::to_keyword_throw()
+        {
+            return nullptr;
+        }
     }
 };

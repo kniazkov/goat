@@ -505,5 +505,10 @@ namespace g0at
                 link_child(out_else, L"stmt else");
             }
         }
+
+        void dbg_output::visit(keyword_throw *ref)
+        {
+            print(L"keyword", L"throw");
+        }
     };
 };
