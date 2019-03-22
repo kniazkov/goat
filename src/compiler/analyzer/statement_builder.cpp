@@ -35,6 +35,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_block.h"
 #include "compiler/ast/statement_if.h"
 #include "compiler/pt/statement_if.h"
+#include "compiler/ast/statement_throw.h"
+#include "compiler/pt/statement_throw.h"
 
 namespace g0at
 {
@@ -131,6 +133,22 @@ namespace g0at
             else
             {
                 stmt = new pt::statement_if(ref->get_position(), expr_visitor.get_expr(), stmt_if_visitor.get_stmt());
+            }
+        }
+
+        void statement_builder::visit(ast::statement_throw *ref)
+        {
+            expression_builder visitor;
+            auto tok_expr = ref->get_expression();
+            if (tok_expr)
+            {
+                tok_expr->accept(&visitor);
+                assert(visitor.has_expr());
+                stmt = new pt::statement_throw(ref->get_position(), visitor.get_expr());
+            }
+            else
+            {
+                stmt = new pt::statement_throw(ref->get_position(), nullptr);
             }
         }
     };
