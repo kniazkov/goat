@@ -523,5 +523,20 @@ namespace g0at
                 link_child(child);
             }
         }
+
+        void dbg_output::visit(keyword_try *ref)
+        {
+            print(L"keyword", L"try");
+        }
+
+        void dbg_output::visit(keyword_catch *ref)
+        {
+            print(L"keyword", L"catch");
+        }
+
+        void dbg_output::visit(keyword_finally *ref)
+        {
+            print(L"keyword", L"finally");
+        }
     };
 };

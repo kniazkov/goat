@@ -76,6 +76,9 @@ namespace g0at
         class statement_if;
         class keyword_throw;
         class statement_throw;
+        class keyword_try;
+        class keyword_catch;
+        class keyword_finally;
 
         class token_visitor
         {
@@ -132,6 +135,9 @@ namespace g0at
             virtual void visit(statement_if *ref);
             virtual void visit(keyword_throw *ref);
             virtual void visit(statement_throw *ref);
+            virtual void visit(keyword_try *ref);
+            virtual void visit(keyword_catch *ref);
+            virtual void visit(keyword_finally *ref);
         };
     };
 };
