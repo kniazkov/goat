@@ -65,6 +65,7 @@ namespace g0at
         class statement_block;
         class statement_if;
         class statement_throw;
+        class statement_try;
 
         class node : public lib::ref_counter
         {
@@ -106,6 +107,7 @@ namespace g0at
             virtual statement_block *to_statement_block();
             virtual statement_if *to_statement_if();
             virtual statement_throw *to_statement_throw();
+            virtual statement_try *to_statement_try();
 
             lib::pointer<position> get_position() { return pos; }
 

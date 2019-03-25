@@ -56,6 +56,7 @@ namespace g0at
         class statement_block;
         class statement_if;
         class statement_throw;
+        class statement_try;
 
         class node_visitor
         {
@@ -92,6 +93,7 @@ namespace g0at
             virtual void visit(statement_block *ref);
             virtual void visit(statement_if *ref);
             virtual void visit(statement_throw *ref);
+            virtual void visit(statement_try *ref);
         };
     };
 };

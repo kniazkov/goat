@@ -153,5 +153,9 @@ namespace g0at
         void node_visitor::visit(statement_throw *ref)
         {
         }
+
+        void node_visitor::visit(statement_try *ref)
+        {
+        }
     }
 };
