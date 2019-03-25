@@ -51,6 +51,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_block.h"
 #include "statement_if.h"
 #include "statement_throw.h"
+#include "statement_try.h"
 
 namespace g0at
 {
@@ -537,6 +538,35 @@ namespace g0at
         void dbg_output::visit(keyword_finally *ref)
         {
             print(L"keyword", L"finally");
+        }
+
+        void dbg_output::visit(statement_try *ref)
+        {
+            if (ref->has_var())
+            {
+                print(L"try", ref->get_var_name());
+            }
+            else
+            {
+                print(L"try");
+            }
+            dbg_output out_try(stream, uid);
+            ref->get_stmt_try()->accept(&out_try);
+            link_child(out_try, L"stmt try");
+            auto stmt_catch = ref->get_stmt_catch();
+            if (stmt_catch)
+            {
+                dbg_output out_catch(stream, uid);
+                stmt_catch->accept(&out_catch);
+                link_child(out_catch, L"stmt catch");
+            }
+            auto stmt_finally = ref->get_stmt_finally();
+            if (stmt_finally)
+            {
+                dbg_output out_finally(stream, uid);
+                stmt_finally->accept(&out_finally);
+                link_child(out_finally, L"stmt finally");
+            }
         }
     };
 };

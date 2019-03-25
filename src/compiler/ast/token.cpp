@@ -378,5 +378,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_try *token::to_statement_try()
+        {
+            return nullptr;
+        }
     }
 };
