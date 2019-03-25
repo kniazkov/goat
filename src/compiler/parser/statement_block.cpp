@@ -66,12 +66,19 @@ namespace g0at
                                     goto okay;
                                 if (prev_br_pair->prev->to_keyword_if())
                                     goto okay;
+                                if (prev_br_pair->prev->to_keyword_catch())
+                                    goto okay;
                             }
                         }
                         goto error;
                     }
-                    
                     if (body->prev->to_keyword_else())
+                        goto okay;                
+                    if (body->prev->to_keyword_try())
+                        goto okay;                
+                    if (body->prev->to_keyword_catch())
+                        goto okay;                
+                    if (body->prev->to_keyword_finally())
                         goto okay;                
                 } while(false);
 

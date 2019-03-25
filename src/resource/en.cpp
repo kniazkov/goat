@@ -221,6 +221,11 @@ namespace g0at
                 return L"unclosed multiline comment";
             }
 
+            std::wstring the_next_block_must_be_a_catch_or_finally() override
+            {
+                return L"the next construction must be a 'catch' or 'finally' block";
+            }
+
 
 
             std::wstring unhandled_exception(std::wstring str) override

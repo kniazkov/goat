@@ -221,6 +221,11 @@ namespace g0at
                 return L"не закрыт многострочный комментарий";
             }
 
+            std::wstring the_next_block_must_be_a_catch_or_finally() override
+            {
+                return L"следующая конструкция должна быть блоком 'catch' или 'finally'";
+            }
+
 
 
             std::wstring unhandled_exception(std::wstring str) override
