@@ -1,22 +1,3 @@
-var plus_2 = $(val)
-{
-    if (val.instanceOf(Number))
-    {
-        println(2 + val);
-    }
-    else
-    {
-        throw "it is not a number: '" + val + "'";
-    }
-};
-
-try
-{
-    plus_2(3.1);
-    plus_2(11);
-    plus_2("ass of hedgehog");
-}
-catch
-{
-    
-}
+println("hi~");
+return 13;
+println("#$% this string should not be displayed.");

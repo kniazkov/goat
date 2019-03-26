@@ -29,8 +29,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "model/built_in/context_factory.h"
 #include "code/disasm.h"
 #include "global/global.h"
-#include <assert.h>
+#include "lib/assert.h"
 #include <iostream>
+#include <climits>
 
 namespace g0at
 {
@@ -45,7 +46,9 @@ namespace g0at
         {
             model::object_pool pool(code->get_identifiers_list());
             model::context *ctx = model::built_in::context_factory(&pool).create_context();
-            model::thread thr(ctx, &pool);
+            model::variable ret;
+            model::thread thr(ctx, &pool, &ret);
+            ret.set_object(pool.get_undefined_instance());
             thr.next = &thr;
             thr.state = model::thread_state::ok;
             process proc;
@@ -82,12 +85,16 @@ namespace g0at
                 }
             }
             assert(thr.stack_is_empty());
-            pool.destroy_all();
-            lib::set_garbage_collector(nullptr);
             vm_report r;
-            r.ret_value = 0; // TODO: write here something
+            int64_t ret_value_int64;
+            if (ret.get_integer(&ret_value_int64) && ret_value_int64 >= INT_MIN && ret_value_int64 <= INT_MAX)
+                r.ret_value = (int)ret_value_int64;
+            else
+                r.ret_value = 0;
             r.gcr = gc->get_report();
             r.opr = pool.get_report();
+            pool.destroy_all();
+            lib::set_garbage_collector(nullptr);
             return r;
         }
     };

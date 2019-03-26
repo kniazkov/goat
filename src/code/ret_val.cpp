@@ -42,6 +42,7 @@ namespace g0at
             if (!thr->ctx)
             {
                 thr->state = model::thread_state::zombie;
+                *(thr->ret) = thr->pop();
             }
             else
             {

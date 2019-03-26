@@ -40,7 +40,9 @@ namespace g0at
         class thread
         {
         public:
-            thread(context *_ctx, object_pool *_pool);
+            thread(context *_ctx, object_pool *_pool, variable *_ret);
+            void raise_exception(variable &var);
+            void mark_all();
 
             variable *push(variable var) { return data.push(var); }
             variable *push_undefined()
@@ -55,12 +57,6 @@ namespace g0at
             variable &peek(int n) { return data.peek(n); }
             bool stack_is_empty() { return data.empty(); }
             int get_stack_size() { return data.size(); }
-            void mark_all()
-            {
-                ctx->mark();
-                data.mark_all();
-            }
-            void raise_exception(variable &var);
             void raise_exception(object *obj)
             {
                 variable var;
@@ -73,6 +69,7 @@ namespace g0at
             thread_state state;
             context *ctx;
             object_pool *pool;
+            variable *ret;
 
         protected:
             thread(const thread &) { }

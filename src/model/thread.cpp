@@ -37,10 +37,21 @@ namespace g0at
             }
         };
 
-        thread::thread(context *_ctx, object_pool *_pool)
-            : next(nullptr), iid(0), state(thread_state::pause), ctx(_ctx), pool(_pool)
+        thread::thread(context *_ctx, object_pool *_pool, variable *_ret)
+            : next(nullptr), iid(0), state(thread_state::pause), ctx(_ctx), pool(_pool), ret(_ret)
         {
         }
+
+        void thread::mark_all()
+        {
+            if (ret)
+                ret->mark();
+
+            if (ctx)
+                ctx->mark();
+
+            data.mark_all();
+        }        
 
         void thread::raise_exception(variable &var)
         {
