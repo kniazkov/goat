@@ -66,7 +66,7 @@ namespace g0at
             }
             else
             {
-                assert(false && "Not implemented"); 
+                iid = ctx->value;
             }
         }
     };

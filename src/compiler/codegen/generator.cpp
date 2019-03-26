@@ -47,6 +47,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_block.h"
 #include "compiler/pt/statement_if.h"
 #include "compiler/pt/statement_throw.h"
+#include "compiler/pt/statement_try.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -80,6 +81,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/enter.h"
 #include "code/leave.h"
 #include "code/raise.h"
+#include "code/_try.h"
 
 namespace g0at
 {
@@ -395,6 +397,44 @@ namespace g0at
             {
                 assert(false && "Not implemented");
             }
+        }
+
+        void generator::visit(pt::statement_try *ref)
+        {
+            auto stmt_catch = ref->get_stmt_catch();
+            assert(stmt_catch != nullptr);
+
+            code::_try *instr_try = new code::_try(-1);
+            int *iid_catch_ptr = instr_try->get_iid_ptr();
+            code->add_instruction(instr_try);
+
+            ref->get_stmt_try()->accept(this);
+
+            std::vector<int*> iid_end_ptr;
+            code::jmp *jmp_0 = new code::jmp(-1);
+            iid_end_ptr.push_back(jmp_0->get_iid_ptr());
+            code->add_instruction(jmp_0);
+
+            if (stmt_catch)
+            {
+                *iid_catch_ptr = code->get_code_size();
+                stmt_catch->accept(this);
+                code::jmp *jmp_1 = new code::jmp(-1);
+                iid_end_ptr.push_back(jmp_1->get_iid_ptr());
+                code->add_instruction(jmp_1);
+            }
+            else
+            {
+                // TODO: finally only
+            }
+
+            for (int *iid : iid_end_ptr)
+            {
+                *iid = code->get_code_size();
+            }
+
+            code->add_instruction(new code::leave());
+            code->add_instruction(new code::pop());
         }
     };
 };
