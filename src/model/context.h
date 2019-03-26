@@ -32,7 +32,7 @@ namespace g0at
         {
             none,
             ret_address,
-            ex_address
+            catch_address
         };
 
         class context : public object

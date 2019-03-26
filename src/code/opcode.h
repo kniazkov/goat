@@ -71,6 +71,8 @@ namespace g0at
             jmp,
             enter,
             leave,
+            _try,
+            _catch,
 
             // methods
             clone,

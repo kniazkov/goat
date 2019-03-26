@@ -55,7 +55,7 @@ namespace g0at
 
         void thread::raise_exception(variable &var)
         {
-            while(ctx && ctx->value_type != model::context_value_type::ex_address)
+            while(ctx && ctx->value_type != model::context_value_type::catch_address)
             {
                 ctx = ctx->prev;
             }

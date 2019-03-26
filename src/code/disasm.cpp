@@ -39,6 +39,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "clone.h"
 #include "instance_of.h"
 #include "array.h"
+#include "_try.h"
 
 namespace g0at
 {
@@ -266,6 +267,11 @@ namespace g0at
         void disasm::visit(raise *ref)
         {
             stream << L"raise";
+        }
+
+        void disasm::visit(_try *ref)
+        {
+            stream << L"try \t" << ref->get_iid();
         }
     };
 };

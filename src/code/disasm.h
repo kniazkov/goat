@@ -72,6 +72,7 @@ namespace g0at
             void visit(enter *ref) override;
             void visit(leave *ref) override;
             void visit(raise *ref) override;
+            void visit(_try *ref) override;
 
         protected:
             std::wstringstream &stream;
