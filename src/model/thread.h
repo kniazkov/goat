@@ -57,6 +57,7 @@ namespace g0at
             variable &peek(int n) { return data.peek(n); }
             bool stack_is_empty() { return data.empty(); }
             int get_stack_size() { return data.size(); }
+            void restore_stack_size(int size) { data.restore_size(size); }
             void raise_exception(object *obj)
             {
                 variable var;

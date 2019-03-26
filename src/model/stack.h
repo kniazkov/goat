@@ -94,6 +94,17 @@ namespace g0at
                 }
             }
 
+            void restore_size(int size)
+            {
+                while(used_count > size)
+                {
+                    item *it = top;
+                    top = top->next;
+                    delete_or_cache_item(it);
+                    used_count--;
+                }                
+            }
+
             variable &peek()
             {
                 return top->var;

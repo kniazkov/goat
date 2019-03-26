@@ -56,6 +56,7 @@ namespace g0at
             int value;
             context_value_type value_type;
             variable *ret;
+            int stack_size;
         };
     };
 };

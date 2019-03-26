@@ -66,6 +66,7 @@ namespace g0at
             }
             else
             {
+                restore_stack_size(ctx->stack_size);
                 iid = ctx->value;
             }
         }
