@@ -75,6 +75,7 @@ namespace g0at
             void visit(raise *ref) override;
             void visit(_try *ref) override;
             void visit(_catch *ref) override;
+            void visit(_finally *ref) override;
 
         protected:
             std::vector<uint8_t> &buff;

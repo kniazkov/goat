@@ -73,6 +73,7 @@ namespace g0at
             leave,
             _try,
             _catch,
+            _finally,
 
             // methods
             clone,
