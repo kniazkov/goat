@@ -72,7 +72,7 @@ namespace g0at
                 if (i > 0)
                 {
                     tmp << L"\n";
-                    if (i % 8 == 0)
+                    if (i % 5 == 0)
                         tmp << L"  " << i;
                     }
                 tmp << L"\t";

@@ -21,7 +21,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "_try.h"
-#include "lib/assert.h"
 
 namespace g0at
 {
@@ -39,7 +38,6 @@ namespace g0at
 
         void _try::exec(model::thread *thr)
         {
-            assert(iid >= 0);
             model::variable *tmp = thr->push_undefined();
             model::context *ctx = thr->pool->create_context(thr->ctx);
             ctx->value = iid;
