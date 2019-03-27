@@ -102,7 +102,7 @@ namespace g0at
             {
                 deferred_node def = gen.queue.back();
                 gen.queue.pop_back();
-                *(def.iid_ptr) = gen.code->get_code_size();
+                *(def.iid_ptr) = gen.code->get_current_iid();
                 def.node->accept(&gen);
             }
             gen.code->set_identifiers_list(gen.name_cache.get_vector());
@@ -300,13 +300,13 @@ namespace g0at
 
         void generator::visit(pt::statement_while *ref)
         {
-            int iid_begin = code->get_code_size();
+            int iid_begin = code->get_current_iid();
             ref->get_expression()->accept(this);
             code::if_not *if_not = new code::if_not(-1);
             code->add_instruction(if_not);
             ref->get_statement()->accept(this);
             code->add_instruction(new code::jmp(iid_begin));
-            *(if_not->get_iid_ptr()) = code->get_code_size();
+            *(if_not->get_iid_ptr()) = code->get_current_iid();
         }
 
         void generator::visit(pt::method_call *ref)
@@ -378,11 +378,11 @@ namespace g0at
                 iid_ptr_end = jmp->get_iid_ptr();
                 code->add_instruction(jmp);
             }
-            *(if_not->get_iid_ptr()) = code->get_code_size();
+            *(if_not->get_iid_ptr()) = code->get_current_iid();
             if (stmt_else)
             {
                 stmt_else->accept(this);
-                *iid_ptr_end = code->get_code_size();
+                *iid_ptr_end = code->get_current_iid();
             }
         }
 
@@ -418,7 +418,7 @@ namespace g0at
 
             if (stmt_catch)
             {
-                *iid_catch_ptr = code->get_code_size();
+                *iid_catch_ptr = code->get_current_iid();
                 if (ref->has_var())
                 {
                     int id = name_cache.get_id(ref->get_var_name());
@@ -436,7 +436,7 @@ namespace g0at
 
             for (int *iid : iid_end_ptr)
             {
-                *iid = code->get_code_size();
+                *iid = code->get_current_iid();
             }
 
             code->add_instruction(new code::leave());
