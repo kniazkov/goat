@@ -69,7 +69,7 @@ namespace g0at
             ctx->ret = thr->push_undefined();
 
             // change context
-            thr->ctx = ctx;
+            thr->set_context(ctx);
             thr->iid = first_iid;
         }
 

@@ -45,8 +45,7 @@ namespace g0at
             ctx->value = iid;
             ctx->value_type = model::context_value_type::catch_address;
             ctx->ret = tmp;
-            ctx->stack_size = thr->get_stack_size();
-            thr->ctx = ctx;
+            thr->set_context(ctx);
         }
     };
 };

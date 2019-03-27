@@ -45,24 +45,36 @@ namespace g0at
             void mark_all();
 
             variable *push(variable var) { return data.push(var); }
+            variable pop() { return data.pop(); }
+            void pop(int n) { data.pop(n); }
+            variable &peek() { return data.peek(); }
+            variable &peek(int n) { return data.peek(n); }
+            bool stack_is_empty() { return data.empty(); }
+
             variable *push_undefined()
             {
                 variable var;
                 var.set_object(pool->get_undefined_instance());
                 return data.push(var);
             }
-            variable pop() { return data.pop(); }
-            void pop(int n) { data.pop(n); }
-            variable &peek() { return data.peek(); }
-            variable &peek(int n) { return data.peek(n); }
-            bool stack_is_empty() { return data.empty(); }
-            int get_stack_size() { return data.size(); }
-            void restore_stack_size(int size) { data.restore_size(size); }
+
             void raise_exception(object *obj)
             {
                 variable var;
                 var.set_object(obj);
                 raise_exception(var);
+            }
+
+            void set_context(context *_ctx)
+            {
+                ctx = _ctx;
+                ctx->stack_size = data.size();
+            }
+
+            void restore_context()
+            {
+                data.restore_size(ctx ? ctx->stack_size : 0);
+                ctx = ctx->prev;
             }
 
             thread *next;

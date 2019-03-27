@@ -96,6 +96,9 @@ namespace g0at
 
             void restore_size(int size)
             {
+                if (size < 0)
+                    return;
+
                 while(used_count > size)
                 {
                     item *it = top;

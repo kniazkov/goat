@@ -1,22 +1,11 @@
-var plus_2 = $(val)
+var g = $(x)
 {
-    if (val.instanceOf(Number))
-    {
-        println(2 + val);
-    }
-    else
-    {
-        throw "it is not a number: '" + val + "'";
-    }
+    return x;
 };
 
-try
+var f = $(y)
 {
-    plus_2(3.1);
-    plus_2(11);
-    plus_2("ass of hedgehog");
-}
-catch
-{
-    println("shit happens");
-}
+    return g(y);
+};
+
+println(f(7));

@@ -36,7 +36,7 @@ namespace g0at
         {
             while(thr->ctx && thr->ctx->value_type != model::context_value_type::ret_address)
             {
-                thr->ctx = thr->ctx->prev;
+                thr->restore_context();
             }
 
             if (!thr->ctx)
@@ -46,7 +46,7 @@ namespace g0at
             else
             {
                 thr->iid = thr->ctx->value;
-                thr->ctx = thr->ctx->prev;
+                thr->restore_context();
                 assert(thr->ctx != nullptr);
             }
         }

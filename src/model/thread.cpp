@@ -57,7 +57,7 @@ namespace g0at
         {
             while(ctx && ctx->value_type != model::context_value_type::catch_address)
             {
-                ctx = ctx->prev;
+                restore_context();
             }
 
             if (!ctx)
@@ -66,7 +66,6 @@ namespace g0at
             }
             else
             {
-                restore_stack_size(ctx->stack_size);
                 iid = ctx->value;
             }
         }
