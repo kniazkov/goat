@@ -117,6 +117,7 @@ namespace g0at
 
                         lib::pointer<ast::token> result = new ast::statement_try(kw, stmt_try, stmt_catch, var_name, stmt_finally);
                         kw->replace(stmt_finally, result);
+                        return false;
                     } while(false);
 
                     lib::pointer<ast::token> result = new ast::statement_try(kw, stmt_try, stmt_catch, var_name);

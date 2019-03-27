@@ -20,3 +20,7 @@ catch(err)
 {
     println("shit happens; " + err);
 }
+finally
+{
+    println("the finalizer worked also");
+}
