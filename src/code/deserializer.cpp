@@ -62,6 +62,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "leave.h"
 #include "raise.h"
 #include "_try.h"
+#include "catch.h"
 
 namespace g0at
 {
@@ -398,6 +399,12 @@ namespace g0at
             dst->add_instruction(new _try(iid));
         }
 
+        void deserializer::creator_catch(source *src, code *dst)
+        {
+            int id = pop_int32(src);
+            dst->add_instruction(new _catch(id));
+        }
+
         deserializer::deserializer()
         {
             creators[opcode::nop]       = creator_nop;
@@ -436,6 +443,7 @@ namespace g0at
             creators[opcode::leave]     = creator_leave;
             creators[opcode::raise]     = creator_raise;
             creators[opcode::_try]      = creator_try;
+            creators[opcode::_catch]    = creator_catch;
         }
     };
 };

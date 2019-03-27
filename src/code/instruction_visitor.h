@@ -61,6 +61,7 @@ namespace g0at
         class leave;
         class raise;
         class _try;
+        class _catch;
 
         class instruction_visitor
         {
@@ -102,6 +103,7 @@ namespace g0at
             virtual void visit(leave *ref) = 0;
             virtual void visit(raise *ref) = 0;
             virtual void visit(_try *ref) = 0;
+            virtual void visit(_catch *ref) = 0;
         };
     };
 };

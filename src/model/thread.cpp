@@ -66,6 +66,7 @@ namespace g0at
             }
             else
             {
+                *(ctx->ret) = var;
                 iid = ctx->value;
             }
         }

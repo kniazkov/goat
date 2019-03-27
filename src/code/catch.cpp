@@ -20,25 +20,29 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "instruction.h"
+#include "catch.h"
+#include "model/object_string.h"
+#include "lib/assert.h"
 
 namespace g0at
 {
     namespace code
     {
-        class load_var : public instruction
+        _catch::_catch(int _id)
+            : id(_id)
         {
-        public:
-            load_var(int _id);
-            void accept(instruction_visitor *visitor) override;
-            void exec(model::thread *thr) override;
+        }
 
-            int get_id() { return id; }
+        void _catch::accept(instruction_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
 
-        protected:
-            int id;
-        };
+        void _catch::exec(model::thread *thr)
+        {
+            assert(thr->ctx->value_type == model::context_value_type::catch_address);
+            model::object_string *key = thr->pool->get_static_string(id);
+            thr->ctx->add_object(key, *thr->ctx->ret);
+        }
     };
 };

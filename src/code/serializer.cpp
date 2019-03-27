@@ -43,6 +43,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "instance_of.h"
 #include "array.h"
 #include "_try.h"
+#include "catch.h"
 
 namespace g0at
 {
@@ -326,6 +327,12 @@ namespace g0at
         {
             push_opcode(opcode::_try);
             push_int32(ref->get_iid());
+        }
+
+        void serializer::visit(_catch *ref)
+        {
+            push_opcode(opcode::_catch);
+            push_int32(ref->get_id());
         }
     };
 };

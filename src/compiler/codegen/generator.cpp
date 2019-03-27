@@ -82,6 +82,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/leave.h"
 #include "code/raise.h"
 #include "code/_try.h"
+#include "code/catch.h"
 
 namespace g0at
 {
@@ -418,6 +419,11 @@ namespace g0at
             if (stmt_catch)
             {
                 *iid_catch_ptr = code->get_code_size();
+                if (ref->has_var())
+                {
+                    int id = name_cache.get_id(ref->get_var_name());
+                    code->add_instruction(new code::_catch(id));
+                }
                 stmt_catch->accept(this);
                 code::jmp *jmp_1 = new code::jmp(-1);
                 iid_end_ptr.push_back(jmp_1->get_iid_ptr());
