@@ -34,7 +34,10 @@ namespace g0at
 
         void ret::exec(model::thread *thr)
         {
-            while(thr->ctx && thr->ctx->value_type != model::context_value_type::ret_address)
+            while(
+                thr->ctx 
+                && thr->ctx->value_type != model::context_value_type::ret_address
+                && thr->ctx->value_type != model::context_value_type::fin_address)
             {
                 thr->restore_context();
             }

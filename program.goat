@@ -1,21 +1,26 @@
-var plus_2 = $(val)
+var aaa = $()
 {
-    if (val.instanceOf(Number))
+    try
     {
-        println(2 + val);
+        return 0;
     }
-    else
+    finally
     {
-        throw "it is not a number: '" + val + "'";
+        return 1;
     }
 };
 
-try
+var bbb = $()
 {
-    plus_2(3.1);
-    plus_2(11);
-}
-finally
-{
-    println("the finalizer worked also");
-}
+    try
+    {
+        return aaa();
+    }
+    finally
+    {
+        return 2;
+    }
+};
+
+var val = bbb();
+println(val);

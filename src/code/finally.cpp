@@ -43,6 +43,16 @@ namespace g0at
             model::context *ctx = thr->pool->create_context(thr->ctx);
             ctx->value = iid;
             ctx->value_type = model::context_value_type::fin_address;
+            model::context *parent = thr->ctx;
+            while(parent && parent->value_type != model::context_value_type::ret_address)
+            {
+                parent = parent->prev;
+            }
+            if (parent)
+            {
+                assert(parent->ret != nullptr);
+                ctx->ret = parent->ret;
+            }
             thr->set_context(ctx);
         }
     };
