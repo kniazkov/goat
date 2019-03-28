@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "opcode.h"
 #include "lib/utils.h"
 #include "lib/utf8_encoder.h"
+#include "lib/rle.h"
 #include "lib/exception.h"
 #include <assert.h>
 #include <memory.h>
@@ -89,17 +90,24 @@ namespace g0at
 
         lib::pointer<code> deserializer::deserialize(std::vector<uint8_t> &buff)
         {
-            source src(buff);
             lib::pointer<code> dst = new code();
-            
-            uint8_t header[sizeof(signature)];
-            for (unsigned k = 0; k < sizeof(signature); k++)
-            {
-                header[k] = src.pop();
-            }
-            if (memcmp((void*)header, (void*)signature, sizeof(signature)) != 0)
+            std::vector<uint8_t> buff_decoded;
+
+            if (buff.size() < sizeof(signature))
                 throw is_not_binary_file();
-            
+
+            bool uncompressed = memcmp((void*)&buff[0], (void*)signature, sizeof(signature)) == 0;
+            bool rle = memcmp((void*)&buff[0], (void*)sign_rle, sizeof(signature)) == 0;
+            if (!uncompressed && !rle)
+                throw is_not_binary_file();
+
+            if (rle)
+            {
+                if (false == lib::decode_rle(buff, sizeof(signature), buff_decoded))
+                    throw file_is_corrupted();
+            }
+
+            source src(rle ? buff_decoded : buff, rle ? 0 : sizeof(signature));
             int32_t i_list_size = pop_int32(&src);
             std::vector<std::wstring> &i_list = dst->get_identifiers_list();
             while(src.has_data() && i_list_size > 0)

@@ -101,9 +101,9 @@ namespace g0at
             }
         }
 
-        bool decode_rle(std::vector<uint8_t> &src, std::vector<uint8_t> &dst)
+        bool decode_rle(std::vector<uint8_t> &src, int start_index, std::vector<uint8_t> &dst)
         {
-            int index = 0,
+            int index = start_index,
                 max_index = (int)src.size();
 
             while (index < max_index)

@@ -31,7 +31,8 @@ namespace g0at
 {
     namespace code
     {
-        const char signature[] = "goat ;)";
+        const char signature[] = "goat ;) bin";
+        const char sign_rle[]  = "goat ;) rle";
 
         class code : public lib::ref_counter
         {

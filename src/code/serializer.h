@@ -38,7 +38,7 @@ namespace g0at
         {
         public:
             serializer(std::vector<uint8_t> &_buff);
-            static void serialize(lib::pointer<code> code, std::vector<uint8_t> &buff);
+            static void serialize(lib::pointer<code> code, std::vector<uint8_t> &buff, bool rle);
             void visit(load_string *ref) override;
             void visit(load_var *ref) override;
             void visit(call *ref) override;

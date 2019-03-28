@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "opcode.h"
 #include "lib/utils.h"
 #include "lib/utf8_encoder.h"
+#include "lib/rle.h"
 #include <assert.h>
 #include "load_string.h"
 #include "load_var.h"
@@ -50,28 +51,38 @@ namespace g0at
 {
     namespace code
     {
-        void serializer::serialize(lib::pointer<code> code, std::vector<uint8_t> &buff)
+        void serializer::serialize(lib::pointer<code> code, std::vector<uint8_t> &buff, bool rle)
         {
+            std::vector<uint8_t> buff_raw;
+            std::vector<uint8_t> &dst = rle ? buff_raw : buff;
             buff.clear();
+            
+            const char *start = rle ? sign_rle : signature;
             for (unsigned k = 0; k < sizeof(signature); k++)
             {
-                buff.push_back(signature[k]);
+                buff.push_back(start[k]);
             }
+
             int i;
 
             auto i_list = code->get_identifiers_list();
             int i_list_size = (int)i_list.size();
-            push_int32(buff, i_list_size);
+            push_int32(dst, i_list_size);
             for (i = 0; i < i_list_size; i++)
             {
-                push_wstring(buff, i_list[i]);
+                push_wstring(dst, i_list[i]);
             }
 
-            serializer visitor(buff);
+            serializer visitor(dst);
             int code_size = code->get_code_size();
             for (i = 0; i < code_size; i++)
             {
                 code->get_instruction(i)->accept(&visitor);
+            }
+
+            if (rle)
+            {
+                lib::encode_rle(buff_raw, buff);
             }
         }
 

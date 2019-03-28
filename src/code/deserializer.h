@@ -42,8 +42,8 @@ namespace g0at
             class source
             {
             public:
-                source(std::vector<uint8_t> &_buff)
-                    : buff(_buff), idx(0)
+                source(std::vector<uint8_t> &_buff, int _idx)
+                    : buff(_buff), idx(_idx)
                 {
                     max_idx = (int)_buff.size();
                 }
