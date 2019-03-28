@@ -46,7 +46,8 @@ namespace g0at
             compile(false),
             bin(false),
             dump_memory_usage_report(false),
-            gc_type_str(nullptr)
+            gc_type_str(nullptr),
+            do_not_compress(false)
     {
     }
 
@@ -115,6 +116,10 @@ namespace g0at
                 else if (0 == std::strncmp(arg + 2, "gc=", 3))
                 {
                     opt.gc_type_str = arg + 5;
+                }
+                else if (0 == std::strcmp(arg + 2, "do-not-compress"))
+                {
+                    opt.do_not_compress = true;
                 }
                 else if (0 == std::strncmp(arg + 2, "lib=", 4))
                 {

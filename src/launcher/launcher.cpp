@@ -172,7 +172,7 @@ namespace g0at
             auto code = codegen::generator::generate(node_root);
             node_root.reset();
             std::vector<uint8_t> binary;
-            code::serializer::serialize(code, binary, true);
+            code::serializer::serialize(code, binary, !opt.do_not_compress);
             code.reset();
             auto code_2 = code::deserializer::deserialize(binary);
             if (opt.dump_assembler_code)

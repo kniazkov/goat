@@ -41,5 +41,6 @@ namespace g0at
         bool bin;
         bool dump_memory_usage_report;
         char *gc_type_str;
+        bool do_not_compress;
     };
 };
