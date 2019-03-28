@@ -353,5 +353,35 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_throw *token::to_keyword_throw()
+        {
+            return nullptr;
+        }
+
+        statement_throw *token::to_statement_throw()
+        {
+            return nullptr;
+        }
+
+        keyword_try *token::to_keyword_try()
+        {
+            return nullptr;
+        }
+
+        keyword_catch *token::to_keyword_catch()
+        {
+            return nullptr;
+        }
+
+        keyword_finally *token::to_keyword_finally()
+        {
+            return nullptr;
+        }
+
+        statement_try *token::to_statement_try()
+        {
+            return nullptr;
+        }
     }
 };

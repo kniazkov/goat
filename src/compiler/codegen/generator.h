@@ -74,6 +74,8 @@ namespace g0at
             void visit(pt::node_array *ref) override;
             void visit(pt::statement_block *ref) override;
             void visit(pt::statement_if *ref) override;
+            void visit(pt::statement_throw *ref) override;
+            void visit(pt::statement_try *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

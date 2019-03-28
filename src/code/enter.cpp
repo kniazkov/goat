@@ -33,7 +33,8 @@ namespace g0at
 
         void enter::exec(model::thread *thr)
         {
-            thr->ctx = thr->pool->create_context(thr->ctx);
+            model::context *ctx = thr->pool->create_context(thr->ctx);
+            thr->set_context(ctx);
         }
     };
 };

@@ -39,6 +39,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "clone.h"
 #include "instance_of.h"
 #include "array.h"
+#include "_try.h"
+#include "catch.h"
+#include "finally.h"
 
 namespace g0at
 {
@@ -54,12 +57,13 @@ namespace g0at
             std::wstringstream tmp;
             int i, size;
             auto i_list = _code->get_identifiers_list();
-#if 0 // we hardly need it
+#if 1 // we hardly need it
             tmp << L".data\n";
             for (i = 0, size = (int)i_list.size(); i < size; i++)
             {
-                tmp << i << L"\t" << i_list[i] << "\n";
+                tmp << L"  " << i << L"\t" << i_list[i] << "\n";
             }
+            tmp << "\n";
 #endif
             tmp << L".code\n";
             disasm da(tmp, i_list);
@@ -68,7 +72,7 @@ namespace g0at
                 if (i > 0)
                 {
                     tmp << L"\n";
-                    if (i % 8 == 0)
+                    if (i % 5 == 0)
                         tmp << L"  " << i;
                     }
                 tmp << L"\t";
@@ -261,6 +265,27 @@ namespace g0at
         void disasm::visit(leave *ref)
         {
             stream << L"leave";
+        }
+
+        void disasm::visit(raise *ref)
+        {
+            stream << L"raise";
+        }
+
+        void disasm::visit(_try *ref)
+        {
+            stream << L"try\t" << ref->get_iid();
+        }
+
+        void disasm::visit(_catch *ref)
+        {
+            int id = ref->get_id();
+            stream << L"catch\t" << id << L"\t; " << identifiers.at(id);
+        }
+
+        void disasm::visit(_finally *ref)
+        {
+            stream << L"finally\t" << ref->get_iid();
         }
     };
 };

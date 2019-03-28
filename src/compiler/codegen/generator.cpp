@@ -46,6 +46,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/node_array.h"
 #include "compiler/pt/statement_block.h"
 #include "compiler/pt/statement_if.h"
+#include "compiler/pt/statement_throw.h"
+#include "compiler/pt/statement_try.h"
 #include "code/load_string.h"
 #include "code/load_var.h"
 #include "code/call.h"
@@ -78,6 +80,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/array.h"
 #include "code/enter.h"
 #include "code/leave.h"
+#include "code/raise.h"
+#include "code/_try.h"
+#include "code/catch.h"
+#include "code/finally.h"
 
 namespace g0at
 {
@@ -97,7 +103,7 @@ namespace g0at
             {
                 deferred_node def = gen.queue.back();
                 gen.queue.pop_back();
-                *(def.iid_ptr) = gen.code->get_code_size();
+                *(def.iid_ptr) = gen.code->get_current_iid();
                 def.node->accept(&gen);
             }
             gen.code->set_identifiers_list(gen.name_cache.get_vector());
@@ -295,13 +301,13 @@ namespace g0at
 
         void generator::visit(pt::statement_while *ref)
         {
-            int iid_begin = code->get_code_size();
+            int iid_begin = code->get_current_iid();
             ref->get_expression()->accept(this);
             code::if_not *if_not = new code::if_not(-1);
             code->add_instruction(if_not);
             ref->get_statement()->accept(this);
             code->add_instruction(new code::jmp(iid_begin));
-            *(if_not->get_iid_ptr()) = code->get_code_size();
+            *(if_not->get_iid_ptr()) = code->get_current_iid();
         }
 
         void generator::visit(pt::method_call *ref)
@@ -373,11 +379,76 @@ namespace g0at
                 iid_ptr_end = jmp->get_iid_ptr();
                 code->add_instruction(jmp);
             }
-            *(if_not->get_iid_ptr()) = code->get_code_size();
+            *(if_not->get_iid_ptr()) = code->get_current_iid();
             if (stmt_else)
             {
                 stmt_else->accept(this);
-                *iid_ptr_end = code->get_code_size();
+                *iid_ptr_end = code->get_current_iid();
+            }
+        }
+
+        void generator::visit(pt::statement_throw *ref)
+        {
+            auto expr = ref->get_expression();
+            if (expr)
+            {
+                ref->get_expression()->accept(this);
+                code->add_instruction(new code::raise());
+            }
+            else
+            {
+                assert(false && "Not implemented");
+            }
+        }
+
+        void generator::visit(pt::statement_try *ref)
+        {
+            auto stmt_catch = ref->get_stmt_catch();
+            auto stmt_finally = ref->get_stmt_finally();
+
+            int *iid_end_ptr = nullptr;
+            int *iid_finally_ptr = nullptr;
+
+            if (stmt_finally)
+            {
+                code::_finally *instr_finally = new code::_finally(-1);
+                iid_finally_ptr = instr_finally->get_iid_ptr();
+                code->add_instruction(instr_finally);
+            }
+
+            code::_try *instr_try = new code::_try(-1);
+            int *iid_catch_ptr = instr_try->get_iid_ptr();
+            code->add_instruction(instr_try);
+
+            ref->get_stmt_try()->accept(this);
+
+            if (stmt_catch)
+            {
+                code::jmp *jmp_end = new code::jmp(-1);
+                iid_end_ptr = jmp_end->get_iid_ptr();
+                code->add_instruction(jmp_end);
+
+                *iid_catch_ptr = code->get_current_iid();
+
+                if (ref->has_var())
+                {
+                    int id = name_cache.get_id(ref->get_var_name());
+                    code->add_instruction(new code::_catch(id));
+                }
+                stmt_catch->accept(this);
+            }
+
+            if(iid_end_ptr)
+                *iid_end_ptr = code->get_current_iid();
+
+            code->add_instruction(new code::leave());
+            code->add_instruction(new code::pop());
+
+            if (stmt_finally)
+            {
+                *iid_finally_ptr = code->get_current_iid();
+                stmt_finally->accept(this);
+                code->add_instruction(new code::leave());
             }
         }
     };

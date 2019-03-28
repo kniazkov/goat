@@ -42,6 +42,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "clone.h"
 #include "instance_of.h"
 #include "array.h"
+#include "_try.h"
+#include "catch.h"
+#include "finally.h"
 
 namespace g0at
 {
@@ -314,6 +317,29 @@ namespace g0at
         void serializer::visit(leave *ref)
         {
             push_opcode(opcode::leave);
+        }
+
+        void serializer::visit(raise *ref)
+        {
+            push_opcode(opcode::raise);
+        }
+
+        void serializer::visit(_try *ref)
+        {
+            push_opcode(opcode::_try);
+            push_int32(ref->get_iid());
+        }
+
+        void serializer::visit(_catch *ref)
+        {
+            push_opcode(opcode::_catch);
+            push_int32(ref->get_id());
+        }
+
+        void serializer::visit(_finally *ref)
+        {
+            push_opcode(opcode::_finally);
+            push_int32(ref->get_iid());
         }
     };
 };

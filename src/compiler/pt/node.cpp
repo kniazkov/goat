@@ -199,5 +199,15 @@ namespace g0at
         {
             return nullptr;
         }
+        
+        statement_throw *node::to_statement_throw()
+        {
+            return nullptr;
+        }
+        
+        statement_try *node::to_statement_try()
+        {
+            return nullptr;
+        }
    }
 };

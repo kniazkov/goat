@@ -34,7 +34,7 @@ namespace g0at
 
         void leave::exec(model::thread *thr)
         {
-            thr->ctx = thr->ctx->prev;
+            thr->restore_context();
             assert(thr->ctx != nullptr);
         }
     };

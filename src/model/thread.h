@@ -40,25 +40,41 @@ namespace g0at
         class thread
         {
         public:
-            thread(context *_ctx, object_pool *_pool);
+            thread(context *_ctx, object_pool *_pool, variable *_ret);
+            void raise_exception(variable &var);
+            void mark_all();
 
             variable *push(variable var) { return data.push(var); }
+            variable pop() { return data.pop(); }
+            void pop(int n) { data.pop(n); }
+            variable &peek() { return data.peek(); }
+            variable &peek(int n) { return data.peek(n); }
+            bool stack_is_empty() { return data.empty(); }
+
             variable *push_undefined()
             {
                 variable var;
                 var.set_object(pool->get_undefined_instance());
                 return data.push(var);
             }
-            variable pop() { return data.pop(); }
-            void pop(int n) { data.pop(n); }
-            variable &peek() { return data.peek(); }
-            variable &peek(int n) { return data.peek(n); }
-            bool stack_is_empty() { return data.empty(); }
-            int get_stack_size() { return data.size(); }
-            void mark_all()
+
+            void raise_exception(object *obj)
             {
-                ctx->mark();
-                data.mark_all();
+                variable var;
+                var.set_object(obj);
+                raise_exception(var);
+            }
+
+            void set_context(context *_ctx)
+            {
+                ctx = _ctx;
+                ctx->stack_size = data.size();
+            }
+
+            void restore_context()
+            {
+                data.restore_size(ctx ? ctx->stack_size : 0);
+                ctx = ctx->prev;
             }
 
             thread *next;
@@ -66,6 +82,7 @@ namespace g0at
             thread_state state;
             context *ctx;
             object_pool *pool;
+            variable *ret;
 
         protected:
             thread(const thread &) { }

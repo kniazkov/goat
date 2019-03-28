@@ -45,6 +45,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "node_array.h"
 #include "statement_block.h"
 #include "statement_if.h"
+#include "statement_throw.h"
+#include "statement_try.h"
 
 namespace g0at
 {
@@ -460,6 +462,47 @@ namespace g0at
                 dbg_output out_else(stream, uid);
                 stmt_else->accept(&out_else);
                 link_child(out_else, L"stmt else");
+            }
+        }
+
+        void dbg_output::visit(statement_throw *ref)
+        {
+            print(L"throw");
+            auto expr = ref->get_expression();
+            if (expr)
+            {
+                dbg_output child(stream, uid);
+                expr->accept(&child);
+                link_child(child);
+            }
+        }
+
+        void dbg_output::visit(statement_try *ref)
+        {
+            if (ref->has_var())
+            {
+                print(L"try", ref->get_var_name());
+            }
+            else
+            {
+                print(L"try");
+            }
+            dbg_output out_try(stream, uid);
+            ref->get_stmt_try()->accept(&out_try);
+            link_child(out_try, L"stmt try");
+            auto stmt_catch = ref->get_stmt_catch();
+            if (stmt_catch)
+            {
+                dbg_output out_catch(stream, uid);
+                stmt_catch->accept(&out_catch);
+                link_child(out_catch, L"stmt catch");
+            }
+            auto stmt_finally = ref->get_stmt_finally();
+            if (stmt_finally)
+            {
+                dbg_output out_finally(stream, uid);
+                stmt_finally->accept(&out_finally);
+                link_child(out_finally, L"stmt finally");
             }
         }
     };

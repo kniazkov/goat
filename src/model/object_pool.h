@@ -98,6 +98,8 @@ namespace g0at
             object *get_boolean_proto_instance() { return boolean_proto_instance; }
             object *get_real_proto_instance() { return real_proto_instance; }
             object *get_array_proto_instance() { return array_proto_instance; }
+            object *get_exception_proto_instance() { return exception_proto_instance; }
+            object *get_exception_illegal_argument_instance() { return exception_illegal_argument_instance; }
 
             generic_object *create_generic_object();
             context *create_context();
@@ -142,6 +144,8 @@ namespace g0at
             object *boolean_proto_instance;
             object *real_proto_instance;
             object *array_proto_instance;
+            object *exception_proto_instance;
+            object *exception_illegal_argument_instance;
 
             object_cache static_strings;
         };

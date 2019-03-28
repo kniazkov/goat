@@ -23,7 +23,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "instruction.h"
-#include <string>
 
 namespace g0at
 {

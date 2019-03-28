@@ -31,7 +31,9 @@ namespace g0at
         enum class context_value_type
         {
             none,
-            ret_address
+            ret_address,
+            catch_address,
+            fin_address
         };
 
         class context : public object
@@ -55,6 +57,7 @@ namespace g0at
             int value;
             context_value_type value_type;
             variable *ret;
+            int stack_size;
         };
     };
 };

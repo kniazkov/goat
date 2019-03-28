@@ -102,6 +102,10 @@ namespace g0at
             static void creator_array(source *src, code *dst);
             static void creator_enter(source *src, code *dst);
             static void creator_leave(source *src, code *dst);
+            static void creator_raise(source *src, code *dst);
+            static void creator_try(source *src, code *dst);
+            static void creator_catch(source *src, code *dst);
+            static void creator_finally(source *src, code *dst);
 
             std::map<opcode, creator> creators;
         };

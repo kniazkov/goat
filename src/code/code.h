@@ -41,6 +41,7 @@ namespace g0at
 
             void add_instruction(instruction *instr);
             int get_code_size() { return instructions.size(); }
+            int get_current_iid() { return instructions.size(); }
             instruction *get_instruction(int index) { return instructions.at(index); }
             std::vector<std::wstring> &get_identifiers_list() { return identifiers; }
             void set_identifiers_list(std::vector<std::wstring> &_identifiers) { identifiers = _identifiers; }

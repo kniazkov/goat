@@ -43,6 +43,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/value_false.h"
 #include "compiler/ast/this_ptr.h"
 #include "compiler/ast/keyword_if.h"
+#include "compiler/ast/keyword_throw.h"
+#include "compiler/ast/keyword_try.h"
 
 namespace g0at
 {
@@ -165,6 +167,16 @@ namespace g0at
         void parser_data_filler::visit(ast::keyword_if *ref)
         {
             data->if_keywords.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::keyword_throw *ref)
+        {
+            data->throw_keywords.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::keyword_try *ref)
+        {
+            data->try_keywords.add(ref);
         }
     };
 };

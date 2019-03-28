@@ -66,10 +66,14 @@ namespace g0at
             vcall,
             ret,
             retv,
+            raise,
             ifnot,
             jmp,
             enter,
             leave,
+            _try,
+            _catch,
+            _finally,
 
             // methods
             clone,

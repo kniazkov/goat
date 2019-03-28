@@ -128,6 +128,7 @@ namespace g0at
                 env.gct = vm::gc_type::disabled;
         }
 
+        vm::vm_report vmr = {0};
         if (opt.bin)
         {
             std::vector<uint8_t> binary;
@@ -147,7 +148,7 @@ namespace g0at
                 lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code));
             }
             vm::vm vm(code);
-            auto vmr = vm.run(&env);
+            vmr = vm.run(&env);
             if (opt.dump_memory_usage_report)
             {
                 dump_memory_usage_report(opt.prog_name, vmr);
@@ -178,7 +179,6 @@ namespace g0at
             {
                 lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code_2));
             }
-            vm::vm_report vmr = { 0 };
             if (!opt.compile)
             {
                 vm::vm vm(code_2);
@@ -197,6 +197,6 @@ namespace g0at
                 dump_memory_usage_report(opt.prog_name, vmr);
             }
         }
-        return 0;
+        return vmr.ret_value;
     }
 };

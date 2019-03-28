@@ -35,6 +35,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_block.h"
 #include "compiler/ast/statement_if.h"
 #include "compiler/pt/statement_if.h"
+#include "compiler/ast/statement_throw.h"
+#include "compiler/pt/statement_throw.h"
+#include "compiler/ast/statement_try.h"
+#include "compiler/pt/statement_try.h"
 
 namespace g0at
 {
@@ -131,6 +135,59 @@ namespace g0at
             else
             {
                 stmt = new pt::statement_if(ref->get_position(), expr_visitor.get_expr(), stmt_if_visitor.get_stmt());
+            }
+        }
+
+        void statement_builder::visit(ast::statement_throw *ref)
+        {
+            expression_builder visitor;
+            auto tok_expr = ref->get_expression();
+            if (tok_expr)
+            {
+                tok_expr->accept(&visitor);
+                assert(visitor.has_expr());
+                stmt = new pt::statement_throw(ref->get_position(), visitor.get_expr());
+            }
+            else
+            {
+                stmt = new pt::statement_throw(ref->get_position(), nullptr);
+            }
+        }
+
+        void statement_builder::visit(ast::statement_try *ref)
+        {
+            statement_builder stmt_try_visitor;
+            ref->get_stmt_try()->accept(&stmt_try_visitor);
+            assert(stmt_try_visitor.has_stmt());
+            auto stmt_catch = ref->get_stmt_catch();
+            if (stmt_catch)
+            {
+                statement_builder stmt_catch_visitor;
+                stmt_catch->accept(&stmt_catch_visitor);
+                assert(stmt_catch_visitor.has_stmt());
+                auto stmt_finally = ref->get_stmt_finally();
+                if(stmt_finally)
+                {
+                    statement_builder stmt_finally_visitor;
+                    stmt_finally->accept(&stmt_finally_visitor);
+                    assert(stmt_finally_visitor.has_stmt());
+                    stmt = new pt::statement_try(ref->get_position(), stmt_try_visitor.get_stmt(),
+                        stmt_catch_visitor.get_stmt(), ref->get_var_name(), stmt_finally_visitor.get_stmt());
+                }
+                else
+                {
+                    stmt = new pt::statement_try(ref->get_position(), stmt_try_visitor.get_stmt(),
+                        stmt_catch_visitor.get_stmt(), ref->get_var_name());
+                }
+            }
+            else
+            {
+                auto stmt_finally = ref->get_stmt_finally();
+                assert(stmt_finally != nullptr);
+                statement_builder stmt_finally_visitor;
+                stmt_finally->accept(&stmt_finally_visitor);
+                assert(stmt_finally_visitor.has_stmt());
+                stmt = new pt::statement_try(ref->get_position(), stmt_try_visitor.get_stmt(), stmt_finally_visitor.get_stmt());
             }
         }
     };

@@ -33,6 +33,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_boolean.h"
 #include "object_real.h"
 #include "object_array.h"
+#include "object_exception.h"
 #include "context.h"
 
 namespace g0at
@@ -54,19 +55,21 @@ namespace g0at
             boolean_proto_instance = nullptr;
             real_proto_instance = nullptr;
             array_proto_instance = nullptr;
+            exception_proto_instance = nullptr;
+            exception_illegal_argument_instance = nullptr;
 
             /*
                 "It's a kind of magic"
                 That is, we must initialize the objects one by one,
                 but in such a way as to maintain the correct dependency.
             */
-            auto *gp = new generic_proto(this);
+            auto gp = new generic_proto(this);
             generic_proto_instance = gp;
-            auto *osp = new object_string_proto(this);
-            string_proto_instance = osp;
+            auto string_proto = new object_string_proto(this);
+            string_proto_instance = string_proto;
             static_strings.init(identifiers_list, this);
-            auto ofp = new object_function_proto(this);
-            function_proto_instance = ofp;
+            auto function_proto = new object_function_proto(this);
+            function_proto_instance = function_proto;
             gp->init(this);
             void_instance = new object_void(this);
             undefined_instance = new object_undefined(this);
@@ -75,11 +78,15 @@ namespace g0at
             integer_proto_instance = new object_integer_proto(this);
             boolean_proto_instance = new object_boolean_proto(this);
             real_proto_instance = new object_real_proto(this);
-            auto *oap = new object_array_proto(this);
-            array_proto_instance = oap;
-            osp->init(this);
-            ofp->init(this);
-            oap->init(this);
+            auto array_proto = new object_array_proto(this);
+            array_proto_instance = array_proto;
+            auto exception_proto = new object_exception_proto(this);
+            exception_proto_instance = exception_proto;
+            string_proto->init(this);
+            function_proto->init(this);
+            array_proto->init(this);
+            exception_illegal_argument_instance = new object_exception_illegal_argument(this);
+            exception_proto->init(this);
         }
 
         void object_pool::add(object *item)
