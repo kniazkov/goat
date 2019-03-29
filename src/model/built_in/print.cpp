@@ -41,9 +41,16 @@ namespace g0at
                 
                 void call(thread *thr, int arg_count, bool as_method) override
                 {
-                    std::cout << global::char_encoder->encode(thr->peek().to_string());
-                    thr->pop(arg_count);
-                    thr->push_undefined();
+                    if (arg_count > 0)
+                    {
+                        if (as_method)
+                            thr->pop();
+                        std::cout << global::char_encoder->encode(thr->peek().to_string());
+                        thr->pop(arg_count);
+                        thr->push_undefined();
+                        return;
+                    }
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
                 }
             };
 

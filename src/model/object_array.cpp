@@ -92,10 +92,19 @@ namespace g0at
             
             void call(thread *thr, int arg_count, bool as_method) override
             {
+                if (!as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
                 object *this_ptr = thr->pop().get_object();
                 assert(this_ptr != nullptr);
                 object_array *this_ptr_array = this_ptr->to_object_array();
-                assert(this_ptr_array != nullptr);
+                if (!this_ptr_array)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
                 thr->pop(arg_count);
                 variable tmp;
                 tmp.set_integer(this_ptr_array->get_length());
@@ -113,15 +122,30 @@ namespace g0at
             
             void call(thread *thr, int arg_count, bool as_method) override
             {
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_array *this_ptr_array = this_ptr->to_object_array();
-                assert(this_ptr_array != nullptr);
-                assert(arg_count > 0);
-                variable item = thr->peek();
-                thr->pop(arg_count);
-                this_ptr_array->add_item(item);
-                thr->push_undefined();
+                if(arg_count > 0)
+                {
+                    if (!as_method)
+                    {
+                        thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                        return;
+                    }
+                    object *this_ptr = thr->pop().get_object();
+                    assert(this_ptr != nullptr);
+                    object_array *this_ptr_array = this_ptr->to_object_array();
+                    if (!this_ptr_array)
+                    {
+                        thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                        return;
+                    }
+                    while (arg_count--)
+                    {
+                        variable item = thr->pop();
+                        this_ptr_array->add_item(item);
+                    }
+                    thr->push_undefined();
+                    return;
+                }
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
             }
         };
 

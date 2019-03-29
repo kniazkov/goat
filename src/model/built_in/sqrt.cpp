@@ -41,15 +41,22 @@ namespace g0at
                 
                 void call(thread *thr, int arg_count, bool as_method) override
                 {
-                    variable arg = thr->peek();
-                    thr->pop(arg_count);
-                    double real_val;
-                    if (arg.get_real(&real_val))
+                    if (arg_count > 0)
                     {
-                        variable tmp;
-                        tmp.set_real(std::sqrt(real_val));
-                        thr->push(tmp);
+                        if (as_method)
+                            thr->pop();
+                        variable arg = thr->peek();
+                        thr->pop(arg_count);
+                        double real_val;
+                        if (arg.get_real(&real_val))
+                        {
+                            variable tmp;
+                            tmp.set_real(std::sqrt(real_val));
+                            thr->push(tmp);
+                            return;
+                        }
                     }
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
                 }
             };
 
