@@ -20,7 +20,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "_try.h"
+#include "try.h"
 
 namespace g0at
 {

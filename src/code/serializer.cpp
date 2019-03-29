@@ -43,7 +43,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "clone.h"
 #include "instance_of.h"
 #include "array.h"
-#include "_try.h"
+#include "try.h"
 #include "catch.h"
 #include "finally.h"
 

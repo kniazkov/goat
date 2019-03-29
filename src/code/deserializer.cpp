@@ -62,7 +62,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "enter.h"
 #include "leave.h"
 #include "raise.h"
-#include "_try.h"
+#include "try.h"
 #include "catch.h"
 #include "finally.h"
 

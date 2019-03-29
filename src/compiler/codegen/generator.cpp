@@ -81,7 +81,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/enter.h"
 #include "code/leave.h"
 #include "code/raise.h"
-#include "code/_try.h"
+#include "code/try.h"
 #include "code/catch.h"
 #include "code/finally.h"
 
