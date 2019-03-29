@@ -40,6 +40,10 @@ namespace g0at
                 
                 void call(thread *thr, int arg_count, bool as_method) override
                 {
+                    if (as_method)
+                        thr->pop();
+                    if (arg_count > 0)
+                        *(thr->ret) = thr->pop();
                     thr->state = model::thread_state::zombie;
                     while(!thr->stack_is_empty())
                     {

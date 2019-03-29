@@ -43,6 +43,8 @@ namespace g0at
                 {
                     if (arg_count > 1)
                     {
+                        if (as_method)
+                            thr->pop();
                         variable arg_1 = thr->peek();
                         variable arg_2 = thr->peek(1);
                         thr->pop(arg_count);
