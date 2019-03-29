@@ -1,0 +1,15 @@
+try
+{
+    var str = "text";
+    var method = str.length;
+
+    var val = method();
+    println(val);
+}
+catch(err)
+{
+    if (err.instanceOf(Exception.IllegalContext))
+    {
+        println("It can not be, really, this is an illegal context!");
+    }
+}
