@@ -21,7 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "serializer.h"
-#include "opcode.h"
+#include "op.h"
 #include "lib/utils.h"
 #include "lib/utf8_encoder.h"
 #include "lib/rle.h"
@@ -91,7 +91,7 @@ namespace g0at
         {
         }
 
-        void serializer::push_opcode(std::vector<uint8_t> &buff, opcode val)
+        void serializer::push_opcode(std::vector<uint8_t> &buff, op val)
         {
             lib::uint16_converter c;
             c.val = (uint16_t)val;
@@ -142,89 +142,89 @@ namespace g0at
 
         void serializer::visit(load_string *ref)
         {
-            push_opcode(opcode::sload);
+            push_opcode(op::sload);
             push_int32(ref->get_id());
         }
 
         void serializer::visit(load_var *ref)
         {
-            push_opcode(opcode::load);
+            push_opcode(op::load);
             push_int32(ref->get_id());
         }
 
         void serializer::visit(call *ref)
         {
-            push_opcode(opcode::call);
+            push_opcode(op::call);
             push_int32(ref->get_arg_count());
         }
 
         void serializer::visit(pop *ref)
         {
-            push_opcode(opcode::pop);
+            push_opcode(op::pop);
         }
 
         void serializer::visit(end *ref)
         {
-            push_opcode(opcode::end);
+            push_opcode(op::end);
         }
 
         void serializer::visit(add *ref)
         {
-            push_opcode(opcode::add);
+            push_opcode(op::add);
         }
 
         void serializer::visit(load_integer *ref)
         {
-            push_opcode(opcode::iload);
+            push_opcode(op::iload);
             push_int64(ref->get_value());
         }
 
         void serializer::visit(sub *ref)
         {
-            push_opcode(opcode::sub);
+            push_opcode(op::sub);
         }
 
         void serializer::visit(neg *ref)
         {
-            push_opcode(opcode::neg);
+            push_opcode(op::neg);
         }
 
         void serializer::visit(load_void *ref)
         {
-            push_opcode(opcode::void_);
+            push_opcode(op::void_);
         }
 
         void serializer::visit(load_undefined *ref)
         {
-            push_opcode(opcode::undefined);
+            push_opcode(op::undefined);
         }
 
         void serializer::visit(load_null *ref)
         {
-            push_opcode(opcode::null);
+            push_opcode(op::null);
         }
 
         void serializer::visit(decl_var *ref)
         {
-            push_opcode(opcode::var);
+            push_opcode(op::var);
             push_int32(ref->get_id());
         }
 
         void serializer::visit(store *ref)
         {
-            push_opcode(opcode::store);
+            push_opcode(op::store);
             push_int32(ref->get_id());
         }
 
         void serializer::visit(load_real *ref)
         {
-            push_opcode(opcode::rload);
+            push_opcode(op::rload);
             push_double(ref->get_value());
         }
 
         void serializer::visit(load_func *ref)
         {
-            push_opcode(opcode::func);
+            push_opcode(op::func);
             int iid = ref->get_first_iid();
             assert(iid >= 0);
             push_int32(iid);
@@ -238,118 +238,118 @@ namespace g0at
 
         void serializer::visit(ret *ref)
         {
-            push_opcode(opcode::ret);
+            push_opcode(op::ret);
         }
 
         void serializer::visit(ret_val *ref)
         {
-            push_opcode(opcode::retv);
+            push_opcode(op::retv);
         }
 
         void serializer::visit(create *ref)
         {
-            push_opcode(opcode::create);
+            push_opcode(op::create);
             push_int32(ref->get_count());
         }
 
         void serializer::visit(load_prop *ref)
         {
-            push_opcode(opcode::prop);
+            push_opcode(op::prop);
             push_int32(ref->get_id());
         }
 
         void serializer::visit(load_true *ref)
         {
-            push_opcode(opcode::true_);
+            push_opcode(op::true_);
         }
 
         void serializer::visit(load_false *ref)
         {
-            push_opcode(opcode::false_);
+            push_opcode(op::false_);
         }
 
         void serializer::visit(eq *ref)
         {
-            push_opcode(opcode::eq);
+            push_opcode(op::eq);
         }
 
         void serializer::visit(neq *ref)
         {
-            push_opcode(opcode::neq);
+            push_opcode(op::neq);
         }
 
         void serializer::visit(if_not *ref)
         {
-            push_opcode(opcode::ifnot);
+            push_opcode(op::ifnot);
             push_int32(ref->get_iid());
         }
 
         void serializer::visit(jmp *ref)
         {
-            push_opcode(opcode::jmp);
+            push_opcode(op::jmp);
             push_int32(ref->get_iid());
         }
 
         void serializer::visit(vcall *ref)
         {
-            push_opcode(opcode::vcall);
+            push_opcode(op::vcall);
             push_int32(ref->get_id());
             push_int32(ref->get_arg_count());
         }
 
         void serializer::visit(this_ptr *ref)
         {
-            push_opcode(opcode::this_);
+            push_opcode(op::this_);
         }
 
         void serializer::visit(clone *ref)
         {
-            push_opcode(opcode::clone);
+            push_opcode(op::clone);
             push_int32(ref->get_arg_count());
         }
 
         void serializer::visit(instance_of *ref)
         {
-            push_opcode(opcode::insof);
+            push_opcode(op::insof);
             push_int32(ref->get_arg_count());
         }
 
         void serializer::visit(array *ref)
         {
-            push_opcode(opcode::array);
+            push_opcode(op::array);
             push_int32(ref->get_count());
         }
 
         void serializer::visit(enter *ref)
         {
-            push_opcode(opcode::enter);
+            push_opcode(op::enter);
         }
 
         void serializer::visit(leave *ref)
         {
-            push_opcode(opcode::leave);
+            push_opcode(op::leave);
         }
 
         void serializer::visit(raise *ref)
         {
-            push_opcode(opcode::raise);
+            push_opcode(op::raise);
         }
 
         void serializer::visit(_try *ref)
         {
-            push_opcode(opcode::_try);
+            push_opcode(op::_try);
             push_int32(ref->get_iid());
         }
 
         void serializer::visit(_catch *ref)
         {
-            push_opcode(opcode::_catch);
+            push_opcode(op::_catch);
             push_int32(ref->get_id());
         }
 
         void serializer::visit(_finally *ref)
         {
-            push_opcode(opcode::_finally);
+            push_opcode(op::_finally);
             push_int32(ref->get_iid());
         }
     };

@@ -28,7 +28,7 @@ namespace g0at
 {
     namespace code
     {
-        enum class opcode : uint16_t
+        enum class op : uint16_t
         {
             // various
             nop,

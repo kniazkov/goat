@@ -23,7 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "instruction_visitor.h"
-#include "opcode.h"
+#include "op.h"
 #include "code.h"
 #include "lib/pointer.h"
 #include <vector>
@@ -80,8 +80,8 @@ namespace g0at
         protected:
             std::vector<uint8_t> &buff;
 
-            static void push_opcode(std::vector<uint8_t> &buff, opcode val);
-            void push_opcode(opcode val) { push_opcode(buff, val); }
+            static void push_opcode(std::vector<uint8_t> &buff, op val);
+            void push_opcode(op val) { push_opcode(buff, val); }
             
             static void push_uint16(std::vector<uint8_t> &buff, uint16_t val);
             void push_uint16(uint16_t val) { push_uint16(buff, val); }

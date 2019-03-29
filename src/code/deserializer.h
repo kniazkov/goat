@@ -22,7 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "opcode.h"
+#include "op.h"
 #include "code.h"
 #include "lib/pointer.h"
 #include <vector>
@@ -60,8 +60,8 @@ namespace g0at
             typedef void (*creator)(source*, code*);
 
             deserializer();
-            creator get_creator(opcode op);
-            static opcode pop_opcode(source *src);
+            creator get_creator(op o);
+            static op pop_opcode(source *src);
             static uint16_t pop_uint16(source *src);
             static int32_t pop_int32(source *src);
             static int64_t pop_int64(source *src);
@@ -107,7 +107,7 @@ namespace g0at
             static void c_catch(source *src, code *dst);
             static void c_finally(source *src, code *dst);
 
-            std::map<opcode, creator> cc;
+            std::map<op, creator> cc;
         };
     };
 };

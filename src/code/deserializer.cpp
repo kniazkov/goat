@@ -21,7 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "deserializer.h"
-#include "opcode.h"
+#include "op.h"
 #include "lib/utils.h"
 #include "lib/utf8_encoder.h"
 #include "lib/rle.h"
@@ -121,27 +121,27 @@ namespace g0at
             deserializer d_obj;
             while(src.has_data())
             {
-                opcode op = pop_opcode(&src);
-                creator c = d_obj.get_creator(op);
+                op o = pop_opcode(&src);
+                creator c = d_obj.get_creator(o);
                 c(&src, dst.get());
             }
             return dst;
         }
 
-        deserializer::creator deserializer::get_creator(opcode op)
+        deserializer::creator deserializer::get_creator(op o)
         {
-            auto iter = cc.find(op);
+            auto iter = cc.find(o);
             if(iter == cc.end())
                 throw file_is_corrupted();
             return iter->second;
         }
 
-        opcode deserializer::pop_opcode(source *src)
+        op deserializer::pop_opcode(source *src)
         {
             lib::uint16_converter c;
             c.buff[0] = src->pop();
             c.buff[1] = src->pop();
-            return (opcode)c.val;
+            return (op)c.val;
         }
 
         uint16_t deserializer::pop_uint16(source *src)
@@ -422,44 +422,44 @@ namespace g0at
 
         deserializer::deserializer()
         {
-            cc[opcode::nop]       = c_nop;
-            cc[opcode::sload]     = c_load_string;
-            cc[opcode::load]      = c_load_var;
-            cc[opcode::call]      = c_call;
-            cc[opcode::pop]       = c_pop;
-            cc[opcode::end]       = c_end;
-            cc[opcode::add]       = c_add;
-            cc[opcode::iload]     = c_load_integer;
-            cc[opcode::sub]       = c_sub;
-            cc[opcode::neg]       = c_neg;
-            cc[opcode::void_]     = c_load_void;
-            cc[opcode::undefined] = c_load_undefined;
-            cc[opcode::null]      = c_load_null;
-            cc[opcode::var]       = c_decl_var;
-            cc[opcode::store]     = c_store;
-            cc[opcode::rload]     = c_load_real;
-            cc[opcode::func]      = c_load_func;
-            cc[opcode::ret]       = c_ret;
-            cc[opcode::retv]      = c_ret_val;
-            cc[opcode::create]    = c_create;
-            cc[opcode::prop]      = c_load_prop;
-            cc[opcode::true_]     = c_load_true;
-            cc[opcode::false_]    = c_load_false;
-            cc[opcode::eq]        = c_eq;
-            cc[opcode::neq]       = c_neq;
-            cc[opcode::ifnot]     = c_if_not;
-            cc[opcode::jmp]       = c_jmp;
-            cc[opcode::vcall]     = c_vcall;
-            cc[opcode::this_]     = c_this_ptr;
-            cc[opcode::clone]     = c_clone;
-            cc[opcode::insof]     = c_instance_of;
-            cc[opcode::array]     = c_array;
-            cc[opcode::enter]     = c_enter;
-            cc[opcode::leave]     = c_leave;
-            cc[opcode::raise]     = c_raise;
-            cc[opcode::_try]      = c_try;
-            cc[opcode::_catch]    = c_catch;
-            cc[opcode::_finally]  = c_finally;
+            cc[op::nop]       = c_nop;
+            cc[op::sload]     = c_load_string;
+            cc[op::load]      = c_load_var;
+            cc[op::call]      = c_call;
+            cc[op::pop]       = c_pop;
+            cc[op::end]       = c_end;
+            cc[op::add]       = c_add;
+            cc[op::iload]     = c_load_integer;
+            cc[op::sub]       = c_sub;
+            cc[op::neg]       = c_neg;
+            cc[op::void_]     = c_load_void;
+            cc[op::undefined] = c_load_undefined;
+            cc[op::null]      = c_load_null;
+            cc[op::var]       = c_decl_var;
+            cc[op::store]     = c_store;
+            cc[op::rload]     = c_load_real;
+            cc[op::func]      = c_load_func;
+            cc[op::ret]       = c_ret;
+            cc[op::retv]      = c_ret_val;
+            cc[op::create]    = c_create;
+            cc[op::prop]      = c_load_prop;
+            cc[op::true_]     = c_load_true;
+            cc[op::false_]    = c_load_false;
+            cc[op::eq]        = c_eq;
+            cc[op::neq]       = c_neq;
+            cc[op::ifnot]     = c_if_not;
+            cc[op::jmp]       = c_jmp;
+            cc[op::vcall]     = c_vcall;
+            cc[op::this_]     = c_this_ptr;
+            cc[op::clone]     = c_clone;
+            cc[op::insof]     = c_instance_of;
+            cc[op::array]     = c_array;
+            cc[op::enter]     = c_enter;
+            cc[op::leave]     = c_leave;
+            cc[op::raise]     = c_raise;
+            cc[op::_try]      = c_try;
+            cc[op::_catch]    = c_catch;
+            cc[op::_finally]  = c_finally;
         }
     };
 };
