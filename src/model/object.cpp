@@ -356,6 +356,11 @@ namespace g0at
             
             void call(thread *thr, int arg_count, bool as_method) override
             {
+                if (!as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
                 thr->pop(arg_count);
                 object *this_ptr = thr->pop().get_object();
                 assert(this_ptr != nullptr);
@@ -383,6 +388,11 @@ namespace g0at
                 if (arg_count < 1)
                 {
                     thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                if (!as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
                     return;
                 }
                 object *this_ptr = thr->pop().get_object();

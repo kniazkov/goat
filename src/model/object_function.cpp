@@ -80,11 +80,25 @@ namespace g0at
                     Need to remove 'this' from the stack, and pass the rest
                     to the 'call' method.
                 */
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_function *this_ptr_func = this_ptr->to_object_function();
-                assert(this_ptr_func != nullptr);
-                this_ptr_func->call(thr, arg_count - 1, true);
+                if (arg_count > 0)
+                {
+                    if (!as_method)
+                    {
+                        thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                        return;
+                    }
+                    object *this_ptr = thr->pop().get_object();
+                    assert(this_ptr != nullptr);
+                    object_function *this_ptr_func = this_ptr->to_object_function();
+                    if (!this_ptr_func)
+                    {
+                        thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                        return;
+                    }
+                    this_ptr_func->call(thr, arg_count - 1, true);
+                    return;
+                }
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
             }
         };
 
@@ -116,26 +130,42 @@ namespace g0at
                       [ arg1 ]
                       [ .... ]
                 */
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_function *this_ptr_func = this_ptr->to_object_function();
-                assert(this_ptr_func != nullptr);
-
-                variable ctx = thr->pop();
-
-                object *args = thr->pop().get_object();
-                assert(args != nullptr);
-                object_array *array_args = args->to_object_array();
-                assert(array_args != nullptr);
-
-                int length = array_args->get_length();
-                for (int i = length - 1; i > -1; i--)
+                if (arg_count > 0)
                 {
-                    thr->push(array_args->get_item(i));
-                }
-                thr->push(ctx);
+                    if (!as_method)
+                    {
+                        thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                        return;
+                    }
+                    object *this_ptr = thr->pop().get_object();
+                    assert(this_ptr != nullptr);
+                    object_function *this_ptr_func = this_ptr->to_object_function();
+                    if (!this_ptr_func)
+                    {
+                        thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                        return;
+                    }
 
-                this_ptr_func->call(thr, length, true);
+                    variable ctx = thr->pop();
+                    object *args = thr->pop().get_object();
+                    object_array *array_args = args ? args->to_object_array() : nullptr;
+                    if (!array_args)
+                    {
+                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        return;
+                    }
+
+                    int length = array_args->get_length();
+                    for (int i = length - 1; i > -1; i--)
+                    {
+                        thr->push(array_args->get_item(i));
+                    }
+                    thr->push(ctx);
+
+                    this_ptr_func->call(thr, length, true);
+                    return;
+                }
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
             }
         };
 
