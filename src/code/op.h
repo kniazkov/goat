@@ -80,7 +80,7 @@ namespace g0at
             insof,
 
             // operators
-            add,
+            _add,
             sub,
             neg,
 

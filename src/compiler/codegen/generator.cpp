@@ -162,7 +162,7 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new code::add());
+            code->add_instruction(new code::_add());
         }
 
         void generator::visit(pt::integer *ref)

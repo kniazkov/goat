@@ -168,9 +168,9 @@ namespace g0at
             push_opcode(op::end);
         }
 
-        void serializer::visit(add *ref)
+        void serializer::visit(_add *ref)
         {
-            push_opcode(op::add);
+            push_opcode(op::_add);
         }
 
         void serializer::visit(load_integer *ref)

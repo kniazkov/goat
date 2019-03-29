@@ -26,12 +26,12 @@ namespace g0at
 {
     namespace code
     {
-        void add::accept(instruction_visitor *visitor)
+        void _add::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void add::exec(model::thread *thr)
+        void _add::exec(model::thread *thr)
         {
             model::variable left = thr->peek();
             left.op_add(thr);

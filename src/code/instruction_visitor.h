@@ -31,7 +31,7 @@ namespace g0at
         class call;
         class pop;
         class end;
-        class add;
+        class _add;
         class load_integer;
         class sub;
         class neg;
@@ -74,7 +74,7 @@ namespace g0at
             virtual void visit(call *ref) = 0;
             virtual void visit(pop *ref) = 0;
             virtual void visit(end *ref) = 0;
-            virtual void visit(add *ref) = 0;
+            virtual void visit(_add *ref) = 0;
             virtual void visit(load_integer *ref) = 0;
             virtual void visit(sub *ref) = 0;
             virtual void visit(neg *ref) = 0;

@@ -108,7 +108,7 @@ namespace g0at
             stream << L"end";
         }
 
-        void disasm::visit(add *ref)
+        void disasm::visit(_add *ref)
         {
             stream << L"add";
         }

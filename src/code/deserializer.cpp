@@ -238,7 +238,7 @@ namespace g0at
 
         void deserializer::c_add(source *src, code *dst)
         {
-            dst->add_instruction(new add());
+            dst->add_instruction(new _add());
         }
 
         void deserializer::c_load_integer(source *src, code *dst)
@@ -428,7 +428,7 @@ namespace g0at
             cc[op::call]      = c_call;
             cc[op::pop]       = c_pop;
             cc[op::end]       = c_end;
-            cc[op::add]       = c_add;
+            cc[op::_add]      = c_add;
             cc[op::iload]     = c_load_integer;
             cc[op::sub]       = c_sub;
             cc[op::neg]       = c_neg;

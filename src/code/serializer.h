@@ -44,7 +44,7 @@ namespace g0at
             void visit(call *ref) override;
             void visit(pop *ref) override;
             void visit(end *ref) override;
-            void visit(add *ref) override;
+            void visit(_add *ref) override;
             void visit(load_integer *ref) override;
             void visit(sub *ref) override;
             void visit(neg *ref) override;
