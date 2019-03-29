@@ -203,94 +203,94 @@ namespace g0at
             }
         }
 
-        void deserializer::creator_nop(source *src, code *dst)
+        void deserializer::c_nop(source *src, code *dst)
         {
 
         }
 
-        void deserializer::creator_load_string(source *src, code *dst)
+        void deserializer::c_load_string(source *src, code *dst)
         {
             int id = pop_int32(src);
             dst->add_instruction(new load_string(id));
         }
 
-        void deserializer::creator_load_var(source *src, code *dst)
+        void deserializer::c_load_var(source *src, code *dst)
         {
             int id = pop_int32(src);
             dst->add_instruction(new load_var(id));
         }
 
-        void deserializer::creator_call(source *src, code *dst)
+        void deserializer::c_call(source *src, code *dst)
         {
             int arg_count = pop_int32(src);
             dst->add_instruction(new call(arg_count));
         }
 
-        void deserializer::creator_pop(source *src, code *dst)
+        void deserializer::c_pop(source *src, code *dst)
         {
             dst->add_instruction(new pop());
         }
 
-        void deserializer::creator_end(source *src, code *dst)
+        void deserializer::c_end(source *src, code *dst)
         {
             dst->add_instruction(new end());
         }
 
-        void deserializer::creator_add(source *src, code *dst)
+        void deserializer::c_add(source *src, code *dst)
         {
             dst->add_instruction(new add());
         }
 
-        void deserializer::creator_load_integer(source *src, code *dst)
+        void deserializer::c_load_integer(source *src, code *dst)
         {
             int64_t value = pop_int64(src);
             dst->add_instruction(new load_integer(value));
         }
 
-        void deserializer::creator_sub(source *src, code *dst)
+        void deserializer::c_sub(source *src, code *dst)
         {
             dst->add_instruction(new sub());
         }
 
-        void deserializer::creator_neg(source *src, code *dst)
+        void deserializer::c_neg(source *src, code *dst)
         {
             dst->add_instruction(new neg());
         }
 
-        void deserializer::creator_load_void(source *src, code *dst)
+        void deserializer::c_load_void(source *src, code *dst)
         {
             dst->add_instruction(new load_void());
         }
 
-        void deserializer::creator_load_undefined(source *src, code *dst)
+        void deserializer::c_load_undefined(source *src, code *dst)
         {
             dst->add_instruction(new load_undefined());
         }
 
-        void deserializer::creator_load_null(source *src, code *dst)
+        void deserializer::c_load_null(source *src, code *dst)
         {
             dst->add_instruction(new load_null());
         }
 
-        void deserializer::creator_decl_var(source *src, code *dst)
+        void deserializer::c_decl_var(source *src, code *dst)
         {
             int id = pop_int32(src);
             dst->add_instruction(new decl_var(id));
         }
 
-        void deserializer::creator_store(source *src, code *dst)
+        void deserializer::c_store(source *src, code *dst)
         {
             int id = pop_int32(src);
             dst->add_instruction(new store(id));
         }
 
-        void deserializer::creator_load_real(source *src, code *dst)
+        void deserializer::c_load_real(source *src, code *dst)
         {
             double value = pop_double(src);
             dst->add_instruction(new load_real(value));
         }
 
-        void deserializer::creator_load_func(source *src, code *dst)
+        void deserializer::c_load_func(source *src, code *dst)
         {
             int iid = pop_int32(src);
             auto instr = new load_func(iid);
@@ -303,118 +303,118 @@ namespace g0at
             dst->add_instruction(instr);
         }
 
-        void deserializer::creator_ret(source *src, code *dst)
+        void deserializer::c_ret(source *src, code *dst)
         {
             dst->add_instruction(new ret());
         }
 
-        void deserializer::creator_ret_val(source *src, code *dst)
+        void deserializer::c_ret_val(source *src, code *dst)
         {
             dst->add_instruction(new ret_val());
         }
 
-        void deserializer::creator_create(source *src, code *dst)
+        void deserializer::c_create(source *src, code *dst)
         {
             int count = pop_int32(src);
             dst->add_instruction(new create(count));
         }
 
-        void deserializer::creator_load_prop(source *src, code *dst)
+        void deserializer::c_load_prop(source *src, code *dst)
         {
             int id = pop_int32(src);
             dst->add_instruction(new load_prop(id));
         }
 
-        void deserializer::creator_load_true(source *src, code *dst)
+        void deserializer::c_load_true(source *src, code *dst)
         {
             dst->add_instruction(new load_true());
         }
 
-        void deserializer::creator_load_false(source *src, code *dst)
+        void deserializer::c_load_false(source *src, code *dst)
         {
             dst->add_instruction(new load_false());
         }
 
-        void deserializer::creator_eq(source *src, code *dst)
+        void deserializer::c_eq(source *src, code *dst)
         {
             dst->add_instruction(new eq());
         }
 
-        void deserializer::creator_neq(source *src, code *dst)
+        void deserializer::c_neq(source *src, code *dst)
         {
             dst->add_instruction(new neq());
         }
 
-        void deserializer::creator_if_not(source *src, code *dst)
+        void deserializer::c_if_not(source *src, code *dst)
         {
             int iid = pop_int32(src);
             dst->add_instruction(new if_not(iid));
         }
 
-        void deserializer::creator_jmp(source *src, code *dst)
+        void deserializer::c_jmp(source *src, code *dst)
         {
             int iid = pop_int32(src);
             dst->add_instruction(new jmp(iid));
         }
 
-        void deserializer::creator_vcall(source *src, code *dst)
+        void deserializer::c_vcall(source *src, code *dst)
         {
             int id = pop_int32(src);
             int arg_count = pop_int32(src);
             dst->add_instruction(new vcall(id, arg_count));
         }
 
-        void deserializer::creator_this_ptr(source *src, code *dst)
+        void deserializer::c_this_ptr(source *src, code *dst)
         {
             dst->add_instruction(new this_ptr());
         }
 
-        void deserializer::creator_clone(source *src, code *dst)
+        void deserializer::c_clone(source *src, code *dst)
         {
             int arg_count = pop_int32(src);
             dst->add_instruction(new clone(arg_count));
         }
 
-        void deserializer::creator_instance_of(source *src, code *dst)
+        void deserializer::c_instance_of(source *src, code *dst)
         {
             int arg_count = pop_int32(src);
             dst->add_instruction(new instance_of(arg_count));
         }
 
-        void deserializer::creator_array(source *src, code *dst)
+        void deserializer::c_array(source *src, code *dst)
         {
             int count = pop_int32(src);
             dst->add_instruction(new array(count));
         }
 
-        void deserializer::creator_enter(source *src, code *dst)
+        void deserializer::c_enter(source *src, code *dst)
         {
             dst->add_instruction(new enter());
         }
 
-        void deserializer::creator_leave(source *src, code *dst)
+        void deserializer::c_leave(source *src, code *dst)
         {
             dst->add_instruction(new leave());
         }
 
-        void deserializer::creator_raise(source *src, code *dst)
+        void deserializer::c_raise(source *src, code *dst)
         {
             dst->add_instruction(new raise());
         }
 
-        void deserializer::creator_try(source *src, code *dst)
+        void deserializer::c_try(source *src, code *dst)
         {
             int iid = pop_int32(src);
             dst->add_instruction(new _try(iid));
         }
 
-        void deserializer::creator_catch(source *src, code *dst)
+        void deserializer::c_catch(source *src, code *dst)
         {
             int id = pop_int32(src);
             dst->add_instruction(new _catch(id));
         }
 
-        void deserializer::creator_finally(source *src, code *dst)
+        void deserializer::c_finally(source *src, code *dst)
         {
             int iid = pop_int32(src);
             dst->add_instruction(new _finally(iid));
@@ -422,44 +422,44 @@ namespace g0at
 
         deserializer::deserializer()
         {
-            creators[opcode::nop]       = creator_nop;
-            creators[opcode::sload]     = creator_load_string;
-            creators[opcode::load]      = creator_load_var;
-            creators[opcode::call]      = creator_call;
-            creators[opcode::pop]       = creator_pop;
-            creators[opcode::end]       = creator_end;
-            creators[opcode::add]       = creator_add;
-            creators[opcode::iload]     = creator_load_integer;
-            creators[opcode::sub]       = creator_sub;
-            creators[opcode::neg]       = creator_neg;
-            creators[opcode::void_]     = creator_load_void;
-            creators[opcode::undefined] = creator_load_undefined;
-            creators[opcode::null]      = creator_load_null;
-            creators[opcode::var]       = creator_decl_var;
-            creators[opcode::store]     = creator_store;
-            creators[opcode::rload]     = creator_load_real;
-            creators[opcode::func]      = creator_load_func;
-            creators[opcode::ret]       = creator_ret;
-            creators[opcode::retv]      = creator_ret_val;
-            creators[opcode::create]    = creator_create;
-            creators[opcode::prop]      = creator_load_prop;
-            creators[opcode::true_]     = creator_load_true;
-            creators[opcode::false_]    = creator_load_false;
-            creators[opcode::eq]        = creator_eq;
-            creators[opcode::neq]       = creator_neq;
-            creators[opcode::ifnot]     = creator_if_not;
-            creators[opcode::jmp]       = creator_jmp;
-            creators[opcode::vcall]     = creator_vcall;
-            creators[opcode::this_]     = creator_this_ptr;
-            creators[opcode::clone]     = creator_clone;
-            creators[opcode::insof]     = creator_instance_of;
-            creators[opcode::array]     = creator_array;
-            creators[opcode::enter]     = creator_enter;
-            creators[opcode::leave]     = creator_leave;
-            creators[opcode::raise]     = creator_raise;
-            creators[opcode::_try]      = creator_try;
-            creators[opcode::_catch]    = creator_catch;
-            creators[opcode::_finally]  = creator_finally;
+            creators[opcode::nop]       = c_nop;
+            creators[opcode::sload]     = c_load_string;
+            creators[opcode::load]      = c_load_var;
+            creators[opcode::call]      = c_call;
+            creators[opcode::pop]       = c_pop;
+            creators[opcode::end]       = c_end;
+            creators[opcode::add]       = c_add;
+            creators[opcode::iload]     = c_load_integer;
+            creators[opcode::sub]       = c_sub;
+            creators[opcode::neg]       = c_neg;
+            creators[opcode::void_]     = c_load_void;
+            creators[opcode::undefined] = c_load_undefined;
+            creators[opcode::null]      = c_load_null;
+            creators[opcode::var]       = c_decl_var;
+            creators[opcode::store]     = c_store;
+            creators[opcode::rload]     = c_load_real;
+            creators[opcode::func]      = c_load_func;
+            creators[opcode::ret]       = c_ret;
+            creators[opcode::retv]      = c_ret_val;
+            creators[opcode::create]    = c_create;
+            creators[opcode::prop]      = c_load_prop;
+            creators[opcode::true_]     = c_load_true;
+            creators[opcode::false_]    = c_load_false;
+            creators[opcode::eq]        = c_eq;
+            creators[opcode::neq]       = c_neq;
+            creators[opcode::ifnot]     = c_if_not;
+            creators[opcode::jmp]       = c_jmp;
+            creators[opcode::vcall]     = c_vcall;
+            creators[opcode::this_]     = c_this_ptr;
+            creators[opcode::clone]     = c_clone;
+            creators[opcode::insof]     = c_instance_of;
+            creators[opcode::array]     = c_array;
+            creators[opcode::enter]     = c_enter;
+            creators[opcode::leave]     = c_leave;
+            creators[opcode::raise]     = c_raise;
+            creators[opcode::_try]      = c_try;
+            creators[opcode::_catch]    = c_catch;
+            creators[opcode::_finally]  = c_finally;
         }
     };
 };
