@@ -244,6 +244,11 @@ namespace g0at
             {
                 return L"недопустимый аргумент";
             }        
+
+            std::wstring illegal_context() override
+            {
+                return L"недопустимый контекст";
+            }
         };
 
         resource *resource::get_intance_ru()

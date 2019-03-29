@@ -119,10 +119,19 @@ namespace g0at
             
             void call(thread *thr, int arg_count, bool as_method) override
             {
+                if (!as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
                 object *this_ptr = thr->pop().get_object();
                 assert(this_ptr != nullptr);
                 object_string *this_ptr_string = this_ptr->to_object_string();
-                assert(this_ptr_string != nullptr);
+                if (!this_ptr_string)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
                 thr->pop(arg_count);
                 variable tmp;
                 tmp.set_integer(this_ptr_string->get_data().length());
