@@ -130,8 +130,8 @@ namespace g0at
 
         deserializer::creator deserializer::get_creator(opcode op)
         {
-            auto iter = creators.find(op);
-            if(iter == creators.end())
+            auto iter = cc.find(op);
+            if(iter == cc.end())
                 throw file_is_corrupted();
             return iter->second;
         }
@@ -422,44 +422,44 @@ namespace g0at
 
         deserializer::deserializer()
         {
-            creators[opcode::nop]       = c_nop;
-            creators[opcode::sload]     = c_load_string;
-            creators[opcode::load]      = c_load_var;
-            creators[opcode::call]      = c_call;
-            creators[opcode::pop]       = c_pop;
-            creators[opcode::end]       = c_end;
-            creators[opcode::add]       = c_add;
-            creators[opcode::iload]     = c_load_integer;
-            creators[opcode::sub]       = c_sub;
-            creators[opcode::neg]       = c_neg;
-            creators[opcode::void_]     = c_load_void;
-            creators[opcode::undefined] = c_load_undefined;
-            creators[opcode::null]      = c_load_null;
-            creators[opcode::var]       = c_decl_var;
-            creators[opcode::store]     = c_store;
-            creators[opcode::rload]     = c_load_real;
-            creators[opcode::func]      = c_load_func;
-            creators[opcode::ret]       = c_ret;
-            creators[opcode::retv]      = c_ret_val;
-            creators[opcode::create]    = c_create;
-            creators[opcode::prop]      = c_load_prop;
-            creators[opcode::true_]     = c_load_true;
-            creators[opcode::false_]    = c_load_false;
-            creators[opcode::eq]        = c_eq;
-            creators[opcode::neq]       = c_neq;
-            creators[opcode::ifnot]     = c_if_not;
-            creators[opcode::jmp]       = c_jmp;
-            creators[opcode::vcall]     = c_vcall;
-            creators[opcode::this_]     = c_this_ptr;
-            creators[opcode::clone]     = c_clone;
-            creators[opcode::insof]     = c_instance_of;
-            creators[opcode::array]     = c_array;
-            creators[opcode::enter]     = c_enter;
-            creators[opcode::leave]     = c_leave;
-            creators[opcode::raise]     = c_raise;
-            creators[opcode::_try]      = c_try;
-            creators[opcode::_catch]    = c_catch;
-            creators[opcode::_finally]  = c_finally;
+            cc[opcode::nop]       = c_nop;
+            cc[opcode::sload]     = c_load_string;
+            cc[opcode::load]      = c_load_var;
+            cc[opcode::call]      = c_call;
+            cc[opcode::pop]       = c_pop;
+            cc[opcode::end]       = c_end;
+            cc[opcode::add]       = c_add;
+            cc[opcode::iload]     = c_load_integer;
+            cc[opcode::sub]       = c_sub;
+            cc[opcode::neg]       = c_neg;
+            cc[opcode::void_]     = c_load_void;
+            cc[opcode::undefined] = c_load_undefined;
+            cc[opcode::null]      = c_load_null;
+            cc[opcode::var]       = c_decl_var;
+            cc[opcode::store]     = c_store;
+            cc[opcode::rload]     = c_load_real;
+            cc[opcode::func]      = c_load_func;
+            cc[opcode::ret]       = c_ret;
+            cc[opcode::retv]      = c_ret_val;
+            cc[opcode::create]    = c_create;
+            cc[opcode::prop]      = c_load_prop;
+            cc[opcode::true_]     = c_load_true;
+            cc[opcode::false_]    = c_load_false;
+            cc[opcode::eq]        = c_eq;
+            cc[opcode::neq]       = c_neq;
+            cc[opcode::ifnot]     = c_if_not;
+            cc[opcode::jmp]       = c_jmp;
+            cc[opcode::vcall]     = c_vcall;
+            cc[opcode::this_]     = c_this_ptr;
+            cc[opcode::clone]     = c_clone;
+            cc[opcode::insof]     = c_instance_of;
+            cc[opcode::array]     = c_array;
+            cc[opcode::enter]     = c_enter;
+            cc[opcode::leave]     = c_leave;
+            cc[opcode::raise]     = c_raise;
+            cc[opcode::_try]      = c_try;
+            cc[opcode::_catch]    = c_catch;
+            cc[opcode::_finally]  = c_finally;
         }
     };
 };
