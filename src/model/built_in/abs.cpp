@@ -43,6 +43,8 @@ namespace g0at
                 {
                     if (arg_count > 0)
                     {
+                        if (as_method)
+                            thr->pop();
                         variable arg = thr->peek();
                         thr->pop(arg_count);
                         int64_t int_val;
