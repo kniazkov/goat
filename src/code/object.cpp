@@ -20,25 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "create.h"
+#include "object.h"
 #include <assert.h>
 
 namespace g0at
 {
     namespace code
     {
-        create::create(int _count)
+        _object::_object(int _count)
             : count(_count)
         {
             assert(_count >= 0);
         }
 
-        void create::accept(instruction_visitor *visitor)
+        void _object::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void create::exec(model::thread *thr)
+        void _object::exec(model::thread *thr)
         {
             model::object *result = thr->pool->create_generic_object();
             model::variable var;

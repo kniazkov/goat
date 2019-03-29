@@ -31,7 +31,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "store.h"
 #include "load_real.h"
 #include "load_func.h"
-#include "create.h"
+#include "object.h"
 #include "load_prop.h"
 #include "if_not.h"
 #include "jmp.h"
@@ -190,9 +190,9 @@ namespace g0at
             stream << L"retv";
         }
 
-        void disasm::visit(create *ref)
+        void disasm::visit(_object *ref)
         {
-            stream << L"create \t" << ref->get_count();
+            stream << L"object \t" << ref->get_count();
         }
 
         void disasm::visit(load_prop *ref)

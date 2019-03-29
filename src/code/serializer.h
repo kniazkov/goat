@@ -57,7 +57,7 @@ namespace g0at
             void visit(load_func *ref) override;
             void visit(ret *ref) override;
             void visit(ret_val *ref) override;
-            void visit(create *ref) override;
+            void visit(_object *ref) override;
             void visit(load_prop *ref) override;
             void visit(load_true *ref) override;
             void visit(load_false *ref) override;

@@ -87,7 +87,7 @@ namespace g0at
             static void c_load_func(source *src, code *dst);
             static void c_ret(source *src, code *dst);
             static void c_ret_val(source *src, code *dst);
-            static void c_create(source *src, code *dst);
+            static void c_object(source *src, code *dst);
             static void c_load_prop(source *src, code *dst);
             static void c_load_true(source *src, code *dst);
             static void c_load_false(source *src, code *dst);

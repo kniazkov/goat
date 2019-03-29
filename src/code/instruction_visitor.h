@@ -44,7 +44,7 @@ namespace g0at
         class load_func;
         class ret;
         class ret_val;
-        class create;
+        class _object;
         class load_prop;
         class load_true;
         class load_false;
@@ -87,7 +87,7 @@ namespace g0at
             virtual void visit(load_func *ref) = 0;
             virtual void visit(ret *ref) = 0;
             virtual void visit(ret_val *ref) = 0;
-            virtual void visit(create *ref) = 0;
+            virtual void visit(_object *ref) = 0;
             virtual void visit(load_prop *ref) = 0;
             virtual void visit(load_true *ref) = 0;
             virtual void visit(load_false *ref) = 0;

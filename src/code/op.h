@@ -58,7 +58,7 @@ namespace g0at
             store,
 
             // creators
-            create,
+            _object,
             array,
 
             // branching

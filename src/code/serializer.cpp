@@ -35,7 +35,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "store.h"
 #include "load_real.h"
 #include "load_func.h"
-#include "create.h"
+#include "object.h"
 #include "load_prop.h"
 #include "if_not.h"
 #include "jmp.h"
@@ -246,9 +246,9 @@ namespace g0at
             push_opcode(op::retv);
         }
 
-        void serializer::visit(create *ref)
+        void serializer::visit(_object *ref)
         {
-            push_opcode(op::create);
+            push_opcode(op::_object);
             push_int32(ref->get_count());
         }
 

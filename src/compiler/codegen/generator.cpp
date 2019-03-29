@@ -65,7 +65,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/load_func.h"
 #include "code/ret.h"
 #include "code/ret_val.h"
-#include "code/create.h"
+#include "code/object.h"
 #include "code/load_prop.h"
 #include "code/load_true.h"
 #include "code/load_false.h"
@@ -265,7 +265,7 @@ namespace g0at
                 item.second->accept(this);
                 item.first->accept(this);
             }
-            code->add_instruction(new code::create(count));
+            code->add_instruction(new code::_object(count));
         }
 
         void generator::visit(pt::property *ref)

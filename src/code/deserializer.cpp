@@ -38,7 +38,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "store.h"
 #include "load_real.h"
 #include "load_func.h"
-#include "create.h"
+#include "object.h"
 #include "load_prop.h"
 #include "if_not.h"
 #include "jmp.h"
@@ -313,10 +313,10 @@ namespace g0at
             dst->add_instruction(new ret_val());
         }
 
-        void deserializer::c_create(source *src, code *dst)
+        void deserializer::c_object(source *src, code *dst)
         {
             int count = pop_int32(src);
-            dst->add_instruction(new create(count));
+            dst->add_instruction(new _object(count));
         }
 
         void deserializer::c_load_prop(source *src, code *dst)
@@ -441,7 +441,7 @@ namespace g0at
             cc[op::func]      = c_load_func;
             cc[op::ret]       = c_ret;
             cc[op::retv]      = c_ret_val;
-            cc[op::create]    = c_create;
+            cc[op::_object]   = c_object;
             cc[op::prop]      = c_load_prop;
             cc[op::true_]     = c_load_true;
             cc[op::false_]    = c_load_false;
