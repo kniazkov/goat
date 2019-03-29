@@ -41,17 +41,22 @@ namespace g0at
                 
                 void call(thread *thr, int arg_count, bool as_method) override
                 {
-                    variable arg_1 = thr->peek();
-                    variable arg_2 = thr->peek(1);
-                    thr->pop(arg_count);
-                    double val_arg_1,
-                        val_arg_2;
-                    if (arg_1.get_real(&val_arg_1) && arg_2.get_real(&val_arg_2))
+                    if (arg_count > 1)
                     {
-                        variable tmp;
-                        tmp.set_real(std::atan2(val_arg_1, val_arg_2));
-                        thr->push(tmp);
+                        variable arg_1 = thr->peek();
+                        variable arg_2 = thr->peek(1);
+                        thr->pop(arg_count);
+                        double val_arg_1,
+                            val_arg_2;
+                        if (arg_1.get_real(&val_arg_1) && arg_2.get_real(&val_arg_2))
+                        {
+                            variable tmp;
+                            tmp.set_real(std::atan2(val_arg_1, val_arg_2));
+                            thr->push(tmp);
+                            return;
+                        }
                     }
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
                 }
             };
 
