@@ -42,8 +42,9 @@ namespace g0at
                 object *create_function_println();
                 object *create_function_exit();
                 object *create_function_abs();
-                object *create_function_sin();
                 object *create_function_sqrt();
+                object *create_function_cbrt();
+                object *create_function_sin();
                 object *create_function_atan2();
 
                 object_pool *pool;
