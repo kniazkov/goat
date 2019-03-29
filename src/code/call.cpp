@@ -47,7 +47,7 @@ namespace g0at
             assert(func != nullptr); // TODO: exception if is not a function
 
             // call
-            func->call(thr, arg_count);
+            func->call(thr, arg_count, false);
         }
     };
 };

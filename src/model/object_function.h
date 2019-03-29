@@ -36,8 +36,7 @@ namespace g0at
             object_type get_type() const override;
             object_function *to_object_function() override;
             std::wstring to_string() const override;
-            virtual void call(thread *thr, int arg_count) = 0;
-            virtual void vcall(thread *thr, int arg_count) = 0;
+            virtual void call(thread *thr, int arg_count, bool as_method) = 0;
         };
 
         class object_function_proto : public object

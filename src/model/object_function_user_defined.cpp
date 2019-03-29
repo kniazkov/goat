@@ -33,11 +33,11 @@ namespace g0at
             assert(_first_iid > 0);
         }
 
-        void object_function_user_defined::call(thread *thr, int arg_count, bool is_method)
+        void object_function_user_defined::call(thread *thr, int arg_count, bool as_method)
         {
             // prepare a new context
             context *ctx;
-            if (is_method)
+            if (as_method)
             {
                 object *this_ptr = thr->pop().get_object();
                 ctx = thr->pool->create_context(this_ptr, proto_ctx, thr->ctx);
@@ -71,16 +71,6 @@ namespace g0at
             // change context
             thr->set_context(ctx);
             thr->iid = first_iid;
-        }
-
-        void object_function_user_defined::call(thread *thr, int arg_count)
-        {
-            call(thr, arg_count, false);
-        }
-
-        void object_function_user_defined::vcall(thread *thr, int arg_count)
-        {
-            call(thr, arg_count, true);
         }
 
         void object_function_user_defined::trace()

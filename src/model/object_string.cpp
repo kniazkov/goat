@@ -117,7 +117,7 @@ namespace g0at
             {
             }
             
-            void call(thread *thr, int arg_count) override
+            void call(thread *thr, int arg_count, bool as_method) override
             {
                 object *this_ptr = thr->pop().get_object();
                 assert(this_ptr != nullptr);

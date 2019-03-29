@@ -39,7 +39,7 @@ namespace g0at
                 {
                 }
                 
-                void call(thread *thr, int arg_count) override
+                void call(thread *thr, int arg_count, bool as_method) override
                 {
                     std::cout << global::char_encoder->encode(thr->peek().to_string());
                     thr->pop(arg_count);

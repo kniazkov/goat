@@ -33,9 +33,7 @@ namespace g0at
         {
         public:
             object_function_user_defined(object_pool *pool, int _first_iid, context *_proto_ctx);
-            void call(thread *thr, int arg_count, bool is_method);
-            void call(thread *thr, int arg_count) override;
-            void vcall(thread *thr, int arg_count) override;
+            void call(thread *thr, int arg_count, bool as_method) override;
             void trace() override;
 
             void add_arg_name(object *arg_name) { arg_names.push_back(arg_name); }

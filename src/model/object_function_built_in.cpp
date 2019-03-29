@@ -30,10 +30,5 @@ namespace g0at
             : object_function(pool)
         {
         }
-
-        void object_function_built_in::vcall(thread *thr, int arg_count)
-        {
-            call(thr, arg_count);
-        }
     };
 };

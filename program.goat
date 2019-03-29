@@ -1,26 +1,5 @@
-var aaa = $()
-{
-    try
-    {
-        return 0;
-    }
-    finally
-    {
-        return 1;
-    }
-};
+var str = "text";
+var method = str.length;
 
-var bbb = $()
-{
-    try
-    {
-        return aaa();
-    }
-    finally
-    {
-        return 2;
-    }
-};
-
-var val = bbb();
+var val = method();
 println(val);

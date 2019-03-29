@@ -249,7 +249,7 @@ namespace g0at
             assert(func != nullptr); // TODO: exception if is not a function
 
             // call
-            func->vcall(thr, arg_count);
+            func->call(thr, arg_count, true);
         }
 
         bool object::get_integer(int64_t *pval)
@@ -354,7 +354,7 @@ namespace g0at
             {
             }
             
-            void call(thread *thr, int arg_count) override
+            void call(thread *thr, int arg_count, bool as_method) override
             {
                 thr->pop(arg_count);
                 object *this_ptr = thr->pop().get_object();
@@ -378,7 +378,7 @@ namespace g0at
             {
             }
             
-            void call(thread *thr, int arg_count) override
+            void call(thread *thr, int arg_count, bool as_method) override
             {
                 if (arg_count < 1)
                 {

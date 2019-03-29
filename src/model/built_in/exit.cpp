@@ -38,7 +38,7 @@ namespace g0at
                 {
                 }
                 
-                void call(thread *thr, int arg_count) override
+                void call(thread *thr, int arg_count, bool as_method) override
                 {
                     thr->state = model::thread_state::zombie;
                     while(!thr->stack_is_empty())

@@ -68,7 +68,7 @@ namespace g0at
             {
             }
             
-            void call(thread *thr, int arg_count) override
+            void call(thread *thr, int arg_count, bool as_method) override
             {
                 /*
                     Current stack:
@@ -84,7 +84,7 @@ namespace g0at
                 assert(this_ptr != nullptr);
                 object_function *this_ptr_func = this_ptr->to_object_function();
                 assert(this_ptr_func != nullptr);
-                this_ptr_func->vcall(thr, arg_count - 1);
+                this_ptr_func->call(thr, arg_count - 1, true);
             }
         };
 
@@ -102,7 +102,7 @@ namespace g0at
             {
             }
             
-            void call(thread *thr, int arg_count) override
+            void call(thread *thr, int arg_count, bool as_method) override
             {
                 /*
                     Current stack:
@@ -135,7 +135,7 @@ namespace g0at
                 }
                 thr->push(ctx);
 
-                this_ptr_func->vcall(thr, length);
+                this_ptr_func->call(thr, length, true);
             }
         };
 
