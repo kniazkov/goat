@@ -31,61 +31,61 @@ namespace g0at
         enum class op : uint16_t
         {
             // various
-            nop,
-            end,
+            _nop,
+            _end,
 
             // stack
-            pop,
+            _pop,
 
             // load instructions
-            load,
-            prop,
-            sload,
-            iload,
-            rload,
-            func,
+            _load,
+            _prop,
+            _string,
+            _integer,
+            _real,
+            _func,
 
-            void_,
-            undefined,
-            null,
-            true_,
-            false_,
+            _void,
+            _undef,
+            _null,
+            _true,
+            _false,
 
-            this_,
+            _this,
 
             // store instructions
-            var,
-            store,
+            _var,
+            _store,
 
             // creators
             _object,
-            array,
+            _array,
 
             // branching
-            call,
-            vcall,
-            ret,
-            retv,
-            raise,
-            ifnot,
-            jmp,
-            enter,
-            leave,
+            _call,
+            _vcall,
+            _ret,
+            _retv,
+            _throw,
+            _ifnot,
+            _jmp,
+            _enter,
+            _leave,
             _try,
             _catch,
             _finally,
 
             // methods
-            clone,
-            insof,
+            _clone,
+            _insof,
 
             // operators
             _add,
-            sub,
-            neg,
+            _sub,
+            _neg,
 
-            eq,
-            neq
+            _eq,
+            _neq
         };
     };
 };

@@ -37,7 +37,7 @@ namespace g0at
         void lvalue_generator::visit(pt::variable *ref)
         {
             int id = name_cache->get_id(ref->get_name());
-            code->add_instruction(new code::store(id));
+            code->add_instruction(new code::_store(id));
         }
     };
 };

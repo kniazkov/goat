@@ -27,12 +27,12 @@ namespace g0at
 {
     namespace code
     {
-        void leave::accept(instruction_visitor *visitor)
+        void _leave::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void leave::exec(model::thread *thr)
+        void _leave::exec(model::thread *thr)
         {
             thr->restore_context();
             assert(thr->ctx != nullptr);

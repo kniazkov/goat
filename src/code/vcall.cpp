@@ -29,18 +29,18 @@ namespace g0at
 {
     namespace code
     {
-        vcall::vcall(int _id, int _arg_count )
+        _vcall::_vcall(int _id, int _arg_count )
             : id(_id), arg_count(_arg_count)
         {
             assert(_arg_count >= 0);
         }
 
-        void vcall::accept(instruction_visitor *visitor)
+        void _vcall::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void vcall::exec(model::thread *thr)
+        void _vcall::exec(model::thread *thr)
         {
             model::object_function *func = nullptr;
             model::object_string *key = thr->pool->get_static_string(id);

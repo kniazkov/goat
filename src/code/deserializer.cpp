@@ -28,40 +28,41 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/exception.h"
 #include <assert.h>
 #include <memory.h>
-#include "load_string.h"
-#include "load_var.h"
+#include "nop.h"
+#include "string.h"
+#include "load.h"
 #include "call.h"
 #include "pop.h"
 #include "end.h"
-#include "load_integer.h"
-#include "decl_var.h"
+#include "integer.h"
+#include "var.h"
 #include "store.h"
-#include "load_real.h"
-#include "load_func.h"
+#include "real.h"
+#include "func.h"
 #include "object.h"
-#include "load_prop.h"
-#include "if_not.h"
+#include "prop.h"
+#include "ifnot.h"
 #include "jmp.h"
 #include "add.h"
 #include "sub.h"
 #include "neg.h"
-#include "load_void.h"
-#include "load_undefined.h"
-#include "load_null.h"
+#include "void.h"
+#include "undef.h"
+#include "null.h"
 #include "ret.h"
-#include "ret_val.h"
-#include "load_true.h"
-#include "load_false.h"
+#include "retv.h"
+#include "true.h"
+#include "false.h"
 #include "eq.h"
 #include "neq.h"
 #include "vcall.h"
-#include "this_ptr.h"
+#include "this.h"
 #include "clone.h"
-#include "instance_of.h"
+#include "insof.h"
 #include "array.h"
 #include "enter.h"
 #include "leave.h"
-#include "raise.h"
+#include "throw.h"
 #include "try.h"
 #include "catch.h"
 #include "finally.h"
@@ -205,35 +206,35 @@ namespace g0at
 
         void deserializer::c_nop(source *src, code *dst)
         {
-
+            dst->add_instruction(new _nop());
         }
 
-        void deserializer::c_load_string(source *src, code *dst)
+        void deserializer::c_string(source *src, code *dst)
         {
             int id = pop_int32(src);
-            dst->add_instruction(new load_string(id));
+            dst->add_instruction(new _string(id));
         }
 
-        void deserializer::c_load_var(source *src, code *dst)
+        void deserializer::c_load(source *src, code *dst)
         {
             int id = pop_int32(src);
-            dst->add_instruction(new load_var(id));
+            dst->add_instruction(new _load(id));
         }
 
         void deserializer::c_call(source *src, code *dst)
         {
             int arg_count = pop_int32(src);
-            dst->add_instruction(new call(arg_count));
+            dst->add_instruction(new _call(arg_count));
         }
 
         void deserializer::c_pop(source *src, code *dst)
         {
-            dst->add_instruction(new pop());
+            dst->add_instruction(new _pop());
         }
 
         void deserializer::c_end(source *src, code *dst)
         {
-            dst->add_instruction(new end());
+            dst->add_instruction(new _end());
         }
 
         void deserializer::c_add(source *src, code *dst)
@@ -241,59 +242,59 @@ namespace g0at
             dst->add_instruction(new _add());
         }
 
-        void deserializer::c_load_integer(source *src, code *dst)
+        void deserializer::c_integer(source *src, code *dst)
         {
             int64_t value = pop_int64(src);
-            dst->add_instruction(new load_integer(value));
+            dst->add_instruction(new _integer(value));
         }
 
         void deserializer::c_sub(source *src, code *dst)
         {
-            dst->add_instruction(new sub());
+            dst->add_instruction(new _sub());
         }
 
         void deserializer::c_neg(source *src, code *dst)
         {
-            dst->add_instruction(new neg());
+            dst->add_instruction(new _neg());
         }
 
-        void deserializer::c_load_void(source *src, code *dst)
+        void deserializer::c_void(source *src, code *dst)
         {
-            dst->add_instruction(new load_void());
+            dst->add_instruction(new _void());
         }
 
-        void deserializer::c_load_undefined(source *src, code *dst)
+        void deserializer::c_undef(source *src, code *dst)
         {
-            dst->add_instruction(new load_undefined());
+            dst->add_instruction(new _undef());
         }
 
-        void deserializer::c_load_null(source *src, code *dst)
+        void deserializer::c_null(source *src, code *dst)
         {
-            dst->add_instruction(new load_null());
+            dst->add_instruction(new _null());
         }
 
-        void deserializer::c_decl_var(source *src, code *dst)
+        void deserializer::c_var(source *src, code *dst)
         {
             int id = pop_int32(src);
-            dst->add_instruction(new decl_var(id));
+            dst->add_instruction(new _var(id));
         }
 
         void deserializer::c_store(source *src, code *dst)
         {
             int id = pop_int32(src);
-            dst->add_instruction(new store(id));
+            dst->add_instruction(new _store(id));
         }
 
-        void deserializer::c_load_real(source *src, code *dst)
+        void deserializer::c_real(source *src, code *dst)
         {
             double value = pop_double(src);
-            dst->add_instruction(new load_real(value));
+            dst->add_instruction(new _real(value));
         }
 
-        void deserializer::c_load_func(source *src, code *dst)
+        void deserializer::c_func(source *src, code *dst)
         {
             int iid = pop_int32(src);
-            auto instr = new load_func(iid);
+            auto instr = new _func(iid);
             int arg_count = pop_int32(src);
             for (int i = 0; i < arg_count; i++)
             {
@@ -305,12 +306,12 @@ namespace g0at
 
         void deserializer::c_ret(source *src, code *dst)
         {
-            dst->add_instruction(new ret());
+            dst->add_instruction(new _ret());
         }
 
-        void deserializer::c_ret_val(source *src, code *dst)
+        void deserializer::c_retv(source *src, code *dst)
         {
-            dst->add_instruction(new ret_val());
+            dst->add_instruction(new _retv());
         }
 
         void deserializer::c_object(source *src, code *dst)
@@ -319,87 +320,87 @@ namespace g0at
             dst->add_instruction(new _object(count));
         }
 
-        void deserializer::c_load_prop(source *src, code *dst)
+        void deserializer::c_prop(source *src, code *dst)
         {
             int id = pop_int32(src);
-            dst->add_instruction(new load_prop(id));
+            dst->add_instruction(new _prop(id));
         }
 
-        void deserializer::c_load_true(source *src, code *dst)
+        void deserializer::c_true(source *src, code *dst)
         {
-            dst->add_instruction(new load_true());
+            dst->add_instruction(new _true());
         }
 
-        void deserializer::c_load_false(source *src, code *dst)
+        void deserializer::c_false(source *src, code *dst)
         {
-            dst->add_instruction(new load_false());
+            dst->add_instruction(new _false());
         }
 
         void deserializer::c_eq(source *src, code *dst)
         {
-            dst->add_instruction(new eq());
+            dst->add_instruction(new _eq());
         }
 
         void deserializer::c_neq(source *src, code *dst)
         {
-            dst->add_instruction(new neq());
+            dst->add_instruction(new _neq());
         }
 
-        void deserializer::c_if_not(source *src, code *dst)
+        void deserializer::c_ifnot(source *src, code *dst)
         {
             int iid = pop_int32(src);
-            dst->add_instruction(new if_not(iid));
+            dst->add_instruction(new _ifnot(iid));
         }
 
         void deserializer::c_jmp(source *src, code *dst)
         {
             int iid = pop_int32(src);
-            dst->add_instruction(new jmp(iid));
+            dst->add_instruction(new _jmp(iid));
         }
 
         void deserializer::c_vcall(source *src, code *dst)
         {
             int id = pop_int32(src);
             int arg_count = pop_int32(src);
-            dst->add_instruction(new vcall(id, arg_count));
+            dst->add_instruction(new _vcall(id, arg_count));
         }
 
-        void deserializer::c_this_ptr(source *src, code *dst)
+        void deserializer::c_this(source *src, code *dst)
         {
-            dst->add_instruction(new this_ptr());
+            dst->add_instruction(new _this());
         }
 
         void deserializer::c_clone(source *src, code *dst)
         {
             int arg_count = pop_int32(src);
-            dst->add_instruction(new clone(arg_count));
+            dst->add_instruction(new _clone(arg_count));
         }
 
-        void deserializer::c_instance_of(source *src, code *dst)
+        void deserializer::c_insof(source *src, code *dst)
         {
             int arg_count = pop_int32(src);
-            dst->add_instruction(new instance_of(arg_count));
+            dst->add_instruction(new _insof(arg_count));
         }
 
         void deserializer::c_array(source *src, code *dst)
         {
             int count = pop_int32(src);
-            dst->add_instruction(new array(count));
+            dst->add_instruction(new _array(count));
         }
 
         void deserializer::c_enter(source *src, code *dst)
         {
-            dst->add_instruction(new enter());
+            dst->add_instruction(new _enter());
         }
 
         void deserializer::c_leave(source *src, code *dst)
         {
-            dst->add_instruction(new leave());
+            dst->add_instruction(new _leave());
         }
 
-        void deserializer::c_raise(source *src, code *dst)
+        void deserializer::c_throw(source *src, code *dst)
         {
-            dst->add_instruction(new raise());
+            dst->add_instruction(new _throw());
         }
 
         void deserializer::c_try(source *src, code *dst)
@@ -422,44 +423,44 @@ namespace g0at
 
         deserializer::deserializer()
         {
-            cc[op::nop]       = c_nop;
-            cc[op::sload]     = c_load_string;
-            cc[op::load]      = c_load_var;
-            cc[op::call]      = c_call;
-            cc[op::pop]       = c_pop;
-            cc[op::end]       = c_end;
-            cc[op::_add]      = c_add;
-            cc[op::iload]     = c_load_integer;
-            cc[op::sub]       = c_sub;
-            cc[op::neg]       = c_neg;
-            cc[op::void_]     = c_load_void;
-            cc[op::undefined] = c_load_undefined;
-            cc[op::null]      = c_load_null;
-            cc[op::var]       = c_decl_var;
-            cc[op::store]     = c_store;
-            cc[op::rload]     = c_load_real;
-            cc[op::func]      = c_load_func;
-            cc[op::ret]       = c_ret;
-            cc[op::retv]      = c_ret_val;
-            cc[op::_object]   = c_object;
-            cc[op::prop]      = c_load_prop;
-            cc[op::true_]     = c_load_true;
-            cc[op::false_]    = c_load_false;
-            cc[op::eq]        = c_eq;
-            cc[op::neq]       = c_neq;
-            cc[op::ifnot]     = c_if_not;
-            cc[op::jmp]       = c_jmp;
-            cc[op::vcall]     = c_vcall;
-            cc[op::this_]     = c_this_ptr;
-            cc[op::clone]     = c_clone;
-            cc[op::insof]     = c_instance_of;
-            cc[op::array]     = c_array;
-            cc[op::enter]     = c_enter;
-            cc[op::leave]     = c_leave;
-            cc[op::raise]     = c_raise;
-            cc[op::_try]      = c_try;
-            cc[op::_catch]    = c_catch;
-            cc[op::_finally]  = c_finally;
+            cc[op::_nop]     = c_nop;
+            cc[op::_string]  = c_string;
+            cc[op::_load]    = c_load;
+            cc[op::_call]    = c_call;
+            cc[op::_pop]     = c_pop;
+            cc[op::_end]     = c_end;
+            cc[op::_add]     = c_add;
+            cc[op::_integer] = c_integer;
+            cc[op::_sub]     = c_sub;
+            cc[op::_neg]     = c_neg;
+            cc[op::_void]    = c_void;
+            cc[op::_undef]   = c_undef;
+            cc[op::_null]    = c_null;
+            cc[op::_var]     = c_var;
+            cc[op::_store]   = c_store;
+            cc[op::_real]    = c_real;
+            cc[op::_func]    = c_func;
+            cc[op::_ret]     = c_ret;
+            cc[op::_retv]    = c_retv;
+            cc[op::_object]  = c_object;
+            cc[op::_prop]    = c_prop;
+            cc[op::_true]    = c_true;
+            cc[op::_false]   = c_false;
+            cc[op::_eq]      = c_eq;
+            cc[op::_neq]     = c_neq;
+            cc[op::_ifnot]   = c_ifnot;
+            cc[op::_jmp]     = c_jmp;
+            cc[op::_vcall]   = c_vcall;
+            cc[op::_this]    = c_this;
+            cc[op::_clone]   = c_clone;
+            cc[op::_insof]   = c_insof;
+            cc[op::_array]   = c_array;
+            cc[op::_enter]   = c_enter;
+            cc[op::_leave]   = c_leave;
+            cc[op::_throw]   = c_throw;
+            cc[op::_try]     = c_try;
+            cc[op::_catch]   = c_catch;
+            cc[op::_finally] = c_finally;
         }
     };
 };

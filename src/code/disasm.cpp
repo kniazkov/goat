@@ -22,22 +22,22 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "disasm.h"
 #include "lib/utils.h"
-#include "load_string.h"
-#include "load_var.h"
+#include "string.h"
+#include "load.h"
 #include "call.h"
 #include "pop.h"
-#include "load_integer.h"
-#include "decl_var.h"
+#include "integer.h"
+#include "var.h"
 #include "store.h"
-#include "load_real.h"
-#include "load_func.h"
+#include "real.h"
+#include "func.h"
 #include "object.h"
-#include "load_prop.h"
-#include "if_not.h"
+#include "prop.h"
+#include "ifnot.h"
 #include "jmp.h"
 #include "vcall.h"
 #include "clone.h"
-#include "instance_of.h"
+#include "insof.h"
 #include "array.h"
 #include "try.h"
 #include "catch.h"
@@ -81,29 +81,34 @@ namespace g0at
             return tmp.str();
         }
 
-        void disasm::visit(load_string *ref)
+        void disasm::visit(_nop *ref)
+        {
+            stream << L"nop";
+        }
+
+        void disasm::visit(_string *ref)
         {
             int id = ref->get_id();
-            stream << L"sload \t" << id << L"\t; \"" <<  lib::escape_special_chars(identifiers.at(id)) << '"';
+            stream << L"string\t" << id << L"\t; \"" <<  lib::escape_special_chars(identifiers.at(id)) << '"';
         }
 
-        void disasm::visit(load_var *ref)
+        void disasm::visit(_load *ref)
         {
             int id = ref->get_id();
-            stream << L"load \t" << id << L"\t; " << identifiers.at(id);
+            stream << L"load\t" << id << L"\t; " << identifiers.at(id);
         }
 
-        void disasm::visit(call *ref)
+        void disasm::visit(_call *ref)
         {
-            stream << L"call \t" << ref->get_arg_count();
+            stream << L"call\t" << ref->get_arg_count();
         }
 
-        void disasm::visit(pop *ref)
+        void disasm::visit(_pop *ref)
         {
             stream << L"pop";
         }
 
-        void disasm::visit(end *ref)
+        void disasm::visit(_end *ref)
         {
             stream << L"end";
         }
@@ -113,57 +118,57 @@ namespace g0at
             stream << L"add";
         }
 
-        void disasm::visit(load_integer *ref)
+        void disasm::visit(_integer *ref)
         {
-            stream << L"iload \t" << ref->get_value();
+            stream << L"integer\t" << ref->get_value();
         }
 
-        void disasm::visit(sub *ref)
+        void disasm::visit(_sub *ref)
         {
             stream << L"sub";
         }
 
-        void disasm::visit(neg *ref)
+        void disasm::visit(_neg *ref)
         {
             stream << L"neg";
         }
 
-        void disasm::visit(load_void *ref)
+        void disasm::visit(_void *ref)
         {
             stream << L"void";
         }
 
-        void disasm::visit(load_undefined *ref)
+        void disasm::visit(_undef *ref)
         {
             stream << L"undef";
         }
 
-        void disasm::visit(load_null *ref)
+        void disasm::visit(_null *ref)
         {
             stream << L"null";
         }
 
-        void disasm::visit(decl_var *ref)
+        void disasm::visit(_var *ref)
         {
             int id = ref->get_id();
-            stream << L"var \t" << id << L"\t; " << identifiers.at(id);
+            stream << L"var\t" << id << L"\t; " << identifiers.at(id);
         }
 
-        void disasm::visit(store *ref)
+        void disasm::visit(_store *ref)
         {
             int id = ref->get_id();
-            stream << L"store \t" << id << L"\t; " << identifiers.at(id);
+            stream << L"store\t" << id << L"\t; " << identifiers.at(id);
         }
 
-        void disasm::visit(load_real *ref)
+        void disasm::visit(_real *ref)
         {
-            stream << L"rload \t" << lib::double_to_wstring(ref->get_value());
+            stream << L"real\t" << lib::double_to_wstring(ref->get_value());
         }
 
-        void disasm::visit(load_func *ref)
+        void disasm::visit(_func *ref)
         {
             int i, size = ref->get_arg_ids_count();
-            stream << L"func \t" << ref->get_first_iid();
+            stream << L"func\t" << ref->get_first_iid();
             for (i = 0; i < size; i++)
             {
                 stream  << L", " << ref->get_arg_id(i);
@@ -180,96 +185,96 @@ namespace g0at
             }
         }
 
-        void disasm::visit(ret *ref)
+        void disasm::visit(_ret *ref)
         {
             stream << L"ret";
         }
 
-        void disasm::visit(ret_val *ref)
+        void disasm::visit(_retv *ref)
         {
             stream << L"retv";
         }
 
         void disasm::visit(_object *ref)
         {
-            stream << L"object \t" << ref->get_count();
+            stream << L"object\t" << ref->get_count();
         }
 
-        void disasm::visit(load_prop *ref)
+        void disasm::visit(_prop *ref)
         {
             int id = ref->get_id();
-            stream << L"prop \t" << id << L"\t; " << identifiers.at(id);
+            stream << L"prop\t" << id << L"\t; " << identifiers.at(id);
         }
 
-        void disasm::visit(load_true *ref)
+        void disasm::visit(_true *ref)
         {
             stream << L"true";
         }
 
-        void disasm::visit(load_false *ref)
+        void disasm::visit(_false *ref)
         {
             stream << L"false";
         }
 
-        void disasm::visit(eq *ref)
+        void disasm::visit(_eq *ref)
         {
             stream << L"eq";
         }
 
-        void disasm::visit(neq *ref)
+        void disasm::visit(_neq *ref)
         {
             stream << L"neq";
         }
 
-        void disasm::visit(if_not *ref)
+        void disasm::visit(_ifnot *ref)
         {
-            stream << L"ifnot \t" << ref->get_iid();
+            stream << L"ifnot\t" << ref->get_iid();
         }
 
-        void disasm::visit(jmp *ref)
+        void disasm::visit(_jmp *ref)
         {
-            stream << L"jmp \t" << ref->get_iid();
+            stream << L"jmp\t" << ref->get_iid();
         }
 
-        void disasm::visit(vcall *ref)
+        void disasm::visit(_vcall *ref)
         {
             int id = ref->get_id();
-            stream << L"vcall \t" << id << L", " << ref->get_arg_count() << L"\t; " << identifiers.at(id);
+            stream << L"vcall\t" << id << L", " << ref->get_arg_count() << L"\t; " << identifiers.at(id);
         }
 
-        void disasm::visit(this_ptr *ref)
+        void disasm::visit(_this *ref)
         {
             stream << L"this";
         }
 
-        void disasm::visit(clone *ref)
+        void disasm::visit(_clone *ref)
         {
-            stream << L"clone \t" << ref->get_arg_count();
+            stream << L"clone\t" << ref->get_arg_count();
         }
 
-        void disasm::visit(instance_of *ref)
+        void disasm::visit(_insof *ref)
         {
-            stream << L"insof \t" << ref->get_arg_count();
+            stream << L"insof\t" << ref->get_arg_count();
         }
 
-        void disasm::visit(array *ref)
+        void disasm::visit(_array *ref)
         {
-            stream << L"array \t" << ref->get_count();
+            stream << L"array\t" << ref->get_count();
         }
 
-        void disasm::visit(enter *ref)
+        void disasm::visit(_enter *ref)
         {
             stream << L"enter";
         }
 
-        void disasm::visit(leave *ref)
+        void disasm::visit(_leave *ref)
         {
             stream << L"leave";
         }
 
-        void disasm::visit(raise *ref)
+        void disasm::visit(_throw *ref)
         {
-            stream << L"raise";
+            stream << L"throw";
         }
 
         void disasm::visit(_try *ref)

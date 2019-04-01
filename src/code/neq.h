@@ -28,7 +28,7 @@ namespace g0at
 {
     namespace code
     {
-        class neq : public instruction
+        class _neq : public instruction
         {
         public:
             void accept(instruction_visitor *visitor) override;

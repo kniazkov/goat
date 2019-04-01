@@ -27,17 +27,17 @@ namespace g0at
 {
     namespace code
     {
-        jmp::jmp(int _iid)
+        _jmp::_jmp(int _iid)
             : iid(_iid)
         {
         }
 
-        void jmp::accept(instruction_visitor *visitor)
+        void _jmp::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void jmp::exec(model::thread *thr)
+        void _jmp::exec(model::thread *thr)
         {
             assert(iid >= 0);
             thr->iid = iid;

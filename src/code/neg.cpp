@@ -26,12 +26,12 @@ namespace g0at
 {
     namespace code
     {
-        void neg::accept(instruction_visitor *visitor)
+        void _neg::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void neg::exec(model::thread *thr)
+        void _neg::exec(model::thread *thr)
         {
             model::variable var = thr->peek();
             var.op_neg(thr);

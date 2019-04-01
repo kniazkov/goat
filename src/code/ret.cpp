@@ -27,12 +27,12 @@ namespace g0at
 {
     namespace code
     {
-        void ret::accept(instruction_visitor *visitor)
+        void _ret::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void ret::exec(model::thread *thr)
+        void _ret::exec(model::thread *thr)
         {
             while(
                 thr->ctx 

@@ -26,12 +26,12 @@ namespace g0at
 {
     namespace code
     {
-        void enter::accept(instruction_visitor *visitor)
+        void _enter::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void enter::exec(model::thread *thr)
+        void _enter::exec(model::thread *thr)
         {
             model::context *ctx = thr->pool->create_context(thr->ctx);
             thr->set_context(ctx);
