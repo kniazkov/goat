@@ -27,7 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <sstream>
 #include <fstream>
 #include <streambuf>
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

@@ -25,7 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/utils.h"
 #include "lib/utf8_encoder.h"
 #include "lib/rle.h"
-#include <assert.h>
+#include "lib/assert.h"
 #include "string.h"
 #include "load.h"
 #include "call.h"

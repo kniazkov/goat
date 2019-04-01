@@ -23,7 +23,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lvalue_generator.h"
 #include "compiler/pt/variable.h"
 #include "code/store.h"
-#include <assert.h>
 
 namespace g0at
 {

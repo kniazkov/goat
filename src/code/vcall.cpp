@@ -23,7 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "vcall.h"
 #include "model/object_function.h"
 #include "model/object_string.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

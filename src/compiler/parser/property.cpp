@@ -28,7 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/property.h"
 #include "common_exceptions.h"
 #include "global/global.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

@@ -27,7 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/expression.h"
 #include "compiler/ast/semicolon.h"
 #include "compiler/ast/statement_return.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

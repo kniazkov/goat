@@ -36,7 +36,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/static_string.h"
 #include "compiler/ast/dbg_output.h"
 #include "global/global.h"
-#include <assert.h>
+#include "lib/assert.h"
 #include <iostream>
 
 namespace g0at

@@ -25,7 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "common_exceptions.h"
 #include "compiler/ast/brackets_pair.h"
 #include "compiler/ast/statement_block.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

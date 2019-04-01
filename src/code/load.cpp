@@ -22,7 +22,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "load.h"
 #include "model/object_string.h"
-#include <assert.h>
 
 namespace g0at
 {

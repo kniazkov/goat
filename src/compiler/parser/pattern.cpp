@@ -22,7 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "pattern.h"
 #include "compiler/ast/token.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

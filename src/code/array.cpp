@@ -22,7 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "array.h"
 #include "model/object_array.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

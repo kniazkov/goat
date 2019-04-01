@@ -24,7 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "grammar_factory.h"
 #include "compiler/ast/identifier.h"
 #include "compiler/ast/variable.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

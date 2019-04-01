@@ -25,7 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_function_built_in.h"
 #include "thread.h"
 #include "lib/utils.h"
-#include <assert.h>
+#include "lib/assert.h"
 #include <sstream>
 
 namespace g0at

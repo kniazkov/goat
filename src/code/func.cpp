@@ -23,7 +23,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "func.h"
 #include "model/object_function_user_defined.h"
 #include "model/object_string.h"
-#include <assert.h>
 
 namespace g0at
 {
