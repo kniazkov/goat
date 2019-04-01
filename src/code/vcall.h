@@ -28,10 +28,10 @@ namespace g0at
 {
     namespace code
     {
-        class vcall : public instruction
+        class _vcall : public instruction
         {
         public:
-            vcall(int _id, int _arg_count);
+            _vcall(int _id, int _arg_count);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
 

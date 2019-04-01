@@ -23,16 +23,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "instruction.h"
-#include <string>
 
 namespace g0at
 {
     namespace code
     {
-        class store : public instruction
+        class _store : public instruction
         {
         public:
-            store(int _id);
+            _store(int _id);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
 

@@ -28,7 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/expression.h"
 #include "compiler/ast/statement.h"
 #include "compiler/ast/statement_while.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

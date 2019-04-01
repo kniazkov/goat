@@ -24,7 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "grammar_factory.h"
 #include "compiler/ast/brackets_pair.h"
 #include "compiler/ast/function_call.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 
 namespace g0at

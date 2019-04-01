@@ -28,10 +28,10 @@ namespace g0at
 {
     namespace code
     {
-        class array : public instruction
+        class _array : public instruction
         {
         public:
-            array(int _count);
+            _array(int _count);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
 

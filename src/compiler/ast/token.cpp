@@ -21,8 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "token.h"
-#include <assert.h>
-//#include <iostream>
+#include "lib/assert.h"
 
 namespace g0at
 {

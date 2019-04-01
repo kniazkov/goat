@@ -28,7 +28,7 @@ namespace g0at
 {
     namespace code
     {
-        class pop : public instruction
+        class _pop : public instruction
         {
         public:
             void accept(instruction_visitor *visitor) override;

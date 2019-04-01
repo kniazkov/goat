@@ -24,7 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/functional.h"
 #include "lib/utils.h"
 #include "thread.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

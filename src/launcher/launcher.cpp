@@ -41,7 +41,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "vm/vm.h"
 #include <iostream>
 #include <exception>
-#include <assert.h>
+#include "lib/assert.h"
 #include <fstream>
 #include <streambuf>
 #include <cstring>

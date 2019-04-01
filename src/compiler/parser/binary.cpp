@@ -26,7 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/token_operator.h"
 #include "compiler/ast/expression.h"
 #include "compiler/ast/binary.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

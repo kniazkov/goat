@@ -22,7 +22,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "not_equal.h"
 #include "is_not_equal_to.h"
-#include <assert.h>
 
 namespace g0at
 {

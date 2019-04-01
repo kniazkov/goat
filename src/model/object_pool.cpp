@@ -22,7 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_pool.h"
 #include "object.h"
-#include <assert.h>
+#include "lib/assert.h"
 #include "object_void.h"
 #include "object_undefined.h"
 #include "object_null.h"

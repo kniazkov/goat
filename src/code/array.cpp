@@ -22,24 +22,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "array.h"
 #include "model/object_array.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {
     namespace code
     {
-        array::array(int _count)
+        _array::_array(int _count)
             : count(_count)
         {
             assert(_count >= 0);
         }
 
-        void array::accept(instruction_visitor *visitor)
+        void _array::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void array::exec(model::thread *thr)
+        void _array::exec(model::thread *thr)
         {
             model::object_array *result = thr->pool->create_object_array();
             model::variable var;

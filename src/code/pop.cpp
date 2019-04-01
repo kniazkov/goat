@@ -21,18 +21,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "pop.h"
-#include <assert.h>
 
 namespace g0at
 {
     namespace code
     {
-        void pop::accept(instruction_visitor *visitor)
+        void _pop::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void pop::exec(model::thread *thr)
+        void _pop::exec(model::thread *thr)
         {
             thr->pop();
         }

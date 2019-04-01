@@ -28,10 +28,10 @@ namespace g0at
 {
     namespace code
     {
-        class clone : public instruction
+        class _clone : public instruction
         {
         public:
-            clone(int _arg_count);
+            _clone(int _arg_count);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
 

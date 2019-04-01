@@ -22,23 +22,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "store.h"
 #include "model/object_string.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {
     namespace code
     {
-        store::store(int _id)
+        _store::_store(int _id)
             : id(_id)
         {
         }
 
-        void store::accept(instruction_visitor *visitor)
+        void _store::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void store::exec(model::thread *thr)
+        void _store::exec(model::thread *thr)
         {
             model::object_string *key = thr->pool->get_static_string(id);
             model::variable *var = thr->ctx->find_object(key);

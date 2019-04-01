@@ -27,18 +27,18 @@ namespace g0at
 {
     namespace code
     {
-        clone::clone(int _arg_count)
+        _clone::_clone(int _arg_count)
             : arg_count(_arg_count)
         {
             assert(_arg_count >= 0);
         }
 
-        void clone::accept(instruction_visitor *visitor)
+        void _clone::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void clone::exec(model::thread *thr)
+        void _clone::exec(model::thread *thr)
         {
             model::variable left = thr->peek();
             left.m_clone(thr, arg_count);        

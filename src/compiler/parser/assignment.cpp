@@ -28,7 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/binary.h"
 #include "compiler/common/compilation_error.h"
 #include "global/global.h"
-#include <assert.h>
+#include "lib/assert.h"
 
 namespace g0at
 {

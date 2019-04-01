@@ -28,7 +28,7 @@ namespace g0at
 {
     namespace code
     {
-        class enter : public instruction
+        class _enter : public instruction
         {
         public:
             void accept(instruction_visitor *visitor) override;

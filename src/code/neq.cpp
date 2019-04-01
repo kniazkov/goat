@@ -26,12 +26,12 @@ namespace g0at
 {
     namespace code
     {
-        void neq::accept(instruction_visitor *visitor)
+        void _neq::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void neq::exec(model::thread *thr)
+        void _neq::exec(model::thread *thr)
         {
             model::variable left = thr->peek();
             left.op_neq(thr);

@@ -28,18 +28,18 @@ namespace g0at
 {
     namespace code
     {
-        call::call(int _arg_count)
+        _call::_call(int _arg_count)
             : arg_count(_arg_count)
         {
             assert(_arg_count >= 0);
         }
 
-        void call::accept(instruction_visitor *visitor)
+        void _call::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void call::exec(model::thread *thr)
+        void _call::exec(model::thread *thr)
         {
             // get func. object from the stack
             model::object *obj = thr->pop().to_object(thr->pool);

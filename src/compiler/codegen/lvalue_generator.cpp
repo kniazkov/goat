@@ -23,7 +23,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lvalue_generator.h"
 #include "compiler/pt/variable.h"
 #include "code/store.h"
-#include <assert.h>
 
 namespace g0at
 {
@@ -37,7 +36,7 @@ namespace g0at
         void lvalue_generator::visit(pt::variable *ref)
         {
             int id = name_cache->get_id(ref->get_name());
-            code->add_instruction(new code::store(id));
+            code->add_instruction(new code::_store(id));
         }
     };
 };

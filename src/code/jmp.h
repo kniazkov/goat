@@ -28,10 +28,10 @@ namespace g0at
 {
     namespace code
     {
-        class jmp : public instruction
+        class _jmp : public instruction
         {
         public:
-            jmp(int _iid);
+            _jmp(int _iid);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
 

@@ -26,12 +26,12 @@ namespace g0at
 {
     namespace code
     {
-        void end::accept(instruction_visitor *visitor)
+        void _end::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void end::exec(model::thread *thr)
+        void _end::exec(model::thread *thr)
         {
             thr->state = model::thread_state::zombie;
         }
