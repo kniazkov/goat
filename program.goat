@@ -1,1 +1,11 @@
-print("ok.");
+var A =
+{
+    a : 1;
+};
+
+var B = A ->
+{
+    b : "text"
+};
+
+println(B.a);
