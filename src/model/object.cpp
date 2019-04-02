@@ -300,6 +300,14 @@ namespace g0at
             thr->push(result);
         }
 
+        void object::op_inherit(thread *thr)
+        {
+            thr->pop();
+            object *right = thr->peek().to_object(thr->pool);
+            right->proto.clear();
+            right->proto.push_back(this);
+        }
+
         void object::m_clone(thread *thr, int arg_count)
         {
             // base object just returns the object itself, so, primitives are not cloneable
@@ -468,6 +476,11 @@ namespace g0at
             assert(false);
         }
 
+        void handler::op_inherit(variable *var, thread *thr)
+        {
+            assert(false);
+        }
+
         void handler::m_clone(variable *var, thread *thr, int arg_count)
         {
             // base handler just returns the object itself, so, primitives are not cloneable
@@ -561,6 +574,11 @@ namespace g0at
             void op_neq(variable *var, thread *thr) override
             {
                 var->data.obj->op_neq(thr);
+            }
+
+            void op_inherit(variable *var, thread *thr) override
+            {
+                var->data.obj->op_inherit(thr);
             }
 
             void m_clone(variable *var, thread *thr, int arg_count) override

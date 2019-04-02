@@ -382,5 +382,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        inherit *token::to_inherit()
+        {
+            return nullptr;
+        }
+
+        inheritance *token::to_inheritance()
+        {
+            return nullptr;
+        }
     }
 };

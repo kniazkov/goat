@@ -249,5 +249,13 @@ namespace g0at
         void token_visitor::visit(statement_try *ref)
         {
         }
+
+        void token_visitor::visit(inherit *ref)
+        {
+        }
+
+        void token_visitor::visit(inheritance *ref)
+        {
+        }
     }
 };

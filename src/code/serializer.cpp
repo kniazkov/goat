@@ -357,5 +357,10 @@ namespace g0at
             push_opcode(op::_finally);
             push_int32(ref->get_iid());
         }
+
+        void serializer::visit(_inherit *ref)
+        {
+            push_opcode(op::_inherit);
+        }
     };
 };

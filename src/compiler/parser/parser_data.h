@@ -53,6 +53,7 @@ namespace g0at
             ast::token_2nd_list if_keywords;
             ast::token_2nd_list throw_keywords;
             ast::token_2nd_list try_keywords;
+            ast::token_2nd_list opers_inherit;
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;

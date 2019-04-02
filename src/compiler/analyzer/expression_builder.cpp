@@ -68,6 +68,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/this_ptr.h"
 #include "compiler/ast/token_array.h"
 #include "compiler/pt/node_array.h"
+#include "compiler/ast/inheritance.h"
+#include "compiler/pt/inheritance.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -272,6 +274,12 @@ namespace g0at
                 tok_obj = tok_obj->next;
             }
             expr = arr.cast<pt::expression>();
+        }
+
+        void expression_builder::visit(ast::inheritance *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::inheritance(ref->get_position(), pair.first, pair.second);
         }
 
         std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>

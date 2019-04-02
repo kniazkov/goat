@@ -93,6 +93,7 @@ namespace g0at
             inline void op_neg(thread *thr);
             inline void op_eq(thread *thr);
             inline void op_neq(thread *thr);
+            inline void op_inherit(thread *thr);
 
             inline void m_clone(thread *thr, int arg_count);
             inline void m_instance_of(thread *thr, int arg_count);
@@ -158,6 +159,7 @@ namespace g0at
             virtual void op_neg(thread *thr);
             virtual void op_eq(thread *thr);
             virtual void op_neq(thread *thr);
+            virtual void op_inherit(thread *thr);
 
             virtual void m_clone(thread *thr, int arg_count);
             virtual void m_instance_of(thread *thr, int arg_count);
@@ -220,6 +222,7 @@ namespace g0at
             virtual void op_neg(variable *var, thread *thr);
             virtual void op_eq(variable *var, thread *thr);
             virtual void op_neq(variable *var, thread *thr);
+            virtual void op_inherit(variable *var, thread *thr);
 
             virtual void m_clone(variable *var, thread *thr, int arg_count);
             virtual void m_instance_of(variable *var, thread *thr, int arg_count);
@@ -334,6 +337,11 @@ namespace g0at
         void variable::op_neq(thread *thr)
         {
             hndl->op_neq(this, thr);
+        }
+
+        void variable::op_inherit(thread *thr)
+        {
+            hndl->op_inherit(this, thr);
         }
         
         void variable::m_clone(thread *thr, int arg_count)

@@ -85,7 +85,9 @@ namespace g0at
             _neg,
 
             _eq,
-            _neq
+            _neq,
+
+            _inherit
         };
     };
 };

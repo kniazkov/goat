@@ -48,6 +48,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_if.h"
 #include "compiler/pt/statement_throw.h"
 #include "compiler/pt/statement_try.h"
+#include "compiler/pt/inheritance.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -84,6 +85,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/try.h"
 #include "code/catch.h"
 #include "code/finally.h"
+#include "code/inherit.h"
 
 namespace g0at
 {
@@ -450,6 +452,14 @@ namespace g0at
                 stmt_finally->accept(this);
                 code->add_instruction(new code::_leave());
             }
+        }
+
+        void generator::visit(pt::inheritance *ref)
+        {
+            ref->get_right()->accept(this);
+            code->add_instruction(new code::_clone(0));
+            ref->get_left()->accept(this);
+            code->add_instruction(new code::_inherit());
         }
     };
 };

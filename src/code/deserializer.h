@@ -106,6 +106,7 @@ namespace g0at
             static void c_try(source *src, code *dst);
             static void c_catch(source *src, code *dst);
             static void c_finally(source *src, code *dst);
+            static void c_inherit(source *src, code *dst);
 
             std::map<op, creator> cc;
         };

@@ -292,5 +292,10 @@ namespace g0at
         {
             stream << L"finally\t" << ref->get_iid();
         }
+
+        void disasm::visit(_inherit *ref)
+        {
+            stream << L"inherit";
+        }
     };
 };

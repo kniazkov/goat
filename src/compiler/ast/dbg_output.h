@@ -92,6 +92,8 @@ namespace g0at
             void visit(keyword_catch *ref) override;
             void visit(keyword_finally *ref) override;
             void visit(statement_try *ref) override;
+            void visit(inherit *ref) override;
+            void visit(inheritance *ref) override;
 
         protected:
             dbg_output(std::wstringstream &_stream, int &_uid);
