@@ -8,11 +8,17 @@ var B = A ->
     b : "text"
 };
 
-var C = B ->
+var C =
 {
     c : 0.1
 };
 
-println(C.a);
-println(C.b);
-println(C.c);
+var D = [B, C] ->
+{
+    d : null
+};
+
+println(D.a);
+println(D.b);
+println(D.c);
+println(D.d);

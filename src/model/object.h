@@ -110,6 +110,7 @@ namespace g0at
 
         class object
         {
+        friend class object_array;
         public:
             object(object_pool *pool);
             object(object_pool *pool, object *proto);

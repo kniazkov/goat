@@ -78,6 +78,17 @@ namespace g0at
             }
         }
 
+        void object_array::op_inherit(thread *thr)
+        {
+            thr->pop();
+            object *right = thr->peek().to_object(thr->pool);
+            right->proto.clear();
+            for (variable &var : vector)
+            {
+                right->proto.push_back(var.to_object(thr->pool));
+            }
+        }
+
         /*
             Prototype
         */
