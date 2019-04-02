@@ -42,6 +42,8 @@ namespace g0at
             std::wstring to_string() const override;
             void trace() override;
 
+            void op_inherit(thread *thr) override;
+
             void add_item(variable &item) { vector.push_back(item); }
             int get_length() { return (int)vector.size(); }
             variable &get_item(int idx) { return vector.at(idx); }

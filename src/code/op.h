@@ -78,6 +78,7 @@ namespace g0at
             // methods
             _clone,
             _insof,
+            _flat,
 
             // operators
             _add,
@@ -85,7 +86,9 @@ namespace g0at
             _neg,
 
             _eq,
-            _neq
+            _neq,
+
+            _inherit
         };
     };
 };

@@ -199,6 +199,15 @@ namespace g0at
             return false;
         }
 
+        void object::flat(object *dst)
+        {
+            for (int i = (int)proto.size() - 1; i >= 0; i--)
+            {
+                proto[i]->flat(dst);
+            }
+            copy_objects_to(dst);
+        }
+
         void object::add_object(object *key, variable &value)
         {
             assert(key != nullptr);
@@ -300,6 +309,14 @@ namespace g0at
             thr->push(result);
         }
 
+        void object::op_inherit(thread *thr)
+        {
+            thr->pop();
+            object *right = thr->peek().to_object(thr->pool);
+            right->proto.clear();
+            right->proto.push_back(this);
+        }
+
         void object::m_clone(thread *thr, int arg_count)
         {
             // base object just returns the object itself, so, primitives are not cloneable
@@ -312,6 +329,12 @@ namespace g0at
         {
             // find and call own 'instanceOf()' method
             find_and_vcall(thr, arg_count, L"instanceOf");
+        }
+
+        void object::m_flat(thread *thr, int arg_count)
+        {
+            // find and call own 'flat()' method
+            find_and_vcall(thr, arg_count, L"flat");
         }
 
         /* 
@@ -405,6 +428,34 @@ namespace g0at
             }
         };
 
+        class generic_flat : public object_function_built_in
+        {
+        public:
+            generic_flat(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, bool as_method) override
+            {
+                if (!as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                thr->pop(arg_count);
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+
+                object *flat = thr->pool->create_generic_object();
+                this_ptr->flat(flat);
+
+                variable tmp;
+                tmp.set_object(flat);
+                thr->push(tmp);
+            }
+        };
+
         generic_proto::generic_proto(object_pool *pool)
             : object(pool, nullptr)
         {
@@ -414,6 +465,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(L"clone"), new generic_clone(pool));
             add_object(pool->get_static_string(L"instanceOf"), new generic_instance_of(pool));
+            add_object(pool->get_static_string(L"flat"), new generic_flat(pool));
         }
 
         /*
@@ -468,6 +520,11 @@ namespace g0at
             assert(false);
         }
 
+        void handler::op_inherit(variable *var, thread *thr)
+        {
+            assert(false);
+        }
+
         void handler::m_clone(variable *var, thread *thr, int arg_count)
         {
             // base handler just returns the object itself, so, primitives are not cloneable
@@ -482,6 +539,19 @@ namespace g0at
             thr->pop(arg_count);
             variable tmp;
             tmp.set_boolean(false);
+            thr->push(tmp);
+        }
+
+        void handler::m_flat(variable *var, thread *thr, int arg_count)
+        {
+            object *this_ptr = thr->pop().to_object(thr->pool);
+            thr->pop(arg_count);
+
+            object *flat = thr->pool->create_generic_object();
+            this_ptr->flat(flat);
+
+            variable tmp;
+            tmp.set_object(flat);
             thr->push(tmp);
         }
 
@@ -563,6 +633,11 @@ namespace g0at
                 var->data.obj->op_neq(thr);
             }
 
+            void op_inherit(variable *var, thread *thr) override
+            {
+                var->data.obj->op_inherit(thr);
+            }
+
             void m_clone(variable *var, thread *thr, int arg_count) override
             {
                 var->data.obj->m_clone(thr, arg_count);
@@ -571,6 +646,11 @@ namespace g0at
             void m_instance_of(variable *var, thread *thr, int arg_count) override
             {
                 var->data.obj->m_instance_of(thr, arg_count);
+            }
+
+            void m_flat(variable *var, thread *thr, int arg_count) override
+            {
+                var->data.obj->m_flat(thr, arg_count);
             }
         };
 

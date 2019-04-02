@@ -47,6 +47,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_if.h"
 #include "statement_throw.h"
 #include "statement_try.h"
+#include "inheritance.h"
 
 namespace g0at
 {
@@ -504,6 +505,17 @@ namespace g0at
                 stmt_finally->accept(&out_finally);
                 link_child(out_finally, L"stmt finally");
             }
+        }
+
+        void dbg_output::visit(inheritance *ref)
+        {
+            print(L"inheritance", L"-&gt;");
+            dbg_output left(stream, uid);
+            ref->get_left()->accept(&left);
+            link_child(left, L"ancestor");
+            dbg_output right(stream, uid);
+            ref->get_right()->accept(&right);
+            link_child(right, L"successor");
         }
     };
 };

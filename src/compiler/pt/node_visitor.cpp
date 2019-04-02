@@ -157,5 +157,9 @@ namespace g0at
         void node_visitor::visit(statement_try *ref)
         {
         }
+
+        void node_visitor::visit(inheritance *ref)
+        {
+        }
     }
 };

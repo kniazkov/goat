@@ -209,5 +209,10 @@ namespace g0at
         {
             return nullptr;
         }
+        
+        inheritance *node::to_inheritance()
+        {
+            return nullptr;
+        }
    }
 };

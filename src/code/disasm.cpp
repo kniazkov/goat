@@ -42,6 +42,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "try.h"
 #include "catch.h"
 #include "finally.h"
+#include "flat.h"
 
 namespace g0at
 {
@@ -291,6 +292,16 @@ namespace g0at
         void disasm::visit(_finally *ref)
         {
             stream << L"finally\t" << ref->get_iid();
+        }
+
+        void disasm::visit(_inherit *ref)
+        {
+            stream << L"inherit";
+        }
+
+        void disasm::visit(_flat *ref)
+        {
+            stream << L"flat\t" << ref->get_arg_count();
         }
     };
 };

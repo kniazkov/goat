@@ -1,0 +1,23 @@
+var A =
+{
+    val : 1
+};
+
+var B = A ->
+{
+
+};
+
+var C = A ->
+{
+    val : 3
+};
+
+var D = [B, C] ->
+{
+};
+
+var F = D.flat();
+
+println(D.val);
+println(F.val);
