@@ -1,0 +1,24 @@
+var A =
+{
+    a : 1
+};
+
+var B = A ->
+{
+    b : "text"
+};
+
+var C =
+{
+    c : 0.1
+};
+
+var D = [B, C] ->
+{
+    d : null
+};
+
+println(D.a);
+println(D.b);
+println(D.c);
+println(D.d);
