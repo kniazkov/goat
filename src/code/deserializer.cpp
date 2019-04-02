@@ -67,6 +67,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "catch.h"
 #include "finally.h"
 #include "inherit.h"
+#include "flat.h"
 
 namespace g0at
 {
@@ -427,6 +428,12 @@ namespace g0at
             dst->add_instruction(new _inherit());
         }
 
+        void deserializer::c_flat(source *src, code *dst)
+        {
+            int arg_count = pop_int32(src);
+            dst->add_instruction(new _flat(arg_count));
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -468,6 +475,7 @@ namespace g0at
             cc[op::_catch]   = c_catch;
             cc[op::_finally] = c_finally;
             cc[op::_inherit] = c_inherit;
+            cc[op::_flat]    = c_flat;
         }
     };
 };

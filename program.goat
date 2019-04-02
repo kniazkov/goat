@@ -18,7 +18,9 @@ var D = [B, C] ->
     d : null
 };
 
-println(D.a);
-println(D.b);
-println(D.c);
-println(D.d);
+var F = D.flat();
+
+println(F.a);
+println(F.b);
+println(F.c);
+println(F.d);

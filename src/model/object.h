@@ -97,6 +97,7 @@ namespace g0at
 
             inline void m_clone(thread *thr, int arg_count);
             inline void m_instance_of(thread *thr, int arg_count);
+            inline void m_flat(thread *thr, int arg_count);
 
             handler *hndl;
             union
@@ -145,6 +146,7 @@ namespace g0at
             void copy_objects_to(object *dst);
             void copy_proto_to(object *dst);
             bool instance_of(object *base);
+            void flat(object *dst);
 
             void add_object(object *key, variable &value);
             void add_object(object *key, object *value);
@@ -164,6 +166,7 @@ namespace g0at
 
             virtual void m_clone(thread *thr, int arg_count);
             virtual void m_instance_of(thread *thr, int arg_count);
+            virtual void m_flat(thread *thr, int arg_count);
 
             object *prev;
             object *next;
@@ -227,6 +230,7 @@ namespace g0at
 
             virtual void m_clone(variable *var, thread *thr, int arg_count);
             virtual void m_instance_of(variable *var, thread *thr, int arg_count);
+            virtual void m_flat(variable *var, thread *thr, int arg_count);
         };
 
         bool object_comparator::operator ()(const object *a, const object *b) const
@@ -354,7 +358,11 @@ namespace g0at
         {
             hndl->m_instance_of(this, thr, arg_count);
         }
-
+        
+        void variable::m_flat(thread *thr, int arg_count)
+        {
+            hndl->m_flat(this, thr, arg_count);
+        }
         /*
             Object inline methods
         */

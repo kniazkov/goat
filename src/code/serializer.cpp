@@ -46,6 +46,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "try.h"
 #include "catch.h"
 #include "finally.h"
+#include "flat.h"
 
 namespace g0at
 {
@@ -361,6 +362,12 @@ namespace g0at
         void serializer::visit(_inherit *ref)
         {
             push_opcode(op::_inherit);
+        }
+
+        void serializer::visit(_flat *ref)
+        {
+            push_opcode(op::_flat);
+            push_int32(ref->get_arg_count());
         }
     };
 };

@@ -78,6 +78,7 @@ namespace g0at
             // methods
             _clone,
             _insof,
+            _flat,
 
             // operators
             _add,
