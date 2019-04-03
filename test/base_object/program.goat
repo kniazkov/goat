@@ -1,0 +1,5 @@
+var u;
+println(u.instanceOf(Object));
+
+var f = $() { };
+println(f.instanceOf(Object));
