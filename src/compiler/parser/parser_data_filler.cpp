@@ -46,6 +46,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_throw.h"
 #include "compiler/ast/keyword_try.h"
 #include "compiler/ast/inherit.h"
+#include "compiler/ast/character.h"
 
 namespace g0at
 {
@@ -183,6 +184,11 @@ namespace g0at
         void parser_data_filler::visit(ast::inherit *ref)
         {
             data->opers_inherit.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::character *ref)
+        {
+            data->expressions.add(ref);
         }
     };
 };

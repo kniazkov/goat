@@ -257,5 +257,9 @@ namespace g0at
         void token_visitor::visit(inheritance *ref)
         {
         }
+
+        void token_visitor::visit(character *ref)
+        {
+        }
     }
 };

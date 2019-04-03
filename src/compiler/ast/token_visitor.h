@@ -82,6 +82,7 @@ namespace g0at
         class statement_try;
         class inherit;
         class inheritance;
+        class character;
 
         class token_visitor
         {
@@ -144,6 +145,7 @@ namespace g0at
             virtual void visit(statement_try *ref);
             virtual void visit(inherit *ref);
             virtual void visit(inheritance *ref);
+            virtual void visit(character *ref);
         };
     };
 };

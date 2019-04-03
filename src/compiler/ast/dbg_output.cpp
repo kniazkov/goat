@@ -53,6 +53,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_throw.h"
 #include "statement_try.h"
 #include "inheritance.h"
+#include "character.h"
 
 namespace g0at
 {
@@ -584,6 +585,12 @@ namespace g0at
             dbg_output right(stream, uid);
             ref->get_right()->accept(&right);
             link_child(right, L"successor");
+        }
+
+        void dbg_output::visit(character *ref)
+        {
+            wchar_t tmp[] = { ref->get_value(), 0 };
+            print(L"char", tmp);
         }
     };
 };
