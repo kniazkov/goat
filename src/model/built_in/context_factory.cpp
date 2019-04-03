@@ -39,6 +39,7 @@ namespace g0at
             {
                 context *ctx = pool->create_context();
 
+                ctx->add_object(pool->get_static_string(L"Object"), pool->get_generic_proto_instance());
                 ctx->add_object(pool->get_static_string(L"Void"), pool->get_void_instance());
                 ctx->add_object(pool->get_static_string(L"Undefined"), pool->get_undefined_instance());
                 ctx->add_object(pool->get_static_string(L"Null"), pool->get_null_instance());
