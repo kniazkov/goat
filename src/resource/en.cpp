@@ -226,6 +226,11 @@ namespace g0at
                 return L"the next construction must be a 'catch' or 'finally' block";
             }
 
+            std::wstring character_constant_too_long_for_its_type() override
+            {
+                return L"character constant too long for its type";
+            }
+
 
 
             std::wstring unhandled_exception(std::wstring str) override

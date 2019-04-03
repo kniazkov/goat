@@ -226,6 +226,11 @@ namespace g0at
                 return L"следующая конструкция должна быть блоком 'catch' или 'finally'";
             }
 
+            std::wstring character_constant_too_long_for_its_type() override
+            {
+                return L"символьная константа может состоять только из одного символа";
+            }
+
 
 
             std::wstring unhandled_exception(std::wstring str) override
