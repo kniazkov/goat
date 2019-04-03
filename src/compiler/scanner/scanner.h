@@ -38,6 +38,7 @@ namespace g0at
         scanner(const scanner &) { }
         void operator=(const scanner &) { }
         lib::pointer<ast::token> create_token();
+        std::wstring parse_string_sequence(wchar_t closing_quote);
 
         source *src;
     };
