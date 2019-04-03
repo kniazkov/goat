@@ -108,8 +108,13 @@ namespace g0at
 
         std::wstring escape_special_chars(std::wstring src)
         {
+            return escape_special_chars(src.c_str(), src.length());
+        }
+
+        std::wstring escape_special_chars(const wchar_t *src, size_t len)
+        {
             std::wstringstream dst;
-            for (size_t i = 0, len = src.size(); i < len; i++)
+            for (size_t i = 0; i < len; i++)
             {
                 wchar_t c = src[i];
                 switch(c)

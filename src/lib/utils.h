@@ -57,6 +57,7 @@ namespace g0at
         std::wstring double_to_wstring(double value);
         std::wstring double_to_wstring(double value, int precision);
         std::wstring escape_special_chars(std::wstring src);
+        std::wstring escape_special_chars(const wchar_t *src, size_t len);
         char * file_name_postfix(const char *head, const char *tail);
         void dump_file(const char *file_name, const char *postfix, std::wstring data);
     };

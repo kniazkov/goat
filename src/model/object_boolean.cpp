@@ -147,7 +147,8 @@ namespace g0at
                 thr->pop(arg_count);
                 variable result;
                 if (base)
-                    result.set_boolean(base == thr->pool->get_boolean_proto_instance());
+                    result.set_boolean(base == thr->pool->get_boolean_proto_instance()
+                        || base == thr->pool->get_generic_proto_instance());
                 else
                     result.set_boolean(false);
                 thr->push(result);

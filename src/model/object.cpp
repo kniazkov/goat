@@ -141,6 +141,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_char *object::to_object_char()
+        {
+            return nullptr;
+        }
+
         bool object::less(const object *obj) const
         {
             return this < obj;
@@ -272,6 +277,11 @@ namespace g0at
         }
 
         bool object::get_boolean(bool *pval)
+        {
+            return false;
+        }
+
+        bool object::get_char(wchar_t *pval)
         {
             return false;
         }
@@ -495,6 +505,11 @@ namespace g0at
             return false;
         }
 
+        bool handler::get_char(variable *var, wchar_t *pval)
+        {
+            return false;
+        }
+
         void handler::op_add(variable *var, thread *thr)
         {
             assert(false);
@@ -606,6 +621,11 @@ namespace g0at
             bool get_boolean(variable *var, bool *pval) override
             {
                 return var->data.obj->get_boolean(pval);
+            }
+
+            bool get_char(variable *var, wchar_t *pval) override
+            {
+                return var->data.obj->get_char(pval);
             }
             
             void op_add(variable *var, thread *thr)  override

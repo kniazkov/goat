@@ -34,6 +34,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_real.h"
 #include "object_array.h"
 #include "object_exception.h"
+#include "object_char.h"
 #include "context.h"
 
 namespace g0at
@@ -55,8 +56,10 @@ namespace g0at
             boolean_proto_instance = nullptr;
             real_proto_instance = nullptr;
             array_proto_instance = nullptr;
+            char_proto_instance = nullptr;
             exception_proto_instance = nullptr;
             exception_illegal_argument_instance = nullptr;
+            exception_illegal_context_instance = nullptr;
 
             /*
                 "It's a kind of magic"
@@ -80,6 +83,7 @@ namespace g0at
             real_proto_instance = new object_real_proto(this);
             auto array_proto = new object_array_proto(this);
             array_proto_instance = array_proto;
+            char_proto_instance = new object_char_proto(this);
             auto exception_proto = new object_exception_proto(this);
             exception_proto_instance = exception_proto;
             string_proto->init(this);
@@ -214,6 +218,16 @@ namespace g0at
                 obj->reinit();
             else
                 obj = new object_array(this);
+            return obj;
+        }
+
+        object_char * object_pool::create_object_char(wchar_t value)
+        {
+            object_char *obj = static_cast<object_char*>(chars.get(this));
+            if (obj)
+                obj->reinit(value);
+            else
+                obj = new object_char(this, value);
             return obj;
         }
     };
