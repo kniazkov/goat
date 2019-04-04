@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "analyzer.h"
 #include "statement_builder.h"
+#include "scope_builder.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -37,34 +38,36 @@ namespace g0at
         {
         }
 
-        lib::pointer<pt::function> analyzer::analyze(lib::pointer<ast::root> tok_root)
+        lib::pointer<pt::function> analyzer::analyze(lib::pointer<ast::root> root_tok)
         {
             analyzer aobj;
-            aobj.build(tok_root);
+            aobj.build(root_tok);
             return aobj.get_root();
         }
 
-        void analyzer::build(lib::pointer<ast::root> tok_root)
+        void analyzer::build(lib::pointer<ast::root> root_tok)
         {
-            root = build_function(tok_root.cast<ast::function>());
-        }
-
-        lib::pointer<pt::function> analyzer::build_function(lib::pointer<ast::function> tok_func)
-        {
-            lib::pointer<pt::function> node_func = new pt::function(tok_func->get_position());
+            // build parse tree from the AST
+            pt::function *root_node = new pt::function(root_tok->get_position());
+            root = root_node;
             
-            auto body = tok_func->get_body();
+            auto body = root_tok->get_body();
             auto tok = body->first;
             while(tok)
             {
-                statement_builder visitor;
-                tok->accept(&visitor);
-                assert(visitor.has_stmt());
-                node_func->add_stmt(visitor.get_stmt());
+                statement_builder b_0;
+                tok->accept(&b_0);
+                assert(b_0.has_stmt());
+                root_node->add_stmt(b_0.get_stmt());
                 tok = tok->next;
             }
 
-            return node_func;
+            // root scope
+            lib::pointer<pt::scope> root_scope = new pt::scope();
+
+            // create scope for each node
+            scope_builder b_1(root_scope);
+            root_node->accept(&b_1);
         }
     };
 };

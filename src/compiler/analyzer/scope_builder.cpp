@@ -20,30 +20,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "compiler/pt/function.h"
-#include "compiler/ast/root.h"
-#include "lib/pointer.h"
+#include "scope_builder.h"
 
 namespace g0at
 {
     namespace analyzer
     {
-        class analyzer
+        scope_builder::scope_builder(lib::pointer<pt::scope> _parent)
+            : parent(parent)
         {
-        public:
-            analyzer();
-            ~analyzer();
-            static lib::pointer<pt::function> analyze(lib::pointer<ast::root> root_tok);
-            void build(lib::pointer<ast::root> root_tok);
-            lib::pointer<pt::function> get_root() { return root; }
+        }
 
-        protected:
-            analyzer(const analyzer &) { }
-            void operator=(const analyzer &) { }
-
-            lib::pointer<pt::function> root;
-        };
+        void scope_builder::visit(pt::function *ref)
+        {
+        }
     };
 };

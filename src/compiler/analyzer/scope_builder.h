@@ -22,28 +22,22 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "compiler/pt/function.h"
-#include "compiler/ast/root.h"
+#include "compiler/pt/node_visitor.h"
+#include "compiler/pt/scope.h"
 #include "lib/pointer.h"
 
 namespace g0at
 {
     namespace analyzer
     {
-        class analyzer
+        class scope_builder : public pt::node_visitor
         {
         public:
-            analyzer();
-            ~analyzer();
-            static lib::pointer<pt::function> analyze(lib::pointer<ast::root> root_tok);
-            void build(lib::pointer<ast::root> root_tok);
-            lib::pointer<pt::function> get_root() { return root; }
+            scope_builder(lib::pointer<pt::scope> _parent);
+            void visit(pt::function *ref) override;
 
         protected:
-            analyzer(const analyzer &) { }
-            void operator=(const analyzer &) { }
-
-            lib::pointer<pt::function> root;
+            lib::pointer<pt::scope> parent;
         };
     };
 };
