@@ -22,32 +22,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "expression.h"
-#include "statement.h"
+#include "lib/ref_counter.h"
 #include <vector>
 
 namespace g0at
 {
     namespace pt
     {
-        class function : public node
+        class scope : public lib::ref_counter
         {
         public:
-            function(lib::pointer<position> _pos);
-            void accept(node_visitor *visitor) override;
-            function *to_function() override;
-
-            void add_stmt(lib::pointer<statement> stmt) { code.push_back(stmt); }
-            int get_code_size() { return (int)code.size(); }
-            lib::pointer<statement> get_stmt(int index) { return code.at(index); }
-            void add_arg(std::wstring arg) { args.push_back(arg); }
-            int get_args_count() { return (int)args.size(); }
-            std::wstring get_arg(int index) { return args.at(index); }
-            bool is_root_function() { return get_position() == nullptr; }
+            scope();
 
         protected:
-            std::vector<lib::pointer<statement>> code;
-            std::vector<std::wstring> args;
+            std::vector<scope*> parent;
         };
     };
 };
