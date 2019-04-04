@@ -22,24 +22,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "compiler/ast/token.h"
-#include "compiler/source/source.h"
-#include "lib/pointer.h"
+#include "expression.h"
 
 namespace g0at
 {
-    class scanner
+    namespace ast
     {
-    public:
-        scanner(source *_src);
-        lib::pointer<ast::token> get_token();
+        class character : public expression
+        {
+        public:
+            character(wchar_t _value);
+            void accept(token_visitor *visitor) override;
+            character *to_character() override;
 
-    protected:
-        scanner(const scanner &) { }
-        void operator=(const scanner &) { }
-        lib::pointer<ast::token> create_token();
-        std::wstring parse_string_sequence(wchar_t closing_quote);
+            wchar_t get_value() { return value; }
 
-        source *src;
+        protected:
+            wchar_t value;
+        };
     };
 };

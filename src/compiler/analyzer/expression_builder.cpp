@@ -70,6 +70,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/node_array.h"
 #include "compiler/ast/inheritance.h"
 #include "compiler/pt/inheritance.h"
+#include "compiler/ast/character.h"
+#include "compiler/pt/character.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -280,6 +282,11 @@ namespace g0at
         {
             auto pair = build_expr_for_binary(ref);
             expr = new pt::inheritance(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::character *ref)
+        {
+            expr = new pt::character(ref->get_position(), ref->get_value());
         }
 
         std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>

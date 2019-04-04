@@ -66,6 +66,7 @@ namespace g0at
         class _finally;
         class _inherit;
         class _flat;
+        class _char;
 
         class instruction_visitor
         {
@@ -112,6 +113,7 @@ namespace g0at
             virtual void visit(_finally *ref) = 0;
             virtual void visit(_inherit *ref) = 0;
             virtual void visit(_flat *ref) = 0;
+            virtual void visit(_char *ref) = 0;
         };
     };
 };

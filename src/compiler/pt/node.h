@@ -67,6 +67,7 @@ namespace g0at
         class statement_throw;
         class statement_try;
         class inheritance;
+        class character;
 
         class node : public lib::ref_counter
         {
@@ -110,6 +111,7 @@ namespace g0at
             virtual statement_throw *to_statement_throw();
             virtual statement_try *to_statement_try();
             virtual inheritance *to_inheritance();
+            virtual character *to_character();
 
             lib::pointer<position> get_position() { return pos; }
 

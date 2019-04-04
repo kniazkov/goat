@@ -392,5 +392,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        character *token::to_character()
+        {
+            return nullptr;
+        }
     }
 };

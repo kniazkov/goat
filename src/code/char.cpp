@@ -20,26 +20,28 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "compiler/ast/token.h"
-#include "compiler/source/source.h"
-#include "lib/pointer.h"
+#include "char.h"
+#include "model/object_char.h"
 
 namespace g0at
 {
-    class scanner
+    namespace code
     {
-    public:
-        scanner(source *_src);
-        lib::pointer<ast::token> get_token();
+        _char::_char(wchar_t _value)
+            : value(_value)
+        {
+        }
 
-    protected:
-        scanner(const scanner &) { }
-        void operator=(const scanner &) { }
-        lib::pointer<ast::token> create_token();
-        std::wstring parse_string_sequence(wchar_t closing_quote);
+        void _char::accept(instruction_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
 
-        source *src;
+        void _char::exec(model::thread *thr)
+        {
+            model::variable var;
+            var.set_char(value);
+            thr->push(var);
+        }
     };
 };

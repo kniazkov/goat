@@ -46,6 +46,7 @@ namespace g0at
         class object_boolean;
         class object_array;
         class object_exception;
+        class object_char;
         class handler;
 
         enum class object_type
@@ -55,7 +56,8 @@ namespace g0at
             function,
             integer,
             real,
-            boolean
+            boolean,
+            charact
         };
 
         class object_comparator
@@ -77,6 +79,7 @@ namespace g0at
             inline void set_integer(int64_t value);
             inline void set_real(double value);
             inline void set_boolean(bool value);
+            inline void set_char(wchar_t value);
 
             inline std::wstring to_string() const;
             inline std::wstring to_string_notation() const;
@@ -87,6 +90,7 @@ namespace g0at
             inline bool get_integer(int64_t *pval);
             inline bool get_real(double *pval);
             inline bool get_boolean(bool *pval);
+            inline bool get_char(wchar_t *pval);
 
             inline void op_add(thread *thr);
             inline void op_sub(thread *thr);
@@ -106,6 +110,7 @@ namespace g0at
                 int64_t i;
                 double r;
                 bool b;
+                wchar_t c;
             } data;
         };
 
@@ -139,6 +144,7 @@ namespace g0at
             virtual object_boolean *to_object_boolean();
             virtual object_array *to_object_array();
             virtual object_exception *to_object_exception();
+            virtual object_char *to_object_char();
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
@@ -156,6 +162,7 @@ namespace g0at
             virtual bool get_integer(int64_t *pval);
             virtual bool get_real(double *pval);
             virtual bool get_boolean(bool *pval);
+            virtual bool get_char(wchar_t *pval);
 
             virtual void op_add(thread *thr);
             virtual void op_sub(thread *thr);
@@ -212,6 +219,7 @@ namespace g0at
             static handler *get_instance_integer();
             static handler *get_instance_real();
             static handler *get_instance_boolean();
+            static handler *get_instance_char();
             virtual std::wstring to_string(const variable *var) const = 0;
             virtual std::wstring to_string_notation(const variable *var) const = 0;
             virtual object *to_object(variable *var, object_pool *pool) = 0;
@@ -220,6 +228,7 @@ namespace g0at
             virtual bool get_integer(variable *var, int64_t *val);
             virtual bool get_real(variable *var, double *val);
             virtual bool get_boolean(variable *var, bool *val);
+            virtual bool get_char(variable *var, wchar_t *val);
 
             virtual void op_add(variable *var, thread *thr);
             virtual void op_sub(variable *var, thread *thr);
@@ -275,6 +284,12 @@ namespace g0at
             data.b = value;
         }
 
+        void variable::set_char(wchar_t value)
+        {
+            hndl = handler::get_instance_char();
+            data.c = value;
+        }
+
         std::wstring variable::to_string() const
         {
             return hndl->to_string(this);
@@ -317,6 +332,11 @@ namespace g0at
         bool variable::get_boolean(bool *pval)
         {
             return hndl->get_boolean(this, pval);
+        }
+
+        bool variable::get_char(wchar_t *pval)
+        {
+            return hndl->get_char(this, pval);
         }
 
         void variable::op_add(thread *thr)

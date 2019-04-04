@@ -214,5 +214,10 @@ namespace g0at
         {
             return nullptr;
         }
+        
+        character *node::to_character()
+        {
+            return nullptr;
+        }
    }
 };

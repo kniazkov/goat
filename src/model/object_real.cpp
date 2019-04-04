@@ -222,7 +222,8 @@ namespace g0at
                 variable result;
                 if (base)
                     result.set_boolean(base == thr->pool->get_real_proto_instance()
-                        || base == thr->pool->get_number_proto_instance());
+                        || base == thr->pool->get_number_proto_instance()
+                        || base == thr->pool->get_generic_proto_instance());
                 else
                     result.set_boolean(false);
                 thr->push(result);

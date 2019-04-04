@@ -57,6 +57,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_catch.h"
 #include "compiler/ast/keyword_finally.h"
 #include "compiler/ast/inherit.h"
+#include "compiler/ast/character.h"
 
 namespace g0at
 {
@@ -92,6 +93,15 @@ namespace g0at
     public:
         unclosed_comment(lib::pointer<position> pos)
             : compilation_error(pos, global::resource->unclosed_comment())
+        {
+        }
+    };
+
+    class character_constant_too_long_for_its_type : public compilation_error
+    {
+    public:
+        character_constant_too_long_for_its_type(lib::pointer<position> pos)
+            : compilation_error(pos, global::resource->character_constant_too_long_for_its_type())
         {
         }
     };
@@ -132,6 +142,47 @@ namespace g0at
             default:
                 return false;
         }
+    }
+
+    std::wstring scanner::parse_string_sequence(wchar_t closing_quote)
+    {
+        std::wstringstream wss;
+        wchar_t c = src->next();
+        while(c != closing_quote)
+        {
+            if (c == L'\0')
+            {
+                throw missing_closing_quote(src->get_position());
+            }
+            if (c == L'\\')
+            {
+                wchar_t e = src->next();
+                switch(e)
+                {
+                    case L'n':
+                        wss << L'\n'; break;
+                    case L'r':
+                        wss << L'\r'; break;
+                    case L't':
+                        wss << L'\t'; break;
+                    case L'\'':
+                        wss << L'\''; break;
+                    case L'\"':
+                        wss << L'\"'; break;
+                    case L'\\':
+                        wss << L'\\'; break;
+                    default:
+                        throw invalid_escape_sequence(src->get_position(), e);
+                }
+            }
+            else
+            {
+                wss << c;
+            }
+            c = src->next();
+        }
+        src->next();
+        return wss.str();
     }
 
     lib::pointer<ast::token> scanner::get_token()
@@ -253,45 +304,18 @@ namespace g0at
             return new ast::identifier(name);
         }
 
-        if (c == L'"')
+        if (c == L'\"')
         {
-            std::wstringstream wss;
-            c = src->next();
-            while(c != L'"')
-            {
-                if (c == L'\0')
-                {
-                    throw missing_closing_quote(src->get_position());
-                }
-                if (c == L'\\')
-                {
-                    wchar_t e = src->next();
-                    switch(e)
-                    {
-                        case L'n':
-                            wss << L'\n'; break;
-                        case L'r':
-                            wss << L'\r'; break;
-                        case L't':
-                            wss << L'\t'; break;
-                        case L'\'':
-                            wss << L'\''; break;
-                        case L'\"':
-                            wss << L'\"'; break;
-                        case L'\\':
-                            wss << L'\\'; break;
-                        default:
-                            throw invalid_escape_sequence(src->get_position(), e);
-                    }
-                }
-                else
-                {
-                    wss << c;
-                }
-                c = src->next();
-            }
-            src->next();
-            return new ast::static_string(wss.str());
+            std::wstring str = parse_string_sequence('\"');
+            return new ast::static_string(str);
+        }
+
+        if (c == L'\'')
+        {
+            std::wstring str = parse_string_sequence('\'');
+            if (str.length() != 1)
+                throw character_constant_too_long_for_its_type(src->get_position());
+            return new ast::character(str[0]);
         }
 
         if (is_digit(c))

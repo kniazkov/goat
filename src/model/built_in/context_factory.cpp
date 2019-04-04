@@ -43,6 +43,7 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"Void"), pool->get_void_instance());
                 ctx->add_object(pool->get_static_string(L"Undefined"), pool->get_undefined_instance());
                 ctx->add_object(pool->get_static_string(L"Null"), pool->get_null_instance());
+                ctx->add_object(pool->get_static_string(L"Char"), pool->get_char_proto_instance());
                 ctx->add_object(pool->get_static_string(L"String"), pool->get_string_proto_instance());
                 ctx->add_object(pool->get_static_string(L"Number"), pool->get_number_proto_instance());
                 ctx->add_object(pool->get_static_string(L"Integer"), pool->get_integer_proto_instance());
