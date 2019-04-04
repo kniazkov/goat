@@ -47,6 +47,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "catch.h"
 #include "finally.h"
 #include "flat.h"
+#include "char.h"
 
 namespace g0at
 {
@@ -127,6 +128,13 @@ namespace g0at
             lib::double_converter c;
             c.val = val;
             buff.insert(buff.end(), c.buff, c.buff + 8);
+        }
+
+        void serializer::push_wchar(std::vector<uint8_t> &buff, wchar_t val)
+        {
+            lib::wchar_converter c = {0};
+            c.val = val;
+            buff.insert(buff.end(), c.buff, c.buff + 4);
         }
 
         void serializer::push_wstring(std::vector<uint8_t> &buff, std::wstring val)
@@ -368,6 +376,12 @@ namespace g0at
         {
             push_opcode(op::_flat);
             push_int32(ref->get_arg_count());
+        }
+
+        void serializer::visit(_char *ref)
+        {
+            push_opcode(op::_char);
+            push_wchar(ref->get_value());
         }
     };
 };

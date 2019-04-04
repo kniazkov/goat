@@ -40,6 +40,7 @@ namespace g0at
             // load instructions
             _load,
             _prop,
+            _char,
             _string,
             _integer,
             _real,

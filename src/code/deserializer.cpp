@@ -68,6 +68,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "finally.h"
 #include "inherit.h"
 #include "flat.h"
+#include "char.h"
 
 namespace g0at
 {
@@ -179,6 +180,16 @@ namespace g0at
         {
             lib::double_converter c;
             for (int i = 0; i < 8; i++)
+            {
+                c.buff[i] = src->pop();
+            }
+            return c.val;
+        }
+
+        wchar_t deserializer::pop_wchar(source *src)
+        {
+            lib::wchar_converter c;
+            for (int i = 0; i < 4; i++)
             {
                 c.buff[i] = src->pop();
             }
@@ -434,6 +445,12 @@ namespace g0at
             dst->add_instruction(new _flat(arg_count));
         }
 
+        void deserializer::c_char(source *src, code *dst)
+        {
+            wchar_t value = pop_wchar(src);
+            dst->add_instruction(new _char(value));
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -476,6 +493,7 @@ namespace g0at
             cc[op::_finally] = c_finally;
             cc[op::_inherit] = c_inherit;
             cc[op::_flat]    = c_flat;
+            cc[op::_char]    = c_char;
         }
     };
 };

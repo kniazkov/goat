@@ -79,6 +79,7 @@ namespace g0at
             void visit(_finally *ref) override;
             void visit(_inherit *ref) override;
             void visit(_flat *ref) override;
+            void visit(_char *ref) override;
 
         protected:
             std::vector<uint8_t> &buff;
@@ -97,6 +98,9 @@ namespace g0at
             
             static void push_double(std::vector<uint8_t> &buff, double val);
             void push_double(double val) { push_double(buff, val); }
+
+            static void push_wchar(std::vector<uint8_t> &buff, wchar_t val);
+            void push_wchar(wchar_t val) { push_wchar(buff, val); }
 
             static void push_wstring(std::vector<uint8_t> &buff, std::wstring val);
             void push_wstring(std::wstring val) { push_wstring(buff, val); }

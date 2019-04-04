@@ -66,6 +66,7 @@ namespace g0at
             static int32_t pop_int32(source *src);
             static int64_t pop_int64(source *src);
             static double pop_double(source *src);
+            static wchar_t pop_wchar(source *src);
             static std::wstring pop_wstring(source *src);
             
             static void c_nop(source *src, code *dst);
@@ -108,6 +109,7 @@ namespace g0at
             static void c_finally(source *src, code *dst);
             static void c_inherit(source *src, code *dst);
             static void c_flat(source *src, code *dst);
+            static void c_char(source *src, code *dst);
 
             std::map<op, creator> cc;
         };

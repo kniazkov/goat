@@ -161,5 +161,9 @@ namespace g0at
         void node_visitor::visit(inheritance *ref)
         {
         }
+
+        void node_visitor::visit(character *ref)
+        {
+        }
     }
 };
