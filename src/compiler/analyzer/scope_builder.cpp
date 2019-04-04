@@ -21,18 +21,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "scope_builder.h"
+#include "compiler/pt/function.h"
 
 namespace g0at
 {
     namespace analyzer
     {
-        scope_builder::scope_builder(lib::pointer<pt::scope> _parent)
-            : parent(parent)
+        scope_builder::scope_builder(lib::pointer<pt::scope> _s0)
+            : s0(_s0)
         {
         }
 
         void scope_builder::visit(pt::function *ref)
         {
+            lib::pointer<pt::scope> s1 = new pt::scope(s0);
+            ref->set_scope(s1);
+            scope_builder b(s1);
+            for (int i = 0, code_size = ref->get_code_size(); i < code_size; i++)
+            {
+                ref->get_stmt(i)->accept(&b);
+            }
         }
     };
 };

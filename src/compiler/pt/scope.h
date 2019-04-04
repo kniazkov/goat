@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "lib/ref_counter.h"
+#include "lib/pointer.h"
 #include <vector>
 
 namespace g0at
@@ -33,9 +34,10 @@ namespace g0at
         {
         public:
             scope();
+            scope(lib::pointer<scope> &_parent);
 
         protected:
-            std::vector<scope*> parent;
+            std::vector<scope*> parents;
         };
     };
 };

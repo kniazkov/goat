@@ -33,11 +33,11 @@ namespace g0at
         class scope_builder : public pt::node_visitor
         {
         public:
-            scope_builder(lib::pointer<pt::scope> _parent);
+            scope_builder(lib::pointer<pt::scope> _s0);
             void visit(pt::function *ref) override;
 
         protected:
-            lib::pointer<pt::scope> parent;
+            lib::pointer<pt::scope> s0;
         };
     };
 };

@@ -29,5 +29,10 @@ namespace g0at
         scope::scope()
         {
         }
+
+        scope::scope(lib::pointer<scope> &_parent)
+        {
+            parents.push_back(_parent.get());
+        }
     };
 };
