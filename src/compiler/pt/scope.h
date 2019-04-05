@@ -64,6 +64,7 @@ namespace g0at
         protected:
             std::vector<scope*> parents;
             std::vector<lib::pointer<type>> types;
+            std::map<std::wstring, lib::pointer<symbol>> symbols;
         };
     };
 };
