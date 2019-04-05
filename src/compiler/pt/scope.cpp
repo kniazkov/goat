@@ -26,6 +26,15 @@ namespace g0at
 {
     namespace pt
     {
+        symbol::symbol(std::wstring _name)
+            : name(_name), last_type(nullptr)
+        {
+        }
+
+        type::type()
+        {
+        }
+
         scope::scope()
         {
         }

@@ -24,12 +24,37 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "lib/ref_counter.h"
 #include "lib/pointer.h"
+#include <string>
 #include <vector>
+#include <map>
 
 namespace g0at
 {
     namespace pt
     {
+        class type;
+
+        class symbol : public lib::ref_counter
+        {
+        public:
+            symbol(std::wstring _name);            
+
+        protected:
+            std::wstring name;
+            type *last_type;
+            std::vector<type*> allowed_types;
+        };
+
+        class type : public lib::ref_counter
+        {
+        public:
+            type();
+
+        protected:
+            std::vector<type*> proto;
+            std::map<std::wstring, lib::pointer<symbol>> symbols;
+        };
+
         class scope : public lib::ref_counter
         {
         public:
@@ -38,6 +63,7 @@ namespace g0at
 
         protected:
             std::vector<scope*> parents;
+            std::vector<lib::pointer<type>> types;
         };
     };
 };
