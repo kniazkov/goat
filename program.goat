@@ -1,7 +1,8 @@
-var x = 0;
+var x = 0, y;
 
 var f = $()
 {
+    var y;
     x = x + 1;
 };
 

@@ -62,15 +62,26 @@ namespace g0at
         class scope : public lib::ref_counter
         {
         public:
+            typedef std::map<std::wstring, lib::pointer<symbol>> dictionary;
+
             scope();
             scope(lib::pointer<scope> &_parent);
+            std::wstring get_symbols_list();
 
             void add_symbol(lib::pointer<symbol> &sptr) { symbols[sptr->get_name()] = sptr; }
+            dictionary flat()
+            {
+                dictionary tmp;
+                flat(tmp);
+                return tmp;
+            }
 
         protected:
+            void flat(dictionary &dst);
+
             std::vector<scope*> parents;
             std::vector<lib::pointer<type>> types;
-            std::map<std::wstring, lib::pointer<symbol>> symbols;
+            dictionary symbols;
         };
     };
 };

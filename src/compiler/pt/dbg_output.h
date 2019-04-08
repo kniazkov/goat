@@ -74,9 +74,10 @@ namespace g0at
 
         protected:
             dbg_output(std::wstringstream &_stream, int &_uid);
-            void print(const wchar_t *title);
-            void print(const wchar_t *title, const wchar_t* content);
-            void print(const wchar_t *title, std::wstring content);
+            void print(node *leaf, const wchar_t *title);
+            void print(node *leaf, const wchar_t *title, const wchar_t* content);
+            void print(node *leaf, const wchar_t *title, std::wstring content);
+            void print_common_info(node *leaf);
             void link(int pred_id, int succ_id, bool dashed);
             void link(int pred_id, int succ_id, bool dashed, const wchar_t *label);
             void link_child(const dbg_output &child);

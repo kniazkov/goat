@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "scope.h"
+#include <sstream>
 
 namespace g0at
 {
@@ -42,6 +43,36 @@ namespace g0at
         scope::scope(lib::pointer<scope> &_parent)
         {
             parents.push_back(_parent.get());
+        }
+
+        std::wstring scope::get_symbols_list()
+        {
+            std::wstringstream wss;
+            dictionary tmp;
+            flat(tmp);
+            bool first = true;
+            for (auto pair : tmp)
+            {
+                if (!first)
+                    wss << L", ";
+                else
+                    first = false;
+                wss << pair.first << L'(' << pair.second->get_id() << L')';
+            }
+            return wss.str();
+        }
+
+        void scope::flat(dictionary &dst)
+        {
+            for (int i = (int)parents.size() - 1; i > -1; i--)
+            {
+                parents[i]->flat(dst);
+            }
+
+            for(auto pair : symbols)
+            {
+                dst[pair.first] = pair.second;
+            }
         }
     };
 };
