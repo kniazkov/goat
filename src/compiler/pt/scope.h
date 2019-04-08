@@ -75,6 +75,8 @@ namespace g0at
                 flat(tmp);
                 return tmp;
             }
+            int get_parents_count() { return (int)parents.size(); }
+            scope *get_parent(int idx) { return parents.at(idx); }
 
         protected:
             void flat(dictionary &dst);

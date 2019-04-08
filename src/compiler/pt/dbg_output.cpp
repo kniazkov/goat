@@ -112,22 +112,34 @@ namespace g0at
             auto sk = leaf->get_scope();
             if (sk)
             {
-                auto iter = env.scope_nodes.find(sk.get());
-                if (iter != env.scope_nodes.end())
-                {
-                    link(iter->second, id, edge_style::scope_to_node);
-                }
+                int node_sk_id = print_scope_node_if_needed(sk.get());
+                link(node_sk_id, id, edge_style::scope_to_node);
+            }
+        }
+
+        int dbg_output::print_scope_node_if_needed(scope *sk)
+        {
+            auto iter = env.scope_nodes.find(sk);
+            if (iter != env.scope_nodes.end())
+            {
+                return iter->second;
+            }
+            else
+            {
+                dbg_output out_sk(env);
+                std::wstring symbols = sk->get_symbols_list();
+                if (symbols.size() > 0)
+                    out_sk.print(nullptr, L"scope", symbols);
                 else
+                    out_sk.print(nullptr, L"scope");
+                env.scope_nodes[sk] = out_sk.id;
+                for (int i = 0, count = sk->get_parents_count(); i < count; i++)
                 {
-                    dbg_output out_sk(env);
-                    std::wstring symbols = sk->get_symbols_list();
-                    if (symbols.size() > 0)
-                        out_sk.print(nullptr, L"scope", symbols);
-                    else
-                        out_sk.print(nullptr, L"scope");
-                    link(out_sk.id, id, edge_style::scope_to_node);
-                    env.scope_nodes[sk.get()] = out_sk.id;
+                    scope *par_sk = sk->get_parent(i);
+                    int node_par_sk_id = print_scope_node_if_needed(par_sk);
+                    link(node_par_sk_id, out_sk.id, edge_style::scope_to_child);
                 }
+                return out_sk.id;
             }
         }
 
@@ -141,6 +153,9 @@ namespace g0at
                     break;
                 case edge_style::scope_to_node:
                     env.stream << L" [color=gray]";
+                    break;
+                case edge_style::scope_to_child:
+                    env.stream << L" [color=gray style=dashed]";
                     break;
                 default:
                     break;
@@ -158,6 +173,9 @@ namespace g0at
                     break;
                 case edge_style::scope_to_node:
                     env.stream << L" color=gray";
+                    break;
+                case edge_style::scope_to_child:
+                    env.stream << L" color=gray style=dashed";
                     break;
                 default:
                     break;

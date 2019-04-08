@@ -55,7 +55,8 @@ namespace g0at
             {
                 normal,
                 node_to_next_one,
-                scope_to_node
+                scope_to_node,
+                scope_to_child
             };
 
         public:
@@ -100,6 +101,7 @@ namespace g0at
             void print(node *leaf, const wchar_t *title, const wchar_t* content);
             void print(node *leaf, const wchar_t *title, std::wstring content);
             void link_node_common_info(node *leaf);
+            int print_scope_node_if_needed(scope *sk);
             void link(int pred_id, int succ_id, edge_style style);
             void link(int pred_id, int succ_id, edge_style style, const wchar_t *label);
             void link_child(const dbg_output &child);
