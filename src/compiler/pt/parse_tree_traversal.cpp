@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "parse_tree_traversal.h"
 #include "node.h"
+#include <algorithm>
 #include "function.h"
 #include "variable.h"
 #include "static_string.h"
@@ -71,18 +72,24 @@ namespace g0at
             while(!queue.empty())
             {
                 node *next = queue.back();
-                queue.pop_back();
                 next->accept(this);
+                queue.pop_back();
             }
+        }
+
+        bool parse_tree_traversal::is_postponed(node *n)
+        {
+            auto iter_end = queue.end();
+            return std::find(queue.begin(), iter_end, n) != iter_end;
         }
 
         void parse_tree_traversal::visit(function *ref)
         {
-            payload(ref);
             for (int i = 0, code_size = ref->get_code_size(); i < code_size; i++)
             {
                 ref->get_stmt(i)->accept(this);
             }
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(function *ref)
@@ -109,12 +116,12 @@ namespace g0at
 
         void parse_tree_traversal::visit(function_call *ref)
         {
-            payload(ref);
             int args_count = ref->get_args_count();
             for (int i = args_count - 1; i > -1; i--)
             {
                 ref->get_arg(i)->accept(this);
             }
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(function_call *ref)
@@ -123,8 +130,8 @@ namespace g0at
 
         void parse_tree_traversal::visit(statement_expression *ref)
         {
-            payload(ref);
             ref->get_expression()->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(statement_expression *ref)
@@ -133,9 +140,9 @@ namespace g0at
 
         void parse_tree_traversal::visit(addition *ref)
         {
-            payload(ref);
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(addition *ref)
@@ -153,9 +160,9 @@ namespace g0at
 
         void parse_tree_traversal::visit(subtraction *ref)
         {
-            payload(ref);
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(subtraction *ref)
@@ -164,8 +171,8 @@ namespace g0at
 
         void parse_tree_traversal::visit(negation *ref)
         {
-            payload(ref);
             ref->get_right()->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(negation *ref)
@@ -201,13 +208,13 @@ namespace g0at
 
         void parse_tree_traversal::visit(declare_variable *ref)
         {
-            payload(ref);
             for (int i = 0, count = ref->get_count(); i < count; i++)
             {
                 variable_info info = ref->get_variable(i);
                 if (info.init_val)
                     info.init_val->accept(this);
             }
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(declare_variable *ref)
@@ -216,9 +223,9 @@ namespace g0at
 
         void parse_tree_traversal::visit(assignment *ref)
         {
-            payload(ref);
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(assignment *ref)
@@ -236,8 +243,8 @@ namespace g0at
 
         void parse_tree_traversal::visit(declare_function *ref)
         {
-            payload(ref);
             ref->get_func()->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(declare_function *ref)
@@ -246,10 +253,10 @@ namespace g0at
 
         void parse_tree_traversal::visit(statement_return *ref)
         {
-            payload(ref);
             auto expr = ref->get_expression();
             if (expr)
                 expr->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(statement_return *ref)
@@ -258,7 +265,6 @@ namespace g0at
 
         void parse_tree_traversal::visit(node_object *ref)
         {
-            payload(ref);
             int count = ref->get_items_count();
             for (int i = count - 1; i > -1; i--)
             {
@@ -266,6 +272,7 @@ namespace g0at
                 item.second->accept(this);
                 item.first->accept(this);
             }
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(node_object *ref)
@@ -274,8 +281,8 @@ namespace g0at
 
         void parse_tree_traversal::visit(property *ref)
         {
-            payload(ref);
             ref->get_left()->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(property *ref)
@@ -302,9 +309,9 @@ namespace g0at
 
         void parse_tree_traversal::visit(is_equal_to *ref)
         {
-            payload(ref);
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(is_equal_to *ref)
@@ -313,9 +320,9 @@ namespace g0at
 
         void parse_tree_traversal::visit(is_not_equal_to *ref)
         {
-            payload(ref);
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(is_not_equal_to *ref)
@@ -324,9 +331,9 @@ namespace g0at
 
         void parse_tree_traversal::visit(statement_while *ref)
         {
-            payload(ref);
             ref->get_expression()->accept(this);
             ref->get_statement()->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(statement_while *ref)
@@ -335,13 +342,13 @@ namespace g0at
 
         void parse_tree_traversal::visit(method_call *ref)
         {
-            payload(ref);
             int args_count = ref->get_args_count();
             for (int i = args_count - 1; i > -1; i--)
             {
                 ref->get_arg(i)->accept(this);
             }
             ref->get_left()->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(method_call *ref)
@@ -359,12 +366,12 @@ namespace g0at
 
         void parse_tree_traversal::visit(node_array *ref)
         {
-            payload(ref);
             for (int i = 0, count = ref->get_objects_count(); i < count; i++)
             {
                 auto item = ref->get_object(i);
                 item->accept(this);
             }
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(node_array *ref)
@@ -373,12 +380,12 @@ namespace g0at
 
         void parse_tree_traversal::visit(statement_block *ref)
         {
-            payload(ref);
             int code_size = ref->get_code_size();
             for (int i = 0; i < code_size; i++)
             {
                 ref->get_stmt(i)->accept(this);
             }
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(statement_block *ref)
@@ -387,7 +394,6 @@ namespace g0at
 
         void parse_tree_traversal::visit(statement_if *ref)
         {
-            payload(ref);
             ref->get_expression()->accept(this);
             ref->get_stmt_if()->accept(this);
             auto stmt_else = ref->get_stmt_else();
@@ -395,6 +401,7 @@ namespace g0at
             {
                 stmt_else->accept(this);
             }
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(statement_if *ref)
@@ -403,12 +410,12 @@ namespace g0at
 
         void parse_tree_traversal::visit(statement_throw *ref)
         {
-            payload(ref);
             auto expr = ref->get_expression();
             if (expr)
             {
                 expr->accept(this);
             }
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(statement_throw *ref)
@@ -417,7 +424,6 @@ namespace g0at
 
         void parse_tree_traversal::visit(statement_try *ref)
         {
-            payload(ref);
             ref->get_stmt_try()->accept(this);
             auto stmt_catch = ref->get_stmt_catch();
             auto stmt_finally = ref->get_stmt_finally();
@@ -431,6 +437,7 @@ namespace g0at
             {
                 stmt_finally->accept(this);
             }
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(statement_try *ref)
@@ -439,9 +446,9 @@ namespace g0at
 
         void parse_tree_traversal::visit(inheritance *ref)
         {
-            payload(ref);
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
+            payload(ref);
         }
 
         void parse_tree_traversal::payload(inheritance *ref)

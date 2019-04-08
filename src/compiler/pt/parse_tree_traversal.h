@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "node_visitor.h"
 #include <deque>
 
+
 namespace g0at
 {
     namespace pt
@@ -71,6 +72,9 @@ namespace g0at
             void visit(character *ref) override;
 
         protected:
+            void postpone(node *n) { queue.push_front(n); }
+            bool is_postponed(node *n);
+
             virtual void payload(function *ref);
             virtual void payload(variable *ref);
             virtual void payload(static_string *ref);
@@ -104,8 +108,6 @@ namespace g0at
             virtual void payload(statement_try *ref);
             virtual void payload(inheritance *ref);
             virtual void payload(character *ref);
-
-            void postpone(node *n) { queue.push_front(n); }
 
         private:
             std::deque<node*> queue;
