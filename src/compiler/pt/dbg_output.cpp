@@ -60,74 +60,91 @@ namespace g0at
 {
     namespace pt
     {
-        dbg_output::dbg_output(std::wstringstream &_stream, int &_uid)
-            : stream(_stream), uid(_uid)
+        dbg_output::dbg_output(environment &env)
+            : env(env)
         {
-            id = uid++;
+            id = env.uid++;
         }
 
         std::wstring dbg_output::to_string(node* obj)
         {
+            std::wstringstream stream;
             int uid = 0;
-            std::wstringstream tmp;
-            tmp << L"digraph parse_tree" << std::endl <<
+            std::map<scope*, int> scope_nodes;
+            environment env(stream, uid, scope_nodes);
+            stream << L"digraph parse_tree" << std::endl <<
                 L"{" << std::endl <<
                 L"  node [fontname=\"serif\", fontsize=11 shape=box style=rounded penwidth=0.5]" << std::endl << 
                 L"  edge [fontname=\"serif\", fontsize=11 penwidth=0.5]" << std::endl;
-            dbg_output dbg(tmp, uid);
+            dbg_output dbg(env);
             obj->accept(&dbg);
-            tmp << L"}";
-            return tmp.str();
+            stream << L"}";
+            return stream.str();
         }
 
         void dbg_output::print(node *leaf, const wchar_t *title)
         {
-            stream << L"  node_" << id << L" [label=<" << title;
-            print_common_info(leaf);
-            stream << L">]" << std::endl;
+            env.stream << L"  node_" << id << L" [label=<" << title << L">]" << std::endl;
+            if (leaf)
+                link_node_common_info(leaf);
         }
 
         void dbg_output::print(node *leaf, const wchar_t *title, const wchar_t *content)
         {
-            stream << L"  node_" << id << L" [label=<" << title
-                << L"<br/><font color=\"blue\">" << content << L"</font>";
-            print_common_info(leaf);
-            stream << L">]" << std::endl;
+            env.stream << L"  node_" << id << L" [label=<" << title
+                << L"<br/><font color=\"blue\">" << content << L"</font>"
+                << L">]" << std::endl;
+            if (leaf)
+                link_node_common_info(leaf);
         }
 
         void dbg_output::print(node *leaf, const wchar_t *title, std::wstring content)
         {
-            stream << L"  node_" << id << L" [label=<" << title
-                << L"<br/><font color=\"blue\">" << content << L"</font> ";
-            print_common_info(leaf);
-            stream << L">]" << std::endl;
+            env.stream << L"  node_" << id << L" [label=<" << title
+                << L"<br/><font color=\"blue\">" << content << L"</font>"
+                << L">]" << std::endl;
+            if (leaf)
+                link_node_common_info(leaf);
         }
 
-        void dbg_output::print_common_info(node *leaf)
+        void dbg_output::link_node_common_info(node *leaf)
         {
             auto sk = leaf->get_scope();
             if (sk)
             {
-                std::wstring symbols = sk->get_symbols_list();
-                if (symbols.size() > 0)
-                    stream << "<br/><i>" << symbols << L"</i>";
+                auto iter = env.scope_nodes.find(sk.get());
+                if (iter != env.scope_nodes.end())
+                {
+                    link(iter->second, id, false);
+                }
+                else
+                {
+                    dbg_output out_sk(env);
+                    std::wstring symbols = sk->get_symbols_list();
+                    if (symbols.size() > 0)
+                        out_sk.print(nullptr, L"scope", symbols);
+                    else
+                        out_sk.print(nullptr, L"scope");
+                    link(out_sk.id, id, false);
+                    env.scope_nodes[sk.get()] = out_sk.id;
+                }
             }
         }
 
         void dbg_output::link(int pred_id, int succ_id, bool dashed)
         {
-            stream << L"  node_" << pred_id << L" -> node_" << succ_id;
+            env.stream << L"  node_" << pred_id << L" -> node_" << succ_id;
             if (dashed)
-                stream << L" [style=dashed]";
-            stream << std::endl;
+                env.stream << L" [style=dashed]";
+            env.stream << std::endl;
         }
 
         void dbg_output::link(int pred_id, int succ_id, bool dashed, const wchar_t *label)
         {
-            stream << L"  node_" << pred_id << L" -> node_" << succ_id << L" [label=\"" << label << L"\"";
+            env.stream << L"  node_" << pred_id << L" -> node_" << succ_id << L" [label=\"" << label << L"\"";
             if (dashed)
-                stream << L" style=dashed";
-            stream << L"]" << std::endl;
+                env.stream << L" style=dashed";
+            env.stream << L"]" << std::endl;
         }
 
         void dbg_output::link_child(const dbg_output &child)
@@ -167,14 +184,14 @@ namespace g0at
             int code_size = ref->get_code_size();
             if (code_size > 0)
             {
-                dbg_output body(stream, uid);
+                dbg_output body(env);
                 body.print(ref, L"body");
                 link_child(body);
                 int pred_id = body.id;
                 bool dashed = false;
                 for (int i = 0; i < code_size; i++)
                 {
-                    dbg_output stmt(stream, uid);
+                    dbg_output stmt(env);
                     ref->get_stmt(i)->accept(&stmt);
                     link(pred_id, stmt.id, dashed);
                     pred_id = stmt.id;
@@ -192,20 +209,20 @@ namespace g0at
         void dbg_output::visit(function_call *ref)
         {
             print(ref, L"function call");
-            dbg_output child(stream, uid);
+            dbg_output child(env);
             ref->get_func_object()->accept(&child);
             link_child(child, L"object");
             int args_count = ref->get_args_count();
             if (args_count > 0)
             {
-                dbg_output args(stream, uid);
+                dbg_output args(env);
                 args.print(ref, L"args");
                 link_child(args);
                 int pred_id = args.id;
                 bool dashed = false;
                 for (int i = 0; i < args_count; i++)
                 {
-                    dbg_output arg(stream, uid);
+                    dbg_output arg(env);
                     ref->get_arg(i)->accept(&arg);
                     link(pred_id, arg.id, dashed);
                     pred_id = arg.id;
@@ -217,7 +234,7 @@ namespace g0at
         void dbg_output::visit(statement_expression *ref)
         {
             print(ref, L"statement");
-            dbg_output child(stream, uid);
+            dbg_output child(env);
             ref->get_expression()->accept(&child);
             link_child(child);
         }
@@ -225,10 +242,10 @@ namespace g0at
         void dbg_output::visit(addition *ref)
         {
             print(ref, L"addition", L"+");
-            dbg_output left(stream, uid);
+            dbg_output left(env);
             ref->get_left()->accept(&left);
             link_child(left, L"left");
-            dbg_output right(stream, uid);
+            dbg_output right(env);
             ref->get_right()->accept(&right);
             link_child(right, L"right");
         }
@@ -236,10 +253,10 @@ namespace g0at
         void dbg_output::visit(subtraction *ref)
         {
             print(ref, L"subtraction", L"-");
-            dbg_output left(stream, uid);
+            dbg_output left(env);
             ref->get_left()->accept(&left);
             link_child(left, L"left");
-            dbg_output right(stream, uid);
+            dbg_output right(env);
             ref->get_right()->accept(&right);
             link_child(right, L"right");
         }
@@ -247,7 +264,7 @@ namespace g0at
         void dbg_output::visit(negation *ref)
         {
             print(ref, L"negation", L"-");
-            dbg_output right(stream, uid);
+            dbg_output right(env);
             ref->get_right()->accept(&right);
             link_child(right);
         }
@@ -280,12 +297,12 @@ namespace g0at
             for (int i = 0, cnt = ref->get_count(); i < cnt; i++)
             {
                 variable_info info = ref->get_variable(i);
-                dbg_output var(stream, uid);
+                dbg_output var(env);
                 var.print(ref, L"variable", info.name);
                 link(pred_id, var.id, dashed);
                 if (info.init_val)
                 {
-                    dbg_output init(stream, uid);
+                    dbg_output init(env);
                     info.init_val->accept(&init);
                     var.link_child(init);
                 }
@@ -297,10 +314,10 @@ namespace g0at
         void dbg_output::visit(assignment *ref)
         {
             print(ref, L"assignment", L"=");
-            dbg_output left(stream, uid);
+            dbg_output left(env);
             ref->get_left()->accept(&left);
             link_child(left, L"left");
-            dbg_output right(stream, uid);
+            dbg_output right(env);
             ref->get_right()->accept(&right);
             link_child(right, L"right");
        }
@@ -321,7 +338,7 @@ namespace g0at
             auto expr = ref->get_expression();
             if (expr)
             {
-                dbg_output child(stream, uid);
+                dbg_output child(env);
                 expr->accept(&child);
                 link_child(child);
             }
@@ -337,15 +354,15 @@ namespace g0at
                 {
                     auto item = ref->get_item(i);
 
-                    dbg_output pair(stream, uid);
+                    dbg_output pair(env);
                     pair.print(ref, L"pair");
                     link_child(pair);
 
-                    dbg_output key(stream, uid);
+                    dbg_output key(env);
                     item.first->accept(&key);
                     pair.link_child(key, L"key");
 
-                    dbg_output value(stream, uid);
+                    dbg_output value(env);
                     item.second->accept(&value);
                     pair.link_child(value, L"value");
                 }
@@ -355,7 +372,7 @@ namespace g0at
         void dbg_output::visit(property *ref)
         {
             print(ref, L"property", ref->get_name());
-            dbg_output child(stream, uid);
+            dbg_output child(env);
             ref->get_left()->accept(&child);
             link_child(child);
         }
@@ -373,10 +390,10 @@ namespace g0at
         void dbg_output::visit(is_equal_to *ref)
         {
             print(ref, L"is equal to", L"==");
-            dbg_output left(stream, uid);
+            dbg_output left(env);
             ref->get_left()->accept(&left);
             link_child(left, L"left");
-            dbg_output right(stream, uid);
+            dbg_output right(env);
             ref->get_right()->accept(&right);
             link_child(right, L"right");
         }
@@ -384,10 +401,10 @@ namespace g0at
         void dbg_output::visit(is_not_equal_to *ref)
         {
             print(ref, L"is not equal to", L"!=");
-            dbg_output left(stream, uid);
+            dbg_output left(env);
             ref->get_left()->accept(&left);
             link_child(left, L"left");
-            dbg_output right(stream, uid);
+            dbg_output right(env);
             ref->get_right()->accept(&right);
             link_child(right, L"right");
         }
@@ -395,10 +412,10 @@ namespace g0at
         void dbg_output::visit(statement_while *ref)
         {
             print(ref, L"while");
-            dbg_output condition(stream, uid);
+            dbg_output condition(env);
             ref->get_expression()->accept(&condition);
             link_child(condition, L"condition");
-            dbg_output stmt(stream, uid);
+            dbg_output stmt(env);
             ref->get_statement()->accept(&stmt);
             link_child(stmt, L"statement");
         }
@@ -406,20 +423,20 @@ namespace g0at
         void dbg_output::visit(method_call *ref)
         {
             print(ref, L"method call", ref->get_name());
-            dbg_output child(stream, uid);
+            dbg_output child(env);
             ref->get_left()->accept(&child);
             link_child(child, L"object");
             int args_count = ref->get_args_count();
             if (args_count > 0)
             {
-                dbg_output args(stream, uid);
+                dbg_output args(env);
                 args.print(ref, L"args");
                 link_child(args);
                 int pred_id = args.id;
                 bool dashed = false;
                 for (int i = 0; i < args_count; i++)
                 {
-                    dbg_output arg(stream, uid);
+                    dbg_output arg(env);
                     ref->get_arg(i)->accept(&arg);
                     link(pred_id, arg.id, dashed);
                     pred_id = arg.id;
@@ -439,14 +456,14 @@ namespace g0at
             int objects_count = ref->get_objects_count();
             if (objects_count > 0)
             {
-                dbg_output objects(stream, uid);
+                dbg_output objects(env);
                 objects.print(ref, L"objects");
                 link_child(objects);
                 int pred_id = objects.id;
                 bool dashed = false;
                 for (int i = 0; i < objects_count; i++)
                 {
-                    dbg_output obj(stream, uid);
+                    dbg_output obj(env);
                     ref->get_object(i)->accept(&obj);
                     link(pred_id, obj.id, dashed);
                     pred_id = obj.id;
@@ -465,7 +482,7 @@ namespace g0at
                 bool dashed = false;
                 for (int i = 0; i < code_size; i++)
                 {
-                    dbg_output stmt(stream, uid);
+                    dbg_output stmt(env);
                     ref->get_stmt(i)->accept(&stmt);
                     link(pred_id, stmt.id, dashed);
                     pred_id = stmt.id;
@@ -477,16 +494,16 @@ namespace g0at
         void dbg_output::visit(statement_if *ref)
         {
             print(ref, L"if");
-            dbg_output condition(stream, uid);
+            dbg_output condition(env);
             ref->get_expression()->accept(&condition);
             link_child(condition, L"condition");
-            dbg_output out_if(stream, uid);
+            dbg_output out_if(env);
             ref->get_stmt_if()->accept(&out_if);
             link_child(out_if, L"stmt if");
             auto stmt_else = ref->get_stmt_else();
             if (stmt_else)
             {
-                dbg_output out_else(stream, uid);
+                dbg_output out_else(env);
                 stmt_else->accept(&out_else);
                 link_child(out_else, L"stmt else");
             }
@@ -498,7 +515,7 @@ namespace g0at
             auto expr = ref->get_expression();
             if (expr)
             {
-                dbg_output child(stream, uid);
+                dbg_output child(env);
                 expr->accept(&child);
                 link_child(child);
             }
@@ -514,20 +531,20 @@ namespace g0at
             {
                 print(ref, L"try");
             }
-            dbg_output out_try(stream, uid);
+            dbg_output out_try(env);
             ref->get_stmt_try()->accept(&out_try);
             link_child(out_try, L"stmt try");
             auto stmt_catch = ref->get_stmt_catch();
             if (stmt_catch)
             {
-                dbg_output out_catch(stream, uid);
+                dbg_output out_catch(env);
                 stmt_catch->accept(&out_catch);
                 link_child(out_catch, L"stmt catch");
             }
             auto stmt_finally = ref->get_stmt_finally();
             if (stmt_finally)
             {
-                dbg_output out_finally(stream, uid);
+                dbg_output out_finally(env);
                 stmt_finally->accept(&out_finally);
                 link_child(out_finally, L"stmt finally");
             }
@@ -536,10 +553,10 @@ namespace g0at
         void dbg_output::visit(inheritance *ref)
         {
             print(ref, L"inheritance", L"-&gt;");
-            dbg_output left(stream, uid);
+            dbg_output left(env);
             ref->get_left()->accept(&left);
             link_child(left, L"ancestor");
-            dbg_output right(stream, uid);
+            dbg_output right(env);
             ref->get_right()->accept(&right);
             link_child(right, L"successor");
         }

@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "node_visitor.h"
 #include <sstream>
 #include <string>
+#include <map>
 #include "lib/pointer.h"
 
 namespace g0at
@@ -33,9 +34,23 @@ namespace g0at
     {
         class node;
         class function;
+        class scope;
 
         class dbg_output : public node_visitor
         {
+        protected:
+            struct environment
+            {
+                std::wstringstream &stream;
+                int &uid;
+                std::map<scope*, int> &scope_nodes;
+
+                environment(std::wstringstream &_stream, int &_uid, std::map<scope*, int> &_scope_nodes)
+                    : stream(_stream), uid(_uid), scope_nodes(_scope_nodes)
+                {
+                }
+            };
+
         public:
             static std::wstring to_string(node* obj);
             void visit(variable *ref) override;
@@ -73,18 +88,17 @@ namespace g0at
             void visit(character *ref) override;
 
         protected:
-            dbg_output(std::wstringstream &_stream, int &_uid);
+            dbg_output(environment &env);
             void print(node *leaf, const wchar_t *title);
             void print(node *leaf, const wchar_t *title, const wchar_t* content);
             void print(node *leaf, const wchar_t *title, std::wstring content);
-            void print_common_info(node *leaf);
+            void link_node_common_info(node *leaf);
             void link(int pred_id, int succ_id, bool dashed);
             void link(int pred_id, int succ_id, bool dashed, const wchar_t *label);
             void link_child(const dbg_output &child);
             void link_child(const dbg_output &child, const wchar_t *label);
 
-            std::wstringstream &stream;
-            int &uid;
+            environment &env;
             int id;
         };
     };
