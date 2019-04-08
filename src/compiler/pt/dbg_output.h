@@ -51,6 +51,13 @@ namespace g0at
                 }
             };
 
+            enum class edge_style
+            {
+                normal,
+                node_to_next_one,
+                scope_to_node
+            };
+
         public:
             static std::wstring to_string(node* obj);
             void visit(variable *ref) override;
@@ -93,8 +100,8 @@ namespace g0at
             void print(node *leaf, const wchar_t *title, const wchar_t* content);
             void print(node *leaf, const wchar_t *title, std::wstring content);
             void link_node_common_info(node *leaf);
-            void link(int pred_id, int succ_id, bool dashed);
-            void link(int pred_id, int succ_id, bool dashed, const wchar_t *label);
+            void link(int pred_id, int succ_id, edge_style style);
+            void link(int pred_id, int succ_id, edge_style style, const wchar_t *label);
             void link_child(const dbg_output &child);
             void link_child(const dbg_output &child, const wchar_t *label);
 

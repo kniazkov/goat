@@ -115,7 +115,7 @@ namespace g0at
                 auto iter = env.scope_nodes.find(sk.get());
                 if (iter != env.scope_nodes.end())
                 {
-                    link(iter->second, id, false);
+                    link(iter->second, id, edge_style::scope_to_node);
                 }
                 else
                 {
@@ -125,36 +125,54 @@ namespace g0at
                         out_sk.print(nullptr, L"scope", symbols);
                     else
                         out_sk.print(nullptr, L"scope");
-                    link(out_sk.id, id, false);
+                    link(out_sk.id, id, edge_style::scope_to_node);
                     env.scope_nodes[sk.get()] = out_sk.id;
                 }
             }
         }
 
-        void dbg_output::link(int pred_id, int succ_id, bool dashed)
+        void dbg_output::link(int pred_id, int succ_id, edge_style style)
         {
             env.stream << L"  node_" << pred_id << L" -> node_" << succ_id;
-            if (dashed)
-                env.stream << L" [style=dashed]";
+            switch(style)
+            {
+                case edge_style::node_to_next_one:
+                    env.stream << L" [style=dashed]";
+                    break;
+                case edge_style::scope_to_node:
+                    env.stream << L" [color=gray]";
+                    break;
+                default:
+                    break;
+            }
             env.stream << std::endl;
         }
 
-        void dbg_output::link(int pred_id, int succ_id, bool dashed, const wchar_t *label)
+        void dbg_output::link(int pred_id, int succ_id, edge_style style, const wchar_t *label)
         {
             env.stream << L"  node_" << pred_id << L" -> node_" << succ_id << L" [label=\"" << label << L"\"";
-            if (dashed)
-                env.stream << L" style=dashed";
+            switch(style)
+            {
+                case edge_style::node_to_next_one:
+                    env.stream << L" style=dashed";
+                    break;
+                case edge_style::scope_to_node:
+                    env.stream << L" color=gray";
+                    break;
+                default:
+                    break;
+            }
             env.stream << L"]" << std::endl;
         }
 
         void dbg_output::link_child(const dbg_output &child)
         {
-            link(id, child.id, false);
+            link(id, child.id, edge_style::normal);
         }
 
         void dbg_output::link_child(const dbg_output &child, const wchar_t *label)
         {
-            link(id, child.id, false, label);
+            link(id, child.id, edge_style::normal, label);
         }
 
         void dbg_output::visit(variable *ref)
@@ -188,14 +206,14 @@ namespace g0at
                 body.print(ref, L"body");
                 link_child(body);
                 int pred_id = body.id;
-                bool dashed = false;
+                edge_style style = edge_style::normal;
                 for (int i = 0; i < code_size; i++)
                 {
                     dbg_output stmt(env);
                     ref->get_stmt(i)->accept(&stmt);
-                    link(pred_id, stmt.id, dashed);
+                    link(pred_id, stmt.id, style);
                     pred_id = stmt.id;
-                    dashed = true;
+                    style = edge_style::node_to_next_one;
                 }
             }
         }
@@ -219,14 +237,14 @@ namespace g0at
                 args.print(ref, L"args");
                 link_child(args);
                 int pred_id = args.id;
-                bool dashed = false;
+                edge_style style = edge_style::normal;
                 for (int i = 0; i < args_count; i++)
                 {
                     dbg_output arg(env);
                     ref->get_arg(i)->accept(&arg);
-                    link(pred_id, arg.id, dashed);
+                    link(pred_id, arg.id, style);
                     pred_id = arg.id;
-                    dashed = true;
+                    style = edge_style::node_to_next_one;
                 }
             }
         }
@@ -293,13 +311,13 @@ namespace g0at
         {
             print(ref, L"declare variable");
             int pred_id = id;
-            bool dashed = false;
+            edge_style style = edge_style::normal;
             for (int i = 0, cnt = ref->get_count(); i < cnt; i++)
             {
                 variable_info info = ref->get_variable(i);
                 dbg_output var(env);
                 var.print(ref, L"variable", info.name);
-                link(pred_id, var.id, dashed);
+                link(pred_id, var.id, style);
                 if (info.init_val)
                 {
                     dbg_output init(env);
@@ -307,7 +325,7 @@ namespace g0at
                     var.link_child(init);
                 }
                 pred_id = var.id;
-                dashed = false;
+                style = edge_style::node_to_next_one;
             }
         }
 
@@ -433,14 +451,14 @@ namespace g0at
                 args.print(ref, L"args");
                 link_child(args);
                 int pred_id = args.id;
-                bool dashed = false;
+                edge_style style = edge_style::normal;
                 for (int i = 0; i < args_count; i++)
                 {
                     dbg_output arg(env);
                     ref->get_arg(i)->accept(&arg);
-                    link(pred_id, arg.id, dashed);
+                    link(pred_id, arg.id, style);
                     pred_id = arg.id;
-                    dashed = true;
+                    style = edge_style::node_to_next_one;
                 }
             }
         }
@@ -460,14 +478,14 @@ namespace g0at
                 objects.print(ref, L"objects");
                 link_child(objects);
                 int pred_id = objects.id;
-                bool dashed = false;
+                edge_style style = edge_style::normal;
                 for (int i = 0; i < objects_count; i++)
                 {
                     dbg_output obj(env);
                     ref->get_object(i)->accept(&obj);
-                    link(pred_id, obj.id, dashed);
+                    link(pred_id, obj.id, style);
                     pred_id = obj.id;
-                    dashed = true;
+                    style = edge_style::node_to_next_one;
                 }
             }
         }
@@ -479,14 +497,14 @@ namespace g0at
             if (code_size > 0)
             {
                 int pred_id = id;
-                bool dashed = false;
+                edge_style style = edge_style::normal;
                 for (int i = 0; i < code_size; i++)
                 {
                     dbg_output stmt(env);
                     ref->get_stmt(i)->accept(&stmt);
-                    link(pred_id, stmt.id, dashed);
+                    link(pred_id, stmt.id, style);
                     pred_id = stmt.id;
-                    dashed = true;
+                    style = edge_style::node_to_next_one;
                 }
             }
         }
