@@ -37,9 +37,13 @@ namespace g0at
         class symbol : public lib::ref_counter
         {
         public:
-            symbol(std::wstring _name);            
+            symbol(int _id, std::wstring _name);
+
+            int get_id() { return id; }
+            std::wstring get_name() { return name; }
 
         protected:
+            int id;
             std::wstring name;
             type *last_type;
             std::vector<type*> allowed_types;
@@ -60,6 +64,8 @@ namespace g0at
         public:
             scope();
             scope(lib::pointer<scope> &_parent);
+
+            void add_symbol(lib::pointer<symbol> &sptr) { symbols[sptr->get_name()] = sptr; }
 
         protected:
             std::vector<scope*> parents;

@@ -20,28 +20,29 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "scope.h"
+#include "symbol_builder.h"
+#include "lib/assert.h"
+#include "compiler/pt/declare_variable.h"
 
 namespace g0at
 {
-    namespace pt
+    namespace analyzer
     {
-        symbol::symbol(int _id, std::wstring _name)
-            : id(_id), name(_name), last_type(nullptr)
+        symbol_builder::symbol_builder()
+            : uid(0)
         {
         }
 
-        type::type()
+        void symbol_builder::payload(pt::declare_variable *ref)
         {
-        }
-
-        scope::scope()
-        {
-        }
-
-        scope::scope(lib::pointer<scope> &_parent)
-        {
-            parents.push_back(_parent.get());
+            auto scope = ref->get_scope();
+            assert(scope != nullptr);
+            for (int i = 0, count = ref->get_count(); i < count; i++)
+            {
+                auto info = ref->get_variable(i);
+                lib::pointer<pt::symbol> symbol = new pt::symbol(uid++, info.name);
+                scope->add_symbol(symbol);
+            }
         }
     };
 };

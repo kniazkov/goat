@@ -20,28 +20,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "scope.h"
+#pragma once
+
+#include "compiler/pt/parse_tree_traversal.h"
 
 namespace g0at
 {
-    namespace pt
+    namespace analyzer
     {
-        symbol::symbol(int _id, std::wstring _name)
-            : id(_id), name(_name), last_type(nullptr)
+        class symbol_builder : public pt::parse_tree_traversal
         {
-        }
+            public:
+                symbol_builder();
 
-        type::type()
-        {
-        }
+            protected:
+                void payload(pt::declare_variable *ref) override;
 
-        scope::scope()
-        {
-        }
-
-        scope::scope(lib::pointer<scope> &_parent)
-        {
-            parents.push_back(_parent.get());
-        }
+                int uid;
+        };
     };
 };

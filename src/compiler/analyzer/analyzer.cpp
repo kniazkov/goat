@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "analyzer.h"
 #include "statement_builder.h"
 #include "scope_builder.h"
+#include "symbol_builder.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -55,10 +56,10 @@ namespace g0at
             auto tok = body->first;
             while(tok)
             {
-                statement_builder b_0;
-                tok->accept(&b_0);
-                assert(b_0.has_stmt());
-                root_node->add_stmt(b_0.get_stmt());
+                statement_builder b0;
+                tok->accept(&b0);
+                assert(b0.has_stmt());
+                root_node->add_stmt(b0.get_stmt());
                 tok = tok->next;
             }
 
@@ -66,8 +67,12 @@ namespace g0at
             lib::pointer<pt::scope> root_scope = new pt::scope();
 
             // create scope for each node
-            scope_builder b_1(root_scope);
-            root_node->accept(&b_1);
+            scope_builder b1(root_scope);
+            root_node->accept(&b1);
+
+            // create symbols
+            symbol_builder b2;
+            b2.traverse(root_node);
         }
     };
 };
