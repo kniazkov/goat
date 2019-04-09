@@ -64,17 +64,18 @@ namespace g0at
         public:
             typedef std::map<std::wstring, lib::pointer<symbol>> dictionary;
 
+            struct descriptor
+            {
+                symbol *item;
+                bool defined;
+                bool redefined;
+            };
+
             scope();
             scope(lib::pointer<scope> &_parent);
-            std::wstring get_symbols_list();
+            std::vector<descriptor> get_symbol_table();
 
             void add_symbol(lib::pointer<symbol> &sptr) { symbols[sptr->get_name()] = sptr; }
-            dictionary flat()
-            {
-                dictionary tmp;
-                flat(tmp);
-                return tmp;
-            }
             int get_parents_count() { return (int)parents.size(); }
             scope *get_parent(int idx) { return parents.at(idx); }
 

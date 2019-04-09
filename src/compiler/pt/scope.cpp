@@ -45,21 +45,37 @@ namespace g0at
             parents.push_back(_parent.get());
         }
 
-        std::wstring scope::get_symbols_list()
+        std::vector<scope::descriptor> scope::get_symbol_table()
         {
-            std::wstringstream wss;
-            dictionary tmp;
-            flat(tmp);
-            bool first = true;
-            for (auto pair : tmp)
+            std::vector<descriptor> result;
+            // prepare flat array
+            dictionary inherited;
+            for (int i = (int)parents.size() - 1; i > -1; i--)
             {
-                if (!first)
-                    wss << L", ";
-                else
-                    first = false;
-                wss << pair.first << L'(' << pair.second->get_id() << L')';
+                parents[i]->flat(inherited);
             }
-            return wss.str();
+            // own symbols
+            for(auto pair : symbols)
+            {
+                descriptor descr = {0};
+                descr.item = pair.second.get();
+                descr.defined = true;
+                auto iter = inherited.find(pair.first);
+                if (iter != inherited.end())
+                {
+                    inherited.erase(iter);
+                    descr.redefined = true;
+                }
+                result.push_back(descr);
+            }
+            // inherited
+            for (auto pair : inherited)
+            {
+                descriptor descr = {0};
+                descr.item = pair.second.get();
+                result.push_back(descr);
+            }
+            return result;
         }
 
         void scope::flat(dictionary &dst)

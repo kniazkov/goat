@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "dbg_output.h"
 #include "lib/utils.h"
+#include <algorithm>
 #include "variable.h"
 #include "function.h"
 #include "static_string.h"
@@ -127,11 +128,38 @@ namespace g0at
             else
             {
                 dbg_output out_sk(env);
-                std::wstring symbols = sk->get_symbols_list();
+                auto symbols = sk->get_symbol_table();
+                /* it does not work
+                std::sort(symbols.begin(), symbols.end(), [](const scope::descriptor &x, const scope::descriptor &y) -> bool
+                { 
+                    return x.item->get_name() > y.item->get_name(); 
+                });
+                */
                 if (symbols.size() > 0)
-                    out_sk.print(nullptr, L"scope", symbols);
+                {
+                    env.stream << L"  node_" << out_sk.id << L" [label=<scope"
+                        << L"<br/><font color=\"blue\">";
+                    for (int i = 0, size = (int)symbols.size(); i <  size; i++)
+                    {
+                        auto descr = symbols[i];
+                        if (i > 0)
+                            env.stream << L", ";
+                        if (descr.redefined)
+                            env.stream << L"<font color=\"red\">";
+                        if (descr.defined)
+                            env.stream << L"<b>";
+                        env.stream << descr.item->get_name();
+                        if (descr.defined)
+                            env.stream << L"</b>";
+                        if (descr.redefined)
+                            env.stream << L"</font>";
+                    }
+                    env.stream << L"</font>" << L">]" << std::endl;
+                }
                 else
-                    out_sk.print(nullptr, L"scope");
+                {
+                    env.stream << L"  node_" << out_sk.id << L" [label=<scope>]" << std::endl;
+                }
                 env.scope_nodes[sk] = out_sk.id;
                 for (int i = 0, count = sk->get_parents_count(); i < count; i++)
                 {
