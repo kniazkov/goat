@@ -148,7 +148,7 @@ namespace g0at
                             env.stream << L"<font color=\"red\">";
                         if (descr.defined)
                             env.stream << L"<b>";
-                        env.stream << descr.item->get_name();
+                        env.stream << descr.sl->get_name();
                         if (descr.defined)
                             env.stream << L"</b>";
                         if (descr.redefined)

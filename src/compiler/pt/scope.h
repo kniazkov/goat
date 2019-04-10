@@ -66,7 +66,7 @@ namespace g0at
 
             struct descriptor
             {
-                symbol *item;
+                symbol *sl;
                 bool defined;
                 bool redefined;
             };

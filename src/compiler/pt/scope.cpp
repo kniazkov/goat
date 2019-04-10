@@ -58,7 +58,7 @@ namespace g0at
             for(auto pair : symbols)
             {
                 descriptor descr = {0};
-                descr.item = pair.second.get();
+                descr.sl = pair.second.get();
                 descr.defined = true;
                 auto iter = inherited.find(pair.first);
                 if (iter != inherited.end())
@@ -72,7 +72,7 @@ namespace g0at
             for (auto pair : inherited)
             {
                 descriptor descr = {0};
-                descr.item = pair.second.get();
+                descr.sl = pair.second.get();
                 result.push_back(descr);
             }
             return result;
