@@ -77,12 +77,12 @@ namespace g0at
 
             void add_symbol(lib::pointer<symbol> &sptr) { symbols[sptr->get_name()] = sptr; }
             int get_parents_count() { return (int)parents.size(); }
-            scope *get_parent(int idx) { return parents.at(idx); }
+            scope *get_parent(int idx) { return parents.at(idx).get(); }
 
         protected:
             void flat(dictionary &dst);
 
-            std::vector<scope*> parents;
+            std::vector<lib::pointer<scope>> parents;
             std::vector<lib::pointer<type>> types;
             dictionary symbols;
         };

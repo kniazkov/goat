@@ -144,6 +144,7 @@ namespace g0at
 
         void scope_builder::visit(pt::declare_variable *ref)
         {
+            s0 = new pt::scope(s0);
             ref->set_scope(s0);
             for (int i = 0, count = ref->get_count(); i < count; i++)
             {

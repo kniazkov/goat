@@ -42,7 +42,7 @@ namespace g0at
 
         scope::scope(lib::pointer<scope> &_parent)
         {
-            parents.push_back(_parent.get());
+            parents.push_back(_parent);
         }
 
         std::vector<scope::descriptor> scope::get_symbol_table()
