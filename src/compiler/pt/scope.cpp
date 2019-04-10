@@ -32,6 +32,11 @@ namespace g0at
         {
         }
 
+        symbol::symbol(const wchar_t *_name, type *_type)
+            : id(-1), name(_name), last_type(_type)
+        {
+        }
+
         type::type()
         {
         }

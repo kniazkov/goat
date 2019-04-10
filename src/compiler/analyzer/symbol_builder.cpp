@@ -28,6 +28,11 @@ namespace g0at
 {
     namespace analyzer
     {
+        built_in_types::built_in_types()
+            : type_integer(nullptr)
+        {
+        }
+
         symbol_builder::symbol_builder()
             : uid(0)
         {

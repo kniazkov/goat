@@ -38,6 +38,7 @@ namespace g0at
         {
         public:
             symbol(int _id, std::wstring _name);
+            symbol(const wchar_t *_name, type *_type);
 
             int get_id() { return id; }
             std::wstring get_name() { return name; }
@@ -75,7 +76,8 @@ namespace g0at
             scope(lib::pointer<scope> &_parent);
             std::vector<descriptor> get_symbol_table();
 
-            void add_symbol(lib::pointer<symbol> &sptr) { symbols[sptr->get_name()] = sptr; }
+            void add_symbol(lib::pointer<symbol> _sl) { symbols[_sl->get_name()] = _sl; }
+            void add_type(lib::pointer<type> _type) { types.push_back(_type); }
             int get_parents_count() { return (int)parents.size(); }
             scope *get_parent(int idx) { return parents.at(idx).get(); }
 

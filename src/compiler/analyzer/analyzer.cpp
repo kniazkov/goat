@@ -64,15 +64,29 @@ namespace g0at
             }
 
             // root scope
-            lib::pointer<pt::scope> root_scope = new pt::scope();
+            lib::pointer<pt::scope> rsk = new pt::scope();
+            built_in_types bt;
 
             // create scope for each node
-            scope_builder b1(root_scope);
+            scope_builder b1(rsk);
             root_node->accept(&b1);
 
             // create symbols
             symbol_builder b2;
+            fill_root_scope(rsk.get(), &b2);
             b2.traverse(root_node);
+        }
+
+        void analyzer::fill_root_scope(pt::scope *sk, built_in_types *bt)
+        {
+            /*
+                Integer
+            */
+            lib::pointer<pt::type> type_integer = new pt::type();
+            bt->type_integer = type_integer.get();
+            sk->add_type(type_integer);
+            lib::pointer<pt::symbol> sl_integer = new pt::symbol(L"Integer", type_integer.get());
+            sk->add_symbol(sl_integer);
         }
     };
 };
