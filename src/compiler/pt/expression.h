@@ -23,7 +23,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "node.h"
-#include "compiler/analyzer/symbol_builder.h"
 
 namespace g0at
 {
@@ -31,18 +30,11 @@ namespace g0at
     {
         class expression : public node
         {
-        friend class g0at::analyzer::scope_builder;
         public:
             expression(lib::pointer<position> _pos);
             expression *to_expression() override;
-
-            lib::pointer<type> get_type() { return ret_type; }
-
-        protected:
-            void set_type(lib::pointer<type> _type) { ret_type = _type; }
         
-        private:
-            lib::pointer<type> ret_type;
+            type* ret_type;
         };
     };
 };

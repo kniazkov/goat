@@ -38,6 +38,7 @@ namespace g0at
         {
         public:
             symbol(int _id, std::wstring _name);
+            symbol(int _id, std::wstring _name, type *_type);
             symbol(const wchar_t *_name, type *_type);
 
             int get_id() { return id; }

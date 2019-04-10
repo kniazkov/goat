@@ -47,6 +47,7 @@ namespace g0at
 
             protected:
                 void payload(pt::declare_variable *ref) override;
+                void payload(pt::integer *ref) override;
 
                 int uid;
         };

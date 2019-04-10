@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "symbol_builder.h"
 #include "lib/assert.h"
 #include "compiler/pt/declare_variable.h"
+#include "compiler/pt/integer.h"
 
 namespace g0at
 {
@@ -45,9 +46,18 @@ namespace g0at
             for (int i = 0, count = ref->get_count(); i < count; i++)
             {
                 auto info = ref->get_variable(i);
-                lib::pointer<pt::symbol> symbol = new pt::symbol(uid++, info.name);
+                lib::pointer<pt::symbol> symbol;
+                if (info.init_val)
+                    symbol = new pt::symbol(uid++, info.name, info.init_val->ret_type);
+                else
+                    symbol = new pt::symbol(uid++, info.name);
                 scope->add_symbol(symbol);
             }
+        }
+
+        void symbol_builder::payload(pt::integer *ref)
+        {
+            ref->ret_type = get_type_integer();
         }
     };
 };

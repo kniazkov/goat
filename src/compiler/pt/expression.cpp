@@ -27,7 +27,7 @@ namespace g0at
     namespace pt
     {
         expression::expression(lib::pointer<position> _pos)
-            : node(_pos)
+            : node(_pos), ret_type(nullptr)
         {
         }
 
