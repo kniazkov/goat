@@ -396,7 +396,7 @@ namespace g0at
                 {
                     dbg_output init(env);
                     info.init_val->accept(&init);
-                    var.link_child(init);
+                    var.link_child(init, L"init");
                 }
                 pred_id = var.id;
                 style = edge_style::node_to_next_one;

@@ -80,9 +80,17 @@ namespace g0at
         void analyzer::fill_root_scope(pt::scope *sk, built_in_types *bt)
         {
             /*
+                Object
+            */
+            lib::pointer<pt::type> t_object = new pt::type();
+            sk->add_type(t_object);
+            lib::pointer<pt::symbol> sl_object = new pt::symbol(L"Object", t_object.get());
+            sk->add_symbol(sl_object);
+            
+            /*
                 Integer
             */
-            lib::pointer<pt::type> t_integer_proto = new pt::type();
+            lib::pointer<pt::type> t_integer_proto = new pt::type(t_object);
             sk->add_type(t_integer_proto);
             lib::pointer<pt::type> t_integer = new pt::type(t_integer_proto);
             sk->add_type(t_integer);
