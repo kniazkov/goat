@@ -140,10 +140,13 @@ namespace g0at
                 {
                     env.stream << L"  node_" << out_sk.id << L" [label=<scope"
                         << L"<br/><font color=\"blue\">";
+                    int j = 0;
                     for (int i = 0, size = (int)symbols.size(); i <  size; i++)
                     {
                         auto descr = symbols[i];
-                        if (i > 0)
+                        if (descr.sl->get_id() < 0 && !descr.defined)
+                            continue;
+                        if (j > 0)
                             env.stream << L", ";
                         if (descr.redefined)
                             env.stream << L"<font color=\"red\">";
@@ -158,9 +161,9 @@ namespace g0at
                                 env.stream << L"-&gt;";
                                 if (pr_cnt > 1)
                                     env.stream << L'[';
-                                for (int i = 0; i < pr_cnt; i++)
+                                for (int k = 0; k < pr_cnt; k++)
                                 {
-                                    type *proto = descr.sl->get_proto(i);
+                                    type *proto = descr.sl->get_proto(k);
                                     assert(proto != nullptr);
                                     symbol *sl_proto = sk->find_symbol_by_type(proto);
                                     if (sl_proto)
@@ -175,7 +178,10 @@ namespace g0at
                         }
                         if (descr.redefined)
                             env.stream << L"</font>";
+                        j++;
                     }
+                    if (!j)
+                        env.stream << L'*';
                     env.stream << L"</font>" << L">]" << std::endl;
                 }
                 else
