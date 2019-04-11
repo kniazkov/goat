@@ -46,6 +46,11 @@ namespace g0at
         {
         }
 
+        type::type(lib::pointer<type> _proto)
+        {
+            proto.push_back(_proto.get());
+        }
+
         scope::scope()
         {
         }
@@ -86,6 +91,24 @@ namespace g0at
                 result.push_back(descr);
             }
             return result;
+        }
+
+        symbol * scope::find_symbol_by_type(type *_type)
+        {
+            for (auto pair : symbols)
+            {
+                if (pair.second->get_last_type() == _type)
+                    return pair.second.get();
+            }
+            
+            symbol *sl = nullptr;
+            for (auto pt : parents)
+            {
+                sl = pt->find_symbol_by_type(_type);
+                if (sl != nullptr)
+                    break;
+            }
+            return sl;
         }
 
         void scope::flat(dictionary &dst)

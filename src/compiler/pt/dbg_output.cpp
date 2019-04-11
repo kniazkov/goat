@@ -22,7 +22,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "dbg_output.h"
 #include "lib/utils.h"
-#include <algorithm>
+#include "lib/assert.h"
+//#include <algorithm>
 #include "variable.h"
 #include "function.h"
 #include "static_string.h"
@@ -150,7 +151,28 @@ namespace g0at
                             env.stream << L"<b>";
                         env.stream << descr.sl->get_name();
                         if (descr.defined)
+                        {
+                            int pr_cnt = descr.sl->get_proto_count();
+                            if (pr_cnt > 0)
+                            {
+                                env.stream << L"-&gt;";
+                                if (pr_cnt > 1)
+                                    env.stream << L'[';
+                                for (int i = 0; i < pr_cnt; i++)
+                                {
+                                    type *proto = descr.sl->get_proto(i);
+                                    assert(proto != nullptr);
+                                    symbol *sl_proto = sk->find_symbol_by_type(proto);
+                                    if (sl_proto)
+                                        env.stream << sl_proto->get_name();
+                                    else
+                                        env.stream << L"?";
+                                }
+                                if (pr_cnt > 1)
+                                    env.stream << L']';
+                            }
                             env.stream << L"</b>";
+                        }
                         if (descr.redefined)
                             env.stream << L"</font>";
                     }

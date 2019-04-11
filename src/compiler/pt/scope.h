@@ -43,6 +43,9 @@ namespace g0at
 
             int get_id() { return id; }
             std::wstring get_name() { return name; }
+            type * get_last_type() { return last_type; }
+            inline int get_proto_count();
+            inline type *get_proto(int idx);
 
         protected:
             int id;
@@ -55,6 +58,9 @@ namespace g0at
         {
         public:
             type();
+            type(lib::pointer<type> _proto);
+            int get_proto_count() { return (int)proto.size(); }
+            type *get_proto(int idx) { return proto.at(idx); }
 
         protected:
             std::vector<type*> proto;
@@ -76,6 +82,7 @@ namespace g0at
             scope();
             scope(lib::pointer<scope> &_parent);
             std::vector<descriptor> get_symbol_table();
+            symbol *find_symbol_by_type(type *_type);
 
             void add_symbol(lib::pointer<symbol> _sl) { symbols[_sl->get_name()] = _sl; }
             void add_type(lib::pointer<type> _type) { types.push_back(_type); }
@@ -89,5 +96,18 @@ namespace g0at
             std::vector<lib::pointer<type>> types;
             dictionary symbols;
         };
+
+        /*
+            Inline methods
+        */
+        int symbol::get_proto_count()
+        {
+            return last_type ? last_type->get_proto_count() : 0;
+        }
+
+        type * symbol::get_proto(int idx)
+        {
+            return last_type ? last_type->get_proto(idx) : nullptr;
+        }
     };
 };

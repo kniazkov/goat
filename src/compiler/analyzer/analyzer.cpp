@@ -82,10 +82,12 @@ namespace g0at
             /*
                 Integer
             */
-            lib::pointer<pt::type> type_integer = new pt::type();
-            bt->type_integer = type_integer.get();
-            sk->add_type(type_integer);
-            lib::pointer<pt::symbol> sl_integer = new pt::symbol(L"Integer", type_integer.get());
+            lib::pointer<pt::type> t_integer_proto = new pt::type();
+            sk->add_type(t_integer_proto);
+            lib::pointer<pt::type> t_integer = new pt::type(t_integer_proto);
+            sk->add_type(t_integer);
+            bt->type_integer = t_integer.get();
+            lib::pointer<pt::symbol> sl_integer = new pt::symbol(L"Integer", t_integer_proto.get());
             sk->add_symbol(sl_integer);
         }
     };
