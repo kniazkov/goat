@@ -43,8 +43,6 @@ namespace g0at
             lib::pointer<pt::function> get_root() { return root; }
 
         private:
-            void fill_root_scope(pt::scope *sk, built_in_types *bt);
-
             analyzer(const analyzer &) { }
             void operator=(const analyzer &) { }
 

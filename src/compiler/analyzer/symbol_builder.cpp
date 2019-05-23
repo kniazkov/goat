@@ -29,13 +29,8 @@ namespace g0at
 {
     namespace analyzer
     {
-        built_in_types::built_in_types()
-            : type_integer(nullptr)
-        {
-        }
-
-        symbol_builder::symbol_builder()
-            : uid(0)
+        symbol_builder::symbol_builder(pt::root_scope::root_scope *_root_scope)
+            : uid(0), root_scope(_root_scope)
         {
         }
 
@@ -57,7 +52,7 @@ namespace g0at
 
         void symbol_builder::payload(pt::integer *ref)
         {
-            ref->ret_type = get_type_integer();
+            ref->ret_type = root_scope->get_type_integer();
         }
     };
 };

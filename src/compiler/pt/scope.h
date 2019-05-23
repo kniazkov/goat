@@ -40,6 +40,7 @@ namespace g0at
             symbol(int _id, std::wstring _name);
             symbol(int _id, std::wstring _name, type *_type);
             symbol(const wchar_t *_name, type *_type);
+            virtual ~symbol();
 
             int get_id() { return id; }
             std::wstring get_name() { return name; }
@@ -59,6 +60,7 @@ namespace g0at
         public:
             type();
             type(lib::pointer<type> _proto);
+            virtual ~type();
             int get_proto_count() { return (int)proto.size(); }
             type *get_proto(int idx) { return proto.at(idx); }
 
@@ -81,6 +83,7 @@ namespace g0at
 
             scope();
             scope(lib::pointer<scope> &_parent);
+            virtual ~scope();
             std::vector<descriptor> get_symbol_table();
             symbol *find_symbol_by_type(type *_type);
 

@@ -22,25 +22,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "analyzer.h"
-#include "compiler/pt/parse_tree_traversal.h"
-#include "compiler/pt/root_scope/root_scope.h"
+#include "compiler/pt/scope.h"
 
 namespace g0at
 {
-    namespace analyzer
+    namespace pt
     {
-        class symbol_builder : public pt::parse_tree_traversal
+        namespace root_scope
         {
+            class root_scope : public pt::scope
+            {
             public:
-                symbol_builder(pt::root_scope::root_scope *_root_scope);
+                root_scope();
+                pt::type* get_type_object() { return type_object.get(); }
+                pt::type* get_type_integer() { return type_integer.get(); }
 
-            protected:
-                void payload(pt::declare_variable *ref) override;
-                void payload(pt::integer *ref) override;
-
-                int uid;
-                pt::root_scope::root_scope *root_scope;
+            private:
+                lib::pointer<pt::type> type_object;
+                lib::pointer<pt::type> type_integer;
+            };
         };
     };
 };

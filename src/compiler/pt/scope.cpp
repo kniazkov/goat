@@ -42,6 +42,11 @@ namespace g0at
         {
         }
 
+        symbol::~symbol()
+        {
+        }
+
+
         type::type()
         {
         }
@@ -51,6 +56,11 @@ namespace g0at
             proto.push_back(_proto.get());
         }
 
+        type::~type()
+        {
+        }
+
+
         scope::scope()
         {
         }
@@ -58,6 +68,10 @@ namespace g0at
         scope::scope(lib::pointer<scope> &_parent)
         {
             parents.push_back(_parent);
+        }
+
+        scope::~scope()
+        {
         }
 
         std::vector<scope::descriptor> scope::get_symbol_table()

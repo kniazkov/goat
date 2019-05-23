@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_builder.h"
 #include "scope_builder.h"
 #include "symbol_builder.h"
+#include "compiler/pt/root_scope/root_scope.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -64,39 +65,15 @@ namespace g0at
             }
 
             // root scope
-            lib::pointer<pt::scope> rsk = new pt::scope();
-            built_in_types bt;
+            lib::pointer<pt::root_scope::root_scope> root_scope = new pt::root_scope::root_scope();
 
             // create scope for each node
-            scope_builder b1(rsk);
+            scope_builder b1(root_scope.cast<pt::scope>());
             root_node->accept(&b1);
 
             // create symbols
-            symbol_builder b2;
-            fill_root_scope(rsk.get(), &b2);
+            symbol_builder b2(root_scope.get());
             b2.traverse(root_node);
-        }
-
-        void analyzer::fill_root_scope(pt::scope *sk, built_in_types *bt)
-        {
-            /*
-                Object
-            */
-            lib::pointer<pt::type> t_object = new pt::type();
-            sk->add_type(t_object);
-            lib::pointer<pt::symbol> sl_object = new pt::symbol(L"Object", t_object.get());
-            sk->add_symbol(sl_object);
-            
-            /*
-                Integer
-            */
-            lib::pointer<pt::type> t_integer_proto = new pt::type(t_object);
-            sk->add_type(t_integer_proto);
-            lib::pointer<pt::type> t_integer = new pt::type(t_integer_proto);
-            sk->add_type(t_integer);
-            bt->type_integer = t_integer.get();
-            lib::pointer<pt::symbol> sl_integer = new pt::symbol(L"Integer", t_integer_proto.get());
-            sk->add_symbol(sl_integer);
         }
     };
 };
