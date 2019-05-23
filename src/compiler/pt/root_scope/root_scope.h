@@ -34,11 +34,12 @@ namespace g0at
             {
             public:
                 root_scope();
-                pt::type* get_type_object() { return type_object.get(); }
+                pt::type_object* get_type_object() { return type_object.get(); }
                 pt::type* get_type_integer() { return type_integer.get(); }
 
             private:
-                lib::pointer<pt::type> type_object;
+                lib::pointer<pt::type_object> type_object;
+                lib::pointer<pt::type_function_proto> type_function_proto;
                 lib::pointer<pt::type> type_integer;
             };
         };

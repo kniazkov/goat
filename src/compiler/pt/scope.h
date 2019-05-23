@@ -69,6 +69,19 @@ namespace g0at
             std::map<std::wstring, lib::pointer<symbol>> symbols;
         };
 
+        class type_object : public type
+        {
+        public:
+            type_object();
+        };
+
+        class type_function_proto : public type
+        {
+        public:
+            type_function_proto(lib::pointer<type_object> _proto);
+        };
+
+
         class scope : public lib::ref_counter
         {
         public:

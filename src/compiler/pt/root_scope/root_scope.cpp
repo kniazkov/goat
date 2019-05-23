@@ -33,15 +33,23 @@ namespace g0at
                 /*
                     Object
                 */
-                type_object = new pt::type();
-                add_type(type_object);
+                type_object = new pt::type_object();
+                add_type(type_object.cast<type>());
                 lib::pointer<pt::symbol> symbol_object = new pt::symbol(L"Object", type_object.get());
                 add_symbol(symbol_object);
 
                 /*
+                    Function
+                */
+                type_function_proto = new pt::type_function_proto(type_object);
+                add_type(type_function_proto.cast<type>());
+                lib::pointer<pt::symbol> symbol_function = new pt::symbol(L"Function", type_function_proto.get());
+                add_symbol(symbol_function);
+
+                /*
                     Integer
                 */
-                lib::pointer<pt::type> type_integer_proto = new pt::type(type_object);
+                lib::pointer<pt::type> type_integer_proto = new pt::type(type_object.cast<type>());
                 add_type(type_integer_proto);
                 type_integer = new pt::type(type_integer_proto.get());
                 add_type(type_integer);

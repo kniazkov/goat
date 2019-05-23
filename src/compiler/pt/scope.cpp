@@ -60,6 +60,15 @@ namespace g0at
         {
         }
 
+        type_object::type_object()
+        {
+        }
+
+        type_function_proto::type_function_proto(lib::pointer<type_object> _proto)
+            : type(_proto.cast<type>())
+        {
+        }
+
 
         scope::scope()
         {
