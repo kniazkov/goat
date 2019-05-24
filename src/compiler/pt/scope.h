@@ -81,6 +81,15 @@ namespace g0at
             type_function_proto(lib::pointer<type_object> _proto);
         };
 
+        class type_function : public type
+        {
+        public:
+            type_function(lib::pointer<type_function_proto> _proto);
+
+        protected:
+            std::vector<lib::pointer<symbol>> args;
+            std::vector<type*> allowed_ret_types;
+        };
 
         class scope : public lib::ref_counter
         {

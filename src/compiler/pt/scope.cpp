@@ -69,6 +69,11 @@ namespace g0at
         {
         }
 
+        type_function::type_function(lib::pointer<type_function_proto> _proto)
+            : type(_proto.cast<type>())
+        {
+        }
+
 
         scope::scope()
         {
