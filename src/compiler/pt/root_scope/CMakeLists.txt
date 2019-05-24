@@ -17,8 +17,7 @@
 # with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 cmake_minimum_required(VERSION 2.6)
-include_directories(../..)
-project(ptree)
+include_directories(../../..)
+project(root_scope)
 file (GLOB SOURCE "*.cpp")
-add_library(ptree STATIC ${SOURCE})
-add_subdirectory(root_scope)
+add_library(root_scope STATIC ${SOURCE})

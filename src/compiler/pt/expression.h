@@ -33,6 +33,8 @@ namespace g0at
         public:
             expression(lib::pointer<position> _pos);
             expression *to_expression() override;
+        
+            type* ret_type;
         };
     };
 };

@@ -291,7 +291,7 @@ namespace g0at
                 {
                     dbg_output init(stream, uid);
                     info.init_val->accept(&init);
-                    var.link_child(init);
+                    var.link_child(init, L"init");
                 }
                 pred_id = var.id;
                 dashed = false;

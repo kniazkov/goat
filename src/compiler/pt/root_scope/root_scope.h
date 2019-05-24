@@ -20,20 +20,28 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "expression.h"
+#pragma once
+
+#include "compiler/pt/scope.h"
 
 namespace g0at
 {
     namespace pt
     {
-        expression::expression(lib::pointer<position> _pos)
-            : node(_pos), ret_type(nullptr)
+        namespace root_scope
         {
-        }
+            class root_scope : public pt::scope
+            {
+            public:
+                root_scope();
+                pt::type_object* get_type_object() { return type_object.get(); }
+                pt::type* get_type_integer() { return type_integer.get(); }
 
-        expression *expression::to_expression()
-        {
-            return this;
-        }
+            private:
+                lib::pointer<pt::type_object> type_object;
+                lib::pointer<pt::type_function_proto> type_function_proto;
+                lib::pointer<pt::type> type_integer;
+            };
+        };
     };
 };

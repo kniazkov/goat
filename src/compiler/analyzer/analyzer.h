@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "compiler/pt/scope.h"
 #include "compiler/pt/function.h"
 #include "compiler/ast/root.h"
 #include "lib/pointer.h"
@@ -30,19 +31,20 @@ namespace g0at
 {
     namespace analyzer
     {
+        class built_in_types;
+        
         class analyzer
         {
         public:
             analyzer();
             ~analyzer();
-            static lib::pointer<pt::function> analyze(lib::pointer<ast::root> tok_root);
-            void build(lib::pointer<ast::root> tok_root);
+            static lib::pointer<pt::function> analyze(lib::pointer<ast::root> root_tok);
+            void build(lib::pointer<ast::root> root_tok);
             lib::pointer<pt::function> get_root() { return root; }
 
-        protected:
+        private:
             analyzer(const analyzer &) { }
             void operator=(const analyzer &) { }
-            lib::pointer<pt::function> build_function(lib::pointer<ast::function> tok_func);
 
             lib::pointer<pt::function> root;
         };

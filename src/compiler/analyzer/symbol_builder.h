@@ -20,20 +20,27 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "expression.h"
+#pragma once
+
+#include "analyzer.h"
+#include "compiler/pt/parse_tree_traversal.h"
+#include "compiler/pt/root_scope/root_scope.h"
 
 namespace g0at
 {
-    namespace pt
+    namespace analyzer
     {
-        expression::expression(lib::pointer<position> _pos)
-            : node(_pos), ret_type(nullptr)
+        class symbol_builder : public pt::parse_tree_traversal
         {
-        }
+            public:
+                symbol_builder(pt::root_scope::root_scope *_root_scope);
 
-        expression *expression::to_expression()
-        {
-            return this;
-        }
+            protected:
+                void payload(pt::declare_variable *ref) override;
+                void payload(pt::integer *ref) override;
+
+                int uid;
+                pt::root_scope::root_scope *root_scope;
+        };
     };
 };

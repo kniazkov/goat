@@ -43,7 +43,7 @@ namespace g0at
             void add_arg(std::wstring arg) { args.push_back(arg); }
             int get_args_count() { return (int)args.size(); }
             std::wstring get_arg(int index) { return args.at(index); }
-            bool is_root_function() { return pos == nullptr; }
+            bool is_root_function() { return get_position() == nullptr; }
 
         protected:
             std::vector<lib::pointer<statement>> code;

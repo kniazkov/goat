@@ -23,46 +23,22 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "node_visitor.h"
-#include <sstream>
-#include <string>
-#include <map>
-#include "lib/pointer.h"
+#include <deque>
+
 
 namespace g0at
 {
     namespace pt
     {
         class node;
-        class function;
-        class scope;
 
-        class dbg_output : public node_visitor
+        class parse_tree_traversal : public node_visitor
         {
-        protected:
-            struct environment
-            {
-                std::wstringstream &stream;
-                int &uid;
-                std::map<scope*, int> &scope_nodes;
-
-                environment(std::wstringstream &_stream, int &_uid, std::map<scope*, int> &_scope_nodes)
-                    : stream(_stream), uid(_uid), scope_nodes(_scope_nodes)
-                {
-                }
-            };
-
-            enum class edge_style
-            {
-                normal,
-                node_to_next_one,
-                scope_to_node,
-                scope_to_child
-            };
-
         public:
-            static std::wstring to_string(node* obj);
-            void visit(variable *ref) override;
+            parse_tree_traversal();
+            void traverse(node *root);
             void visit(function *ref) override;
+            void visit(variable *ref) override;
             void visit(static_string *ref) override;
             void visit(function_call *ref) override;
             void visit(statement_expression *ref) override;
@@ -96,19 +72,45 @@ namespace g0at
             void visit(character *ref) override;
 
         protected:
-            dbg_output(environment &env);
-            void print(node *leaf, const wchar_t *title);
-            void print(node *leaf, const wchar_t *title, const wchar_t* content);
-            void print(node *leaf, const wchar_t *title, std::wstring content);
-            void link_node_common_info(node *leaf);
-            int print_scope_node_if_needed(scope *sk);
-            void link(int pred_id, int succ_id, edge_style style);
-            void link(int pred_id, int succ_id, edge_style style, const wchar_t *label);
-            void link_child(const dbg_output &child);
-            void link_child(const dbg_output &child, const wchar_t *label);
+            void postpone(node *n) { queue.push_front(n); }
+            bool is_postponed(node *n);
 
-            environment &env;
-            int id;
+            virtual void payload(function *ref);
+            virtual void payload(variable *ref);
+            virtual void payload(static_string *ref);
+            virtual void payload(function_call *ref);
+            virtual void payload(statement_expression *ref);
+            virtual void payload(addition *ref);
+            virtual void payload(integer *ref);
+            virtual void payload(subtraction *ref);
+            virtual void payload(negation *ref);
+            virtual void payload(value_void *ref);
+            virtual void payload(value_undefined *ref);
+            virtual void payload(value_null *ref);
+            virtual void payload(declare_variable *ref);
+            virtual void payload(assignment *ref);
+            virtual void payload(real *ref);
+            virtual void payload(declare_function *ref);
+            virtual void payload(statement_return *ref);
+            virtual void payload(node_object *ref);
+            virtual void payload(property *ref);
+            virtual void payload(value_true *ref);
+            virtual void payload(value_false *ref);
+            virtual void payload(is_equal_to *ref);
+            virtual void payload(is_not_equal_to *ref);
+            virtual void payload(statement_while *ref);
+            virtual void payload(method_call *ref);
+            virtual void payload(this_ptr *ref);
+            virtual void payload(node_array *ref);
+            virtual void payload(statement_block *ref);
+            virtual void payload(statement_if *ref);
+            virtual void payload(statement_throw *ref);
+            virtual void payload(statement_try *ref);
+            virtual void payload(inheritance *ref);
+            virtual void payload(character *ref);
+
+        private:
+            std::deque<node*> queue;
         };
     };
 };

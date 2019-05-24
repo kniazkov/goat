@@ -23,9 +23,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "node_visitor.h"
+#include "scope.h"
 #include "compiler/source/position.h"
 #include "lib/ref_counter.h"
 #include "lib/pointer.h"
+#include "compiler/analyzer/scope_builder.h"
 
 namespace g0at
 {
@@ -71,6 +73,7 @@ namespace g0at
 
         class node : public lib::ref_counter
         {
+        friend class g0at::analyzer::scope_builder;
         public:
             node(lib::pointer<position> _pos);
             virtual ~node();
@@ -114,9 +117,15 @@ namespace g0at
             virtual character *to_character();
 
             lib::pointer<position> get_position() { return pos; }
-
+            lib::pointer<scope> get_scope() { return sk; }
+            
         protected:
+            void set_position(lib::pointer<position> _pos) { pos = _pos; }
+            void set_scope(lib::pointer<scope> _sk) { sk = _sk; }
+
+        private:
             lib::pointer<position> pos;
+            lib::pointer<scope> sk;
         };
     };
 };

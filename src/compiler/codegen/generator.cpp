@@ -252,7 +252,7 @@ namespace g0at
             auto expr = ref->get_expression();
             if (expr)
             {
-                ref->get_expression()->accept(this);
+                expr->accept(this);
                 code->add_instruction(new code::_retv());
             }
             else
@@ -399,7 +399,7 @@ namespace g0at
             auto expr = ref->get_expression();
             if (expr)
             {
-                ref->get_expression()->accept(this);
+                expr->accept(this);
                 code->add_instruction(new code::_throw());
             }
             else
