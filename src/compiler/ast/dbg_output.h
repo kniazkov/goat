@@ -36,6 +36,18 @@ namespace g0at
 
         class dbg_output : public token_visitor
         {
+        protected:
+            struct visitor_data
+            {
+                std::wstringstream &stream;
+                int &uid;
+
+                visitor_data(std::wstringstream &_stream, int &_uid)
+                    : stream(_stream), uid(_uid)
+                {
+                }
+            };
+
         public:
             static std::wstring to_string(token *obj);
             void visit(function *ref) override;
@@ -99,7 +111,7 @@ namespace g0at
             void visit(statement_for *ref) override;
 
         protected:
-            dbg_output(std::wstringstream &_stream, int &_uid);
+            dbg_output(visitor_data &_data);
             void print(const wchar_t *title);
             void print(const wchar_t *title, const wchar_t* content);
             void print(const wchar_t *title, std::wstring content);
@@ -109,8 +121,7 @@ namespace g0at
             void link_child(const dbg_output &child, const wchar_t *label);
             void print_token_list(token_list *list, const wchar_t *title);
 
-            std::wstringstream &stream;
-            int &uid;
+            visitor_data &data;
             int id;
         };
     };
