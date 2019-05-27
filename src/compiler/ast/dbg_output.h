@@ -96,6 +96,7 @@ namespace g0at
             void visit(inheritance *ref) override;
             void visit(character *ref) override;
             void visit(keyword_for *ref) override;
+            void visit(statement_for *ref) override;
 
         protected:
             dbg_output(std::wstringstream &_stream, int &_uid);

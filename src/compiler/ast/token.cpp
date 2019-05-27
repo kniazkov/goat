@@ -402,5 +402,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_for *token::to_statement_for()
+        {
+            return nullptr;
+        }
     }
 };
