@@ -231,6 +231,11 @@ namespace g0at
                 return L"символьная константа может состоять только из одного символа";
             }
 
+            std::wstring expected_parameters_of_for_statement() override
+            {
+                return L"ожидаются параметры конструкции 'for'";
+            }
+
 
 
             std::wstring unhandled_exception(std::wstring str) override
