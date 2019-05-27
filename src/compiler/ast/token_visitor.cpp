@@ -261,5 +261,9 @@ namespace g0at
         void token_visitor::visit(character *ref)
         {
         }
+
+        void token_visitor::visit(keyword_for *ref)
+        {
+        }
     }
 };

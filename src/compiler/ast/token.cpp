@@ -397,5 +397,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_for *token::to_keyword_for()
+        {
+            return nullptr;
+        }
     }
 };

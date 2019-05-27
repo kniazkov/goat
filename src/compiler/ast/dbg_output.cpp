@@ -592,5 +592,10 @@ namespace g0at
             wchar_t tmp[] = { ref->get_value(), 0 };
             print(L"char", tmp);
         }
+
+        void dbg_output::visit(keyword_for *ref)
+        {
+            print(L"keyword", L"for");
+        }
     };
 };
