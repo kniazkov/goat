@@ -165,5 +165,9 @@ namespace g0at
         void node_visitor::visit(character *ref)
         {
         }
+
+        void node_visitor::visit(statement_for *ref)
+        {
+        }
     }
 };

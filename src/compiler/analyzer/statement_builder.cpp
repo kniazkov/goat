@@ -39,6 +39,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_throw.h"
 #include "compiler/ast/statement_try.h"
 #include "compiler/pt/statement_try.h"
+#include "compiler/ast/statement_for.h"
+#include "compiler/pt/statement_for.h"
 
 namespace g0at
 {
@@ -189,6 +191,46 @@ namespace g0at
                 assert(stmt_finally_visitor.has_stmt());
                 stmt = new pt::statement_try(ref->get_position(), stmt_try_visitor.get_stmt(), stmt_finally_visitor.get_stmt());
             }
+        }
+
+        void statement_builder::visit(ast::statement_for *ref)
+        {
+            lib::pointer<pt::statement> node_stmt_init = nullptr;
+            auto tok_stmt_init = ref->get_stmt_init();
+            if (tok_stmt_init)
+            {
+                statement_builder stmt_init_visitor;
+                tok_stmt_init->accept(&stmt_init_visitor);
+                assert(stmt_init_visitor.has_stmt());
+                node_stmt_init = stmt_init_visitor.get_stmt();
+            }
+
+            lib::pointer<pt::expression> node_condition = nullptr;
+            auto tok_condition = ref->get_condition();
+            if (tok_condition)
+            {
+                expression_builder condition_visitor;
+                tok_condition->accept(&condition_visitor);
+                assert(condition_visitor.has_expr());
+                node_condition = condition_visitor.get_expr();
+            }
+
+            lib::pointer<pt::statement> node_increment = nullptr;
+            auto tok_increment = ref->get_increment();
+            if (tok_increment)
+            {
+                statement_builder increment_visitor;
+                tok_increment->accept(&increment_visitor);
+                assert(increment_visitor.has_stmt());
+                node_increment = increment_visitor.get_stmt();
+            }
+
+            statement_builder body_visitor;
+            ref->get_body()->accept(&body_visitor);
+            assert(body_visitor.has_stmt());
+            lib::pointer<pt::statement> node_body = body_visitor.get_stmt();
+
+            stmt = new pt::statement_for(ref->get_position(), node_stmt_init, node_condition, node_increment, node_body);
         }
     };
 };

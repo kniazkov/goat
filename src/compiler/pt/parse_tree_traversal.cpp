@@ -56,7 +56,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "value_null.h"
 #include "value_true.h"
 #include "value_false.h"
-
+#include "statement_for.h"
 
 namespace g0at
 {
@@ -461,6 +461,31 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(character *ref)
+        {
+        }
+
+        void parse_tree_traversal::visit(statement_for *ref)
+        {
+            auto stmt_init = ref->get_stmt_init();
+            if (stmt_init)
+            {
+                stmt_init->accept(this);
+            }
+            auto condition = ref->get_condition();
+            if (condition)
+            {
+                condition->accept(this);
+            }
+            auto increment = ref->get_increment();
+            if (increment)
+            {
+                increment->accept(this);
+            }
+            ref->get_body()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(statement_for *ref)
         {
         }
     };
