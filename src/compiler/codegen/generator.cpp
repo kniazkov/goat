@@ -50,6 +50,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_try.h"
 #include "compiler/pt/inheritance.h"
 #include "compiler/pt/character.h"
+#include "compiler/pt/statement_for.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -470,6 +471,35 @@ namespace g0at
         void generator::visit(pt::character *ref)
         {
             code->add_instruction(new code::_char(ref->get_value()));
+        }
+
+        void generator::visit(pt::statement_for *ref)
+        {
+            auto stmt_init = ref->get_stmt_init();
+            if (stmt_init)
+            {
+                stmt_init->accept(this);
+            }
+            int iid_begin = code->get_current_iid();
+            code::_ifnot *if_not = nullptr;
+            auto condition = ref->get_condition();
+            if (condition)
+            {
+                condition->accept(this);
+                if_not = new code::_ifnot(-1);
+                code->add_instruction(if_not);
+            }
+            ref->get_body()->accept(this);
+            auto increment = ref->get_increment();
+            if (increment)
+            {
+                increment->accept(this);
+            }
+            code->add_instruction(new code::_jmp(iid_begin));
+            if (condition)
+            {
+                *(if_not->get_iid_ptr()) = code->get_current_iid();
+            }
         }
     };
 };
