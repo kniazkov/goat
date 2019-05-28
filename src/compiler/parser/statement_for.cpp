@@ -34,11 +34,11 @@ namespace g0at
 {
     namespace parser
     {
-        class expected_parameters_of_for_statement : public compilation_error
+        class expected_parameters_of_cycle_statement : public compilation_error
         {
         public:
-            expected_parameters_of_for_statement(lib::pointer<position> pos)
-                : compilation_error(pos, global::resource->expected_parameters_of_for_statement())
+            expected_parameters_of_cycle_statement(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->expected_parameters_of_cycle_statement())
             {
             }
         };
@@ -47,7 +47,7 @@ namespace g0at
         {
         public:
             statement_for(parser_data *_data)
-                : pattern_right_to_left(&_data->if_keywords, _data)
+                : pattern_right_to_left(&_data->for_keywords, _data)
             {
             }
 
@@ -58,8 +58,22 @@ namespace g0at
                 assert(kw != nullptr);
 
                 if (!kw->next)
-                    throw expected_a_conditional_expression(kw->get_position());
+                    throw expected_parameters_of_cycle_statement(kw->get_position());
+
+                ast::brackets_pair *params = kw->next->to_brackets_pair();
+                if (!params)
+                    throw expected_parameters_of_cycle_statement(kw->next->get_position());
+
+                if (!params->next)
+                    throw expected_a_statement(params->get_position());
+
+                ast::statement *body = params->next->to_statement();
+                if (!body)
+                    throw expected_a_statement(params->next->get_position());
                 
+                lib::pointer<ast::token> result = new ast::statement_for(kw, nullptr, nullptr, nullptr, body);
+                kw->replace(body, result);
+
                 return false;
             }
         };

@@ -231,7 +231,7 @@ namespace g0at
                 return L"character constant too long for its type";
             }
 
-            std::wstring expected_parameters_of_for_statement() override
+            std::wstring expected_parameters_of_cycle_statement() override
             {
                 return L"expected parameters of 'for' statement";
             }
