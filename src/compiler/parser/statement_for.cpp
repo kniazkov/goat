@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/brackets_pair.h"
 #include "compiler/ast/expression.h"
 #include "compiler/ast/statement.h"
+#include "compiler/ast/statement_expression.h"
 #include "compiler/ast/statement_for.h"
 #include "lib/assert.h"
 
@@ -61,17 +62,38 @@ namespace g0at
                     throw expected_parameters_of_cycle_statement(kw->get_position());
 
                 ast::brackets_pair *params = kw->next->to_brackets_pair();
-                if (!params)
+                if (!params || params->get_symbol() != '(' || params->get_raw_list()->is_empty())
                     throw expected_parameters_of_cycle_statement(kw->next->get_position());
 
-                if (!params->next)
-                    throw expected_a_statement(params->get_position());
+                lib::pointer<ast::token> param = params->get_raw_list()->first;
+                
+                ast::statement_expression *stmt_init = param->to_statement_expression();
+                if (!stmt_init)
+                    throw expected_a_statement(param->get_position());
+                
+                if (!stmt_init->next)
+                    throw expected_an_expression(stmt_init->get_position());
+
+                ast::statement_expression *stmt_condition = stmt_init->next->to_statement_expression();
+                if (!stmt_condition)
+                    throw expected_an_expression(stmt_init->next->get_position());
+
+                lib::pointer<ast::expression> condition = stmt_condition->get_expression();
+
+                if (!stmt_condition->next)
+                    throw expected_a_statement(stmt_condition->get_position());
+
+                ast::expression *expr_increment = stmt_condition->next->to_expression();
+                if (!expr_increment)
+                    throw expected_a_statement(stmt_condition->next->get_position());
+                
+                lib::pointer<ast::statement> increment = new ast::statement_expression(expr_increment);
 
                 ast::statement *body = params->next->to_statement();
                 if (!body)
                     throw expected_a_statement(params->next->get_position());
                 
-                lib::pointer<ast::token> result = new ast::statement_for(kw, nullptr, nullptr, nullptr, body);
+                lib::pointer<ast::token> result = new ast::statement_for(kw, stmt_init, condition, increment, body);
                 kw->replace(body, result);
 
                 return false;
