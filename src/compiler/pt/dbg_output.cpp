@@ -23,7 +23,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "dbg_output.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
-//#include <algorithm>
 #include "variable.h"
 #include "function.h"
 #include "static_string.h"
@@ -57,6 +56,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "value_true.h"
 #include "value_false.h"
 #include "this_ptr.h"
+#include "statement_for.h"
 
 namespace g0at
 {
@@ -657,6 +657,35 @@ namespace g0at
         {
             wchar_t tmp[] = { ref->get_value(), 0 };
             print(ref, L"char", tmp);
+        }
+
+        void dbg_output::visit(statement_for *ref)
+        {
+            print(ref, L"for");
+            auto stmt_init = ref->get_stmt_init();
+            if (stmt_init)
+            {
+                dbg_output out_stmt_init(env);
+                stmt_init->accept(&out_stmt_init);
+                link_child(out_stmt_init, L"init");
+            }
+            auto condition = ref->get_condition();
+            if (condition)
+            {
+                dbg_output out_condition(env);
+                condition->accept(&out_condition);
+                link_child(out_condition, L"condition");
+            }
+            auto increment = ref->get_increment();
+            if (increment)
+            {
+                dbg_output out_increment(env);
+                increment->accept(&out_increment);
+                link_child(out_increment, L"increment");
+            }
+            dbg_output out_body(env);
+            ref->get_body()->accept(&out_body);
+            link_child(out_body, L"body");
         }
     };
 };

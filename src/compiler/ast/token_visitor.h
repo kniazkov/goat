@@ -83,6 +83,8 @@ namespace g0at
         class inherit;
         class inheritance;
         class character;
+        class keyword_for;
+        class statement_for;
 
         class token_visitor
         {
@@ -146,6 +148,8 @@ namespace g0at
             virtual void visit(inherit *ref);
             virtual void visit(inheritance *ref);
             virtual void visit(character *ref);
+            virtual void visit(keyword_for *ref);
+            virtual void visit(statement_for *ref);
         };
     };
 };

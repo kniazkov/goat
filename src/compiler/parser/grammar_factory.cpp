@@ -52,6 +52,7 @@ namespace g0at
             gr->vector.push_back(create_pattern_statement_throw());
             gr->vector.push_back(create_pattern_statement_expression());
             gr->vector.push_back(create_pattern_statement_if());
+            gr->vector.push_back(create_pattern_statement_for());
             gr->vector.push_back(create_pattern_statement_while());
             gr->vector.push_back(create_pattern_statement_try());
             return gr;

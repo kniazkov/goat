@@ -102,6 +102,8 @@ namespace g0at
         class inherit;
         class inheritance;
         class character;
+        class keyword_for;
+        class statement_for;
 
         class token : public lib::ref_counter
         {
@@ -181,6 +183,8 @@ namespace g0at
             virtual inherit *to_inherit();
             virtual inheritance *to_inheritance();
             virtual character *to_character();
+            virtual keyword_for *to_keyword_for();
+            virtual statement_for *to_statement_for();
             
             lib::pointer<position> get_position() { return pos; }
 

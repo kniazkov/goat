@@ -59,6 +59,7 @@ namespace g0at
         class statement_try;
         class inheritance;
         class character;
+        class statement_for;
 
         class node_visitor
         {
@@ -98,6 +99,7 @@ namespace g0at
             virtual void visit(statement_try *ref);
             virtual void visit(inheritance *ref);
             virtual void visit(character *ref);
+            virtual void visit(statement_for *ref);
         };
     };
 };
