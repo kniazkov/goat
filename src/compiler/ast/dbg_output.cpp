@@ -645,5 +645,10 @@ namespace g0at
             ref->get_right()->accept(&right);
             link_child(right, L"right");
         }
+
+        void dbg_output::visit(statement_empty *ref)
+        {
+            print(L"do nothing");
+        }
     };
 };

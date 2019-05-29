@@ -173,5 +173,9 @@ namespace g0at
         void node_visitor::visit(is_less_than *ref)
         {
         }
+
+        void node_visitor::visit(statement_empty *ref)
+        {
+        }
     }
 };

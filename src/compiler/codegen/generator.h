@@ -80,6 +80,7 @@ namespace g0at
             void visit(pt::character *ref) override;
             void visit(pt::statement_for *ref) override;
             void visit(pt::is_less_than *ref) override;
+            void visit(pt::statement_empty *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

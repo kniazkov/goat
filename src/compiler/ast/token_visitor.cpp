@@ -277,5 +277,9 @@ namespace g0at
         void token_visitor::visit(is_less_than *ref)
         {
         }
+
+        void token_visitor::visit(statement_empty *ref)
+        {
+        }
     }
 };

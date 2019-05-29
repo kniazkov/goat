@@ -72,6 +72,7 @@ namespace g0at
         class character;
         class statement_for;
         class is_less_than;
+        class statement_empty;
 
         class node : public lib::ref_counter
         {
@@ -119,6 +120,7 @@ namespace g0at
             virtual character *to_character();
             virtual statement_for *to_statement_for();
             virtual is_less_than *to_is_less_than();
+            virtual statement_empty *to_statement_empty();
 
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }

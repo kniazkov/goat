@@ -417,5 +417,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_empty *token::to_statement_empty()
+        {
+            return nullptr;
+        }
     }
 };

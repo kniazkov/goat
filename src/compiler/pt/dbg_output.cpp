@@ -58,6 +58,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "this_ptr.h"
 #include "statement_for.h"
 #include "is_less_than.h"
+#include "statement_empty.h"
 
 namespace g0at
 {
@@ -698,6 +699,11 @@ namespace g0at
             dbg_output right(env);
             ref->get_right()->accept(&right);
             link_child(right, L"right");
+        }
+
+        void dbg_output::visit(statement_empty *ref)
+        {
+            print(ref, L"do nothing");
         }
     };
 };

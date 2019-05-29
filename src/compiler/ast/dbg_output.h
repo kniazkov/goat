@@ -111,6 +111,7 @@ namespace g0at
             void visit(statement_for *ref) override;
             void visit(less *ref) override;
             void visit(is_less_than *ref) override;
+            void visit(statement_empty *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

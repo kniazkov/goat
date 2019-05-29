@@ -229,5 +229,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_empty *node::to_statement_empty()
+        {
+            return nullptr;
+        }
    }
 };

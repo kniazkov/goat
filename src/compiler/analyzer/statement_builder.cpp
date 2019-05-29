@@ -41,6 +41,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_try.h"
 #include "compiler/ast/statement_for.h"
 #include "compiler/pt/statement_for.h"
+#include "compiler/ast/statement_empty.h"
+#include "compiler/pt/statement_empty.h"
 
 namespace g0at
 {
@@ -231,6 +233,11 @@ namespace g0at
             lib::pointer<pt::statement> node_body = body_visitor.get_stmt();
 
             stmt = new pt::statement_for(ref->get_position(), node_stmt_init, node_condition, node_increment, node_body);
+        }
+
+        void statement_builder::visit(ast::statement_empty *ref)
+        {
+            stmt = new pt::statement_empty(ref->get_position());
         }
     };
 };

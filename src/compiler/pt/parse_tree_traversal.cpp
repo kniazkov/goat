@@ -500,5 +500,14 @@ namespace g0at
         void parse_tree_traversal::payload(is_less_than *ref)
         {
         }
+
+        void parse_tree_traversal::visit(statement_empty *ref)
+        {
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(statement_empty *ref)
+        {
+        }
     };
 };

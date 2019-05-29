@@ -87,6 +87,7 @@ namespace g0at
         class statement_for;
         class less;
         class is_less_than;
+        class statement_empty;
 
         class token_visitor
         {
@@ -154,6 +155,7 @@ namespace g0at
             virtual void visit(statement_for *ref);
             virtual void visit(less *ref);
             virtual void visit(is_less_than *ref);
+            virtual void visit(statement_empty *ref);
         };
     };
 };

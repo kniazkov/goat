@@ -52,6 +52,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/character.h"
 #include "compiler/pt/statement_for.h"
 #include "compiler/pt/is_less_than.h"
+#include "compiler/pt/statement_empty.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -92,6 +93,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/flat.h"
 #include "code/char.h"
 #include "code/less.h"
+#include "code/nop.h"
 
 namespace g0at
 {
@@ -509,6 +511,13 @@ namespace g0at
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
             code->add_instruction(new code::_less());
+        }
+
+        void generator::visit(pt::statement_empty *ref)
+        {
+#if 0
+            code->add_instruction(new code::_nop());
+#endif
         }
     };
 };
