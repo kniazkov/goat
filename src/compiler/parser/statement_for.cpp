@@ -67,7 +67,7 @@ namespace g0at
 
                 lib::pointer<ast::token> param = params->get_raw_list()->first;
                 
-                ast::statement_expression *stmt_init = param->to_statement_expression();
+                ast::statement *stmt_init = param->to_statement();
                 if (!stmt_init)
                     throw expected_a_statement(param->get_position());
                 
