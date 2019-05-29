@@ -69,6 +69,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "inherit.h"
 #include "flat.h"
 #include "char.h"
+#include "less.h"
 
 namespace g0at
 {
@@ -451,6 +452,11 @@ namespace g0at
             dst->add_instruction(new _char(value));
         }
 
+        void deserializer::c_less(source *src, code *dst)
+        {
+            dst->add_instruction(new _less());
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -494,6 +500,7 @@ namespace g0at
             cc[op::_inherit] = c_inherit;
             cc[op::_flat]    = c_flat;
             cc[op::_char]    = c_char;
+            cc[op::_less]    = c_less;
         }
     };
 };

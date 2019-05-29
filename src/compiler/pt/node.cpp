@@ -224,5 +224,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        is_less_than *node::to_is_less_than()
+        {
+            return nullptr;
+        }
    }
 };

@@ -51,6 +51,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/inheritance.h"
 #include "compiler/pt/character.h"
 #include "compiler/pt/statement_for.h"
+#include "compiler/pt/is_less_than.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -90,6 +91,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/inherit.h"
 #include "code/flat.h"
 #include "code/char.h"
+#include "code/less.h"
 
 namespace g0at
 {
@@ -500,6 +502,13 @@ namespace g0at
             {
                 *(if_not->get_iid_ptr()) = code->get_current_iid();
             }
+        }
+
+        void generator::visit(pt::is_less_than *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new code::_less());
         }
     };
 };

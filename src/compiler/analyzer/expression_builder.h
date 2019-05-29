@@ -60,6 +60,7 @@ namespace g0at
             void visit(ast::token_array *ref) override;
             void visit(ast::inheritance *ref) override;
             void visit(ast::character *ref) override;
+            void visit(ast::is_less_than *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

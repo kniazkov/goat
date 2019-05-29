@@ -95,6 +95,7 @@ namespace g0at
             void visit(inheritance *ref) override;
             void visit(character *ref) override;
             void visit(statement_for *ref) override;
+            void visit(is_less_than *ref) override;
 
         protected:
             dbg_output(environment &env);

@@ -105,6 +105,28 @@ namespace g0at
             thr->push(result);
         }
 
+        void object_string::op_less(thread *thr)
+        {
+            thr->pop();
+            variable right = thr->pop();
+            object *r_obj = right.get_object();
+            variable result;
+            do
+            {
+                if (r_obj)
+                {
+                    object_string *r_string = r_obj->to_object_string();
+                    if (r_string)
+                    {
+                        result.set_boolean(data < r_string->get_data());
+                        break;
+                    }
+                }
+                result.set_boolean(false);
+            } while (false);
+            thr->push(result);
+        }
+
         /*
             Prototype
         */

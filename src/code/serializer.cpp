@@ -383,5 +383,10 @@ namespace g0at
             push_opcode(op::_char);
             push_wchar(ref->get_value());
         }
+
+        void serializer::visit(_less *ref)
+        {
+            push_opcode(op::_less);
+        }
     };
 };

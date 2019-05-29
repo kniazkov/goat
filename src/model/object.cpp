@@ -319,6 +319,11 @@ namespace g0at
             thr->push(result);
         }
 
+        void object::op_less(thread *thr)
+        {
+            assert(false); // not implemented
+        }
+
         void object::op_inherit(thread *thr)
         {
             thr->pop();
@@ -535,6 +540,11 @@ namespace g0at
             assert(false);
         }
 
+        void handler::op_less(variable *var, thread *thr)
+        {
+            assert(false);
+        }
+
         void handler::op_inherit(variable *var, thread *thr)
         {
             assert(false);
@@ -651,6 +661,11 @@ namespace g0at
             void op_neq(variable *var, thread *thr) override
             {
                 var->data.obj->op_neq(thr);
+            }
+
+            void op_less(variable *var, thread *thr) override
+            {
+                var->data.obj->op_less(thr);
             }
 
             void op_inherit(variable *var, thread *thr) override

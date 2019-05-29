@@ -97,6 +97,7 @@ namespace g0at
             inline void op_neg(thread *thr);
             inline void op_eq(thread *thr);
             inline void op_neq(thread *thr);
+            inline void op_less(thread *thr);
             inline void op_inherit(thread *thr);
 
             inline void m_clone(thread *thr, int arg_count);
@@ -169,6 +170,7 @@ namespace g0at
             virtual void op_neg(thread *thr);
             virtual void op_eq(thread *thr);
             virtual void op_neq(thread *thr);
+            virtual void op_less(thread *thr);
             virtual void op_inherit(thread *thr);
 
             virtual void m_clone(thread *thr, int arg_count);
@@ -235,6 +237,7 @@ namespace g0at
             virtual void op_neg(variable *var, thread *thr);
             virtual void op_eq(variable *var, thread *thr);
             virtual void op_neq(variable *var, thread *thr);
+            virtual void op_less(variable *var, thread *thr);
             virtual void op_inherit(variable *var, thread *thr);
 
             virtual void m_clone(variable *var, thread *thr, int arg_count);
@@ -305,11 +308,6 @@ namespace g0at
             return hndl->to_object(this, pool);
         }
 
-        object *variable::get_object()
-        {
-            return hndl->get_object(this);
-        }
-
         void variable::mark()
         {
             object *obj = hndl->get_object(this);
@@ -317,6 +315,11 @@ namespace g0at
             {
                 obj->mark();
             }
+        }
+
+        object *variable::get_object()
+        {
+            return hndl->get_object(this);
         }
 
         bool variable::get_integer(int64_t *pval)
@@ -357,6 +360,11 @@ namespace g0at
         void variable::op_eq(thread *thr)
         {
             hndl->op_eq(this, thr);
+        }
+
+        void variable::op_less(thread *thr)
+        {
+            hndl->op_less(this, thr);
         }
 
         void variable::op_neq(thread *thr)

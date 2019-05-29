@@ -60,6 +60,7 @@ namespace g0at
         class inheritance;
         class character;
         class statement_for;
+        class is_less_than;
 
         class node_visitor
         {
@@ -100,6 +101,7 @@ namespace g0at
             virtual void visit(inheritance *ref);
             virtual void visit(character *ref);
             virtual void visit(statement_for *ref);
+            virtual void visit(is_less_than *ref);
         };
     };
 };

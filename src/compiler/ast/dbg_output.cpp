@@ -55,6 +55,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "inheritance.h"
 #include "character.h"
 #include "statement_for.h"
+#include "is_less_than.h"
 
 namespace g0at
 {
@@ -627,6 +628,22 @@ namespace g0at
             dbg_output out_body(data);
             ref->get_body()->accept(&out_body);
             link_child(out_body, L"body");
+        }
+
+        void dbg_output::visit(less *ref)
+        {
+            print(L"less", L"&lt;");
+        }
+
+        void dbg_output::visit(is_less_than *ref)
+        {
+            print(L"is less than", L"&lt;");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
         }
     };
 };

@@ -57,6 +57,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "value_true.h"
 #include "value_false.h"
 #include "statement_for.h"
+#include "is_less_than.h"
 
 namespace g0at
 {
@@ -486,6 +487,17 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(statement_for *ref)
+        {
+        }
+
+        void parse_tree_traversal::visit(is_less_than *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(is_less_than *ref)
         {
         }
     };

@@ -101,6 +101,11 @@ namespace g0at
             binary_logical_operation<lib::func::not_equal, true>(thr);
         }
 
+        void object_real::op_less(thread *thr)
+        {
+            binary_logical_operation<lib::func::less, true>(thr);
+        }
+
         template <template<typename R, typename A> class F> void object_real::unary_operation(thread *thr)
         {
             thr->pop();
@@ -212,6 +217,11 @@ namespace g0at
             void op_neq(variable *var, thread *thr)  override
             {
                 binary_logical_operation<lib::func::not_equal, false>(var, thr);
+            }
+
+            void op_less(variable *var, thread *thr)  override
+            {
+                binary_logical_operation<lib::func::less, false>(var, thr);
             }
 
             void m_instance_of(variable *var, thread *thr, int arg_count) override

@@ -88,6 +88,7 @@ namespace g0at
 
             _eq,
             _neq,
+            _less,
 
             _inherit
         };

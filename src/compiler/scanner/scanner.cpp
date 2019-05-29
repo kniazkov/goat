@@ -59,6 +59,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/inherit.h"
 #include "compiler/ast/character.h"
 #include "compiler/ast/keyword_for.h"
+#include "compiler/ast/less.h"
 
 namespace g0at
 {
@@ -138,6 +139,7 @@ namespace g0at
             case L'=':
             case L'$':
             case L'!':
+            case L'<':
             case L'>':
                 return true;
             default:
@@ -364,6 +366,8 @@ namespace g0at
                 return new ast::equals();
             if (oper == L"!=")
                 return new ast::not_equal();
+            if (oper == L"<")
+                return new ast::less();
             if (oper == L"->")
                 return new ast::inherit();
             if (oper == L"$")

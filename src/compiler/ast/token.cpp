@@ -407,5 +407,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        less *token::to_less()
+        {
+            return nullptr;
+        }
+
+        is_less_than *token::to_is_less_than()
+        {
+            return nullptr;
+        }
     }
 };

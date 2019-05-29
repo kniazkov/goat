@@ -310,5 +310,10 @@ namespace g0at
             wchar_t value = ref->get_value();
             stream << L"char\t'" << lib::escape_special_chars(&value, 1) << L'\'';
         }
+
+        void disasm::visit(_less *ref)
+        {
+            stream << L"less";
+        }
     };
 };

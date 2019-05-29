@@ -48,6 +48,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/inherit.h"
 #include "compiler/ast/character.h"
 #include "compiler/ast/keyword_for.h"
+#include "compiler/ast/less.h"
 
 namespace g0at
 {
@@ -195,6 +196,11 @@ namespace g0at
         void parser_data_filler::visit(ast::keyword_for *ref)
         {
             data->for_keywords.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::less *ref)
+        {
+            data->opers_less_greater.add(ref);
         }
     };
 };

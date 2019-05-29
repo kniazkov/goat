@@ -85,6 +85,8 @@ namespace g0at
         class character;
         class keyword_for;
         class statement_for;
+        class less;
+        class is_less_than;
 
         class token_visitor
         {
@@ -150,6 +152,8 @@ namespace g0at
             virtual void visit(character *ref);
             virtual void visit(keyword_for *ref);
             virtual void visit(statement_for *ref);
+            virtual void visit(less *ref);
+            virtual void visit(is_less_than *ref);
         };
     };
 };

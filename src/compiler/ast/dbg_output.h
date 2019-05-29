@@ -109,6 +109,8 @@ namespace g0at
             void visit(character *ref) override;
             void visit(keyword_for *ref) override;
             void visit(statement_for *ref) override;
+            void visit(less *ref) override;
+            void visit(is_less_than *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

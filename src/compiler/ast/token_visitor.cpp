@@ -269,5 +269,13 @@ namespace g0at
         void token_visitor::visit(statement_for *ref)
         {
         }
+
+        void token_visitor::visit(less *ref)
+        {
+        }
+
+        void token_visitor::visit(is_less_than *ref)
+        {
+        }
     }
 };

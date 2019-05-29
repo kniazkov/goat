@@ -104,6 +104,8 @@ namespace g0at
         class character;
         class keyword_for;
         class statement_for;
+        class less;
+        class is_less_than;
 
         class token : public lib::ref_counter
         {
@@ -185,6 +187,8 @@ namespace g0at
             virtual character *to_character();
             virtual keyword_for *to_keyword_for();
             virtual statement_for *to_statement_for();
+            virtual less *to_less();
+            virtual is_less_than *to_is_less_than();
             
             lib::pointer<position> get_position() { return pos; }
 

@@ -80,6 +80,14 @@ namespace g0at
                     return x != y;
                 }
             };
+
+            template <typename R, typename X, typename Y> struct less : public binary <R, X, Y>
+            {
+                static R calculate(const X &x, const Y &y)
+                {
+                    return x < y;
+                }
+            };
         };
     };
 };

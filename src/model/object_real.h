@@ -48,6 +48,7 @@ namespace g0at
             void op_neg(thread *thr) override;
             void op_eq(thread *thr) override;
             void op_neq(thread *thr) override;
+            void op_less(thread *thr) override;
 
             double get_value() { return value; }
 

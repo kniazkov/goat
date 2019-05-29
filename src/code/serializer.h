@@ -80,6 +80,7 @@ namespace g0at
             void visit(_inherit *ref) override;
             void visit(_flat *ref) override;
             void visit(_char *ref) override;
+            void visit(_less *ref) override;
 
         protected:
             std::vector<uint8_t> &buff;

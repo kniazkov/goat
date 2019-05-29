@@ -79,6 +79,7 @@ namespace g0at
             void visit(pt::inheritance *ref) override;
             void visit(pt::character *ref) override;
             void visit(pt::statement_for *ref) override;
+            void visit(pt::is_less_than *ref) override;
 
         protected:
             lib::pointer<code::code> code; 
