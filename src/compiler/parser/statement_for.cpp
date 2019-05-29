@@ -86,14 +86,14 @@ namespace g0at
                         throw expected_an_expression(stmt_init->next->get_position());
                 }
 
-                if (!stmt_init->next->next)
-                    throw expected_a_statement(stmt_init->next->get_position());
-
-                ast::expression *expr_increment = stmt_init->next->next->to_expression();
-                if (!expr_increment)
-                    throw expected_a_statement(stmt_init->next->next->get_position());
-                
-                lib::pointer<ast::statement> increment = new ast::statement_expression(expr_increment);
+                lib::pointer<ast::statement> increment = nullptr;
+                if (stmt_init->next->next)
+                {
+                    ast::expression *expr_increment = stmt_init->next->next->to_expression();
+                    if (!expr_increment)
+                        throw expected_a_statement(stmt_init->next->next->get_position());
+                    increment = new ast::statement_expression(expr_increment);
+                }
 
                 ast::statement *body = params->next->to_statement();
                 if (!body)
