@@ -1,4 +1,8 @@
 var i = 2;
 
-for ( ; i < 10; i = i + 1)
+for (i = 3; ; i = i + 1)
+{
+    if (i == 10)
+        exit();
     println(i);
+}

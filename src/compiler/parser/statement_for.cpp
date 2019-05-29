@@ -74,18 +74,24 @@ namespace g0at
                 if (!stmt_init->next)
                     throw expected_an_expression(stmt_init->get_position());
 
+                lib::pointer<ast::expression> condition = nullptr;
                 ast::statement_expression *stmt_condition = stmt_init->next->to_statement_expression();
-                if (!stmt_condition)
-                    throw expected_an_expression(stmt_init->next->get_position());
+                if (stmt_condition)
+                {
+                    condition = stmt_condition->get_expression();
+                }
+                else
+                {
+                    if (stmt_init->next->to_statement_empty() == nullptr)
+                        throw expected_an_expression(stmt_init->next->get_position());
+                }
 
-                lib::pointer<ast::expression> condition = stmt_condition->get_expression();
+                if (!stmt_init->next->next)
+                    throw expected_a_statement(stmt_init->next->get_position());
 
-                if (!stmt_condition->next)
-                    throw expected_a_statement(stmt_condition->get_position());
-
-                ast::expression *expr_increment = stmt_condition->next->to_expression();
+                ast::expression *expr_increment = stmt_init->next->next->to_expression();
                 if (!expr_increment)
-                    throw expected_a_statement(stmt_condition->next->get_position());
+                    throw expected_a_statement(stmt_init->next->next->get_position());
                 
                 lib::pointer<ast::statement> increment = new ast::statement_expression(expr_increment);
 
