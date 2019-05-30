@@ -50,6 +50,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_for.h"
 #include "compiler/ast/less.h"
 #include "compiler/ast/semicolon.h"
+#include "compiler/ast/keyword_new.h"
 
 namespace g0at
 {
@@ -207,6 +208,11 @@ namespace g0at
         void parser_data_filler::visit(ast::semicolon *ref)
         {
             data->semicolons.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::keyword_new *ref)
+        {
+            data->new_keywords.add(ref);
         }
     };
 };
