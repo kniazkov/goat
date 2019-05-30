@@ -59,6 +59,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/inherit.h"
 #include "compiler/ast/character.h"
 #include "compiler/ast/keyword_for.h"
+#include "compiler/ast/keyword_new.h"
 #include "compiler/ast/less.h"
 
 namespace g0at
@@ -306,6 +307,8 @@ namespace g0at
                 return new ast::keyword_finally();            
             if (name == L"for")
                 return new ast::keyword_for();            
+            if (name == L"new")
+                return new ast::keyword_new();            
             return new ast::identifier(name);
         }
 

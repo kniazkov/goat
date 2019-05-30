@@ -650,5 +650,10 @@ namespace g0at
         {
             print(L"do nothing");
         }
+
+        void dbg_output::visit(keyword_new *ref)
+        {
+            print(L"keyword", L"new");
+        }
     };
 };
