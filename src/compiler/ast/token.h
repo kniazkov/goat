@@ -108,6 +108,7 @@ namespace g0at
         class is_less_than;
         class statement_empty;
         class keyword_new;
+        class operator_new;
 
         class token : public lib::ref_counter
         {
@@ -193,6 +194,7 @@ namespace g0at
             virtual is_less_than *to_is_less_than();
             virtual statement_empty *to_statement_empty();
             virtual keyword_new *to_keyword_new();
+            virtual operator_new *to_operator_new();
             
             lib::pointer<position> get_position() { return pos; }
 

@@ -427,5 +427,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        operator_new *token::to_operator_new()
+        {
+            return nullptr;
+        }
     }
 };

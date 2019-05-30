@@ -56,6 +56,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "character.h"
 #include "statement_for.h"
 #include "is_less_than.h"
+#include "operator_new.h"
 
 namespace g0at
 {
@@ -654,6 +655,16 @@ namespace g0at
         void dbg_output::visit(keyword_new *ref)
         {
             print(L"keyword", L"new");
+        }
+
+        void dbg_output::visit(operator_new *ref)
+        {
+            print(L"new");
+            dbg_output out_proto(data);
+            ref->get_proto()->accept(&out_proto);
+            link_child(out_proto, L"proto");
+            print_token_list(ref->get_raw_list(), L"raw");
+            print_token_list(ref->get_args_list(), L"args");
         }
     };
 };

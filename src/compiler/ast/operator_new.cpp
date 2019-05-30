@@ -20,29 +20,35 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "token_with_list.h"
-#include "expression.h"
-#include "brackets_pair.h"
+#include "operator_new.h"
+#include "lib/assert.h"
 
 namespace g0at
 {
     namespace ast
     {
-        class function_call : public expression, public token_with_list
+        operator_new::operator_new(keyword_new *_kw, lib::pointer<expression> _proto)
         {
-        public:
-            function_call(lib::pointer<expression> _func_object,  brackets_pair *_args);
-            void accept(token_visitor *visitor) override;
-            function_call *to_function_call() override;
+            proto = _proto;
+            pos = _kw->get_position();
+        }
 
-            lib::pointer<expression> get_func_object() { return func_object; }
-            token_list *get_args_list() { return &args; }
+        operator_new::operator_new(keyword_new *_kw, lib::pointer<expression> _proto,  brackets_pair *_args)
+        {
+            assert(_args->get_symbol() == L'(');
+            proto = _proto;
+            raw.swap(_args->get_raw_list());
+            pos = _kw->get_position();
+        }
 
-        protected:
-            lib::pointer<expression> func_object;
-            token_list args;
-        };
+        void operator_new::accept(token_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
+
+        operator_new *operator_new::to_operator_new()
+        {
+            return this;
+        }
     };
 };
