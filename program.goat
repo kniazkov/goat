@@ -1,11 +1,13 @@
-var i = 0;
-
-for ( ; ; )
+var Test = 
 {
-    if (i == 10)
-        exit();
+    x : 7,
 
-    println(i);
-    
-    i = i + 1;
-}
+    get_x : $()
+    {
+        return x;
+    }
+};
+
+var test = new Test();
+var x = test.get_x();
+println(x);
