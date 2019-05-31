@@ -114,6 +114,11 @@ namespace g0at
             lib::pointer<grammar> gr = grammar_factory(data).create_grammar();
             gr->apply();
 
+            for (auto op_new : data->operators_new)
+            {
+                parse_operator_new_args(op_new);
+            }
+
             for (auto vcall : data->method_calls)
             {
                 parse_method_call_args(vcall);
@@ -275,6 +280,13 @@ namespace g0at
                 even = !even;
             }
             assert(src->is_empty());
+        }
+
+        void parser::parse_operator_new_args(ast::operator_new *op_new)
+        {
+            auto src = op_new->get_raw_list();
+            auto dst = op_new->get_args_list();
+            parse_function_and_method_call_args(src, dst);
         }
 
         void parser::parse_function_call_args(ast::function_call *fcall)

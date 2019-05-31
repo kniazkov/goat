@@ -52,6 +52,7 @@ namespace g0at
             static void parse_statement_block_body(ast::statement_block *block);
             static void parse_function_args(ast::function *func);
             static void parse_function_and_method_call_args(ast::token_list *src, ast::token_list *dst);
+            static void parse_operator_new_args(ast::operator_new *op_new);
             static void parse_function_call_args(ast::function_call *fcall);
             static void parse_method_call_args(ast::method_call *vcall);
             static void parse_object_body(ast::token_object *obj);

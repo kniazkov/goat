@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "pattern.h"
 #include "grammar_factory.h"
+#include "common_exceptions.h"
 #include "compiler/ast/brackets_pair.h"
 #include "compiler/ast/keyword_new.h"
 #include "compiler/ast/expression.h"
@@ -46,7 +47,40 @@ namespace g0at
             {
                 ast::keyword_new *kw = tok->to_keyword_new();
                 assert(kw != nullptr);
+
+                if (!kw->next)
+                    throw expected_an_expression(kw->get_position());
+
+                ast::expression *expr = kw->next->to_expression();
+                if (!expr)
+                    throw expected_an_expression(kw->next->get_position());
+
+                while (expr->next && expr->next->to_dot() != nullptr)
+                {
+                    // TODO
+                    break;
+                }
+
+                if (expr->next)
+                {
+                    ast::brackets_pair *args = expr->next->to_brackets_pair();
+                    if (args)
+                    {
+                        if (args->get_symbol() != '(')
+                            throw expected_an_argument_list(args->get_position());
+
+                        lib::pointer<ast::operator_new> op_new_0  = new ast::operator_new(kw, expr, args);
+                        kw->replace(args, op_new_0.cast<ast::token>());
+                        data->expressions.add(op_new_0.get());
+                        data->operators_new.push_back(op_new_0.get());
+                        return false;
+                    }
+                }
                 
+                lib::pointer<ast::operator_new> op_new_1  = new ast::operator_new(kw, expr);
+                kw->replace(expr, op_new_1.cast<ast::token>());
+                data->expressions.add(op_new_1.get());
+                data->operators_new.push_back(op_new_1.get());
                 return false;
             }
         };
