@@ -388,5 +388,10 @@ namespace g0at
         {
             push_opcode(op::_less);
         }
+
+        void serializer::visit(_new *ref)
+        {
+            push_opcode(op::_new);
+        }
     };
 };

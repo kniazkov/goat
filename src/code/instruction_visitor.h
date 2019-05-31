@@ -68,6 +68,7 @@ namespace g0at
         class _flat;
         class _char;
         class _less;
+        class _new;
 
         class instruction_visitor
         {
@@ -116,6 +117,7 @@ namespace g0at
             virtual void visit(_flat *ref) = 0;
             virtual void visit(_char *ref) = 0;
             virtual void visit(_less *ref) = 0;
+            virtual void visit(_new *ref) = 0;
         };
     };
 };

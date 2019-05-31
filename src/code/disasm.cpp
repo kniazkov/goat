@@ -315,5 +315,10 @@ namespace g0at
         {
             stream << L"less";
         }
+
+        void disasm::visit(_new *ref)
+        {
+            stream << L"new";
+        }
     };
 };

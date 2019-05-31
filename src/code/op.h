@@ -59,6 +59,7 @@ namespace g0at
             _store,
 
             // creators
+            _new,
             _object,
             _array,
 

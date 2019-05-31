@@ -53,6 +53,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_for.h"
 #include "compiler/pt/is_less_than.h"
 #include "compiler/pt/statement_empty.h"
+#include "compiler/pt/operator_new.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -94,6 +95,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/char.h"
 #include "code/less.h"
 #include "code/nop.h"
+#include "code/new.h"
 
 namespace g0at
 {
@@ -518,6 +520,13 @@ namespace g0at
 #if 0
             code->add_instruction(new code::_nop());
 #endif
+        }
+
+        void generator::visit(pt::operator_new *ref)
+        {
+            assert(ref->get_args_count() == 0);
+            ref->get_proto()->accept(this);
+            code->add_instruction(new code::_new());
         }
     };
 };
