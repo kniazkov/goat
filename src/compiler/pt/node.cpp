@@ -234,5 +234,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        operator_new *node::to_operator_new()
+        {
+            return nullptr;
+        }
    }
 };

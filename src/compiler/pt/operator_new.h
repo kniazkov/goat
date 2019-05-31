@@ -29,20 +29,20 @@ namespace g0at
 {
     namespace pt
     {
-        class function_call : public expression
+        class operator_new : public expression
         {
         public:
-            function_call(lib::pointer<position> _pos, lib::pointer<expression> _func_object);
+            operator_new(lib::pointer<position> _pos, lib::pointer<expression> _proto);
             void accept(node_visitor *visitor) override;
-            function_call *to_function_call() override;
+            operator_new *to_operator_new() override;
 
-            lib::pointer<expression> get_func_object() { return func_object; }
+            lib::pointer<expression> get_proto() { return proto; }
             void add_arg(lib::pointer<expression> arg) { args.push_back(arg); }
             int get_args_count() { return args.size(); }
             lib::pointer<expression> get_arg(int index) { return args.at(index); }
 
         protected:
-            lib::pointer<expression> func_object;
+            lib::pointer<expression> proto;
             std::vector<lib::pointer<expression>> args;
         };
     };

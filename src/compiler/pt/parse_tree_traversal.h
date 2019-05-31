@@ -73,6 +73,7 @@ namespace g0at
             void visit(statement_for *ref) override;
             void visit(is_less_than *ref) override;
             void visit(statement_empty *ref) override;
+            void visit(operator_new *ref) override;
 
         protected:
             void postpone(node *n) { queue.push_front(n); }
@@ -114,6 +115,7 @@ namespace g0at
             virtual void payload(statement_for *ref);
             virtual void payload(is_less_than *ref);
             virtual void payload(statement_empty *ref);
+            virtual void payload(operator_new *ref);
 
         private:
             std::deque<node*> queue;

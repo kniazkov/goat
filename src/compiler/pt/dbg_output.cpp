@@ -59,6 +59,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_for.h"
 #include "is_less_than.h"
 #include "statement_empty.h"
+#include "operator_new.h"
 
 namespace g0at
 {
@@ -704,6 +705,31 @@ namespace g0at
         void dbg_output::visit(statement_empty *ref)
         {
             print(ref, L"do nothing");
+        }
+
+        void dbg_output::visit(operator_new *ref)
+        {
+            print(ref, L"new");
+            dbg_output child(env);
+            ref->get_proto()->accept(&child);
+            link_child(child, L"proto");
+            int args_count = ref->get_args_count();
+            if (args_count > 0)
+            {
+                dbg_output args(env);
+                args.print(ref, L"args");
+                link_child(args);
+                int pred_id = args.id;
+                edge_style style = edge_style::normal;
+                for (int i = 0; i < args_count; i++)
+                {
+                    dbg_output arg(env);
+                    ref->get_arg(i)->accept(&arg);
+                    link(pred_id, arg.id, style);
+                    pred_id = arg.id;
+                    style = edge_style::node_to_next_one;
+                }
+            }
         }
     };
 };

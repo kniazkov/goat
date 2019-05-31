@@ -20,30 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "expression.h"
-#include <vector>
+#include "operator_new.h"
 
 namespace g0at
 {
     namespace pt
     {
-        class function_call : public expression
+        operator_new::operator_new(lib::pointer<position> _pos, lib::pointer<expression> _proto)
+            : expression(_pos), proto(_proto)
         {
-        public:
-            function_call(lib::pointer<position> _pos, lib::pointer<expression> _func_object);
-            void accept(node_visitor *visitor) override;
-            function_call *to_function_call() override;
+        }
 
-            lib::pointer<expression> get_func_object() { return func_object; }
-            void add_arg(lib::pointer<expression> arg) { args.push_back(arg); }
-            int get_args_count() { return args.size(); }
-            lib::pointer<expression> get_arg(int index) { return args.at(index); }
+        void operator_new::accept(node_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
 
-        protected:
-            lib::pointer<expression> func_object;
-            std::vector<lib::pointer<expression>> args;
-        };
+        operator_new *operator_new::to_operator_new()
+        {
+            return this;
+        }
     };
 };

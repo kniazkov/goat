@@ -74,6 +74,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/character.h"
 #include "compiler/ast/is_less_than.h"
 #include "compiler/pt/is_less_than.h"
+#include "compiler/ast/operator_new.h"
+#include "compiler/pt/operator_new.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -295,6 +297,27 @@ namespace g0at
         {
             auto pair = build_expr_for_binary(ref);
             expr = new pt::is_less_than(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::operator_new *ref)
+        {
+            expression_builder proto_visitor;
+            ref->get_proto()->accept(&proto_visitor);
+            assert(proto_visitor.has_expr());
+            lib::pointer<pt::operator_new> op_new = 
+                new pt::operator_new(ref->get_position(), proto_visitor.get_expr());
+            auto args = ref->get_args_list();
+            auto tok_arg = args->first;
+            while(tok_arg)
+            {
+                assert(tok_arg->to_expression() != nullptr);
+                expression_builder arg_visitor;
+                tok_arg->accept(&arg_visitor);
+                assert(arg_visitor.has_expr());
+                op_new->add_arg(arg_visitor.get_expr());
+                tok_arg = tok_arg->next;
+            }
+            expr = op_new.cast<pt::expression>();
         }
 
         std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>

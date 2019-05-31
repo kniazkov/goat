@@ -62,6 +62,7 @@ namespace g0at
         class statement_for;
         class is_less_than;
         class statement_empty;
+        class operator_new;
 
         class node_visitor
         {
@@ -104,6 +105,7 @@ namespace g0at
             virtual void visit(statement_for *ref);
             virtual void visit(is_less_than *ref);
             virtual void visit(statement_empty *ref);
+            virtual void visit(operator_new *ref);
         };
     };
 };
