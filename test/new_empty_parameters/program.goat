@@ -1,0 +1,14 @@
+var Test = 
+{
+    x : 7,
+
+    get_x : $()
+    {
+        return x;
+    }
+};
+
+var test = new Test();
+//var test = Test -> { };
+var x = test.get_x();
+println(x);
