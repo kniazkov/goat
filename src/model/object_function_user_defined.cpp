@@ -33,18 +33,27 @@ namespace g0at
             assert(_first_iid > 0);
         }
 
-        void object_function_user_defined::call(thread *thr, int arg_count, bool as_method)
+        void object_function_user_defined::call(thread *thr, int arg_count, call_mode mode)
         {
             // prepare a new context
             context *ctx;
-            if (as_method)
+            switch(mode)
             {
-                object *this_ptr = thr->pop().get_object();
-                ctx = thr->pool->create_context(this_ptr, proto_ctx, thr->ctx);
-            }
-            else
-            {
-                ctx = thr->pool->create_context(proto_ctx, thr->ctx);
+                case call_mode::as_function:
+                    ctx = thr->pool->create_context(proto_ctx, thr->ctx);
+                    break;
+                case call_mode::as_method:
+                {
+                    object *this_ptr = thr->pop().get_object();
+                    ctx = thr->pool->create_context(this_ptr, proto_ctx, thr->ctx);
+                    break;
+                }
+                case call_mode::as_constructor:
+                {
+                    object *this_ptr = thr->peek().get_object();
+                    ctx = thr->pool->create_context(this_ptr, proto_ctx, thr->ctx);
+                    break;
+                }
             }
             ctx->value = thr->iid;
             ctx->value_type = context_value_type::ret_address;
@@ -66,7 +75,7 @@ namespace g0at
             }
 
             // prepare cell to place result (return value)
-            ctx->ret = thr->push_undefined();
+            ctx->ret = mode == call_mode::as_constructor ? nullptr : thr->push_undefined();
 
             // change context
             thr->set_context(ctx);

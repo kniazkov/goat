@@ -54,7 +54,7 @@ namespace g0at
             assert(func != nullptr); // TODO: exception if is not a function
 
             // call
-            func->call(thr, arg_count, true);
+            func->call(thr, arg_count, model::call_mode::as_method);
         }
     };
 };

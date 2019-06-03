@@ -39,11 +39,11 @@ namespace g0at
                 {
                 }
                 
-                void call(thread *thr, int arg_count, bool as_method) override
+                void call(thread *thr, int arg_count, call_mode mode) override
                 {
                     if (arg_count > 1)
                     {
-                        if (as_method)
+                        if (mode != call_mode::as_function)
                             thr->pop();
                         variable arg_1 = thr->peek();
                         variable arg_2 = thr->peek(1);

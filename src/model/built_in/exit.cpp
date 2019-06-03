@@ -38,9 +38,9 @@ namespace g0at
                 {
                 }
                 
-                void call(thread *thr, int arg_count, bool as_method) override
+                void call(thread *thr, int arg_count, call_mode mode) override
                 {
-                    if (as_method)
+                    if (mode == call_mode::as_method)
                         thr->pop();
                     if (arg_count > 0)
                         *(thr->ret) = thr->pop();

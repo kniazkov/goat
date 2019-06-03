@@ -2,12 +2,18 @@ var Test =
 {
     x : 7,
 
+    init : $()
+    {
+        println("init");
+        return 13; // will be ignored
+    },
+
     get_x : $()
     {
         return x;
     }
 };
 
-var test = new Test;
+var test = new Test();
 var x = test.get_x();
 println(x);

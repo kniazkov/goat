@@ -29,6 +29,13 @@ namespace g0at
 {
     namespace model
     {
+        enum class call_mode
+        {
+            as_function,
+            as_method,
+            as_constructor
+        };
+
         class object_function : public object
         {
         public:
@@ -36,7 +43,7 @@ namespace g0at
             object_type get_type() const override;
             object_function *to_object_function() override;
             std::wstring to_string() const override;
-            virtual void call(thread *thr, int arg_count, bool as_method) = 0;
+            virtual void call(thread *thr, int arg_count, call_mode mode) = 0;
         };
 
         class object_function_proto : public object

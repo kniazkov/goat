@@ -50,7 +50,8 @@ namespace g0at
             }
             else
             {
-                *(thr->ctx->ret) = val;
+                if (thr->ctx->ret)
+                    *(thr->ctx->ret) = val;
                 thr->iid = thr->ctx->value;
                 thr->restore_context();
                 assert(thr->ctx != nullptr);

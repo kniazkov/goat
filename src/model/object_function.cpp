@@ -68,7 +68,7 @@ namespace g0at
             {
             }
             
-            void call(thread *thr, int arg_count, bool as_method) override
+            void call(thread *thr, int arg_count, call_mode mode) override
             {
                 /*
                     Current stack:
@@ -82,7 +82,7 @@ namespace g0at
                 */
                 if (arg_count > 0)
                 {
-                    if (!as_method)
+                    if (mode != call_mode::as_method)
                     {
                         thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
                         return;
@@ -95,7 +95,7 @@ namespace g0at
                         thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
                         return;
                     }
-                    this_ptr_func->call(thr, arg_count - 1, true);
+                    this_ptr_func->call(thr, arg_count - 1, call_mode::as_method);
                     return;
                 }
                 thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
@@ -116,7 +116,7 @@ namespace g0at
             {
             }
             
-            void call(thread *thr, int arg_count, bool as_method) override
+            void call(thread *thr, int arg_count, call_mode mode) override
             {
                 /*
                     Current stack:
@@ -132,7 +132,7 @@ namespace g0at
                 */
                 if (arg_count > 0)
                 {
-                    if (!as_method)
+                    if (mode != call_mode::as_method)
                     {
                         thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
                         return;
@@ -162,7 +162,7 @@ namespace g0at
                     }
                     thr->push(ctx);
 
-                    this_ptr_func->call(thr, length, true);
+                    this_ptr_func->call(thr, length, call_mode::as_method);
                     return;
                 }
                 thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());

@@ -21,6 +21,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "new.h"
+#include "model/object_string.h"
+#include "model/object_function.h"
 
 namespace g0at
 {
@@ -34,9 +36,26 @@ namespace g0at
         void _new::exec(model::thread *thr)
         {
             model::variable proto = thr->pop();
-            model::variable tmp;
-            tmp.set_object(new model::object(thr->pool, proto.to_object(thr->pool)));
-            thr->push(tmp);
+            model::object *new_object = new model::object(thr->pool, proto.to_object(thr->pool));
+
+            model::variable var;
+            var.set_object(new_object);
+            thr->push(var);
+
+            model::object_string *key = thr->pool->get_static_string(L"init");
+            model::variable *init_var = new_object->find_object(key);
+            if (init_var)
+            {
+                model::object *init_obj = init_var->get_object();
+                if(init_obj)
+                {
+                    model::object_function *init_func = init_obj->to_object_function();
+                    if (init_func)
+                    {
+                        init_func->call(thr, 0, model::call_mode::as_constructor);
+                    }
+                }
+            }
         }
     };
 };

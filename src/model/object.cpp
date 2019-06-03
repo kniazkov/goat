@@ -263,7 +263,7 @@ namespace g0at
             assert(func != nullptr); // TODO: exception if is not a function
 
             // call
-            func->call(thr, arg_count, true);
+            func->call(thr, arg_count, call_mode::as_method);
         }
 
         bool object::get_integer(int64_t *pval)
@@ -392,9 +392,9 @@ namespace g0at
             {
             }
             
-            void call(thread *thr, int arg_count, bool as_method) override
+            void call(thread *thr, int arg_count, call_mode mode) override
             {
-                if (!as_method)
+                if (mode != call_mode::as_method)
                 {
                     thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
                     return;
@@ -421,14 +421,14 @@ namespace g0at
             {
             }
             
-            void call(thread *thr, int arg_count, bool as_method) override
+            void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (arg_count < 1)
                 {
                     thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
                     return;
                 }
-                if (!as_method)
+                if (mode != call_mode::as_method)
                 {
                     thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
                     return;
@@ -451,9 +451,9 @@ namespace g0at
             {
             }
             
-            void call(thread *thr, int arg_count, bool as_method) override
+            void call(thread *thr, int arg_count, call_mode mode) override
             {
-                if (!as_method)
+                if (mode != call_mode::as_method)
                 {
                     thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
                     return;

@@ -139,9 +139,9 @@ namespace g0at
             {
             }
             
-            void call(thread *thr, int arg_count, bool as_method) override
+            void call(thread *thr, int arg_count, call_mode mode) override
             {
-                if (!as_method)
+                if (mode != call_mode::as_method)
                 {
                     thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
                     return;
