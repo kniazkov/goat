@@ -1,0 +1,6 @@
+null
+true
+false
+test
+1
+0
