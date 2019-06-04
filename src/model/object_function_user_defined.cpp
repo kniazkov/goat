@@ -37,20 +37,16 @@ namespace g0at
         {
             // prepare a new context
             context *ctx;
+            object *this_ptr = nullptr;
             switch(mode)
             {
                 case call_mode::as_function:
                     ctx = thr->pool->create_context(proto_ctx, thr->ctx);
                     break;
                 case call_mode::as_method:
-                {
-                    object *this_ptr = thr->pop().get_object();
-                    ctx = thr->pool->create_context(this_ptr, proto_ctx, thr->ctx);
-                    break;
-                }
                 case call_mode::as_constructor:
                 {
-                    object *this_ptr = thr->peek().get_object();
+                    this_ptr = thr->pop().get_object();
                     ctx = thr->pool->create_context(this_ptr, proto_ctx, thr->ctx);
                     break;
                 }
@@ -74,9 +70,19 @@ namespace g0at
                 thr->pop(arg_count - decl_arg_count);
             }
 
-            // prepare cell to place result (return value)
-            ctx->ret = mode == call_mode::as_constructor ? nullptr : thr->push_undefined();
-
+            if (mode == call_mode::as_constructor)
+            {
+                // constructor always returns 'this' pointer
+                variable tmp;
+                tmp.set_object(this_ptr);
+                thr->push(tmp);
+            }
+            else
+            {
+                // prepare cell to place result (return value)
+                ctx->ret = thr->push_undefined();
+            }
+            
             // change context
             thr->set_context(ctx);
             thr->iid = first_iid;

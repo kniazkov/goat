@@ -48,6 +48,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "finally.h"
 #include "flat.h"
 #include "char.h"
+#include "new.h"
 #include "write.h"
 
 namespace g0at
@@ -393,7 +394,8 @@ namespace g0at
         void serializer::visit(_new *ref)
         {
             push_opcode(op::_new);
-        }
+            push_int32(ref->get_arg_count());
+         }
 
         void serializer::visit(_write *ref)
         {

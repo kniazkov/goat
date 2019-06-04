@@ -23,11 +23,18 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "new.h"
 #include "model/object_string.h"
 #include "model/object_function.h"
+#include "lib/assert.h"
 
 namespace g0at
 {
     namespace code
     {
+        _new::_new(int _arg_count)
+            : arg_count(_arg_count)
+        {
+            assert(_arg_count >= 0);
+        }
+
         void _new::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
@@ -52,7 +59,7 @@ namespace g0at
                     model::object_function *init_func = init_obj->to_object_function();
                     if (init_func)
                     {
-                        init_func->call(thr, 0, model::call_mode::as_constructor);
+                        init_func->call(thr, arg_count, model::call_mode::as_constructor);
                     }
                 }
             }

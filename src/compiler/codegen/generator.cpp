@@ -524,9 +524,13 @@ namespace g0at
 
         void generator::visit(pt::operator_new *ref)
         {
-            assert(ref->get_args_count() == 0);
+            int args_count = ref->get_args_count();
+            for (int i = args_count - 1; i > -1; i--)
+            {
+                ref->get_arg(i)->accept(this);
+            }
             ref->get_proto()->accept(this);
-            code->add_instruction(new code::_new());
+            code->add_instruction(new code::_new(args_count));
         }
     };
 };

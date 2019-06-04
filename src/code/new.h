@@ -31,8 +31,14 @@ namespace g0at
         class _new : public instruction
         {
         public:
+            _new(int _arg_count);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
+
+            int get_arg_count() { return arg_count; }
+
+        protected:
+            int arg_count;
         };
     };
 };

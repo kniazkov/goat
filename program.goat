@@ -1,8 +1,8 @@
 var Test = 
 {
-	init : $()
+	init : $(x)
 	{
-        this.x = 7;
+        this.x = x;
 	},
 
     get_x : $()
@@ -11,6 +11,6 @@ var Test =
     }
 };
 
-var test = new Test();
+var test = new Test(13);
 var x = test.get_x();
 println(x);

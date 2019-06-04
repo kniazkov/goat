@@ -461,7 +461,8 @@ namespace g0at
 
         void deserializer::c_new(source *src, code *dst)
         {
-            dst->add_instruction(new _new());
+            int arg_count = pop_int32(src);
+            dst->add_instruction(new _new(arg_count));
         }
 
         void deserializer::c_write(source *src, code *dst)
