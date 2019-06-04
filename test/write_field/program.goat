@@ -1,0 +1,4 @@
+var obj = { field: 0 };
+println(obj.field);
+obj.field = 1;
+println(obj);
