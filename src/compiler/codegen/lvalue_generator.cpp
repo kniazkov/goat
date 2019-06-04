@@ -21,15 +21,18 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "lvalue_generator.h"
+#include "generator.h"
 #include "compiler/pt/variable.h"
+#include "compiler/pt/property.h"
 #include "code/store.h"
+#include "code/write.h"
 
 namespace g0at
 {
     namespace codegen
     {
-        lvalue_generator::lvalue_generator(lib::pointer<code::code> _code, model::name_cache *_name_cache)
-            : code(_code), name_cache(_name_cache)
+        lvalue_generator::lvalue_generator(lib::pointer<code::code> _code, model::name_cache *_name_cache, generator *_rgen)
+            : code(_code), name_cache(_name_cache), rgen(_rgen)
         {
         }
 
@@ -37,6 +40,13 @@ namespace g0at
         {
             int id = name_cache->get_id(ref->get_name());
             code->add_instruction(new code::_store(id));
+        }
+
+        void lvalue_generator::visit(pt::property *ref)
+        {
+            ref->get_left()->accept(rgen);
+            int id = name_cache->get_id(ref->get_name());
+            code->add_instruction(new code::_write(id));
         }
     };
 };

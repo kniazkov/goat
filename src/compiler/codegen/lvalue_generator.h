@@ -32,15 +32,19 @@ namespace g0at
 {
     namespace codegen
     {
+        class generator;
+
         class lvalue_generator : public pt::node_visitor, public lib::ref_counter
         {
         public:
-            lvalue_generator(lib::pointer<code::code> _code, model::name_cache *_name_cache);
+            lvalue_generator(lib::pointer<code::code> _code, model::name_cache *_name_cache, generator *_rgen);
             void visit(pt::variable *ref) override;
+            void visit(pt::property *ref) override;
 
         protected:
             lib::pointer<code::code> code; 
             model::name_cache *name_cache;
+            generator *rgen;
         };
     };
 };

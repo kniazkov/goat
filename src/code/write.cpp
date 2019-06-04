@@ -41,7 +41,7 @@ namespace g0at
         {
             model::object_string *key = thr->pool->get_static_string(id);
             model::object *object = thr->pop().to_object(thr->pool);
-            model::variable value = thr->pop();
+            model::variable value = thr->peek();
             object->add_object(key, value);
         }
     };

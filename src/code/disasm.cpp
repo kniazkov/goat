@@ -81,6 +81,7 @@ namespace g0at
                 tmp << L"\t";
                 _code->get_instruction(i)->accept(&da);
             }
+            tmp << "\n";
             return tmp.str();
         }
 

@@ -104,7 +104,7 @@ namespace g0at
         generator::generator()
         {
             code = new code::code();
-            lgen = new lvalue_generator(code, &name_cache);
+            lgen = new lvalue_generator(code, &name_cache, this);
         }
 
         lib::pointer<code::code> generator::generate(lib::pointer<pt::function> node_root)
