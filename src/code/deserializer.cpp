@@ -71,6 +71,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "char.h"
 #include "less.h"
 #include "new.h"
+#include "write.h"
 
 namespace g0at
 {
@@ -463,6 +464,12 @@ namespace g0at
             dst->add_instruction(new _new());
         }
 
+        void deserializer::c_write(source *src, code *dst)
+        {
+            int id = pop_int32(src);
+            dst->add_instruction(new _write(id));
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -508,6 +515,7 @@ namespace g0at
             cc[op::_char]    = c_char;
             cc[op::_less]    = c_less;
             cc[op::_new]     = c_new;
+            cc[op::_write]   = c_write;
         }
     };
 };

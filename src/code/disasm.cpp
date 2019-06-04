@@ -44,6 +44,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "finally.h"
 #include "flat.h"
 #include "char.h"
+#include "write.h"
 
 namespace g0at
 {
@@ -319,6 +320,12 @@ namespace g0at
         void disasm::visit(_new *ref)
         {
             stream << L"new";
+        }
+
+        void disasm::visit(_write *ref)
+        {
+            int id = ref->get_id();
+            stream << L"write\t" << id << L"\t; " << identifiers.at(id);
         }
     };
 };
