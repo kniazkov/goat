@@ -40,7 +40,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "real.h"
 #include "func.h"
 #include "object.h"
-#include "prop.h"
+#include "read.h"
 #include "ifnot.h"
 #include "jmp.h"
 #include "add.h"
@@ -335,10 +335,10 @@ namespace g0at
             dst->add_instruction(new _object(count));
         }
 
-        void deserializer::c_prop(source *src, code *dst)
+        void deserializer::c_read(source *src, code *dst)
         {
             int id = pop_int32(src);
-            dst->add_instruction(new _prop(id));
+            dst->add_instruction(new _read(id));
         }
 
         void deserializer::c_true(source *src, code *dst)
@@ -485,7 +485,7 @@ namespace g0at
             cc[op::_ret]     = c_ret;
             cc[op::_retv]    = c_retv;
             cc[op::_object]  = c_object;
-            cc[op::_prop]    = c_prop;
+            cc[op::_read]    = c_read;
             cc[op::_true]    = c_true;
             cc[op::_false]   = c_false;
             cc[op::_eq]      = c_eq;

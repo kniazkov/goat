@@ -58,7 +58,7 @@ namespace g0at
             void visit(_ret *ref) override;
             void visit(_retv *ref) override;
             void visit(_object *ref) override;
-            void visit(_prop *ref) override;
+            void visit(_read *ref) override;
             void visit(_true *ref) override;
             void visit(_false *ref) override;
             void visit(_eq *ref) override;

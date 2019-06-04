@@ -39,7 +39,7 @@ namespace g0at
 
             // load instructions
             _load,
-            _prop,
+            _read,
             _char,
             _string,
             _integer,
@@ -57,6 +57,7 @@ namespace g0at
             // store instructions
             _var,
             _store,
+            _write,
 
             // creators
             _new,

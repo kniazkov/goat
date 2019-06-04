@@ -89,7 +89,7 @@ namespace g0at
             static void c_ret(source *src, code *dst);
             static void c_retv(source *src, code *dst);
             static void c_object(source *src, code *dst);
-            static void c_prop(source *src, code *dst);
+            static void c_read(source *src, code *dst);
             static void c_true(source *src, code *dst);
             static void c_false(source *src, code *dst);
             static void c_eq(source *src, code *dst);

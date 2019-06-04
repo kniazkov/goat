@@ -72,7 +72,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/ret.h"
 #include "code/retv.h"
 #include "code/object.h"
-#include "code/prop.h"
+#include "code/read.h"
 #include "code/true.h"
 #include "code/false.h"
 #include "code/eq.h"
@@ -284,7 +284,7 @@ namespace g0at
         {
             ref->get_left()->accept(this);
             int id = name_cache.get_id(ref->get_name());
-            code->add_instruction(new code::_prop(id));
+            code->add_instruction(new code::_read(id));
         }
 
         void generator::visit(pt::value_true *ref)

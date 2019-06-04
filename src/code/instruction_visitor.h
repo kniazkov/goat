@@ -46,7 +46,7 @@ namespace g0at
         class _ret;
         class _retv;
         class _object;
-        class _prop;
+        class _read;
         class _true;
         class _false;
         class _eq;
@@ -95,7 +95,7 @@ namespace g0at
             virtual void visit(_ret *ref) = 0;
             virtual void visit(_retv *ref) = 0;
             virtual void visit(_object *ref) = 0;
-            virtual void visit(_prop *ref) = 0;
+            virtual void visit(_read *ref) = 0;
             virtual void visit(_true *ref) = 0;
             virtual void visit(_false *ref) = 0;
             virtual void visit(_eq *ref) = 0;

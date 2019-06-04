@@ -29,10 +29,10 @@ namespace g0at
 {
     namespace code
     {
-        class _prop : public instruction
+        class _read : public instruction
         {
         public:
-            _prop(int _id);
+            _read(int _id);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
 

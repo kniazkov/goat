@@ -32,7 +32,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "real.h"
 #include "func.h"
 #include "object.h"
-#include "prop.h"
+#include "read.h"
 #include "ifnot.h"
 #include "jmp.h"
 #include "vcall.h"
@@ -202,10 +202,10 @@ namespace g0at
             stream << L"object\t" << ref->get_count();
         }
 
-        void disasm::visit(_prop *ref)
+        void disasm::visit(_read *ref)
         {
             int id = ref->get_id();
-            stream << L"prop\t" << id << L"\t; " << identifiers.at(id);
+            stream << L"read\t" << id << L"\t; " << identifiers.at(id);
         }
 
         void disasm::visit(_true *ref)

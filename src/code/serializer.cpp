@@ -36,7 +36,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "real.h"
 #include "func.h"
 #include "object.h"
-#include "prop.h"
+#include "read.h"
 #include "ifnot.h"
 #include "jmp.h"
 #include "vcall.h"
@@ -266,9 +266,9 @@ namespace g0at
             push_int32(ref->get_count());
         }
 
-        void serializer::visit(_prop *ref)
+        void serializer::visit(_read *ref)
         {
-            push_opcode(op::_prop);
+            push_opcode(op::_read);
             push_int32(ref->get_id());
         }
 

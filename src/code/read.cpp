@@ -20,24 +20,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "prop.h"
+#include "read.h"
 #include "model/object_string.h"
 
 namespace g0at
 {
     namespace code
     {
-        _prop::_prop(int _id)
+        _read::_read(int _id)
             : id(_id)
         {
         }
 
-        void _prop::accept(instruction_visitor *visitor)
+        void _read::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void _prop::exec(model::thread *thr)
+        void _read::exec(model::thread *thr)
         {
             model::object_string *key = thr->pool->get_static_string(id);
             model::variable *var = thr->pop().to_object(thr->pool)->find_object(key);
