@@ -191,6 +191,7 @@ namespace g0at
 #else
             lib::light_vector<object*, 2> proto;
 #endif
+            std::vector<object*> *topology;
         };
 
         class generic_object : public object

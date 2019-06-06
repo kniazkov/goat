@@ -43,6 +43,7 @@ namespace g0at
 #endif
             pool->add(this);
             proto.push_back(pool->get_generic_proto_instance());
+            topology = nullptr;
         }
 
         object::object(object_pool *pool, object *proto)
@@ -56,6 +57,7 @@ namespace g0at
             {
                 this->proto.push_back(proto);
             }
+            topology = nullptr;
         }
 
         object::object(object_pool *pool, object *proto_1, object *proto_2)
@@ -70,10 +72,13 @@ namespace g0at
 
             this->proto.push_back(proto_1);
             this->proto.push_back(proto_2);
+
+            topology = nullptr;
         }
 
         object::~object()
         {
+            delete topology;
         }
 
         void object::kill(object_pool *pool)
