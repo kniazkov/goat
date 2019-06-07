@@ -82,10 +82,14 @@ namespace g0at
         {
             thr->pop();
             object *right = thr->peek().to_object(thr->pool);
-            right->proto.clear();
-            for (variable &var : vector)
+            right->proto = nullptr;
+            right->topology = new topology_descriptor();
+            int size = (int)vector.size();
+            right->topology->proto.init(size);
+            for (int i = 0; i < size; i++)
             {
-                right->proto.push_back(var.to_object(thr->pool));
+                variable &var = vector[i];
+                right->topology->proto[i] = var.to_object(thr->pool);
             }
         }
 

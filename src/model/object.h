@@ -25,7 +25,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #define MODEL_DEBUG
 
 #include "object_pool.h"
-#include "lib/light_vector.h"
+#include "lib/pointer.h"
+#include "lib/ref_counter.h"
+#include "lib/buffer.h"
 #include <map>
 #include <vector>
 #include <string>
@@ -115,13 +117,19 @@ namespace g0at
             } data;
         };
 
+        class topology_descriptor : public lib::ref_counter
+        {
+        public:
+            lib::buffer<object*> proto;
+        };
+
         class object
         {
         friend class object_array;
         public:
             object(object_pool *pool);
             object(object_pool *pool, object *proto);
-            object(object_pool *pool, object *proto_1, object *proto_2);
+            object(object_pool *pool, object *proto_0, object *proto_1);
             virtual ~object();
 #ifdef MODEL_DEBUG
             int get_id() { return id; }
@@ -186,12 +194,8 @@ namespace g0at
 #endif
             bool marked;
             std::map<object*, variable, object_comparator> objects;
-#if 0
-            std::vector<object*> proto;
-#else
-            lib::light_vector<object*, 2> proto;
-#endif
-            std::vector<object*> *topology;
+            object *proto;
+            lib::pointer<topology_descriptor> topology;
         };
 
         class generic_object : public object
@@ -407,10 +411,16 @@ namespace g0at
                     pair.second.mark();
                 }
 
-                for (object *pr : proto)
+                if (proto)
                 {
-                    pr->mark();
+                    proto->mark();
                 }
+                else if (topology)
+                {
+                    for (int i = 0, size = topology->proto.size(); i < size; i++)
+                        topology->proto[i]->mark();
+                }
+                
 
                 trace();
             }

@@ -55,36 +55,38 @@ namespace g0at
 
         void context::reinit(object_pool *pool)
         {
-            assert(proto.empty());
-            proto.push_back(pool->get_generic_proto_instance());
+            assert(!proto && !topology);
+            proto = pool->get_generic_proto_instance();
         }
 
         void context::reinit(context *proto)
         {
-            assert(this->proto.empty());
+            assert(!this->proto && !topology);
             assert(proto != nullptr);
-            this->proto.push_back(proto);
+            this->proto = proto;
             prev = proto;
         }
 
         void context::reinit(context *proto, context *parent)
         {
-            assert(this->proto.empty());
+            assert(!this->proto && !topology);
             assert(proto != nullptr);
             assert(parent != nullptr);
-            this->proto.push_back(proto);
+            this->proto = proto;
             prev = parent;
         }
 
         void context::reinit(object *this_ptr, context *proto, context *parent)
         {
-            assert(this->proto.empty());
+            assert(!this->proto && !topology);
             assert(this_ptr != nullptr);
             assert(proto != nullptr);
             assert(parent != nullptr);
             this->this_ptr = this_ptr;
-            this->proto.push_back(this_ptr);
-            this->proto.push_back(proto);
+            topology = new topology_descriptor();
+            topology->proto.init(2);
+            topology->proto[0] = this_ptr;
+            topology->proto[1] = proto;
             prev = parent;
         }
 
@@ -93,7 +95,8 @@ namespace g0at
             if (pool->contexts.destroy_or_cache(this, pool))
             {
                 objects.clear();
-                proto.clear();
+                proto = nullptr;
+                topology.reset();
                 prev = nullptr;
                 this_ptr = nullptr;
                 value = 0;
