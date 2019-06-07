@@ -238,10 +238,9 @@ namespace g0at
             }
             else if (topology)
             {
-                // TODO : use flat (really?..)
-                for (int i = topology->proto.size() - 1; i > -1; i--)
+                for (int i = topology->flat.size() - 1; i > -1; i--)
                 {
-                    topology->proto[i]->flat(dst);
+                    topology->flat[i]->copy_objects_to(dst);
                 }
             }
             copy_objects_to(dst);
@@ -273,23 +272,23 @@ namespace g0at
                 return &iter->second;
             }
             
-            variable *var = nullptr;
             if (proto)
             {
-                var = proto->find_object(key);
+                return proto->find_object(key);
             }
             else if (topology)
             {
-                // TODO : must use flat
-                for (int i = 0, size = topology->proto.size(); i < size; i++)
+                for (int i = 0, size = topology->flat.size(); i < size; i++)
                 {
-                    var = topology->proto[i]->find_object(key);
-                    if (var != nullptr)
-                        break;
+                    object *proto = topology->flat[i];
+                    auto iter = proto->objects.find(key);
+                    if (iter != proto->objects.end())
+                    {
+                        return &iter->second;
+                    }
                 }
             }
-
-            return var;
+            return nullptr;
         }
 
         void object::find_and_vcall(thread *thr, int arg_count, std::wstring name)
@@ -401,12 +400,12 @@ namespace g0at
         void topology_descriptor::build()
         {
             object::tsort_data data;
-            int i, size;
-            for (i = 0, size = proto.size(); i < size; i++)
+            int i;
+            for (i = proto.size() - 1; i > -1; i--)
             {
                 proto[i]->tsort(data);
             }
-            size = (int)data.stack.size();
+            int size = (int)data.stack.size();
             flat.init(size);
             for (i = 0; i < size; i++)
             {

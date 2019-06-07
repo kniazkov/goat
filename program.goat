@@ -1,24 +1,13 @@
-var A =
+var b = 0;
+
+var test_b =
 {
-    a : 1
+    b : 1,
+
+    exec : $()
+    {
+        println(b);
+    }
 };
 
-var B = A ->
-{
-    b : "text"
-};
-
-var C =
-{
-    c : 0.1
-};
-
-var D = [B, C] ->
-{
-    d : null
-};
-
-println(D.a);
-println(D.b);
-println(D.c);
-println(D.d);
+test_b.exec();
