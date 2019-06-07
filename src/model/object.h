@@ -25,9 +25,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #define MODEL_DEBUG
 
 #include "object_pool.h"
-#include "lib/light_vector.h"
+#include "lib/pointer.h"
+#include "lib/ref_counter.h"
+#include "lib/buffer.h"
 #include <map>
-#include <vector>
+#include <set>
+#include <stack>
 #include <string>
 
 namespace g0at
@@ -115,13 +118,28 @@ namespace g0at
             } data;
         };
 
+        class topology_descriptor : public lib::ref_counter
+        {
+        public:
+            lib::buffer<object*> proto;
+            lib::buffer<object*> flat;
+
+            void build();
+        };
+
         class object
         {
         friend class object_array;
         public:
+            struct tsort_data
+            {
+                std::stack<object *> stack;
+                std::set<object *> processed;
+            };
+
             object(object_pool *pool);
             object(object_pool *pool, object *proto);
-            object(object_pool *pool, object *proto_1, object *proto_2);
+            object(object_pool *pool, object *proto_0, object *proto_1);
             virtual ~object();
 #ifdef MODEL_DEBUG
             int get_id() { return id; }
@@ -152,12 +170,14 @@ namespace g0at
             virtual std::wstring to_string_notation() const;
             void copy_objects_to(object *dst);
             void copy_proto_to(object *dst);
+            void tsort(tsort_data &data);
             bool instance_of(object *base);
             void flat(object *dst);
 
             void add_object(object *key, variable &value);
             void add_object(object *key, object *value);
             variable *find_object(object *key);
+            variable *find_own_object(object *key);
             void find_and_vcall(thread *thr, int arg_count, std::wstring name);
 
             virtual bool get_integer(int64_t *pval);
@@ -186,11 +206,8 @@ namespace g0at
 #endif
             bool marked;
             std::map<object*, variable, object_comparator> objects;
-#if 0
-            std::vector<object*> proto;
-#else
-            lib::light_vector<object*, 2> proto;
-#endif
+            object *proto;
+            lib::pointer<topology_descriptor> topology;
         };
 
         class generic_object : public object
@@ -406,10 +423,16 @@ namespace g0at
                     pair.second.mark();
                 }
 
-                for (object *pr : proto)
+                if (proto)
                 {
-                    pr->mark();
+                    proto->mark();
                 }
+                else if (topology)
+                {
+                    for (int i = 0, size = topology->proto.size(); i < size; i++)
+                        topology->proto[i]->mark();
+                }
+                
 
                 trace();
             }

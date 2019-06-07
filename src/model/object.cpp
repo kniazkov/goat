@@ -42,7 +42,8 @@ namespace g0at
             id = pool->get_next_id();
 #endif
             pool->add(this);
-            proto.push_back(pool->get_generic_proto_instance());
+            proto = pool->get_generic_proto_instance();
+            topology = nullptr;
         }
 
         object::object(object_pool *pool, object *proto)
@@ -52,24 +53,26 @@ namespace g0at
             id = pool->get_next_id();
 #endif
             pool->add(this);
-            if (proto)
-            {
-                this->proto.push_back(proto);
-            }
+            this->proto = proto;
+            topology = nullptr;
         }
 
-        object::object(object_pool *pool, object *proto_1, object *proto_2)
+        object::object(object_pool *pool, object *proto_0, object *proto_1)
             : marked(false)
         {
+            assert(proto_0 != nullptr);
             assert(proto_1 != nullptr);
-            assert(proto_2 != nullptr);
 #ifdef MODEL_DEBUG
             id = pool->get_next_id();
 #endif
             pool->add(this);
 
-            this->proto.push_back(proto_1);
-            this->proto.push_back(proto_2);
+            proto = nullptr;
+            topology = new topology_descriptor();
+            topology->proto.init(2);
+            topology->proto[0] = proto_0;
+            topology->proto[1] = proto_1;
+            topology->build();
         }
 
         object::~object()
@@ -184,11 +187,27 @@ namespace g0at
 
         void object::copy_proto_to(object *dst)
         {
-            dst->proto.clear();
-            for (auto pt : proto)
+            dst->proto = proto;
+            dst->topology = topology;
+        }
+
+        void object::tsort(tsort_data &data)
+        {
+            if (data.processed.find(this) != data.processed.end())
+                return;
+            
+            if (proto)
             {
-                dst->proto.push_back(pt);
+                proto->tsort(data);
             }
+            else if (topology)
+            {
+                for (int i = 0, size = topology->proto.size(); i < size; i++)
+                    topology->proto[i]->tsort(data);
+            }
+
+            data.processed.insert(this);
+            data.stack.push(this);
         }
 
         bool object::instance_of(object *base)
@@ -196,19 +215,33 @@ namespace g0at
             if (base == this)
                 return true;
 
-            for (object *pr : proto)
+            if (proto)
             {
-                if (pr->instance_of(base))
-                    return true;
+                return proto->instance_of(base);
+            }
+            else if (topology)
+            {
+                for (int i = 0, size = topology->flat.size(); i < size; i++)
+                {
+                    if (base == topology->flat[i])
+                        return true;
+                }
             }
             return false;
         }
 
         void object::flat(object *dst)
         {
-            for (int i = (int)proto.size() - 1; i >= 0; i--)
+            if (proto)
             {
-                proto[i]->flat(dst);
+                proto->flat(dst);
+            }
+            else if (topology)
+            {
+                for (int i = topology->flat.size() - 1; i > -1; i--)
+                {
+                    topology->flat[i]->copy_objects_to(dst);
+                }
             }
             copy_objects_to(dst);
         }
@@ -239,14 +272,36 @@ namespace g0at
                 return &iter->second;
             }
             
-            variable *var = nullptr;
-            for (object *pt : proto)
+            if (proto)
             {
-                var = pt->find_object(key);
-                if (var != nullptr)
-                    break;
+                return proto->find_object(key);
             }
-            return var;
+            else if (topology)
+            {
+                for (int i = 0, size = topology->flat.size(); i < size; i++)
+                {
+                    object *proto = topology->flat[i];
+                    auto iter = proto->objects.find(key);
+                    if (iter != proto->objects.end())
+                    {
+                        return &iter->second;
+                    }
+                }
+            }
+            return nullptr;
+        }
+
+        variable *object::find_own_object(object *key)
+        {
+            assert(key != nullptr);
+
+            auto iter = objects.find(key);
+            if (iter != objects.end())
+            {
+                return &iter->second;
+            }
+            
+            return nullptr;
         }
 
         void object::find_and_vcall(thread *thr, int arg_count, std::wstring name)
@@ -328,8 +383,8 @@ namespace g0at
         {
             thr->pop();
             object *right = thr->peek().to_object(thr->pool);
-            right->proto.clear();
-            right->proto.push_back(this);
+            right->proto = this;
+            right->topology.reset();
         }
 
         void object::m_clone(thread *thr, int arg_count)
@@ -352,6 +407,26 @@ namespace g0at
             find_and_vcall(thr, arg_count, L"flat");
         }
 
+        /*
+            Topology
+        */
+        void topology_descriptor::build()
+        {
+            object::tsort_data data;
+            int i;
+            for (i = proto.size() - 1; i > -1; i--)
+            {
+                proto[i]->tsort(data);
+            }
+            int size = (int)data.stack.size();
+            flat.init(size);
+            for (i = 0; i < size; i++)
+            {
+                flat[i] = data.stack.top();
+                data.stack.pop();
+            }
+        }
+
         /* 
             Generic object
         */
@@ -365,14 +440,15 @@ namespace g0at
             if (pool->generic_objects.destroy_or_cache(this, pool))
             {
                 objects.clear();
-                proto.clear();
+                proto = nullptr;
+                topology.reset();
             }
         }
 
         void generic_object::reinit(object_pool *pool)
         {
-            assert(proto.empty());
-            proto.push_back(pool->get_generic_proto_instance());
+            assert(!proto && !topology);
+            proto = pool->get_generic_proto_instance();
         }
 
         void generic_object::m_clone(thread *thr, int arg_count)
