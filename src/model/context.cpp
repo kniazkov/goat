@@ -87,6 +87,7 @@ namespace g0at
             topology->proto.init(2);
             topology->proto[0] = this_ptr;
             topology->proto[1] = proto;
+            topology->build();
             prev = parent;
         }
 

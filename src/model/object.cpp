@@ -72,6 +72,7 @@ namespace g0at
             topology->proto.init(2);
             topology->proto[0] = proto_0;
             topology->proto[1] = proto_1;
+            topology->build();
         }
 
         object::~object()
@@ -190,6 +191,25 @@ namespace g0at
             dst->topology = topology;
         }
 
+        void object::tsort(tsort_data &data)
+        {
+            if (data.processed.find(this) != data.processed.end())
+                return;
+            
+            if (proto)
+            {
+                proto->tsort(data);
+            }
+            else if (topology)
+            {
+                for (int i = 0, size = topology->proto.size(); i < size; i++)
+                    topology->proto[i]->tsort(data);
+            }
+
+            data.processed.insert(this);
+            data.stack.push(this);
+        }
+
         bool object::instance_of(object *base)
         {
             if (base == this)
@@ -197,7 +217,7 @@ namespace g0at
 
             if (proto)
             {
-                return proto->instance_of(base);                
+                return proto->instance_of(base);
             }
             else if (topology)
             {
@@ -374,6 +394,26 @@ namespace g0at
         {
             // find and call own 'flat()' method
             find_and_vcall(thr, arg_count, L"flat");
+        }
+
+        /*
+            Topology
+        */
+        void topology_descriptor::build()
+        {
+            object::tsort_data data;
+            int i, size;
+            for (i = 0, size = proto.size(); i < size; i++)
+            {
+                proto[i]->tsort(data);
+            }
+            size = (int)data.stack.size();
+            flat.init(size);
+            for (i = 0; i < size; i++)
+            {
+                flat[i] = data.stack.top();
+                data.stack.pop();
+            }
         }
 
         /* 

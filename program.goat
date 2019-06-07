@@ -1,43 +1,24 @@
-var Stack = 
+var A =
 {
-	init : $()
-	{
-		this.top = null;
-		this.size = 0;
-	},
-	
-	push : $(value)
-	{
-		var item =
-		{
-			value : value,
-			next : top
-		};
-		top = item;
-		size = size + 1;
-	},
-	
-	pop : $()
-	{
-		if (top == null)
-			return null;
-		var value = top.value;
-		top = top.next;
-		size = size - 1;
-		return value;
-	}
+    a : 1
 };
 
-var test = new Stack();
-
-test.push(0);
-test.push(1);
-test.push("test");
-test.push(false);
-test.push(true);
-test.push(null);
-
-while(test.size != 0)
+var B = A ->
 {
-	println(test.pop());
-}
+    b : "text"
+};
+
+var C =
+{
+    c : 0.1
+};
+
+var D = [B, C] ->
+{
+    d : null
+};
+
+println(D.a);
+println(D.b);
+println(D.c);
+println(D.d);

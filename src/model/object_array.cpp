@@ -91,6 +91,7 @@ namespace g0at
                 variable &var = vector[i];
                 right->topology->proto[i] = var.to_object(thr->pool);
             }
+            right->topology->build();
         }
 
         /*

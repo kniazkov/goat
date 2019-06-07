@@ -29,7 +29,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/ref_counter.h"
 #include "lib/buffer.h"
 #include <map>
-#include <vector>
+#include <set>
+#include <stack>
 #include <string>
 
 namespace g0at
@@ -121,12 +122,21 @@ namespace g0at
         {
         public:
             lib::buffer<object*> proto;
+            lib::buffer<object*> flat;
+
+            void build();
         };
 
         class object
         {
         friend class object_array;
         public:
+            struct tsort_data
+            {
+                std::stack<object *> stack;
+                std::set<object *> processed;
+            };
+
             object(object_pool *pool);
             object(object_pool *pool, object *proto);
             object(object_pool *pool, object *proto_0, object *proto_1);
@@ -160,6 +170,7 @@ namespace g0at
             virtual std::wstring to_string_notation() const;
             void copy_objects_to(object *dst);
             void copy_proto_to(object *dst);
+            void tsort(tsort_data &data);
             bool instance_of(object *base);
             void flat(object *dst);
 
