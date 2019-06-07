@@ -17,7 +17,11 @@
 # with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 cmake_minimum_required(VERSION 2.6)
-add_compile_options(-std=c++11 -g)
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+  add_compile_options(-std=c++11 -O3)
+else()
+  add_compile_options(-std=c++11 -g)
+endif()
 project(f_ck)
 set (SOURCE main.cpp)
 add_executable(goat ${SOURCE})
