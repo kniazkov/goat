@@ -221,10 +221,9 @@ namespace g0at
             }
             else if (topology)
             {
-                // TODO : use flat
-                for (int i = 0, size = topology->proto.size(); i < size; i++)
+                for (int i = 0, size = topology->flat.size(); i < size; i++)
                 {
-                    if (topology->proto[i]->instance_of(base))
+                    if (base == topology->flat[i])
                         return true;
                 }
             }
