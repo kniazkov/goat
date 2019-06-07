@@ -291,6 +291,19 @@ namespace g0at
             return nullptr;
         }
 
+        variable *object::find_own_object(object *key)
+        {
+            assert(key != nullptr);
+
+            auto iter = objects.find(key);
+            if (iter != objects.end())
+            {
+                return &iter->second;
+            }
+            
+            return nullptr;
+        }
+
         void object::find_and_vcall(thread *thr, int arg_count, std::wstring name)
         {
             model::object_function *func = nullptr;

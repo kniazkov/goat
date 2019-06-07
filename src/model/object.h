@@ -177,6 +177,7 @@ namespace g0at
             void add_object(object *key, variable &value);
             void add_object(object *key, object *value);
             variable *find_object(object *key);
+            variable *find_own_object(object *key);
             void find_and_vcall(thread *thr, int arg_count, std::wstring name);
 
             virtual bool get_integer(int64_t *pval);

@@ -43,14 +43,15 @@ namespace g0at
         void _new::exec(model::thread *thr)
         {
             model::variable proto = thr->pop();
-            model::object *new_object = new model::object(thr->pool, proto.to_object(thr->pool));
+            model::object *proto_object = proto.to_object(thr->pool);
+            model::object *new_object = new model::object(thr->pool, proto_object);
 
             model::variable var;
             var.set_object(new_object);
             thr->push(var);
 
             model::object_string *key = thr->pool->get_static_string(L"init");
-            model::variable *init_var = new_object->find_object(key);
+            model::variable *init_var = proto_object->find_own_object(key);
             if (init_var)
             {
                 model::object *init_obj = init_var->get_object();
