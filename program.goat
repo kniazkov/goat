@@ -1,13 +1,19 @@
-var b = 0;
-
-var test_b =
+var A =
 {
-    b : 1,
-
-    exec : $()
+    init : $()
     {
-        println(b);
+        this.x = 7;
     }
 };
 
-test_b.exec();
+var B = A ->
+{
+    init : $()
+    {
+        this.y = 11;
+    }
+};
+
+var obj = new B();
+println(obj.x);
+println(obj.y);

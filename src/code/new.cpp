@@ -51,19 +51,7 @@ namespace g0at
             thr->push(var);
 
             model::object_string *key = thr->pool->get_static_string(L"init");
-            model::variable *init_var = proto_object->find_own_object(key);
-            if (init_var)
-            {
-                model::object *init_obj = init_var->get_object();
-                if(init_obj)
-                {
-                    model::object_function *init_func = init_obj->to_object_function();
-                    if (init_func)
-                    {
-                        init_func->call(thr, arg_count, model::call_mode::as_constructor);
-                    }
-                }
-            }
+            proto_object->find_own_and_call_if_exists(thr, arg_count, key, model::call_mode::as_constructor);
         }
     };
 };

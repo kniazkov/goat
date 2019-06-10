@@ -51,6 +51,7 @@ namespace g0at
         class object_exception;
         class object_char;
         class handler;
+        enum class call_mode;
 
         enum class object_type
         {
@@ -178,6 +179,7 @@ namespace g0at
             void add_object(object *key, object *value);
             variable *find_object(object *key);
             variable *find_own_object(object *key);
+            void find_own_and_call_if_exists(thread *thr, int arg_count, object_string *key, call_mode mode);
             void find_and_vcall(thread *thr, int arg_count, std::wstring name);
 
             virtual bool get_integer(int64_t *pval);

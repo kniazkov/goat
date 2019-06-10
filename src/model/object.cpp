@@ -304,11 +304,28 @@ namespace g0at
             return nullptr;
         }
 
+        void object::find_own_and_call_if_exists(thread *thr, int arg_count, object_string *key, call_mode mode)
+        {
+            variable *var = find_own_object(key);
+            if (var)
+            {
+                model::object *obj = var->get_object();
+                if(obj)
+                {
+                    object_function *func = obj->to_object_function();
+                    if (func)
+                    {
+                        func->call(thr, arg_count, mode);
+                    }
+                }
+            }
+        }
+
         void object::find_and_vcall(thread *thr, int arg_count, std::wstring name)
         {
-            model::object_function *func = nullptr;
-            model::object_string *key = thr->pool->get_static_string(name);
-            model::variable *var = thr->peek().to_object(thr->pool)->find_object(key);
+            object_function *func = nullptr;
+            object_string *key = thr->pool->get_static_string(name);
+            variable *var = find_object(key);
             if (var)
             {
                 model::object *obj = var->get_object();
