@@ -338,6 +338,22 @@ namespace g0at
             func->call(thr, arg_count, call_mode::as_method);
         }
 
+        void object::for_each_proto(std::function<void(object*)> callback)
+        {
+            if (proto)
+            {
+                callback(proto);
+                proto->for_each_proto(callback);
+            }
+            else if (topology)
+            {
+                for (int i = 0, size = topology->flat.size(); i < size; i++)
+                {
+                    callback(topology->flat[i]);
+                }
+            }
+        }
+
         bool object::get_integer(int64_t *pval)
         {
             return false;

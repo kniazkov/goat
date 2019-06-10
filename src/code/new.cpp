@@ -52,6 +52,10 @@ namespace g0at
 
             model::object_string *key = thr->pool->get_static_string(L"init");
             proto_object->find_own_and_call_if_exists(thr, arg_count, key, model::call_mode::as_constructor);
+            proto_object->for_each_proto([thr, key](model::object *proto_proto_object)
+            {
+                proto_proto_object->find_own_and_call_if_exists(thr, 0, key, model::call_mode::as_constructor);
+            });
         }
     };
 };
