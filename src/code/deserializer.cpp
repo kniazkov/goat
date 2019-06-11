@@ -72,6 +72,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "less.h"
 #include "new.h"
 #include "write.h"
+#include "inc.h"
 
 namespace g0at
 {
@@ -471,6 +472,11 @@ namespace g0at
             dst->add_instruction(new _write(id));
         }
 
+        void deserializer::c_inc(source *src, code *dst)
+        {
+            dst->add_instruction(new _inc());
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -517,6 +523,7 @@ namespace g0at
             cc[op::_less]    = c_less;
             cc[op::_new]     = c_new;
             cc[op::_write]   = c_write;
+            cc[op::_inc]     = c_inc;
         }
     };
 };

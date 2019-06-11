@@ -54,6 +54,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/is_less_than.h"
 #include "compiler/pt/statement_empty.h"
 #include "compiler/pt/operator_new.h"
+#include "compiler/pt/prefix_increment.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -96,6 +97,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/less.h"
 #include "code/nop.h"
 #include "code/new.h"
+#include "code/inc.h"
 
 namespace g0at
 {
@@ -531,6 +533,13 @@ namespace g0at
             }
             ref->get_proto()->accept(this);
             code->add_instruction(new code::_new(args_count));
+        }
+
+        void generator::visit(pt::prefix_increment *ref)
+        {
+            ref->get_right()->accept(this);
+            code->add_instruction(new code::_inc());
+            ref->get_right()->accept(lgen.get());
         }
     };
 };

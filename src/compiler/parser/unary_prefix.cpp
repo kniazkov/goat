@@ -56,6 +56,12 @@ namespace g0at
                     if (oper->prev->to_comma())
                         break;
 
+                    if (oper->prev->to_semicolon())
+                        break;
+
+                    if (oper->prev->to_statement())
+                        break;
+
                     return 0;
                 } while(false);
 

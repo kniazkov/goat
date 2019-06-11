@@ -87,6 +87,7 @@ namespace g0at
             _add,
             _sub,
             _neg,
+            _inc,
 
             _eq,
             _neq,

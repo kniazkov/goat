@@ -57,6 +57,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_for.h"
 #include "is_less_than.h"
 #include "operator_new.h"
+#include "prefix_increment.h"
 
 namespace g0at
 {
@@ -665,6 +666,19 @@ namespace g0at
             link_child(out_proto, L"proto");
             print_token_list(ref->get_raw_list(), L"raw");
             print_token_list(ref->get_args_list(), L"args");
+        }
+
+        void dbg_output::visit(increment *ref)
+        {
+            print(L"increment", L"++");
+        }
+
+        void dbg_output::visit(prefix_increment *ref)
+        {
+            print(L"prefix increment", L"++");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right);
         }
     };
 };

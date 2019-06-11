@@ -402,5 +402,10 @@ namespace g0at
             push_opcode(op::_write);
             push_int32(ref->get_id());
         }
+
+        void serializer::visit(_inc *ref)
+        {
+            push_opcode(op::_inc);
+        }
     };
 };

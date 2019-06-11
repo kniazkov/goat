@@ -239,5 +239,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        prefix_increment *node::to_prefix_increment()
+        {
+            return nullptr;
+        }
    }
 };

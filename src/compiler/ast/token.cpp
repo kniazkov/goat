@@ -432,5 +432,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        increment *token::to_increment()
+        {
+            return nullptr;
+        }
+
+        prefix_increment *token::to_prefix_increment()
+        {
+            return nullptr;
+        }
     }
 };

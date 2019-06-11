@@ -181,5 +181,9 @@ namespace g0at
         void node_visitor::visit(operator_new *ref)
         {
         }
+
+        void node_visitor::visit(prefix_increment *ref)
+        {
+        }
     }
 };

@@ -90,6 +90,8 @@ namespace g0at
         class statement_empty;
         class keyword_new;
         class operator_new;
+        class increment;
+        class prefix_increment;
 
         class token_visitor
         {
@@ -160,6 +162,8 @@ namespace g0at
             virtual void visit(statement_empty *ref);
             virtual void visit(keyword_new *ref);
             virtual void visit(operator_new *ref);
+            virtual void visit(increment *ref);
+            virtual void visit(prefix_increment *ref);
         };
     };
 };

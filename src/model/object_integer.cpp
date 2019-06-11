@@ -96,6 +96,11 @@ namespace g0at
             unary_operation<lib::func::neg>(thr);
         }
 
+        void object_integer::op_inc(thread *thr)
+        {
+            unary_operation<lib::func::neg>(thr);
+        }
+
         void object_integer::op_eq(thread *thr)
         {
             binary_logical_operation<lib::func::equals, false>(thr);
@@ -233,6 +238,11 @@ namespace g0at
             void op_neg(variable *var, thread *thr)  override
             {
                 unary_operation<lib::func::neg>(var, thr);
+            }
+
+            void op_inc(variable *var, thread *thr)  override
+            {
+                unary_operation<lib::func::inc>(var, thr);
             }
 
             void op_eq(variable *var, thread *thr)  override

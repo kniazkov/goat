@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "expression_builder.h"
 #include "statement_builder.h"
+#include "lib/assert.h"
 #include "compiler/ast/variable.h"
 #include "compiler/pt/variable.h"
 #include "compiler/ast/static_string.h"
@@ -76,12 +77,36 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/is_less_than.h"
 #include "compiler/ast/operator_new.h"
 #include "compiler/pt/operator_new.h"
-#include "lib/assert.h"
+#include "compiler/ast/prefix_increment.h"
+#include "compiler/pt/prefix_increment.h"
 
 namespace g0at
 {
     namespace analyzer
     {
+        std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>
+        expression_builder::build_expr_for_binary(ast::binary *ref)
+        {
+            expression_builder visitor_left;
+            ref->get_left()->accept(&visitor_left);
+            assert(visitor_left.has_expr());
+
+            expression_builder visitor_right;
+            ref->get_right()->accept(&visitor_right);
+            assert(visitor_right.has_expr());
+
+            return std::make_pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>
+                (visitor_left.get_expr(), visitor_right.get_expr());
+        }
+
+        lib::pointer<pt::expression> expression_builder::build_expr_for_unary_prefix(ast::unary_prefix *ref)
+        {
+            expression_builder visitor_right;
+            ref->get_right()->accept(&visitor_right);
+            assert(visitor_right.has_expr());
+            return visitor_right.get_expr();
+        }
+
         void expression_builder::visit(ast::variable *ref)
         {
             expr = new pt::variable(ref->get_position(), ref->get_name());
@@ -320,27 +345,9 @@ namespace g0at
             expr = op_new.cast<pt::expression>();
         }
 
-        std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>
-        expression_builder::build_expr_for_binary(ast::binary *ref)
+        void expression_builder::visit(ast::prefix_increment *ref)
         {
-            expression_builder visitor_left;
-            ref->get_left()->accept(&visitor_left);
-            assert(visitor_left.has_expr());
-
-            expression_builder visitor_right;
-            ref->get_right()->accept(&visitor_right);
-            assert(visitor_right.has_expr());
-
-            return std::make_pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>>
-                (visitor_left.get_expr(), visitor_right.get_expr());
-        }
-
-        lib::pointer<pt::expression> expression_builder::build_expr_for_unary_prefix(ast::unary_prefix *ref)
-        {
-            expression_builder visitor_right;
-            ref->get_right()->accept(&visitor_right);
-            assert(visitor_right.has_expr());
-            return visitor_right.get_expr();
+            expr = new pt::prefix_increment(ref->get_position(), build_expr_for_unary_prefix(ref));
         }
     };
 };

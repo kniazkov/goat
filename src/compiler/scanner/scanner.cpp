@@ -61,6 +61,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_for.h"
 #include "compiler/ast/keyword_new.h"
 #include "compiler/ast/less.h"
+#include "compiler/ast/increment.h"
 
 namespace g0at
 {
@@ -373,6 +374,8 @@ namespace g0at
                 return new ast::less();
             if (oper == L"->")
                 return new ast::inherit();
+            if (oper == L"++")
+                return new ast::increment();
             if (oper == L"$")
                 return new ast::keyword_function();
             return new ast::custom_operator(oper);

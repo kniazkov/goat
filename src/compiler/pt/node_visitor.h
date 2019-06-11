@@ -63,6 +63,7 @@ namespace g0at
         class is_less_than;
         class statement_empty;
         class operator_new;
+        class prefix_increment;
 
         class node_visitor
         {
@@ -106,6 +107,7 @@ namespace g0at
             virtual void visit(is_less_than *ref);
             virtual void visit(statement_empty *ref);
             virtual void visit(operator_new *ref);
+            virtual void visit(prefix_increment *ref);
         };
     };
 };

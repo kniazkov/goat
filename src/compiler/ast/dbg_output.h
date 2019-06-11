@@ -114,6 +114,8 @@ namespace g0at
             void visit(statement_empty *ref) override;
             void visit(keyword_new *ref) override;
             void visit(operator_new *ref) override;
+            void visit(increment *ref) override;
+            void visit(prefix_increment *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

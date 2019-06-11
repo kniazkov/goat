@@ -59,6 +59,7 @@ namespace g0at
             ast::token_2nd_list opers_less_greater;
             ast::token_2nd_list semicolons;
             ast::token_2nd_list new_keywords;
+            ast::token_2nd_list opers_incr_decr;
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;

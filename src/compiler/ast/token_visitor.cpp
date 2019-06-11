@@ -282,11 +282,19 @@ namespace g0at
         {
         }
 
-        void token_visitor::visit(keyword_new*ref)
+        void token_visitor::visit(keyword_new *ref)
         {
         }
 
-        void token_visitor::visit(operator_new*ref)
+        void token_visitor::visit(operator_new *ref)
+        {
+        }
+
+        void token_visitor::visit(increment *ref)
+        {
+        }
+
+        void token_visitor::visit(prefix_increment *ref)
         {
         }
     }

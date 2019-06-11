@@ -70,6 +70,7 @@ namespace g0at
         class _less;
         class _new;
         class _write;
+        class _inc;
 
         class instruction_visitor
         {
@@ -120,6 +121,7 @@ namespace g0at
             virtual void visit(_less *ref) = 0;
             virtual void visit(_new *ref) = 0;
             virtual void visit(_write *ref) = 0;
+            virtual void visit(_inc *ref) = 0;
         };
     };
 };

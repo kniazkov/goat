@@ -109,6 +109,8 @@ namespace g0at
         class statement_empty;
         class keyword_new;
         class operator_new;
+        class increment;
+        class prefix_increment;
 
         class token : public lib::ref_counter
         {
@@ -195,6 +197,8 @@ namespace g0at
             virtual statement_empty *to_statement_empty();
             virtual keyword_new *to_keyword_new();
             virtual operator_new *to_operator_new();
+            virtual increment *to_increment();
+            virtual prefix_increment *to_prefix_increment();
             
             lib::pointer<position> get_position() { return pos; }
 

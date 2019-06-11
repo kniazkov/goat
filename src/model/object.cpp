@@ -389,6 +389,11 @@ namespace g0at
             assert(false); // not implemented
         }
 
+        void object::op_inc(thread *thr)
+        {
+            find_and_vcall(thr, 1, L"++");
+        }
+
         void object::op_eq(thread *thr)
         {
             thr->pop();
@@ -639,6 +644,11 @@ namespace g0at
             assert(false);
         }
 
+        void handler::op_inc(variable *var, thread *thr)
+        {
+            assert(false);
+        }
+
         void handler::op_eq(variable *var, thread *thr)
         {
             assert(false);
@@ -760,6 +770,11 @@ namespace g0at
             void op_neg(variable *var, thread *thr)  override
             {
                 var->data.obj->op_neg(thr);
+            }
+
+            void op_inc(variable *var, thread *thr)  override
+            {
+                var->data.obj->op_inc(thr);
             }
 
             void op_eq(variable *var, thread *thr) override

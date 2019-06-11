@@ -42,6 +42,14 @@ namespace g0at
                 }
             };
 
+            template <typename R, typename A> struct inc : public unary <R, A>
+            {
+                static R calculate(const A &a)
+                {
+                    return a + 1;
+                }
+            };
+
             template <typename R, typename X, typename Y> struct binary
             {
                 typedef R ret_type;

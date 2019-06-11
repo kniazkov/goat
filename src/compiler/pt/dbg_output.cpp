@@ -60,6 +60,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "is_less_than.h"
 #include "statement_empty.h"
 #include "operator_new.h"
+#include "prefix_increment.h"
 
 namespace g0at
 {
@@ -730,6 +731,14 @@ namespace g0at
                     style = edge_style::node_to_next_one;
                 }
             }
+        }
+
+        void dbg_output::visit(prefix_increment *ref)
+        {
+            print(ref, L"prefix increment", L"++");
+            dbg_output right(env);
+            ref->get_right()->accept(&right);
+            link_child(right);
         }
     };
 };

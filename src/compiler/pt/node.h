@@ -74,6 +74,7 @@ namespace g0at
         class is_less_than;
         class statement_empty;
         class operator_new;
+        class prefix_increment;
 
         class node : public lib::ref_counter
         {
@@ -123,6 +124,7 @@ namespace g0at
             virtual is_less_than *to_is_less_than();
             virtual statement_empty *to_statement_empty();
             virtual operator_new *to_operator_new();
+            virtual prefix_increment *to_prefix_increment();
 
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }

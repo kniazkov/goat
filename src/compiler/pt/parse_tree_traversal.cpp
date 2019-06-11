@@ -59,6 +59,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_for.h"
 #include "is_less_than.h"
 #include "operator_new.h"
+#include "prefix_increment.h"
 
 namespace g0at
 {
@@ -524,6 +525,16 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(operator_new *ref)
+        {
+        }
+
+        void parse_tree_traversal::visit(prefix_increment *ref)
+        {
+            ref->get_right()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(prefix_increment *ref)
         {
         }
     };
