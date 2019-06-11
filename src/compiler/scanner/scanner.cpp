@@ -62,6 +62,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_new.h"
 #include "compiler/ast/less.h"
 #include "compiler/ast/increment.h"
+#include "compiler/ast/keyword_thread.h"
 
 namespace g0at
 {
@@ -310,6 +311,8 @@ namespace g0at
                 return new ast::keyword_for();            
             if (name == L"new")
                 return new ast::keyword_new();            
+            if (name == L"thread")
+                return new ast::keyword_thread();            
             return new ast::identifier(name);
         }
 
@@ -378,6 +381,8 @@ namespace g0at
                 return new ast::increment();
             if (oper == L"$")
                 return new ast::keyword_function();
+            if (oper == L"$$")
+                return new ast::keyword_thread();
             return new ast::custom_operator(oper);
         }
         

@@ -297,5 +297,9 @@ namespace g0at
         void token_visitor::visit(prefix_increment *ref)
         {
         }
+
+        void token_visitor::visit(keyword_thread *ref)
+        {
+        }
     }
 };

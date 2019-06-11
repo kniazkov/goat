@@ -92,6 +92,7 @@ namespace g0at
         class operator_new;
         class increment;
         class prefix_increment;
+        class keyword_thread;
 
         class token_visitor
         {
@@ -164,6 +165,7 @@ namespace g0at
             virtual void visit(operator_new *ref);
             virtual void visit(increment *ref);
             virtual void visit(prefix_increment *ref);
+            virtual void visit(keyword_thread *ref);
         };
     };
 };

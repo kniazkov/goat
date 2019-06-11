@@ -680,5 +680,10 @@ namespace g0at
             ref->get_right()->accept(&right);
             link_child(right);
         }
+
+        void dbg_output::visit(keyword_thread *ref)
+        {
+            print(L"keyword", L"thread");
+        }
     };
 };

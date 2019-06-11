@@ -442,5 +442,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_thread *token::to_keyword_thread()
+        {
+            return nullptr;
+        }
     }
 };
