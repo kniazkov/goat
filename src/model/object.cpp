@@ -391,7 +391,7 @@ namespace g0at
 
         void object::op_inc(thread *thr)
         {
-            find_and_vcall(thr, 1, L"++");
+            find_and_vcall(thr, 0, L"++");
         }
 
         void object::op_eq(thread *thr)
