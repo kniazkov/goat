@@ -414,7 +414,7 @@ namespace g0at
 
         void object::op_less(thread *thr)
         {
-            assert(false); // not implemented
+            find_and_vcall(thr, 1, L"<");
         }
 
         void object::op_inherit(thread *thr)

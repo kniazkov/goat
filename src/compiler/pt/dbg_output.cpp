@@ -298,7 +298,7 @@ namespace g0at
 
         void dbg_output::visit(static_string *ref)
         {
-            std::wstring text = lib::escape_special_chars(ref->get_text());
+            std::wstring text = lib::escape_html_entities(lib::escape_special_chars(ref->get_text()));
             print(ref, L"static text", text.length() > 0 ? text : L"&nbsp;");
         }
 

@@ -138,6 +138,32 @@ namespace g0at
             return dst.str();
         }
 
+        std::wstring escape_html_entities(std::wstring src)
+        {
+            return escape_html_entities(src.c_str(), src.length());
+        }
+
+        std::wstring escape_html_entities(const wchar_t *src, size_t len)
+        {
+            std::wstringstream dst;
+            for (size_t i = 0; i < len; i++)
+            {
+                wchar_t c = src[i];
+                switch(c)
+                {
+                    case L'<':
+                        dst << L"&lt;"; break;
+                    case L'>':
+                        dst << L"&gt;"; break;
+                    case L'&':
+                        dst << L"&amp;"; break;
+                    default:
+                        dst << c;
+                }
+            }
+            return dst.str();
+        }
+
         char * file_name_postfix(const char *head, const char *tail)
         {
             auto head_len = std::strlen(head);
