@@ -1,9 +1,7 @@
-var t = $$(a, b)
+var t = $$()
 {
     println("it works.");
-    println(this);
-    println(a + b);
 };
 
-println(t);
-t.apply(null, [3, 4]);
+println(t.instanceOf(Thread));
+println(t.instanceOf(Function));
