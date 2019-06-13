@@ -35,6 +35,11 @@ namespace g0at
             proto = pool->get_thread_proto_instance();
         }
 
+        object_thread * object_thread::to_object_thread()
+        {
+            return this;
+        }
+
         std::wstring object_thread::to_string() const
         {
             return L"thread";
@@ -59,10 +64,28 @@ namespace g0at
             
             void call(thread *thr, int arg_count, call_mode mode) override
             {
-                if (mode == call_mode::as_method)
-                    thr->pop();
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
                 thr->pop(arg_count);
                 thr->push_undefined();
+
+                assert(this_ptr != nullptr);
+                object_thread *this_ptr_func = this_ptr->to_object_thread();
+                if (!this_ptr_func)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                thread *new_thr = new thread(thr->ctx, thr->pool, nullptr);
+                new_thr->next = thr->next;
+                thr->next = new_thr;
+                new_thr->state = thread_state::ok;
+                new_thr->iid = this_ptr_func->get_first_iid();
+                return;
             }
         };
 

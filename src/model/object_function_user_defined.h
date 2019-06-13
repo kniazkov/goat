@@ -37,6 +37,7 @@ namespace g0at
             void trace() override;
 
             void add_arg_name(object *arg_name) { arg_names.push_back(arg_name); }
+            int get_first_iid() { return first_iid; }
 
         protected:
             int first_iid;

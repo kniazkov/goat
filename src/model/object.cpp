@@ -104,6 +104,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_thread *object::to_object_thread()
+        {
+            return nullptr;
+        }
+
         object_integer *object::to_object_integer()
         {
             return nullptr;
