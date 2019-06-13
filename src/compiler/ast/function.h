@@ -33,6 +33,7 @@ namespace g0at
     {
         enum class function_type
         {
+            unknown,
             function,
             thread
         };

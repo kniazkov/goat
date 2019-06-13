@@ -188,9 +188,22 @@ namespace g0at
 
         void expression_builder::visit(ast::declare_function *ref)
         {
-            lib::pointer<pt::function> node_func = new pt::function(ref->get_position());
-            
             auto tok_func = ref->get_func();
+
+            pt::function_type type = pt::function_type::unknown;
+            switch(tok_func->get_type())
+            {
+                case ast::function_type::function:
+                    type = pt::function_type::function;
+                    break;
+                case ast::function_type::thread:
+                    type = pt::function_type::thread;
+                    break;
+                default:
+                    break;
+            }
+
+            lib::pointer<pt::function> node_func = new pt::function(ref->get_position(), type);
 
             auto args = tok_func->get_args_list();
             auto tok = args->first;

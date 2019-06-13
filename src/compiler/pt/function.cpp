@@ -21,14 +21,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "function.h"
+#include "lib/assert.h"
 
 namespace g0at
 {
     namespace pt
     {
-        function::function(lib::pointer<position> _pos)
-            : node(_pos)
+        function::function(lib::pointer<position> _pos, function_type _type)
+            : node(_pos), type(_type)
         {
+            assert(_type == pt::function_type::function || _type == pt::function_type::thread);
         }
 
         void function::accept(node_visitor *visitor)

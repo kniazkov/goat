@@ -30,10 +30,17 @@ namespace g0at
 {
     namespace pt
     {
+        enum class function_type
+        {
+            unknown,
+            function,
+            thread
+        };
+
         class function : public node
         {
         public:
-            function(lib::pointer<position> _pos);
+            function(lib::pointer<position> _pos, function_type _type);
             void accept(node_visitor *visitor) override;
             function *to_function() override;
 
@@ -44,10 +51,12 @@ namespace g0at
             int get_args_count() { return (int)args.size(); }
             std::wstring get_arg(int index) { return args.at(index); }
             bool is_root_function() { return get_position() == nullptr; }
+            function_type get_type() { return type; }
 
         protected:
             std::vector<lib::pointer<statement>> code;
             std::vector<std::wstring> args;
+            function_type type;
         };
     };
 };

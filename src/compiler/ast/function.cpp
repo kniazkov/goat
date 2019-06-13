@@ -35,7 +35,7 @@ namespace g0at
 
         function::function(keyword *_kw, brackets_pair *_args, brackets_pair *_body, function_type _type)
         {
-            assert(_kw->to_keyword_function() != nullptr || _kw->to_keyword_thread() != nullptr);
+            assert((_kw->to_keyword_function() != nullptr && _type == function_type::function) || (_kw->to_keyword_thread() != nullptr && _type == function_type::thread));
             assert(_args->get_symbol() == L'(');
             assert(_body->get_symbol() == L'{');
             pos = _kw->get_position();

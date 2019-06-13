@@ -50,7 +50,7 @@ namespace g0at
         void analyzer::build(lib::pointer<ast::root> root_tok)
         {
             // build parse tree from the AST
-            pt::function *root_node = new pt::function(root_tok->get_position());
+            pt::function *root_node = new pt::function(root_tok->get_position(), pt::function_type::function);
             root = root_node;
             
             auto body = root_tok->get_body();
