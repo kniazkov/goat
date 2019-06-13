@@ -83,6 +83,7 @@ namespace g0at
             void visit(_new *ref) override;
             void visit(_write *ref) override;
             void visit(_inc *ref) override;
+            void visit(_thread *ref) override;
 
         protected:
             std::wstringstream &stream;

@@ -46,6 +46,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "char.h"
 #include "new.h"
 #include "write.h"
+#include "thread.h"
 
 namespace g0at
 {
@@ -333,6 +334,26 @@ namespace g0at
         void disasm::visit(_inc *ref)
         {
             stream << L"inc";
+        }
+
+        void disasm::visit(_thread *ref)
+        {
+            int i, size = ref->get_arg_ids_count();
+            stream << L"thread\t" << ref->get_first_iid();
+            for (i = 0; i < size; i++)
+            {
+                stream  << L", " << ref->get_arg_id(i);
+            }
+            if (size > 0)
+            {
+                stream << L"\t; ";
+                for (i = 0; i < size; i++)
+                {
+                    if (i)
+                        stream << L", ";
+                    stream << identifiers.at(ref->get_arg_id(i));
+                }
+            }
         }
     };
 };

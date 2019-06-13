@@ -114,6 +114,7 @@ namespace g0at
             static void c_new(source *src, code *dst);
             static void c_write(source *src, code *dst);
             static void c_inc(source *src, code *dst);
+            static void c_thread(source *src, code *dst);
 
             std::map<op, creator> cc;
         };

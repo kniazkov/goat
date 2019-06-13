@@ -148,7 +148,7 @@ namespace g0at
 
         void dbg_output::visit(function *ref)
         {
-            print(L"function");
+            print(ref->get_type() == function_type::thread ? L"thread" : L"function");
             print_token_list(ref->get_raw_args_list(), L"args (raw)");
             print_token_list(ref->get_args_list(), L"args");
             print_token_list(ref->get_raw_list(), L"body (raw)");

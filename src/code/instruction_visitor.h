@@ -71,6 +71,7 @@ namespace g0at
         class _new;
         class _write;
         class _inc;
+        class _thread;
 
         class instruction_visitor
         {
@@ -122,6 +123,7 @@ namespace g0at
             virtual void visit(_new *ref) = 0;
             virtual void visit(_write *ref) = 0;
             virtual void visit(_inc *ref) = 0;
+            virtual void visit(_thread *ref) = 0;
         };
     };
 };

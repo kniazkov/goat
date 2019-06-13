@@ -73,6 +73,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "new.h"
 #include "write.h"
 #include "inc.h"
+#include "thread.h"
 
 namespace g0at
 {
@@ -477,6 +478,19 @@ namespace g0at
             dst->add_instruction(new _inc());
         }
 
+        void deserializer::c_thread(source *src, code *dst)
+        {
+            int iid = pop_int32(src);
+            auto instr = new _thread(iid);
+            int arg_count = pop_int32(src);
+            for (int i = 0; i < arg_count; i++)
+            {
+                int arg_id = pop_int32(src);
+                instr->add_arg_id(arg_id);
+            }
+            dst->add_instruction(instr);
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -524,6 +538,7 @@ namespace g0at
             cc[op::_new]     = c_new;
             cc[op::_write]   = c_write;
             cc[op::_inc]     = c_inc;
+            cc[op::_thread]  = c_thread;
         }
     };
 };

@@ -30,6 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_number.h"
 #include "object_integer.h"
 #include "object_function.h"
+#include "object_thread.h"
 #include "object_boolean.h"
 #include "object_real.h"
 #include "object_array.h"
@@ -53,6 +54,7 @@ namespace g0at
             number_proto_instance = nullptr;
             integer_proto_instance = nullptr;
             function_proto_instance = nullptr;
+            thread_proto_instance = nullptr;
             boolean_proto_instance = nullptr;
             real_proto_instance = nullptr;
             array_proto_instance = nullptr;
@@ -73,6 +75,8 @@ namespace g0at
             static_strings.init(identifiers_list, this);
             auto function_proto = new object_function_proto(this);
             function_proto_instance = function_proto;
+            auto thread_proto = new object_thread_proto(this);
+            thread_proto_instance = thread_proto;
             gp->init(this);
             void_instance = new object_void(this);
             undefined_instance = new object_undefined(this);
@@ -88,6 +92,7 @@ namespace g0at
             exception_proto_instance = exception_proto;
             string_proto->init(this);
             function_proto->init(this);
+            thread_proto->init(this);
             array_proto->init(this);
             exception_illegal_argument_instance = new object_exception_illegal_argument(this);
             exception_illegal_context_instance = new object_exception_illegal_context(this);

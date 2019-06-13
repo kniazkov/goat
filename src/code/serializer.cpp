@@ -50,6 +50,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "char.h"
 #include "new.h"
 #include "write.h"
+#include "thread.h"
 
 namespace g0at
 {
@@ -406,6 +407,20 @@ namespace g0at
         void serializer::visit(_inc *ref)
         {
             push_opcode(op::_inc);
+        }
+
+        void serializer::visit(_thread *ref)
+        {
+            push_opcode(op::_thread);
+            int iid = ref->get_first_iid();
+            assert(iid >= 0);
+            push_int32(iid);
+            int count = ref->get_arg_ids_count();
+            push_int32(count);
+            for (int i = 0; i < count; i++)
+            {
+                push_int32(ref->get_arg_id(i));
+            }
         }
     };
 };

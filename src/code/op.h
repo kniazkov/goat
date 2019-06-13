@@ -45,6 +45,7 @@ namespace g0at
             _integer,
             _real,
             _func,
+            _thread,
 
             _void,
             _undef,

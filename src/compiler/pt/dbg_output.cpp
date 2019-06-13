@@ -260,6 +260,7 @@ namespace g0at
 
         void dbg_output::visit(function *ref)
         {
+            const wchar_t *type = ref->get_type() == function_type::thread ? L"thread" : L"function";
             int args_count = ref->get_args_count();
             if (args_count > 0)
             {
@@ -270,11 +271,11 @@ namespace g0at
                         tmp << L", ";
                     tmp << ref->get_arg(i);
                 }
-                print(ref, L"function", tmp.str());
+                print(ref, type, tmp.str());
             }
             else
             {
-                print(ref, L"function");
+                print(ref, type);
             }
 
             int code_size = ref->get_code_size();

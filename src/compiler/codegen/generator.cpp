@@ -98,6 +98,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/nop.h"
 #include "code/new.h"
 #include "code/inc.h"
+#include "code/thread.h"
 
 namespace g0at
 {
@@ -239,20 +240,35 @@ namespace g0at
 
         void generator::visit(pt::declare_function *ref)
         {
-            code::_func *instr = new code::_func(-1);
-            code->add_instruction(instr);
-
             pt::function *func = ref->get_func().get();
-
-            deferred_node def;
-            def.iid_ptr = instr->get_first_iid_ptr();
-            def.node = func;            
-            queue.push_front(def);
-
-            for (int i = 0, count = func->get_args_count(); i < count; i++)
+            
+            if (func->get_type() == pt::function_type::function)
             {
-                int id = name_cache.get_id(func->get_arg(i));
-                instr->add_arg_id(id);
+                code::_func *instr = new code::_func(-1);
+                code->add_instruction(instr);
+                deferred_node def;
+                def.iid_ptr = instr->get_first_iid_ptr();
+                def.node = func;            
+                queue.push_front(def);
+                for (int i = 0, count = func->get_args_count(); i < count; i++)
+                {
+                    int id = name_cache.get_id(func->get_arg(i));
+                    instr->add_arg_id(id);
+                }
+            }
+            else if (func->get_type() == pt::function_type::thread)
+            {
+                code::_thread *instr = new code::_thread(-1);
+                code->add_instruction(instr);
+                deferred_node def;
+                def.iid_ptr = instr->get_first_iid_ptr();
+                def.node = func;            
+                queue.push_front(def);
+                for (int i = 0, count = func->get_args_count(); i < count; i++)
+                {
+                    int id = name_cache.get_id(func->get_arg(i));
+                    instr->add_arg_id(id);
+                }
             }
         }
 
