@@ -47,44 +47,75 @@ namespace g0at
             model::object_pool pool(code->get_identifiers_list());
             model::context *ctx = model::built_in::context_factory(&pool).create_context();
             model::variable ret;
-            model::thread thr(ctx, &pool, &ret);
+            model::thread *thr = new model::thread(ctx, &pool, &ret);
             ret.set_object(pool.get_undefined_instance());
-            thr.next = &thr;
-            thr.state = model::thread_state::ok;
+            thr->next = thr;
+            thr->state = model::thread_state::ok;
             process proc;
             proc.pool = &pool;
-            proc.threads = &thr;
+            proc.threads = thr;
             lib::pointer<lib::gc> gc = create_garbage_collector(env->gct, &proc);
             lib::set_garbage_collector(gc.get());
             if (!global::debug)
             {
-                while(thr.state == model::thread_state::ok)
+                while(true)
                 {
-                    uint32_t iid = thr.iid;
-                    thr.iid++;
+                    uint32_t iid = thr->iid;
+                    thr->iid++;
                     auto instr = code->get_instruction(iid);
-                    instr->exec(&thr);
+                    instr->exec(thr);
                     gc->collect_garbage_if_necessary();
+                    model::thread *previous = thr;
+                    thr = thr->next;
+                    while(thr->state == model::thread_state::pause)
+                    {
+                        if (previous == thr)
+                        {
+                            // all threads are paused
+                            goto done;
+                        }
+                        thr = thr->next;
+                    }
+                    if (thr->state == model::thread_state::zombie)
+                    {
+                        if (previous == thr)
+                        {
+                            // this is the last thread
+                            goto done;
+                        }
+                        model::thread *next = thr->next;
+                        assert(next->state == model::thread_state::ok);
+                        previous->next = next;
+                        delete thr;
+                        thr = next;
+                    }
                 }
             }
             else
             {
+                #if 0
                 // debug mode
-                while(thr.state == model::thread_state::ok)
+                while(thr->state == model::thread_state::ok)
                 {
-                    uint32_t iid = thr.iid;
-                    thr.iid++;
+                    uint32_t iid = thr->iid;
+                    thr->iid++;
                     auto instr = code->get_instruction(iid);
-                    instr->exec(&thr);
-                    if (!thr.stack_is_empty())
+                    instr->exec(thr);
+                    if (!thr->stack_is_empty())
                     {
                         // convert any value to real object
-                        thr.peek().to_object(&pool);
+                        thr->peek().to_object(&pool);
                     }
                     gc->collect_garbage_if_necessary();
                 }
+                #else
+                assert(false);
+                #endif
             }
-            assert(thr.stack_is_empty());
+        done:
+            assert(thr->stack_is_empty());
+            assert(thr->next == thr);
+            delete thr;
             vm_report r;
             int64_t ret_value_int64;
             if (ret.get_integer(&ret_value_int64) && ret_value_int64 >= INT_MIN && ret_value_int64 <= INT_MAX)
