@@ -24,29 +24,37 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "expression.h"
 #include "token_with_list.h"
-#include "keyword_function.h"
+#include "keyword.h"
 #include "brackets_pair.h"
 
 namespace g0at
 {
     namespace ast
     {
+        enum class function_type
+        {
+            function,
+            thread
+        };
+
         class function : public token_with_list
         {
         public:
             function();
-            function(keyword_function *_kw, brackets_pair *_args, brackets_pair *_body);
+            function(keyword *_kw, brackets_pair *_args, brackets_pair *_body, function_type _type);
             void accept(token_visitor *visitor) override;
             function *to_function() override;
 
             token_list *get_raw_args_list() { return &args_raw; }
             token_list *get_args_list() { return &args; }
             token_list *get_body() { return &body; }
+            function_type get_type() { return type; }
 
         protected:
             token_list args_raw;
             token_list args;
             token_list body;
+            function_type type;
         };
     };
 };

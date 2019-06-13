@@ -29,6 +29,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/real.h"
 #include "compiler/ast/keyword_var.h"
 #include "compiler/ast/keyword_function.h"
+#include "compiler/ast/keyword_thread.h"
 #include "compiler/ast/assign.h"
 #include "compiler/ast/keyword_return.h"
 #include "compiler/ast/brackets_pair.h"
@@ -103,6 +104,11 @@ namespace g0at
         }
 
         void parser_data_filler::visit(ast::keyword_function *ref)
+        {
+            data->function_keywords.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::keyword_thread *ref)
         {
             data->function_keywords.add(ref);
         }

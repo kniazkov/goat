@@ -21,6 +21,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "function.h"
+#include "keyword_function.h"
+#include "keyword_thread.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -31,13 +33,15 @@ namespace g0at
         {
         }
 
-        function::function(keyword_function *_kw, brackets_pair *_args, brackets_pair *_body)
+        function::function(keyword *_kw, brackets_pair *_args, brackets_pair *_body, function_type _type)
         {
+            assert(_kw->to_keyword_function() != nullptr || _kw->to_keyword_thread() != nullptr);
             assert(_args->get_symbol() == L'(');
             assert(_body->get_symbol() == L'{');
             pos = _kw->get_position();
             args_raw.swap(_args->get_raw_list());
             raw.swap(_body->get_raw_list());
+            type = _type;
         }
 
         void function::accept(token_visitor *visitor)

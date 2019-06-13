@@ -3,4 +3,4 @@ var t = $$()
     println("it works.");
 };
 
-t.run();
+t();

@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "grammar_factory.h"
 #include "common_exceptions.h"
 #include "compiler/ast/keyword_function.h"
+#include "compiler/ast/keyword_thread.h"
 #include "compiler/ast/brackets_pair.h"
 #include "compiler/ast/function.h"
 #include "compiler/ast/declare_function.h"
@@ -44,7 +45,14 @@ namespace g0at
         protected:
             bool check(ast::token *tok) override
             {
-                ast::keyword_function *kw = tok->to_keyword_function();
+                ast::function_type type = ast::function_type::function;
+
+                ast::keyword *kw = tok->to_keyword_function();
+                if (!kw)
+                {
+                    kw = tok->to_keyword_thread();
+                    type = ast::function_type::thread;
+                }
                 assert(kw != nullptr);
 
                 if (!kw->next)
@@ -61,7 +69,7 @@ namespace g0at
                 if (!body || body->get_symbol() != L'{')
                     throw expected_a_function_body(args->next->get_position());
 
-                lib::pointer<ast::function> func  = new ast::function(kw, args, body);
+                lib::pointer<ast::function> func  = new ast::function(kw, args, body, type);
                 lib::pointer<ast::declare_function> decl_func = new ast::declare_function(func);
                 kw->replace(body, decl_func.cast<ast::token>());
                 data->expressions.add(decl_func.get());
