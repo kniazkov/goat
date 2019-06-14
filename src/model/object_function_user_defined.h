@@ -36,8 +36,11 @@ namespace g0at
             void call(thread *thr, int arg_count, call_mode mode) override;
             void trace() override;
 
-            void add_arg_name(object *arg_name) { arg_names.push_back(arg_name); }
             int get_first_iid() { return first_iid; }
+            void add_arg_name(object *arg_name) { arg_names.push_back(arg_name); }
+            int get_arg_names_count() { return (int)arg_names.size(); }
+            object * get_arg_name(int index) { return arg_names.at(index); }
+            context *get_proto_ctx() { return proto_ctx; }
 
         protected:
             int first_iid;

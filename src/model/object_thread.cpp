@@ -70,21 +70,37 @@ namespace g0at
                     return;
                 }
                 object *this_ptr = thr->pop().get_object();
-                thr->pop(arg_count);
-                thr->push_undefined();
-
                 assert(this_ptr != nullptr);
-                object_thread *this_ptr_func = this_ptr->to_object_thread();
-                if (!this_ptr_func)
+                object_thread *obj_thread = this_ptr->to_object_thread();
+                if (!obj_thread)
                 {
                     thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
                     return;
                 }
-                thread *new_thr = new thread(thr->ctx, thr->pool, nullptr);
+                context *ctx = thr->pool->create_context(obj_thread->get_proto_ctx(), thr->ctx);
+                int decl_arg_count = obj_thread->get_arg_names_count();
+                for (int i = 0; i < decl_arg_count; i++)
+                {
+                    object *key = obj_thread->get_arg_name(i);
+                    if (i < arg_count)
+                    {
+                        variable arg = thr->pop();
+                        ctx->add_object(key, arg);
+                    }
+                    else
+                        ctx->add_object(key, thr->pool->get_undefined_instance());
+                }
+                if (arg_count > decl_arg_count)
+                {
+                    thr->pop(arg_count - decl_arg_count);
+                }
+                thr->push_undefined();
+
+                thread *new_thr = new thread(ctx, thr->pool, nullptr);
                 new_thr->next = thr->next;
                 thr->next = new_thr;
                 new_thr->state = thread_state::ok;
-                new_thr->iid = this_ptr_func->get_first_iid();
+                new_thr->iid = obj_thread->get_first_iid();
                 return;
             }
         };
