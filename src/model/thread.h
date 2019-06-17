@@ -25,11 +25,14 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "context.h"
 #include "object_cache.h"
 #include "stack.h"
+#include <map>
 
 namespace g0at
 {
     namespace model
     {
+        class thread_list;
+
         enum class thread_state
         {
             pause,
@@ -39,11 +42,16 @@ namespace g0at
 
         class thread
         {
+            friend class thread_list;
+        protected:
+            thread(thread_list *_list, int64_t _tid, context *_ctx, object_pool *_pool, variable *_ret);
+
         public:
-            thread(context *_ctx, object_pool *_pool, variable *_ret);
             void raise_exception(variable &var);
             void mark_all();
 
+            thread_list *get_thread_list() { return list; }
+            int64_t get_id() { return tid; }
             variable *push(variable var) { return data.push(var); }
             variable pop() { return data.pop(); }
             void pop(int n) { data.pop(n); }
@@ -89,6 +97,32 @@ namespace g0at
             void operator=(const thread &) { }
 
             stack data;
+            thread_list *list;
+            int64_t tid;
+        };
+
+        class thread_list
+        {
+        public:
+            thread_list(object_pool *_pool);
+            thread *create_thread(context *_ctx, variable *_ret);
+            thread *switch_thread();
+
+            thread *get_current_thread() { return current; }
+            thread *get_thread_by_tid(int64_t tid)
+            {
+                auto iter = thread_by_tid.find(tid);
+                return iter != thread_by_tid.end() ? iter->second : nullptr;
+            }
+
+        protected:
+            thread_list(const thread_list &) { }
+            void operator=(const thread_list &) { }
+
+            object_pool *pool;
+            std::map<int64_t, thread*> thread_by_tid;
+            thread *current;
+            int64_t last_tid;
         };
     };
 };

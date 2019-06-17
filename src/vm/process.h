@@ -38,7 +38,7 @@ namespace g0at
             }
 
             model::object_pool *pool;
-            model::thread* threads;
+            model::thread_list *threads;
         };
     };
 };

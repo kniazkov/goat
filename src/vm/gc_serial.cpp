@@ -44,7 +44,7 @@ namespace g0at
 
                 // mark
                 proc->pool->mark_all_static_strings();
-                model::thread *thr_start = proc->threads;
+                model::thread *thr_start = proc->threads->get_current_thread();
                 model::thread *thr = thr_start;
                 do
                 {

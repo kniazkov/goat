@@ -46,49 +46,27 @@ namespace g0at
         {
             model::object_pool pool(code->get_identifiers_list());
             model::context *ctx = model::built_in::context_factory(&pool).create_context();
+            model::thread_list tlist(&pool);
             model::variable ret;
-            model::thread *thr = new model::thread(ctx, &pool, &ret);
+            model::thread *thr = tlist.create_thread(ctx, &ret);
             ret.set_object(pool.get_undefined_instance());
             thr->next = thr;
             thr->state = model::thread_state::ok;
             process proc;
             proc.pool = &pool;
-            proc.threads = thr;
+            proc.threads = &tlist;
             lib::pointer<lib::gc> gc = create_garbage_collector(env->gct, &proc);
             lib::set_garbage_collector(gc.get());
             if (!global::debug)
             {
-                while(true)
+                while(thr != nullptr)
                 {
                     uint32_t iid = thr->iid;
                     thr->iid++;
                     auto instr = code->get_instruction(iid);
                     instr->exec(thr);
                     gc->collect_garbage_if_necessary();
-                    model::thread *previous = thr;
-                    thr = thr->next;
-                    while(thr->state == model::thread_state::pause)
-                    {
-                        if (previous == thr)
-                        {
-                            // all threads are paused
-                            goto done;
-                        }
-                        thr = thr->next;
-                    }
-                    if (thr->state == model::thread_state::zombie)
-                    {
-                        if (previous == thr)
-                        {
-                            // this is the last thread
-                            goto done;
-                        }
-                        model::thread *next = thr->next;
-                        assert(next->state == model::thread_state::ok);
-                        previous->next = next;
-                        delete thr;
-                        thr = next;
-                    }
+                    thr = tlist.switch_thread();
                 }
             }
             else
@@ -112,10 +90,7 @@ namespace g0at
                 assert(false);
                 #endif
             }
-        done:
-            assert(thr->stack_is_empty());
-            assert(thr->next == thr);
-            delete thr;
+
             vm_report r;
             int64_t ret_value_int64;
             if (ret.get_integer(&ret_value_int64) && ret_value_int64 >= INT_MIN && ret_value_int64 <= INT_MAX)

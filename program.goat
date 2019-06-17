@@ -5,5 +5,5 @@ var a = $$(x, y)
         print(x + y);
 };
 
-a.run(3, 4);
-a.run("*", "#");
+var r = a.run(3, 4);
+println(r);

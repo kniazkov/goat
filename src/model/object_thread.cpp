@@ -96,9 +96,7 @@ namespace g0at
                 }
                 thr->push_undefined();
 
-                thread *new_thr = new thread(ctx, thr->pool, nullptr);
-                new_thr->next = thr->next;
-                thr->next = new_thr;
+                thread *new_thr = thr->get_thread_list()->create_thread(ctx, nullptr);
                 new_thr->state = thread_state::ok;
                 new_thr->iid = obj_thread->get_first_iid();
                 return;
