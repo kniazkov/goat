@@ -97,6 +97,7 @@ namespace g0at
             object *get_integer_proto_instance() { return integer_proto_instance; }
             object *get_function_proto_instance() { return function_proto_instance; }
             object *get_thread_proto_instance() { return thread_proto_instance; }
+            object *get_runner_proto_instance() { return runner_proto_instance; }
             object *get_boolean_proto_instance() { return boolean_proto_instance; }
             object *get_real_proto_instance() { return real_proto_instance; }
             object *get_array_proto_instance() { return array_proto_instance; }
@@ -148,6 +149,7 @@ namespace g0at
             object *integer_proto_instance;
             object *function_proto_instance;
             object *thread_proto_instance;
+            object *runner_proto_instance;
             object *boolean_proto_instance;
             object *real_proto_instance;
             object *array_proto_instance;

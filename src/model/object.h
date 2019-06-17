@@ -52,6 +52,7 @@ namespace g0at
         class object_array;
         class object_exception;
         class object_char;
+        class object_runner;
         class handler;
         enum class call_mode;
 
@@ -169,6 +170,7 @@ namespace g0at
             virtual object_array *to_object_array();
             virtual object_exception *to_object_exception();
             virtual object_char *to_object_char();
+            virtual object_runner *to_object_runner();
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;

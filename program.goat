@@ -6,4 +6,4 @@ var a = $$(x, y)
 };
 
 var r = a.run(3, 4);
-println(r);
+println(r.id());

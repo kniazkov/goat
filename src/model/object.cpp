@@ -154,6 +154,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_runner *object::to_object_runner()
+        {
+            return nullptr;
+        }
+
         bool object::less(const object *obj) const
         {
             return this < obj;

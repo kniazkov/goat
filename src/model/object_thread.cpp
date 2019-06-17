@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_thread.h"
 #include "object_function_built_in.h"
 #include "object_string.h"
+#include "object_runner.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -52,7 +53,7 @@ namespace g0at
         /**
          * @brief Built-in method 'run()' for threads
          * 
-         * The 'run()' method runs a Goat thread.
+         * The 'run()' method runs a Goat thread and returns instance of Runner.
          */
         class object_thread_run : public object_function_built_in
         {
@@ -94,12 +95,14 @@ namespace g0at
                 {
                     thr->pop(arg_count - decl_arg_count);
                 }
-                thr->push_undefined();
 
                 thread *new_thr = thr->get_thread_list()->create_thread(ctx, nullptr);
                 new_thr->state = thread_state::ok;
                 new_thr->iid = obj_thread->get_first_iid();
-                return;
+                
+                variable runner;
+                runner.set_object(new object_runner(thr->pool, new_thr->get_id()));
+                thr->push(runner);
             }
         };
 
