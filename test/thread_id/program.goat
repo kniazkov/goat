@@ -1,0 +1,9 @@
+var a = $$(x, y)
+{
+    var i;
+    for (i = 0; i < 10; ++i)
+        print(x + y);
+};
+
+var r = a.run(3, 4);
+println(r.id());
