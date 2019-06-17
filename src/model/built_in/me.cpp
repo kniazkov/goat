@@ -20,10 +20,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "model/context.h"
-#include "model/object_cache.h"
+#include "context_factory.h"
+#include "model/object_function_built_in.h"
+#include "model/object_runner.h"
 
 namespace g0at
 {
@@ -31,27 +30,30 @@ namespace g0at
     {
         namespace built_in
         {
-            class context_factory
+            class me : public object_function_built_in
             {
             public:
-                context_factory(object_pool *_pool);
-                context *create_context();
-            
-            protected:
-                object *create_function_print();
-                object *create_function_println();
-                object *create_function_exit();
-                object *create_function_abs();
-                object *create_function_sqrt();
-                object *create_function_cbrt();
-                object *create_function_round();
-                object *create_function_sin();
-                object *create_function_atan2();
-                object *create_function_clock();
-                object *create_function_me();
-
-                object_pool *pool;
+                me(object_pool *_pool)
+                    : object_function_built_in(_pool)
+                {
+                }
+                
+                void call(thread *thr, int arg_count, call_mode mode) override
+                {
+                    if (mode == call_mode::as_method)
+                        thr->pop();
+                    thr->pop(arg_count);
+                    variable tmp;
+                    tmp.set_object(new object_runner(thr->pool, thr->get_id()));
+                    thr->push(tmp);
+                    return;
+                }
             };
+
+            object *context_factory::create_function_me()
+            {
+                return new me(pool);
+            }
         };
     };
 };
