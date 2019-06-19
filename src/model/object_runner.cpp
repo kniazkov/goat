@@ -30,7 +30,7 @@ namespace g0at
 {
     namespace model
     {
-        object_runner::object_runner(object_pool *pool, int64_t _tid)
+        object_runner::object_runner(object_pool *pool, thread_id _tid)
             : object(pool, pool->get_runner_proto_instance()), tid(_tid)
         {
         }
@@ -94,7 +94,7 @@ namespace g0at
                 thr->pop(arg_count);
 
                 variable var;
-                var.set_integer(runner->get_thread_id());
+                var.set_integer(runner->get_thread_id().as_int64());
                 thr->push(var);
                 return;
             }
@@ -126,7 +126,7 @@ namespace g0at
                 thr->pop(arg_count);
 
                 variable var;
-                int64_t tid = runner->get_thread_id();
+                thread_id tid = runner->get_thread_id();
                 thread *thr_by_tid = thr->get_thread_list()->get_thread_by_tid(tid);
                 if (thr_by_tid)
                     var.set_boolean(thr_by_tid->state != thread_state::zombie);

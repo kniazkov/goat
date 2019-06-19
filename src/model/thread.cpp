@@ -37,7 +37,7 @@ namespace g0at
             }
         };
 
-        thread::thread(thread_list *_list, int64_t _tid, context *_ctx, object_pool *_pool, variable *_ret)
+        thread::thread(thread_list *_list, thread_id _tid, context *_ctx, object_pool *_pool, variable *_ret)
             : list(_list), tid(_tid), next(nullptr), iid(0), state(thread_state::pause), ctx(_ctx), pool(_pool), ret(_ret)
         {
         }
@@ -78,7 +78,8 @@ namespace g0at
 
         thread * thread_list::create_thread(context *_ctx, variable *_ret)
         {
-            int64_t tid = ++last_tid;
+            last_tid = thread_id(last_tid.as_int64() + 1);
+            thread_id tid = last_tid;
             thread *new_thr = new thread(this, tid, _ctx, pool, _ret);
             if (current)
             {

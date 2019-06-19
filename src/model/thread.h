@@ -47,13 +47,43 @@ namespace g0at
         };
 
         /**
-         * @brief A thread description
+         * @brief Thread identifier
+         * 
+         * Each thread has a unique identifier and threads can be found by this.
+         */
+        class thread_id
+        {
+        public:
+            thread_id()
+                : value(-1)
+            {
+            }
+
+            thread_id(int64_t _value)
+                : value(_value)
+            {
+            }
+
+            bool operator<(const thread_id &tid) const
+            {
+                return value < tid.value;
+            }
+
+            int64_t as_int64() { return value; }
+            bool valid() { return value >= 0; }
+        
+        private:
+            int64_t value;
+        };
+
+        /**
+         * @brief Thread description
          */
         class thread
         {
             friend class thread_list;
         protected:
-            thread(thread_list *_list, int64_t _tid, context *_ctx, object_pool *_pool, variable *_ret);
+            thread(thread_list *_list, thread_id _tid, context *_ctx, object_pool *_pool, variable *_ret);
 
         public:
             /**
@@ -68,7 +98,7 @@ namespace g0at
             void mark_all();
 
             thread_list *get_thread_list() { return list; }
-            int64_t get_id() { return tid; }
+            thread_id get_id() { return tid; }
             variable *push(variable var) { return data.push(var); }
             variable pop() { return data.pop(); }
             void pop(int n) { data.pop(n); }
@@ -120,7 +150,7 @@ namespace g0at
 
             stack data;
             thread_list *list;
-            int64_t tid;
+            thread_id tid;
         };
 
         class thread_list
@@ -131,7 +161,7 @@ namespace g0at
             thread *switch_thread();
 
             thread *get_current_thread() { return current; }
-            thread *get_thread_by_tid(int64_t tid)
+            thread *get_thread_by_tid(thread_id tid)
             {
                 auto iter = thread_by_tid.find(tid);
                 return iter != thread_by_tid.end() ? iter->second : nullptr;
@@ -142,9 +172,9 @@ namespace g0at
             void operator=(const thread_list &) { }
 
             object_pool *pool;
-            std::map<int64_t, thread*> thread_by_tid;
+            std::map<thread_id, thread*> thread_by_tid;
             thread *current;
-            int64_t last_tid;
+            thread_id last_tid;
         };
     };
 };

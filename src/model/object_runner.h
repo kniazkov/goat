@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object.h"
+#include "thread.h"
 
 namespace g0at
 {
@@ -31,14 +32,14 @@ namespace g0at
         class object_runner : public object
         {
         public:
-            object_runner(object_pool *pool, int64_t _tid);
+            object_runner(object_pool *pool, thread_id _tid);
             object_runner *to_object_runner() override;
             std::wstring to_string() const override;
 
-            int64_t get_thread_id() { return tid; }
+            thread_id get_thread_id() { return tid; }
 
         protected:
-            int64_t tid;
+            thread_id tid;
         };
 
         class object_runner_proto : public object
