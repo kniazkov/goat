@@ -33,13 +33,22 @@ namespace g0at
     {
         class thread_list;
 
+        /**
+         * @brief State of thread
+         */
         enum class thread_state
         {
+            // Thread is paused
             pause,
+            // Thread is runned
             ok,
+            // Thread is finished and should be deleted
             zombie
         };
 
+        /**
+         * @brief A thread description
+         */
         class thread
         {
             friend class thread_list;
@@ -47,6 +56,14 @@ namespace g0at
             thread(thread_list *_list, int64_t _tid, context *_ctx, object_pool *_pool, variable *_ret);
 
         public:
+            /**
+             * @brief Raises an exception
+             * 
+             * Restores stack until 'catch' or 'finally' block is found,
+             * then sets instruction index to the begin of this block.
+             * 
+             * @param var A variable that will be passed to a 'catch' block.
+             */
             void raise_exception(variable &var);
             void mark_all();
 
@@ -66,6 +83,11 @@ namespace g0at
                 return data.push(var);
             }
 
+            /**
+             * @brief Raises an exception (wrapper)
+             * 
+             * @param obj An object that will be passed to a 'catch' block.
+             */
             void raise_exception(object *obj)
             {
                 variable var;

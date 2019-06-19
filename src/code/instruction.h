@@ -30,12 +30,25 @@ namespace g0at
 {
     namespace code
     {
+        /**
+         * @brief Atomic instruction
+         * 
+         * An instruction executed by the virtual machine in one clock cycle. 
+         */
         class instruction
         {
         public:
             instruction();
             virtual ~instruction();
+            /**
+             * @brief An acceptor for visitors
+             * @param visitor A visitor
+             */
             virtual void accept(instruction_visitor *visitor) = 0;
+            /**
+             * @brief Executes an instruction
+             * @param thr A thread
+             */
             virtual void exec(model::thread *thr) = 0;
         };
     };

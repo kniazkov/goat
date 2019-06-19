@@ -28,6 +28,11 @@ namespace g0at
 {
     namespace code
     {
+        /**
+         * @brief Raises an exception
+         * 
+         * Get object from the top of the stack and throws it as exception. 
+         */
         class _throw : public instruction
         {
         public:

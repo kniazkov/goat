@@ -2,25 +2,17 @@ var f1 = $()
 {
     try
     {
+        throw 1;
         println('A');
     }
-    finally
+    catch
     {
         println('B');
-    }
-};
-
-var f2 = $()
-{
-    try
-    {
-        f1();
     }
     finally
     {
         println('C');
     }
-    println('D');
 };
 
-f2();
+f1();
