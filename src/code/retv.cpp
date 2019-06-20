@@ -35,28 +35,31 @@ namespace g0at
         void _retv::exec(model::thread *thr)
         {
             model::variable val = thr->pop();
-            while(
-                thr->ctx 
-                && thr->ctx->value_type != model::context_value_type::ret_address
-                && thr->ctx->value_type != model::context_value_type::fin_address)
+            while (thr->ctx)
             {
-                thr->restore_context();
+                switch(thr->ctx->value_type)
+                {
+                    case model::context_value_type::ret_address :
+                        thr->flow = model::thread_flow::direct;
+                        goto jump;
+                    case model::context_value_type::fin_address :
+                        thr->flow = model::thread_flow::descent_return;
+                        goto jump;
+                    default:
+                        thr->restore_context();
+                }
             }
+            thr->state = model::thread_state::zombie;
+            if (thr->ret)
+                *(thr->ret) = val;
+            return;
 
-            if (!thr->ctx)
-            {
-                thr->state = model::thread_state::zombie;
-                if (thr->ret)
-                    *(thr->ret) = thr->pop();
-            }
-            else
-            {
-                if (thr->ctx->ret)
-                    *(thr->ctx->ret) = val;
-                thr->iid = thr->ctx->value;
-                thr->restore_context();
-                assert(thr->ctx != nullptr);
-            }
+        jump:
+            if (thr->ctx->ret)
+                *(thr->ctx->ret) = val;
+            thr->iid = thr->ctx->value;
+            thr->restore_context();
+            assert(thr->ctx != nullptr);
         }
     };
 };

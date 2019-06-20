@@ -34,24 +34,27 @@ namespace g0at
 
         void _ret::exec(model::thread *thr)
         {
-            while(
-                thr->ctx 
-                && thr->ctx->value_type != model::context_value_type::ret_address
-                && thr->ctx->value_type != model::context_value_type::fin_address)
+            while (thr->ctx)
             {
-                thr->restore_context();
+                switch(thr->ctx->value_type)
+                {
+                    case model::context_value_type::ret_address :
+                        thr->flow = model::thread_flow::direct;
+                        goto jump;
+                    case model::context_value_type::fin_address :
+                        thr->flow = model::thread_flow::descent_return;
+                        goto jump;
+                    default:
+                        thr->restore_context();
+                }
             }
+            thr->state = model::thread_state::zombie;
+            return;
 
-            if (!thr->ctx)
-            {
-                thr->state = model::thread_state::zombie;
-            }
-            else
-            {
-                thr->iid = thr->ctx->value;
-                thr->restore_context();
-                assert(thr->ctx != nullptr);
-            }
+        jump:
+            thr->iid = thr->ctx->value;
+            thr->restore_context();
+            assert(thr->ctx != nullptr);
         }
     };
 };

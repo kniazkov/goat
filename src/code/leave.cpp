@@ -34,6 +34,48 @@ namespace g0at
 
         void _leave::exec(model::thread *thr)
         {
+            switch(thr->flow)
+            {
+                case model::thread_flow::direct :
+                    thr->restore_context();
+                    assert(thr->ctx != nullptr);
+                    return;
+                case model::thread_flow::descent_return :
+                    while (thr->ctx)
+                    {
+                        switch(thr->ctx->value_type)
+                        {
+                            case model::context_value_type::ret_address :
+                                thr->flow = model::thread_flow::direct;
+                                goto jump;
+                            case model::context_value_type::fin_address :
+                                goto jump;
+                            default:
+                                thr->restore_context();
+                        }
+                    }
+                    thr->state = model::thread_state::zombie;
+                    return;
+                case model::thread_flow::descent_exception :
+                    while (thr->ctx)
+                    {
+                        switch(thr->ctx->value_type)
+                        {
+                            case model::context_value_type::catch_address :
+                                thr->flow = model::thread_flow::direct;
+                                goto jump;
+                            case model::context_value_type::fin_address :
+                                goto jump;
+                            default:
+                                thr->restore_context();
+                        }
+                    }
+                    thr->state = model::thread_state::zombie;
+                    return;
+            }
+
+        jump:
+            thr->iid = thr->ctx->value;
             thr->restore_context();
             assert(thr->ctx != nullptr);
         }

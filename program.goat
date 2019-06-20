@@ -2,8 +2,8 @@ var f1 = $()
 {
     try
     {
-        throw 1;
         println('A');
+        return;
     }
     catch
     {
@@ -13,6 +13,7 @@ var f1 = $()
     {
         println('C');
     }
+    println('D');
 };
 
 f1();
