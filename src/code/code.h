@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "lib/ref_counter.h"
 #include "instruction.h"
+#include "iid_t.h"
 #include <vector>
 #include <string>
 
@@ -41,9 +42,8 @@ namespace g0at
             ~code();
 
             void add_instruction(instruction *instr);
-            int get_code_size() { return instructions.size(); }
-            int get_current_iid() { return instructions.size(); }
-            instruction *get_instruction(int index) { return instructions.at(index); }
+            iid_t get_current_iid() { return iid_t(instructions.size()); }
+            instruction *get_instruction(iid_t iid) { return instructions.at(iid.as_int()); }
             std::vector<std::wstring> &get_identifiers_list() { return identifiers; }
             void set_identifiers_list(std::vector<std::wstring> &_identifiers) { identifiers = _identifiers; }
 

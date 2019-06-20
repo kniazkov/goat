@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "instruction.h"
+#include "iid_t.h"
 
 namespace g0at
 {
@@ -31,15 +32,15 @@ namespace g0at
         class _ifnot : public instruction
         {
         public:
-            _ifnot(int _iid);
+            _ifnot(iid_t _iid);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
 
-            int get_iid() { return iid; }
-            int *get_iid_ptr() { return &iid; }
+            iid_t get_iid() { return iid; }
+            iid_ptr_t get_iid_ptr() { return iid_ptr_t(&iid); }
 
         protected:
-            int iid;
+            iid_t iid;
         };
     };
 };

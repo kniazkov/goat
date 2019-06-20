@@ -79,8 +79,8 @@ namespace g0at
             }
 
             serializer visitor(dst);
-            int code_size = code->get_code_size();
-            for (i = 0; i < code_size; i++)
+            iid_t last_iid = code->get_current_iid();
+            for (iid_t i = iid_t(0); i < last_iid; ++i)
             {
                 code->get_instruction(i)->accept(&visitor);
             }
@@ -242,9 +242,9 @@ namespace g0at
         void serializer::visit(_func *ref)
         {
             push_opcode(op::_func);
-            int iid = ref->get_first_iid();
-            assert(iid >= 0);
-            push_int32(iid);
+            iid_t iid = ref->get_first_iid();
+            assert(iid.valid());
+            push_int32(iid.as_int());
             int count = ref->get_arg_ids_count();
             push_int32(count);
             for (int i = 0; i < count; i++)
@@ -298,13 +298,13 @@ namespace g0at
         void serializer::visit(_ifnot *ref)
         {
             push_opcode(op::_ifnot);
-            push_int32(ref->get_iid());
+            push_int32(ref->get_iid().as_int());
         }
 
         void serializer::visit(_jmp *ref)
         {
             push_opcode(op::_jmp);
-            push_int32(ref->get_iid());
+            push_int32(ref->get_iid().as_int());
         }
 
         void serializer::visit(_vcall *ref)
@@ -355,7 +355,7 @@ namespace g0at
         void serializer::visit(_try *ref)
         {
             push_opcode(op::_try);
-            push_int32(ref->get_iid());
+            push_int32(ref->get_iid().as_int());
         }
 
         void serializer::visit(_catch *ref)
@@ -367,7 +367,7 @@ namespace g0at
         void serializer::visit(_finally *ref)
         {
             push_opcode(op::_finally);
-            push_int32(ref->get_iid());
+            push_int32(ref->get_iid().as_int());
         }
 
         void serializer::visit(_inherit *ref)
@@ -412,9 +412,9 @@ namespace g0at
         void serializer::visit(_thread *ref)
         {
             push_opcode(op::_thread);
-            int iid = ref->get_first_iid();
-            assert(iid >= 0);
-            push_int32(iid);
+            iid_t iid = ref->get_first_iid();
+            assert(iid.valid());
+            push_int32(iid.as_int());
             int count = ref->get_arg_ids_count();
             push_int32(count);
             for (int i = 0; i < count; i++)

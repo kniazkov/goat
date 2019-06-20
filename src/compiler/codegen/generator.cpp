@@ -118,7 +118,7 @@ namespace g0at
             {
                 deferred_node def = gen.queue.back();
                 gen.queue.pop_back();
-                *(def.iid_ptr) = gen.code->get_current_iid();
+                def.iid_ptr.set(gen.code->get_current_iid());
                 def.node->accept(&gen);
             }
             gen.code->set_identifiers_list(gen.name_cache.get_vector());
@@ -331,13 +331,13 @@ namespace g0at
 
         void generator::visit(pt::statement_while *ref)
         {
-            int iid_begin = code->get_current_iid();
+            code::iid_t iid_begin = code->get_current_iid();
             ref->get_expression()->accept(this);
             code::_ifnot *if_not = new code::_ifnot(-1);
             code->add_instruction(if_not);
             ref->get_statement()->accept(this);
             code->add_instruction(new code::_jmp(iid_begin));
-            *(if_not->get_iid_ptr()) = code->get_current_iid();
+            if_not->get_iid_ptr().set(code->get_current_iid());
         }
 
         void generator::visit(pt::method_call *ref)
@@ -403,7 +403,7 @@ namespace g0at
             code::_ifnot *ifnot = new code::_ifnot(-1);
             code->add_instruction(ifnot);
             ref->get_stmt_if()->accept(this);
-            int *iid_ptr_end = nullptr;
+            code::iid_ptr_t iid_ptr_end;
             auto stmt_else = ref->get_stmt_else();
             if (stmt_else)
             {
@@ -411,11 +411,11 @@ namespace g0at
                 iid_ptr_end = jmp->get_iid_ptr();
                 code->add_instruction(jmp);
             }
-            *(ifnot->get_iid_ptr()) = code->get_current_iid();
+            ifnot->get_iid_ptr().set(code->get_current_iid());
             if (stmt_else)
             {
                 stmt_else->accept(this);
-                *iid_ptr_end = code->get_current_iid();
+                iid_ptr_end.set(code->get_current_iid());
             }
         }
 
@@ -438,8 +438,8 @@ namespace g0at
             auto stmt_catch = ref->get_stmt_catch();
             auto stmt_finally = ref->get_stmt_finally();
 
-            int *iid_end_ptr = nullptr;
-            int *iid_finally_ptr = nullptr;
+            code::iid_ptr_t iid_end_ptr;
+            code::iid_ptr_t iid_finally_ptr;
 
             if (stmt_finally)
             {
@@ -449,7 +449,7 @@ namespace g0at
             }
 
             code::_try *instr_try = new code::_try(-1);
-            int *iid_catch_ptr = instr_try->get_iid_ptr();
+            code::iid_ptr_t iid_catch_ptr = instr_try->get_iid_ptr();
             code->add_instruction(instr_try);
 
             ref->get_stmt_try()->accept(this);
@@ -460,7 +460,7 @@ namespace g0at
                 iid_end_ptr = jmp_end->get_iid_ptr();
                 code->add_instruction(jmp_end);
 
-                *iid_catch_ptr = code->get_current_iid();
+                iid_catch_ptr.set(code->get_current_iid());
 
                 if (ref->has_var())
                 {
@@ -470,15 +470,14 @@ namespace g0at
                 stmt_catch->accept(this);
             }
 
-            if(iid_end_ptr)
-                *iid_end_ptr = code->get_current_iid();
+            iid_end_ptr.set(code->get_current_iid());
 
             code->add_instruction(new code::_leave());
             code->add_instruction(new code::_pop());
 
             if (stmt_finally)
             {
-                *iid_finally_ptr = code->get_current_iid();
+                iid_finally_ptr.set(code->get_current_iid());
                 stmt_finally->accept(this);
                 code->add_instruction(new code::_leave());
             }
@@ -504,7 +503,7 @@ namespace g0at
             {
                 stmt_init->accept(this);
             }
-            int iid_begin = code->get_current_iid();
+            code::iid_t iid_begin = code->get_current_iid();
             code::_ifnot *if_not = nullptr;
             auto condition = ref->get_condition();
             if (condition)
@@ -522,7 +521,7 @@ namespace g0at
             code->add_instruction(new code::_jmp(iid_begin));
             if (condition)
             {
-                *(if_not->get_iid_ptr()) = code->get_current_iid();
+                if_not->get_iid_ptr().set(code->get_current_iid());
             }
         }
 

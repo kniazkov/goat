@@ -38,7 +38,7 @@ namespace g0at
         };
 
         thread::thread(thread_list *_list, thread_id _tid, context *_ctx, object_pool *_pool, variable *_ret)
-            : list(_list), tid(_tid), next(nullptr), iid(0), state(thread_state::pause), ctx(_ctx), pool(_pool), ret(_ret)
+            : list(_list), tid(_tid), next(nullptr), state(thread_state::pause), ctx(_ctx), pool(_pool), ret(_ret)
         {
         }
 

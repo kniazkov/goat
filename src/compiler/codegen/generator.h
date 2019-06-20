@@ -36,7 +36,7 @@ namespace g0at
     {
         struct deferred_node
         {
-            int *iid_ptr;
+            code::iid_ptr_t iid_ptr;
             pt::node *node;
         };
 

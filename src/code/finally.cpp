@@ -27,7 +27,7 @@ namespace g0at
 {
     namespace code
     {
-        _finally::_finally(int _iid)
+        _finally::_finally(iid_t _iid)
             : iid(_iid)
         {
         }
@@ -39,7 +39,7 @@ namespace g0at
 
         void _finally::exec(model::thread *thr)
         {
-            assert(iid >= 0);
+            assert(iid.valid());
             model::context *ctx = thr->pool->create_context(thr->ctx);
             ctx->value = iid;
             ctx->value_type = model::context_value_type::fin_address;

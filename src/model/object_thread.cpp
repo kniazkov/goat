@@ -30,7 +30,7 @@ namespace g0at
 {
     namespace model
     {
-        object_thread::object_thread(object_pool *pool, int _first_iid, context *_proto_ctx)
+        object_thread::object_thread(object_pool *pool, code::iid_t _first_iid, context *_proto_ctx)
             : object_function_user_defined(pool, _first_iid, _proto_ctx)
         {
             proto = pool->get_thread_proto_instance();

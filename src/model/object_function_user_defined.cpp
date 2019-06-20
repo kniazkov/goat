@@ -27,10 +27,10 @@ namespace g0at
 {
     namespace model
     {
-        object_function_user_defined::object_function_user_defined(object_pool *pool, int _first_iid, context *_proto_ctx)
+        object_function_user_defined::object_function_user_defined(object_pool *pool, code::iid_t _first_iid, context *_proto_ctx)
             : object_function(pool), first_iid(_first_iid), proto_ctx(_proto_ctx)
         {
-            assert(_first_iid > 0);
+            assert(_first_iid.valid());
         }
 
         void object_function_user_defined::call(thread *thr, int arg_count, call_mode mode)

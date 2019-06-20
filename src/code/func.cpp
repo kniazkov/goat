@@ -28,7 +28,7 @@ namespace g0at
 {
     namespace code
     {
-        _func::_func(int _first_iid)
+        _func::_func(iid_t _first_iid)
             : first_iid(_first_iid)
         {
         }

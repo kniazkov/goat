@@ -28,7 +28,7 @@ namespace g0at
     namespace model
     {
         context::context(object_pool *pool)
-            : object(pool), prev(nullptr), this_ptr(nullptr), value(0), value_type(context_value_type::none), ret(nullptr), stack_size(-1)
+            : object(pool), prev(nullptr), this_ptr(nullptr), value_type(context_value_type::none), ret(nullptr), stack_size(-1)
         {
         }
 
@@ -100,7 +100,7 @@ namespace g0at
                 topology.reset();
                 prev = nullptr;
                 this_ptr = nullptr;
-                value = 0;
+                value = code::iid_t();
                 value_type = context_value_type::none;
                 ret = nullptr;
             }

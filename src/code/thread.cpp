@@ -28,7 +28,7 @@ namespace g0at
 {
     namespace code
     {
-        _thread::_thread(int _first_iid)
+        _thread::_thread(iid_t _first_iid)
             : first_iid(_first_iid)
         {
         }

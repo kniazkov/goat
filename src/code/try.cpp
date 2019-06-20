@@ -26,7 +26,7 @@ namespace g0at
 {
     namespace code
     {
-        _try::_try(int _iid)
+        _try::_try(iid_t _iid)
             : iid(_iid)
         {
         }

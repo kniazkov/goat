@@ -27,7 +27,7 @@ namespace g0at
 {
     namespace code
     {
-        _jmp::_jmp(int _iid)
+        _jmp::_jmp(iid_t _iid)
             : iid(_iid)
         {
         }
@@ -39,7 +39,7 @@ namespace g0at
 
         void _jmp::exec(model::thread *thr)
         {
-            assert(iid >= 0);
+            assert(iid.valid());
             thr->iid = iid;
         }
     };

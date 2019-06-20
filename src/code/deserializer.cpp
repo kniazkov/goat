@@ -311,7 +311,7 @@ namespace g0at
 
         void deserializer::c_func(source *src, code *dst)
         {
-            int iid = pop_int32(src);
+            iid_t iid(pop_int32(src));
             auto instr = new _func(iid);
             int arg_count = pop_int32(src);
             for (int i = 0; i < arg_count; i++)
@@ -366,13 +366,13 @@ namespace g0at
 
         void deserializer::c_ifnot(source *src, code *dst)
         {
-            int iid = pop_int32(src);
+            iid_t iid(pop_int32(src));
             dst->add_instruction(new _ifnot(iid));
         }
 
         void deserializer::c_jmp(source *src, code *dst)
         {
-            int iid = pop_int32(src);
+            iid_t iid(pop_int32(src));
             dst->add_instruction(new _jmp(iid));
         }
 
@@ -423,7 +423,7 @@ namespace g0at
 
         void deserializer::c_try(source *src, code *dst)
         {
-            int iid = pop_int32(src);
+            iid_t iid(pop_int32(src));
             dst->add_instruction(new _try(iid));
         }
 
@@ -435,7 +435,7 @@ namespace g0at
 
         void deserializer::c_finally(source *src, code *dst)
         {
-            int iid = pop_int32(src);
+            iid_t iid(pop_int32(src));
             dst->add_instruction(new _finally(iid));
         }
 
@@ -480,7 +480,7 @@ namespace g0at
 
         void deserializer::c_thread(source *src, code *dst)
         {
-            int iid = pop_int32(src);
+            iid_t iid(pop_int32(src));
             auto instr = new _thread(iid);
             int arg_count = pop_int32(src);
             for (int i = 0; i < arg_count; i++)

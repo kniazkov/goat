@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "context.h"
 #include "object_cache.h"
 #include "stack.h"
+#include "code/iid_t.h"
 #include <map>
 
 namespace g0at
@@ -138,7 +139,7 @@ namespace g0at
             }
 
             thread *next;
-            uint32_t iid;
+            code::iid_t iid;
             thread_state state;
             context *ctx;
             object_pool *pool;

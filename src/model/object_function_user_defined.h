@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object_function.h"
+#include "code/iid_t.h"
 #include <vector>
 
 namespace g0at
@@ -32,18 +33,18 @@ namespace g0at
         class object_function_user_defined : public object_function
         {
         public:
-            object_function_user_defined(object_pool *pool, int _first_iid, context *_proto_ctx);
+            object_function_user_defined(object_pool *pool, code::iid_t _first_iid, context *_proto_ctx);
             void call(thread *thr, int arg_count, call_mode mode) override;
             void trace() override;
 
-            int get_first_iid() { return first_iid; }
+            code::iid_t get_first_iid() { return first_iid; }
             void add_arg_name(object *arg_name) { arg_names.push_back(arg_name); }
             int get_arg_names_count() { return (int)arg_names.size(); }
             object * get_arg_name(int index) { return arg_names.at(index); }
             context *get_proto_ctx() { return proto_ctx; }
 
         protected:
-            int first_iid;
+            code::iid_t first_iid;
             context *proto_ctx;
             std::vector<object *> arg_names;
         };

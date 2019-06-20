@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object.h"
+#include "code/iid_t.h"
 
 namespace g0at
 {
@@ -54,7 +55,7 @@ namespace g0at
 
             context *prev;
             object *this_ptr;
-            int value;
+            code::iid_t value;
             context_value_type value_type;
             variable *ret;
             int stack_size;

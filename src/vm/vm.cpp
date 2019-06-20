@@ -50,6 +50,7 @@ namespace g0at
             model::variable ret;
             model::thread *thr = tlist.create_thread(ctx, &ret);
             ret.set_object(pool.get_undefined_instance());
+            thr->iid = code::iid_t(0);
             thr->next = thr;
             thr->state = model::thread_state::ok;
             process proc;
@@ -61,8 +62,8 @@ namespace g0at
             {
                 while(thr != nullptr)
                 {
-                    uint32_t iid = thr->iid;
-                    thr->iid++;
+                    code::iid_t iid = thr->iid;
+                    ++thr->iid;
                     auto instr = code->get_instruction(iid);
                     instr->exec(thr);
                     gc->collect_garbage_if_necessary();

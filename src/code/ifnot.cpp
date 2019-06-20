@@ -27,7 +27,7 @@ namespace g0at
 {
     namespace code
     {
-        _ifnot::_ifnot(int _iid)
+        _ifnot::_ifnot(iid_t _iid)
             : iid(_iid)
         {
         }
@@ -39,7 +39,7 @@ namespace g0at
 
         void _ifnot::exec(model::thread *thr)
         {
-            assert(iid >= 0);
+            assert(iid.valid());
             model::variable var = thr->pop();
             bool condition;
             bool cond_is_boolean = var.get_boolean(&condition);

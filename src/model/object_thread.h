@@ -31,7 +31,7 @@ namespace g0at
         class object_thread : public object_function_user_defined
         {
         public:
-            object_thread(object_pool *pool, int _first_iid, context *_proto_ctx);
+            object_thread(object_pool *pool, code::iid_t _first_iid, context *_proto_ctx);
             object_thread *to_object_thread() override;
             std::wstring to_string() const override;
         };
