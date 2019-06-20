@@ -175,7 +175,7 @@ namespace g0at
         void disasm::visit(_func *ref)
         {
             int i, size = ref->get_arg_ids_count();
-            stream << L"func\t@" << ref->get_first_iid().as_int();
+            stream << L"func\t^" << ref->get_first_iid().as_int();
             for (i = 0; i < size; i++)
             {
                 stream  << L", " << ref->get_arg_id(i);
@@ -235,12 +235,12 @@ namespace g0at
 
         void disasm::visit(_ifnot *ref)
         {
-            stream << L"ifnot\t@" << ref->get_iid().as_int();
+            stream << L"ifnot\t^" << ref->get_iid().as_int();
         }
 
         void disasm::visit(_jmp *ref)
         {
-            stream << L"jmp\t@" << ref->get_iid().as_int();
+            stream << L"jmp\t^" << ref->get_iid().as_int();
         }
 
         void disasm::visit(_vcall *ref)
@@ -286,7 +286,7 @@ namespace g0at
 
         void disasm::visit(_try *ref)
         {
-            stream << L"try\t@" << ref->get_iid().as_int();
+            stream << L"try\t^" << ref->get_iid().as_int();
         }
 
         void disasm::visit(_catch *ref)
@@ -297,7 +297,7 @@ namespace g0at
 
         void disasm::visit(_finally *ref)
         {
-            stream << L"finally\t@" << ref->get_iid().as_int();
+            stream << L"finally\t^" << ref->get_iid().as_int();
         }
 
         void disasm::visit(_inherit *ref)
@@ -340,7 +340,7 @@ namespace g0at
         void disasm::visit(_thread *ref)
         {
             int i, size = ref->get_arg_ids_count();
-            stream << L"thread\t@" << ref->get_first_iid().as_int();
+            stream << L"thread\t^" << ref->get_first_iid().as_int();
             for (i = 0; i < size; i++)
             {
                 stream  << L", " << ref->get_arg_id(i);
