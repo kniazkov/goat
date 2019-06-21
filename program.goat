@@ -2,13 +2,15 @@ var f1 = $()
 {
     try
     {
-        println("do something.");
+        throw 1;
+    }
+    catch(err)
+    {
+        // throw err;
     }
     finally
     {
-        println("finally.");
-        throw { value : 7 };
-        println("blah blah blah.");
+        println("ok.");
     }
 };
 
