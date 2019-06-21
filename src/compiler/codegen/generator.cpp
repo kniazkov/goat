@@ -473,7 +473,6 @@ namespace g0at
             iid_end_ptr.set(code->get_current_iid());
 
             code->add_instruction(new code::_leave());
-            code->add_instruction(new code::_pop());
 
             if (stmt_finally)
             {

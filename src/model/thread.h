@@ -158,6 +158,7 @@ namespace g0at
             context *ctx;
             object_pool *pool;
             variable *ret;
+            variable except;
 
         protected:
             thread(const thread &) { }

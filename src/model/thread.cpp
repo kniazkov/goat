@@ -41,6 +41,7 @@ namespace g0at
             : list(_list), tid(_tid), next(nullptr), state(thread_state::pause),
               flow(thread_flow::direct), ctx(_ctx), pool(_pool), ret(_ret)
         {
+            except.set_object(pool->get_undefined_instance());
         }
 
         void thread::mark_all()
@@ -56,20 +57,14 @@ namespace g0at
 
         void thread::raise_exception(variable &var)
         {
+            except = var;
             while(ctx && ctx->value_type != model::context_value_type::catch_address)
-            {
                 restore_context();
-            }
 
             if (!ctx)
-            {
                 throw unhandled_runtime_exception(var.to_string());
-            }
             else
-            {
-                *(ctx->ret) = var;
                 iid = ctx->value;
-            }
         }
 
         thread_list::thread_list(object_pool *_pool)

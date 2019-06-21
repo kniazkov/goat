@@ -42,7 +42,7 @@ namespace g0at
         {
             assert(thr->ctx->value_type == model::context_value_type::catch_address);
             model::object_string *key = thr->pool->get_static_string(id);
-            thr->ctx->add_object(key, *thr->ctx->ret);
+            thr->ctx->add_object(key, thr->except);
         }
     };
 };
