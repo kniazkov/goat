@@ -57,26 +57,33 @@ namespace g0at
 
         void thread::raise_exception(variable &var)
         {
+            flow = thread_flow::direct;
             except = var;
-
-            while (ctx)
+            if (ctx->value_type == context_value_type::catch_address)
             {
-                switch(ctx->value_type)
-                {
-                    case context_value_type::catch_address :
-                        flow = thread_flow::direct;
-                        goto jump;
-                    case context_value_type::fin_address :
-                        flow = thread_flow::descent_exception;
-                        goto jump;
-                    default:
-                        restore_context();
-                }
+                iid = ctx->value;
+                return;
             }
-            throw unhandled_runtime_exception(var.to_string());
-
-        jump:
-            iid = ctx->value;
+            else
+            {
+                restore_context();
+                while (ctx)
+                {
+                    switch(ctx->value_type)
+                    {
+                        case context_value_type::catch_address :
+                            iid = ctx->value;
+                            return;
+                        case context_value_type::fin_address :
+                            flow = thread_flow::descent_exception;
+                            iid = ctx->value;
+                            return;
+                        default:
+                            restore_context();
+                    }
+                }
+                throw unhandled_runtime_exception(var.to_string());
+            }
         }
 
         thread_list::thread_list(object_pool *_pool)

@@ -34,27 +34,35 @@ namespace g0at
 
         void _ret::exec(model::thread *thr)
         {
-            while (thr->ctx)
+            thr->flow = model::thread_flow::direct;
+            if (thr->ctx->value_type == model::context_value_type::ret_address)
             {
-                switch(thr->ctx->value_type)
-                {
-                    case model::context_value_type::ret_address :
-                        thr->flow = model::thread_flow::direct;
-                        goto jump;
-                    case model::context_value_type::fin_address :
-                        thr->flow = model::thread_flow::descent_return;
-                        goto jump;
-                    default:
-                        thr->restore_context();
-                }
+                thr->iid = thr->ctx->value;
+                thr->restore_context();
+                assert(thr->ctx != nullptr);
             }
-            thr->state = model::thread_state::zombie;
-            return;
-
-        jump:
-            thr->iid = thr->ctx->value;
-            thr->restore_context();
-            assert(thr->ctx != nullptr);
+            else
+            {
+                thr->restore_context();
+                while (thr->ctx)
+                {
+                    switch(thr->ctx->value_type)
+                    {
+                        case model::context_value_type::ret_address :
+                            thr->iid = thr->ctx->value;
+                            thr->restore_context();
+                            assert(thr->ctx != nullptr);
+                            return;
+                        case model::context_value_type::fin_address :
+                            thr->flow = model::thread_flow::descent_return;
+                            thr->iid = thr->ctx->value;
+                            return;
+                        default:
+                            thr->restore_context();
+                    }
+                }
+                thr->state = model::thread_state::zombie;
+            }
         }
     };
 };

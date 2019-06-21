@@ -2,22 +2,13 @@ var f1 = $()
 {
     try
     {
-        try
-        {
-            return 5;
-        }
-        catch
-        {
-        }
-    }
-    catch
-    {
+        println("do something.");
     }
     finally
     {
-        return 11;
+        println("ok.");
+        return;
     }
 };
 
-var x = f1();
-println(x);
+f1();

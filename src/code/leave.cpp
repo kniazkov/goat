@@ -34,10 +34,10 @@ namespace g0at
 
         void _leave::exec(model::thread *thr)
         {
+            thr->restore_context();
             switch(thr->flow)
             {
                 case model::thread_flow::direct :
-                    thr->restore_context();
                     assert(thr->ctx != nullptr);
                     return;
                 case model::thread_flow::descent_return :
@@ -47,9 +47,13 @@ namespace g0at
                         {
                             case model::context_value_type::ret_address :
                                 thr->flow = model::thread_flow::direct;
-                                goto jump;
+                                thr->iid = thr->ctx->value;
+                                thr->restore_context();
+                                assert(thr->ctx != nullptr);
+                                return;
                             case model::context_value_type::fin_address :
-                                goto jump;
+                                thr->iid = thr->ctx->value;
+                                return;
                             default:
                                 thr->restore_context();
                         }
@@ -63,9 +67,11 @@ namespace g0at
                         {
                             case model::context_value_type::catch_address :
                                 thr->flow = model::thread_flow::direct;
-                                goto jump;
+                                thr->iid = thr->ctx->value;
+                                return;
                             case model::context_value_type::fin_address :
-                                goto jump;
+                                thr->iid = thr->ctx->value;
+                                return;
                             default:
                                 thr->restore_context();
                         }
@@ -73,11 +79,6 @@ namespace g0at
                     thr->state = model::thread_state::zombie;
                     return;
             }
-
-        jump:
-            thr->iid = thr->ctx->value;
-            thr->restore_context();
-            assert(thr->ctx != nullptr);
         }
     };
 };
