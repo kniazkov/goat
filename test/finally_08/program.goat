@@ -1,0 +1,14 @@
+var f1 = $()
+{
+    try
+    {
+        println("do something.");
+    }
+    finally
+    {
+        println("ok.");
+        return;
+    }
+};
+
+f1();

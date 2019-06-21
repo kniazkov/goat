@@ -4,13 +4,9 @@ var f1 = $()
     {
         throw 1;
     }
-    catch(err)
-    {
-        // throw err;
-    }
     finally
     {
-        println("ok.");
+        println("ok.")
     }
 };
 

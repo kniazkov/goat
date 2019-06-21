@@ -438,7 +438,6 @@ namespace g0at
             auto stmt_catch = ref->get_stmt_catch();
             auto stmt_finally = ref->get_stmt_finally();
 
-            code::iid_ptr_t iid_end_ptr;
             code::iid_ptr_t iid_finally_ptr;
 
             if (stmt_finally)
@@ -448,32 +447,30 @@ namespace g0at
                 code->add_instruction(instr_finally);
             }
 
-            code::_try *instr_try = new code::_try(-1);
-            code::iid_ptr_t iid_catch_ptr = instr_try->get_iid_ptr();
-            code->add_instruction(instr_try);
-
-            ref->get_stmt_try()->accept(this);
-
             if (stmt_catch)
             {
+                code::_try *instr_try = new code::_try(-1);
+                code::iid_ptr_t iid_catch_ptr = instr_try->get_iid_ptr();
+                code->add_instruction(instr_try);
+                ref->get_stmt_try()->accept(this);
                 code::_jmp *jmp_end = new code::_jmp(-1);
-                iid_end_ptr = jmp_end->get_iid_ptr();
+                code::iid_ptr_t iid_end_ptr = jmp_end->get_iid_ptr();
                 code->add_instruction(jmp_end);
-
                 iid_catch_ptr.set(code->get_current_iid());
-
                 if (ref->has_var())
                 {
                     int id = name_cache.get_id(ref->get_var_name());
                     code->add_instruction(new code::_catch(id));
                 }
                 stmt_catch->accept(this);
+                iid_end_ptr.set(code->get_current_iid());
             }
-
-            iid_end_ptr.set(code->get_current_iid());
-
+            else
+            {
+                code->add_instruction(new code::_enter());
+                ref->get_stmt_try()->accept(this);
+            }
             code->add_instruction(new code::_leave());
-            code->add_instruction(new code::_pop());
 
             if (stmt_finally)
             {

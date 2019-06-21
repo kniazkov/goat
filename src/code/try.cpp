@@ -38,11 +38,9 @@ namespace g0at
 
         void _try::exec(model::thread *thr)
         {
-            model::variable *tmp = thr->push_undefined();
             model::context *ctx = thr->pool->create_context(thr->ctx);
             ctx->value = iid;
             ctx->value_type = model::context_value_type::catch_address;
-            ctx->ret = tmp;
             thr->set_context(ctx);
         }
     };

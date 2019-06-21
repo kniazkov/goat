@@ -1,0 +1,3 @@
+do something.
+finally.
+caught: {"value":7}

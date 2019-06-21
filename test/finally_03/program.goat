@@ -1,0 +1,19 @@
+var f1 = $()
+{
+    try
+    {
+        println('A');
+        return;
+    }
+    catch
+    {
+        println('B');
+    }
+    finally
+    {
+        println('C');
+    }
+    println('D');
+};
+
+f1();

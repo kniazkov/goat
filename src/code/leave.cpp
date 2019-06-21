@@ -35,7 +35,50 @@ namespace g0at
         void _leave::exec(model::thread *thr)
         {
             thr->restore_context();
-            assert(thr->ctx != nullptr);
+            switch(thr->flow)
+            {
+                case model::thread_flow::direct :
+                    assert(thr->ctx != nullptr);
+                    return;
+                case model::thread_flow::descent_return :
+                    while (thr->ctx)
+                    {
+                        switch(thr->ctx->value_type)
+                        {
+                            case model::context_value_type::ret_address :
+                                thr->flow = model::thread_flow::direct;
+                                thr->iid = thr->ctx->value;
+                                thr->restore_context();
+                                assert(thr->ctx != nullptr);
+                                return;
+                            case model::context_value_type::fin_address :
+                                thr->iid = thr->ctx->value;
+                                return;
+                            default:
+                                thr->restore_context();
+                        }
+                    }
+                    thr->state = model::thread_state::zombie;
+                    return;
+                case model::thread_flow::descent_exception :
+                    while (thr->ctx)
+                    {
+                        switch(thr->ctx->value_type)
+                        {
+                            case model::context_value_type::catch_address :
+                                thr->flow = model::thread_flow::direct;
+                                thr->iid = thr->ctx->value;
+                                return;
+                            case model::context_value_type::fin_address :
+                                thr->iid = thr->ctx->value;
+                                return;
+                            default:
+                                thr->restore_context();
+                        }
+                    }
+                    thr->state = model::thread_state::zombie;
+                    return;
+            }
         }
     };
 };

@@ -48,6 +48,19 @@ namespace g0at
         };
 
         /**
+         * @brief Order of execution of branching instructions
+         */
+        enum class thread_flow
+        {
+            // Execute all blocks
+            direct,
+            // Execute all 'finally' blocks until end of function is reached
+            descent_return,
+            // Execute all 'finally' blocks until 'catch' block is found
+            descent_exception
+        };
+
+        /**
          * @brief Thread identifier
          * 
          * Each thread has a unique identifier and threads can be found by this.
@@ -141,9 +154,11 @@ namespace g0at
             thread *next;
             code::iid_t iid;
             thread_state state;
+            thread_flow flow;
             context *ctx;
             object_pool *pool;
             variable *ret;
+            variable except;
 
         protected:
             thread(const thread &) { }
