@@ -99,6 +99,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/new.h"
 #include "code/inc.h"
 #include "code/thread.h"
+#include "code/rethrow.h"
 
 namespace g0at
 {
@@ -429,7 +430,7 @@ namespace g0at
             }
             else
             {
-                assert(false && "Not implemented");
+                code->add_instruction(new code::_rethrow());
             }
         }
 
