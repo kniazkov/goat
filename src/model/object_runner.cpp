@@ -184,6 +184,50 @@ namespace g0at
             }
         };
 
+        class object_runner_suspend : public object_runner_method
+        {
+        public:
+            object_runner_suspend(object_pool *_pool)
+                : object_runner_method(_pool)
+            {
+            }
+            
+            variable payload(thread *this_thr, thread *other_thr)
+            {
+                variable var;
+                if (other_thr && other_thr->state == thread_state::ok)
+                {
+                    var.set_boolean(true);
+                    other_thr->state = thread_state::pause;
+                }
+                else
+                    var.set_boolean(false);
+                return var;
+            }
+        };
+
+        class object_runner_resume : public object_runner_method
+        {
+        public:
+            object_runner_resume(object_pool *_pool)
+                : object_runner_method(_pool)
+            {
+            }
+            
+            variable payload(thread *this_thr, thread *other_thr)
+            {
+                variable var;
+                if (other_thr && other_thr->state == thread_state::pause)
+                {
+                    var.set_boolean(true);
+                    other_thr->state = thread_state::ok;
+                }
+                else
+                    var.set_boolean(false);
+                return var;
+            }
+        };
+
         object_runner_proto::object_runner_proto(object_pool *pool)
             : object(pool, pool->get_function_proto_instance())
         {
@@ -195,6 +239,8 @@ namespace g0at
             add_object(pool->get_static_string(L"alive"), new object_runner_alive(pool));
             add_object(pool->get_static_string(L"join"), new object_runner_join(pool));
             add_object(pool->get_static_string(L"kill"), new object_runner_kill(pool));
+            add_object(pool->get_static_string(L"suspend"), new object_runner_suspend(pool));
+            add_object(pool->get_static_string(L"resume"), new object_runner_resume(pool));
         }
     };
 };

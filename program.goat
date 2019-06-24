@@ -1,14 +1,4 @@
-var x = 0;
-
-var t1 = thread()
-{
-    for(;;)
-    {
-        ++x;
-    }
-};
-
-var t2 = thread()
+var t = thread()
 {
     var i;
     for (i = 0; i < 10; ++i)
@@ -17,8 +7,10 @@ var t2 = thread()
     }
 };
 
-var r1 = t1.run();
-var r2 = t2.run();
+var r1 = t.run();
+var r2 = t.run();
+r2.suspend();
+r1.join();
+r2.resume();
 r2.join();
-r1.kill();
-println(x != 0);
+println("ok.");
