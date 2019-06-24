@@ -356,5 +356,10 @@ namespace g0at
                 }
             }
         }
+
+        void disasm::visit(_rethrow *ref)
+        {
+            stream << L"rethrow";
+        }
     };
 };

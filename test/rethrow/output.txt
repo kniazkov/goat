@@ -1,0 +1,3 @@
+caught 1st: 1
+ok.
+caught 2nd: 1

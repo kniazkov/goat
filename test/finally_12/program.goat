@@ -2,11 +2,11 @@ var f3 = $()
 {
     try
     {
-        throw 7;
+        throw 1;
     }
     finally
     {
-        throw 11;
+        println("finally 3");
     }
 };
 

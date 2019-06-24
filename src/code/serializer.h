@@ -85,6 +85,7 @@ namespace g0at
             void visit(_write *ref) override;
             void visit(_inc *ref) override;
             void visit(_thread *ref) override;
+            void visit(_rethrow *ref) override;
 
         protected:
             std::vector<uint8_t> &buff;

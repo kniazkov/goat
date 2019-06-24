@@ -74,6 +74,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "write.h"
 #include "inc.h"
 #include "thread.h"
+#include "rethrow.h"
 
 namespace g0at
 {
@@ -491,6 +492,11 @@ namespace g0at
             dst->add_instruction(instr);
         }
 
+        void deserializer::c_rethrow(source *src, code *dst)
+        {
+            dst->add_instruction(new _rethrow());
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -539,6 +545,7 @@ namespace g0at
             cc[op::_write]   = c_write;
             cc[op::_inc]     = c_inc;
             cc[op::_thread]  = c_thread;
+            cc[op::_rethrow] = c_rethrow;
         }
     };
 };

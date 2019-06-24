@@ -422,5 +422,10 @@ namespace g0at
                 push_int32(ref->get_arg_id(i));
             }
         }
+
+        void serializer::visit(_rethrow *ref)
+        {
+            push_opcode(op::_rethrow);
+        }
     };
 };

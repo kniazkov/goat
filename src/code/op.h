@@ -71,6 +71,7 @@ namespace g0at
             _ret,
             _retv,
             _throw,
+            _rethrow,
             _ifnot,
             _jmp,
             _enter,

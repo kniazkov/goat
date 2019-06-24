@@ -20,30 +20,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "catch.h"
-#include "model/object_string.h"
-#include "lib/assert.h"
+#pragma once
+
+#include "instruction.h"
 
 namespace g0at
 {
     namespace code
     {
-        _catch::_catch(int _id)
-            : id(_id)
+        /**
+         * @brief Re-throws catched exception.
+         * 
+         * Get object from the 'except' register and throws it again. 
+         */
+        class _rethrow : public instruction
         {
-        }
-
-        void _catch::accept(instruction_visitor *visitor)
-        {
-            visitor->visit(this);
-        }
-
-        void _catch::exec(model::thread *thr)
-        {
-            assert(thr->ctx->value_type == model::context_value_type::catch_address);
-            model::object_string *key = thr->pool->get_static_string(id);
-            thr->ctx->add_object(key, thr->except);
-            thr->ctx->value_type = model::context_value_type::none;
-        }
+        public:
+            void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
+        };
     };
 };
