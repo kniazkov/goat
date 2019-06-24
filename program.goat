@@ -1,12 +1,4 @@
-var t = thread()
-{
-    var i;
-    for (i = 0; i < 10; ++i)
-    {
-        println(i);
-    }
-};
-
-var r = t.run();
-r.join();
-println("ok.");
+println("begin");
+var r = me();
+var ret = r.join();
+println("end, ret. value is " + ret);

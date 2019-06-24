@@ -163,7 +163,7 @@ namespace g0at
                 variable var;
                 thread_id tid = runner->get_thread_id();
                 thread *thr_by_tid = thr->get_thread_list()->get_thread_by_tid(tid);
-                if (thr_by_tid)
+                if (thr_by_tid && thr_by_tid != thr)
                 {
                     var.set_boolean(true);
                     thr_by_tid->joined.push_back(thr);
