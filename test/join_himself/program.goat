@@ -1,0 +1,4 @@
+println("begin");
+var r = me();
+var ret = r.join();
+println("end, ret. value is " + ret);
