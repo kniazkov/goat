@@ -177,6 +177,47 @@ namespace g0at
             }
         };
 
+        class object_runner_kill : public object_function_built_in
+        {
+        public:
+            object_runner_kill(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_runner *runner = this_ptr->to_object_runner();
+                if (!runner)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                thr->pop(arg_count);
+
+                variable var;
+                thread_id tid = runner->get_thread_id();
+                thread *thr_by_tid = thr->get_thread_list()->get_thread_by_tid(tid);
+                if (thr_by_tid && thr_by_tid->state != thread_state::zombie)
+                {
+                    var.set_boolean(true);
+                    thr_by_tid->state = thread_state::zombie;
+                }
+                else
+                {
+                    var.set_boolean(false);
+                }
+                thr->push(var);
+            }
+        };
+
         object_runner_proto::object_runner_proto(object_pool *pool)
             : object(pool, pool->get_function_proto_instance())
         {
@@ -187,6 +228,7 @@ namespace g0at
             add_object(pool->get_static_string(L"id"), new object_runner_get_id(pool));
             add_object(pool->get_static_string(L"alive"), new object_runner_alive(pool));
             add_object(pool->get_static_string(L"join"), new object_runner_join(pool));
+            add_object(pool->get_static_string(L"kill"), new object_runner_kill(pool));
         }
     };
 };
