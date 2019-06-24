@@ -6,7 +6,7 @@ var f1 = $()
     }
     catch(err)
     {
-        // throw err;
+        throw err;
     }
     finally
     {
