@@ -114,15 +114,17 @@ namespace g0at
         {
             assert(current != nullptr);
 
+            thread *first = current;
             thread *previous = current;
             current = current->next;
             while(current->state == thread_state::pause)
             {
-                if (previous == current)
+                if (first == current)
                 {
                     // all threads are paused
                     return nullptr;
                 }
+                previous = current;
                 current = current->next;
             }
             if (current->state == thread_state::zombie)
@@ -138,6 +140,11 @@ namespace g0at
                 }
                 else
                 {
+                    for (thread *joined : current->joined)
+                    {
+                        if (joined->state == thread_state::pause)
+                            joined->state = thread_state::ok;
+                    }
                     thread *next = current->next;
                     assert(next->state == model::thread_state::ok);
                     previous->next = next;

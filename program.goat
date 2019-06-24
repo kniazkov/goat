@@ -1,44 +1,12 @@
-var f3 = $()
+var t = thread()
 {
-    try
+    var i;
+    for (i = 0; i < 10; ++i)
     {
-        throw 7;
-    }
-    finally
-    {
-        throw 11;
+        println(i);
     }
 };
 
-var f2 = $()
-{
-    try
-    {
-        f3();
-    }
-    finally
-    {
-        println("finally 2");
-    }
-};
-
-var f1 = $()
-{
-    try
-    {
-        f2();
-    }
-    finally
-    {
-        println("finally 1");
-    }
-};
-
-try
-{
-    f1();
-}
-catch(err)
-{
-    println("caught: " + err);
-}
+var r = t.run();
+r.join();
+println("ok.");

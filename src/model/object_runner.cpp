@@ -96,7 +96,6 @@ namespace g0at
                 variable var;
                 var.set_integer(runner->get_thread_id().as_int64());
                 thr->push(var);
-                return;
             }
         };
 
@@ -133,7 +132,48 @@ namespace g0at
                 else
                     var.set_boolean(false);
                 thr->push(var);
-                return;
+            }
+        };
+
+        class object_runner_join : public object_function_built_in
+        {
+        public:
+            object_runner_join(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_runner *runner = this_ptr->to_object_runner();
+                if (!runner)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                thr->pop(arg_count);
+
+                variable var;
+                thread_id tid = runner->get_thread_id();
+                thread *thr_by_tid = thr->get_thread_list()->get_thread_by_tid(tid);
+                if (thr_by_tid)
+                {
+                    var.set_boolean(true);
+                    thr_by_tid->joined.push_back(thr);
+                    thr->state = thread_state::pause;
+                }
+                else
+                {
+                    var.set_boolean(false);
+                }
+                thr->push(var);
             }
         };
 
@@ -146,6 +186,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(L"id"), new object_runner_get_id(pool));
             add_object(pool->get_static_string(L"alive"), new object_runner_alive(pool));
+            add_object(pool->get_static_string(L"join"), new object_runner_join(pool));
         }
     };
 };

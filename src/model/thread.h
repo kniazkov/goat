@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "stack.h"
 #include "code/iid_t.h"
 #include <map>
+#include <vector>
 
 namespace g0at
 {
@@ -159,6 +160,7 @@ namespace g0at
             object_pool *pool;
             variable *ret;
             variable except;
+            std::vector<thread*> joined;
 
         protected:
             thread(const thread &) { }
