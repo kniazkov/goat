@@ -68,153 +68,119 @@ namespace g0at
             thr->pop(arg_count);
         */
 
-        class object_runner_get_id : public object_function_built_in
+        class object_runner_method : public object_function_built_in
+        {
+        public:
+            object_runner_method(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            virtual variable payload(thread *this_thr, thread *other_thr) = 0;
+
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_runner *runner = this_ptr->to_object_runner();
+                if (!runner)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                thr->pop(arg_count);
+                thread_id tid = runner->get_thread_id();
+                thread *thr_by_tid = thr->get_thread_list()->get_thread_by_tid(tid);
+                variable var = payload(thr, thr_by_tid);
+                thr->push(var);
+            }
+        };
+
+        class object_runner_get_id : public object_runner_method
         {
         public:
             object_runner_get_id(object_pool *_pool)
-                : object_function_built_in(_pool)
+                : object_runner_method(_pool)
             {
             }
             
-            void call(thread *thr, int arg_count, call_mode mode) override
+            variable payload(thread *this_thr, thread *other_thr)
             {
-                if (mode != call_mode::as_method)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_runner *runner = this_ptr->to_object_runner();
-                if (!runner)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                thr->pop(arg_count);
-
                 variable var;
-                var.set_integer(runner->get_thread_id().as_int64());
-                thr->push(var);
+                if (other_thr)
+                    var.set_integer(other_thr->get_id().as_int64());
+                else
+                    var.set_object(this_thr->pool->get_null_instance());
+                return var;
             }
         };
 
-        class object_runner_alive : public object_function_built_in
+        class object_runner_alive : public object_runner_method
         {
         public:
             object_runner_alive(object_pool *_pool)
-                : object_function_built_in(_pool)
+                : object_runner_method(_pool)
             {
             }
             
-            void call(thread *thr, int arg_count, call_mode mode) override
+            variable payload(thread *this_thr, thread *other_thr)
             {
-                if (mode != call_mode::as_method)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_runner *runner = this_ptr->to_object_runner();
-                if (!runner)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                thr->pop(arg_count);
-
                 variable var;
-                thread_id tid = runner->get_thread_id();
-                thread *thr_by_tid = thr->get_thread_list()->get_thread_by_tid(tid);
-                if (thr_by_tid)
-                    var.set_boolean(thr_by_tid->state != thread_state::zombie);
+                if (other_thr)
+                    var.set_boolean(other_thr->state != thread_state::zombie);
                 else
                     var.set_boolean(false);
-                thr->push(var);
+                return var;
             }
         };
 
-        class object_runner_join : public object_function_built_in
+        class object_runner_join : public object_runner_method
         {
         public:
             object_runner_join(object_pool *_pool)
-                : object_function_built_in(_pool)
+                : object_runner_method(_pool)
             {
             }
             
-            void call(thread *thr, int arg_count, call_mode mode) override
+            variable payload(thread *this_thr, thread *other_thr)
             {
-                if (mode != call_mode::as_method)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_runner *runner = this_ptr->to_object_runner();
-                if (!runner)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                thr->pop(arg_count);
-
                 variable var;
-                thread_id tid = runner->get_thread_id();
-                thread *thr_by_tid = thr->get_thread_list()->get_thread_by_tid(tid);
-                if (thr_by_tid && thr_by_tid != thr)
+                if (other_thr && other_thr != this_thr)
                 {
                     var.set_boolean(true);
-                    thr_by_tid->joined.push_back(thr);
-                    thr->state = thread_state::pause;
+                    other_thr->joined.push_back(this_thr);
+                    this_thr->state = thread_state::pause;
                 }
                 else
-                {
                     var.set_boolean(false);
-                }
-                thr->push(var);
+                return var;
             }
         };
 
-        class object_runner_kill : public object_function_built_in
+        class object_runner_kill : public object_runner_method
         {
         public:
             object_runner_kill(object_pool *_pool)
-                : object_function_built_in(_pool)
+                : object_runner_method(_pool)
             {
             }
             
-            void call(thread *thr, int arg_count, call_mode mode) override
+            variable payload(thread *this_thr, thread *other_thr)
             {
-                if (mode != call_mode::as_method)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_runner *runner = this_ptr->to_object_runner();
-                if (!runner)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                thr->pop(arg_count);
-
                 variable var;
-                thread_id tid = runner->get_thread_id();
-                thread *thr_by_tid = thr->get_thread_list()->get_thread_by_tid(tid);
-                if (thr_by_tid && thr_by_tid->state != thread_state::zombie)
+                if (other_thr && other_thr->state != thread_state::zombie)
                 {
                     var.set_boolean(true);
-                    thr_by_tid->state = thread_state::zombie;
+                    other_thr->state = thread_state::zombie;
                 }
                 else
-                {
                     var.set_boolean(false);
-                }
-                thr->push(var);
+                return var;
             }
         };
 
