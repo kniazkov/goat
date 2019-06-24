@@ -1,0 +1,24 @@
+var x = 0;
+
+var t1 = thread()
+{
+    for(;;)
+    {
+        ++x;
+    }
+};
+
+var t2 = thread()
+{
+    var i;
+    for (i = 0; i < 10; ++i)
+    {
+        println(i);
+    }
+};
+
+var r1 = t1.run();
+var r2 = t2.run();
+r2.join();
+r1.kill();
+println(x != 0);
