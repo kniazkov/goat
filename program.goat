@@ -2,19 +2,21 @@ var x = 0;
 
 var t = thread()
 {
-    var i, j;
-    for (i = 0; i < 10; ++i)
+    var i;
+    try
     {
-        lock
+        for (i = 0; i < 10; ++i)
         {
-            for (j = 0; j < 10; ++j)
+            lock
             {
-                lock
-                {
-                    ++x;
-                }
+                ++x;
+                if (i == 5)
+                    throw 1;
             }
         }
+    }
+    catch
+    {
     }
 };
 

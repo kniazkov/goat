@@ -59,6 +59,7 @@ namespace g0at
             context_value_type value_type;
             variable *ret;
             int stack_size;
+            int lock;
         };
     };
 };

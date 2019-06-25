@@ -144,11 +144,21 @@ namespace g0at
             {
                 ctx = _ctx;
                 ctx->stack_size = data.size();
+                ctx->lock = lock;
             }
 
             void restore_context()
             {
-                data.restore_size(ctx ? ctx->stack_size : 0);
+                if (ctx)
+                {
+                    data.restore_size(ctx->stack_size);
+                    lock = ctx->lock;
+                }
+                else
+                {
+                    data.restore_size(0);
+                    lock = 0;
+                }
                 ctx = ctx->prev;
             }
 
