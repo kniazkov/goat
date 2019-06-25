@@ -447,5 +447,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_lock *token::to_keyword_lock()
+        {
+            return nullptr;
+        }
+
+        statement_lock *token::to_statement_lock()
+        {
+            return nullptr;
+        }
     }
 };

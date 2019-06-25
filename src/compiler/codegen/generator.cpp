@@ -55,6 +55,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_empty.h"
 #include "compiler/pt/operator_new.h"
 #include "compiler/pt/prefix_increment.h"
+#include "compiler/pt/statement_lock.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -100,6 +101,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/inc.h"
 #include "code/thread.h"
 #include "code/rethrow.h"
+#include "code/lock.h"
+#include "code/unlock.h"
 
 namespace g0at
 {
@@ -553,6 +556,13 @@ namespace g0at
             ref->get_right()->accept(this);
             code->add_instruction(new code::_inc());
             ref->get_right()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::statement_lock *ref)
+        {
+            code->add_instruction(new code::_lock());
+            ref->get_statement()->accept(this);
+            code->add_instruction(new code::_unlock());
         }
     };
 };

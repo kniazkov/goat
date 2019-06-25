@@ -75,6 +75,7 @@ namespace g0at
         class statement_empty;
         class operator_new;
         class prefix_increment;
+        class statement_lock;
 
         class node : public lib::ref_counter
         {
@@ -125,6 +126,7 @@ namespace g0at
             virtual statement_empty *to_statement_empty();
             virtual operator_new *to_operator_new();
             virtual prefix_increment *to_prefix_increment();
+            virtual statement_lock *to_statement_lock();
 
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }

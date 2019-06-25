@@ -112,6 +112,8 @@ namespace g0at
         class increment;
         class prefix_increment;
         class keyword_thread;
+        class keyword_lock;
+        class statement_lock;
 
         class token : public lib::ref_counter
         {
@@ -201,6 +203,8 @@ namespace g0at
             virtual increment *to_increment();
             virtual prefix_increment *to_prefix_increment();
             virtual keyword_thread *to_keyword_thread();
+            virtual keyword_lock *to_keyword_lock();
+            virtual statement_lock *to_statement_lock();
             
             lib::pointer<position> get_position() { return pos; }
 

@@ -93,6 +93,8 @@ namespace g0at
         class increment;
         class prefix_increment;
         class keyword_thread;
+        class keyword_lock;
+        class statement_lock;
 
         class token_visitor
         {
@@ -166,6 +168,8 @@ namespace g0at
             virtual void visit(increment *ref);
             virtual void visit(prefix_increment *ref);
             virtual void visit(keyword_thread *ref);
+            virtual void visit(keyword_lock *ref);
+            virtual void visit(statement_lock *ref);
         };
     };
 };

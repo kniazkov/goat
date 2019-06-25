@@ -244,5 +244,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_lock *node::to_statement_lock()
+        {
+            return nullptr;
+        }
    }
 };

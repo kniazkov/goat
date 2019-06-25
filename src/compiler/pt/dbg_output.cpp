@@ -61,6 +61,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_empty.h"
 #include "operator_new.h"
 #include "prefix_increment.h"
+#include "statement_lock.h"
 
 namespace g0at
 {
@@ -740,6 +741,14 @@ namespace g0at
             dbg_output right(env);
             ref->get_right()->accept(&right);
             link_child(right);
+        }
+
+        void dbg_output::visit(statement_lock *ref)
+        {
+            print(ref, L"lock");
+            dbg_output out_stmt(env);
+            ref->get_statement()->accept(&out_stmt);
+            link_child(out_stmt);
         }
     };
 };

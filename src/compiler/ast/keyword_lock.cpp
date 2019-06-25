@@ -20,27 +20,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "token_with_list.h"
-#include "statement.h"
-#include "brackets_pair.h"
+#include "keyword_lock.h"
 
 namespace g0at
 {
     namespace ast
     {
-        class statement_block : public statement, public token_with_list
+        void keyword_lock::accept(token_visitor *visitor)
         {
-        public:
-            statement_block(brackets_pair *_body);
-            void accept(token_visitor *visitor) override;
-            statement_block *to_statement_block() override;
+            visitor->visit(this);
+        }
 
-            token_list *get_body() { return &body; }
-
-        protected:
-            token_list body;
-        };
+        keyword_lock *keyword_lock::to_keyword_lock()
+        {
+            return this;
+        }
     };
 };

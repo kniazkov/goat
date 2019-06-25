@@ -64,6 +64,7 @@ namespace g0at
         class statement_empty;
         class operator_new;
         class prefix_increment;
+        class statement_lock;
 
         class node_visitor
         {
@@ -108,6 +109,7 @@ namespace g0at
             virtual void visit(statement_empty *ref);
             virtual void visit(operator_new *ref);
             virtual void visit(prefix_increment *ref);
+            virtual void visit(statement_lock *ref);
         };
     };
 };

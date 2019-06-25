@@ -73,6 +73,8 @@ namespace g0at
         class _inc;
         class _thread;
         class _rethrow;
+        class _lock;
+        class _unlock;
 
         class instruction_visitor
         {
@@ -126,6 +128,8 @@ namespace g0at
             virtual void visit(_inc *ref) = 0;
             virtual void visit(_thread *ref) = 0;
             virtual void visit(_rethrow *ref) = 0;
+            virtual void visit(_lock *ref) = 0;
+            virtual void visit(_unlock *ref) = 0;
         };
     };
 };

@@ -161,6 +161,7 @@ namespace g0at
             variable *ret;
             variable except;
             std::vector<thread*> joined;
+            int lock;
 
         protected:
             thread(const thread &) { }

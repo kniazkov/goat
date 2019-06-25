@@ -301,5 +301,13 @@ namespace g0at
         void token_visitor::visit(keyword_thread *ref)
         {
         }
+
+        void token_visitor::visit(keyword_lock *ref)
+        {
+        }
+
+        void token_visitor::visit(statement_lock *ref)
+        {
+        }
     }
 };

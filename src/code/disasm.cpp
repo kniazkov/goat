@@ -361,5 +361,15 @@ namespace g0at
         {
             stream << L"rethrow";
         }
+
+        void disasm::visit(_lock *ref)
+        {
+            stream << L"lock";
+        }
+
+        void disasm::visit(_unlock *ref)
+        {
+            stream << L"unlock";
+        }
     };
 };

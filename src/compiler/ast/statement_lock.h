@@ -22,25 +22,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "token_with_list.h"
 #include "statement.h"
-#include "brackets_pair.h"
+#include "nonterminal.h"
+#include "keyword_lock.h"
 
 namespace g0at
 {
     namespace ast
     {
-        class statement_block : public statement, public token_with_list
+        class statement_lock : public statement, public nonterminal
         {
         public:
-            statement_block(brackets_pair *_body);
+            statement_lock(keyword_lock *_kw, lib::pointer<statement> _stmt);
             void accept(token_visitor *visitor) override;
-            statement_block *to_statement_block() override;
+            statement_lock *to_statement_lock() override;
 
-            token_list *get_body() { return &body; }
+            lib::pointer<statement> get_statement() { return stmt; }
 
         protected:
-            token_list body;
+            lib::pointer<statement> stmt;
         };
     };
 };

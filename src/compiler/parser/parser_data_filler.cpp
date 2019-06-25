@@ -53,6 +53,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/semicolon.h"
 #include "compiler/ast/keyword_new.h"
 #include "compiler/ast/increment.h"
+#include "compiler/ast/keyword_lock.h"
 
 namespace g0at
 {
@@ -225,6 +226,11 @@ namespace g0at
         void parser_data_filler::visit(ast::increment *ref)
         {
             data->opers_incr_decr.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::keyword_lock *ref)
+        {
+            data->lock_keywords.add(ref);
         }
     };
 };

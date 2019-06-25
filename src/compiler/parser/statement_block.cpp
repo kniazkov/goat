@@ -82,6 +82,8 @@ namespace g0at
                         goto okay;                
                     if (body->prev->to_keyword_finally())
                         goto okay;                
+                    if (body->prev->to_keyword_lock())
+                        goto okay;                
                 } while(false);
 
                 return false;

@@ -95,7 +95,11 @@ namespace g0at
             _neq,
             _less,
 
-            _inherit
+            _inherit,
+
+            // multithreading
+            _lock,
+            _unlock
         };
     };
 };

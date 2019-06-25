@@ -83,6 +83,7 @@ namespace g0at
             void visit(pt::statement_empty *ref) override;
             void visit(pt::operator_new *ref) override;
             void visit(pt::prefix_increment *ref) override;
+            void visit(pt::statement_lock *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

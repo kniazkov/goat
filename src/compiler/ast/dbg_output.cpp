@@ -58,6 +58,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "is_less_than.h"
 #include "operator_new.h"
 #include "prefix_increment.h"
+#include "statement_lock.h"
 
 namespace g0at
 {
@@ -684,6 +685,19 @@ namespace g0at
         void dbg_output::visit(keyword_thread *ref)
         {
             print(L"keyword", L"thread");
+        }
+
+        void dbg_output::visit(keyword_lock *ref)
+        {
+            print(L"keyword", L"lock");
+        }
+
+        void dbg_output::visit(statement_lock *ref)
+        {
+            print(L"lock");
+            dbg_output out_stmt(data);
+            ref->get_statement()->accept(&out_stmt);
+            link_child(out_stmt);
         }
     };
 };

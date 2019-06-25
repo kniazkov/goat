@@ -65,6 +65,7 @@ namespace g0at
             void visit(ast::semicolon *ref) override;
             void visit(ast::keyword_new *ref) override;
             void visit(ast::increment *ref) override;
+            void visit(ast::keyword_lock *ref) override;
 
         protected:
             parser_data *data;

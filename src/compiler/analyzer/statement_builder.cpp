@@ -43,6 +43,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_for.h"
 #include "compiler/ast/statement_empty.h"
 #include "compiler/pt/statement_empty.h"
+#include "compiler/ast/statement_lock.h"
+#include "compiler/pt/statement_lock.h"
 
 namespace g0at
 {
@@ -238,6 +240,14 @@ namespace g0at
         void statement_builder::visit(ast::statement_empty *ref)
         {
             stmt = new pt::statement_empty(ref->get_position());
+        }
+
+        void statement_builder::visit(ast::statement_lock *ref)
+        {
+            statement_builder visitor;
+            ref->get_statement()->accept(&visitor);
+            assert(visitor.has_stmt());
+            stmt = new pt::statement_lock(ref->get_position(), visitor.get_stmt());
         }
     };
 };

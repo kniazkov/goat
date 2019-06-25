@@ -427,5 +427,15 @@ namespace g0at
         {
             push_opcode(op::_rethrow);
         }
+
+        void serializer::visit(_lock *ref)
+        {
+            push_opcode(op::_lock);
+        }
+
+        void serializer::visit(_unlock *ref)
+        {
+            push_opcode(op::_unlock);
+        }
     };
 };
