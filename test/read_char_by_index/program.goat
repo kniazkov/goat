@@ -1,0 +1,6 @@
+var s = "test";
+var i;
+for (i = 0; i < s.length(); ++i)
+{
+    println(s[i]);
+}
