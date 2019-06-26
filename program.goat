@@ -1,18 +1,6 @@
-var obj =
+var s = "test";
+var i;
+for (i = 0; i < s.length(); ++i)
 {
-    data : {},
-
-    set : $(key, value)
-    {
-        if (key.instanceof(String))
-        {
-            data[key] = value;
-        }
-    }
-};
-
-obj["value"] = 0;
-obj[1] = 1;
-obj[false] = 2;
-
-println(obj.data);
+    println(s[i]);
+}

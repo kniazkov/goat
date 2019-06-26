@@ -127,6 +127,36 @@ namespace g0at
             thr->push(result);
         }
 
+        void object_string::m_get(thread *thr, int arg_count)
+        {
+            if (arg_count < 1)
+            {
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                return;
+            }
+            thr->pop().get_object();
+            variable index = thr->peek();
+            thr->pop(arg_count);
+            int64_t int_index;
+            if (index.get_integer(&int_index))
+            {
+                if (int_index >= 0 && int_index < data.size())
+                {
+                    variable tmp;
+                    tmp.set_char(data[(size_t)int_index]);
+                    thr->push(tmp);
+                    return;
+                }
+            }
+            thr->push_undefined();                
+        }
+
+        void object_string::m_set(thread *thr, int arg_count)
+        {
+            // Strings are immutable
+            thr->raise_exception(thr->pool->get_exception_illegal_operation_instance());
+        }
+
         /*
             Prototype
         */

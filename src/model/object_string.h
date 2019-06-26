@@ -46,6 +46,8 @@ namespace g0at
             std::wstring to_string_notation() const override;
             void op_add(thread *thr) override;
             void op_less(thread *thr) override;
+            void m_get(thread *thr, int arg_count) override;
+            void m_set(thread *thr, int arg_count) override;
 
             std::wstring get_data() { return data; }
 
