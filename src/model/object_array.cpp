@@ -94,6 +94,61 @@ namespace g0at
             right->topology->build();
         }
 
+        void object_array::m_get(thread *thr, int arg_count)
+        {
+            if (arg_count < 1)
+            {
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                return;
+            }
+            object *this_ptr = thr->pop().get_object();
+            assert(this_ptr != nullptr);
+            variable index = thr->peek();
+            thr->pop(arg_count);
+            int64_t int_index;
+            if (index.get_integer(&int_index))
+            {
+                if (int_index >= 0 && int_index < vector.size())
+                {
+                    thr->push(vector[(size_t)int_index]);
+                    return;
+                }
+            }
+            thr->push_undefined();                
+        }
+
+        void object_array::m_set(thread *thr, int arg_count)
+        {
+            if (arg_count < 2)
+            {
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                return;
+            }
+            object *this_ptr = thr->pop().get_object();
+            assert(this_ptr != nullptr);
+            variable value = thr->peek(0);
+            variable index = thr->peek(1);
+            thr->pop(arg_count);
+            int64_t int_index;
+            if (index.get_integer(&int_index))
+            {
+                if (int_index >= 0 && int_index < INT32_MAX)
+                {
+                    for (int i = (int)vector.size(); i < int_index - 1; i++)
+                    {
+                        variable tmp;
+                        tmp.set_object(thr->pool->get_undefined_instance());
+                        vector.push_back(tmp);
+                    }
+                    vector.push_back(value);
+                    thr->push(value);
+                    return;
+                }
+            }
+            thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+            return;
+        }
+
         /*
             Prototype
         */

@@ -43,6 +43,8 @@ namespace g0at
             void trace() override;
 
             void op_inherit(thread *thr) override;
+            void m_get(thread *thr, int arg_count) override;
+            void m_set(thread *thr, int arg_count) override;
 
             void add_item(variable &item) { vector.push_back(item); }
             int get_length() { return (int)vector.size(); }
