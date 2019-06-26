@@ -103,6 +103,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/rethrow.h"
 #include "code/lock.h"
 #include "code/unlock.h"
+#include "code/get.h"
+#include "code/set.h"
 
 namespace g0at
 {
@@ -359,6 +361,10 @@ namespace g0at
                 code->add_instruction(new code::_insof(args_count));
             else if (name == L"flat")
                 code->add_instruction(new code::_flat(args_count));
+            else if (name == L"get")
+                code->add_instruction(new code::_get(args_count));
+            else if (name == L"set")
+                code->add_instruction(new code::_set(args_count));
             else
             {
                 int id = name_cache.get_id(name);

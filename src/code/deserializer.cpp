@@ -77,6 +77,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "rethrow.h"
 #include "lock.h"
 #include "unlock.h"
+#include "get.h"
+#include "set.h"
 
 namespace g0at
 {
@@ -509,6 +511,18 @@ namespace g0at
             dst->add_instruction(new _unlock());
         }
 
+        void deserializer::c_get(source *src, code *dst)
+        {
+            int arg_count = pop_int32(src);
+            dst->add_instruction(new _get(arg_count));
+        }
+
+        void deserializer::c_set(source *src, code *dst)
+        {
+            int arg_count = pop_int32(src);
+            dst->add_instruction(new _set(arg_count));
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -560,6 +574,8 @@ namespace g0at
             cc[op::_rethrow] = c_rethrow;
             cc[op::_lock]    = c_lock;
             cc[op::_unlock]  = c_unlock;
+            cc[op::_get]     = c_get;
+            cc[op::_set]     = c_set;
         }
     };
 };

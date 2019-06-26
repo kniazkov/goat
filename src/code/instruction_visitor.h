@@ -75,6 +75,8 @@ namespace g0at
         class _rethrow;
         class _lock;
         class _unlock;
+        class _get;
+        class _set;
 
         class instruction_visitor
         {
@@ -130,6 +132,8 @@ namespace g0at
             virtual void visit(_rethrow *ref) = 0;
             virtual void visit(_lock *ref) = 0;
             virtual void visit(_unlock *ref) = 0;
+            virtual void visit(_get *ref) = 0;
+            virtual void visit(_set *ref) = 0;
         };
     };
 };

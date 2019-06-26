@@ -87,6 +87,8 @@ namespace g0at
             void visit(_rethrow *ref) override;
             void visit(_lock *ref) override;
             void visit(_unlock *ref) override;
+            void visit(_get *ref) override;
+            void visit(_set *ref) override;
 
         protected:
             std::wstringstream &stream;

@@ -81,6 +81,8 @@ namespace g0at
             _finally,
 
             // methods
+            _get,
+            _set,
             _clone,
             _insof,
             _flat,

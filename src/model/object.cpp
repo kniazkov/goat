@@ -455,6 +455,18 @@ namespace g0at
             find_and_vcall(thr, arg_count, L"flat");
         }
 
+        void object::m_get(thread *thr, int arg_count)
+        {
+            // find and call own 'get()' method
+            find_and_vcall(thr, arg_count, L"get");
+        }
+
+        void object::m_set(thread *thr, int arg_count)
+        {
+            // find and call own 'set()' method
+            find_and_vcall(thr, arg_count, L"set");
+        }
+
         /*
             Topology
         */
@@ -773,6 +785,20 @@ namespace g0at
             thr->push(tmp);
         }
 
+        void handler::m_get(variable *var, thread *thr, int arg_count)
+        {
+            // you can not get anything from primitive
+            thr->pop(arg_count);
+            thr->push_undefined();
+        }
+
+        void handler::m_set(variable *var, thread *thr, int arg_count)
+        {
+            // you can not set something to primitive
+            thr->pop(arg_count);
+            thr->push_undefined();
+        }
+
         /* 
             Generic handler
         */
@@ -884,6 +910,16 @@ namespace g0at
             void m_flat(variable *var, thread *thr, int arg_count) override
             {
                 var->data.obj->m_flat(thr, arg_count);
+            }
+
+            void m_get(variable *var, thread *thr, int arg_count) override
+            {
+                var->data.obj->m_get(thr, arg_count);
+            }
+
+            void m_set(variable *var, thread *thr, int arg_count) override
+            {
+                var->data.obj->m_set(thr, arg_count);
             }
         };
 

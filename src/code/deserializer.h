@@ -118,6 +118,8 @@ namespace g0at
             static void c_rethrow(source *src, code *dst);
             static void c_lock(source *src, code *dst);
             static void c_unlock(source *src, code *dst);
+            static void c_get(source *src, code *dst);
+            static void c_set(source *src, code *dst);
 
             std::map<op, creator> cc;
         };
