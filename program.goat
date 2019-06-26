@@ -1,6 +1,4 @@
-var s = "test";
-var i;
-for (i = 0; i < s.length(); ++i)
+for (var i = 0; i < 10; ++i)
 {
-    println(s[i]);
+    println(i);
 }

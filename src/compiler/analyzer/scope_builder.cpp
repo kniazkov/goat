@@ -54,6 +54,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/value_null.h"
 #include "compiler/pt/value_true.h"
 #include "compiler/pt/value_false.h"
+#include "compiler/pt/statement_for.h"
 
 
 namespace g0at
@@ -321,6 +322,17 @@ namespace g0at
         void scope_builder::visit(pt::character *ref)
         {
             ref->set_scope(s0);
+        }
+
+        void scope_builder::visit(pt::statement_for *ref)
+        {
+            lib::pointer<pt::scope> s1 = new pt::scope(s0);
+            ref->set_scope(s0);
+            scope_builder b(s1);
+            ref->get_stmt_init()->accept(&b);
+            ref->get_condition()->accept(&b);
+            ref->get_increment()->accept(&b);
+            ref->get_body()->accept(&b);
         }
     };
 };
