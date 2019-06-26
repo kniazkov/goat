@@ -134,13 +134,20 @@ namespace g0at
             {
                 if (int_index >= 0 && int_index < INT32_MAX)
                 {
-                    for (int i = (int)vector.size(); i < int_index - 1; i++)
+                    if (int_index < vector.size())
+                    {
+                        vector[(size_t)int_index] = value;
+                    }
+                    else
                     {
                         variable tmp;
                         tmp.set_object(thr->pool->get_undefined_instance());
-                        vector.push_back(tmp);
+                        for (int i = (int)vector.size(); i < int_index - 1; i++)
+                        {
+                            vector.push_back(tmp);
+                        }
+                        vector.push_back(value);
                     }
-                    vector.push_back(value);
                     thr->push(value);
                     return;
                 }
