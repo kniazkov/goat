@@ -507,8 +507,14 @@ namespace g0at
         void generator::visit(pt::statement_for *ref)
         {
             auto stmt_init = ref->get_stmt_init();
+            bool clone_context = false;
             if (stmt_init)
             {
+                if (stmt_init->to_declare_variable())
+                {
+                    clone_context = true;
+                    code->add_instruction(new code::_enter());
+                }
                 stmt_init->accept(this);
             }
             code::iid_t iid_begin = code->get_current_iid();
@@ -530,6 +536,10 @@ namespace g0at
             if (condition)
             {
                 if_not->get_iid_ptr().set(code->get_current_iid());
+            }
+            if (clone_context)
+            {
+                code->add_instruction(new code::_leave());
             }
         }
 

@@ -329,9 +329,15 @@ namespace g0at
             lib::pointer<pt::scope> s1 = new pt::scope(s0);
             ref->set_scope(s0);
             scope_builder b(s1);
-            ref->get_stmt_init()->accept(&b);
-            ref->get_condition()->accept(&b);
-            ref->get_increment()->accept(&b);
+            auto stmt_init = ref->get_stmt_init();
+            if (stmt_init)
+                stmt_init->accept(&b);
+            auto condition = ref->get_condition();
+            if (condition)
+                condition->accept(&b);
+            auto increment = ref->get_increment();
+            if (increment)
+                increment->accept(&b);
             ref->get_body()->accept(&b);
         }
     };
