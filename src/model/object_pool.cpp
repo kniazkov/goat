@@ -101,6 +101,7 @@ namespace g0at
             array_proto->init(this);
             exception_illegal_argument_instance = new object_exception_illegal_argument(this);
             exception_illegal_context_instance = new object_exception_illegal_context(this);
+            exception_illegal_operation_instance = new object_exception_illegal_operation(this);
             exception_proto->init(this);
         }
 

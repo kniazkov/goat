@@ -78,6 +78,7 @@ namespace g0at
             virtual std::wstring unknown_exception() = 0;
             virtual std::wstring illegal_argument() = 0;
             virtual std::wstring illegal_context() = 0;
+            virtual std::wstring illegal_operation() = 0;
             
         protected:
             static resource *get_intance_en();

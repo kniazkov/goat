@@ -61,6 +61,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(L"IllegalArgument"), pool->get_exception_illegal_argument_instance());
             add_object(pool->get_static_string(L"IllegalContext"), pool->get_exception_illegal_context_instance());
+            add_object(pool->get_static_string(L"IllegalOperation"), pool->get_exception_illegal_operation_instance());
         }
 
         /*
@@ -87,6 +88,19 @@ namespace g0at
         std::wstring object_exception_illegal_context::to_string() const
         {
             return global::resource->illegal_context();
+        }
+
+        /*
+            IllegalOperation
+        */
+        object_exception_illegal_operation::object_exception_illegal_operation(object_pool *pool)
+            : object_exception(pool)
+        {
+        }
+
+        std::wstring object_exception_illegal_operation::to_string() const
+        {
+            return global::resource->illegal_operation();
         }
     };
 };

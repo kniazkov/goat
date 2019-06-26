@@ -105,6 +105,7 @@ namespace g0at
             object *get_exception_proto_instance() { return exception_proto_instance; }
             object *get_exception_illegal_argument_instance() { return exception_illegal_argument_instance; }
             object *get_exception_illegal_context_instance() { return exception_illegal_context_instance; }
+            object *get_exception_illegal_operation_instance() { return exception_illegal_operation_instance; }
 
             generic_object *create_generic_object();
             context *create_context();
@@ -157,6 +158,7 @@ namespace g0at
             object *exception_proto_instance;
             object *exception_illegal_argument_instance;
             object *exception_illegal_context_instance;
+            object *exception_illegal_operation_instance;
 
             object_cache static_strings;
         };

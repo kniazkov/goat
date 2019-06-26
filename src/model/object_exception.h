@@ -60,5 +60,13 @@ namespace g0at
             object_exception_illegal_context(object_pool *pool);
             std::wstring to_string() const override;
         };
+
+        class object_exception_illegal_operation : public object_exception
+        {
+        friend class object_pool;
+        protected:
+            object_exception_illegal_operation(object_pool *pool);
+            std::wstring to_string() const override;
+        };
     };
 };

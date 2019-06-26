@@ -259,6 +259,11 @@ namespace g0at
             {
                 return L"недопустимый контекст";
             }
+
+            std::wstring illegal_operation() override
+            {
+                return L"недопустимая операция";
+            }
         };
 
         resource *resource::get_intance_ru()
