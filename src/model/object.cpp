@@ -595,6 +595,38 @@ namespace g0at
             }
         };
 
+        class generic_getter : public object_function_built_in
+        {
+        public:
+            generic_getter(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object *key = thr->peek().to_object(thr->pool);
+                thr->pop(arg_count);
+                variable *found = this_ptr->find_object(key);
+                if (found)
+                    thr->push(*found);
+                else
+                    thr->push_undefined();                
+            }
+        };
+
         generic_proto::generic_proto(object_pool *pool)
             : object(pool, nullptr)
         {
@@ -605,6 +637,7 @@ namespace g0at
             add_object(pool->get_static_string(L"clone"), new generic_clone(pool));
             add_object(pool->get_static_string(L"instanceof"), new generic_instance_of(pool));
             add_object(pool->get_static_string(L"flat"), new generic_flat(pool));
+            add_object(pool->get_static_string(L"get"), new generic_getter(pool));
         }
 
         /*

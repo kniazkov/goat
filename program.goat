@@ -1,2 +1,2 @@
-var obj = { value : 0 };
+var obj = { value : 7 };
 println(obj.get("value"));
