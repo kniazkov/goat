@@ -309,5 +309,9 @@ namespace g0at
         void token_visitor::visit(statement_lock *ref)
         {
         }
+
+        void token_visitor::visit(index_access *ref)
+        {
+        }
     }
 };

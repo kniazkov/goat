@@ -119,6 +119,7 @@ namespace g0at
             void visit(keyword_thread *ref) override;
             void visit(keyword_lock *ref) override;
             void visit(statement_lock *ref) override;
+            void visit(index_access *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

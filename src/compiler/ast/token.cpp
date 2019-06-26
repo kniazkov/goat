@@ -457,5 +457,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        index_access *token::to_index_access()
+        {
+            return nullptr;
+        }
     }
 };

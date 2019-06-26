@@ -59,6 +59,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "operator_new.h"
 #include "prefix_increment.h"
 #include "statement_lock.h"
+#include "index_access.h"
 
 namespace g0at
 {
@@ -698,6 +699,16 @@ namespace g0at
             dbg_output out_stmt(data);
             ref->get_statement()->accept(&out_stmt);
             link_child(out_stmt);
+        }
+
+        void dbg_output::visit(index_access *ref)
+        {
+            print(L"access by index");
+            dbg_output child(data);
+            ref->get_expression()->accept(&child);
+            link_child(child, L"object");
+            print_token_list(ref->get_raw_list(), L"raw");
+            print_token_list(ref->get_args_list(), L"args");
         }
     };
 };

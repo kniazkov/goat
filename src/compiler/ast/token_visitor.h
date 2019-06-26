@@ -95,6 +95,7 @@ namespace g0at
         class keyword_thread;
         class keyword_lock;
         class statement_lock;
+        class index_access;
 
         class token_visitor
         {
@@ -170,6 +171,7 @@ namespace g0at
             virtual void visit(keyword_thread *ref);
             virtual void visit(keyword_lock *ref);
             virtual void visit(statement_lock *ref);
+            virtual void visit(index_access *ref);
         };
     };
 };
