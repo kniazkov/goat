@@ -1,1 +1,1 @@
-println('a'.instanceOf(Char));
+println('a'.instanceof(Char));

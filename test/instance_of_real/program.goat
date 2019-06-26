@@ -1,4 +1,4 @@
 var obj  = 1.0;
 
-println(obj.instanceOf(Real));
-println(obj.instanceOf(Null));
+println(obj.instanceof(Real));
+println(obj.instanceof(Null));

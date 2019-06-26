@@ -445,8 +445,8 @@ namespace g0at
 
         void object::m_instance_of(thread *thr, int arg_count)
         {
-            // find and call own 'instanceOf()' method
-            find_and_vcall(thr, arg_count, L"instanceOf");
+            // find and call own 'instanceof()' method
+            find_and_vcall(thr, arg_count, L"instanceof");
         }
 
         void object::m_flat(thread *thr, int arg_count)
@@ -603,7 +603,7 @@ namespace g0at
         void generic_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(L"clone"), new generic_clone(pool));
-            add_object(pool->get_static_string(L"instanceOf"), new generic_instance_of(pool));
+            add_object(pool->get_static_string(L"instanceof"), new generic_instance_of(pool));
             add_object(pool->get_static_string(L"flat"), new generic_flat(pool));
         }
 

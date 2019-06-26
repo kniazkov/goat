@@ -1,5 +1,5 @@
 var u;
-println(u.instanceOf(Object));
+println(u.instanceof(Object));
 
 var f = $() { };
-println(f.instanceOf(Object));
+println(f.instanceof(Object));

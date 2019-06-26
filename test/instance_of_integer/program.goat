@@ -1,4 +1,4 @@
 var obj  = 1;
 
-println(obj.instanceOf(Integer));
-println(obj.instanceOf(Null));
+println(obj.instanceof(Integer));
+println(obj.instanceof(Null));

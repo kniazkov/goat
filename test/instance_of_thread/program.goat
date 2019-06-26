@@ -3,5 +3,5 @@ var t = $$()
     println("it works.");
 };
 
-println(t.instanceOf(Thread));
-println(t.instanceOf(Function));
+println(t.instanceof(Thread));
+println(t.instanceof(Function));

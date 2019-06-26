@@ -1,11 +1,11 @@
-println(void.instanceOf(Void));
-println(void.instanceOf(Undefined));
-println(void.instanceOf(Null));
+println(void.instanceof(Void));
+println(void.instanceof(Undefined));
+println(void.instanceof(Null));
 
-println(undefined.instanceOf(Void));
-println(undefined.instanceOf(Undefined));
-println(undefined.instanceOf(Null));
+println(undefined.instanceof(Void));
+println(undefined.instanceof(Undefined));
+println(undefined.instanceof(Null));
 
-println(null.instanceOf(Void));
-println(null.instanceOf(Undefined));
-println(null.instanceOf(Null));
+println(null.instanceof(Void));
+println(null.instanceof(Undefined));
+println(null.instanceof(Null));

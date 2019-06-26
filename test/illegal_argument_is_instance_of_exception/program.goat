@@ -1,2 +1,2 @@
 var obj = Exception.IllegalArgument;
-println(obj.instanceOf(Exception));
+println(obj.instanceof(Exception));

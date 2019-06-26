@@ -1,5 +1,5 @@
-println(true.instanceOf(Boolean));
-println(false.instanceOf(Boolean));
+println(true.instanceof(Boolean));
+println(false.instanceof(Boolean));
 
-println(true.instanceOf(Null));
-println(false.instanceOf(Null));
+println(true.instanceof(Null));
+println(false.instanceof(Null));

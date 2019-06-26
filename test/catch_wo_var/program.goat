@@ -1,6 +1,6 @@
 var plus_2 = $(val)
 {
-    if (val.instanceOf(Number))
+    if (val.instanceof(Number))
     {
         println(2 + val);
     }

@@ -355,7 +355,7 @@ namespace g0at
             std::wstring name = ref->get_name();
             if (name == L"clone")
                 code->add_instruction(new code::_clone(args_count));
-            else if (name == L"instanceOf")
+            else if (name == L"instanceof")
                 code->add_instruction(new code::_insof(args_count));
             else if (name == L"flat")
                 code->add_instruction(new code::_flat(args_count));
