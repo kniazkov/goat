@@ -24,8 +24,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "generator.h"
 #include "compiler/pt/variable.h"
 #include "compiler/pt/property.h"
+#include "compiler/pt/index_access.h"
 #include "code/store.h"
 #include "code/write.h"
+#include "code/set.h"
 
 namespace g0at
 {
@@ -47,6 +49,17 @@ namespace g0at
             ref->get_left()->accept(rgen);
             int id = name_cache->get_id(ref->get_name());
             code->add_instruction(new code::_write(id));
+        }
+
+        void lvalue_generator::visit(pt::index_access *ref)
+        {
+            int args_count = ref->get_args_count();
+            for (int i = args_count - 1; i > -1; i--)
+            {
+                ref->get_arg(i)->accept(rgen);
+            }
+            ref->get_object()->accept(rgen);
+            code->add_instruction(new code::_set(args_count + 1));
         }
     };
 };

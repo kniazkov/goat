@@ -40,6 +40,7 @@ namespace g0at
             lvalue_generator(lib::pointer<code::code> _code, model::name_cache *_name_cache, generator *_rgen);
             void visit(pt::variable *ref) override;
             void visit(pt::property *ref) override;
+            void visit(pt::index_access *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

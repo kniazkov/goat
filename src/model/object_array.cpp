@@ -131,8 +131,8 @@ namespace g0at
             }
             else
             {
-                variable value = thr->peek(0);
-                variable index = thr->peek(1);
+                variable index = thr->peek(0);
+                variable value = thr->peek(arg_count - 1);
                 thr->pop(arg_count);
                 int64_t int_index;
                 if (index.get_integer(&int_index))
