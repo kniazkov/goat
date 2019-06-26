@@ -142,7 +142,7 @@ namespace g0at
                     {
                         variable tmp;
                         tmp.set_object(thr->pool->get_undefined_instance());
-                        for (int i = (int)vector.size(); i < int_index - 1; i++)
+                        for (int i = (int)vector.size(); i < int_index; i++)
                         {
                             vector.push_back(tmp);
                         }
