@@ -30,6 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/token_array.h"
 #include "compiler/ast/statement_block.h"
 #include "compiler/ast/operator_new.h"
+#include "compiler/ast/index_access.h"
 #include <vector>
 
 namespace g0at
@@ -69,6 +70,7 @@ namespace g0at
             std::vector<ast::token_array*> arrays;
             std::vector<ast::statement_block*> blocks;
             std::vector<ast::operator_new*> operators_new;
+            std::vector<ast::index_access*> index_access;
         };
     };
 };

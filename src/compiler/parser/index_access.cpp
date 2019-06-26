@@ -23,7 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "pattern.h"
 #include "grammar_factory.h"
 #include "compiler/ast/brackets_pair.h"
-#include "compiler/ast/function_call.h"
+#include "compiler/ast/index_access.h"
 #include "lib/assert.h"
 
 
@@ -31,10 +31,10 @@ namespace g0at
 {
     namespace parser
     {
-        class function_call : public pattern
+        class index_access : public pattern
         {
         public:
-            function_call(parser_data *_data)
+            index_access(parser_data *_data)
                 : pattern(&_data->expressions, _data)
             {
             }
@@ -42,27 +42,27 @@ namespace g0at
         protected:
             bool check(ast::token *tok) override
             {
-                ast::expression *func_object = tok->to_expression();
-                assert(func_object != nullptr);
+                ast::expression *object = tok->to_expression();
+                assert(object != nullptr);
                 
-                if (!func_object->next)
+                if (!object->next)
                     return false;
 
-                ast::brackets_pair *args = func_object->next->to_brackets_pair();
-                if (args == nullptr || args->get_symbol() != '(')
+                ast::brackets_pair *args = object->next->to_brackets_pair();
+                if (args == nullptr || args->get_symbol() != '[')
                     return false;
 
-                lib::pointer<ast::function_call> fcall  = new ast::function_call(func_object, args);
-                func_object->replace(args, fcall.cast<ast::token>());
-                data->expressions.add(fcall.get());
-                data->function_calls.push_back(fcall.get());
+                lib::pointer<ast::index_access> expr  = new ast::index_access(object, args);
+                object->replace(args, expr.cast<ast::token>());
+                data->expressions.add(expr.get());
+                data->index_access.push_back(expr.get());
                 return false;
             }
         };
 
-        lib::pointer<pattern> grammar_factory::create_pattern_function_call()
+        lib::pointer<pattern> grammar_factory::create_pattern_index_access()
         {
-            return new function_call(data);
+            return new index_access(data);
         }
     };
 };

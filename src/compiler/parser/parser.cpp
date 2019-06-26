@@ -129,6 +129,11 @@ namespace g0at
                 parse_function_call_args(fcall);
             }
 
+            for (auto ia : data->index_access)
+            {
+                parse_index_access_args(ia);
+            }
+
             for (auto func : data->functions)
             {
                 parse_function_body(func);
@@ -293,6 +298,13 @@ namespace g0at
         {
             auto src = fcall->get_raw_list();
             auto dst = fcall->get_args_list();
+            parse_function_and_method_call_args(src, dst);
+        }
+
+        void parser::parse_index_access_args(ast::index_access *ia)
+        {
+            auto src = ia->get_raw_list();
+            auto dst = ia->get_args_list();
             parse_function_and_method_call_args(src, dst);
         }
 
