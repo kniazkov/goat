@@ -189,5 +189,9 @@ namespace g0at
         void node_visitor::visit(statement_lock *ref)
         {
         }
+
+        void node_visitor::visit(index_access *ref)
+        {
+        }
     }
 };

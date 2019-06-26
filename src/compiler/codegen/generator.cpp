@@ -56,6 +56,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/operator_new.h"
 #include "compiler/pt/prefix_increment.h"
 #include "compiler/pt/statement_lock.h"
+#include "compiler/pt/index_access.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -569,6 +570,17 @@ namespace g0at
             code->add_instruction(new code::_lock());
             ref->get_statement()->accept(this);
             code->add_instruction(new code::_unlock());
+        }
+
+        void generator::visit(pt::index_access *ref)
+        {
+            int args_count = ref->get_args_count();
+            for (int i = args_count - 1; i > -1; i--)
+            {
+                ref->get_arg(i)->accept(this);
+            }
+            ref->get_object()->accept(this);
+            code->add_instruction(new code::_get(args_count));
         }
     };
 };

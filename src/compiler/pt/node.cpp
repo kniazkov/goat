@@ -249,5 +249,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        index_access *node::to_index_access()
+        {
+            return nullptr;
+        }
    }
 };

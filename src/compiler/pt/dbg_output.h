@@ -100,6 +100,7 @@ namespace g0at
             void visit(operator_new *ref) override;
             void visit(prefix_increment *ref) override;
             void visit(statement_lock *ref) override;
+            void visit(index_access *ref) override;
 
         protected:
             dbg_output(environment &env);

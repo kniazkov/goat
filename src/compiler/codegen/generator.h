@@ -84,6 +84,7 @@ namespace g0at
             void visit(pt::operator_new *ref) override;
             void visit(pt::prefix_increment *ref) override;
             void visit(pt::statement_lock *ref) override;
+            void visit(pt::index_access *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

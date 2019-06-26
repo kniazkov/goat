@@ -63,6 +63,7 @@ namespace g0at
             void visit(ast::is_less_than *ref) override;
             void visit(ast::operator_new *ref) override;
             void visit(ast::prefix_increment *ref) override;
+            void visit(ast::index_access *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

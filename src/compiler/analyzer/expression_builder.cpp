@@ -79,6 +79,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/operator_new.h"
 #include "compiler/ast/prefix_increment.h"
 #include "compiler/pt/prefix_increment.h"
+#include "compiler/ast/index_access.h"
+#include "compiler/pt/index_access.h"
 
 namespace g0at
 {
@@ -361,6 +363,27 @@ namespace g0at
         void expression_builder::visit(ast::prefix_increment *ref)
         {
             expr = new pt::prefix_increment(ref->get_position(), build_expr_for_unary_prefix(ref));
+        }
+
+        void expression_builder::visit(ast::index_access *ref)
+        {
+            expression_builder object_visitor;
+            ref->get_expression()->accept(&object_visitor);
+            assert(object_visitor.has_expr());
+            lib::pointer<pt::index_access> idx_access = 
+                new pt::index_access(ref->get_position(), object_visitor.get_expr());
+            auto args = ref->get_args_list();
+            auto tok_arg = args->first;
+            while(tok_arg)
+            {
+                assert(tok_arg->to_expression() != nullptr);
+                expression_builder arg_visitor;
+                tok_arg->accept(&arg_visitor);
+                assert(arg_visitor.has_expr());
+                idx_access->add_arg(arg_visitor.get_expr());
+                tok_arg = tok_arg->next;
+            }
+            expr = idx_access.cast<pt::expression>();
         }
     };
 };

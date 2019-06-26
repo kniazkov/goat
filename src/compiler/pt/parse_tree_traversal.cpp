@@ -61,6 +61,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "operator_new.h"
 #include "prefix_increment.h"
 #include "statement_lock.h"
+#include "index_access.h"
 
 namespace g0at
 {
@@ -546,6 +547,21 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(statement_lock *ref)
+        {
+        }
+
+        void parse_tree_traversal::visit(index_access *ref)
+        {
+            int args_count = ref->get_args_count();
+            for (int i = args_count - 1; i > -1; i--)
+            {
+                ref->get_arg(i)->accept(this);
+            }
+            ref->get_object()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(index_access *ref)
         {
         }
     };
