@@ -101,8 +101,7 @@ namespace g0at
                 thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
                 return;
             }
-            object *this_ptr = thr->pop().get_object();
-            assert(this_ptr != nullptr);
+            thr->pop().get_object();
             variable index = thr->peek();
             thr->pop(arg_count);
             int64_t int_index;
@@ -119,41 +118,47 @@ namespace g0at
 
         void object_array::m_set(thread *thr, int arg_count)
         {
-            if (arg_count < 2)
+            if (arg_count < 1)
             {
                 thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
                 return;
             }
-            object *this_ptr = thr->pop().get_object();
-            assert(this_ptr != nullptr);
-            variable value = thr->peek(0);
-            variable index = thr->peek(1);
-            thr->pop(arg_count);
-            int64_t int_index;
-            if (index.get_integer(&int_index))
+            thr->pop().get_object();
+            if (arg_count < 2)
             {
-                if (int_index >= 0 && int_index < INT32_MAX)
-                {
-                    if (int_index < vector.size())
-                    {
-                        vector[(size_t)int_index] = value;
-                    }
-                    else
-                    {
-                        variable tmp;
-                        tmp.set_object(thr->pool->get_undefined_instance());
-                        for (int i = (int)vector.size(); i < int_index; i++)
-                        {
-                            vector.push_back(tmp);
-                        }
-                        vector.push_back(value);
-                    }
-                    thr->push(value);
-                    return;
-                }
+                variable value = thr->peek();
+                vector.push_back(value);
             }
-            thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
-            return;
+            else
+            {
+                variable value = thr->peek(0);
+                variable index = thr->peek(1);
+                thr->pop(arg_count);
+                int64_t int_index;
+                if (index.get_integer(&int_index))
+                {
+                    if (int_index >= 0 && int_index < INT32_MAX)
+                    {
+                        if (int_index < vector.size())
+                        {
+                            vector[(size_t)int_index] = value;
+                        }
+                        else
+                        {
+                            variable tmp;
+                            tmp.set_object(thr->pool->get_undefined_instance());
+                            for (int i = (int)vector.size(); i < int_index; i++)
+                            {
+                                vector.push_back(tmp);
+                            }
+                            vector.push_back(value);
+                        }
+                        thr->push(value);
+                        return;
+                    }
+                }
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+            }
         }
 
         /*
