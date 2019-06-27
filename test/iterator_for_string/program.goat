@@ -1,0 +1,7 @@
+var s = "terminator";
+var i = s.iterator();
+
+while(i.valid())
+{
+    println(i.next());
+}
