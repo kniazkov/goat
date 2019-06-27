@@ -10,6 +10,12 @@ var iter = obj.iterator();
 while(iter.valid())
 {
     var key = iter.next();
-    if (Object[key] == undefined)
+    if (Object.contains(key))
+    {
+        // relax
+    }
+    else
+    {
         println("" + key + " = " + obj[key]);
+    }
 }

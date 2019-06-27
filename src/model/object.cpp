@@ -767,6 +767,37 @@ namespace g0at
         {
         }
 
+        class generic_contains : public object_function_built_in
+        {
+        public:
+            generic_contains(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object *key = thr->peek().to_object(thr->pool);
+                thr->pop(arg_count);
+                variable *found = this_ptr->find_object(key);
+                variable result;
+                result.set_boolean(found != nullptr);
+                thr->push(result);
+            }
+        };
+
         void generic_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(L"clone"), new generic_clone(pool));
@@ -775,6 +806,7 @@ namespace g0at
             add_object(pool->get_static_string(L"get"), new generic_getter(pool));
             add_object(pool->get_static_string(L"set"), new generic_setter(pool));
             add_object(pool->get_static_string(L"iterator"), new generic_iterator(pool));
+            add_object(pool->get_static_string(L"contains"), new generic_contains(pool));
         }
 
         /*
