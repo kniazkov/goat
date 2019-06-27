@@ -32,6 +32,50 @@ namespace g0at
 {
     namespace model
     {
+        /*
+            Iterator
+        */
+        class object_array_iterator : public object
+        {
+        public:
+            object_array_iterator(object_pool *pool, object_array *_parent)
+                : object(pool, pool->get_iterator_proto_instance()), parent(_parent), index(-1)
+            {
+            }
+
+            void trace() override
+            {
+                parent->mark();
+            }
+
+            void m_valid(thread *thr, int arg_count) override
+            {
+                thr->pop();
+                thr->pop(arg_count);
+                variable tmp;
+                tmp.set_boolean(index + 1 < parent->get_length());
+                thr->push(tmp);
+            }
+
+            void m_next(thread *thr, int arg_count) override
+            {
+                thr->pop();
+                thr->pop(arg_count);
+                index++;
+                if (index < parent->get_length())
+                    thr->push(parent->get_item(index));
+                else
+                    thr->push_undefined();
+            }
+
+        protected:
+            object_array *parent;
+            int index;
+        };
+
+        /*
+            Array
+        */
         object_array::object_array(object_pool *pool)
             : object(pool, pool->get_array_proto_instance())
         {
@@ -159,6 +203,15 @@ namespace g0at
                 }
                 thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
             }
+        }
+
+        void object_array::m_iterator(thread *thr, int arg_count)
+        {
+            thr->pop();
+            thr->pop(arg_count);
+            variable tmp;
+            tmp.set_object(new object_array_iterator(thr->pool, this));
+            thr->push(tmp);
         }
 
         /*
