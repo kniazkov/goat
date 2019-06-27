@@ -36,6 +36,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_array.h"
 #include "object_exception.h"
 #include "object_char.h"
+#include "object_iterator.h"
 #include "object_runner.h"
 #include "context.h"
 
@@ -61,6 +62,7 @@ namespace g0at
             real_proto_instance = nullptr;
             array_proto_instance = nullptr;
             char_proto_instance = nullptr;
+            iterator_proto_instance = nullptr;
             exception_proto_instance = nullptr;
             exception_illegal_argument_instance = nullptr;
             exception_illegal_context_instance = nullptr;
@@ -94,6 +96,8 @@ namespace g0at
             char_proto_instance = new object_char_proto(this);
             auto exception_proto = new object_exception_proto(this);
             exception_proto_instance = exception_proto;
+            auto iterator_proto = new object_iterator_proto(this);
+            iterator_proto_instance = iterator_proto;
             string_proto->init(this);
             function_proto->init(this);
             thread_proto->init(this);
@@ -103,6 +107,7 @@ namespace g0at
             exception_illegal_context_instance = new object_exception_illegal_context(this);
             exception_illegal_operation_instance = new object_exception_illegal_operation(this);
             exception_proto->init(this);
+            iterator_proto->init(this);
         }
 
         void object_pool::add(object *item)

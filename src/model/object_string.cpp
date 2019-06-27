@@ -134,7 +134,7 @@ namespace g0at
                 thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
                 return;
             }
-            thr->pop().get_object();
+            thr->pop();
             variable index = thr->peek();
             thr->pop(arg_count);
             int64_t int_index;

@@ -1,6 +1,1 @@
-var s = "test";
-
-for (var i = 0, l = s.length(); i < l; ++i)
-{
-    println(s[i]);
-}
+println(Iterator.valid());
