@@ -31,6 +31,49 @@ namespace g0at
 {
     namespace model
     {
+        /*
+            Iterator
+        */
+        class object_string_iterator : public object
+        {
+        public:
+            object_string_iterator(object_pool *pool, std::wstring _data)
+                : object(pool, pool->get_iterator_proto_instance()), data(_data), index(-1)
+            {
+            }
+
+            void m_valid(thread *thr, int arg_count) override
+            {
+                thr->pop();
+                thr->pop(arg_count);
+                variable tmp;
+                tmp.set_boolean(index + 1 < (int)data.size());
+                thr->push(tmp);
+            }
+
+            void m_next(thread *thr, int arg_count) override
+            {
+                thr->pop();
+                thr->pop(arg_count);
+                index++;
+                if (index < (int)data.size())
+                {
+                    variable tmp;
+                    tmp.set_char(data[index]);
+                    thr->push(tmp);
+                }
+                else
+                    thr->push_undefined();
+            }
+
+        protected:
+            std::wstring data;
+            int index;
+        };
+
+        /*
+            String
+        */
         object_string::object_string(object_pool *pool, std::wstring _data)
             : object(pool, pool->get_string_proto_instance()), data(_data), id(-1)
         {
@@ -155,6 +198,15 @@ namespace g0at
         {
             // Strings are immutable
             thr->raise_exception(thr->pool->get_exception_illegal_operation_instance());
+        }
+
+        void object_string::m_iterator(thread *thr, int arg_count)
+        {
+            thr->pop();
+            thr->pop(arg_count);
+            variable tmp;
+            tmp.set_object(new object_string_iterator(thr->pool, data));
+            thr->push(tmp);
         }
 
         /*
