@@ -256,6 +256,16 @@ namespace g0at
             copy_objects_to(dst);
         }
 
+        std::vector<object*> object::get_keys()
+        {
+            std::vector<object*> keys;
+            for (auto pair : objects)
+            {
+                keys.push_back(pair.first);
+            }
+            return keys;
+        }
+
         void object::add_object(object *key, variable &value)
         {
             assert(key != nullptr);
@@ -687,6 +697,71 @@ namespace g0at
             }
         };
 
+        class generic_iterator_object : public object
+        {
+        public:
+            generic_iterator_object(object_pool *pool, object *parent)
+                : object(pool, pool->get_iterator_proto_instance())
+            {
+                object *tmp = pool->create_generic_object();
+                parent->flat(tmp);
+                keys = tmp->get_keys();
+                index = -1;
+            }
+
+            void m_valid(thread *thr, int arg_count) override
+            {
+                thr->pop();
+                thr->pop(arg_count);
+                variable tmp;
+                tmp.set_boolean(index + 1 < (int)keys.size());
+                thr->push(tmp);
+            }
+
+            void m_next(thread *thr, int arg_count) override
+            {
+                thr->pop();
+                thr->pop(arg_count);
+                index++;
+                if (index < (int)keys.size())
+                {
+                    variable tmp;
+                    tmp.set_object(keys[index]);
+                    thr->push(tmp);
+                }
+                else
+                    thr->push_undefined();
+            }
+
+        protected:
+            std::vector<object *> keys;
+            int index;
+        };
+
+        class generic_iterator : public object_function_built_in
+        {
+        public:
+            generic_iterator(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                thr->pop(arg_count);
+                variable iter;
+                iter.set_object(new generic_iterator_object(thr->pool, this_ptr));
+                thr->push(iter);
+            }
+        };
+
         generic_proto::generic_proto(object_pool *pool)
             : object(pool, nullptr)
         {
@@ -699,6 +774,7 @@ namespace g0at
             add_object(pool->get_static_string(L"flat"), new generic_flat(pool));
             add_object(pool->get_static_string(L"get"), new generic_getter(pool));
             add_object(pool->get_static_string(L"set"), new generic_setter(pool));
+            add_object(pool->get_static_string(L"iterator"), new generic_iterator(pool));
         }
 
         /*

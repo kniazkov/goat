@@ -185,6 +185,7 @@ namespace g0at
             void tsort(tsort_data &data);
             bool instance_of(object *base);
             void flat(object *dst);
+            std::vector<object*> get_keys();
 
             void add_object(object *key, variable &value);
             void add_object(object *key, object *value);

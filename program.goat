@@ -1,5 +1,11 @@
-var s = "terminator";
-var i = s.iterator();
+var obj =
+{
+    x : 0,
+    y : 1,
+    z : 2
+};
+
+var i = obj.iterator();
 
 while(i.valid())
 {
