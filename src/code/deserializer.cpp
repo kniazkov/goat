@@ -79,6 +79,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "unlock.h"
 #include "get.h"
 #include "set.h"
+#include "iter.h"
+#include "valid.h"
+#include "next.h"
 
 namespace g0at
 {
@@ -523,6 +526,24 @@ namespace g0at
             dst->add_instruction(new _set(arg_count));
         }
 
+        void deserializer::c_iter(source *src, code *dst)
+        {
+            int arg_count = pop_int32(src);
+            dst->add_instruction(new _iter(arg_count));
+        }
+
+        void deserializer::c_valid(source *src, code *dst)
+        {
+            int arg_count = pop_int32(src);
+            dst->add_instruction(new _valid(arg_count));
+        }
+
+        void deserializer::c_next(source *src, code *dst)
+        {
+            int arg_count = pop_int32(src);
+            dst->add_instruction(new _next(arg_count));
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -576,6 +597,9 @@ namespace g0at
             cc[op::_unlock]  = c_unlock;
             cc[op::_get]     = c_get;
             cc[op::_set]     = c_set;
+            cc[op::_iter]    = c_iter;
+            cc[op::_valid]   = c_valid;
+            cc[op::_next]    = c_next;
         }
     };
 };

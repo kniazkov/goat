@@ -53,6 +53,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "thread.h"
 #include "get.h"
 #include "set.h"
+#include "iter.h"
+#include "valid.h"
+#include "next.h"
 
 namespace g0at
 {
@@ -449,6 +452,24 @@ namespace g0at
         void serializer::visit(_set *ref)
         {
             push_opcode(op::_set);
+            push_int32(ref->get_arg_count());
+        }
+
+        void serializer::visit(_iter *ref)
+        {
+            push_opcode(op::_iter);
+            push_int32(ref->get_arg_count());
+        }
+
+        void serializer::visit(_valid *ref)
+        {
+            push_opcode(op::_valid);
+            push_int32(ref->get_arg_count());
+        }
+
+        void serializer::visit(_next *ref)
+        {
+            push_opcode(op::_next);
             push_int32(ref->get_arg_count());
         }
     };

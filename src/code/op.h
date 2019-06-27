@@ -86,6 +86,9 @@ namespace g0at
             _clone,
             _insof,
             _flat,
+            _iter,
+            _valid,
+            _next,
 
             // operators
             _add,

@@ -77,6 +77,9 @@ namespace g0at
         class _unlock;
         class _get;
         class _set;
+        class _iter;
+        class _valid;
+        class _next;
 
         class instruction_visitor
         {
@@ -134,6 +137,9 @@ namespace g0at
             virtual void visit(_unlock *ref) = 0;
             virtual void visit(_get *ref) = 0;
             virtual void visit(_set *ref) = 0;
+            virtual void visit(_iter *ref) = 0;
+            virtual void visit(_valid *ref) = 0;
+            virtual void visit(_next *ref) = 0;
         };
     };
 };

@@ -467,6 +467,24 @@ namespace g0at
             find_and_vcall(thr, arg_count, L"set");
         }
 
+        void object::m_iterator(thread *thr, int arg_count)
+        {
+            // find and call own 'iterator()' method
+            find_and_vcall(thr, arg_count, L"iterator");
+        }
+
+        void object::m_next(thread *thr, int arg_count)
+        {
+            // find and call own 'next()' method
+            find_and_vcall(thr, arg_count, L"next");
+        }
+
+        void object::m_valid(thread *thr, int arg_count)
+        {
+            // find and call own 'valid()' method
+            find_and_vcall(thr, arg_count, L"valid");
+        }
+
         /*
             Topology
         */
@@ -788,6 +806,7 @@ namespace g0at
         void handler::m_get(variable *var, thread *thr, int arg_count)
         {
             // you can not get anything from primitive
+            thr->pop();
             thr->pop(arg_count);
             thr->push_undefined();
         }
@@ -795,6 +814,31 @@ namespace g0at
         void handler::m_set(variable *var, thread *thr, int arg_count)
         {
             // you can not set something to primitive
+            thr->pop();
+            thr->pop(arg_count);
+            thr->push_undefined();
+        }
+
+        void handler::m_iterator(variable *var, thread *thr, int arg_count)
+        {
+            // all primitives returns 'empty' iterator
+            thr->pop();
+            thr->pop(arg_count);
+            variable tmp;
+            tmp.set_object(thr->pool->get_iterator_proto_instance());
+            thr->push(tmp);
+        }
+
+        void handler::m_next(variable *var, thread *thr, int arg_count)
+        {
+            thr->pop();
+            thr->pop(arg_count);
+            thr->push_undefined();
+        }
+
+        void handler::m_valid(variable *var, thread *thr, int arg_count)
+        {
+            thr->pop();
             thr->pop(arg_count);
             thr->push_undefined();
         }
@@ -920,6 +964,21 @@ namespace g0at
             void m_set(variable *var, thread *thr, int arg_count) override
             {
                 var->data.obj->m_set(thr, arg_count);
+            }
+
+            void m_iterator(variable *var, thread *thr, int arg_count) override
+            {
+                var->data.obj->m_iterator(thr, arg_count);
+            }
+
+            void m_next(variable *var, thread *thr, int arg_count) override
+            {
+                var->data.obj->m_next(thr, arg_count);
+            }
+
+            void m_valid(variable *var, thread *thr, int arg_count) override
+            {
+                var->data.obj->m_valid(thr, arg_count);
             }
         };
 

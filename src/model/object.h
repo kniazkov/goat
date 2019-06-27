@@ -113,6 +113,9 @@ namespace g0at
             inline void m_flat(thread *thr, int arg_count);
             inline void m_get(thread *thr, int arg_count);
             inline void m_set(thread *thr, int arg_count);
+            inline void m_iterator(thread *thr, int arg_count);
+            inline void m_next(thread *thr, int arg_count);
+            inline void m_valid(thread *thr, int arg_count);
 
             handler *hndl;
             union
@@ -210,6 +213,9 @@ namespace g0at
             virtual void m_flat(thread *thr, int arg_count);
             virtual void m_get(thread *thr, int arg_count);
             virtual void m_set(thread *thr, int arg_count);
+            virtual void m_iterator(thread *thr, int arg_count);
+            virtual void m_next(thread *thr, int arg_count);
+            virtual void m_valid(thread *thr, int arg_count);
 
             object *prev;
             object *next;
@@ -277,6 +283,9 @@ namespace g0at
             virtual void m_flat(variable *var, thread *thr, int arg_count);
             virtual void m_get(variable *var, thread *thr, int arg_count);
             virtual void m_set(variable *var, thread *thr, int arg_count);
+            virtual void m_iterator(variable *var, thread *thr, int arg_count);
+            virtual void m_next(variable *var, thread *thr, int arg_count);
+            virtual void m_valid(variable *var, thread *thr, int arg_count);
         };
 
         bool object_comparator::operator ()(const object *a, const object *b) const
@@ -439,6 +448,21 @@ namespace g0at
         void variable::m_set(thread *thr, int arg_count)
         {
             hndl->m_set(this, thr, arg_count);
+        }
+
+        void variable::m_iterator(thread *thr, int arg_count)
+        {
+            hndl->m_iterator(this, thr, arg_count);
+        }
+
+        void variable::m_next(thread *thr, int arg_count)
+        {
+            hndl->m_next(this, thr, arg_count);
+        }
+
+        void variable::m_valid(thread *thr, int arg_count)
+        {
+            hndl->m_valid(this, thr, arg_count);
         }
 
         /*

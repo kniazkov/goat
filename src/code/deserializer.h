@@ -120,6 +120,9 @@ namespace g0at
             static void c_unlock(source *src, code *dst);
             static void c_get(source *src, code *dst);
             static void c_set(source *src, code *dst);
+            static void c_iter(source *src, code *dst);
+            static void c_valid(source *src, code *dst);
+            static void c_next(source *src, code *dst);
 
             std::map<op, creator> cc;
         };

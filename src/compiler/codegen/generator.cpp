@@ -106,6 +106,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/unlock.h"
 #include "code/get.h"
 #include "code/set.h"
+#include "code/iter.h"
+#include "code/valid.h"
+#include "code/next.h"
 
 namespace g0at
 {
@@ -366,6 +369,12 @@ namespace g0at
                 code->add_instruction(new code::_get(args_count));
             else if (name == L"set")
                 code->add_instruction(new code::_set(args_count));
+            else if (name == L"iterator")
+                code->add_instruction(new code::_iter(args_count));
+            else if (name == L"valid")
+                code->add_instruction(new code::_valid(args_count));
+            else if (name == L"next")
+                code->add_instruction(new code::_next(args_count));
             else
             {
                 int id = name_cache.get_id(name);

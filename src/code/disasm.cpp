@@ -49,6 +49,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "thread.h"
 #include "get.h"
 #include "set.h"
+#include "iter.h"
+#include "valid.h"
+#include "next.h"
 
 namespace g0at
 {
@@ -382,6 +385,21 @@ namespace g0at
         void disasm::visit(_set *ref)
         {
             stream << L"set\t" << ref->get_arg_count();
+        }
+
+        void disasm::visit(_iter *ref)
+        {
+            stream << L"iter\t" << ref->get_arg_count();
+        }
+
+        void disasm::visit(_valid *ref)
+        {
+            stream << L"valid\t" << ref->get_arg_count();
+        }
+
+        void disasm::visit(_next *ref)
+        {
+            stream << L"next\t" << ref->get_arg_count();
         }
     };
 };
