@@ -401,5 +401,10 @@ namespace g0at
         {
             stream << L"next\t" << ref->get_arg_count();
         }
+
+        void disasm::visit(_dup *ref)
+        {
+            stream << L"dup";
+        }
     };
 };

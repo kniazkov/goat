@@ -92,6 +92,7 @@ namespace g0at
             void visit(_iter *ref) override;
             void visit(_valid *ref) override;
             void visit(_next *ref) override;
+            void visit(_dup *ref) override;
 
         protected:
             std::wstringstream &stream;

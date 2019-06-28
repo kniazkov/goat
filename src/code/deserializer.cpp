@@ -82,6 +82,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "iter.h"
 #include "valid.h"
 #include "next.h"
+#include "dup.h"
 
 namespace g0at
 {
@@ -544,6 +545,11 @@ namespace g0at
             dst->add_instruction(new _next(arg_count));
         }
 
+        void deserializer::c_dup(source *src, code *dst)
+        {
+            dst->add_instruction(new _dup());
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -600,6 +606,7 @@ namespace g0at
             cc[op::_iter]    = c_iter;
             cc[op::_valid]   = c_valid;
             cc[op::_next]    = c_next;
+            cc[op::_dup]     = c_dup;
         }
     };
 };
