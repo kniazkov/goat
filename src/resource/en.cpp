@@ -236,6 +236,10 @@ namespace g0at
                 return L"expected parameters of 'for' statement";
             }
 
+            std::wstring expected_a_var_keyword() override
+            {
+                return L"here can be only a 'var' keyword";
+            }
 
 
             std::wstring unhandled_exception(std::wstring str) override

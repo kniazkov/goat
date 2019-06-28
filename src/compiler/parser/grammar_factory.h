@@ -36,6 +36,7 @@ namespace g0at
         
         protected:
             lib::pointer<pattern> create_pattern_variable();
+            lib::pointer<pattern> create_pattern_variable_in();
             lib::pointer<pattern> create_pattern_index_access();
             lib::pointer<pattern> create_pattern_function_call();
             lib::pointer<pattern> create_pattern_statement_expression();

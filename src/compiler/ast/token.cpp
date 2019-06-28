@@ -467,5 +467,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        variable_in *token::to_variable_in()
+        {
+            return nullptr;
+        }
     }
 };

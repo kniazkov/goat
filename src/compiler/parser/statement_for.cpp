@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "grammar_factory.h"
 #include "common_exceptions.h"
 #include "compiler/ast/keyword_for.h"
+#include "compiler/ast/variable_in.h"
 #include "compiler/ast/brackets_pair.h"
 #include "compiler/ast/expression.h"
 #include "compiler/ast/statement.h"
@@ -68,41 +69,52 @@ namespace g0at
                 lib::pointer<ast::token> param = params->get_raw_list()->first;
                 
                 ast::statement *stmt_init = param->to_statement();
-                if (!stmt_init)
-                    throw expected_a_statement(param->get_position());
-                
-                if (!stmt_init->next)
-                    throw expected_an_expression(stmt_init->get_position());
-
-                lib::pointer<ast::expression> condition = nullptr;
-                ast::statement_expression *stmt_condition = stmt_init->next->to_statement_expression();
-                if (stmt_condition)
+                if (stmt_init)
                 {
-                    condition = stmt_condition->get_expression();
+                    // for ([init] ; [condition] ; [increment])
+                    if (!stmt_init->next)
+                        throw expected_an_expression(stmt_init->get_position());
+
+                    lib::pointer<ast::expression> condition = nullptr;
+                    ast::statement_expression *stmt_condition = stmt_init->next->to_statement_expression();
+                    if (stmt_condition)
+                    {
+                        condition = stmt_condition->get_expression();
+                    }
+                    else
+                    {
+                        if (stmt_init->next->to_statement_empty() == nullptr)
+                            throw expected_an_expression(stmt_init->next->get_position());
+                    }
+
+                    lib::pointer<ast::statement> increment = nullptr;
+                    if (stmt_init->next->next)
+                    {
+                        ast::expression *expr_increment = stmt_init->next->next->to_expression();
+                        if (!expr_increment)
+                            throw expected_a_statement(stmt_init->next->next->get_position());
+                        increment = new ast::statement_expression(expr_increment);
+                    }
+
+                    ast::statement *body = params->next->to_statement();
+                    if (!body)
+                        throw expected_a_statement(params->next->get_position());
+                    
+                    lib::pointer<ast::token> result = new ast::statement_for(kw, stmt_init, condition, increment, body);
+                    kw->replace(body, result);
+
+                    return false;
                 }
-                else
+
+                ast::variable_in *var_in = param->to_variable_in();
+                if (var_in)
                 {
-                    if (stmt_init->next->to_statement_empty() == nullptr)
-                        throw expected_an_expression(stmt_init->next->get_position());
+                    // for ([var] variable in object)
+                    assert(false);
                 }
 
-                lib::pointer<ast::statement> increment = nullptr;
-                if (stmt_init->next->next)
-                {
-                    ast::expression *expr_increment = stmt_init->next->next->to_expression();
-                    if (!expr_increment)
-                        throw expected_a_statement(stmt_init->next->next->get_position());
-                    increment = new ast::statement_expression(expr_increment);
-                }
+                throw expected_a_statement(param->get_position());
 
-                ast::statement *body = params->next->to_statement();
-                if (!body)
-                    throw expected_a_statement(params->next->get_position());
-                
-                lib::pointer<ast::token> result = new ast::statement_for(kw, stmt_init, condition, increment, body);
-                kw->replace(body, result);
-
-                return false;
             }
         };
 

@@ -73,6 +73,7 @@ namespace g0at
             virtual std::wstring the_next_block_must_be_a_catch_or_finally() = 0;
             virtual std::wstring character_constant_too_long_for_its_type() = 0;
             virtual std::wstring expected_parameters_of_cycle_statement() = 0;
+            virtual std::wstring expected_a_var_keyword() = 0;
 
             virtual std::wstring unhandled_exception(std::wstring str) = 0;
             virtual std::wstring unknown_exception() = 0;

@@ -54,6 +54,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_new.h"
 #include "compiler/ast/increment.h"
 #include "compiler/ast/keyword_lock.h"
+#include "compiler/ast/keyword_in.h"
 
 namespace g0at
 {
@@ -231,6 +232,11 @@ namespace g0at
         void parser_data_filler::visit(ast::keyword_lock *ref)
         {
             data->lock_keywords.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::keyword_in *ref)
+        {
+            data->in_keywords.add(ref);
         }
     };
 };

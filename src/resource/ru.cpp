@@ -236,6 +236,10 @@ namespace g0at
                 return L"ожидаются параметры конструкции 'for'";
             }
 
+            std::wstring expected_a_var_keyword() override
+            {
+                return L"перед этим идентификатором допускается только ключевое слово 'var'";
+            }
 
 
             std::wstring unhandled_exception(std::wstring str) override

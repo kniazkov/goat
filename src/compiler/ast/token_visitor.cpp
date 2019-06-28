@@ -317,5 +317,9 @@ namespace g0at
         void token_visitor::visit(keyword_in *ref)
         {
         }
+
+        void token_visitor::visit(variable_in *ref)
+        {
+        }
     }
 };

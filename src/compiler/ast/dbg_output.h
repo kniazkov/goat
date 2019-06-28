@@ -121,6 +121,7 @@ namespace g0at
             void visit(statement_lock *ref) override;
             void visit(index_access *ref) override;
             void visit(keyword_in *ref) override;
+            void visit(variable_in *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

@@ -60,6 +60,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "prefix_increment.h"
 #include "statement_lock.h"
 #include "index_access.h"
+#include "variable_in.h"
 
 namespace g0at
 {
@@ -714,6 +715,14 @@ namespace g0at
         void dbg_output::visit(keyword_in *ref)
         {
             print(L"keyword", L"in");
+        }
+
+        void dbg_output::visit(variable_in *ref)
+        {
+            if (ref->is_declared())
+                print(L"declared variable in", ref->get_name());
+            else
+                print(L"variable in", ref->get_name());
         }
     };
 };

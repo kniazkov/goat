@@ -35,6 +35,7 @@ namespace g0at
         {
             grammar *gr = new grammar();
             gr->vector.push_back(create_pattern_function_decl());
+            gr->vector.push_back(create_pattern_variable_in());
             gr->vector.push_back(create_pattern_variable());
             gr->vector.push_back(create_pattern_statement_block());
             gr->vector.push_back(create_pattern_index_access());
