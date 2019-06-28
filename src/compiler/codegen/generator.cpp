@@ -57,6 +57,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/prefix_increment.h"
 #include "compiler/pt/statement_lock.h"
 #include "compiler/pt/index_access.h"
+#include "compiler/pt/statement_for_in.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -109,6 +110,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/iter.h"
 #include "code/valid.h"
 #include "code/next.h"
+#include "code/dup.h"
+#include "code/store.h"
 
 namespace g0at
 {
@@ -600,6 +603,32 @@ namespace g0at
             }
             ref->get_object()->accept(this);
             code->add_instruction(new code::_get(args_count));
+        }
+
+        void generator::visit(pt::statement_for_in *ref)
+        {
+            code->add_instruction(new code::_enter());
+            int name_id = name_cache.get_id(ref->get_name());
+            if (ref->is_declared())
+            {
+                code->add_instruction(new code::_undef());
+                code->add_instruction(new code::_var(name_id));
+            }
+            ref->get_expression()->accept(this);
+            code->add_instruction(new code::_iter(0));
+            code::iid_t iid_begin = code->get_current_iid();
+            code->add_instruction(new code::_dup());
+            code->add_instruction(new code::_valid(0));
+            code::_ifnot *if_not = new code::_ifnot(-1);
+            code->add_instruction(if_not);
+            code->add_instruction(new code::_dup());
+            code->add_instruction(new code::_next(0));
+            code->add_instruction(new code::_store(name_id));
+            code->add_instruction(new code::_pop());
+            ref->get_body()->accept(this);
+            code->add_instruction(new code::_jmp(iid_begin));
+            if_not->get_iid_ptr().set(code->get_current_iid());
+            code->add_instruction(new code::_leave());
         }
     };
 };
