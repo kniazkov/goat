@@ -462,5 +462,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_in *token::to_keyword_in()
+        {
+            return nullptr;
+        }
     }
 };

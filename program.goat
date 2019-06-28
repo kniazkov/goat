@@ -1,21 +1,7 @@
-var obj =
-{
-    x : 7,
-    y : 11,
-    z : "test"
-};
+var a = [1, 2, 3];
+var v;
 
-var iter = obj.iterator();
-
-while(iter.valid())
+for (v in a)
 {
-    var key = iter.next();
-    if (Object.contains(key))
-    {
-        // relax
-    }
-    else
-    {
-        println("" + key + " = " + obj[key]);
-    }
+    println(a);
 }

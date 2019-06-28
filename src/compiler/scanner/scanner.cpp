@@ -64,6 +64,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/increment.h"
 #include "compiler/ast/keyword_thread.h"
 #include "compiler/ast/keyword_lock.h"
+#include "compiler/ast/keyword_in.h"
 
 namespace g0at
 {
@@ -316,6 +317,8 @@ namespace g0at
                 return new ast::keyword_thread();            
             if (name == L"lock")
                 return new ast::keyword_lock();
+            if (name == L"in")
+                return new ast::keyword_in();
             return new ast::identifier(name);
         }
 

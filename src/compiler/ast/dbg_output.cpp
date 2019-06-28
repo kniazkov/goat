@@ -710,5 +710,10 @@ namespace g0at
             print_token_list(ref->get_raw_list(), L"raw");
             print_token_list(ref->get_args_list(), L"args");
         }
+
+        void dbg_output::visit(keyword_in *ref)
+        {
+            print(L"keyword", L"in");
+        }
     };
 };

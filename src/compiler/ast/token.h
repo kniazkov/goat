@@ -115,6 +115,7 @@ namespace g0at
         class keyword_lock;
         class statement_lock;
         class index_access;
+        class keyword_in;
 
         class token : public lib::ref_counter
         {
@@ -207,6 +208,7 @@ namespace g0at
             virtual keyword_lock *to_keyword_lock();
             virtual statement_lock *to_statement_lock();
             virtual index_access *to_index_access();
+            virtual keyword_in *to_keyword_in();
             
             lib::pointer<position> get_position() { return pos; }
 

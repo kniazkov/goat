@@ -313,5 +313,9 @@ namespace g0at
         void token_visitor::visit(index_access *ref)
         {
         }
+
+        void token_visitor::visit(keyword_in *ref)
+        {
+        }
     }
 };
