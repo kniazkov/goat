@@ -254,5 +254,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_for_in *node::to_statement_for_in()
+        {
+            return nullptr;
+        }
    }
 };

@@ -45,6 +45,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_empty.h"
 #include "compiler/ast/statement_lock.h"
 #include "compiler/pt/statement_lock.h"
+#include "compiler/ast/statement_for_in.h"
+#include "compiler/pt/statement_for_in.h"
 
 namespace g0at
 {
@@ -248,6 +250,18 @@ namespace g0at
             ref->get_statement()->accept(&visitor);
             assert(visitor.has_stmt());
             stmt = new pt::statement_lock(ref->get_position(), visitor.get_stmt());
+        }
+
+        void statement_builder::visit(ast::statement_for_in *ref)
+        {
+            expression_builder expr_visitor;
+            ref->get_expression()->accept(&expr_visitor);
+            assert(expr_visitor.has_expr());
+            statement_builder body_visitor;
+            ref->get_body()->accept(&body_visitor);
+            assert(body_visitor.has_stmt());
+            stmt = new pt::statement_for_in(ref->get_position(), ref->get_name(), ref->is_declared(),
+                expr_visitor.get_expr(), body_visitor.get_stmt());
         }
     };
 };

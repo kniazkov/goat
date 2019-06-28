@@ -66,6 +66,7 @@ namespace g0at
         class prefix_increment;
         class statement_lock;
         class index_access;
+        class statement_for_in;
 
         class node_visitor
         {
@@ -112,6 +113,7 @@ namespace g0at
             virtual void visit(prefix_increment *ref);
             virtual void visit(statement_lock *ref);
             virtual void visit(index_access *ref);
+            virtual void visit(statement_for_in *ref);
         };
     };
 };

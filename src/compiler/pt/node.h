@@ -77,6 +77,7 @@ namespace g0at
         class prefix_increment;
         class statement_lock;
         class index_access;
+        class statement_for_in;
 
         class node : public lib::ref_counter
         {
@@ -129,6 +130,7 @@ namespace g0at
             virtual prefix_increment *to_prefix_increment();
             virtual statement_lock *to_statement_lock();
             virtual index_access *to_index_access();
+            virtual statement_for_in *to_statement_for_in();
 
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }

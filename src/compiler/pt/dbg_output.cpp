@@ -63,6 +63,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "prefix_increment.h"
 #include "statement_lock.h"
 #include "index_access.h"
+#include "statement_for_in.h"
 
 namespace g0at
 {
@@ -775,6 +776,18 @@ namespace g0at
                     style = edge_style::node_to_next_one;
                 }
             }
+        }
+
+        void dbg_output::visit(statement_for_in *ref)
+        {
+            std::wstringstream wss;
+            if (ref->is_declared())
+                wss << L"var ";
+            wss << ref->get_name() << L" in";
+            print(ref, L"for", wss.str());
+            dbg_output out_body(env);
+            ref->get_body()->accept(&out_body);
+            link_child(out_body, L"body");
         }
     };
 };

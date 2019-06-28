@@ -193,5 +193,9 @@ namespace g0at
         void node_visitor::visit(index_access *ref)
         {
         }
+
+        void node_visitor::visit(statement_for_in *ref)
+        {
+        }
     }
 };

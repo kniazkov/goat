@@ -3,5 +3,5 @@ var v;
 
 for (v in a)
 {
-    println(a);
+    println(v);
 }
