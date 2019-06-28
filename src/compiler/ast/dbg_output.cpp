@@ -61,6 +61,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_lock.h"
 #include "index_access.h"
 #include "variable_in.h"
+#include "statement_for_in.h"
 
 namespace g0at
 {
@@ -723,6 +724,18 @@ namespace g0at
                 print(L"declared variable in", ref->get_name());
             else
                 print(L"variable in", ref->get_name());
+        }
+
+        void dbg_output::visit(statement_for_in *ref)
+        {
+            std::wstringstream wss;
+            if (ref->is_declared())
+                wss << L"var ";
+            wss << ref->get_name() << L" in";
+            print(L"for", wss.str());
+            dbg_output out_body(data);
+            ref->get_body()->accept(&out_body);
+            link_child(out_body, L"body");
         }
     };
 };

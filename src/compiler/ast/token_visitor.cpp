@@ -321,5 +321,9 @@ namespace g0at
         void token_visitor::visit(variable_in *ref)
         {
         }
+
+        void token_visitor::visit(statement_for_in *ref)
+        {
+        }
     }
 };

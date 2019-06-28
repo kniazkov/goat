@@ -122,6 +122,7 @@ namespace g0at
             void visit(index_access *ref) override;
             void visit(keyword_in *ref) override;
             void visit(variable_in *ref) override;
+            void visit(statement_for_in *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

@@ -472,5 +472,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_for_in *token::to_statement_for_in()
+        {
+            return nullptr;
+        }
     }
 };

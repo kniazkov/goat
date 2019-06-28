@@ -98,6 +98,7 @@ namespace g0at
         class index_access;
         class keyword_in;
         class variable_in;
+        class statement_for_in;
 
         class token_visitor
         {
@@ -176,6 +177,7 @@ namespace g0at
             virtual void visit(index_access *ref);
             virtual void visit(keyword_in *ref);
             virtual void visit(variable_in *ref);
+            virtual void visit(statement_for_in *ref);
         };
     };
 };
