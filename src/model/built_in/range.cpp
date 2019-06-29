@@ -44,7 +44,7 @@ namespace g0at
                     thr->pop();
                     thr->pop(arg_count);
                     variable tmp;
-                    tmp.set_boolean(current < end);
+                    tmp.set_boolean(step > 0? current < end : current > end);
                     thr->push(tmp);
                 }
 
@@ -52,7 +52,7 @@ namespace g0at
                 {
                     thr->pop();
                     thr->pop(arg_count);
-                    if (current < end)
+                    if (step > 0? current < end : current > end)
                     {
                         variable tmp;
                         tmp.set_integer(current);
