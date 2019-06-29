@@ -1,10 +1,4 @@
-for (var v in { value : 0 })
+for (var v in range(10))
 {
-    if (Object.contains(v))
-    {
-    }
-    else
-    {
-        println(v);
-    }
+    println(v);
 }

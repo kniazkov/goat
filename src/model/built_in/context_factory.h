@@ -49,6 +49,7 @@ namespace g0at
                 object *create_function_atan2();
                 object *create_function_clock();
                 object *create_function_me();
+                object *create_function_range();
 
                 object_pool *pool;
             };
