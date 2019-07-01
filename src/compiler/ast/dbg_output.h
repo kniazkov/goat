@@ -123,6 +123,8 @@ namespace g0at
             void visit(keyword_in *ref) override;
             void visit(variable_in *ref) override;
             void visit(statement_for_in *ref) override;
+            void visit(keyword_do *ref) override;
+            void visit(statement_do_while *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

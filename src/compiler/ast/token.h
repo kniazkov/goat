@@ -118,6 +118,8 @@ namespace g0at
         class keyword_in;
         class variable_in;
         class statement_for_in;
+        class keyword_do;
+        class statement_do_while;
 
         class token : public lib::ref_counter
         {
@@ -213,6 +215,8 @@ namespace g0at
             virtual keyword_in *to_keyword_in();
             virtual variable_in *to_variable_in();
             virtual statement_for_in *to_statement_for_in();
+            virtual keyword_do *to_keyword_do();
+            virtual statement_do_while *to_statement_do_while();
             
             lib::pointer<position> get_position() { return pos; }
 

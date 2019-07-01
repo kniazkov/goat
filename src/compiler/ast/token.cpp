@@ -477,5 +477,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_do *token::to_keyword_do()
+        {
+            return nullptr;
+        }
+
+        statement_do_while *token::to_statement_do_while()
+        {
+            return nullptr;
+        }
     }
 };

@@ -325,5 +325,13 @@ namespace g0at
         void token_visitor::visit(statement_for_in *ref)
         {
         }
+
+        void token_visitor::visit(keyword_do *ref)
+        {
+        }
+
+        void token_visitor::visit(statement_do_while *ref)
+        {
+        }
     }
 };

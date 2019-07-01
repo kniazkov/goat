@@ -99,6 +99,8 @@ namespace g0at
         class keyword_in;
         class variable_in;
         class statement_for_in;
+        class keyword_do;
+        class statement_do_while;
 
         class token_visitor
         {
@@ -178,6 +180,8 @@ namespace g0at
             virtual void visit(keyword_in *ref);
             virtual void visit(variable_in *ref);
             virtual void visit(statement_for_in *ref);
+            virtual void visit(keyword_do *ref);
+            virtual void visit(statement_do_while *ref);
         };
     };
 };

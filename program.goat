@@ -1,3 +1,7 @@
-var n = 3;
-var i = n.iterator();
-println(i.valid());
+var x = 0;
+do
+{
+    ++x;
+} while(x != 10);
+
+println(x);
