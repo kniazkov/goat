@@ -26,8 +26,6 @@ if len(sys.argv) < 2:
     print("usage: python test.py <path_to_interpreter>");
     exit()
 
-print("testing...")
-
 interpreter = sys.argv[1]
 all = False
 showFail = False
@@ -47,6 +45,11 @@ if len(sys.argv) > 2 :
 if os.path.isfile(interpreter) != True :
     print("file not exists: " + interpreter);
     exit()
+
+if not debugMode :
+	print("testing...")
+else :
+	print("testing (debug mode)...")
 
 d = 'test'
 passed = 0
