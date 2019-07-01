@@ -31,7 +31,7 @@ print("testing...")
 interpreter = sys.argv[1]
 all = False
 showFail = False
-gcDebug = False
+debugMode = False
 select = False
 if len(sys.argv) > 2 :
 	for i in range(2, len(sys.argv)) :
@@ -39,8 +39,8 @@ if len(sys.argv) > 2 :
 			all = True
 		if sys.argv[i] == "-failed" :
 			showFail = True
-		if sys.argv[i] == "-gcdebug" :
-			gcDebug = True
+		if sys.argv[i] == "-debug" :
+			debugMode = True
 		if sys.argv[i].startswith("-select=") :
 			select = sys.argv[i][8:]
 			
@@ -52,7 +52,7 @@ d = 'test'
 passed = 0
 failed = 0
 totalTime = 0
-for dir in ([os.path.join(d, o) for o in os.listdir(d) if ((select == False and (o[0] != '_' or all)) or (select != False and select in o)) and os.path.isdir(os.path.join(d, o))]):
+for dir in ([os.path.join(d, o) for o in sorted(os.listdir(d)) if ((select == False and (o[0] != '_' or all)) or (select != False and select in o)) and os.path.isdir(os.path.join(d, o))]):
 	prog = os.path.join(dir, "program.goat")
 	if os.path.isfile(prog) :
 		out = False
@@ -70,38 +70,46 @@ for dir in ([os.path.join(d, o) for o in os.listdir(d) if ((select == False and 
 		else :
 			err_0 = "nothing"
 		equal = True
+		terminated = False
 		begin = time.time()
-		if gcDebug :
-			proc = subprocess.Popen([interpreter, prog, "--gc=debug", "--lib=../lib"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		if debugMode :
+			proc = subprocess.Popen([interpreter, prog, "--debug", "--lib=../lib"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		else :
 			proc = subprocess.Popen([interpreter, prog, "--lib=../lib"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		out_1, err_1 = proc.communicate()
+		try :
+			out_1, err_1 = proc.communicate(timeout=9)
+		except subprocess.TimeoutExpired:
+			proc.kill()
+			terminated = True
 		ret = proc.wait()
 		end = time.time()
 		totalTime = totalTime + (end - begin)
 		strTime = ("%.3f" % (end - begin))
-		if (out and (out_0 != out_1)) or (out != True and len(out_1) > 0):
-			print("out 0: " + str(out_0))
-			print("out 1: " + str(out_1))
-			actual = open(os.path.join(dir, "output_act.txt"), "wb")
-			actual.write(out_1)
-			actual.close()
-			equal = False
-		if (err and (err_0 != err_1)) or (err != True and len(err_1) > 0):
-			print("err 0: " + str(err_0))
-			print("err 1: " + str(err_1))
-			actual = open(os.path.join(dir, "error_act.txt"), "wb")
-			actual.write(err_1)
-			actual.close()
-			equal = False
-		if equal :
-			if not showFail :
-				print("[" + " ok " + "] " + strTime + " " + dir)
-			passed = passed + 1
+		if not terminated :
+			if (out and (out_0 != out_1)) or (out != True and len(out_1) > 0):
+				print("out 0: " + str(out_0))
+				print("out 1: " + str(out_1))
+				actual = open(os.path.join(dir, "output_act.txt"), "wb")
+				actual.write(out_1)
+				actual.close()
+				equal = False
+			if (err and (err_0 != err_1)) or (err != True and len(err_1) > 0):
+				print("err 0: " + str(err_0))
+				print("err 1: " + str(err_1))
+				actual = open(os.path.join(dir, "error_act.txt"), "wb")
+				actual.write(err_1)
+				actual.close()
+				equal = False
+			if equal :
+				if not showFail :
+					print("[" + " ok " + "] " + strTime + " " + dir)
+				passed = passed + 1
+			else :
+				print("[" + "fail" + "] " + strTime + " " + dir)
+				failed = failed + 1
 		else :
-			print("[" + "fail" + "] " + strTime + " " + dir)
+			print("[" + "time" + "] ?     " + dir)
 			failed = failed + 1
-
 strTime = ("%.3f" % totalTime)
 print(strTime + " seconds, done.")
 print("total " + str(passed + failed) + ", passed " + str(passed) + ", failed " + str(failed))
