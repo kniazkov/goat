@@ -42,7 +42,7 @@ namespace g0at
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
             bool get_integer(int64_t *pval) override;
-            bool get_real(double *pval) override;\
+            bool get_real(double *pval) override;
             
             void op_add(thread *thr) override;
             void op_sub(thread *thr) override;
@@ -51,6 +51,7 @@ namespace g0at
             void op_eq(thread *thr) override;
             void op_neq(thread *thr) override;
             void op_less(thread *thr) override;
+            void m_iterator(thread *thr, int arg_count) override;
 
             int64_t get_value() { return value; }
 

@@ -43,6 +43,7 @@ namespace g0at
             std::wstring to_string() const override;
             std::wstring to_string_notation() const override;
             bool get_char(wchar_t *pval) override;
+            void m_iterator(thread *thr, int arg_count) override;
 
             wchar_t get_value() { return value; }
 

@@ -85,6 +85,15 @@ namespace g0at
             return true;
         }
 
+        void object_char::m_iterator(thread *thr, int arg_count)
+        {
+            thr->pop();
+            thr->pop(arg_count);
+            variable tmp;
+            tmp.set_object(thr->pool->get_iterator_proto_instance());
+            thr->push(tmp);
+        }
+
         /*
             Prototype
         */

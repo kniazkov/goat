@@ -42,6 +42,7 @@ namespace g0at
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
             bool get_boolean(bool *pval) override;
+            void m_iterator(thread *thr, int arg_count) override;
 
             bool get_value() { return value; }
 

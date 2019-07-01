@@ -116,6 +116,15 @@ namespace g0at
             binary_logical_operation<lib::func::less, true>(thr);
         }
 
+        void object_integer::m_iterator(thread *thr, int arg_count)
+        {
+            thr->pop();
+            thr->pop(arg_count);
+            variable tmp;
+            tmp.set_object(thr->pool->get_iterator_proto_instance());
+            thr->push(tmp);
+        }
+
         template <template<typename R, typename A> class F> void object_integer::unary_operation(thread *thr)
         {
             thr->pop();
