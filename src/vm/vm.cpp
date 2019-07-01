@@ -72,12 +72,10 @@ namespace g0at
             }
             else
             {
-                #if 0
-                // debug mode
-                while(thr->state == model::thread_state::ok)
+                while(thr != nullptr)
                 {
-                    uint32_t iid = thr->iid;
-                    thr->iid++;
+                    code::iid_t iid = thr->iid;
+                    ++thr->iid;
                     auto instr = code->get_instruction(iid);
                     instr->exec(thr);
                     if (!thr->stack_is_empty())
@@ -86,10 +84,8 @@ namespace g0at
                         thr->peek().to_object(&pool);
                     }
                     gc->collect_garbage_if_necessary();
+                    thr = tlist.switch_thread();
                 }
-                #else
-                assert(false);
-                #endif
             }
 
             vm_report r;
