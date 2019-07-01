@@ -98,7 +98,7 @@ namespace g0at
 
         void object_integer::op_inc(thread *thr)
         {
-            unary_operation<lib::func::neg>(thr);
+            unary_operation<lib::func::inc>(thr);
         }
 
         void object_integer::op_eq(thread *thr)
