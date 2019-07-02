@@ -241,6 +241,11 @@ namespace g0at
                 return L"перед этим идентификатором допускается только ключевое слово 'var'";
             }
 
+            std::wstring expected_a_while_keyword() override
+            {
+                return L"ожидается ключевое слово 'while'";
+            }
+
 
             std::wstring unhandled_exception(std::wstring str) override
             {

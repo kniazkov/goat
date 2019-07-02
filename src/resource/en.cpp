@@ -241,6 +241,11 @@ namespace g0at
                 return L"here can be only a 'var' keyword";
             }
 
+            std::wstring expected_a_while_keyword() override
+            {
+                return L"expected a 'while' keyword";
+            }
+
 
             std::wstring unhandled_exception(std::wstring str) override
             {
