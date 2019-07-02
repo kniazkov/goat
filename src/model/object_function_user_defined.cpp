@@ -51,8 +51,8 @@ namespace g0at
                     break;
                 }
             }
-            ctx->value = thr->iid;
-            ctx->value_type = context_value_type::ret_address;
+            ctx->address[0] = thr->iid;
+            ctx->address_type = context_address_type::ret_address;
             int decl_arg_count = (int)arg_names.size();
             for (int i = 0; i < decl_arg_count; i++)
             {

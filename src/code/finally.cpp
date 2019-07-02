@@ -41,10 +41,10 @@ namespace g0at
         {
             assert(iid.valid());
             model::context *ctx = thr->pool->create_context(thr->ctx);
-            ctx->value = iid;
-            ctx->value_type = model::context_value_type::fin_address;
+            ctx->address[0] = iid;
+            ctx->address_type = model::context_address_type::fin_address;
             model::context *parent = thr->ctx;
-            while(parent && parent->value_type != model::context_value_type::ret_address)
+            while(parent && parent->address_type != model::context_address_type::ret_address)
             {
                 parent = parent->prev;
             }

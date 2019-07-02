@@ -59,9 +59,9 @@ namespace g0at
         {
             flow = thread_flow::direct;
             except = var;
-            if (ctx->value_type == context_value_type::catch_address)
+            if (ctx->address_type == context_address_type::catch_address)
             {
-                iid = ctx->value;
+                iid = ctx->address[0];
                 return;
             }
             else
@@ -69,14 +69,14 @@ namespace g0at
                 restore_context();
                 while (ctx)
                 {
-                    switch(ctx->value_type)
+                    switch(ctx->address_type)
                     {
-                        case context_value_type::catch_address :
-                            iid = ctx->value;
+                        case context_address_type::catch_address :
+                            iid = ctx->address[0];
                             return;
-                        case context_value_type::fin_address :
+                        case context_address_type::fin_address :
                             flow = thread_flow::descent_exception;
-                            iid = ctx->value;
+                            iid = ctx->address[0];
                             return;
                         default:
                             restore_context();

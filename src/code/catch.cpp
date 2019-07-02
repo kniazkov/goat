@@ -40,10 +40,10 @@ namespace g0at
 
         void _catch::exec(model::thread *thr)
         {
-            assert(thr->ctx->value_type == model::context_value_type::catch_address);
+            assert(thr->ctx->address_type == model::context_address_type::catch_address);
             model::object_string *key = thr->pool->get_static_string(id);
             thr->ctx->add_object(key, thr->except);
-            thr->ctx->value_type = model::context_value_type::none;
+            thr->ctx->address_type = model::context_address_type::none;
         }
     };
 };

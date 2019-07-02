@@ -28,20 +28,20 @@ namespace g0at
     namespace model
     {
         context::context(object_pool *pool)
-            : object(pool), prev(nullptr), this_ptr(nullptr), value_type(context_value_type::none),
+            : object(pool), prev(nullptr), this_ptr(nullptr), address_type(context_address_type::none),
               ret(nullptr), stack_size(-1), lock(-1)
         {
         }
 
         context::context(object_pool *pool, context *proto)
-            : object(pool, proto), prev(proto), this_ptr(nullptr), value_type(context_value_type::none),
+            : object(pool, proto), prev(proto), this_ptr(nullptr), address_type(context_address_type::none),
               ret(nullptr), stack_size(-1), lock(-1)
         {
             assert(proto != nullptr);
         }
 
         context::context(object_pool *pool, context *proto, context *parent)
-            : object(pool, proto), prev(parent), this_ptr(nullptr), value_type(context_value_type::none),
+            : object(pool, proto), prev(parent), this_ptr(nullptr), address_type(context_address_type::none),
               ret(nullptr), stack_size(-1), lock(-1)
         {
             assert(proto != nullptr);
@@ -49,7 +49,7 @@ namespace g0at
         }
 
         context::context(object_pool *pool, object *_this_ptr, context *proto, context *parent)
-            : object(pool, _this_ptr, proto), prev(parent), this_ptr(_this_ptr), value_type(context_value_type::none),
+            : object(pool, _this_ptr, proto), prev(parent), this_ptr(_this_ptr), address_type(context_address_type::none),
               ret(nullptr), stack_size(-1), lock(-1)
         {
             assert(this_ptr != nullptr);
@@ -104,8 +104,9 @@ namespace g0at
                 topology.reset();
                 prev = nullptr;
                 this_ptr = nullptr;
-                value = code::iid_t();
-                value_type = context_value_type::none;
+                for (int i = 0; i < addresses_count; i++)
+                    address[i] = code::iid_t();
+                address_type = context_address_type::none;
                 ret = nullptr;
             }
         }

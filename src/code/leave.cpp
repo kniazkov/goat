@@ -43,16 +43,16 @@ namespace g0at
                 case model::thread_flow::descent_return :
                     while (thr->ctx)
                     {
-                        switch(thr->ctx->value_type)
+                        switch(thr->ctx->address_type)
                         {
-                            case model::context_value_type::ret_address :
+                            case model::context_address_type::ret_address :
                                 thr->flow = model::thread_flow::direct;
-                                thr->iid = thr->ctx->value;
+                                thr->iid = thr->ctx->address[0];
                                 thr->restore_context();
                                 assert(thr->ctx != nullptr);
                                 return;
-                            case model::context_value_type::fin_address :
-                                thr->iid = thr->ctx->value;
+                            case model::context_address_type::fin_address :
+                                thr->iid = thr->ctx->address[0];
                                 return;
                             default:
                                 thr->restore_context();
@@ -63,14 +63,14 @@ namespace g0at
                 case model::thread_flow::descent_exception :
                     while (thr->ctx)
                     {
-                        switch(thr->ctx->value_type)
+                        switch(thr->ctx->address_type)
                         {
-                            case model::context_value_type::catch_address :
+                            case model::context_address_type::catch_address :
                                 thr->flow = model::thread_flow::direct;
-                                thr->iid = thr->ctx->value;
+                                thr->iid = thr->ctx->address[0];
                                 return;
-                            case model::context_value_type::fin_address :
-                                thr->iid = thr->ctx->value;
+                            case model::context_address_type::fin_address :
+                                thr->iid = thr->ctx->address[0];
                                 return;
                             default:
                                 thr->restore_context();

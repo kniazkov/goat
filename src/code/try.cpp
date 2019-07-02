@@ -39,8 +39,8 @@ namespace g0at
         void _try::exec(model::thread *thr)
         {
             model::context *ctx = thr->pool->create_context(thr->ctx);
-            ctx->value = iid;
-            ctx->value_type = model::context_value_type::catch_address;
+            ctx->address[0] = iid;
+            ctx->address_type = model::context_address_type::catch_address;
             thr->set_context(ctx);
         }
     };

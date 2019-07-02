@@ -29,7 +29,7 @@ namespace g0at
 {
     namespace model
     {
-        enum class context_value_type
+        enum class context_address_type
         {
             none,
             ret_address,
@@ -52,11 +52,12 @@ namespace g0at
         public:
             void kill(object_pool *pool) override;
             void trace() override;
+            static const int addresses_count = 2; 
 
             context *prev;
             object *this_ptr;
-            code::iid_t value;
-            context_value_type value_type;
+            code::iid_t address[addresses_count];
+            context_address_type address_type;
             variable *ret;
             int stack_size;
             int lock;
