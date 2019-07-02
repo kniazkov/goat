@@ -102,6 +102,7 @@ namespace g0at
             void visit(statement_lock *ref) override;
             void visit(index_access *ref) override;
             void visit(statement_for_in *ref) override;
+            void visit(statement_do_while *ref) override;
 
         protected:
             dbg_output(environment &env);

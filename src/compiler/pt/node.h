@@ -78,6 +78,7 @@ namespace g0at
         class statement_lock;
         class index_access;
         class statement_for_in;
+        class statement_do_while;
 
         class node : public lib::ref_counter
         {
@@ -131,6 +132,7 @@ namespace g0at
             virtual statement_lock *to_statement_lock();
             virtual index_access *to_index_access();
             virtual statement_for_in *to_statement_for_in();
+            virtual statement_do_while *to_statement_do_while();
 
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }

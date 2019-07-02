@@ -58,6 +58,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_lock.h"
 #include "compiler/pt/index_access.h"
 #include "compiler/pt/statement_for_in.h"
+#include "compiler/pt/statement_do_while.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -112,6 +113,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/next.h"
 #include "code/dup.h"
 #include "code/store.h"
+#include "code/if.h"
 
 namespace g0at
 {
@@ -629,6 +631,14 @@ namespace g0at
             code->add_instruction(new code::_jmp(iid_begin));
             if_not->get_iid_ptr().set(code->get_current_iid());
             code->add_instruction(new code::_leave());
+        }
+
+        void generator::visit(pt::statement_do_while *ref)
+        {
+            code::iid_t iid_begin = code->get_current_iid();
+            ref->get_statement()->accept(this);
+            ref->get_expression()->accept(this);
+            code->add_instruction(new code::_if(iid_begin));
         }
     };
 };

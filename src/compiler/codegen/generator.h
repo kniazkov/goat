@@ -86,6 +86,7 @@ namespace g0at
             void visit(pt::statement_lock *ref) override;
             void visit(pt::index_access *ref) override;
             void visit(pt::statement_for_in *ref) override;
+            void visit(pt::statement_do_while *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

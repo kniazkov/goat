@@ -52,6 +52,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "iter.h"
 #include "valid.h"
 #include "next.h"
+#include "if.h"
 
 namespace g0at
 {
@@ -405,6 +406,11 @@ namespace g0at
         void disasm::visit(_dup *ref)
         {
             stream << L"dup";
+        }
+
+        void disasm::visit(_if *ref)
+        {
+            stream << L"if\t^" << ref->get_iid().as_int();
         }
     };
 };

@@ -197,5 +197,9 @@ namespace g0at
         void node_visitor::visit(statement_for_in *ref)
         {
         }
+
+        void node_visitor::visit(statement_do_while *ref)
+        {
+        }
     }
 };

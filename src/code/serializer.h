@@ -94,6 +94,7 @@ namespace g0at
             void visit(_valid *ref) override;
             void visit(_next *ref) override;
             void visit(_dup *ref) override;
+            void visit(_if *ref) override;
 
         protected:
             std::vector<uint8_t> &buff;

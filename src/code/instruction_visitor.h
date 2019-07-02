@@ -81,6 +81,7 @@ namespace g0at
         class _valid;
         class _next;
         class _dup;
+        class _if;
 
         class instruction_visitor
         {
@@ -142,6 +143,7 @@ namespace g0at
             virtual void visit(_valid *ref) = 0;
             virtual void visit(_next *ref) = 0;
             virtual void visit(_dup *ref) = 0;
+            virtual void visit(_if *ref) = 0;
         };
     };
 };

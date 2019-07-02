@@ -78,6 +78,7 @@ namespace g0at
             void visit(statement_lock *ref) override;
             void visit(index_access *ref) override;
             void visit(statement_for_in *ref) override;
+            void visit(statement_do_while *ref) override;
 
         protected:
             void postpone(node *n) { queue.push_front(n); }
@@ -124,6 +125,7 @@ namespace g0at
             virtual void payload(statement_lock *ref);
             virtual void payload(index_access *ref);
             virtual void payload(statement_for_in *ref);
+            virtual void payload(statement_do_while *ref);
 
         private:
             std::deque<node*> queue;

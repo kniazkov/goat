@@ -47,6 +47,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_lock.h"
 #include "compiler/ast/statement_for_in.h"
 #include "compiler/pt/statement_for_in.h"
+#include "compiler/ast/statement_do_while.h"
+#include "compiler/pt/statement_do_while.h"
 
 namespace g0at
 {
@@ -262,6 +264,17 @@ namespace g0at
             assert(body_visitor.has_stmt());
             stmt = new pt::statement_for_in(ref->get_position(), ref->get_name(), ref->is_declared(),
                 expr_visitor.get_expr(), body_visitor.get_stmt());
+        }
+
+        void statement_builder::visit(ast::statement_do_while *ref)
+        {
+            expression_builder expr_visitor;
+            ref->get_expression()->accept(&expr_visitor);
+            assert(expr_visitor.has_expr());
+            statement_builder stmt_visitor;
+            ref->get_statement()->accept(&stmt_visitor);
+            assert(stmt_visitor.has_stmt());
+            stmt = new pt::statement_do_while(ref->get_position(), expr_visitor.get_expr(), stmt_visitor.get_stmt());
         }
     };
 };

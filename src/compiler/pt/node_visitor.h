@@ -67,6 +67,7 @@ namespace g0at
         class statement_lock;
         class index_access;
         class statement_for_in;
+        class statement_do_while;
 
         class node_visitor
         {
@@ -114,6 +115,7 @@ namespace g0at
             virtual void visit(statement_lock *ref);
             virtual void visit(index_access *ref);
             virtual void visit(statement_for_in *ref);
+            virtual void visit(statement_do_while *ref);
         };
     };
 };

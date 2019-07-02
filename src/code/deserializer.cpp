@@ -83,6 +83,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "valid.h"
 #include "next.h"
 #include "dup.h"
+#include "if.h"
 
 namespace g0at
 {
@@ -550,6 +551,12 @@ namespace g0at
             dst->add_instruction(new _dup());
         }
 
+        void deserializer::c_if(source *src, code *dst)
+        {
+            iid_t iid(pop_int32(src));
+            dst->add_instruction(new _if(iid));
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -607,6 +614,7 @@ namespace g0at
             cc[op::_valid]   = c_valid;
             cc[op::_next]    = c_next;
             cc[op::_dup]     = c_dup;
+            cc[op::_if]      = c_if;
         }
     };
 };

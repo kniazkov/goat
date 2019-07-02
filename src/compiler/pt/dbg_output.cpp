@@ -64,6 +64,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_lock.h"
 #include "index_access.h"
 #include "statement_for_in.h"
+#include "statement_do_while.h"
 
 namespace g0at
 {
@@ -788,6 +789,17 @@ namespace g0at
             dbg_output out_body(env);
             ref->get_body()->accept(&out_body);
             link_child(out_body, L"body");
+        }
+
+        void dbg_output::visit(statement_do_while *ref)
+        {
+            print(ref, L"do while");
+            dbg_output condition(env);
+            ref->get_expression()->accept(&condition);
+            link_child(condition, L"condition");
+            dbg_output stmt(env);
+            ref->get_statement()->accept(&stmt);
+            link_child(stmt, L"statement");
         }
     };
 };

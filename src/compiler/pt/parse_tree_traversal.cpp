@@ -63,6 +63,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_lock.h"
 #include "index_access.h"
 #include "statement_for_in.h"
+#include "statement_do_while.h"
 
 namespace g0at
 {
@@ -574,6 +575,17 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(statement_for_in *ref)
+        {
+        }
+
+        void parse_tree_traversal::visit(statement_do_while *ref)
+        {
+            ref->get_expression()->accept(this);
+            ref->get_statement()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(statement_do_while *ref)
         {
         }
     };
