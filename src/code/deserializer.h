@@ -125,6 +125,7 @@ namespace g0at
             static void c_next(source *src, code *dst);
             static void c_dup(source *src, code *dst);
             static void c_if(source *src, code *dst);
+            static void c_cycle(source *src, code *dst);
 
             std::map<op, creator> cc;
         };

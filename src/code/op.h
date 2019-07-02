@@ -76,11 +76,14 @@ namespace g0at
             _if,
             _ifnot,
             _jmp,
+
+            // context
             _enter,
             _leave,
             _try,
             _catch,
             _finally,
+            _cycle,
 
             // methods
             _get,
