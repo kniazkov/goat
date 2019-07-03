@@ -540,7 +540,6 @@ namespace g0at
                 stmt_init->accept(this);
             }
             iid_t iid_begin = code->get_current_iid();
-            cycle->get_begin_ptr().set(iid_begin);
             _ifnot *if_not = nullptr;
             auto condition = ref->get_condition();
             if (condition)
@@ -550,6 +549,7 @@ namespace g0at
                 code->add_instruction(if_not);
             }
             ref->get_body()->accept(this);
+            cycle->get_begin_ptr().set(code->get_current_iid());
             auto increment = ref->get_increment();
             if (increment)
             {
