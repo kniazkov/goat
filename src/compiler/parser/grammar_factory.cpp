@@ -54,6 +54,8 @@ namespace g0at
             gr->vector.push_back(create_pattern_assignment());
             gr->vector.push_back(create_pattern_declare_variable());
             gr->vector.push_back(create_pattern_statement_return());
+            gr->vector.push_back(create_pattern_statement_break());
+            gr->vector.push_back(create_pattern_statement_continue());
             gr->vector.push_back(create_pattern_statement_throw());
             gr->vector.push_back(create_pattern_statement_expression());
             gr->vector.push_back(create_pattern_statement_empty());

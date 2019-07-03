@@ -754,5 +754,25 @@ namespace g0at
             ref->get_statement()->accept(&stmt);
             link_child(stmt, L"statement");
         }
+
+        void dbg_output::visit(keyword_break *ref)
+        {
+            print(L"keyword", L"break");
+        }
+
+        void dbg_output::visit(keyword_continue *ref)
+        {
+            print(L"keyword", L"continue");
+        }
+
+        void dbg_output::visit(statement_break *ref)
+        {
+            print(L"break");
+        }
+
+        void dbg_output::visit(statement_continue *ref)
+        {
+            print(L"continue");
+        }
     };
 };

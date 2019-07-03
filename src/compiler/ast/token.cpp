@@ -487,5 +487,25 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_break *token::to_keyword_break()
+        {
+            return nullptr;
+        }
+
+        keyword_continue *token::to_keyword_continue()
+        {
+            return nullptr;
+        }
+
+        statement_break *token::to_statement_break()
+        {
+            return nullptr;
+        }
+
+        statement_continue *token::to_statement_continue()
+        {
+            return nullptr;
+        }
     }
 };

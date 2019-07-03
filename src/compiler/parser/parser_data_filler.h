@@ -68,6 +68,8 @@ namespace g0at
             void visit(ast::keyword_lock *ref) override;
             void visit(ast::keyword_in *ref) override;
             void visit(ast::keyword_do *ref) override;
+            void visit(ast::keyword_break *ref) override;
+            void visit(ast::keyword_continue *ref) override;
 
         protected:
             parser_data *data;

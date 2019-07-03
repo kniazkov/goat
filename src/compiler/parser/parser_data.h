@@ -64,6 +64,8 @@ namespace g0at
             ast::token_2nd_list lock_keywords;
             ast::token_2nd_list in_keywords;
             ast::token_2nd_list do_keywords;
+            ast::token_2nd_list break_keywords;
+            ast::token_2nd_list continue_keywords;
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;

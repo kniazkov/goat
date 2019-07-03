@@ -51,7 +51,7 @@ namespace g0at
                 {
                     lib::pointer<ast::token> stmt = new ast::statement_return(kw, nullptr);
                     kw->replace(stmt);
-                    return 0;
+                    return false;
                 }
                 
                 ast::semicolon *semicolon = kw->next->to_semicolon();

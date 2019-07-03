@@ -60,6 +60,8 @@ namespace g0at
             lib::pointer<pattern> create_pattern_operator_new();
             lib::pointer<pattern> create_pattern_statement_lock();
             lib::pointer<pattern> create_pattern_statement_do_while();
+            lib::pointer<pattern> create_pattern_statement_break();
+            lib::pointer<pattern> create_pattern_statement_continue();
 
             parser_data *data;
         };

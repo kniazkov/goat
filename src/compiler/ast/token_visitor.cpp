@@ -333,5 +333,21 @@ namespace g0at
         void token_visitor::visit(statement_do_while *ref)
         {
         }
+
+        void token_visitor::visit(keyword_break *ref)
+        {
+        }
+
+        void token_visitor::visit(keyword_continue *ref)
+        {
+        }
+
+        void token_visitor::visit(statement_break *ref)
+        {
+        }
+
+        void token_visitor::visit(statement_continue *ref)
+        {
+        }
     }
 };
