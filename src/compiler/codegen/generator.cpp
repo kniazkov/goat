@@ -353,13 +353,17 @@ namespace g0at
 
         void generator::visit(pt::statement_while *ref)
         {
+            _cycle *cycle = new _cycle(iid_unknown(), iid_unknown());
+            code->add_instruction(cycle);
             iid_t iid_begin = code->get_current_iid();
             ref->get_expression()->accept(this);
             _ifnot *if_not = new _ifnot(iid_unknown());
             code->add_instruction(if_not);
+            cycle->get_begin_ptr().set(code->get_current_iid());
             ref->get_statement()->accept(this);
             code->add_instruction(new _jmp(iid_begin));
             if_not->get_iid_ptr().set(code->get_current_iid());
+            cycle->get_end_ptr().set(code->get_current_iid());
         }
 
         void generator::visit(pt::method_call *ref)

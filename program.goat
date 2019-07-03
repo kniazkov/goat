@@ -1,14 +1,9 @@
 var x = 0;
-do
+while(true)
 {
-    try
-    {
-        ++x;
-    }
-    finally
-    {
-        if (x == 6)
-            continue;
-        println(x);
-    }
-} while(x < 13)
+    ++x;
+    if (x == 13)
+        break;
+}
+
+println(x);
