@@ -424,5 +424,10 @@ namespace g0at
         {
             stream << L"break";
         }
+
+        void disasm::visit(_cont *ref)
+        {
+            stream << L"cont";
+        }
     };
 };

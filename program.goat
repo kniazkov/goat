@@ -1,16 +1,8 @@
 var x = 0;
 do
 {
-    try
-    {
-        ++x;
-    }
-    finally
-    {
-        println("f " + x);
-        if (x == 3)
-            break;
-    }
-} while(true)
-
-println(x);
+    ++x;
+    if (x == 6)
+        continue;
+    println(x);
+} while(x < 13)

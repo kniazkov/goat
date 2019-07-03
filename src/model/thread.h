@@ -60,7 +60,9 @@ namespace g0at
             // Execute all 'finally' blocks until 'catch' block is found
             descent_exception,
             // Execute all 'finally' blocks until end of cycle is found
-            descent_break
+            descent_break,
+            // Execute all 'finally' blocks until end of cycle is found, then go to begin of cycle
+            descent_continue
         };
 
         /**

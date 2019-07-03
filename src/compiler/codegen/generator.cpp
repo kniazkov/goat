@@ -60,6 +60,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_for_in.h"
 #include "compiler/pt/statement_do_while.h"
 #include "compiler/pt/statement_break.h"
+#include "compiler/pt/statement_continue.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -117,6 +118,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/if.h"
 #include "code/cycle.h"
 #include "code/break.h"
+#include "code/cont.h"
 
 namespace g0at
 {
@@ -653,6 +655,11 @@ namespace g0at
         void generator::visit(pt::statement_break *ref)
         {
             code->add_instruction(new _break());
+        }
+
+        void generator::visit(pt::statement_continue *ref)
+        {
+            code->add_instruction(new _cont());
         }
     };
 };

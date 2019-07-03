@@ -97,6 +97,7 @@ namespace g0at
             void visit(_if *ref) override;
             void visit(_cycle *ref) override;
             void visit(_break *ref) override;
+            void visit(_cont *ref) override;
 
         protected:
             std::vector<uint8_t> &buff;

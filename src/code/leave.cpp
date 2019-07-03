@@ -98,6 +98,24 @@ namespace g0at
                     }
                     thr->state = model::thread_state::zombie;
                     return;
+                case model::thread_flow::descent_continue :
+                    while (thr->ctx)
+                    {
+                        switch(thr->ctx->address_type)
+                        {
+                            case model::context_address_type::cycle_addresses :
+                                thr->flow = model::thread_flow::direct;
+                                thr->iid = thr->ctx->address[0];
+                                return;
+                            case model::context_address_type::fin_address :
+                                thr->iid = thr->ctx->address[0];
+                                return;
+                            default:
+                                thr->restore_context();
+                        }
+                    }
+                    thr->state = model::thread_state::zombie;
+                    return;
             }
         }
     };

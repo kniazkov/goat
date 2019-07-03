@@ -497,5 +497,10 @@ namespace g0at
         {
             push_opcode(op::_break);
         }
+
+        void serializer::visit(_cont *ref)
+        {
+            push_opcode(op::_cont);
+        }
     };
 };

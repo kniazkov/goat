@@ -127,6 +127,7 @@ namespace g0at
             static void c_if(source *src, code *dst);
             static void c_cycle(source *src, code *dst);
             static void c_break(source *src, code *dst);
+            static void c_cont(source *src, code *dst);
 
             std::map<op, creator> cc;
         };

@@ -85,6 +85,7 @@ namespace g0at
             _finally,
             _cycle,
             _break,
+            _cont,
 
             // methods
             _get,
