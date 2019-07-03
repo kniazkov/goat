@@ -59,6 +59,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/index_access.h"
 #include "compiler/pt/statement_for_in.h"
 #include "compiler/pt/statement_do_while.h"
+#include "compiler/pt/statement_break.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -114,6 +115,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/dup.h"
 #include "code/store.h"
 #include "code/if.h"
+#include "code/cycle.h"
+#include "code/break.h"
 
 namespace g0at
 {
@@ -259,7 +262,7 @@ namespace g0at
             
             if (func->get_type() == pt::function_type::function)
             {
-                code::_func *instr = new code::_func(-1);
+                code::_func *instr = new code::_func(code::iid_unknown());
                 code->add_instruction(instr);
                 deferred_node def;
                 def.iid_ptr = instr->get_first_iid_ptr();
@@ -273,7 +276,7 @@ namespace g0at
             }
             else if (func->get_type() == pt::function_type::thread)
             {
-                code::_thread *instr = new code::_thread(-1);
+                code::_thread *instr = new code::_thread(code::iid_unknown());
                 code->add_instruction(instr);
                 deferred_node def;
                 def.iid_ptr = instr->get_first_iid_ptr();
@@ -348,7 +351,7 @@ namespace g0at
         {
             code::iid_t iid_begin = code->get_current_iid();
             ref->get_expression()->accept(this);
-            code::_ifnot *if_not = new code::_ifnot(-1);
+            code::_ifnot *if_not = new code::_ifnot(code::iid_unknown());
             code->add_instruction(if_not);
             ref->get_statement()->accept(this);
             code->add_instruction(new code::_jmp(iid_begin));
@@ -425,14 +428,14 @@ namespace g0at
         void generator::visit(pt::statement_if *ref)
         {
             ref->get_expression()->accept(this);
-            code::_ifnot *ifnot = new code::_ifnot(-1);
+            code::_ifnot *ifnot = new code::_ifnot(code::iid_unknown());
             code->add_instruction(ifnot);
             ref->get_stmt_if()->accept(this);
             code::iid_ptr_t iid_ptr_end;
             auto stmt_else = ref->get_stmt_else();
             if (stmt_else)
             {
-                code::_jmp *jmp = new code::_jmp(-1);
+                code::_jmp *jmp = new code::_jmp(code::iid_unknown());
                 iid_ptr_end = jmp->get_iid_ptr();
                 code->add_instruction(jmp);
             }
@@ -467,18 +470,18 @@ namespace g0at
 
             if (stmt_finally)
             {
-                code::_finally *instr_finally = new code::_finally(-1);
+                code::_finally *instr_finally = new code::_finally(code::iid_unknown());
                 iid_finally_ptr = instr_finally->get_iid_ptr();
                 code->add_instruction(instr_finally);
             }
 
             if (stmt_catch)
             {
-                code::_try *instr_try = new code::_try(-1);
+                code::_try *instr_try = new code::_try(code::iid_unknown());
                 code::iid_ptr_t iid_catch_ptr = instr_try->get_iid_ptr();
                 code->add_instruction(instr_try);
                 ref->get_stmt_try()->accept(this);
-                code::_jmp *jmp_end = new code::_jmp(-1);
+                code::_jmp *jmp_end = new code::_jmp(code::iid_unknown());
                 code::iid_ptr_t iid_end_ptr = jmp_end->get_iid_ptr();
                 code->add_instruction(jmp_end);
                 iid_catch_ptr.set(code->get_current_iid());
@@ -537,7 +540,7 @@ namespace g0at
             if (condition)
             {
                 condition->accept(this);
-                if_not = new code::_ifnot(-1);
+                if_not = new code::_ifnot(code::iid_unknown());
                 code->add_instruction(if_not);
             }
             ref->get_body()->accept(this);
@@ -621,7 +624,7 @@ namespace g0at
             code::iid_t iid_begin = code->get_current_iid();
             code->add_instruction(new code::_dup());
             code->add_instruction(new code::_valid(0));
-            code::_ifnot *if_not = new code::_ifnot(-1);
+            code::_ifnot *if_not = new code::_ifnot(code::iid_unknown());
             code->add_instruction(if_not);
             code->add_instruction(new code::_dup());
             code->add_instruction(new code::_next(0));
@@ -635,10 +638,19 @@ namespace g0at
 
         void generator::visit(pt::statement_do_while *ref)
         {
+            code::_cycle *cycle = new code::_cycle(code::iid_unknown(), code::iid_unknown());
+            code->add_instruction(cycle);
             code::iid_t iid_begin = code->get_current_iid();
+            cycle->get_begin_ptr().set(iid_begin);
             ref->get_statement()->accept(this);
             ref->get_expression()->accept(this);
             code->add_instruction(new code::_if(iid_begin));
+            cycle->get_end_ptr().set(code->get_current_iid());
+        }
+
+        void generator::visit(pt::statement_break *ref)
+        {
+            code->add_instruction(new code::_break());
         }
     };
 };

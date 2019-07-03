@@ -83,6 +83,7 @@ namespace g0at
         class _dup;
         class _if;
         class _cycle;
+        class _break;
 
         class instruction_visitor
         {
@@ -146,6 +147,7 @@ namespace g0at
             virtual void visit(_dup *ref) = 0;
             virtual void visit(_if *ref) = 0;
             virtual void visit(_cycle *ref) = 0;
+            virtual void visit(_break *ref) = 0;
         };
     };
 };

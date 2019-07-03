@@ -264,5 +264,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_break *node::to_statement_break()
+        {
+            return nullptr;
+        }
+
+        statement_continue *node::to_statement_continue()
+        {
+            return nullptr;
+        }
    }
 };

@@ -46,6 +46,8 @@ namespace g0at
             void visit(ast::statement_lock *ref) override;
             void visit(ast::statement_for_in *ref) override;
             void visit(ast::statement_do_while *ref) override;
+            void visit(ast::statement_break *ref) override;
+            void visit(ast::statement_continue *ref) override;
 
             bool has_stmt() { return stmt != nullptr; }
             lib::pointer<pt::statement> get_stmt() { return stmt; }

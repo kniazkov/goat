@@ -419,5 +419,10 @@ namespace g0at
         {
             stream << L"cycle\t^" << ref->get_begin().as_int() << ", ^" << ref->get_end().as_int();
         }
+
+        void disasm::visit(_break *ref)
+        {
+            stream << L"break";
+        }
     };
 };

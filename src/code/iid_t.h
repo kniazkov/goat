@@ -70,6 +70,11 @@ namespace g0at
             int value;
         };
 
+        static inline iid_t iid_unknown()
+        {
+            return iid_t();
+        }
+
         /**
          * @brief Pointer to identifier of instruction
          * 

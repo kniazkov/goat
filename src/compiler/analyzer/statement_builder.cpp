@@ -49,6 +49,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_for_in.h"
 #include "compiler/ast/statement_do_while.h"
 #include "compiler/pt/statement_do_while.h"
+#include "compiler/ast/statement_break.h"
+#include "compiler/pt/statement_break.h"
+#include "compiler/ast/statement_continue.h"
+#include "compiler/pt/statement_continue.h"
 
 namespace g0at
 {
@@ -275,6 +279,16 @@ namespace g0at
             ref->get_statement()->accept(&stmt_visitor);
             assert(stmt_visitor.has_stmt());
             stmt = new pt::statement_do_while(ref->get_position(), expr_visitor.get_expr(), stmt_visitor.get_stmt());
+        }
+
+        void statement_builder::visit(ast::statement_break *ref)
+        {
+            stmt = new pt::statement_break(ref->get_position());
+        }
+
+        void statement_builder::visit(ast::statement_continue *ref)
+        {
+            stmt = new pt::statement_continue(ref->get_position());
         }
     };
 };

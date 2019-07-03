@@ -588,5 +588,23 @@ namespace g0at
         void parse_tree_traversal::payload(statement_do_while *ref)
         {
         }
+
+        void parse_tree_traversal::visit(statement_break *ref)
+        {
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(statement_break *ref)
+        {
+        }
+
+        void parse_tree_traversal::visit(statement_continue *ref)
+        {
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(statement_continue *ref)
+        {
+        }
     };
 };

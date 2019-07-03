@@ -492,5 +492,10 @@ namespace g0at
             push_int32(ref->get_begin().as_int());
             push_int32(ref->get_end().as_int());
         }
+
+        void serializer::visit(_break *ref)
+        {
+            push_opcode(op::_break);
+        }
     };
 };

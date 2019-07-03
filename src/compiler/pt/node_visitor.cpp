@@ -201,5 +201,13 @@ namespace g0at
         void node_visitor::visit(statement_do_while *ref)
         {
         }
+
+        void node_visitor::visit(statement_break *ref)
+        {
+        }
+
+        void node_visitor::visit(statement_continue *ref)
+        {
+        }
     }
 };

@@ -58,7 +58,9 @@ namespace g0at
             // Execute all 'finally' blocks until end of function is reached
             descent_return,
             // Execute all 'finally' blocks until 'catch' block is found
-            descent_exception
+            descent_exception,
+            // Execute all 'finally' blocks until end of cycle is found
+            descent_break
         };
 
         /**

@@ -84,6 +84,7 @@ namespace g0at
             _catch,
             _finally,
             _cycle,
+            _break,
 
             // methods
             _get,
