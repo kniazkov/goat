@@ -1,0 +1,8 @@
+var x = 0;
+do
+{
+    ++x;
+    if (x == 6)
+        continue;
+    println(x);
+} while(x < 13)
