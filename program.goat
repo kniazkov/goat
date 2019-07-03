@@ -1,15 +1,6 @@
-var x = 0;
-while(x < 12)
+for (var x = 0; x < 10; ++x)
 {
-    try
-    {
-        ++x;
-        if (x == 6)
-            continue;
-        print(x);
-    }
-    finally
-    {
-        println('+');
-    }
+    if (x == 8)
+        break;
+    println(x);
 }

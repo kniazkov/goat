@@ -363,6 +363,7 @@ namespace g0at
             ref->get_statement()->accept(this);
             code->add_instruction(new _jmp(iid_begin));
             if_not->get_iid_ptr().set(code->get_current_iid());
+            code->add_instruction(new _leave());
             cycle->get_end_ptr().set(code->get_current_iid());
         }
 
@@ -531,18 +532,15 @@ namespace g0at
 
         void generator::visit(pt::statement_for *ref)
         {
+            _cycle *cycle = new _cycle(iid_unknown(), iid_unknown());
+            code->add_instruction(cycle);
             auto stmt_init = ref->get_stmt_init();
-            bool clone_context = false;
             if (stmt_init)
             {
-                if (stmt_init->to_declare_variable())
-                {
-                    clone_context = true;
-                    code->add_instruction(new _enter());
-                }
                 stmt_init->accept(this);
             }
             iid_t iid_begin = code->get_current_iid();
+            cycle->get_begin_ptr().set(iid_begin);
             _ifnot *if_not = nullptr;
             auto condition = ref->get_condition();
             if (condition)
@@ -562,10 +560,8 @@ namespace g0at
             {
                 if_not->get_iid_ptr().set(code->get_current_iid());
             }
-            if (clone_context)
-            {
-                code->add_instruction(new _leave());
-            }
+            code->add_instruction(new _leave());
+            cycle->get_end_ptr().set(code->get_current_iid());
         }
 
         void generator::visit(pt::is_less_than *ref)
@@ -653,6 +649,7 @@ namespace g0at
             ref->get_statement()->accept(this);
             ref->get_expression()->accept(this);
             code->add_instruction(new _if(iid_begin));
+            code->add_instruction(new _leave());
             cycle->get_end_ptr().set(code->get_current_iid());
         }
 
