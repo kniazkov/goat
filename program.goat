@@ -1,6 +1,7 @@
-for (var x = 0; x < 10; ++x)
+var obj = { x : 10, y : 20 };
+for (var key in obj)
 {
-    if (x == 8)
+    if (key.length() != 1)
         continue;
-    println(x);
+    println(key + " -> " + obj[key]);
 }

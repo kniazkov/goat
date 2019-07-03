@@ -616,7 +616,8 @@ namespace g0at
 
         void generator::visit(pt::statement_for_in *ref)
         {
-            code->add_instruction(new _enter());
+            _cycle *cycle = new _cycle(iid_unknown(), iid_unknown());
+            code->add_instruction(cycle);
             int name_id = name_cache.get_id(ref->get_name());
             if (ref->is_declared())
             {
@@ -626,6 +627,7 @@ namespace g0at
             ref->get_expression()->accept(this);
             code->add_instruction(new _iter(0));
             iid_t iid_begin = code->get_current_iid();
+            cycle->get_begin_ptr().set(iid_begin);
             code->add_instruction(new _dup());
             code->add_instruction(new _valid(0));
             _ifnot *if_not = new _ifnot(iid_unknown());
@@ -638,6 +640,7 @@ namespace g0at
             code->add_instruction(new _jmp(iid_begin));
             if_not->get_iid_ptr().set(code->get_current_iid());
             code->add_instruction(new _leave());
+            cycle->get_end_ptr().set(code->get_current_iid());
         }
 
         void generator::visit(pt::statement_do_while *ref)
