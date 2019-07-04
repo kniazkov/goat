@@ -105,6 +105,9 @@ namespace g0at
         class keyword_continue;
         class statement_break;
         class statement_continue;
+        class keyword_switch;
+        class keyword_case;
+        class keyword_default;
 
         class token_visitor
         {
@@ -190,6 +193,9 @@ namespace g0at
             virtual void visit(keyword_continue *ref);
             virtual void visit(statement_break *ref);
             virtual void visit(statement_continue *ref);
-        };
+            virtual void visit(keyword_switch *ref);
+            virtual void visit(keyword_case *ref);
+            virtual void visit(keyword_default *ref);
+         };
     };
 };

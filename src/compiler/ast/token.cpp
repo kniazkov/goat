@@ -507,5 +507,20 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_switch *token::to_keyword_switch()
+        {
+            return nullptr;
+        }
+
+        keyword_case *token::to_keyword_case()
+        {
+            return nullptr;
+        }
+
+        keyword_default *token::to_keyword_default()
+        {
+            return nullptr;
+        }
     }
 };

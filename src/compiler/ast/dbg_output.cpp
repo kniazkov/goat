@@ -774,5 +774,20 @@ namespace g0at
         {
             print(L"continue");
         }
+
+        void dbg_output::visit(keyword_switch *ref)
+        {
+            print(L"keyword", L"switch");
+        }
+
+        void dbg_output::visit(keyword_case *ref)
+        {
+            print(L"keyword", L"case");
+        }
+
+        void dbg_output::visit(keyword_default *ref)
+        {
+            print(L"keyword", L"default");
+        }
     };
 };

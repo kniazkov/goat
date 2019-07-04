@@ -124,6 +124,9 @@ namespace g0at
         class keyword_continue;
         class statement_break;
         class statement_continue;
+        class keyword_switch;
+        class keyword_case;
+        class keyword_default;
 
         class token : public lib::ref_counter
         {
@@ -225,6 +228,9 @@ namespace g0at
             virtual keyword_continue *to_keyword_continue();
             virtual statement_break *to_statement_break();
             virtual statement_continue *to_statement_continue();
+            virtual keyword_switch *to_keyword_switch();
+            virtual keyword_case *to_keyword_case();
+            virtual keyword_default *to_keyword_default();
             
             lib::pointer<position> get_position() { return pos; }
 

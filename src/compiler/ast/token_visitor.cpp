@@ -349,5 +349,17 @@ namespace g0at
         void token_visitor::visit(statement_continue *ref)
         {
         }
+
+        void token_visitor::visit(keyword_switch *ref)
+        {
+        }
+
+        void token_visitor::visit(keyword_case *ref)
+        {
+        }
+
+        void token_visitor::visit(keyword_default *ref)
+        {
+        }
     }
 };

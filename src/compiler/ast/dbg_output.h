@@ -129,6 +129,9 @@ namespace g0at
             void visit(keyword_continue *ref) override;
             void visit(statement_break *ref) override;
             void visit(statement_continue *ref) override;
+            void visit(keyword_switch *ref) override;
+            void visit(keyword_case *ref) override;
+            void visit(keyword_default *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

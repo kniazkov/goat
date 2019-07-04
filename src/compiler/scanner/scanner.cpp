@@ -68,6 +68,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_do.h"
 #include "compiler/ast/keyword_break.h"
 #include "compiler/ast/keyword_continue.h"
+#include "compiler/ast/keyword_switch.h"
+#include "compiler/ast/keyword_case.h"
+#include "compiler/ast/keyword_default.h"
 
 namespace g0at
 {
@@ -328,6 +331,12 @@ namespace g0at
                 return new ast::keyword_break();
             if (name == L"continue")
                 return new ast::keyword_continue();
+            if (name == L"switch")
+                return new ast::keyword_switch();
+            if (name == L"case")
+                return new ast::keyword_case();
+            if (name == L"default")
+                return new ast::keyword_default();
             return new ast::identifier(name);
         }
 
