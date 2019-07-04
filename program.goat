@@ -2,6 +2,12 @@ var x = 0;
 
 switch (x)
 {
-    default:
+    case 0:
+        println("zero");
         break;
+    case 1:
+        println("one");
+        break;
+    default:
+        println("other");
 }

@@ -808,8 +808,23 @@ namespace g0at
                 dbg_output out_block(data);
                 out_block.print(L"case");
                 link(pred_id, out_block.id, dashed);
+                dbg_output out_block_expr(data);
+                block->get_expression()->accept(&out_block_expr);
+                link(out_block.id, out_block_expr.id, false, L"expression");
+                int pred_id_2 = out_block.id;
+                bool dashed_2 = false;
+                auto stmt = block->get_body()->first;
+                while(stmt)
+                {
+                    dbg_output out_stmt(data);
+                    stmt->accept(&out_stmt);
+                    link(pred_id_2, out_stmt.id, dashed_2);
+                    pred_id_2 = out_stmt.id;
+                    dashed_2 = true;
+                    stmt = stmt->next;
+                }
                 pred_id = out_block.id;
-                dashed = false;
+                dashed = true;
             }
         }
     };

@@ -36,6 +36,15 @@ namespace g0at
     {
         class case_block : public lib::ref_counter
         {
+        public:
+            case_block(lib::pointer<expression> _expr)
+                : expr(_expr)
+            {
+            }
+
+            lib::pointer<expression> get_expression() { return expr; }
+            token_list *get_body() { return &body; }
+
         protected:
             lib::pointer<expression> expr;
             token_list body;

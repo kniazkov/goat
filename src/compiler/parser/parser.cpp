@@ -442,8 +442,29 @@ namespace g0at
                     tok->remove();
                     list = stmt->get_default_block();
                 }
+                else if (tok->to_keyword_case())
+                {
+                    if (!tok->next)
+                        throw expected_an_expression(tok->get_position());
+                    lib::pointer<ast::expression> expr = tok->next->to_expression();
+                    if (!expr)
+                        throw expected_an_expression(tok->next->get_position());
+                    lib::pointer<ast::case_block> block = new ast::case_block(expr);
+                    stmt->add_block(block);
+                    if (!expr->next)
+                        throw the_next_token_must_be_a_colon(tok->get_position());
+                    if (!expr->next->to_colon())
+                        throw the_next_token_must_be_a_colon(tok->next->get_position());\
+                    next = expr->next->next;
+                    expr->next->remove();
+                    expr->remove();
+                    tok->remove();
+                    list = block->get_body();
+                }
                 else
                 {
+                    if (!tok->to_statement())
+                        throw expected_a_statement(tok->get_position());
                     list->add(tok);
                 }
                 tok = next;
