@@ -1,6 +1,6 @@
-for (var v in range(100))
+var x = 0;
+
+switch (x)
 {
-    if (v == 10)
-        break;
-    println(v);
+
 }

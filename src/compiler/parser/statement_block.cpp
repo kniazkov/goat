@@ -70,6 +70,8 @@ namespace g0at
                                     goto okay;
                                 if (prev_br_pair->prev->to_keyword_for())
                                     goto okay;
+                                if (prev_br_pair->prev->to_keyword_switch())
+                                    return false;
                             }
                         }
                         goto error;

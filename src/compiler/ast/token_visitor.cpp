@@ -361,5 +361,9 @@ namespace g0at
         void token_visitor::visit(keyword_default *ref)
         {
         }
+
+        void token_visitor::visit(statement_switch *ref)
+        {
+        }
     }
 };

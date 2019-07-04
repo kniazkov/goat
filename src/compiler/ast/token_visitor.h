@@ -108,6 +108,7 @@ namespace g0at
         class keyword_switch;
         class keyword_case;
         class keyword_default;
+        class statement_switch;
 
         class token_visitor
         {
@@ -196,6 +197,7 @@ namespace g0at
             virtual void visit(keyword_switch *ref);
             virtual void visit(keyword_case *ref);
             virtual void visit(keyword_default *ref);
+            virtual void visit(statement_switch *ref);
          };
     };
 };

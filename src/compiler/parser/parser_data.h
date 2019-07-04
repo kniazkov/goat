@@ -31,6 +31,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/statement_block.h"
 #include "compiler/ast/operator_new.h"
 #include "compiler/ast/index_access.h"
+#include "compiler/ast/statement_switch.h"
 #include <vector>
 
 namespace g0at
@@ -66,6 +67,7 @@ namespace g0at
             ast::token_2nd_list do_keywords;
             ast::token_2nd_list break_keywords;
             ast::token_2nd_list continue_keywords;
+            ast::token_2nd_list switch_keywords;
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;
@@ -75,6 +77,7 @@ namespace g0at
             std::vector<ast::statement_block*> blocks;
             std::vector<ast::operator_new*> operators_new;
             std::vector<ast::index_access*> index_access;
+            std::vector<ast::statement_switch*> switches;
         };
     };
 };

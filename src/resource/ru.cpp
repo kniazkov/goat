@@ -246,6 +246,12 @@ namespace g0at
                 return L"ожидается ключевое слово 'while'";
             }
 
+            std::wstring expected_a_switch_body()
+            {
+                return L"ожидается тело конструкции 'switch'";
+            }
+
+
 
             std::wstring unhandled_exception(std::wstring str) override
             {

@@ -246,6 +246,12 @@ namespace g0at
                 return L"expected a 'while' keyword";
             }
 
+            std::wstring expected_a_switch_body()
+            {
+                return L"expected a body of the 'switch' statement";
+            }
+
+
 
             std::wstring unhandled_exception(std::wstring str) override
             {

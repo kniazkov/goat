@@ -127,6 +127,7 @@ namespace g0at
         class keyword_switch;
         class keyword_case;
         class keyword_default;
+        class statement_switch;
 
         class token : public lib::ref_counter
         {
@@ -231,6 +232,7 @@ namespace g0at
             virtual keyword_switch *to_keyword_switch();
             virtual keyword_case *to_keyword_case();
             virtual keyword_default *to_keyword_default();
+            virtual statement_switch *to_statement_switch();
             
             lib::pointer<position> get_position() { return pos; }
 

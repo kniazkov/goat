@@ -44,6 +44,9 @@ namespace g0at
                 ast::brackets_pair *body = tok->to_brackets_pair();
                 assert (body != nullptr && body->get_symbol() == L'{');
 
+                if (body->prev && body->prev->prev && body->prev->prev->to_keyword_switch())
+                    return false;
+
                 lib::pointer<ast::token_object> obj  = new ast::token_object(body);
                 body->replace(obj.cast<ast::token>());
                 data->expressions.add(obj.get());

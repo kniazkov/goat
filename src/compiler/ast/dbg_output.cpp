@@ -63,6 +63,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "variable_in.h"
 #include "statement_for_in.h"
 #include "statement_do_while.h"
+#include "statement_switch.h"
 
 namespace g0at
 {
@@ -788,6 +789,28 @@ namespace g0at
         void dbg_output::visit(keyword_default *ref)
         {
             print(L"keyword", L"default");
+        }
+
+        void dbg_output::visit(statement_switch *ref)
+        {
+            print(L"switch");
+
+            int pred_id = id;
+            dbg_output out_expr(data);
+            ref->get_expression()->accept(&out_expr);
+            link_child(out_expr, L"expression");
+            print_token_list(ref->get_raw_list(), L"raw");
+            print_token_list(ref->get_default_block(), L"default");
+            bool dashed = false;
+            for (int i = 0, cnt = ref->get_count(); i < cnt; i++)
+            {
+                auto block = ref->get_block(i);
+                dbg_output out_block(data);
+                out_block.print(L"case");
+                link(pred_id, out_block.id, dashed);
+                pred_id = out_block.id;
+                dashed = false;
+            }
         }
     };
 };

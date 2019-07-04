@@ -132,6 +132,7 @@ namespace g0at
             void visit(keyword_switch *ref) override;
             void visit(keyword_case *ref) override;
             void visit(keyword_default *ref) override;
+            void visit(statement_switch *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

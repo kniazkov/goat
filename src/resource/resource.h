@@ -75,6 +75,7 @@ namespace g0at
             virtual std::wstring expected_parameters_of_cycle_statement() = 0;
             virtual std::wstring expected_a_var_keyword() = 0;
             virtual std::wstring expected_a_while_keyword() = 0;
+            virtual std::wstring expected_a_switch_body() = 0;
 
             virtual std::wstring unhandled_exception(std::wstring str) = 0;
             virtual std::wstring unknown_exception() = 0;

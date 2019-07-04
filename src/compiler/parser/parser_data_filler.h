@@ -70,6 +70,7 @@ namespace g0at
             void visit(ast::keyword_do *ref) override;
             void visit(ast::keyword_break *ref) override;
             void visit(ast::keyword_continue *ref) override;
+            void visit(ast::keyword_switch *ref) override;
 
         protected:
             parser_data *data;
