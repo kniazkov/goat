@@ -251,6 +251,16 @@ namespace g0at
                 return L"expected a body of the 'switch' statement";
             }
 
+            std::wstring expected_case_or_default_keyword()
+            {
+                return L"expected one of: 'case' or 'default' keyword";
+            }
+
+            std::wstring can_have_only_one_default_block()
+            {
+                return L"a 'switch' statement can have only one 'default' block";
+            }
+
 
 
             std::wstring unhandled_exception(std::wstring str) override

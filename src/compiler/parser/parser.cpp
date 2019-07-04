@@ -70,6 +70,24 @@ namespace g0at
             }
         };
 
+        class expected_case_or_default_keyword : public compilation_error
+        {
+        public:
+            expected_case_or_default_keyword(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->expected_case_or_default_keyword())
+            {
+            }
+        };
+
+        class can_have_only_one_default_block : public compilation_error
+        {
+        public:
+            can_have_only_one_default_block(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->can_have_only_one_default_block())
+            {
+            }
+        };
+
         parser::parser()
             : root(nullptr), data(nullptr)
         {
@@ -153,6 +171,11 @@ namespace g0at
             for (auto arr : data->arrays)
             {
                 parse_array_body(arr);
+            }
+
+            for (auto stmt : data->switches)
+            {
+                parse_switch_body(stmt);
             }
         }
 
@@ -390,6 +413,42 @@ namespace g0at
                 even = !even;
             }
             assert(src->is_empty());
+        }
+
+        void parser::parse_switch_body(ast::statement_switch *stmt)
+        {
+            auto raw = stmt->get_raw_list();
+            auto tok = raw->first;
+            bool has_default = false;
+            if (!tok)
+                return;
+            if (!tok->to_keyword_case() && !tok->to_keyword_default())
+                throw expected_case_or_default_keyword(tok->get_position());
+            ast::token_list *list = nullptr;
+            while(tok)
+            {
+                auto next = tok->next;
+                if (tok->to_keyword_default())
+                {
+                    if (has_default)
+                        throw can_have_only_one_default_block(tok->get_position());
+                    has_default = true;
+                    if (!tok->next)
+                        throw the_next_token_must_be_a_colon(tok->get_position());
+                    if (!tok->next->to_colon())
+                        throw the_next_token_must_be_a_colon(tok->next->get_position());
+                    next = tok->next->next;
+                    tok->next->remove();
+                    tok->remove();
+                    list = stmt->get_default_block();
+                }
+                else
+                {
+                    list->add(tok);
+                }
+                tok = next;
+            }
+            assert(raw->is_empty());
         }
     };
 };

@@ -251,6 +251,16 @@ namespace g0at
                 return L"ожидается тело конструкции 'switch'";
             }
 
+            std::wstring expected_case_or_default_keyword()
+            {
+                return L"первый токен должен быть ключевым словом 'case' или 'default'";
+            }
+
+            std::wstring can_have_only_one_default_block()
+            {
+                return L"конструкция 'switch' может иметь только один 'default' блок";
+            }
+
 
 
             std::wstring unhandled_exception(std::wstring str) override
