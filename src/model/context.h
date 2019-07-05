@@ -35,7 +35,7 @@ namespace g0at
             ret_address,
             catch_address,
             fin_address,
-            cycle_addresses
+            sector
         };
 
         class context : public object

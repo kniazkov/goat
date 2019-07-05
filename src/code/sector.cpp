@@ -20,28 +20,28 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "cycle.h"
+#include "sector.h"
 
 namespace g0at
 {
     namespace code
     {
-        _cycle::_cycle(iid_t _begin, iid_t _end)
+        _sector::_sector(iid_t _begin, iid_t _end)
             : begin(_begin), end(_end)
         {
         }
 
-        void _cycle::accept(instruction_visitor *visitor)
+        void _sector::accept(instruction_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        void _cycle::exec(model::thread *thr)
+        void _sector::exec(model::thread *thr)
         {
             model::context *ctx = thr->pool->create_context(thr->ctx);
             ctx->address[0] = begin;
             ctx->address[1] = end;
-            ctx->address_type = model::context_address_type::cycle_addresses;
+            ctx->address_type = model::context_address_type::sector;
             thr->set_context(ctx);
         }
     };

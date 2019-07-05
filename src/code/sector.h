@@ -29,10 +29,10 @@ namespace g0at
 {
     namespace code
     {
-        class _cycle : public instruction
+        class _sector : public instruction
         {
         public:
-            _cycle(iid_t _begin, iid_t _end);
+            _sector(iid_t _begin, iid_t _end);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
 

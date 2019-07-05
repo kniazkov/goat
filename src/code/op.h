@@ -83,7 +83,7 @@ namespace g0at
             _try,
             _catch,
             _finally,
-            _cycle,
+            _sector,
             _break,
             _cont,
 

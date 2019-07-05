@@ -35,7 +35,7 @@ namespace g0at
         void _break::exec(model::thread *thr)
         {
             thr->flow = model::thread_flow::direct;
-            if (thr->ctx->address_type == model::context_address_type::cycle_addresses)
+            if (thr->ctx->address_type == model::context_address_type::sector)
             {
                 thr->iid = thr->ctx->address[1];
                 thr->restore_context();
@@ -48,7 +48,7 @@ namespace g0at
                 {
                     switch(thr->ctx->address_type)
                     {
-                        case model::context_address_type::cycle_addresses :
+                        case model::context_address_type::sector :
                             thr->iid = thr->ctx->address[1];
                             thr->restore_context();
                             assert(thr->ctx != nullptr);

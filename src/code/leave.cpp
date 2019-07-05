@@ -83,7 +83,7 @@ namespace g0at
                     {
                         switch(thr->ctx->address_type)
                         {
-                            case model::context_address_type::cycle_addresses :
+                            case model::context_address_type::sector :
                                 thr->flow = model::thread_flow::direct;
                                 thr->iid = thr->ctx->address[1];
                                 thr->restore_context();
@@ -103,7 +103,7 @@ namespace g0at
                     {
                         switch(thr->ctx->address_type)
                         {
-                            case model::context_address_type::cycle_addresses :
+                            case model::context_address_type::sector :
                                 thr->flow = model::thread_flow::direct;
                                 thr->iid = thr->ctx->address[0];
                                 return;

@@ -94,7 +94,7 @@ namespace g0at
             void visit(_next *ref) override;
             void visit(_dup *ref) override;
             void visit(_if *ref) override;
-            void visit(_cycle *ref) override;
+            void visit(_sector *ref) override;
             void visit(_break *ref) override;
             void visit(_cont *ref) override;
 

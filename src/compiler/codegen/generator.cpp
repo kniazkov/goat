@@ -116,7 +116,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/dup.h"
 #include "code/store.h"
 #include "code/if.h"
-#include "code/cycle.h"
+#include "code/sector.h"
 #include "code/break.h"
 #include "code/cont.h"
 
@@ -353,7 +353,7 @@ namespace g0at
 
         void generator::visit(pt::statement_while *ref)
         {
-            _cycle *cycle = new _cycle(iid_unknown(), iid_unknown());
+            _sector *cycle = new _sector(iid_unknown(), iid_unknown());
             code->add_instruction(cycle);
             iid_t iid_begin = code->get_current_iid();
             ref->get_expression()->accept(this);
@@ -532,7 +532,7 @@ namespace g0at
 
         void generator::visit(pt::statement_for *ref)
         {
-            _cycle *cycle = new _cycle(iid_unknown(), iid_unknown());
+            _sector *cycle = new _sector(iid_unknown(), iid_unknown());
             code->add_instruction(cycle);
             auto stmt_init = ref->get_stmt_init();
             if (stmt_init)
@@ -616,7 +616,7 @@ namespace g0at
 
         void generator::visit(pt::statement_for_in *ref)
         {
-            _cycle *cycle = new _cycle(iid_unknown(), iid_unknown());
+            _sector *cycle = new _sector(iid_unknown(), iid_unknown());
             code->add_instruction(cycle);
             int name_id = name_cache.get_id(ref->get_name());
             if (ref->is_declared())
@@ -645,7 +645,7 @@ namespace g0at
 
         void generator::visit(pt::statement_do_while *ref)
         {
-            _cycle *cycle = new _cycle(iid_unknown(), iid_unknown());
+            _sector *cycle = new _sector(iid_unknown(), iid_unknown());
             code->add_instruction(cycle);
             iid_t iid_begin = code->get_current_iid();
             cycle->get_begin_ptr().set(iid_begin);

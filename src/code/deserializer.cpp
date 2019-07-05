@@ -84,7 +84,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "next.h"
 #include "dup.h"
 #include "if.h"
-#include "cycle.h"
+#include "sector.h"
 #include "break.h"
 #include "cont.h"
 
@@ -564,7 +564,7 @@ namespace g0at
         {
             iid_t begin(pop_int32(src));
             iid_t end(pop_int32(src));
-            dst->add_instruction(new _cycle(begin, end));
+            dst->add_instruction(new _sector(begin, end));
         }
 
         void deserializer::c_break(source *src, code *dst)
@@ -635,7 +635,7 @@ namespace g0at
             cc[op::_next]    = c_next;
             cc[op::_dup]     = c_dup;
             cc[op::_if]      = c_if;
-            cc[op::_cycle]   = c_cycle;
+            cc[op::_sector]  = c_cycle;
             cc[op::_break]   = c_break;
             cc[op::_cont]    = c_cont;
         }

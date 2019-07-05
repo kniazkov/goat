@@ -57,7 +57,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "valid.h"
 #include "next.h"
 #include "if.h"
-#include "cycle.h"
+#include "sector.h"
 
 namespace g0at
 {
@@ -486,9 +486,9 @@ namespace g0at
             push_int32(ref->get_iid().as_int());
         }
 
-        void serializer::visit(_cycle *ref)
+        void serializer::visit(_sector *ref)
         {
-            push_opcode(op::_cycle);
+            push_opcode(op::_sector);
             push_int32(ref->get_begin().as_int());
             push_int32(ref->get_end().as_int());
         }
