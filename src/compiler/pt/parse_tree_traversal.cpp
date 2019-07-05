@@ -64,6 +64,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "index_access.h"
 #include "statement_for_in.h"
 #include "statement_do_while.h"
+#include "statement_switch.h"
 
 namespace g0at
 {
@@ -604,6 +605,34 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(statement_continue *ref)
+        {
+        }
+
+        void parse_tree_traversal::visit(statement_switch *ref)
+        {
+            int i, n, j, k;
+            ref->get_expression()->accept(this);
+            for (i = 0, n = ref->get_count(); i < n; i++)
+            {
+                auto block = ref->get_block(i);
+                block->get_expression()->accept(this);
+                for (j = 0, k = block->get_code_size(); j < k; j++)
+                {
+                    block->get_statement(j)->accept(this);
+                }
+            }
+            if (ref->has_default_block())
+            {
+                auto block = ref->get_default_block();
+                for (j = 0, k = block->get_code_size(); j < k; j++)
+                {
+                    block->get_statement(j)->accept(this);
+                }
+            }
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(statement_switch *ref)
         {
         }
     };

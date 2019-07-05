@@ -53,6 +53,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_break.h"
 #include "compiler/ast/statement_continue.h"
 #include "compiler/pt/statement_continue.h"
+#include "compiler/ast/statement_switch.h"
+#include "compiler/pt/statement_switch.h"
 
 namespace g0at
 {
@@ -289,6 +291,49 @@ namespace g0at
         void statement_builder::visit(ast::statement_continue *ref)
         {
             stmt = new pt::statement_continue(ref->get_position());
+        }
+
+        void statement_builder::visit(ast::statement_switch *ref)
+        {
+            expression_builder expr_visitor;
+            ref->get_expression()->accept(&expr_visitor);
+            assert(expr_visitor.has_expr());
+            lib::pointer<pt::statement_switch> result = new pt::statement_switch(ref->get_position(), expr_visitor.get_expr());
+            int i, n;
+            for (i = 0, n = ref->get_count(); i < n; i++)
+            {
+                auto src_block = ref->get_block(i);
+                expression_builder block_expr_visitor;
+                src_block->get_expression()->accept(&block_expr_visitor);
+                assert(block_expr_visitor.has_expr());
+                lib::pointer<pt::case_block> dst_block = new pt::case_block(block_expr_visitor.get_expr());
+                result->add_block(dst_block);
+                auto tok = src_block->get_body()->first;
+                while(tok)
+                {
+                    statement_builder stmt_visitor;
+                    tok->accept(&stmt_visitor);
+                    assert(stmt_visitor.has_stmt());
+                    dst_block->add_statement(stmt_visitor.get_stmt());
+                    tok = tok->next;
+                }
+            }
+            auto tok_list_default = ref->get_default_block();
+            if (tok_list_default->first)
+            {
+                lib::pointer<pt::default_block> dst_block = new pt::default_block();
+                result->set_default_block(dst_block);
+                auto tok = tok_list_default->first;
+                while(tok)
+                {
+                    statement_builder stmt_visitor;
+                    tok->accept(&stmt_visitor);
+                    assert(stmt_visitor.has_stmt());
+                    dst_block->add_statement(stmt_visitor.get_stmt());
+                    tok = tok->next;
+                }
+            }
+            stmt = result.cast<pt::statement>();
         }
     };
 };

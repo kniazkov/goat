@@ -209,5 +209,9 @@ namespace g0at
         void node_visitor::visit(statement_continue *ref)
         {
         }
+
+        void node_visitor::visit(statement_switch *ref)
+        {
+        }
     }
 };

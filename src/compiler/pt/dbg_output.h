@@ -103,6 +103,7 @@ namespace g0at
             void visit(index_access *ref) override;
             void visit(statement_for_in *ref) override;
             void visit(statement_do_while *ref) override;
+            void visit(statement_switch *ref) override;
 
         protected:
             dbg_output(environment &env);

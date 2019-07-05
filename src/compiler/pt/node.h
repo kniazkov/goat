@@ -81,6 +81,7 @@ namespace g0at
         class statement_do_while;
         class statement_break;
         class statement_continue;
+        class statement_switch;
 
         class node : public lib::ref_counter
         {
@@ -137,6 +138,7 @@ namespace g0at
             virtual statement_do_while *to_statement_do_while();
             virtual statement_break *to_statement_break();
             virtual statement_continue *to_statement_continue();
+            virtual statement_switch *to_statement_switch();
 
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }

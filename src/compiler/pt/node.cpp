@@ -274,5 +274,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_switch *node::to_statement_switch()
+        {
+            return nullptr;
+        }
    }
 };

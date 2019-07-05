@@ -70,6 +70,7 @@ namespace g0at
         class statement_do_while;
         class statement_break;
         class statement_continue;
+        class statement_switch;
 
         class node_visitor
         {
@@ -120,6 +121,7 @@ namespace g0at
             virtual void visit(statement_do_while *ref);
             virtual void visit(statement_break *ref);
             virtual void visit(statement_continue *ref);
+            virtual void visit(statement_switch *ref);
         };
     };
 };

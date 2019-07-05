@@ -65,6 +65,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "index_access.h"
 #include "statement_for_in.h"
 #include "statement_do_while.h"
+#include "statement_switch.h"
 
 namespace g0at
 {
@@ -800,6 +801,55 @@ namespace g0at
             dbg_output stmt(env);
             ref->get_statement()->accept(&stmt);
             link_child(stmt, L"statement");
+        }
+
+        void dbg_output::visit(statement_switch *ref)
+        {
+            print(ref, L"switch");
+            int pred_id = id;
+            dbg_output out_expr(env);
+            ref->get_expression()->accept(&out_expr);
+            link_child(out_expr, L"expression");
+            edge_style style = edge_style::normal;
+            for (int i = 0, in = ref->get_count(); i < in; i++)
+            {
+                auto block = ref->get_block(i);
+                dbg_output out_block(env);
+                out_block.print(ref, L"case");
+                link(pred_id, out_block.id, style);
+                dbg_output out_block_expr(env);
+                block->get_expression()->accept(&out_block_expr);
+                link(out_block.id, out_block_expr.id, edge_style::normal, L"expression");
+                int pred_id_2 = out_block.id;
+                edge_style style_2 = edge_style::normal;
+                for (int j = 0, jn = block->get_code_size(); j < jn; j++)
+                {
+                    dbg_output out_stmt(env);
+                    block->get_statement(j)->accept(&out_stmt);
+                    link(pred_id_2, out_stmt.id, style_2);
+                    pred_id_2 = out_stmt.id;
+                    style_2 = edge_style::node_to_next_one;
+                }
+                pred_id = out_block.id;
+                style = edge_style::node_to_next_one;
+            }
+            if (ref->has_default_block())
+            {
+                auto block = ref->get_default_block();
+                dbg_output out_block(env);
+                out_block.print(ref, L"default");
+                link(pred_id, out_block.id, style);
+                int pred_id_2 = out_block.id;
+                edge_style style_2 = edge_style::normal;
+                for (int j = 0, jn = block->get_code_size(); j < jn; j++)
+                {
+                    dbg_output out_stmt(env);
+                    block->get_statement(j)->accept(&out_stmt);
+                    link(pred_id_2, out_stmt.id, style_2);
+                    pred_id_2 = out_stmt.id;
+                    style_2 = edge_style::node_to_next_one;
+                }
+            }
         }
     };
 };
