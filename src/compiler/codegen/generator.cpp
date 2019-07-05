@@ -61,6 +61,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_do_while.h"
 #include "compiler/pt/statement_break.h"
 #include "compiler/pt/statement_continue.h"
+#include "compiler/pt/statement_switch.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -664,6 +665,44 @@ namespace g0at
         void generator::visit(pt::statement_continue *ref)
         {
             code->add_instruction(new _cont());
+        }
+
+        void generator::visit(pt::statement_switch *ref)
+        {
+            _sector *sector = new _sector(iid_unknown(), iid_unknown());
+            code->add_instruction(sector);
+            ref->get_expression()->accept(this);
+            int blocks_count = ref->get_count();
+            iid_ptr_t next_iid_ptr;
+            for (int i = 0; i < blocks_count; i++)
+            {
+                auto block = ref->get_block(i);
+                next_iid_ptr.set(code->get_current_iid());
+                code->add_instruction(new _dup());
+                block->get_expression()->accept(this);
+                code->add_instruction(new _eq);
+                code::_ifnot *ifnot = new _ifnot(iid_unknown());
+                next_iid_ptr = ifnot->get_iid_ptr();
+                code->add_instruction(ifnot);
+                int code_size = block->get_code_size();
+                for (int j = 0; j < code_size; j++)
+                {
+                    block->get_statement(j)->accept(this);
+                }
+            }
+            next_iid_ptr.set(code->get_current_iid());
+            if (ref->has_default_block())
+            {
+                auto block = ref->get_default_block();
+                int code_size = block->get_code_size();
+                for (int j = 0; j < code_size; j++)
+                {
+                    block->get_statement(j)->accept(this);
+                }
+            }
+            code->add_instruction(new _leave());
+            sector->get_begin_ptr().set(code->get_current_iid());
+            sector->get_end_ptr().set(code->get_current_iid());
         }
     };
 };

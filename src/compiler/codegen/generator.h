@@ -89,6 +89,7 @@ namespace g0at
             void visit(pt::statement_do_while *ref) override;
             void visit(pt::statement_break *ref) override;
             void visit(pt::statement_continue *ref) override;
+            void visit(pt::statement_switch *ref) override;
 
         protected:
             lib::pointer<code::code> code; 
