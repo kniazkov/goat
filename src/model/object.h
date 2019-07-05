@@ -192,7 +192,7 @@ namespace g0at
             variable *find_object(object *key);
             variable *find_own_object(object *key);
             void find_own_and_call_if_exists(thread *thr, int arg_count, object_string *key, call_mode mode);
-            void find_and_vcall(thread *thr, int arg_count, std::wstring name);
+            bool find_and_vcall(thread *thr, int arg_count, std::wstring name);
             void for_each_proto(std::function<void(object*)> callback);
 
             virtual bool get_integer(int64_t *pval);

@@ -342,7 +342,7 @@ namespace g0at
             }
         }
 
-        void object::find_and_vcall(thread *thr, int arg_count, std::wstring name)
+        bool object::find_and_vcall(thread *thr, int arg_count, std::wstring name)
         {
             object_function *func = nullptr;
             object_string *key = thr->pool->get_static_string(name);
@@ -353,10 +353,12 @@ namespace g0at
                 if(obj)
                     func = obj->to_object_function();
             }
-            assert(func != nullptr); // TODO: exception if is not a function
+            if (!func)
+                return false;
 
             // call
             func->call(thr, arg_count, call_mode::as_method);
+            return true;
         }
 
         void object::for_each_proto(std::function<void(object*)> callback)
@@ -397,7 +399,8 @@ namespace g0at
 
         void object::op_add(thread *thr)
         {
-            find_and_vcall(thr, 1, L"+");
+            if (!find_and_vcall(thr, 1, L"+"))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, L"+"));
         }
 
         void object::op_sub(thread *thr)
