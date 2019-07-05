@@ -672,25 +672,32 @@ namespace g0at
             _sector *sector = new _sector(iid_unknown(), iid_unknown());
             code->add_instruction(sector);
             ref->get_expression()->accept(this);
+            int i;
             int blocks_count = ref->get_count();
-            iid_ptr_t next_iid_ptr;
-            for (int i = 0; i < blocks_count; i++)
+            iid_ptr_t *pointers = new iid_ptr_t[blocks_count];
+            for (i = 0; i < blocks_count; i++)
             {
                 auto block = ref->get_block(i);
-                next_iid_ptr.set(code->get_current_iid());
                 code->add_instruction(new _dup());
                 block->get_expression()->accept(this);
                 code->add_instruction(new _eq);
-                code::_ifnot *ifnot = new _ifnot(iid_unknown());
-                next_iid_ptr = ifnot->get_iid_ptr();
-                code->add_instruction(ifnot);
+                code::_if *jmp_if = new _if(iid_unknown());
+                pointers[i] = jmp_if->get_iid_ptr();
+                code->add_instruction(jmp_if);
+            }
+            code::_jmp *jmp_if_no_matches = new _jmp(iid_unknown());
+            code->add_instruction(jmp_if_no_matches);
+            for (int i = 0; i < blocks_count; i++)
+            {
+                auto block = ref->get_block(i);
                 int code_size = block->get_code_size();
+                pointers[i].set(code->get_current_iid());
                 for (int j = 0; j < code_size; j++)
                 {
                     block->get_statement(j)->accept(this);
                 }
             }
-            next_iid_ptr.set(code->get_current_iid());
+            jmp_if_no_matches->get_iid_ptr().set(code->get_current_iid());
             if (ref->has_default_block())
             {
                 auto block = ref->get_default_block();
@@ -703,6 +710,7 @@ namespace g0at
             code->add_instruction(new _leave());
             sector->get_begin_ptr().set(code->get_current_iid());
             sector->get_end_ptr().set(code->get_current_iid());
+            delete[] pointers;
         }
     };
 };
