@@ -66,6 +66,7 @@ namespace g0at
             exception_proto_instance = nullptr;
             exception_illegal_argument_instance = nullptr;
             exception_illegal_context_instance = nullptr;
+            exception_operator_not_found_proto_instance = nullptr;
 
             /*
                 "It's a kind of magic"
@@ -106,6 +107,7 @@ namespace g0at
             exception_illegal_argument_instance = new object_exception_illegal_argument(this);
             exception_illegal_context_instance = new object_exception_illegal_context(this);
             exception_illegal_operation_instance = new object_exception_illegal_operation(this);
+            exception_operator_not_found_proto_instance = new object_exception_operator_not_found_proto(this);
             exception_proto->init(this);
             iterator_proto->init(this);
         }

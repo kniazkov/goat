@@ -1,12 +1,19 @@
-var f = $(x)
+var test = $(a, b)
 {
-    switch (x)
+    try
     {
+        var x = a + b;
+        println("ok: " + a + " + " + b + " = " + x);
+    }
+    catch(err)
+    {
+        if (err.instanceof(Exception.OperatorNotFound))
+            println("fail: " + a + " + " + b);
+        else
+            exit();
     }
 };
 
-for (var i = 0; i < 5; ++i)
-{
-    f(i);
-}
-println("ok.");
+test(2, 3);
+test('a', 'b');
+println("done.");

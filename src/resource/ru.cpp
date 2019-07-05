@@ -289,6 +289,13 @@ namespace g0at
             {
                 return L"недопустимая операция";
             }
+
+            std::wstring operator_not_found(std::wstring oper) override
+            {
+                std::wstringstream wss;
+                wss << L"оператор '" << oper << L"' не найден";
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_ru()

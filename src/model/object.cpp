@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "thread.h"
 #include "object_string.h"
 #include "object_function_built_in.h"
+#include "object_exception.h"
 #include "lib/assert.h"
 #include <sstream>
 
@@ -843,7 +844,7 @@ namespace g0at
 
         void handler::op_add(variable *var, thread *thr)
         {
-            assert(false);
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, L"+"));
         }
 
         void handler::op_sub(variable *var, thread *thr)

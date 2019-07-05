@@ -84,6 +84,7 @@ namespace g0at
             virtual std::wstring illegal_argument() = 0;
             virtual std::wstring illegal_context() = 0;
             virtual std::wstring illegal_operation() = 0;
+            virtual std::wstring operator_not_found(std::wstring oper) = 0;
             
         protected:
             static resource *get_intance_en();

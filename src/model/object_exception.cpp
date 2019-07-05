@@ -62,6 +62,7 @@ namespace g0at
             add_object(pool->get_static_string(L"IllegalArgument"), pool->get_exception_illegal_argument_instance());
             add_object(pool->get_static_string(L"IllegalContext"), pool->get_exception_illegal_context_instance());
             add_object(pool->get_static_string(L"IllegalOperation"), pool->get_exception_illegal_operation_instance());
+            add_object(pool->get_static_string(L"OperatorNotFound"), pool->get_exception_operator_not_found_proto_instance());
         }
 
         /*
@@ -101,6 +102,24 @@ namespace g0at
         std::wstring object_exception_illegal_operation::to_string() const
         {
             return global::resource->illegal_operation();
+        }
+
+        /*
+            OperatorNotFound
+        */
+        object_exception_operator_not_found_proto::object_exception_operator_not_found_proto(object_pool *pool)
+            : object_exception(pool)
+        {
+        }
+
+        object_exception_operator_not_found::object_exception_operator_not_found(object_pool *pool, std::wstring _oper)
+            : object(pool, pool->get_exception_operator_not_found_proto_instance()), oper(_oper)
+        {
+        }
+
+        std::wstring object_exception_operator_not_found::to_string() const
+        {
+            return global::resource->operator_not_found(oper);
         }
     };
 };
