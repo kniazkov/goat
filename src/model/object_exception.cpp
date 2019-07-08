@@ -57,12 +57,23 @@ namespace g0at
         {
         }
 
+        std::wstring object_exception_proto::to_string() const
+        {
+            return global::resource->unknown_exception();
+        }
+
+        std::wstring object_exception_proto::to_string_notation() const
+        {
+            return L"exception";
+        }
+
         void object_exception_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(L"IllegalArgument"), pool->get_exception_illegal_argument_instance());
             add_object(pool->get_static_string(L"IllegalContext"), pool->get_exception_illegal_context_instance());
             add_object(pool->get_static_string(L"IllegalOperation"), pool->get_exception_illegal_operation_instance());
-            add_object(pool->get_static_string(L"OperatorNotFound"), pool->get_exception_operator_not_found_proto_instance());
+            add_object(pool->get_static_string(L"IllegalReference"), pool->get_exception_illegal_reference_instance());
+            add_object(pool->get_static_string(L"IllegalType"), pool->get_exception_illegal_operation_instance());
         }
 
         /*
@@ -105,11 +116,47 @@ namespace g0at
         }
 
         /*
+            IllegalReference
+        */
+        object_exception_illegal_reference::object_exception_illegal_reference(object_pool *pool)
+            : object_exception(pool)
+        {
+        }
+
+        std::wstring object_exception_illegal_reference::to_string() const
+        {
+            return global::resource->illegal_reference();
+        }
+
+        void object_exception_illegal_reference::init(object_pool *pool)
+        {
+            add_object(pool->get_static_string(L"OperatorNotFound"), pool->get_exception_operator_not_found_proto_instance());
+        }
+
+        /*
+            IllegalType
+        */
+        object_exception_illegal_type::object_exception_illegal_type(object_pool *pool)
+            : object_exception(pool)
+        {
+        }
+
+        std::wstring object_exception_illegal_type::to_string() const
+        {
+            return global::resource->illegal_type();
+        }
+
+        /*
             OperatorNotFound
         */
         object_exception_operator_not_found_proto::object_exception_operator_not_found_proto(object_pool *pool)
-            : object_exception(pool)
+            : object(pool, pool->get_exception_illegal_reference_instance())
         {
+        }
+
+        std::wstring object_exception_operator_not_found_proto::to_string() const
+        {
+            return global::resource->illegal_reference();
         }
 
         object_exception_operator_not_found::object_exception_operator_not_found(object_pool *pool, std::wstring _oper)

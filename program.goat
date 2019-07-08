@@ -3,12 +3,17 @@ var test = $(a, b)
     try
     {
         var x = a + b;
-        println("ok: " + a + " + " + b + " = " + x);
+//        var f = a["+"];
+//        var y = f.call(a, b);
+//        if (x == y)
+            println("ok: " + a + " + " + b + " = " + x);
+//        else
+//            println("fail: " + a + " + " + b);
     }
     catch(err)
     {
-        if (err.instanceof(Exception.OperatorNotFound))
-            println("fail: " + a + " + " + b);
+        if (err.instanceof(Exception.IllegalReference.OperatorNotFound))
+            println("fail but ok: " + a + " + " + b);
         else
             exit();
     }

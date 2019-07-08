@@ -28,6 +28,18 @@ namespace g0at
 {
     namespace model
     {
+        /*
+            Goat exception hierarchy:
+
+            Exception
+                IllegalArgument
+                IllegalContext
+                IllegalOperation
+                IllegalReference
+                    OperatorNotFound
+                IllegalType
+        */
+
         class object_exception : public object
         {
         public:
@@ -42,6 +54,8 @@ namespace g0at
         friend class object_pool;
         protected:
             object_exception_proto(object_pool *pool);
+            std::wstring to_string() const override;
+            std::wstring to_string_notation() const override;
             void init(object_pool *pool);
         };
 
@@ -69,11 +83,29 @@ namespace g0at
             std::wstring to_string() const override;
         };
 
-        class object_exception_operator_not_found_proto : public object_exception
+        class object_exception_illegal_reference : public object_exception
+        {
+        friend class object_pool;
+        protected:
+            object_exception_illegal_reference(object_pool *pool);
+            void init(object_pool *pool);
+            std::wstring to_string() const override;
+        };
+
+        class object_exception_illegal_type : public object_exception
+        {
+        friend class object_pool;
+        protected:
+            object_exception_illegal_type(object_pool *pool);
+            std::wstring to_string() const override;
+        };
+
+        class object_exception_operator_not_found_proto : public object
         {
         friend class object_pool;
         protected:
             object_exception_operator_not_found_proto(object_pool *pool);
+            std::wstring to_string() const override;
         };
 
         class object_exception_operator_not_found : public object

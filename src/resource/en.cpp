@@ -290,6 +290,16 @@ namespace g0at
                 return L"illegal operation";
             }
 
+            std::wstring illegal_reference() override
+            {
+                return L"illegal reference";
+            }
+
+            std::wstring illegal_type() override
+            {
+                return L"illegal type";
+            }
+
             std::wstring operator_not_found(std::wstring oper) override
             {
                 std::wstringstream wss;
