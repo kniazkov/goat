@@ -146,6 +146,11 @@ namespace g0at
             return global::resource->illegal_type();
         }
 
+        void object_exception_illegal_type::init(object_pool *pool)
+        {
+            add_object(pool->get_static_string(L"IsNotAFunction"), pool->get_exception_is_not_a_function_proto_instance());
+        }
+
         /*
             OperatorNotFound
         */
@@ -167,6 +172,29 @@ namespace g0at
         std::wstring object_exception_operator_not_found::to_string() const
         {
             return global::resource->operator_not_found(oper);
+        }
+
+        /*
+            IsNotAFunction
+        */
+        object_exception_is_not_a_function_proto::object_exception_is_not_a_function_proto(object_pool *pool)
+            : object(pool, pool->get_exception_illegal_type_instance())
+        {
+        }
+
+        std::wstring object_exception_is_not_a_function_proto::to_string() const
+        {
+            return global::resource->illegal_type();
+        }
+
+        object_exception_is_not_a_function::object_exception_is_not_a_function(object_pool *pool, std::wstring _name)
+            : object(pool, pool->get_exception_is_not_a_function_proto_instance()), name(_name)
+        {
+        }
+
+        std::wstring object_exception_is_not_a_function::to_string() const
+        {
+            return global::resource->is_not_a_function(name);
         }
     };
 };

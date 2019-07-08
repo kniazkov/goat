@@ -306,6 +306,11 @@ namespace g0at
                 wss << L"оператор '" << oper << L"' не найден";
                 return wss.str();
             }
+
+            std::wstring is_not_a_function(std::wstring name) override
+            {
+                return name + L" не может быть вызван как функция";
+            }
         };
 
         resource *resource::get_intance_ru()

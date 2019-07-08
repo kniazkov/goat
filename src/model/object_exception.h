@@ -97,6 +97,7 @@ namespace g0at
         friend class object_pool;
         protected:
             object_exception_illegal_type(object_pool *pool);
+            void init(object_pool *pool);
             std::wstring to_string() const override;
         };
 
@@ -116,6 +117,24 @@ namespace g0at
         
         protected:
             std::wstring oper;
+        };
+
+        class object_exception_is_not_a_function_proto : public object
+        {
+        friend class object_pool;
+        protected:
+            object_exception_is_not_a_function_proto(object_pool *pool);
+            std::wstring to_string() const override;
+        };
+
+        class object_exception_is_not_a_function : public object
+        {
+        public:
+            object_exception_is_not_a_function(object_pool *pool, std::wstring _name);
+            std::wstring to_string() const override;
+        
+        protected:
+            std::wstring name;
         };
     };
 };

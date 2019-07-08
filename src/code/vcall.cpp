@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "vcall.h"
 #include "model/object_function.h"
 #include "model/object_string.h"
+#include "model/object_exception.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -51,10 +52,10 @@ namespace g0at
                 if(obj)
                     func = obj->to_object_function();
             }
-            assert(func != nullptr); // TODO: exception if is not a function
-
-            // call
-            func->call(thr, arg_count, model::call_mode::as_method);
+            if (func == nullptr)
+                thr->raise_exception(new model::object_exception_is_not_a_function(thr->pool, key->to_string_notation()));
+            else
+                func->call(thr, arg_count, model::call_mode::as_method);
         }
     };
 };

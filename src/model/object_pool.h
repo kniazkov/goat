@@ -110,6 +110,7 @@ namespace g0at
             object *get_exception_illegal_reference_instance() { return exception_illegal_reference_instance; }
             object *get_exception_illegal_type_instance() { return exception_illegal_type_instance; }
             object *get_exception_operator_not_found_proto_instance() { return exception_operator_not_found_proto_instance; }
+            object *get_exception_is_not_a_function_proto_instance() { return exception_is_not_a_function_proto_instance; }
 
             generic_object *create_generic_object();
             context *create_context();
@@ -167,6 +168,7 @@ namespace g0at
             object *exception_illegal_reference_instance;
             object *exception_illegal_type_instance;
             object *exception_operator_not_found_proto_instance;
+            object *exception_is_not_a_function_proto_instance;
 
             object_cache static_strings;
         };

@@ -69,6 +69,7 @@ namespace g0at
             exception_illegal_reference_instance = nullptr;
             exception_illegal_type_instance = nullptr;
             exception_operator_not_found_proto_instance = nullptr;
+            exception_is_not_a_function_proto_instance = nullptr;
 
             /*
                 "It's a kind of magic"
@@ -111,11 +112,14 @@ namespace g0at
             exception_illegal_operation_instance = new object_exception_illegal_operation(this);
             auto exception_illegal_reference = new object_exception_illegal_reference(this);
             exception_illegal_reference_instance = exception_illegal_reference;
-            exception_illegal_type_instance = new object_exception_illegal_type(this);
+            auto exception_illegal_type = new object_exception_illegal_type(this);
+            exception_illegal_type_instance = exception_illegal_type; 
             exception_operator_not_found_proto_instance = new object_exception_operator_not_found_proto(this);
+            exception_is_not_a_function_proto_instance = new object_exception_is_not_a_function_proto(this);
             exception_proto->init(this);
             iterator_proto->init(this);
             exception_illegal_reference->init(this);
+            exception_illegal_type->init(this);
         }
 
         void object_pool::add(object *item)
