@@ -311,6 +311,11 @@ namespace g0at
             {
                 return name + L" is not a function";
             }
+
+            std::wstring is_not_a_method(std::wstring name) override
+            {
+                return name + L" is not a method";
+            }
         };
 
         resource *resource::get_intance_en()

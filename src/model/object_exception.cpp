@@ -149,6 +149,7 @@ namespace g0at
         void object_exception_illegal_type::init(object_pool *pool)
         {
             add_object(pool->get_static_string(L"IsNotAFunction"), pool->get_exception_is_not_a_function_proto_instance());
+            add_object(pool->get_static_string(L"IsNotAMethod"), pool->get_exception_is_not_a_function_proto_instance());
         }
 
         /*
@@ -195,6 +196,29 @@ namespace g0at
         std::wstring object_exception_is_not_a_function::to_string() const
         {
             return global::resource->is_not_a_function(name);
+        }
+
+        /*
+            IsNotAMethod
+        */
+        object_exception_is_not_a_method_proto::object_exception_is_not_a_method_proto(object_pool *pool)
+            : object(pool, pool->get_exception_illegal_type_instance())
+        {
+        }
+
+        std::wstring object_exception_is_not_a_method_proto::to_string() const
+        {
+            return global::resource->illegal_type();
+        }
+
+        object_exception_is_not_a_method::object_exception_is_not_a_method(object_pool *pool, std::wstring _name)
+            : object(pool, pool->get_exception_is_not_a_method_proto_instance()), name(_name)
+        {
+        }
+
+        std::wstring object_exception_is_not_a_method::to_string() const
+        {
+            return global::resource->is_not_a_method(name);
         }
     };
 };

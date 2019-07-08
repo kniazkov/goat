@@ -53,7 +53,7 @@ namespace g0at
                     func = obj->to_object_function();
             }
             if (func == nullptr)
-                thr->raise_exception(new model::object_exception_is_not_a_function(thr->pool, key->to_string_notation()));
+                thr->raise_exception(new model::object_exception_is_not_a_method(thr->pool, key->to_string_notation()));
             else
                 func->call(thr, arg_count, model::call_mode::as_method);
         }

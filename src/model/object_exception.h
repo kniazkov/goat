@@ -38,6 +38,8 @@ namespace g0at
                 IllegalReference
                     OperatorNotFound
                 IllegalType
+                    IsNotAFunction
+                    IsNotAMethod
         */
 
         class object_exception : public object
@@ -131,6 +133,24 @@ namespace g0at
         {
         public:
             object_exception_is_not_a_function(object_pool *pool, std::wstring _name);
+            std::wstring to_string() const override;
+        
+        protected:
+            std::wstring name;
+        };
+
+        class object_exception_is_not_a_method_proto : public object
+        {
+        friend class object_pool;
+        protected:
+            object_exception_is_not_a_method_proto(object_pool *pool);
+            std::wstring to_string() const override;
+        };
+
+        class object_exception_is_not_a_method : public object
+        {
+        public:
+            object_exception_is_not_a_method(object_pool *pool, std::wstring _name);
             std::wstring to_string() const override;
         
         protected:
