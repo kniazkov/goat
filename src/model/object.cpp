@@ -694,7 +694,7 @@ namespace g0at
                 object *this_ptr = thr->pop().get_object();
                 assert(this_ptr != nullptr);
                 object *key = thr->peek(0).to_object(thr->pool);
-                variable value = thr->peek(arg_count - 1);
+                variable value = thr->peek(arg_count - 1).deref();
                 thr->pop(arg_count);
                 this_ptr->add_object(key, value);
                 thr->push(value);

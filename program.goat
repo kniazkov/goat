@@ -4,15 +4,17 @@ var obj =
 
     set : $(key, value)
     {
+        println("setter called, value = " + value);
         if (key.instanceof(String))
         {
             data[key] = value;
+            println("new value is " + value);
         }
     }
 };
 
 obj["value"] = 0;
 obj[1] = 1;
-obj[false] = 2;
+//obj[false] = 2;
 
 println(obj.data);
