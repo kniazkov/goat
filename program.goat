@@ -1,5 +1,24 @@
-var p = 7;
-p.value = "test";
-var q = p;
-println(q);
-println(q.value);
+var test = $(a, b)
+{
+    try
+    {
+        var x = a + b;
+        var f = a["+"];
+        var y = f.call(a, b);
+        if (x == y)
+            println("ok: " + a + " + " + b + " = " + x);
+        else
+            println("fail: " + a + " + " + b);
+    }
+    catch(err)
+    {
+        if (err.instanceof(Exception.IllegalReference.OperatorNotFound))
+            println("fail but ok: " + a + " + " + b);
+        else
+            println("exception: " + err);
+    }
+};
+
+test(2, 3);
+test('a', 'b');
+println("done.");
