@@ -83,10 +83,13 @@ namespace g0at
             }
 
             inline void set_object(object *obj);
+            inline void set_reference(variable *ref);
             inline void set_integer(int64_t value);
             inline void set_real(double value);
             inline void set_boolean(bool value);
             inline void set_char(wchar_t value);
+
+            inline variable deref();
 
             inline std::wstring to_string() const;
             inline std::wstring to_string_notation() const;
@@ -121,6 +124,7 @@ namespace g0at
             union
             {
                 object *obj;
+                variable *ref;
                 int64_t i;
                 double r;
                 bool b;
@@ -256,10 +260,14 @@ namespace g0at
         public:
             virtual ~handler();
             static handler *get_instance_generic();
+            static handler *get_instance_ref_var();
             static handler *get_instance_integer();
             static handler *get_instance_real();
             static handler *get_instance_boolean();
             static handler *get_instance_char();
+
+            virtual variable deref(variable *var);
+
             virtual std::wstring to_string(const variable *var) const = 0;
             virtual std::wstring to_string_notation(const variable *var) const = 0;
             virtual object *to_object(variable *var, object_pool *pool) = 0;
@@ -313,6 +321,12 @@ namespace g0at
             data.obj = obj;
         }
 
+        void variable::set_reference(variable *ref)
+        {
+            hndl = handler::get_instance_ref_var();
+            data.ref = ref;
+        }
+
         void variable::set_integer(int64_t value)
         {
             hndl = handler::get_instance_integer();
@@ -335,6 +349,11 @@ namespace g0at
         {
             hndl = handler::get_instance_char();
             data.c = value;
+        }
+
+        variable variable::deref()
+        {
+            return hndl->deref(this);
         }
 
         std::wstring variable::to_string() const

@@ -34,7 +34,7 @@ namespace g0at
 
         void _throw::exec(model::thread *thr)
         {
-            model::variable var = thr->pop();
+            model::variable var = thr->pop().deref();
             thr->raise_exception(var);
         }
     };

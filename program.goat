@@ -1,24 +1,18 @@
-var test = $(a, b)
+var obj =
 {
-    try
+    data : {},
+
+    set : $(key, value)
     {
-        var x = a + b;
-        var f = a["+"];
-        var y = f.call(a, b);
-        if (x == y)
-            println("ok: " + a + " + " + b + " = " + x);
-        else
-            println("fail: " + a + " + " + b);
-    }
-    catch(err)
-    {
-        if (err.instanceof(Exception.IllegalReference.OperatorNotFound))
-            println("fail but ok: " + a + " + " + b);
-        else
-            println("exception: " + err);
+        if (key.instanceof(String))
+        {
+            data[key] = value;
+        }
     }
 };
 
-test(2, 3);
-test('a', 'b');
-println("done.");
+obj["value"] = 0;
+obj[1] = 1;
+obj[false] = 2;
+
+println(obj.data);

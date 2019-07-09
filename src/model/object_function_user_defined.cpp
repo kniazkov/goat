@@ -59,7 +59,7 @@ namespace g0at
                 object *key = arg_names[i];
                 if (i < arg_count)
                 {
-                    variable arg = thr->pop();
+                    variable arg = thr->pop().deref();
                     ctx->add_object(key, arg);
                 }
                 else

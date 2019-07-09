@@ -47,7 +47,7 @@ namespace g0at
             for (int i = 0; i < count; i++)
             {
                 model::object *key = thr->pop().to_object(thr->pool);
-                model::variable value = thr->pop();
+                model::variable value = thr->pop().deref();
                 result->add_object(key, value);
             }
 

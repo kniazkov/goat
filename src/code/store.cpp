@@ -43,7 +43,7 @@ namespace g0at
             model::object_string *key = thr->pool->get_static_string(id);
             model::variable *var = thr->ctx->find_object(key);
             assert(var != nullptr);
-            *var = thr->peek();
+            *var = thr->peek().deref();
         }
     };
 };

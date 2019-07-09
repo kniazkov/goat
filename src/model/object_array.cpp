@@ -275,7 +275,7 @@ namespace g0at
                     }
                     while (arg_count--)
                     {
-                        variable item = thr->pop();
+                        variable item = thr->pop().deref();
                         this_ptr_array->add_item(item);
                     }
                     thr->push_undefined();
