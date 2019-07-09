@@ -920,22 +920,6 @@ namespace g0at
             thr->push(tmp);
         }
 
-        void handler::m_get(variable *var, thread *thr, int arg_count)
-        {
-            // you can not get anything from primitive
-            thr->pop();
-            thr->pop(arg_count);
-            thr->push_undefined();
-        }
-
-        void handler::m_set(variable *var, thread *thr, int arg_count)
-        {
-            // you can not set something to primitive
-            thr->pop();
-            thr->pop(arg_count);
-            thr->push_undefined();
-        }
-
         void handler::m_iterator(variable *var, thread *thr, int arg_count)
         {
             // all primitives returns 'empty' iterator
@@ -1071,16 +1055,6 @@ namespace g0at
             void m_flat(variable *var, thread *thr, int arg_count) override
             {
                 var->data.obj->m_flat(thr, arg_count);
-            }
-
-            void m_get(variable *var, thread *thr, int arg_count) override
-            {
-                var->data.obj->m_get(thr, arg_count);
-            }
-
-            void m_set(variable *var, thread *thr, int arg_count) override
-            {
-                var->data.obj->m_set(thr, arg_count);
             }
 
             void m_iterator(variable *var, thread *thr, int arg_count) override
@@ -1220,16 +1194,6 @@ namespace g0at
             void m_flat(variable *var, thread *thr, int arg_count) override
             {
                 var->data.ref->m_flat(thr, arg_count);
-            }
-
-            void m_get(variable *var, thread *thr, int arg_count) override
-            {
-                var->data.ref->m_get(thr, arg_count);
-            }
-
-            void m_set(variable *var, thread *thr, int arg_count) override
-            {
-                var->data.ref->m_set(thr, arg_count);
             }
 
             void m_iterator(variable *var, thread *thr, int arg_count) override

@@ -114,8 +114,6 @@ namespace g0at
             inline void m_clone(thread *thr, int arg_count);
             inline void m_instance_of(thread *thr, int arg_count);
             inline void m_flat(thread *thr, int arg_count);
-            inline void m_get(thread *thr, int arg_count);
-            inline void m_set(thread *thr, int arg_count);
             inline void m_iterator(thread *thr, int arg_count);
             inline void m_next(thread *thr, int arg_count);
             inline void m_valid(thread *thr, int arg_count);
@@ -290,8 +288,6 @@ namespace g0at
             virtual void m_clone(variable *var, thread *thr, int arg_count);
             virtual void m_instance_of(variable *var, thread *thr, int arg_count);
             virtual void m_flat(variable *var, thread *thr, int arg_count);
-            virtual void m_get(variable *var, thread *thr, int arg_count);
-            virtual void m_set(variable *var, thread *thr, int arg_count);
             virtual void m_iterator(variable *var, thread *thr, int arg_count);
             virtual void m_next(variable *var, thread *thr, int arg_count);
             virtual void m_valid(variable *var, thread *thr, int arg_count);
@@ -458,16 +454,6 @@ namespace g0at
         void variable::m_flat(thread *thr, int arg_count)
         {
             hndl->m_flat(this, thr, arg_count);
-        }
-
-        void variable::m_get(thread *thr, int arg_count)
-        {
-            hndl->m_get(this, thr, arg_count);
-        }
-
-        void variable::m_set(thread *thr, int arg_count)
-        {
-            hndl->m_set(this, thr, arg_count);
         }
 
         void variable::m_iterator(thread *thr, int arg_count)

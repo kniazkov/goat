@@ -40,8 +40,8 @@ namespace g0at
 
         void _get::exec(model::thread *thr)
         {
-            model::variable left = thr->peek();
-            left.m_get(thr, arg_count);        
+            model::object *left = thr->peek().to_object(thr->pool);
+            left->m_get(thr, arg_count);        
         }
     };
 };
