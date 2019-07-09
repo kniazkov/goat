@@ -49,6 +49,8 @@ namespace g0at
             if (ret)
                 ret->mark();
 
+            except.mark();
+
             if (ctx)
                 ctx->mark();
 

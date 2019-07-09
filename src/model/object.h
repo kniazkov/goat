@@ -505,6 +505,9 @@ namespace g0at
         {
             if (!marked)
             {
+#if 0
+                std::wcout << L"killed: " << id << L", " << to_string() << std::endl;
+#endif
                 kill(pool);
             }
             else

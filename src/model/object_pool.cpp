@@ -139,6 +139,8 @@ namespace g0at
             integers.dead.destroy_all();
             real_numbers.dead.destroy_all();
             booleans.dead.destroy_all();
+            arrays.dead.destroy_all();
+            chars.dead.destroy_all();
         }
 
         generic_object * object_pool::create_generic_object()
