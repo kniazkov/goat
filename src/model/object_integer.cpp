@@ -21,6 +21,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_integer.h"
+#include "object_string.h"
+#include "object_function_built_in.h"
 #include "lib/functional.h"
 #include "thread.h"
 #include "lib/assert.h"
@@ -186,10 +188,66 @@ namespace g0at
         /*
             Prototype
         */
+       
+        template <template<typename R, typename X, typename Y> class F> class object_integer_binary_math_operator : public object_function_built_in
+        {
+        public:
+            object_integer_binary_math_operator(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_integer *this_ptr_integer = this_ptr->to_object_integer();
+                if (!this_ptr_integer)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                variable right = thr->pop();
+                int64_t right_int_value;
+                bool right_is_integer = right.get_integer(&right_int_value);
+                if (right_is_integer)
+                {
+                    variable result;
+                    result.set_integer(F<int64_t, int64_t, int64_t>::calculate(this_ptr_integer->get_value(), right_int_value));
+                    thr->push(result);
+                    return;
+                }
+                double right_real_value;
+                bool right_is_real = right.get_real(&right_real_value);
+                if (!right_is_real)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                variable result;
+                result.set_real(F<double, int64_t, double>::calculate(this_ptr_integer->get_value(), right_real_value));
+                thr->push(result);
+            }
+        };
 
         object_integer_proto::object_integer_proto(object_pool *pool)
             : object(pool, pool->get_number_proto_instance())
         {
+        }
+
+        void object_integer_proto::init(object_pool *pool)
+        {
+            add_object(pool->get_static_string(L"+"), new object_integer_binary_math_operator<lib::func::plus>(pool));
         }
 
         /*
