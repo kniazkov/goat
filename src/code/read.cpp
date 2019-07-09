@@ -40,10 +40,12 @@ namespace g0at
         void _read::exec(model::thread *thr)
         {
             model::object_string *key = thr->pool->get_static_string(id);
-            model::variable *var = thr->pop().to_object(thr->pool)->find_object(key);
-            if(var != nullptr)
+            model::variable *ref = thr->pop().to_object(thr->pool)->find_object(key);
+            if(ref != nullptr)
             {
-                thr->push(*var);
+                model::variable var;
+                var.set_reference(ref);
+                thr->push(var);
             }
             else
             {
