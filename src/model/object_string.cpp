@@ -175,6 +175,7 @@ namespace g0at
             int64_t int_index;
             if (index.get_integer(&int_index))
             {
+                thr->pop();
                 thr->pop(arg_count);
                 if (int_index >= 0 && int_index < data.size())
                 {
@@ -208,6 +209,7 @@ namespace g0at
 
         template <template<typename R, typename X, typename Y> class F, bool Def> void object_string::binary_logical_operation(thread *thr)
         {
+            thr->pop();
             variable right = thr->pop();
             object *r_obj = right.get_object();
             variable result;

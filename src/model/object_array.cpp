@@ -138,6 +138,34 @@ namespace g0at
             right->topology->build();
         }
 
+        void object_array::op_add(thread *thr)
+        {
+            thr->pop();
+            variable right = thr->pop();
+            object *r_obj = right.get_object();
+            variable var;
+            object_array *result = thr->pool->create_object_array();
+            var.set_object(result);
+            int i, size;
+            for (i = 0, size = (int)vector.size(); i < size; i++)
+                result->vector.push_back(vector[i]);
+            do
+            {
+                if (r_obj)
+                {
+                    object_array *r_array = r_obj->to_object_array();
+                    if (r_array)
+                    {
+                        for (i = 0, size = (int)r_array->vector.size(); i < size; i++)
+                            result->vector.push_back(r_array->vector[i]);
+                        break;
+                    }
+                }
+                result->vector.push_back(right);
+            } while (false);
+            thr->push(var);
+        }
+
         void object_array::m_get(thread *thr, int arg_count)
         {
             if (arg_count < 1)
@@ -145,19 +173,21 @@ namespace g0at
                 thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
                 return;
             }
-            thr->pop();
-            variable index = thr->peek();
-            thr->pop(arg_count);
+            variable index = thr->peek(1);
             int64_t int_index;
             if (index.get_integer(&int_index))
             {
+                thr->pop();
+                thr->pop(arg_count);
                 if (int_index >= 0 && int_index < vector.size())
-                {
                     thr->push(vector[(size_t)int_index]);
-                    return;
-                }
+                else
+                    thr->push_undefined();                
             }
-            thr->push_undefined();                
+            else
+            {
+                thr->pool->get_array_proto_instance()->m_get(thr, arg_count);
+            }
         }
 
         void object_array::m_set(thread *thr, int arg_count)
@@ -285,6 +315,60 @@ namespace g0at
             }
         };
 
+        class object_array_operator_plus : public object_function_built_in
+        {
+        public:
+            object_array_operator_plus(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_array *this_ptr_array = this_ptr->to_object_array();
+                if (!this_ptr_array)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                variable right = thr->pop();
+                object *r_obj = right.get_object();
+                variable var;
+                object_array *result = thr->pool->create_object_array();
+                var.set_object(result);
+                int i, size;
+                for (i = 0, size = this_ptr_array->get_length(); i < size; i++)
+                    result->add_item(this_ptr_array->get_item(i));
+                do
+                {
+                    if (r_obj)
+                    {
+                        object_array *r_array = r_obj->to_object_array();
+                        if (r_array)
+                        {
+                            for (i = 0, size = r_array->get_length(); i < size; i++)
+                                result->add_item(r_array->get_item(i));
+                            break;
+                        }
+                    }
+                    result->add_item(right);
+                } while (false);
+                thr->push(var);
+            }
+        };
+
         object_array_proto::object_array_proto(object_pool *pool)
             : object(pool)
         {
@@ -294,6 +378,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(L"length"), new object_array_length(pool));
             add_object(pool->get_static_string(L"push"), new object_array_push(pool));
+            add_object(pool->get_static_string(L"+"), new object_array_operator_plus(pool));
         }
     };
 };

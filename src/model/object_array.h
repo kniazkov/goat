@@ -43,6 +43,7 @@ namespace g0at
             void trace() override;
 
             void op_inherit(thread *thr) override;
+            void op_add(thread *thr) override;
             void m_get(thread *thr, int arg_count) override;
             void m_set(thread *thr, int arg_count) override;
             void m_iterator(thread *thr, int arg_count) override;
