@@ -137,25 +137,26 @@ namespace g0at
 
         template <template<typename R, typename X, typename Y> class F> void object_integer::binary_math_operation(thread *thr)
         {
+            variable result;
             thr->pop();
             variable right = thr->pop();
             int64_t right_int_value;
             bool right_is_integer = right.get_integer(&right_int_value);
             if (right_is_integer)
             {
-                variable result;
                 result.set_integer(F<int64_t, int64_t, int64_t>::calculate(value, right_int_value));
                 thr->push(result);
+                return;
             }
-            else
+            double right_real_value;
+            bool right_is_real = right.get_real(&right_real_value);
+            if (!right_is_real)
             {
-                double right_real_value;
-                bool right_is_real = right.get_real(&right_real_value);
-                assert(right_is_real);
-                variable result;
-                result.set_real(F<double, int64_t, double>::calculate(value, right_real_value));
-                thr->push(result);
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                return;
             }
+            result.set_real(F<double, int64_t, double>::calculate(value, right_real_value));
+            thr->push(result);
         }
 
         template <template<typename R, typename X, typename Y> class F, bool Def> void object_integer::binary_logical_operation(thread *thr)
@@ -217,12 +218,13 @@ namespace g0at
                     thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
                     return;
                 }
-                variable right = thr->pop();
+                variable result;
+                variable right = thr->peek();
+                thr->pop(arg_count);
                 int64_t right_int_value;
                 bool right_is_integer = right.get_integer(&right_int_value);
                 if (right_is_integer)
                 {
-                    variable result;
                     result.set_integer(F<int64_t, int64_t, int64_t>::calculate(this_ptr_integer->get_value(), right_int_value));
                     thr->push(result);
                     return;
@@ -234,7 +236,6 @@ namespace g0at
                     thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
                     return;
                 }
-                variable result;
                 result.set_real(F<double, int64_t, double>::calculate(this_ptr_integer->get_value(), right_real_value));
                 thr->push(result);
             }
@@ -357,25 +358,26 @@ namespace g0at
 
             template <template<typename R, typename X, typename Y> class F> void binary_math_operation(variable *var, thread *thr)
             {
+                variable result;
                 thr->pop();
                 variable right = thr->pop();
                 int64_t right_int_value;
                 bool right_is_integer = right.get_integer(&right_int_value);
                 if(right_is_integer)
                 {
-                    variable result;
                     result.set_integer(F<int64_t, int64_t, int64_t>::calculate(var->data.i, right_int_value));
                     thr->push(result);
+                    return;
                 }
-                else
+                double right_real_value;
+                bool right_is_real = right.get_real(&right_real_value);
+                if (!right_is_real)
                 {
-                    double right_real_value;
-                    bool right_is_real = right.get_real(&right_real_value);
-                    assert(right_is_real);                    
-                    variable result;
-                    result.set_real(F<double, int64_t, double>::calculate(var->data.i, right_real_value));
-                    thr->push(result);
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
                 }
+                result.set_real(F<double, int64_t, double>::calculate(var->data.i, right_real_value));
+                thr->push(result);
             }
 
             template <template<typename R, typename X, typename Y> class F, bool Def> void binary_logical_operation(variable *var, thread *thr)

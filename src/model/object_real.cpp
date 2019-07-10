@@ -21,9 +21,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_real.h"
+#include "object_string.h"
+#include "object_function_built_in.h"
+#include "thread.h"
 #include "lib/functional.h"
 #include "lib/utils.h"
-#include "thread.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -134,7 +136,11 @@ namespace g0at
             variable right = thr->pop();
             double right_value;
             bool right_is_real = right.get_real(&right_value);
-            assert(right_is_real);
+            if (!right_is_real)
+            {
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                return;
+            }
             variable result;
             result.set_real(F<double, double, double>::calculate(value, right_value));
             thr->push(result);
@@ -162,9 +168,57 @@ namespace g0at
             Prototype
         */
 
+        template <template<typename R, typename X, typename Y> class F> class object_real_binary_math_operator : public object_function_built_in
+        {
+        public:
+            object_real_binary_math_operator(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_real *this_ptr_real = this_ptr->to_object_real();
+                if (!this_ptr_real)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                variable result;
+                variable right = thr->peek();
+                thr->pop(arg_count);
+                double right_real_value;
+                bool right_is_real = right.get_real(&right_real_value);
+                if (!right_is_real)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                result.set_real(F<double, double, double>::calculate(this_ptr_real->get_value(), right_real_value));
+                thr->push(result);
+            }
+        };
+
         object_real_proto::object_real_proto(object_pool *pool)
             : object(pool, pool->get_number_proto_instance())
         {
+        }
+
+        void object_real_proto::init(object_pool *pool)
+        {
+            add_object(pool->get_static_string(L"+"), new object_real_binary_math_operator<lib::func::plus>(pool));
         }
 
         /*
@@ -277,7 +331,11 @@ namespace g0at
                 variable right = thr->pop();
                 double right_value;
                 bool right_is_real = right.get_real(&right_value);
-                assert(right_is_real);
+                if (!right_is_real)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
                 variable result;
                 result.set_real(F<double, double, double>::calculate(var->data.r, right_value));
                 thr->push(result);

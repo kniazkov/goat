@@ -45,6 +45,8 @@ namespace g0at
             std::wstring to_string() const override;
             std::wstring to_string_notation() const override;
             void op_add(thread *thr) override;
+            void op_eq(thread *thr) override;
+            void op_neq(thread *thr) override;
             void op_less(thread *thr) override;
             void m_get(thread *thr, int arg_count) override;
             void m_set(thread *thr, int arg_count) override;
@@ -55,6 +57,8 @@ namespace g0at
         protected:
             std::wstring data;
             int id;
+
+            template <template<typename R, typename X, typename Y> class F, bool Def> void binary_logical_operation(thread *thr);
         };
 
         class object_string_proto : public object

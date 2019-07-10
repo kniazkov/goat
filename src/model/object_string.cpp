@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "thread.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
+#include "lib/functional.h"
 #include <sstream>
 
 namespace g0at
@@ -148,26 +149,19 @@ namespace g0at
             thr->push(result);
         }
 
+        void object_string::op_eq(thread *thr)
+        {
+            binary_logical_operation<lib::func::equals, false>(thr);
+        }
+
+        void object_string::op_neq(thread *thr)
+        {
+            binary_logical_operation<lib::func::not_equal, true>(thr);
+        }
+
         void object_string::op_less(thread *thr)
         {
-            thr->pop();
-            variable right = thr->pop();
-            object *r_obj = right.get_object();
-            variable result;
-            do
-            {
-                if (r_obj)
-                {
-                    object_string *r_string = r_obj->to_object_string();
-                    if (r_string)
-                    {
-                        result.set_boolean(data < r_string->get_data());
-                        break;
-                    }
-                }
-                result.set_boolean(false);
-            } while (false);
-            thr->push(result);
+            binary_logical_operation<lib::func::less, true>(thr);
         }
 
         void object_string::m_get(thread *thr, int arg_count)
@@ -177,21 +171,24 @@ namespace g0at
                 thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
                 return;
             }
-            thr->pop();
-            variable index = thr->peek();
-            thr->pop(arg_count);
+            variable index = thr->peek(1);
             int64_t int_index;
             if (index.get_integer(&int_index))
             {
+                thr->pop(arg_count);
                 if (int_index >= 0 && int_index < data.size())
                 {
                     variable tmp;
                     tmp.set_char(data[(size_t)int_index]);
                     thr->push(tmp);
-                    return;
                 }
+                else
+                    thr->push_undefined();
             }
-            thr->push_undefined();                
+            else
+            {
+                thr->pool->get_string_proto_instance()->m_get(thr, arg_count);
+            }
         }
 
         void object_string::m_set(thread *thr, int arg_count)
@@ -207,6 +204,27 @@ namespace g0at
             variable tmp;
             tmp.set_object(new object_string_iterator(thr->pool, data));
             thr->push(tmp);
+        }
+
+        template <template<typename R, typename X, typename Y> class F, bool Def> void object_string::binary_logical_operation(thread *thr)
+        {
+            variable right = thr->pop();
+            object *r_obj = right.get_object();
+            variable result;
+            do
+            {
+                if (r_obj)
+                {
+                    object_string *r_string = r_obj->to_object_string();
+                    if (r_string)
+                    {
+                        result.set_boolean(F<bool, std::wstring, std::wstring>::calculate(data, r_string->get_data()));
+                        break;
+                    }
+                }
+                result.set_boolean(false);
+            } while (false);
+            thr->push(result);
         }
 
         /*
@@ -237,9 +255,45 @@ namespace g0at
                     return;
                 }
                 thr->pop(arg_count);
-                variable tmp;
-                tmp.set_integer(this_ptr_string->get_data().length());
-                thr->push(tmp);
+                variable result;
+                result.set_integer(this_ptr_string->get_data().length());
+                thr->push(result);
+            }
+        };
+
+        class object_string_operator_plus : public object_function_built_in
+        {
+        public:
+            object_string_operator_plus(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_string *this_ptr_string = this_ptr->to_object_string();
+                if (!this_ptr_string)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                variable right = thr->pop();
+                std::wstring str = this_ptr_string->get_data() + right.to_string();
+                variable result;
+                result.set_object(thr->pool->create_object_string(str));
+                thr->push(result);
             }
         };
 
@@ -251,6 +305,7 @@ namespace g0at
         void object_string_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(L"length"), new object_string_length(pool));
+            add_object(pool->get_static_string(L"+"), new object_string_operator_plus(pool));
         }
     };
 };

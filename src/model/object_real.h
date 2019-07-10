@@ -67,6 +67,7 @@ namespace g0at
         friend class object_pool;
         protected:
             object_real_proto(object_pool *pool);
+            void init(object_pool *pool);
         };
     };
 };
