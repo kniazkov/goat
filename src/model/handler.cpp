@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_exception.h"
 #include "thread.h"
 #include "lib/assert.h"
+#include "resource/strings.h"
 
 namespace g0at
 {
@@ -66,7 +67,7 @@ namespace g0at
 
         void handler::op_add(variable *var, thread *thr)
         {
-            thr->raise_exception(new object_exception_operator_not_found(thr->pool, L"+"));
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_plus));
         }
 
         void handler::op_sub(variable *var, thread *thr)
@@ -81,7 +82,7 @@ namespace g0at
 
         void handler::op_inc(variable *var, thread *thr)
         {
-            assert(false);
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_plus_plus));
         }
 
         void handler::op_eq(variable *var, thread *thr)

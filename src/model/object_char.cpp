@@ -142,6 +142,26 @@ namespace g0at
                 return true;
             }
 
+            void op_inc(variable *var, thread *thr)  override
+            {
+                unary_operation<lib::func::inc>(var, thr);
+            }
+
+            void op_eq(variable *var, thread *thr)  override
+            {
+                binary_logical_operation<lib::func::equals, false>(var, thr);
+            }
+
+            void op_neq(variable *var, thread *thr)  override
+            {
+                binary_logical_operation<lib::func::not_equal, false>(var, thr);
+            }
+
+            void op_less(variable *var, thread *thr)  override
+            {
+                binary_logical_operation<lib::func::less, false>(var, thr);
+            }
+
             void m_instance_of(variable *var, thread *thr, int arg_count) override
             {
                 thr->pop();
@@ -158,6 +178,32 @@ namespace g0at
         protected:
             char_handler()
             {
+            }
+
+            template <template<typename R, typename A> class F> void unary_operation(variable *var, thread *thr)
+            {
+                thr->pop();
+                variable result;
+                result.set_char(F<wchar_t, wchar_t>::calculate(var->data.c));
+                thr->push(result);
+            }
+
+            template <template<typename R, typename X, typename Y> class F, bool Def> void binary_logical_operation(variable *var, thread *thr)
+            {
+                thr->pop();
+                variable right = thr->pop();
+                wchar_t right_value;
+                bool right_is_char = right.get_char(&right_value);
+                variable result;
+                if(right_is_char)
+                {
+                    result.set_boolean(F<bool, wchar_t, wchar_t>::calculate(var->data.c, right_value));
+                }
+                else
+                {
+                    result.set_boolean(Def);
+                }
+                thr->push(result);
             }
         };
 

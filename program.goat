@@ -1,6 +1,26 @@
-println([1,2,3] + [4,5,6]);
-println([] + 1 + 2 + 3);
-var a = [];
-var f = a["+"];
-println(f.call([1,2,3],[4,5,6]));
-println(f.call([],1));
+var test = $(a)
+{
+    try
+    {
+        var x = ++a;
+        var y = a;
+        if (x != y)
+        {
+            println("fail, a = " + a + ", x = " + x + ", y = " + y);
+            return;
+        }
+        println("ok, ++a = " + x);
+    }
+    catch(err)
+    {
+        if (err.instanceof(Exception.IllegalReference.OperatorNotFound))
+            println("fail but ok: " + a);
+        else
+            println("exception: " + err);
+    }
+};
+
+test(1);
+test(1.1);
+test('a');
+println("done.");
