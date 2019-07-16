@@ -43,12 +43,19 @@ namespace g0at
             std::wstring to_string() const override;
             std::wstring to_string_notation() const override;
             bool get_char(wchar_t *pval) override;
+            void op_inc(thread *thr) override;
+            void op_eq(thread *thr) override;
+            void op_neq(thread *thr) override;
+            void op_less(thread *thr) override;
             void m_iterator(thread *thr, int arg_count) override;
 
             wchar_t get_value() { return value; }
 
         protected:
             wchar_t value;
+
+            template <template<typename R, typename A> class F> void unary_operation(thread *thr);
+            template <template<typename R, typename X, typename Y> class F, bool Def> void binary_logical_operation(thread *thr);
         };
 
         class object_char_proto : public object

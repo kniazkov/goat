@@ -9,6 +9,13 @@ var test = $(a)
             println("fail, a = " + a + ", x = " + x + ", y = " + y);
             return;
         }
+        var f = a["++"];
+        var z = f.call(a);
+        if (x != z)
+        {
+            println("fail, a = " + a + ", x = " + x + ", z = " + z);
+            return;
+        }
         println("ok, ++a = " + x);
     }
     catch(err)

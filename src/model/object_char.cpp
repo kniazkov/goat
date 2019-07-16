@@ -85,6 +85,26 @@ namespace g0at
             return true;
         }
 
+        void object_char::op_inc(thread *thr)
+        {
+            unary_operation<lib::func::inc>(thr);
+        }
+
+        void object_char::op_eq(thread *thr)
+        {
+            binary_logical_operation<lib::func::equals, false>(thr);
+        }
+
+        void object_char::op_neq(thread *thr)
+        {
+            binary_logical_operation<lib::func::not_equal, true>(thr);
+        }
+
+        void object_char::op_less(thread *thr)
+        {
+            binary_logical_operation<lib::func::less, true>(thr);
+        }
+
         void object_char::m_iterator(thread *thr, int arg_count)
         {
             thr->pop();
@@ -92,6 +112,32 @@ namespace g0at
             variable tmp;
             tmp.set_object(thr->pool->get_iterator_proto_instance());
             thr->push(tmp);
+        }
+
+        template <template<typename R, typename A> class F> void object_char::unary_operation(thread *thr)
+        {
+            thr->pop();
+            variable result;
+            result.set_char(F<wchar_t, wchar_t>::calculate(value));
+            thr->push(result);
+        }
+
+        template <template<typename R, typename X, typename Y> class F, bool Def> void object_char::binary_logical_operation(thread *thr)
+        {
+            thr->pop();
+            variable right = thr->pop();
+            wchar_t right_value;
+            bool right_is_char = right.get_char(&right_value);
+            variable result;
+            if(right_is_char)
+            {
+                result.set_boolean(F<bool, wchar_t, wchar_t>::calculate(value, right_value));
+            }
+            else
+            {
+                result.set_boolean(Def);
+            }
+            thr->push(result);
         }
 
         /*
