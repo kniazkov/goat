@@ -128,6 +128,8 @@ namespace g0at
         class keyword_case;
         class keyword_default;
         class statement_switch;
+        class unary_suffix;
+        class suffix_increment;
 
         class token : public lib::ref_counter
         {
@@ -233,6 +235,8 @@ namespace g0at
             virtual keyword_case *to_keyword_case();
             virtual keyword_default *to_keyword_default();
             virtual statement_switch *to_statement_switch();
+            virtual unary_suffix *to_unary_suffix();
+            virtual suffix_increment *to_suffix_increment();
             
             lib::pointer<position> get_position() { return pos; }
 

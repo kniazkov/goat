@@ -365,5 +365,9 @@ namespace g0at
         void token_visitor::visit(statement_switch *ref)
         {
         }
+
+        void token_visitor::visit(suffix_increment *ref)
+        {
+        }
     }
 };
