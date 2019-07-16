@@ -2,8 +2,9 @@ var test = $(a)
 {
     try
     {
-        var x = ++a;
-        var y = a;
+        var b = a;
+        var x = ++b;
+        var y = b;
         if (x != y)
         {
             println("fail, a = " + a + ", x = " + x + ", y = " + y);

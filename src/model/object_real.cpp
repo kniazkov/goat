@@ -168,6 +168,36 @@ namespace g0at
             Prototype
         */
 
+        template <template<typename R, typename A> class F> class object_real_unary_operator : public object_function_built_in
+        {
+        public:
+            object_real_unary_operator(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_real *this_ptr_real = this_ptr->to_object_real();
+                if (!this_ptr_real)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                thr->pop(arg_count);
+                variable result;
+                result.set_real(F<double, double>::calculate(this_ptr_real->get_value()));
+                thr->push(result);
+            }
+        };
+
         template <template<typename R, typename X, typename Y> class F> class object_real_binary_math_operator : public object_function_built_in
         {
         public:
@@ -218,6 +248,7 @@ namespace g0at
 
         void object_real_proto::init(object_pool *pool)
         {
+            add_object(pool->get_static_string(L"++"), new object_real_unary_operator<lib::func::inc>(pool));
             add_object(pool->get_static_string(L"+"), new object_real_binary_math_operator<lib::func::plus>(pool));
         }
 

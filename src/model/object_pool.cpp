@@ -100,7 +100,8 @@ namespace g0at
             real_proto_instance = real_proto;
             auto array_proto = new object_array_proto(this);
             array_proto_instance = array_proto;
-            char_proto_instance = new object_char_proto(this);
+            auto char_proto = new object_char_proto(this);
+            char_proto_instance = char_proto;
             auto exception_proto = new object_exception_proto(this);
             exception_proto_instance = exception_proto;
             auto iterator_proto = new object_iterator_proto(this);
@@ -110,6 +111,7 @@ namespace g0at
             thread_proto->init(this);
             integer_proto->init(this);
             real_proto->init(this);
+            char_proto->init(this);
             runner_proto->init(this);
             array_proto->init(this);
             iterator_proto->init(this);
