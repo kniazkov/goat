@@ -43,6 +43,7 @@ namespace g0at
             lib::pointer<pattern> create_pattern_binary(ast::token_2nd_list *_list);
             lib::pointer<pattern> create_pattern_declare_variable();
             lib::pointer<pattern> create_pattern_unary_prefix(ast::token_2nd_list *_list);
+            lib::pointer<pattern> create_pattern_unary_suffix(ast::token_2nd_list *_list);
             lib::pointer<pattern> create_pattern_assignment();
             lib::pointer<pattern> create_pattern_function_decl();
             lib::pointer<pattern> create_pattern_statement_return();

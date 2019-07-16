@@ -40,5 +40,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        lib::pointer<token> token_operator::create_unary_suffix_operation(lib::pointer<expression> left)
+        {
+            return nullptr;
+        }
     };
 };

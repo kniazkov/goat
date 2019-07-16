@@ -34,6 +34,7 @@ namespace g0at
             void accept(token_visitor *visitor) override;
             increment *to_increment() override;
             lib::pointer<token> create_unary_prefix_operation(lib::pointer<expression> right) override;
+            lib::pointer<token> create_unary_suffix_operation(lib::pointer<expression> left) override;
         };
     };
 };

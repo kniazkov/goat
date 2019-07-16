@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "increment.h"
 #include "prefix_increment.h"
+#include "suffix_increment.h"
 
 namespace g0at
 {
@@ -40,6 +41,11 @@ namespace g0at
         lib::pointer<token> increment::create_unary_prefix_operation(lib::pointer<expression> right)
         {
             return new prefix_increment(right);
+        }
+
+        lib::pointer<token> increment::create_unary_suffix_operation(lib::pointer<expression> left)
+        {
+            return new suffix_increment(left);
         }
     };
 };
