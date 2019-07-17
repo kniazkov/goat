@@ -33,7 +33,7 @@ namespace g0at
 
         void _dup::exec(model::thread *thr)
         {
-            thr->push(thr->peek());
+            thr->push(thr->peek().deref());
         }
     };
 };

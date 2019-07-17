@@ -62,6 +62,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_break.h"
 #include "compiler/pt/statement_continue.h"
 #include "compiler/pt/statement_switch.h"
+#include "compiler/pt/suffix_increment.h"
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -711,6 +712,15 @@ namespace g0at
             sector->get_begin_ptr().set(code->get_current_iid());
             sector->get_end_ptr().set(code->get_current_iid());
             delete[] pointers;
+        }
+
+        void generator::visit(pt::suffix_increment *ref)
+        {
+            ref->get_left()->accept(this);
+            code->add_instruction(new _dup());
+            code->add_instruction(new _inc());
+            ref->get_left()->accept(lgen.get());
+            code->add_instruction(new _pop());
         }
     };
 };
