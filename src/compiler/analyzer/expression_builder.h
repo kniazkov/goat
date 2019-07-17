@@ -64,6 +64,7 @@ namespace g0at
             void visit(ast::operator_new *ref) override;
             void visit(ast::prefix_increment *ref) override;
             void visit(ast::index_access *ref) override;
+            void visit(ast::suffix_increment *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }
@@ -72,6 +73,7 @@ namespace g0at
             lib::pointer<pt::expression> expr;
             std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>> build_expr_for_binary(ast::binary *ref);
             lib::pointer<pt::expression> build_expr_for_unary_prefix(ast::unary_prefix *ref);
+            lib::pointer<pt::expression> build_expr_for_unary_suffix(ast::unary_suffix *ref);
         };
     };
 };

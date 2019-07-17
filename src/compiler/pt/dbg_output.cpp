@@ -66,6 +66,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_for_in.h"
 #include "statement_do_while.h"
 #include "statement_switch.h"
+#include "suffix_increment.h"
 
 namespace g0at
 {
@@ -850,6 +851,14 @@ namespace g0at
                     style_2 = edge_style::node_to_next_one;
                 }
             }
+        }
+
+        void dbg_output::visit(suffix_increment *ref)
+        {
+            print(ref, L"suffix increment", L"++");
+            dbg_output left(env);
+            ref->get_left()->accept(&left);
+            link_child(left);
         }
     };
 };

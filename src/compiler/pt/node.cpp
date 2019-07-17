@@ -279,5 +279,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        unary_suffix *node::to_unary_suffix()
+        {
+            return nullptr;
+        }
+
+        suffix_increment *node::to_suffix_increment()
+        {
+            return nullptr;
+        }
    }
 };

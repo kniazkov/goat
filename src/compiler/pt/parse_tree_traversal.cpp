@@ -65,6 +65,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_for_in.h"
 #include "statement_do_while.h"
 #include "statement_switch.h"
+#include "suffix_increment.h"
 
 namespace g0at
 {
@@ -633,6 +634,16 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(statement_switch *ref)
+        {
+        }
+
+        void parse_tree_traversal::visit(suffix_increment *ref)
+        {
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(suffix_increment *ref)
         {
         }
     };

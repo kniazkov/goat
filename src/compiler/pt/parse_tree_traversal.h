@@ -82,6 +82,7 @@ namespace g0at
             void visit(statement_break *ref) override;
             void visit(statement_continue *ref) override;
             void visit(statement_switch *ref) override;
+            void visit(suffix_increment *ref) override;
 
         protected:
             void postpone(node *n) { queue.push_front(n); }
@@ -132,6 +133,7 @@ namespace g0at
             virtual void payload(statement_break *ref);
             virtual void payload(statement_continue *ref);
             virtual void payload(statement_switch *ref);
+            virtual void payload(suffix_increment *ref);
 
         private:
             std::deque<node*> queue;

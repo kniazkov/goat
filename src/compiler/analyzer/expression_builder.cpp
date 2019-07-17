@@ -81,6 +81,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/prefix_increment.h"
 #include "compiler/ast/index_access.h"
 #include "compiler/pt/index_access.h"
+#include "compiler/ast/suffix_increment.h"
+#include "compiler/pt/suffix_increment.h"
 
 namespace g0at
 {
@@ -107,6 +109,14 @@ namespace g0at
             ref->get_right()->accept(&visitor_right);
             assert(visitor_right.has_expr());
             return visitor_right.get_expr();
+        }
+
+        lib::pointer<pt::expression> expression_builder::build_expr_for_unary_suffix(ast::unary_suffix *ref)
+        {
+            expression_builder visitor_left;
+            ref->get_left()->accept(&visitor_left);
+            assert(visitor_left.has_expr());
+            return visitor_left.get_expr();
         }
 
         void expression_builder::visit(ast::variable *ref)
@@ -384,6 +394,11 @@ namespace g0at
                 tok_arg = tok_arg->next;
             }
             expr = idx_access.cast<pt::expression>();
+        }
+
+        void expression_builder::visit(ast::suffix_increment *ref)
+        {
+            expr = new pt::suffix_increment(ref->get_position(), build_expr_for_unary_suffix(ref));
         }
     };
 };

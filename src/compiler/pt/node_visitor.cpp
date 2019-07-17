@@ -213,5 +213,9 @@ namespace g0at
         void node_visitor::visit(statement_switch *ref)
         {
         }
+
+        void node_visitor::visit(suffix_increment *ref)
+        {
+        }
     }
 };
