@@ -33,7 +33,9 @@ namespace g0at
 
         void _dup::exec(model::thread *thr)
         {
-            thr->push(thr->peek().deref());
+            model::variable var = thr->pop().deref();
+            thr->push(var);
+            thr->push(var);
         }
     };
 };
