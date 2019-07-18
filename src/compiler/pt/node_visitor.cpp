@@ -217,5 +217,13 @@ namespace g0at
         void node_visitor::visit(suffix_increment *ref)
         {
         }
+
+        void node_visitor::visit(prefix_decrement *ref)
+        {
+        }
+
+        void node_visitor::visit(suffix_decrement *ref)
+        {
+        }
     }
 };

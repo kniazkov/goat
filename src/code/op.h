@@ -102,6 +102,7 @@ namespace g0at
             _sub,
             _neg,
             _inc,
+            _dec,
 
             _eq,
             _neq,

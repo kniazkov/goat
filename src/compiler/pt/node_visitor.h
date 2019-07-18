@@ -72,6 +72,8 @@ namespace g0at
         class statement_continue;
         class statement_switch;
         class suffix_increment;
+        class prefix_decrement;
+        class suffix_decrement;
 
         class node_visitor
         {
@@ -124,6 +126,8 @@ namespace g0at
             virtual void visit(statement_continue *ref);
             virtual void visit(statement_switch *ref);
             virtual void visit(suffix_increment *ref);
+            virtual void visit(prefix_decrement *ref);
+            virtual void visit(suffix_decrement *ref);
         };
     };
 };

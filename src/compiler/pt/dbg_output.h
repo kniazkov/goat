@@ -105,6 +105,8 @@ namespace g0at
             void visit(statement_do_while *ref) override;
             void visit(statement_switch *ref) override;
             void visit(suffix_increment *ref) override;
+            void visit(prefix_decrement *ref) override;
+            void visit(suffix_decrement *ref) override;
 
         protected:
             dbg_output(environment &env);

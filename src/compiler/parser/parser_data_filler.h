@@ -71,6 +71,7 @@ namespace g0at
             void visit(ast::keyword_break *ref) override;
             void visit(ast::keyword_continue *ref) override;
             void visit(ast::keyword_switch *ref) override;
+            void visit(ast::decrement *ref) override;
 
         protected:
             parser_data *data;

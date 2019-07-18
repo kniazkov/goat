@@ -289,5 +289,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        prefix_decrement *node::to_prefix_decrement()
+        {
+            return nullptr;
+        }
+
+        suffix_decrement *node::to_suffix_decrement()
+        {
+            return nullptr;
+        }
    }
 };

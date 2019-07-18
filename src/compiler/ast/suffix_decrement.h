@@ -20,14 +20,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "strings.h"
+#pragma once
+
+#include "unary_suffix.h"
 
 namespace g0at
 {
-    namespace resource
+    namespace ast
     {
-        std::wstring str_oper_plus = L"+";
-        std::wstring str_oper_plus_plus = L"++";
-        std::wstring str_oper_minus_minus = L"--";
+        class suffix_decrement : public unary_suffix
+        {
+        public:
+            suffix_decrement(lib::pointer<expression> _left);
+            void accept(token_visitor *visitor) override;
+            suffix_decrement *to_suffix_decrement() override;
+        };
     };
 };

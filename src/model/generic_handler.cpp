@@ -102,6 +102,11 @@ namespace g0at
                 var->data.obj->op_inc(thr);
             }
 
+            void op_dec(variable *var, thread *thr)  override
+            {
+                var->data.obj->op_dec(thr);
+            }
+
             void op_eq(variable *var, thread *thr) override
             {
                 var->data.obj->op_eq(thr);

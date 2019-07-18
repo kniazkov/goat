@@ -59,6 +59,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_break.h"
 #include "compiler/ast/keyword_continue.h"
 #include "compiler/ast/keyword_switch.h"
+#include "compiler/ast/decrement.h"
 
 namespace g0at
 {
@@ -261,6 +262,11 @@ namespace g0at
         void parser_data_filler::visit(ast::keyword_switch *ref)
         {
             data->switch_keywords.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::decrement *ref)
+        {
+            data->opers_incr_decr.add(ref);
         }
     };
 };

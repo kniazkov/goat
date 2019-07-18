@@ -130,6 +130,9 @@ namespace g0at
         class statement_switch;
         class unary_suffix;
         class suffix_increment;
+        class decrement;
+        class prefix_decrement;
+        class suffix_decrement;
 
         class token : public lib::ref_counter
         {
@@ -237,6 +240,10 @@ namespace g0at
             virtual statement_switch *to_statement_switch();
             virtual unary_suffix *to_unary_suffix();
             virtual suffix_increment *to_suffix_increment();
+            virtual decrement *to_decrement();
+            virtual prefix_decrement *to_prefix_decrement();
+            virtual suffix_decrement *to_suffix_decrement();
+
             
             lib::pointer<position> get_position() { return pos; }
 

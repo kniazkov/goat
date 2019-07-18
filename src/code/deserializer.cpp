@@ -87,6 +87,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "sector.h"
 #include "break.h"
 #include "cont.h"
+#include "dec.h"
 
 namespace g0at
 {
@@ -577,6 +578,11 @@ namespace g0at
             dst->add_instruction(new _cont());
         }
 
+        void deserializer::c_dec(source *src, code *dst)
+        {
+            dst->add_instruction(new _dec());
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -638,6 +644,7 @@ namespace g0at
             cc[op::_sector]  = c_cycle;
             cc[op::_break]   = c_break;
             cc[op::_cont]    = c_cont;
+            cc[op::_dec]     = c_dec;
         }
     };
 };

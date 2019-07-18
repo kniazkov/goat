@@ -1,3 +1,4 @@
 var i = 5;
-i = ++i + ++i;
+var j = --i;
 println(i);
+println(j);

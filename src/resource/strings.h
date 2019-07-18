@@ -30,5 +30,6 @@ namespace g0at
     {
         extern std::wstring str_oper_plus;
         extern std::wstring str_oper_plus_plus;
+        extern std::wstring str_oper_minus_minus;
     };
 };

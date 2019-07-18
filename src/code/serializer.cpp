@@ -502,5 +502,10 @@ namespace g0at
         {
             push_opcode(op::_cont);
         }
+
+        void serializer::visit(_dec *ref)
+        {
+            push_opcode(op::_dec);
+        }
     };
 };

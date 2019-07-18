@@ -98,6 +98,11 @@ namespace g0at
             unary_operation<lib::func::inc>(thr);
         }
 
+        void object_real::op_dec(thread *thr)
+        {
+            unary_operation<lib::func::dec>(thr);
+        }
+
         void object_real::op_eq(thread *thr)
         {
             binary_logical_operation<lib::func::equals, false>(thr);
@@ -249,6 +254,7 @@ namespace g0at
         void object_real_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(L"++"), new object_real_unary_operator<lib::func::inc>(pool));
+            add_object(pool->get_static_string(L"--"), new object_real_unary_operator<lib::func::dec>(pool));
             add_object(pool->get_static_string(L"+"), new object_real_binary_math_operator<lib::func::plus>(pool));
         }
 
@@ -311,6 +317,11 @@ namespace g0at
             void op_inc(variable *var, thread *thr)  override
             {
                 unary_operation<lib::func::inc>(var, thr);
+            }
+
+            void op_dec(variable *var, thread *thr)  override
+            {
+                unary_operation<lib::func::dec>(var, thr);
             }
 
             void op_eq(variable *var, thread *thr)  override

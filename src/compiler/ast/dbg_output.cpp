@@ -65,6 +65,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_do_while.h"
 #include "statement_switch.h"
 #include "suffix_increment.h"
+#include "prefix_decrement.h"
+#include "suffix_decrement.h"
 
 namespace g0at
 {
@@ -832,6 +834,27 @@ namespace g0at
         void dbg_output::visit(suffix_increment *ref)
         {
             print(L"suffix increment", L"++");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left);
+        }
+
+        void dbg_output::visit(decrement *ref)
+        {
+            print(L"decrement", L"--");
+        }
+
+        void dbg_output::visit(prefix_decrement *ref)
+        {
+            print(L"prefix decrement", L"--");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right);
+        }
+
+        void dbg_output::visit(suffix_decrement *ref)
+        {
+            print(L"suffix decrement", L"--");
             dbg_output left(data);
             ref->get_left()->accept(&left);
             link_child(left);

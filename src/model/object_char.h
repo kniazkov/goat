@@ -44,6 +44,7 @@ namespace g0at
             std::wstring to_string_notation() const override;
             bool get_char(wchar_t *pval) override;
             void op_inc(thread *thr) override;
+            void op_dec(thread *thr) override;
             void op_eq(thread *thr) override;
             void op_neq(thread *thr) override;
             void op_less(thread *thr) override;

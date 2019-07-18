@@ -537,5 +537,20 @@ namespace g0at
         {
             return nullptr;
         }
+
+        decrement *token::to_decrement()
+        {
+            return nullptr;
+        }
+
+        prefix_decrement *token::to_prefix_decrement()
+        {
+            return nullptr;
+        }
+
+        suffix_decrement *token::to_suffix_decrement()
+        {
+            return nullptr;
+        }
     }
 };

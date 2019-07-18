@@ -85,6 +85,7 @@ namespace g0at
         class _sector;
         class _break;
         class _cont;
+        class _dec;
 
         class instruction_visitor
         {
@@ -150,6 +151,7 @@ namespace g0at
             virtual void visit(_sector *ref) = 0;
             virtual void visit(_break *ref) = 0;
             virtual void visit(_cont *ref) = 0;
+            virtual void visit(_dec *ref) = 0;
         };
     };
 };

@@ -20,14 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "strings.h"
+#include "prefix_decrement.h"
 
 namespace g0at
 {
-    namespace resource
+    namespace pt
     {
-        std::wstring str_oper_plus = L"+";
-        std::wstring str_oper_plus_plus = L"++";
-        std::wstring str_oper_minus_minus = L"--";
+        prefix_decrement::prefix_decrement(lib::pointer<position> _pos, lib::pointer<expression> _right)
+            : unary_prefix(_pos, _right)
+        {
+        }
+
+        void prefix_decrement::accept(node_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
+
+        prefix_decrement *prefix_decrement::to_prefix_decrement()
+        {
+            return this;
+        }
     };
 };

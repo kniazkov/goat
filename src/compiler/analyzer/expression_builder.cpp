@@ -83,6 +83,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/index_access.h"
 #include "compiler/ast/suffix_increment.h"
 #include "compiler/pt/suffix_increment.h"
+#include "compiler/ast/prefix_decrement.h"
+#include "compiler/pt/prefix_decrement.h"
+#include "compiler/ast/suffix_decrement.h"
+#include "compiler/pt/suffix_decrement.h"
 
 namespace g0at
 {
@@ -399,6 +403,16 @@ namespace g0at
         void expression_builder::visit(ast::suffix_increment *ref)
         {
             expr = new pt::suffix_increment(ref->get_position(), build_expr_for_unary_suffix(ref));
+        }
+
+        void expression_builder::visit(ast::prefix_decrement *ref)
+        {
+            expr = new pt::prefix_decrement(ref->get_position(), build_expr_for_unary_prefix(ref));
+        }
+
+        void expression_builder::visit(ast::suffix_decrement *ref)
+        {
+            expr = new pt::suffix_decrement(ref->get_position(), build_expr_for_unary_suffix(ref));
         }
     };
 };

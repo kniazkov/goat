@@ -107,6 +107,11 @@ namespace g0at
                 var->data.ref->op_inc(thr);
             }
 
+            void op_dec(variable *var, thread *thr)  override
+            {
+                var->data.ref->op_dec(thr);
+            }
+
             void op_eq(variable *var, thread *thr) override
             {
                 var->data.ref->op_eq(thr);

@@ -91,6 +91,8 @@ namespace g0at
             void visit(pt::statement_continue *ref) override;
             void visit(pt::statement_switch *ref) override;
             void visit(pt::suffix_increment *ref) override;
+            void visit(pt::prefix_decrement *ref) override;
+            void visit(pt::suffix_decrement *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

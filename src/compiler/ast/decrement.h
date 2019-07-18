@@ -20,14 +20,21 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "strings.h"
+#pragma once
+
+#include "token_operator.h"
 
 namespace g0at
 {
-    namespace resource
+    namespace ast
     {
-        std::wstring str_oper_plus = L"+";
-        std::wstring str_oper_plus_plus = L"++";
-        std::wstring str_oper_minus_minus = L"--";
+        class decrement : public token_operator
+        {
+        public:
+            void accept(token_visitor *visitor) override;
+            decrement *to_decrement() override;
+            lib::pointer<token> create_unary_prefix_operation(lib::pointer<expression> right) override;
+            lib::pointer<token> create_unary_suffix_operation(lib::pointer<expression> left) override;
+        };
     };
 };

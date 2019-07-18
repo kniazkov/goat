@@ -85,6 +85,11 @@ namespace g0at
             thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_plus_plus));
         }
 
+        void handler::op_dec(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_minus_minus));
+        }
+
         void handler::op_eq(variable *var, thread *thr)
         {
             assert(false);

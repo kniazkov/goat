@@ -20,14 +20,21 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "strings.h"
+#include "dec.h"
 
 namespace g0at
 {
-    namespace resource
+    namespace code
     {
-        std::wstring str_oper_plus = L"+";
-        std::wstring str_oper_plus_plus = L"++";
-        std::wstring str_oper_minus_minus = L"--";
+        void _dec::accept(instruction_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
+
+        void _dec::exec(model::thread *thr)
+        {
+            model::variable var = thr->peek();
+            var.op_dec(thr);
+        }
     };
 };

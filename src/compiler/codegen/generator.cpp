@@ -63,6 +63,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_continue.h"
 #include "compiler/pt/statement_switch.h"
 #include "compiler/pt/suffix_increment.h"
+#include "compiler/pt/prefix_decrement.h"
+#include "compiler/pt/suffix_decrement.h"
+
 #include "code/string.h"
 #include "code/load.h"
 #include "code/call.h"
@@ -121,6 +124,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/sector.h"
 #include "code/break.h"
 #include "code/cont.h"
+#include "code/dec.h"
 
 namespace g0at
 {
@@ -719,6 +723,22 @@ namespace g0at
             ref->get_left()->accept(this);
             code->add_instruction(new _dup());
             code->add_instruction(new _inc());
+            ref->get_left()->accept(lgen.get());
+            code->add_instruction(new _pop());
+        }
+
+        void generator::visit(pt::prefix_decrement *ref)
+        {
+            ref->get_right()->accept(this);
+            code->add_instruction(new _dec());
+            ref->get_right()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::suffix_decrement *ref)
+        {
+            ref->get_left()->accept(this);
+            code->add_instruction(new _dup());
+            code->add_instruction(new _dec());
             ref->get_left()->accept(lgen.get());
             code->add_instruction(new _pop());
         }
