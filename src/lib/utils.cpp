@@ -191,6 +191,38 @@ namespace g0at
             std::ifstream stream(file_name);
             return stream.good();
         }
+
+        std::string wstring_to_ascii_string(std::wstring src, bool *okay)
+        {
+            size_t len = src.length();
+            std::string dst(len, '\0');
+            if (okay)
+            {
+                *okay = true;
+                for (size_t i = 0; i < len; i++)
+                {
+                    wchar_t ch = src[i];
+                    if (ch < 128)
+                    {
+                        dst[i] = (char)ch;
+                    }
+                    else
+                    {
+                        *okay = false;
+                        break;
+                    }       
+                }
+            }
+            else
+            {
+                for (size_t i = 0; i < len; i++)
+                {
+                    wchar_t ch = src[i];
+                    dst[i] = ch < 128 ? (char)ch : '?';
+                }
+            }
+            return dst;
+        }
     };
 
 };
