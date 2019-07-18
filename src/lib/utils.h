@@ -70,5 +70,6 @@ namespace g0at
         void dump_file(const char *file_name, const char *postfix, std::wstring data);
         bool file_exists(const char *file_name);
         std::string wstring_to_ascii_string(std::wstring src, bool *okay);
+        std::string normalize_file_path(std::string path);
     };
 };

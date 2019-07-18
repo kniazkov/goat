@@ -262,6 +262,8 @@ namespace g0at
                     if (!is_ascii)
                         throw wrong_file_name(tok_file_name->get_position(), file_name);
 
+                    file_name_ascii = lib::normalize_file_path(file_name_ascii);
+
                     if (!lib::file_exists(file_name_ascii.c_str()))
                         throw file_not_found(tok_file_name->get_position(), file_name_ascii.c_str());
 

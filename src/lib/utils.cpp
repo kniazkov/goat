@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstring>
 #include <fstream>
 #include <streambuf>
+
 namespace g0at
 {
     namespace lib
@@ -222,6 +223,37 @@ namespace g0at
                 }
             }
             return dst;
+        }
+
+        std::string normalize_file_path(std::string path)
+        {
+#ifdef _WIN32
+            const char separator = '\\';
+            const char wrong_separator = '/';
+#else
+            const char separator = '/';
+            const char wrong_separator = '\\';
+#endif
+            std::stringstream stream;
+            bool flag = false;
+            for (size_t i = 0, len = path.length(); i < len; i++)
+            {
+                char c = path[i];
+                if (c == separator || c == wrong_separator)
+                {
+                    if (!flag)
+                    {
+                        flag = true;
+                        stream << separator;
+                    }
+                }
+                else
+                {
+                    stream << c;
+                    flag = false;
+                }
+            }
+            return stream.str();
         }
     };
 
