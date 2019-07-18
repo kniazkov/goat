@@ -859,5 +859,10 @@ namespace g0at
             ref->get_left()->accept(&left);
             link_child(left);
         }
+
+        void dbg_output::visit(keyword_import *ref)
+        {
+            print(L"keyword", L"import");
+        }
     };
 };

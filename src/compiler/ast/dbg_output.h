@@ -137,6 +137,7 @@ namespace g0at
             void visit(decrement *ref) override;
             void visit(prefix_decrement *ref) override;
             void visit(suffix_decrement *ref) override;
+            void visit(keyword_import *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

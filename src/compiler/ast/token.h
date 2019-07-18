@@ -133,6 +133,7 @@ namespace g0at
         class decrement;
         class prefix_decrement;
         class suffix_decrement;
+        class keyword_import;
 
         class token : public lib::ref_counter
         {
@@ -243,8 +244,8 @@ namespace g0at
             virtual decrement *to_decrement();
             virtual prefix_decrement *to_prefix_decrement();
             virtual suffix_decrement *to_suffix_decrement();
+            virtual keyword_import *to_keyword_import();
 
-            
             lib::pointer<position> get_position() { return pos; }
 
             token_list *list;

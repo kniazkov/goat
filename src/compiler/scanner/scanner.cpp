@@ -72,6 +72,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_switch.h"
 #include "compiler/ast/keyword_case.h"
 #include "compiler/ast/keyword_default.h"
+#include "compiler/ast/keyword_import.h"
 
 namespace g0at
 {
@@ -338,6 +339,8 @@ namespace g0at
                 return new ast::keyword_case();
             if (name == L"default")
                 return new ast::keyword_default();
+            if (name == L"import")
+                return new ast::keyword_import();
             return new ast::identifier(name);
         }
 

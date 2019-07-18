@@ -113,6 +113,7 @@ namespace g0at
         class decrement;
         class prefix_decrement;
         class suffix_decrement;
+        class keyword_import;
 
         class token_visitor
         {
@@ -206,6 +207,7 @@ namespace g0at
             virtual void visit(decrement *ref);
             virtual void visit(prefix_decrement *ref);
             virtual void visit(suffix_decrement *ref);
+            virtual void visit(keyword_import *ref);
          };
     };
 };

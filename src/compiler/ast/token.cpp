@@ -552,5 +552,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_import *token::to_keyword_import()
+        {
+            return nullptr;
+        }
     }
 };

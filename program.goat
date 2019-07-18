@@ -1,4 +1,4 @@
-var i = 5;
-++i--;
---i++;
-println(5);
+import "test_lib.goat";
+
+var x = test();
+println(x);
