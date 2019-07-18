@@ -151,7 +151,8 @@ namespace g0at
             data = new parser_data();
             data->functions.push_back(root.get());
             parser_data_filler data_filler(data);
-            parse_brackets_and_fill_data(scan, root.cast<ast::token_with_list>(), &data_filler, L'\0');
+            std::set<std::string> imported;
+            parse_brackets_and_fill_data(scan, root.cast<ast::token_with_list>(), &data_filler, L'\0', imported);
         }
 
         void parser::parse()
@@ -209,7 +210,7 @@ namespace g0at
         }
 
         void parser::parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
-            parser_data_filler *data_filler, wchar_t open_bracket)
+            parser_data_filler *data_filler, wchar_t open_bracket, std::set<std::string> &imported)
         {
             auto *tok_list = dst->get_raw_list();
             while(true)
@@ -233,7 +234,9 @@ namespace g0at
                     {
                         lib::pointer<ast::brackets_pair> bracket_expr = new ast::brackets_pair(bracket);
                         tok_list->add(bracket_expr.cast<ast::token>());
-                        parse_brackets_and_fill_data(scan, bracket_expr.cast<ast::token_with_list>(), data_filler, bracket->get_symbol());
+                        std::set<std::string> imported2;
+                        parse_brackets_and_fill_data(scan, bracket_expr.cast<ast::token_with_list>(), data_filler,
+                            bracket->get_symbol(), imported2);
                         bracket_expr->accept(data_filler);
                     }
                 }
@@ -268,9 +271,13 @@ namespace g0at
                     if (!lib::file_exists(file_name_ascii.get()))
                         throw file_not_found(tok_file_name->get_position(), file_name_ascii.get());
 
-                    source_file src(file_name_ascii.get());
-                    scanner scan2(&src);
-                    parse_brackets_and_fill_data(&scan2, dst, data_filler, L'\0');
+                    if (imported.find(std::string(file_name_ascii.get())) == imported.end())
+                    {
+                        imported.insert(std::string(file_name_ascii.get()));
+                        source_file src(file_name_ascii.get());
+                        scanner scan2(&src);
+                        parse_brackets_and_fill_data(&scan2, dst, data_filler, L'\0', imported);
+                    }
                 }
                 else
                 {

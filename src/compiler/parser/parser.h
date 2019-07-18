@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "parser_data.h"
 #include "parser_data_filler.h"
 #include "lib/pointer.h"
+#include <set>
 
 namespace g0at
 {
@@ -46,7 +47,7 @@ namespace g0at
             parser(const parser &) { }
             void operator=(const parser &) { }
             static void parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
-                parser_data_filler *data_filler, wchar_t open_bracket);
+                parser_data_filler *data_filler, wchar_t open_bracket, std::set<std::string> &imported);
             static void parse_block_body(ast::token_list *src, ast::token_list *dst);
             static void parse_function_body(ast::function *func);
             static void parse_statement_block_body(ast::statement_block *block);
