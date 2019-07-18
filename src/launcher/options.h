@@ -23,6 +23,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <vector>
+#include <string>
+#include <set>
 
 namespace g0at
 {
@@ -42,5 +44,10 @@ namespace g0at
         bool dump_memory_usage_report;
         char *gc_type_str;
         bool do_not_compress;
+        std::vector<std::string> lib_path;
+
+    protected:
+        void parse_lib_path(const char *pathes);
+        std::set<std::string> lib_path_set;
     };
 };

@@ -79,8 +79,13 @@ namespace g0at
 #endif
         try
         {
-            launcher l_obj(argc, argv);
-            int ret_val = l_obj.go();
+            int ret_val = 0;
+            // we need do..while wrapper to release memory before checking for memory leaks
+            do
+            {
+                launcher l_obj(argc, argv);
+                ret_val = l_obj.go();
+            } while(false);
             assert(lib::get_ref_counter_instances_count() == 0);
             if (lib::get_used_memory_size() != 0)
                 throw memory_leak(lib::get_allocated_blocks_count(), lib::get_used_memory_size());

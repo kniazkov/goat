@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/new.h"
 #include <cstring>
 #include <cstdlib>
+#include <sstream>
 
 namespace g0at
 {
@@ -123,7 +124,7 @@ namespace g0at
                 }
                 else if (0 == std::strncmp(arg + 2, "lib=", 4))
                 {
-                    // TODO: library path
+                    opt.parse_lib_path(arg + 6);
                 }
                 else
                 {
@@ -138,5 +139,36 @@ namespace g0at
                     opt.args.push_back(arg);
             }
         }
+
+        const char *env_lib_path = std::getenv("GOAT_LIBRARY_PATH");
+        if (env_lib_path)
+        {
+            opt.parse_lib_path(env_lib_path);
+        }
+    }
+
+    void options::parse_lib_path(const char *pathes)
+    {
+        const char *p = pathes - 1;
+        std::stringstream ss;
+        do
+        {
+            ++p;
+            if (*p == ';' || !(*p))
+            {
+                std::string path = ss.str();
+                if (path.length() > 0 && lib_path_set.find(path) == lib_path_set.end())
+                {
+                    lib_path.push_back(path);
+                    lib_path_set.insert(path);
+                }
+                ss.str(std::string());
+            }
+            else
+            {
+                ss << *p;
+            }
+            
+        } while(*p);
     }
 };
