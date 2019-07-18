@@ -261,6 +261,18 @@ namespace g0at
                 return L"конструкция 'switch' может иметь только один 'default' блок";
             }
 
+            std::wstring expected_a_file_name()
+            {
+                return L"ожидается имя файла (в кавычках)";
+            }
+
+            std::wstring wrong_file_name(std::wstring file_name) override
+            {
+                std::wstringstream wss;
+                wss << L"неправильное имя файла: '"<< file_name << L'\'';
+                return wss.str();
+            }
+
 
 
             std::wstring unhandled_exception(std::wstring str) override

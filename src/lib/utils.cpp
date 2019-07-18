@@ -185,6 +185,12 @@ namespace g0at
             file.close();
             delete full_file_name;
         }
+
+        bool file_exists(const char *file_name)
+        {
+            std::ifstream stream(file_name);
+            return stream.good();
+        }
     };
 
 };

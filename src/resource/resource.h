@@ -78,6 +78,8 @@ namespace g0at
             virtual std::wstring expected_a_switch_body() = 0;
             virtual std::wstring expected_case_or_default_keyword() = 0;
             virtual std::wstring can_have_only_one_default_block() = 0;
+            virtual std::wstring expected_a_file_name() = 0;
+            virtual std::wstring wrong_file_name(std::wstring file_name) = 0;
 
             virtual std::wstring unhandled_exception(std::wstring str) = 0;
             virtual std::wstring unknown_exception() = 0;

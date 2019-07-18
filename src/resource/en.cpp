@@ -261,6 +261,18 @@ namespace g0at
                 return L"a 'switch' statement can have only one 'default' block";
             }
 
+            std::wstring expected_a_file_name()
+            {
+                return L"expected a file name";
+            }
+
+            std::wstring wrong_file_name(std::wstring file_name) override
+            {
+                std::wstringstream wss;
+                wss << L"wrond file name: '"<< file_name << L'\'';
+                return wss.str();
+            }
+
 
 
             std::wstring unhandled_exception(std::wstring str) override

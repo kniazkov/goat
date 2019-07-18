@@ -68,5 +68,6 @@ namespace g0at
         std::wstring escape_html_entities(const wchar_t *src, size_t len);
         char * file_name_postfix(const char *head, const char *tail);
         void dump_file(const char *file_name, const char *postfix, std::wstring data);
+        bool file_exists(const char *file_name);
     };
 };

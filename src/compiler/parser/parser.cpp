@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "grammar_factory.h"
 #include "common_exceptions.h"
 #include "lib/utils.h"
+#include "compiler/source/source_file.h"
 #include "compiler/ast/bracket.h"
 #include "compiler/ast/brackets_pair.h"
 #include "compiler/ast/expression.h"
@@ -38,6 +39,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "global/global.h"
 #include "lib/assert.h"
 #include <iostream>
+#include <memory>
 
 namespace g0at
 {
@@ -84,6 +86,33 @@ namespace g0at
         public:
             can_have_only_one_default_block(lib::pointer<position> pos)
                 : compilation_error(pos, global::resource->can_have_only_one_default_block())
+            {
+            }
+        };
+
+        class expected_a_file_name : public compilation_error
+        {
+        public:
+            expected_a_file_name(lib::pointer<position> pos)
+                : compilation_error(pos, global::resource->expected_a_file_name())
+            {
+            }
+        };
+
+        class wrong_file_name : public compilation_error
+        {
+        public:
+            wrong_file_name(lib::pointer<position> pos, std::wstring file_name)
+                : compilation_error(pos, global::resource->wrong_file_name(file_name))
+            {
+            }
+        };
+
+        class file_not_found : public compilation_error
+        {
+        public:
+            file_not_found(lib::pointer<position> pos, const char *file_name)
+                : compilation_error(pos, global::resource->file_not_found(file_name))
             {
             }
         };
@@ -207,6 +236,41 @@ namespace g0at
                         parse_brackets_and_fill_data(scan, bracket_expr.cast<ast::token_with_list>(), data_filler, bracket->get_symbol());
                         bracket_expr->accept(data_filler);
                     }
+                }
+                else if (tok->to_keyword_import())
+                {
+                    auto tok_file_name = scan->get_token();
+                    if (!tok_file_name)
+                        throw expected_a_file_name(tok->get_position());
+                    auto tok_file_name_string = tok_file_name->to_static_string();
+                    if (!tok_file_name_string)
+                        throw expected_a_file_name(tok->get_position());
+
+                    auto semicolon = scan->get_token();
+                    if (!semicolon || !semicolon->to_semicolon())
+                        throw the_next_token_must_be_a_semicolon(tok_file_name->get_position());
+
+                    std::wstring file_name = tok_file_name_string->get_text();
+                    int file_name_len = (int)file_name.length();
+                    if (file_name_len == 0)
+                        throw wrong_file_name(tok_file_name->get_position(), file_name);
+
+                    std::unique_ptr<char[]>file_name_ascii(new char[file_name_len + 1]);
+                    for (int i = 0; i < file_name_len; i++)
+                    {
+                        wchar_t ch = file_name[i];
+                        if (ch > 127)
+                            throw wrong_file_name(tok_file_name->get_position(), file_name);
+                        file_name_ascii[i] = (char)ch;
+                    }
+                    file_name_ascii[file_name_len] = '\0';
+
+                    if (!lib::file_exists(file_name_ascii.get()))
+                        throw file_not_found(tok_file_name->get_position(), file_name_ascii.get());
+
+                    source_file src(file_name_ascii.get());
+                    scanner scan2(&src);
+                    parse_brackets_and_fill_data(&scan2, dst, data_filler, L'\0');
                 }
                 else
                 {
