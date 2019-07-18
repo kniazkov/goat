@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "parser_data_filler.h"
 #include "lib/pointer.h"
 #include <set>
+#include <vector>
 
 namespace g0at
 {
@@ -38,8 +39,8 @@ namespace g0at
         public:
             parser();
             ~parser();
-            static lib::pointer<ast::root> parse(scanner *scan, bool debug, const char *prog_name);
-            void create_root(scanner *scan);
+            static lib::pointer<ast::root> parse(scanner *scan, bool debug, const char *prog_name, std::vector<std::string> &lib_path);
+            void create_root(scanner *scan, std::vector<std::string> &lib_path);
             void parse();
             lib::pointer<ast::root> get_root() { return root; }
 
@@ -47,7 +48,7 @@ namespace g0at
             parser(const parser &) { }
             void operator=(const parser &) { }
             static void parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
-                parser_data_filler *data_filler, wchar_t open_bracket, std::set<std::string> &imported);
+                parser_data_filler *data_filler, wchar_t open_bracket, std::set<std::string> &imported, std::vector<std::string> &lib_path);
             static void parse_block_body(ast::token_list *src, ast::token_list *dst);
             static void parse_function_body(ast::function *func);
             static void parse_statement_block_body(ast::statement_block *block);

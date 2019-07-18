@@ -1,4 +1,4 @@
-import ".\\test_lib.goat";
+import "example.goat";
 
-var x = test();
+var x = testing();
 println(x);

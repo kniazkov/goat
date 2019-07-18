@@ -163,7 +163,7 @@ namespace g0at
         {
             source_file src(opt.prog_name);
             scanner scan(&src);
-            auto tok_root = parser::parser::parse(&scan, opt.dump_abstract_syntax_tree, opt.prog_name);
+            auto tok_root = parser::parser::parse(&scan, opt.dump_abstract_syntax_tree, opt.prog_name, opt.lib_path);
             if (opt.dump_abstract_syntax_tree)
             {
                 lib::dump_file(opt.prog_name, "tokens.txt", ast::dbg_output::to_string(tok_root.get()));

@@ -50,6 +50,7 @@ namespace g0at
             gc_type_str(nullptr),
             do_not_compress(false)
     {
+        lib_path.push_back(".");
     }
 
     void options::parse(int argc, char **argv, options &opt)
