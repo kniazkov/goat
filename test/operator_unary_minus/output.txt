@@ -1,0 +1,5 @@
+ok, -a = -1
+ok, -a = -1.1
+fail but ok: a
+fail but ok: {}
+done.
