@@ -67,6 +67,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "suffix_increment.h"
 #include "prefix_decrement.h"
 #include "suffix_decrement.h"
+#include "multiplication.h"
+#include "exponentiation.h"
+#include "division.h"
+#include "remainder.h"
 
 namespace g0at
 {
@@ -863,6 +867,70 @@ namespace g0at
         void dbg_output::visit(keyword_import *ref)
         {
             print(L"keyword", L"import");
+        }
+
+        void dbg_output::visit(asterisk *ref)
+        {
+            print(L"asterisk", L"*");
+        }
+
+        void dbg_output::visit(double_asterisk *ref)
+        {
+            print(L"double asterisk", L"**");
+        }
+
+        void dbg_output::visit(slash *ref)
+        {
+            print(L"slash", L"/");
+        }
+
+        void dbg_output::visit(percent *ref)
+        {
+            print(L"percent", L"%");
+        }
+
+        void dbg_output::visit(multiplication *ref)
+        {
+            print(L"multiplication", L"*");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(exponentiation *ref)
+        {
+            print(L"exponentiation", L"**");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(division *ref)
+        {
+            print(L"division", L"/");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(remainder *ref)
+        {
+            print(L"remainder", L"%");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
         }
     };
 };

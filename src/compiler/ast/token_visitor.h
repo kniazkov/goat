@@ -114,6 +114,14 @@ namespace g0at
         class prefix_decrement;
         class suffix_decrement;
         class keyword_import;
+        class asterisk;
+        class double_asterisk;
+        class slash;
+        class percent;
+        class multiplication;
+        class exponentiation;
+        class division;
+        class remainder;
 
         class token_visitor
         {
@@ -208,6 +216,14 @@ namespace g0at
             virtual void visit(prefix_decrement *ref);
             virtual void visit(suffix_decrement *ref);
             virtual void visit(keyword_import *ref);
+            virtual void visit(asterisk *ref);
+            virtual void visit(double_asterisk *ref);
+            virtual void visit(slash *ref);
+            virtual void visit(percent *ref);
+            virtual void visit(multiplication *ref);
+            virtual void visit(exponentiation *ref);
+            virtual void visit(division *ref);
+            virtual void visit(remainder *ref);
          };
     };
 };

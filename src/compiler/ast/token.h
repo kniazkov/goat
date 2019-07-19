@@ -134,6 +134,14 @@ namespace g0at
         class prefix_decrement;
         class suffix_decrement;
         class keyword_import;
+        class asterisk;
+        class double_asterisk;
+        class slash;
+        class percent;
+        class multiplication;
+        class exponentiation;
+        class division;
+        class remainder;
 
         class token : public lib::ref_counter
         {
@@ -245,6 +253,14 @@ namespace g0at
             virtual prefix_decrement *to_prefix_decrement();
             virtual suffix_decrement *to_suffix_decrement();
             virtual keyword_import *to_keyword_import();
+            virtual asterisk *to_asterisk();
+            virtual double_asterisk *to_double_asterisk();
+            virtual slash *to_slash();
+            virtual percent *to_percent();
+            virtual multiplication *to_multiplication();
+            virtual exponentiation *to_exponentiation();
+            virtual division *to_division();
+            virtual remainder *to_remainder();
 
             lib::pointer<position> get_position() { return pos; }
 

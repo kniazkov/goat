@@ -385,5 +385,37 @@ namespace g0at
         void token_visitor::visit(keyword_import *ref)
         {
         }
+
+        void token_visitor::visit(asterisk *ref)
+        {
+        }
+
+        void token_visitor::visit(double_asterisk *ref)
+        {
+        }
+
+        void token_visitor::visit(slash *ref)
+        {
+        }
+
+        void token_visitor::visit(percent *ref)
+        {
+        }
+
+        void token_visitor::visit(multiplication *ref)
+        {
+        }
+
+        void token_visitor::visit(exponentiation *ref)
+        {
+        }
+
+        void token_visitor::visit(division *ref)
+        {
+        }
+
+        void token_visitor::visit(remainder *ref)
+        {
+        }
     }
 };

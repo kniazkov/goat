@@ -557,5 +557,45 @@ namespace g0at
         {
             return nullptr;
         }
+
+        asterisk *token::to_asterisk()
+        {
+            return nullptr;
+        }
+
+        double_asterisk *token::to_double_asterisk()
+        {
+            return nullptr;
+        }
+
+        slash *token::to_slash()
+        {
+            return nullptr;
+        }
+
+        percent *token::to_percent()
+        {
+            return nullptr;
+        }
+
+        multiplication *token::to_multiplication()
+        {
+            return nullptr;
+        }
+
+        exponentiation *token::to_exponentiation()
+        {
+            return nullptr;
+        }
+
+        division *token::to_division()
+        {
+            return nullptr;
+        }
+
+        remainder *token::to_remainder()
+        {
+            return nullptr;
+        }
     }
 };

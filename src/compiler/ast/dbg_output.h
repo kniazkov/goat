@@ -138,6 +138,14 @@ namespace g0at
             void visit(prefix_decrement *ref) override;
             void visit(suffix_decrement *ref) override;
             void visit(keyword_import *ref) override;
+            void visit(asterisk *ref) override;
+            void visit(double_asterisk *ref) override;
+            void visit(slash *ref) override;
+            void visit(percent *ref) override;
+            void visit(multiplication *ref) override;
+            void visit(exponentiation *ref) override;
+            void visit(division *ref) override;
+            void visit(remainder *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

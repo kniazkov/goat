@@ -73,6 +73,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_case.h"
 #include "compiler/ast/keyword_default.h"
 #include "compiler/ast/keyword_import.h"
+#include "compiler/ast/asterisk.h"
+#include "compiler/ast/double_asterisk.h"
+#include "compiler/ast/slash.h"
+#include "compiler/ast/percent.h"
 
 namespace g0at
 {
@@ -395,6 +399,14 @@ namespace g0at
                 return new ast::plus();
             if (oper == L"-")
                 return new ast::minus();
+            if (oper == L"*")
+                return new ast::asterisk();
+            if (oper == L"**")
+                return new ast::double_asterisk();
+            if (oper == L"/")
+                return new ast::slash();
+            if (oper == L"%")
+                return new ast::percent();
             if (oper == L"=")
                 return new ast::assign();
             if (oper == L"==")
