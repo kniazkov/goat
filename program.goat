@@ -2,9 +2,9 @@ import "list.goat";
 
 var list = new List();
 
-list.push(0);
-list.push(1);
-list.push("test");
+list.pushf(0);
+list.pushf(1);
+list.pushf("test");
 
 for (var item in list)
 {

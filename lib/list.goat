@@ -45,6 +45,22 @@ var List =
         count++;
     },
 
+    pushf : $(value)
+    {
+        var item =
+        {
+            previous : null,
+            next : first,
+            value : value
+        };
+        if (first != null)
+            first.previous = item;
+        else
+            last = item;
+        first = item;
+        count++;
+    },
+
     iterator : $()
     {
         return new _Iterator(first);
