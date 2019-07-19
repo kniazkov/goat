@@ -360,7 +360,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_plus_plus), new object_integer_unary_operator<lib::func::inc>(pool));
             add_object(pool->get_static_string(resource::str_oper_minus_minus), new object_integer_unary_operator<lib::func::dec>(pool));
             add_object(pool->get_static_string(resource::str_oper_plus), new object_integer_binary_math_operator<lib::func::plus>(pool));
-            add_object(pool->get_static_string(resource::str_oper_plus), new object_integer_binary_unary_math_operator<lib::func::minus, lib::func::neg>(pool));
+            add_object(pool->get_static_string(resource::str_oper_minus), new object_integer_binary_unary_math_operator<lib::func::minus, lib::func::neg>(pool));
             add_object(pool->get_static_string(resource::str_oper_asterisk), new object_integer_binary_math_operator<lib::func::mul>(pool));
             add_object(pool->get_static_string(resource::str_oper_double_asterisk), new object_integer_binary_math_operator<lib::func::exp>(pool));
             add_object(pool->get_static_string(resource::str_oper_slash), new object_integer_binary_math_operator<lib::func::div>(pool));
