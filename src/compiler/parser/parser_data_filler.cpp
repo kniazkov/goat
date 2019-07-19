@@ -60,6 +60,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/keyword_continue.h"
 #include "compiler/ast/keyword_switch.h"
 #include "compiler/ast/decrement.h"
+#include "compiler/ast/asterisk.h"
+#include "compiler/ast/double_asterisk.h"
+#include "compiler/ast/slash.h"
+#include "compiler/ast/percent.h"
 
 namespace g0at
 {
@@ -267,6 +271,26 @@ namespace g0at
         void parser_data_filler::visit(ast::decrement *ref)
         {
             data->opers_incr_decr.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::asterisk *ref)
+        {
+            data->opers_mul_div_mod.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::double_asterisk *ref)
+        {
+            data->opers_exp.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::slash *ref)
+        {
+            data->opers_mul_div_mod.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::percent *ref)
+        {
+            data->opers_mul_div_mod.add(ref);
         }
     };
 };
