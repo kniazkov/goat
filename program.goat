@@ -2,11 +2,12 @@ import "list.goat";
 
 var list = new List();
 
-list.pushf(0);
-list.pushf(1);
-list.pushf("test");
+list.push(0);
+list.push(1);
+list.push("test");
 
-for (var item in list)
+while(list.count != 0)
 {
+    var item = list.pop();
     println(item);
 }

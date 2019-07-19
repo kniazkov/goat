@@ -40,7 +40,7 @@ namespace g0at
         void _var::exec(model::thread *thr)
         {
             model::object_string *key = thr->pool->get_static_string(id);
-            model::variable value = thr->pop();
+            model::variable value = thr->pop().deref();
             thr->ctx->add_object(key, value);
         }
     };

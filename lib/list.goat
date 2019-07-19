@@ -61,6 +61,21 @@ var List =
         count++;
     },
 
+    pop : $()
+    {
+        if (last == null)
+            return undefined;
+        count--;
+        var item = last;
+        if (count != 0)
+            item.previous.next = null;
+        else
+            first = null;
+        last = item.previous;
+        item.previous = null;
+        return item.value;
+    },
+
     iterator : $()
     {
         return new _Iterator(first);
