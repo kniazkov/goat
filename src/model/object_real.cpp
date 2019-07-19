@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_string.h"
 #include "object_function_built_in.h"
 #include "thread.h"
+#include "resource/strings.h"
 #include "lib/functional.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
@@ -101,6 +102,21 @@ namespace g0at
         void object_real::op_dec(thread *thr)
         {
             unary_operation<lib::func::dec>(thr);
+        }
+
+        void object_real::op_mul(thread *thr)
+        {
+            binary_math_operation<lib::func::mul>(thr);
+        }
+
+        void object_real::op_exp(thread *thr)
+        {
+            binary_math_operation<lib::func::exp>(thr);
+        }
+
+        void object_real::op_div(thread *thr)
+        {
+            binary_math_operation<lib::func::div>(thr);
         }
 
         void object_real::op_eq(thread *thr)
@@ -298,10 +314,13 @@ namespace g0at
 
         void object_real_proto::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(L"++"), new object_real_unary_operator<lib::func::inc>(pool));
-            add_object(pool->get_static_string(L"--"), new object_real_unary_operator<lib::func::dec>(pool));
-            add_object(pool->get_static_string(L"+"), new object_real_binary_math_operator<lib::func::plus>(pool));
-            add_object(pool->get_static_string(L"-"), new object_real_binary_unary_math_operator<lib::func::minus, lib::func::neg>(pool));
+            add_object(pool->get_static_string(resource::str_oper_plus_plus), new object_real_unary_operator<lib::func::inc>(pool));
+            add_object(pool->get_static_string(resource::str_oper_minus_minus), new object_real_unary_operator<lib::func::dec>(pool));
+            add_object(pool->get_static_string(resource::str_oper_plus), new object_real_binary_math_operator<lib::func::plus>(pool));
+            add_object(pool->get_static_string(resource::str_oper_minus), new object_real_binary_unary_math_operator<lib::func::minus, lib::func::neg>(pool));
+            add_object(pool->get_static_string(resource::str_oper_asterisk), new object_real_binary_math_operator<lib::func::mul>(pool));
+            add_object(pool->get_static_string(resource::str_oper_double_asterisk), new object_real_binary_math_operator<lib::func::exp>(pool));
+            add_object(pool->get_static_string(resource::str_oper_slash), new object_real_binary_math_operator<lib::func::div>(pool));
         }
 
         /*
@@ -368,6 +387,21 @@ namespace g0at
             void op_dec(variable *var, thread *thr)  override
             {
                 unary_operation<lib::func::dec>(var, thr);
+            }
+
+            void op_mul(variable *var, thread *thr)  override
+            {
+                binary_math_operation<lib::func::mul>(var, thr);
+            }
+
+            void op_exp(variable *var, thread *thr)  override
+            {
+                binary_math_operation<lib::func::exp>(var, thr);
+            }
+
+            void op_div(variable *var, thread *thr)  override
+            {
+                binary_math_operation<lib::func::div>(var, thr);
             }
 
             void op_eq(variable *var, thread *thr)  override
