@@ -129,6 +129,10 @@ namespace g0at
             static void c_break(source *src, code *dst);
             static void c_cont(source *src, code *dst);
             static void c_dec(source *src, code *dst);
+            static void c_mul(source *src, code *dst);
+            static void c_exp(source *src, code *dst);
+            static void c_div(source *src, code *dst);
+            static void c_mod(source *src, code *dst);
 
             std::map<op, creator> cc;
         };

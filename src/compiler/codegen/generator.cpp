@@ -65,6 +65,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/suffix_increment.h"
 #include "compiler/pt/prefix_decrement.h"
 #include "compiler/pt/suffix_decrement.h"
+#include "compiler/pt/multiplication.h"
+#include "compiler/pt/exponentiation.h"
+#include "compiler/pt/division.h"
+#include "compiler/pt/remainder.h"
 
 #include "code/string.h"
 #include "code/load.h"
@@ -125,6 +129,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/break.h"
 #include "code/cont.h"
 #include "code/dec.h"
+#include "code/mul.h"
+#include "code/exp.h"
+#include "code/div.h"
+#include "code/mod.h"
 
 namespace g0at
 {
@@ -741,6 +749,34 @@ namespace g0at
             code->add_instruction(new _dec());
             ref->get_left()->accept(lgen.get());
             code->add_instruction(new _pop());
+        }
+
+        void generator::visit(pt::multiplication *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _mul());
+        }
+
+        void generator::visit(pt::exponentiation *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _exp());
+        }
+
+        void generator::visit(pt::division *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _div());
+        }
+
+        void generator::visit(pt::remainder *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _mod());
         }
     };
 };

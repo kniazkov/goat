@@ -103,6 +103,10 @@ namespace g0at
             _neg,
             _inc,
             _dec,
+            _mul,
+            _exp,
+            _div,
+            _mod,
 
             _eq,
             _neq,

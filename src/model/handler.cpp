@@ -90,6 +90,26 @@ namespace g0at
             thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_minus_minus));
         }
 
+        void handler::op_mul(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_asterisk));
+        }
+
+        void handler::op_exp(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_double_asterisk));
+        }
+
+        void handler::op_div(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_slash));
+        }
+
+        void handler::op_mod(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_percent));
+        }
+
         void handler::op_eq(variable *var, thread *thr)
         {
             assert(false);

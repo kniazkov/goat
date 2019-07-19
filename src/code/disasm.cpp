@@ -434,5 +434,25 @@ namespace g0at
         {
             stream << L"dec";
         }
+
+        void disasm::visit(_mul *ref)
+        {
+            stream << L"mul";
+        }
+
+        void disasm::visit(_exp *ref)
+        {
+            stream << L"exp";
+        }
+
+        void disasm::visit(_div *ref)
+        {
+            stream << L"div";
+        }
+
+        void disasm::visit(_mod *ref)
+        {
+            stream << L"mod";
+        }
     };
 };

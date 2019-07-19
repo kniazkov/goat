@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object.h"
 #include "object_pool.h"
+#include "resource/strings.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -52,7 +53,7 @@ namespace g0at
         void generic_object::m_clone(thread *thr, int arg_count)
         {
             // find and call own 'clone()' method
-            find_and_vcall(thr, arg_count, L"clone");
+            find_and_vcall(thr, arg_count, resource::str_clone);
         }
     };
 };

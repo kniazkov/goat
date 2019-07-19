@@ -99,6 +99,10 @@ namespace g0at
             void visit(_break *ref) override;
             void visit(_cont *ref) override;
             void visit(_dec *ref) override;
+            void visit(_mul *ref) override;
+            void visit(_exp *ref) override;
+            void visit(_div *ref) override;
+            void visit(_mod *ref) override;
 
         protected:
             std::vector<uint8_t> &buff;

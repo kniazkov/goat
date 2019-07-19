@@ -22,6 +22,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include <cmath>
+
 namespace g0at
 {
     namespace lib
@@ -78,6 +80,38 @@ namespace g0at
                 static R calculate(const X &x, const Y &y)
                 {
                     return x - y;
+                }
+            };
+
+            template <typename R, typename X, typename Y> struct mul : public binary <R, X, Y>
+            {
+                static R calculate(const X &x, const Y &y)
+                {
+                    return x * y;
+                }
+            };
+
+            template <typename R, typename X, typename Y> struct div : public binary <R, X, Y>
+            {
+                static R calculate(const X &x, const Y &y)
+                {
+                    return x / y;
+                }
+            };
+
+            template <typename R, typename X, typename Y> struct mod : public binary <R, X, Y>
+            {
+                static R calculate(const X &x, const Y &y)
+                {
+                    return x % (X)y;
+                }
+            };
+
+            template <typename R, typename X, typename Y> struct exp : public binary <R, X, Y>
+            {
+                static R calculate(const X &x, const Y &y)
+                {
+                    return (R)pow(x, y);
                 }
             };
 

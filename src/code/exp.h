@@ -20,28 +20,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "strings.h"
+#pragma once
+
+#include "instruction.h"
 
 namespace g0at
 {
-    namespace resource
+    namespace code
     {
-        std::wstring str_oper_plus = L"+";
-        std::wstring str_oper_minus = L"-";
-        std::wstring str_oper_plus_plus = L"++";
-        std::wstring str_oper_minus_minus = L"--";
-        std::wstring str_oper_asterisk = L"*";
-        std::wstring str_oper_double_asterisk = L"**";
-        std::wstring str_oper_slash = L"/";
-        std::wstring str_oper_percent = L"%";
-
-        std::wstring str_instanceof = L"instanceof";
-        std::wstring str_flat = L"flat";
-        std::wstring str_get = L"get";
-        std::wstring str_set = L"set";
-        std::wstring str_iterator = L"iterator";
-        std::wstring str_next = L"next";
-        std::wstring str_valid = L"valid";
-        std::wstring str_clone = L"clone";
+        class _exp : public instruction
+        {
+        public:
+            void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
+        };
     };
 };

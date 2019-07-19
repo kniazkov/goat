@@ -20,28 +20,21 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "strings.h"
+#include "div.h"
 
 namespace g0at
 {
-    namespace resource
+    namespace code
     {
-        std::wstring str_oper_plus = L"+";
-        std::wstring str_oper_minus = L"-";
-        std::wstring str_oper_plus_plus = L"++";
-        std::wstring str_oper_minus_minus = L"--";
-        std::wstring str_oper_asterisk = L"*";
-        std::wstring str_oper_double_asterisk = L"**";
-        std::wstring str_oper_slash = L"/";
-        std::wstring str_oper_percent = L"%";
+        void _div::accept(instruction_visitor *visitor)
+        {
+            visitor->visit(this);
+        }
 
-        std::wstring str_instanceof = L"instanceof";
-        std::wstring str_flat = L"flat";
-        std::wstring str_get = L"get";
-        std::wstring str_set = L"set";
-        std::wstring str_iterator = L"iterator";
-        std::wstring str_next = L"next";
-        std::wstring str_valid = L"valid";
-        std::wstring str_clone = L"clone";
+        void _div::exec(model::thread *thr)
+        {
+            model::variable left = thr->peek();
+            left.op_div(thr);
+        }
     };
 };

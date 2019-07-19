@@ -507,5 +507,25 @@ namespace g0at
         {
             push_opcode(op::_dec);
         }
+
+        void serializer::visit(_mul *ref)
+        {
+            push_opcode(op::_mul);
+        }
+
+        void serializer::visit(_exp *ref)
+        {
+            push_opcode(op::_exp);
+        }
+
+        void serializer::visit(_div *ref)
+        {
+            push_opcode(op::_div);
+        }
+
+        void serializer::visit(_mod *ref)
+        {
+            push_opcode(op::_mod);
+        }
     };
 };

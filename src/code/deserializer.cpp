@@ -88,6 +88,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "break.h"
 #include "cont.h"
 #include "dec.h"
+#include "mul.h"
+#include "exp.h"
+#include "div.h"
+#include "mod.h"
 
 namespace g0at
 {
@@ -583,6 +587,26 @@ namespace g0at
             dst->add_instruction(new _dec());
         }
 
+        void deserializer::c_mul(source *src, code *dst)
+        {
+            dst->add_instruction(new _mul());
+        }
+
+        void deserializer::c_exp(source *src, code *dst)
+        {
+            dst->add_instruction(new _exp());
+        }
+
+        void deserializer::c_div(source *src, code *dst)
+        {
+            dst->add_instruction(new _div());
+        }
+
+        void deserializer::c_mod(source *src, code *dst)
+        {
+            dst->add_instruction(new _mod());
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -645,6 +669,10 @@ namespace g0at
             cc[op::_break]   = c_break;
             cc[op::_cont]    = c_cont;
             cc[op::_dec]     = c_dec;
+            cc[op::_mul]     = c_mul;
+            cc[op::_exp]     = c_exp;
+            cc[op::_div]     = c_div;
+            cc[op::_mod]     = c_mod;
         }
     };
 };

@@ -86,6 +86,10 @@ namespace g0at
         class _break;
         class _cont;
         class _dec;
+        class _mul;
+        class _div;
+        class _mod;
+        class _exp;
 
         class instruction_visitor
         {
@@ -152,6 +156,10 @@ namespace g0at
             virtual void visit(_break *ref) = 0;
             virtual void visit(_cont *ref) = 0;
             virtual void visit(_dec *ref) = 0;
+            virtual void visit(_mul *ref) = 0;
+            virtual void visit(_exp *ref) = 0;
+            virtual void visit(_div *ref) = 0;
+            virtual void visit(_mod *ref) = 0;
         };
     };
 };

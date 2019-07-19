@@ -93,6 +93,10 @@ namespace g0at
             void visit(pt::suffix_increment *ref) override;
             void visit(pt::prefix_decrement *ref) override;
             void visit(pt::suffix_decrement *ref) override;
+            void visit(pt::multiplication *ref) override;
+            void visit(pt::exponentiation *ref) override;
+            void visit(pt::division *ref) override;
+            void visit(pt::remainder *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

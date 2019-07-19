@@ -107,6 +107,10 @@ namespace g0at
             inline void op_neg(thread *thr);
             inline void op_inc(thread *thr);
             inline void op_dec(thread *thr);
+            inline void op_mul(thread *thr);
+            inline void op_exp(thread *thr);
+            inline void op_div(thread *thr);
+            inline void op_mod(thread *thr);
             inline void op_eq(thread *thr);
             inline void op_neq(thread *thr);
             inline void op_less(thread *thr);
@@ -208,6 +212,10 @@ namespace g0at
             virtual void op_neg(thread *thr);
             virtual void op_inc(thread *thr);
             virtual void op_dec(thread *thr);
+            virtual void op_mul(thread *thr);
+            virtual void op_exp(thread *thr);
+            virtual void op_div(thread *thr);
+            virtual void op_mod(thread *thr);
             virtual void op_eq(thread *thr);
             virtual void op_neq(thread *thr);
             virtual void op_less(thread *thr);
@@ -283,6 +291,10 @@ namespace g0at
             virtual void op_neg(variable *var, thread *thr);
             virtual void op_inc(variable *var, thread *thr);
             virtual void op_dec(variable *var, thread *thr);
+            virtual void op_mul(variable *var, thread *thr);
+            virtual void op_exp(variable *var, thread *thr);
+            virtual void op_div(variable *var, thread *thr);
+            virtual void op_mod(variable *var, thread *thr);
             virtual void op_eq(variable *var, thread *thr);
             virtual void op_neq(variable *var, thread *thr);
             virtual void op_less(variable *var, thread *thr);
@@ -427,6 +439,26 @@ namespace g0at
         void variable::op_dec(thread *thr)
         {
             hndl->op_dec(this, thr);
+        }
+
+        void variable::op_mul(thread *thr)
+        {
+            hndl->op_mul(this, thr);
+        }
+
+        void variable::op_exp(thread *thr)
+        {
+            hndl->op_exp(this, thr);
+        }
+
+        void variable::op_div(thread *thr)
+        {
+            hndl->op_div(this, thr);
+        }
+
+        void variable::op_mod(thread *thr)
+        {
+            hndl->op_mod(this, thr);
         }
 
         void variable::op_eq(thread *thr)

@@ -424,6 +424,30 @@ namespace g0at
                 thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_minus_minus));
         }
 
+        void object::op_mul(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_asterisk))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_asterisk));
+        }
+
+        void object::op_exp(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_double_asterisk))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_double_asterisk));
+        }
+
+        void object::op_div(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_slash))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_slash));
+        }
+
+        void object::op_mod(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_percent))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_percent));
+        }
+
         void object::op_eq(thread *thr)
         {
             thr->pop();
