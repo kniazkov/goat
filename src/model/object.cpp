@@ -408,7 +408,8 @@ namespace g0at
 
         void object::op_neg(thread *thr)
         {
-            assert(false); // not implemented
+            if (!find_and_vcall(thr, 0, resource::str_oper_minus))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_minus));
         }
 
         void object::op_inc(thread *thr)

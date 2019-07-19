@@ -203,6 +203,51 @@ namespace g0at
             }
         };
 
+        template <template<typename R, typename X, typename Y> class F1, template<typename R, typename A> class F2>
+        class object_real_binary_unary_math_operator : public object_function_built_in
+        {
+        public:
+            object_real_binary_unary_math_operator(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_real *this_ptr_real = this_ptr->to_object_real();
+                if (!this_ptr_real)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                variable result;
+                if (arg_count < 1)
+                {
+                    result.set_real(F2<double, double>::calculate(this_ptr_real->get_value()));
+                    thr->push(result);
+                    return;
+                }
+                variable right = thr->peek();
+                thr->pop(arg_count);
+                double right_real_value;
+                bool right_is_real = right.get_real(&right_real_value);
+                if (!right_is_real)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                result.set_real(F1<double, double, double>::calculate(this_ptr_real->get_value(), right_real_value));
+                thr->push(result);
+            }
+        };
+
         template <template<typename R, typename X, typename Y> class F> class object_real_binary_math_operator : public object_function_built_in
         {
         public:
@@ -256,7 +301,7 @@ namespace g0at
             add_object(pool->get_static_string(L"++"), new object_real_unary_operator<lib::func::inc>(pool));
             add_object(pool->get_static_string(L"--"), new object_real_unary_operator<lib::func::dec>(pool));
             add_object(pool->get_static_string(L"+"), new object_real_binary_math_operator<lib::func::plus>(pool));
-            add_object(pool->get_static_string(L"-"), new object_real_binary_math_operator<lib::func::minus>(pool));
+            add_object(pool->get_static_string(L"-"), new object_real_binary_unary_math_operator<lib::func::minus, lib::func::neg>(pool));
         }
 
         /*

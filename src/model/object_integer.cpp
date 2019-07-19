@@ -225,6 +225,59 @@ namespace g0at
             }
         };
 
+        template <template<typename R, typename X, typename Y> class F1, template<typename R, typename A> class F2>
+        class object_integer_binary_unary_math_operator : public object_function_built_in
+        {
+        public:
+            object_integer_binary_unary_math_operator(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_integer *this_ptr_integer = this_ptr->to_object_integer();
+                if (!this_ptr_integer)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                variable result;
+                if (arg_count < 1)
+                {
+                    result.set_integer(F2<int64_t, int64_t>::calculate(this_ptr_integer->get_value()));
+                    thr->push(result);
+                    return;
+                }
+                variable right = thr->peek();
+                thr->pop(arg_count);
+                int64_t right_int_value;
+                bool right_is_integer = right.get_integer(&right_int_value);
+                if (right_is_integer)
+                {
+                    result.set_integer(F1<int64_t, int64_t, int64_t>::calculate(this_ptr_integer->get_value(), right_int_value));
+                    thr->push(result);
+                    return;
+                }
+                double right_real_value;
+                bool right_is_real = right.get_real(&right_real_value);
+                if (!right_is_real)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                result.set_real(F1<double, int64_t, double>::calculate(this_ptr_integer->get_value(), right_real_value));
+                thr->push(result);
+            }
+        };
+
         template <template<typename R, typename X, typename Y> class F> class object_integer_binary_math_operator : public object_function_built_in
         {
         public:
@@ -286,7 +339,7 @@ namespace g0at
             add_object(pool->get_static_string(L"++"), new object_integer_unary_operator<lib::func::inc>(pool));
             add_object(pool->get_static_string(L"--"), new object_integer_unary_operator<lib::func::dec>(pool));
             add_object(pool->get_static_string(L"+"), new object_integer_binary_math_operator<lib::func::plus>(pool));
-            add_object(pool->get_static_string(L"-"), new object_integer_binary_math_operator<lib::func::minus>(pool));
+            add_object(pool->get_static_string(L"-"), new object_integer_binary_unary_math_operator<lib::func::minus, lib::func::neg>(pool));
         }
 
         /*
