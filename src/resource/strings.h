@@ -29,7 +29,17 @@ namespace g0at
     namespace resource
     {
         extern std::wstring str_oper_plus;
+        extern std::wstring str_oper_minus;
         extern std::wstring str_oper_plus_plus;
         extern std::wstring str_oper_minus_minus;
+
+        extern std::wstring str_instanceof;
+        extern std::wstring str_flat;
+        extern std::wstring str_get;
+        extern std::wstring str_set;
+        extern std::wstring str_iterator;
+        extern std::wstring str_next;
+        extern std::wstring str_valid;
+        extern std::wstring str_clone;
     };
 };

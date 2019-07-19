@@ -35,6 +35,14 @@ namespace g0at
         static size_t __heap_size = UINTPTR_MAX;
         static gc *__gc = nullptr;
         
+        void reset_memory_allocator()
+        {
+            __allocated_blocks_count = 0;
+            __used_memory_size = 0;
+            __cached_memory_size = 0;
+            __max_used_memory_size = 0;
+        }
+
         int get_allocated_blocks_count()
         {
             return __allocated_blocks_count;

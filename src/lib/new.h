@@ -30,6 +30,7 @@ namespace g0at
 {
     namespace lib
     {
+        void reset_memory_allocator();
         int get_allocated_blocks_count();
         size_t get_used_memory_size();
         size_t get_cached_memory_size();

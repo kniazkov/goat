@@ -80,7 +80,8 @@ namespace g0at
         try
         {
             int ret_val = 0;
-            // we need do..while wrapper to release memory before checking for memory leaks
+            lib::reset_memory_allocator();
+            // we use 'do..while' wrapper to release memory before checking for memory leaks
             do
             {
                 launcher l_obj(argc, argv);

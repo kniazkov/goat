@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_string.h"
 #include "object_function_built_in.h"
 #include "object_exception.h"
+#include "resource/strings.h"
 #include "lib/assert.h"
 #include <sstream>
 
@@ -395,13 +396,14 @@ namespace g0at
 
         void object::op_add(thread *thr)
         {
-            if (!find_and_vcall(thr, 1, L"+"))
-                thr->raise_exception(new object_exception_operator_not_found(thr->pool, L"+"));
+            if (!find_and_vcall(thr, 1, resource::str_oper_plus))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_plus));
         }
 
         void object::op_sub(thread *thr)
         {
-            assert(false); // not implemented
+            if (!find_and_vcall(thr, 1, resource::str_oper_minus))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_minus));
         }
 
         void object::op_neg(thread *thr)
@@ -411,12 +413,14 @@ namespace g0at
 
         void object::op_inc(thread *thr)
         {
-            find_and_vcall(thr, 0, L"++");
-        }
+            if (!find_and_vcall(thr, 1, resource::str_oper_plus_plus))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_plus_plus));
+         }
 
         void object::op_dec(thread *thr)
         {
-            find_and_vcall(thr, 0, L"--");
+            if (!find_and_vcall(thr, 1, resource::str_oper_minus_minus))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_minus_minus));
         }
 
         void object::op_eq(thread *thr)
@@ -461,43 +465,43 @@ namespace g0at
         void object::m_instance_of(thread *thr, int arg_count)
         {
             // find and call own 'instanceof()' method
-            find_and_vcall(thr, arg_count, L"instanceof");
+            find_and_vcall(thr, arg_count, resource::str_instanceof);
         }
 
         void object::m_flat(thread *thr, int arg_count)
         {
             // find and call own 'flat()' method
-            find_and_vcall(thr, arg_count, L"flat");
+            find_and_vcall(thr, arg_count, resource::str_flat);
         }
 
         void object::m_get(thread *thr, int arg_count)
         {
             // find and call own 'get()' method
-            find_and_vcall(thr, arg_count, L"get");
+            find_and_vcall(thr, arg_count, resource::str_get);
         }
 
         void object::m_set(thread *thr, int arg_count)
         {
             // find and call own 'set()' method
-            find_and_vcall(thr, arg_count, L"set");
+            find_and_vcall(thr, arg_count, resource::str_set);
         }
 
         void object::m_iterator(thread *thr, int arg_count)
         {
             // find and call own 'iterator()' method
-            find_and_vcall(thr, arg_count, L"iterator");
+            find_and_vcall(thr, arg_count, resource::str_iterator);
         }
 
         void object::m_next(thread *thr, int arg_count)
         {
             // find and call own 'next()' method
-            find_and_vcall(thr, arg_count, L"next");
+            find_and_vcall(thr, arg_count, resource::str_next);
         }
 
         void object::m_valid(thread *thr, int arg_count)
         {
             // find and call own 'valid()' method
-            find_and_vcall(thr, arg_count, L"valid");
+            find_and_vcall(thr, arg_count, resource::str_valid);
         }
     };
 };

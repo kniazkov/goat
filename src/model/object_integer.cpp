@@ -286,6 +286,7 @@ namespace g0at
             add_object(pool->get_static_string(L"++"), new object_integer_unary_operator<lib::func::inc>(pool));
             add_object(pool->get_static_string(L"--"), new object_integer_unary_operator<lib::func::dec>(pool));
             add_object(pool->get_static_string(L"+"), new object_integer_binary_math_operator<lib::func::plus>(pool));
+            add_object(pool->get_static_string(L"-"), new object_integer_binary_math_operator<lib::func::minus>(pool));
         }
 
         /*
