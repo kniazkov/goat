@@ -1,1 +1,9 @@
-println(16 / 2 ** 3 - 1);
+import "list.goat";
+
+var list = new List();
+list.push(0);
+list.push(1);
+for (var item in list)
+{
+    println(item);
+}
