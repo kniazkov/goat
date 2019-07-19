@@ -69,6 +69,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "suffix_increment.h"
 #include "prefix_decrement.h"
 #include "suffix_decrement.h"
+#include "multiplication.h"
+#include "exponentiation.h"
+#include "division.h"
+#include "remainder.h"
 
 namespace g0at
 {
@@ -877,6 +881,50 @@ namespace g0at
             dbg_output left(env);
             ref->get_left()->accept(&left);
             link_child(left);
+        }
+
+        void dbg_output::visit(multiplication *ref)
+        {
+            print(ref, L"multiplication", L"*");
+            dbg_output left(env);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(env);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(exponentiation *ref)
+        {
+            print(ref, L"exponentiation", L"**");
+            dbg_output left(env);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(env);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(division *ref)
+        {
+            print(ref, L"division", L"/");
+            dbg_output left(env);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(env);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(remainder *ref)
+        {
+            print(ref, L"remainder", L"%");
+            dbg_output left(env);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(env);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
         }
     };
 };

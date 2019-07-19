@@ -67,6 +67,10 @@ namespace g0at
             void visit(ast::suffix_increment *ref) override;
             void visit(ast::prefix_decrement *ref) override;
             void visit(ast::suffix_decrement *ref) override;
+            void visit(ast::multiplication *ref) override;
+            void visit(ast::exponentiation *ref) override;
+            void visit(ast::division *ref) override;
+            void visit(ast::remainder *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

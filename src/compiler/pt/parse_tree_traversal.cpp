@@ -68,6 +68,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "suffix_increment.h"
 #include "prefix_decrement.h"
 #include "suffix_decrement.h"
+#include "multiplication.h"
+#include "exponentiation.h"
+#include "division.h"
+#include "remainder.h"
 
 namespace g0at
 {
@@ -666,6 +670,50 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(suffix_decrement *ref)
+        {
+        }
+        
+        void parse_tree_traversal::visit(multiplication *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(multiplication *ref)
+        {
+        }
+        
+        void parse_tree_traversal::visit(exponentiation *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(exponentiation *ref)
+        {
+        }
+        
+        void parse_tree_traversal::visit(division *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(division *ref)
+        {
+        }
+        
+        void parse_tree_traversal::visit(remainder *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(remainder *ref)
         {
         }
     };

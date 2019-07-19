@@ -74,6 +74,10 @@ namespace g0at
         class suffix_increment;
         class prefix_decrement;
         class suffix_decrement;
+        class multiplication;
+        class exponentiation;
+        class division;
+        class remainder;
 
         class node_visitor
         {
@@ -128,6 +132,10 @@ namespace g0at
             virtual void visit(suffix_increment *ref);
             virtual void visit(prefix_decrement *ref);
             virtual void visit(suffix_decrement *ref);
+            virtual void visit(multiplication *ref);
+            virtual void visit(exponentiation *ref);
+            virtual void visit(division *ref);
+            virtual void visit(remainder *ref);
         };
     };
 };

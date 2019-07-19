@@ -299,5 +299,25 @@ namespace g0at
         {
             return nullptr;
         }
-   }
+
+        multiplication *node::to_multiplication()
+        {
+            return nullptr;
+        }
+
+        exponentiation *node::to_exponentiation()
+        {
+            return nullptr;
+        }
+
+        division *node::to_division()
+        {
+            return nullptr;
+        }
+
+        remainder *node::to_remainder()
+        {
+            return nullptr;
+        }
+    }
 };

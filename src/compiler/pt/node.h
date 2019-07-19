@@ -86,6 +86,10 @@ namespace g0at
         class suffix_increment;
         class prefix_decrement;
         class suffix_decrement;
+        class multiplication;
+        class exponentiation;
+        class division;
+        class remainder;
 
         class node : public lib::ref_counter
         {
@@ -147,7 +151,10 @@ namespace g0at
             virtual suffix_increment *to_suffix_increment();
             virtual prefix_decrement *to_prefix_decrement();
             virtual suffix_decrement *to_suffix_decrement();
-            
+            virtual multiplication *to_multiplication();
+            virtual exponentiation *to_exponentiation();
+            virtual division *to_division();
+            virtual remainder *to_remainder();            
 
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }

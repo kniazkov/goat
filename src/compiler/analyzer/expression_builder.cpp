@@ -87,6 +87,14 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/prefix_decrement.h"
 #include "compiler/ast/suffix_decrement.h"
 #include "compiler/pt/suffix_decrement.h"
+#include "compiler/ast/multiplication.h"
+#include "compiler/pt/multiplication.h"
+#include "compiler/ast/exponentiation.h"
+#include "compiler/pt/exponentiation.h"
+#include "compiler/ast/division.h"
+#include "compiler/pt/division.h"
+#include "compiler/ast/remainder.h"
+#include "compiler/pt/remainder.h"
 
 namespace g0at
 {
@@ -413,6 +421,30 @@ namespace g0at
         void expression_builder::visit(ast::suffix_decrement *ref)
         {
             expr = new pt::suffix_decrement(ref->get_position(), build_expr_for_unary_suffix(ref));
+        }
+
+        void expression_builder::visit(ast::multiplication *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::multiplication(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::exponentiation *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::exponentiation(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::division *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::division(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::remainder *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::remainder(ref->get_position(), pair.first, pair.second);
         }
     };
 };

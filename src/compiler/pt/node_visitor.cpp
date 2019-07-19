@@ -225,5 +225,21 @@ namespace g0at
         void node_visitor::visit(suffix_decrement *ref)
         {
         }
+
+        void node_visitor::visit(multiplication *ref)
+        {
+        }
+
+        void node_visitor::visit(exponentiation *ref)
+        {
+        }
+
+        void node_visitor::visit(division *ref)
+        {
+        }
+
+        void node_visitor::visit(remainder *ref)
+        {
+        }
     }
 };

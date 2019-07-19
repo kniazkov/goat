@@ -107,6 +107,10 @@ namespace g0at
             void visit(suffix_increment *ref) override;
             void visit(prefix_decrement *ref) override;
             void visit(suffix_decrement *ref) override;
+            void visit(multiplication *ref) override;
+            void visit(exponentiation *ref) override;
+            void visit(division *ref) override;
+            void visit(remainder *ref) override;
 
         protected:
             dbg_output(environment &env);
