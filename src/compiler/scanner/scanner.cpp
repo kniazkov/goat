@@ -158,6 +158,7 @@ namespace g0at
             case L'!':
             case L'<':
             case L'>':
+            case L'%':
                 return true;
             default:
                 return false;
