@@ -1,32 +1,26 @@
-var test = $(a, b)
+var Wrapper =
 {
-    try
+    init : $(val)
     {
-        var x = a - b;
-        var f = a["-"];
-        var y = f.call(a, b);
-        if (x == y)
-            println("ok: " + a + " - " + b + " = " + x);
-        else
-            println("fail: " + a + " - " + b + ", x = " + x + " but y = " + y);
-    }
-    catch(err)
+        this.val = val;
+    },
+
+    "<" : $(obj)
     {
-        if (err.instanceof(Exception.IllegalReference.OperatorNotFound))
-            println("fail but ok: " + a + " - " + b);
-        else
-            println("exception: " + err);
+        return val < obj.val;
+    },
+
+    "++" : $()
+    {
+        return new Wrapper(val + 2);
     }
 };
 
-test(2, 3);
-test(2, 3.1);
-test(2.1, 3);
-test(2.1, 3.1);
+var begin = new Wrapper(0);
+var end = new Wrapper(20);
+var obj;
 
-test("abc", "def");
-test('a', 'b');
-test(true, false);
-test(null, null);
-test({ }, { });
-println("done.");
+for (obj = begin; obj < end; ++obj)
+{
+    println(obj.val);
+}

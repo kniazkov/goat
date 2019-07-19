@@ -413,13 +413,13 @@ namespace g0at
 
         void object::op_inc(thread *thr)
         {
-            if (!find_and_vcall(thr, 1, resource::str_oper_plus_plus))
+            if (!find_and_vcall(thr, 0, resource::str_oper_plus_plus))
                 thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_plus_plus));
          }
 
         void object::op_dec(thread *thr)
         {
-            if (!find_and_vcall(thr, 1, resource::str_oper_minus_minus))
+            if (!find_and_vcall(thr, 0, resource::str_oper_minus_minus))
                 thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_minus_minus));
         }
 
