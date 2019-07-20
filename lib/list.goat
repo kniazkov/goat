@@ -76,6 +76,21 @@ var List =
         return item.value;
     },
 
+    popf : $()
+    {
+        if (first == null)
+            return undefined;
+        count--;
+        var item = first;
+        if (count != 0)
+            item.next.previous = null;
+        else
+            last = null;
+        first = item.next;
+        item.next = null;
+        return item.value;
+    },
+
     iterator : $()
     {
         return new _Iterator(first);

@@ -8,6 +8,6 @@ list.push("test");
 
 while(list.count != 0)
 {
-    var item = list.pop();
+    var item = list.popf();
     println(item);
 }
