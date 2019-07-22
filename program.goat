@@ -1,13 +1,2 @@
-import "list.goat";
-
-var list = new List();
-
-list.push(0);
-list.push(1);
-list.push("test");
-
-while(list.count != 0)
-{
-    var item = list.popf();
-    println(item);
-}
+var id = uid();
+println(id);

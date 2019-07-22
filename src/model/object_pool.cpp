@@ -36,6 +36,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_array.h"
 #include "object_exception.h"
 #include "object_char.h"
+#include "object_uid.h"
 #include "object_iterator.h"
 #include "object_runner.h"
 #include "context.h"
@@ -62,6 +63,7 @@ namespace g0at
             real_proto_instance = nullptr;
             array_proto_instance = nullptr;
             char_proto_instance = nullptr;
+            uid_proto_instance = nullptr;
             iterator_proto_instance = nullptr;
             exception_proto_instance = nullptr;
             exception_illegal_argument_instance = nullptr;
@@ -102,6 +104,8 @@ namespace g0at
             array_proto_instance = array_proto;
             auto char_proto = new object_char_proto(this);
             char_proto_instance = char_proto;
+            auto uid_proto = new object_uid_proto(this);
+            uid_proto_instance = uid_proto;
             auto exception_proto = new object_exception_proto(this);
             exception_proto_instance = exception_proto;
             auto iterator_proto = new object_iterator_proto(this);
@@ -112,6 +116,7 @@ namespace g0at
             integer_proto->init(this);
             real_proto->init(this);
             char_proto->init(this);
+            uid_proto->init(this);
             runner_proto->init(this);
             array_proto->init(this);
             iterator_proto->init(this);
@@ -266,6 +271,16 @@ namespace g0at
                 obj->reinit(value);
             else
                 obj = new object_char(this, value);
+            return obj;
+        }
+
+        object_uid * object_pool::create_object_uid()
+        {
+            object_uid *obj = static_cast<object_uid*>(uids.get(this));
+            if (obj)
+                obj->reinit();
+            else
+                obj = new object_uid(this);
             return obj;
         }
     };

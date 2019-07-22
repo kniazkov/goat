@@ -53,6 +53,7 @@ namespace g0at
         class object_exception;
         class object_char;
         class object_runner;
+        class object_uid;
         class handler;
         enum class call_mode;
 
@@ -64,7 +65,8 @@ namespace g0at
             integer,
             real,
             boolean,
-            charact
+            charact,
+            uid
         };
 
         class object_comparator
@@ -182,6 +184,7 @@ namespace g0at
             virtual object_array *to_object_array();
             virtual object_exception *to_object_exception();
             virtual object_char *to_object_char();
+            virtual object_uid *to_object_uid();
             virtual object_runner *to_object_runner();
 
             virtual bool less(const object *obj) const;

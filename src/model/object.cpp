@@ -157,6 +157,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_uid *object::to_object_uid()
+        {
+            return nullptr;
+        }
+
         bool object::less(const object *obj) const
         {
             return this < obj;

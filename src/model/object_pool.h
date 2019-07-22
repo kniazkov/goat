@@ -43,6 +43,7 @@ namespace g0at
         class object_boolean;
         class object_array;
         class object_char;
+        class object_uid;
 
         template <int Factor, int Count> class object_pool_typed
         {
@@ -102,6 +103,7 @@ namespace g0at
             object *get_real_proto_instance() { return real_proto_instance; }
             object *get_array_proto_instance() { return array_proto_instance; }
             object *get_char_proto_instance() { return char_proto_instance; }
+            object *get_uid_proto_instance() { return uid_proto_instance; }
             object *get_iterator_proto_instance() { return iterator_proto_instance; }
             object *get_exception_proto_instance() { return exception_proto_instance; }
             object *get_exception_illegal_argument_instance() { return exception_illegal_argument_instance; }
@@ -125,6 +127,7 @@ namespace g0at
             object_boolean *create_object_boolean(bool value);
             object_array *create_object_array();
             object_char *create_object_char(wchar_t value);
+            object_uid *create_object_uid();
 
             void mark_all_static_strings() { static_strings.mark_all(); }
             object_string *get_static_string(std::wstring name) { return static_strings.get_object(name, this); }
@@ -139,6 +142,7 @@ namespace g0at
             object_pool_typed<1, 64> booleans;
             object_pool_typed<2, 128> arrays;
             object_pool_typed<1, 64> chars;
+            object_pool_typed<1, 64> uids;
 
         private:
             object_pool(const object_pool &) { }
@@ -161,6 +165,7 @@ namespace g0at
             object *real_proto_instance;
             object *array_proto_instance;
             object *char_proto_instance;
+            object *uid_proto_instance;
             object *iterator_proto_instance;
             object *exception_proto_instance;
             object *exception_illegal_argument_instance;

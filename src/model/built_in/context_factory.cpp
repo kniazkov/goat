@@ -55,6 +55,7 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"Thread"), pool->get_thread_proto_instance());
                 ctx->add_object(pool->get_static_string(L"Runner"), pool->get_runner_proto_instance());
                 ctx->add_object(pool->get_static_string(L"Iterator"), pool->get_iterator_proto_instance());
+                ctx->add_object(pool->get_static_string(L"UId"), pool->get_uid_proto_instance());
 
                 ctx->add_object(pool->get_static_string(L"print"), create_function_print());
                 ctx->add_object(pool->get_static_string(L"println"), create_function_println());
@@ -68,6 +69,7 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"clock"), create_function_clock());
                 ctx->add_object(pool->get_static_string(L"me"), create_function_me());
                 ctx->add_object(pool->get_static_string(L"range"), create_function_range());
+                ctx->add_object(pool->get_static_string(L"uid"), create_function_uid());
 
                 model::variable tmp;
                 tmp.set_real(std::atan((double)1.0) * 4);

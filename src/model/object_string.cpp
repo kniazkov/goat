@@ -224,7 +224,7 @@ namespace g0at
                         break;
                     }
                 }
-                result.set_boolean(false);
+                result.set_boolean(Def);
             } while (false);
             thr->push(result);
         }
