@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/dot.h"
 #include "compiler/ast/identifier.h"
 #include "compiler/ast/brackets_pair.h"
+#include "compiler/ast/index_access.h"
 #include "compiler/ast/method_call.h"
 #include "lib/assert.h"
 
@@ -57,6 +58,9 @@ namespace g0at
 
                 if (!dot->next)
                     throw expected_an_identifier_after_dot(dot->get_position());
+
+                if (dot->next->to_index_access())
+                    return false; 
 
                 ast::identifier *right = dot->next->to_identifier();
                 if (!right)

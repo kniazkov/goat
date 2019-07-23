@@ -37,6 +37,7 @@ namespace g0at
             void accept(token_visitor *visitor) override;
             index_access *to_index_access() override;
 
+            void set_expression(lib::pointer<expression> _expr) { expr = _expr; }
             lib::pointer<expression> get_expression() { return expr; }
             token_list *get_args_list() { return &args; }
 
