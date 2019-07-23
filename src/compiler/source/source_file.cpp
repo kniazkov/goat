@@ -34,7 +34,7 @@ namespace g0at
     class source_file_position : public position
     {
     public:
-        source_file_position(const char *_file_name, int _index, int _row, int _column)
+        source_file_position(std::string _file_name, int _index, int _row, int _column)
             : file_name(_file_name), index(_index), row(_row), column(_column)
         {
         }
@@ -47,20 +47,19 @@ namespace g0at
         std::wstring to_string() override
         {
             std::wstringstream wss;
-            wss << lib::file_name_from_full_path(file_name) << L", " << row << L"." << column;
+            wss << lib::file_name_from_full_path(file_name).c_str() << L", " << row << L"." << column;
             return wss.str();
         }
 
     protected:
-        const char *file_name;
+        std::string file_name;
         int index;
         int row;
         int column;
     };
 
-    source_file::source_file(const char *_file_name)
+    source_file::source_file(std::string _file_name)
     {
-        assert(_file_name != nullptr);
         std::string temp;
         std::ifstream stream(_file_name);
         if (stream.good() == false)

@@ -59,7 +59,7 @@ namespace g0at
             wchar_t val;
         };
 
-        const char *file_name_from_full_path(const char *path);
+        std::string file_name_from_full_path(std::string path);
         std::wstring double_to_wstring(double value);
         std::wstring double_to_wstring(double value, int precision);
         std::wstring escape_special_chars(std::wstring src);

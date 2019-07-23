@@ -30,14 +30,14 @@ namespace g0at
     class source_file : public source
     {
     public:
-        source_file(const char *_file_name);
+        source_file(std::string _file_name);
         wchar_t get_char() override;
         wchar_t get_char(int offset) override;
         wchar_t next() override;
         lib::pointer<position> get_position() override;
 
     protected:
-        const char *file_name;
+        std::string file_name;
         std::wstring data;
         int index;
         int max_index;

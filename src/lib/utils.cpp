@@ -33,19 +33,17 @@ namespace g0at
 {
     namespace lib
     {
-        const char *file_name_from_full_path(const char *path)
+        std::string file_name_from_full_path(std::string path)
         {
-            if (!path)
-                return nullptr;
-
-            const char *begin = path;
-            while (*path)
+            const char *ptr = path.c_str();
+            const char *begin = ptr;
+            while (*ptr)
             {
-                if (*path == '\\' || *path == '/')
-                    begin = path + 1;
-                path++;
+                if (*ptr == '\\' || *ptr == '/')
+                    begin = ptr + 1;
+                ptr++;
             }
-            return begin;
+            return std::string(begin);
         }
 
         std::wstring double_to_wstring(double value)

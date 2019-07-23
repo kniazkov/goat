@@ -54,10 +54,10 @@ namespace g0at
                 return L"не указан файл с исходным кодом";
             }
 
-            std::wstring file_not_found(const char *file_name) override
+            std::wstring file_not_found(std::string file_name) override
             {
                 std::wstringstream wss;
-                wss << L"файл \'" << file_name << L"\' не найден";
+                wss << L"файл \'" << file_name.c_str() << L"\' не найден";
                 return wss.str();
             }
 

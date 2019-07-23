@@ -43,7 +43,7 @@ namespace g0at
         class file_not_found : public lib::exception
         {
         public:
-            file_not_found(const char *file_name)
+            file_not_found(std::string file_name)
                 : exception(global::resource->file_not_found(file_name))
             {
             }

@@ -54,10 +54,10 @@ namespace g0at
                 return L"no input file";
             }
 
-            std::wstring file_not_found(const char *file_name) override
+            std::wstring file_not_found(std::string file_name) override
             {
                 std::wstringstream wss;
-                wss << L"file \'" << file_name << L"\' not found";
+                wss << L"file \'" << file_name.c_str() << L"\' not found";
                 return wss.str();
             }
 

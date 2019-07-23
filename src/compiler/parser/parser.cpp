@@ -280,8 +280,8 @@ namespace g0at
                     if (imported.find(full_path) == imported.end())
                     {
                         imported.insert(full_path);
-                        source_file src(full_path.c_str());
-                        scanner scan2(&src);
+                        source_file src2(full_path);
+                        scanner scan2(&src2);
                         parse_brackets_and_fill_data(&scan2, dst, data_filler, L'\0', imported, lib_path);
                     }
                 }
