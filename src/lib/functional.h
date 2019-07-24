@@ -52,6 +52,14 @@ namespace g0at
                 }
             };
 
+            template <typename R, typename A> struct inv : public unary <R, A>
+            {
+                static R calculate(const A &a)
+                {
+                    return ~a;
+                }
+            };
+
             template <typename R, typename A> struct inc : public unary <R, A>
             {
                 static R calculate(const A &a)

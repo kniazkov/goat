@@ -114,6 +114,11 @@ namespace g0at
             unary_operation<lib::func::dec>(thr);
         }
 
+        void object_integer::op_inv(thread *thr)
+        {
+            unary_operation<lib::func::inv>(thr);
+        }
+
         void object_integer::op_mul(thread *thr)
         {
             binary_math_operation<lib::func::mul>(thr);
@@ -364,6 +369,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_oper_plus_plus), new object_integer_unary_operator<lib::func::inc>(pool));
             add_object(pool->get_static_string(resource::str_oper_minus_minus), new object_integer_unary_operator<lib::func::dec>(pool));
+            add_object(pool->get_static_string(resource::str_oper_tilde), new object_integer_unary_operator<lib::func::inv>(pool));
             add_object(pool->get_static_string(resource::str_oper_plus), new object_integer_binary_unary_math_operator<lib::func::plus, lib::func::pos>(pool));
             add_object(pool->get_static_string(resource::str_oper_minus), new object_integer_binary_unary_math_operator<lib::func::minus, lib::func::neg>(pool));
             add_object(pool->get_static_string(resource::str_oper_asterisk), new object_integer_binary_math_operator<lib::func::mul>(pool));
@@ -442,6 +448,11 @@ namespace g0at
             void op_dec(variable *var, thread *thr)  override
             {
                 unary_operation<lib::func::dec>(var, thr);
+            }
+
+            void op_inv(variable *var, thread *thr)  override
+            {
+                unary_operation<lib::func::inv>(var, thr);
             }
 
             void op_mul(variable *var, thread *thr)  override
