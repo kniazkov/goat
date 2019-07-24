@@ -1,12 +1,3 @@
-var obj = 
-{
-    value :
-    {
-        value :
-        {
-            value : 1
-        }
-    }
-};
-
-println(obj.value.value["value"]);
+var s = "text";
+s["value"] = 7;
+println(s.value);

@@ -194,8 +194,22 @@ namespace g0at
 
         void object_string::m_set(thread *thr, int arg_count)
         {
-            // Strings are immutable
-            thr->raise_exception(thr->pool->get_exception_illegal_operation_instance());
+            if (arg_count < 1)
+            {
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                return;
+            }
+            variable index = thr->peek(1);
+            int64_t int_index;
+            if (index.get_integer(&int_index))
+            {
+                // Strings are immutable
+                thr->raise_exception(thr->pool->get_exception_illegal_operation_instance());
+            }
+            else
+            {
+                thr->pool->get_string_proto_instance()->m_set(thr, arg_count);
+            }
         }
 
         void object_string::m_iterator(thread *thr, int arg_count)
