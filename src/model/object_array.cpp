@@ -197,20 +197,21 @@ namespace g0at
                 thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
                 return;
             }
-            thr->pop();
             if (arg_count < 2)
             {
+                thr->pop();
                 variable value = thr->peek();
                 vector.push_back(value);
             }
             else
             {
-                variable index = thr->peek(0);
-                variable value = thr->peek(arg_count - 1);
-                thr->pop(arg_count);
+                variable index = thr->peek(1);
                 int64_t int_index;
                 if (index.get_integer(&int_index))
                 {
+                    thr->pop();
+                    variable value = thr->peek(arg_count - 1);
+                    thr->pop(arg_count);
                     if (int_index >= 0 && int_index < INT32_MAX)
                     {
                         if (int_index < vector.size())
@@ -230,8 +231,12 @@ namespace g0at
                         thr->push(value);
                         return;
                     }
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
                 }
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                else
+                {
+                    thr->pool->get_array_proto_instance()->m_set(thr, arg_count);
+                }
             }
         }
 
