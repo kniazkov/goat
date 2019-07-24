@@ -122,6 +122,7 @@ namespace g0at
         class exponentiation;
         class division;
         class remainder;
+        class unary_plus;
 
         class token_visitor
         {
@@ -224,6 +225,7 @@ namespace g0at
             virtual void visit(exponentiation *ref);
             virtual void visit(division *ref);
             virtual void visit(remainder *ref);
+            virtual void visit(unary_plus *ref);
          };
     };
 };

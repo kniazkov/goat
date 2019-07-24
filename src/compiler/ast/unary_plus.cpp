@@ -20,32 +20,25 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "plus.h"
-#include "addition.h"
 #include "unary_plus.h"
 
 namespace g0at
 {
     namespace ast
     {
-        void plus::accept(token_visitor *visitor)
+        unary_plus::unary_plus(lib::pointer<expression> _right)
+            : unary_prefix(_right)
+        {
+        }
+
+        void unary_plus::accept(token_visitor *visitor)
         {
             visitor->visit(this);
         }
 
-        plus *plus::to_plus()
+        unary_plus *unary_plus::to_unary_plus()
         {
             return this;
-        }
-
-        lib::pointer<token> plus::create_binary_operation(lib::pointer<expression> left, lib::pointer<expression> right)
-        {
-            return new addition(left, right);
-        }
-
-        lib::pointer<token> plus::create_unary_prefix_operation(lib::pointer<expression> right)
-        {
-            return new unary_plus(right);
         }
     };
 };

@@ -92,6 +92,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "exp.h"
 #include "div.h"
 #include "mod.h"
+#include "pos.h"
 
 namespace g0at
 {
@@ -607,6 +608,11 @@ namespace g0at
             dst->add_instruction(new _mod());
         }
 
+        void deserializer::c_pos(source *src, code *dst)
+        {
+            dst->add_instruction(new _pos());
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -673,6 +679,7 @@ namespace g0at
             cc[op::_exp]     = c_exp;
             cc[op::_div]     = c_div;
             cc[op::_mod]     = c_mod;
+            cc[op::_pos]     = c_pos;
         }
     };
 };

@@ -146,6 +146,7 @@ namespace g0at
             void visit(exponentiation *ref) override;
             void visit(division *ref) override;
             void visit(remainder *ref) override;
+            void visit(unary_plus *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

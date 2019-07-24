@@ -72,6 +72,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "exponentiation.h"
 #include "division.h"
 #include "remainder.h"
+#include "unary_plus.h"
 
 namespace g0at
 {
@@ -714,6 +715,16 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(remainder *ref)
+        {
+        }
+
+        void parse_tree_traversal::visit(unary_plus *ref)
+        {
+            ref->get_right()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(unary_plus *ref)
         {
         }
     };

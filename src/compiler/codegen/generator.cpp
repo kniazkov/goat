@@ -69,6 +69,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/exponentiation.h"
 #include "compiler/pt/division.h"
 #include "compiler/pt/remainder.h"
+#include "compiler/pt/unary_plus.h"
 
 #include "code/string.h"
 #include "code/load.h"
@@ -133,6 +134,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/exp.h"
 #include "code/div.h"
 #include "code/mod.h"
+#include "code/pos.h"
 
 namespace g0at
 {
@@ -777,6 +779,12 @@ namespace g0at
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
             code->add_instruction(new _mod());
+        }
+
+        void generator::visit(pt::unary_plus *ref)
+        {
+            ref->get_right()->accept(this);
+            code->add_instruction(new _pos());
         }
     };
 };

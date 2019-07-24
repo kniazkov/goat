@@ -97,6 +97,11 @@ namespace g0at
                 var->data.ref->op_sub(thr);
             }
 
+            void op_pos(variable *var, thread *thr)  override
+            {
+                var->data.ref->op_pos(thr);
+            }
+
             void op_neg(variable *var, thread *thr)  override
             {
                 var->data.ref->op_neg(thr);

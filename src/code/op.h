@@ -100,6 +100,7 @@ namespace g0at
             // operators
             _add,
             _sub,
+            _pos,
             _neg,
             _inc,
             _dec,

@@ -89,6 +89,7 @@ namespace g0at
             void visit(exponentiation *ref) override;
             void visit(division *ref) override;
             void visit(remainder *ref) override;
+            void visit(unary_plus *ref) override;
 
         protected:
             void postpone(node *n) { queue.push_front(n); }
@@ -146,6 +147,7 @@ namespace g0at
             virtual void payload(exponentiation *ref);
             virtual void payload(division *ref);
             virtual void payload(remainder *ref);
+            virtual void payload(unary_plus *ref);
 
         private:
             std::deque<node*> queue;

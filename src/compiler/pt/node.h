@@ -90,6 +90,7 @@ namespace g0at
         class exponentiation;
         class division;
         class remainder;
+        class unary_plus;
 
         class node : public lib::ref_counter
         {
@@ -155,6 +156,7 @@ namespace g0at
             virtual exponentiation *to_exponentiation();
             virtual division *to_division();
             virtual remainder *to_remainder();            
+            virtual unary_plus *to_unary_plus();            
 
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }

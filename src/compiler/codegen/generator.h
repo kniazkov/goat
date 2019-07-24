@@ -97,6 +97,7 @@ namespace g0at
             void visit(pt::exponentiation *ref) override;
             void visit(pt::division *ref) override;
             void visit(pt::remainder *ref) override;
+            void visit(pt::unary_plus *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

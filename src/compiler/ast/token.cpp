@@ -597,5 +597,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        unary_plus *token::to_unary_plus()
+        {
+            return nullptr;
+        }
     }
 };

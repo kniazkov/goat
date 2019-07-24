@@ -71,6 +71,7 @@ namespace g0at
             void visit(ast::exponentiation *ref) override;
             void visit(ast::division *ref) override;
             void visit(ast::remainder *ref) override;
+            void visit(ast::unary_plus *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

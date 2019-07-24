@@ -106,6 +106,7 @@ namespace g0at
 
             inline void op_add(thread *thr);
             inline void op_sub(thread *thr);
+            inline void op_pos(thread *thr);
             inline void op_neg(thread *thr);
             inline void op_inc(thread *thr);
             inline void op_dec(thread *thr);
@@ -212,6 +213,7 @@ namespace g0at
 
             virtual void op_add(thread *thr);
             virtual void op_sub(thread *thr);
+            virtual void op_pos(thread *thr);
             virtual void op_neg(thread *thr);
             virtual void op_inc(thread *thr);
             virtual void op_dec(thread *thr);
@@ -291,6 +293,7 @@ namespace g0at
 
             virtual void op_add(variable *var, thread *thr);
             virtual void op_sub(variable *var, thread *thr);
+            virtual void op_pos(variable *var, thread *thr);
             virtual void op_neg(variable *var, thread *thr);
             virtual void op_inc(variable *var, thread *thr);
             virtual void op_dec(variable *var, thread *thr);
@@ -427,6 +430,11 @@ namespace g0at
         void variable::op_sub(thread *thr)
         {
             hndl->op_sub(this, thr);
+        }
+
+        void variable::op_pos(thread *thr)
+        {
+            hndl->op_pos(this, thr);
         }
 
         void variable::op_neg(thread *thr)

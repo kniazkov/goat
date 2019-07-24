@@ -95,6 +95,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/division.h"
 #include "compiler/ast/remainder.h"
 #include "compiler/pt/remainder.h"
+#include "compiler/ast/unary_plus.h"
+#include "compiler/pt/unary_plus.h"
 
 namespace g0at
 {
@@ -445,6 +447,11 @@ namespace g0at
         {
             auto pair = build_expr_for_binary(ref);
             expr = new pt::remainder(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::unary_plus *ref)
+        {
+            expr = new pt::unary_plus(ref->get_position(), build_expr_for_unary_prefix(ref));
         }
     };
 };

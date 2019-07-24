@@ -411,6 +411,12 @@ namespace g0at
                 thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_minus));
         }
 
+        void object::op_pos(thread *thr)
+        {
+            if (!find_and_vcall(thr, 0, resource::str_oper_plus))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_plus));
+        }
+
         void object::op_neg(thread *thr)
         {
             if (!find_and_vcall(thr, 0, resource::str_oper_minus))

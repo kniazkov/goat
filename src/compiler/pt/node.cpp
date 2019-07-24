@@ -319,5 +319,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        unary_plus *node::to_unary_plus()
+        {
+            return nullptr;
+        }
     }
 };

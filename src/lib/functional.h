@@ -36,6 +36,14 @@ namespace g0at
                 typedef A arg_type;
             };
 
+            template <typename R, typename A> struct pos : public unary <R, A>
+            {
+                static R calculate(const A &a)
+                {
+                    return a;
+                }
+            };
+
             template <typename R, typename A> struct neg : public unary <R, A>
             {
                 static R calculate(const A &a)

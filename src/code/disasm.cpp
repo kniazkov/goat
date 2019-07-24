@@ -454,5 +454,10 @@ namespace g0at
         {
             stream << L"mod";
         }
+
+        void disasm::visit(_pos *ref)
+        {
+            stream << L"pos";
+        }
     };
 };

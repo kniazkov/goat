@@ -241,5 +241,9 @@ namespace g0at
         void node_visitor::visit(remainder *ref)
         {
         }
+
+        void node_visitor::visit(unary_plus *ref)
+        {
+        }
     }
 };

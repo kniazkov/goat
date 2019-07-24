@@ -417,5 +417,9 @@ namespace g0at
         void token_visitor::visit(remainder *ref)
         {
         }
+
+        void token_visitor::visit(unary_plus *ref)
+        {
+        }
     }
 };

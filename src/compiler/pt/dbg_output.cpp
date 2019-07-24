@@ -73,6 +73,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "exponentiation.h"
 #include "division.h"
 #include "remainder.h"
+#include "unary_plus.h"
 
 namespace g0at
 {
@@ -925,6 +926,14 @@ namespace g0at
             dbg_output right(env);
             ref->get_right()->accept(&right);
             link_child(right, L"right");
+        }
+
+        void dbg_output::visit(unary_plus *ref)
+        {
+            print(ref, L"unary_plus", L"+");
+            dbg_output right(env);
+            ref->get_right()->accept(&right);
+            link_child(right);
         }
     };
 };
