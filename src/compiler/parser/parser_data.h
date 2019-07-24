@@ -70,6 +70,7 @@ namespace g0at
             ast::token_2nd_list switch_keywords;
             ast::token_2nd_list opers_mul_div_mod;
             ast::token_2nd_list opers_exp;
+            ast::token_2nd_list opers_excl_tildes;
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;

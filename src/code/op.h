@@ -108,6 +108,8 @@ namespace g0at
             _exp,
             _div,
             _mod,
+            _not,
+            _inv,
 
             _eq,
             _neq,

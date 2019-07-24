@@ -95,6 +95,16 @@ namespace g0at
             thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_minus_minus));
         }
 
+        void handler::op_not(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_exclamation));
+        }
+
+        void handler::op_inv(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_tilde));
+        }
+
         void handler::op_mul(variable *var, thread *thr)
         {
             thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_asterisk));

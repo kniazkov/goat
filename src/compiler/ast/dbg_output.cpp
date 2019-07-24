@@ -72,6 +72,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "division.h"
 #include "remainder.h"
 #include "unary_plus.h"
+#include "exclamation.h"
+#include "tilde.h"
+#include "logical_not.h"
+#include "bitwise_not.h"
 
 namespace g0at
 {
@@ -937,6 +941,32 @@ namespace g0at
         void dbg_output::visit(unary_plus *ref)
         {
             print(L"unary plus", L"+");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right);
+        }
+
+        void dbg_output::visit(exclamation *ref)
+        {
+            print(L"exclamation", L"!");
+        }
+
+        void dbg_output::visit(tilde *ref)
+        {
+            print(L"tilde", L"~");
+        }
+
+        void dbg_output::visit(logical_not *ref)
+        {
+            print(L"logical not", L"!");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right);
+        }
+
+        void dbg_output::visit(bitwise_not *ref)
+        {
+            print(L"bitwise not", L"~");
             dbg_output right(data);
             ref->get_right()->accept(&right);
             link_child(right);

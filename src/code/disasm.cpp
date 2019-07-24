@@ -459,5 +459,15 @@ namespace g0at
         {
             stream << L"pos";
         }
+
+        void disasm::visit(_not *ref)
+        {
+            stream << L"not";
+        }
+
+        void disasm::visit(_inv *ref)
+        {
+            stream << L"inv";
+        }
     };
 };

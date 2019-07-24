@@ -91,6 +91,8 @@ namespace g0at
         class _mod;
         class _exp;
         class _pos;
+        class _not;
+        class _inv;
 
         class instruction_visitor
         {
@@ -162,6 +164,8 @@ namespace g0at
             virtual void visit(_div *ref) = 0;
             virtual void visit(_mod *ref) = 0;
             virtual void visit(_pos *ref) = 0;
+            virtual void visit(_not *ref) = 0;
+            virtual void visit(_inv *ref) = 0;
         };
     };
 };

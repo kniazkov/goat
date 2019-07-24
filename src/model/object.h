@@ -110,6 +110,8 @@ namespace g0at
             inline void op_neg(thread *thr);
             inline void op_inc(thread *thr);
             inline void op_dec(thread *thr);
+            inline void op_not(thread *thr);
+            inline void op_inv(thread *thr);
             inline void op_mul(thread *thr);
             inline void op_exp(thread *thr);
             inline void op_div(thread *thr);
@@ -217,6 +219,8 @@ namespace g0at
             virtual void op_neg(thread *thr);
             virtual void op_inc(thread *thr);
             virtual void op_dec(thread *thr);
+            virtual void op_not(thread *thr);
+            virtual void op_inv(thread *thr);
             virtual void op_mul(thread *thr);
             virtual void op_exp(thread *thr);
             virtual void op_div(thread *thr);
@@ -297,6 +301,8 @@ namespace g0at
             virtual void op_neg(variable *var, thread *thr);
             virtual void op_inc(variable *var, thread *thr);
             virtual void op_dec(variable *var, thread *thr);
+            virtual void op_not(variable *var, thread *thr);
+            virtual void op_inv(variable *var, thread *thr);
             virtual void op_mul(variable *var, thread *thr);
             virtual void op_exp(variable *var, thread *thr);
             virtual void op_div(variable *var, thread *thr);
@@ -450,6 +456,16 @@ namespace g0at
         void variable::op_dec(thread *thr)
         {
             hndl->op_dec(this, thr);
+        }
+
+        void variable::op_not(thread *thr)
+        {
+            hndl->op_not(this, thr);
+        }
+
+        void variable::op_inv(thread *thr)
+        {
+            hndl->op_inv(this, thr);
         }
 
         void variable::op_mul(thread *thr)

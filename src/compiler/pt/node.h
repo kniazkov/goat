@@ -91,6 +91,8 @@ namespace g0at
         class division;
         class remainder;
         class unary_plus;
+        class logical_not;
+        class bitwise_not;
 
         class node : public lib::ref_counter
         {
@@ -157,6 +159,8 @@ namespace g0at
             virtual division *to_division();
             virtual remainder *to_remainder();            
             virtual unary_plus *to_unary_plus();            
+            virtual logical_not *to_logical_not();            
+            virtual bitwise_not *to_bitwise_not();            
 
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }

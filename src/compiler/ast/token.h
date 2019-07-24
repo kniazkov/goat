@@ -143,6 +143,10 @@ namespace g0at
         class division;
         class remainder;
         class unary_plus;
+        class exclamation;
+        class tilde;
+        class logical_not;
+        class bitwise_not;
 
         class token : public lib::ref_counter
         {
@@ -263,6 +267,10 @@ namespace g0at
             virtual division *to_division();
             virtual remainder *to_remainder();
             virtual unary_plus *to_unary_plus();
+            virtual exclamation *to_exclamation();
+            virtual tilde *to_tilde();
+            virtual logical_not *to_logical_not();
+            virtual bitwise_not *to_bitwise_not();
 
             lib::pointer<position> get_position() { return pos; }
 

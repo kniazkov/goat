@@ -48,6 +48,7 @@ namespace g0at
             gr->vector.push_back(create_pattern_unary_suffix(&data->opers_incr_decr));
             gr->vector.push_back(create_pattern_unary_prefix(&data->opers_incr_decr));
             gr->vector.push_back(create_pattern_unary_prefix(&data->opers_plus_minus));
+            gr->vector.push_back(create_pattern_unary_prefix(&data->opers_excl_tildes));
             gr->vector.push_back(create_pattern_binary(&data->opers_inherit));
             gr->vector.push_back(create_pattern_binary(&data->opers_exp));
             gr->vector.push_back(create_pattern_binary(&data->opers_mul_div_mod));

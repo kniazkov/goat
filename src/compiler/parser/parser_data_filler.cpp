@@ -64,6 +64,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/double_asterisk.h"
 #include "compiler/ast/slash.h"
 #include "compiler/ast/percent.h"
+#include "compiler/ast/exclamation.h"
+#include "compiler/ast/tilde.h"
 
 namespace g0at
 {
@@ -291,6 +293,16 @@ namespace g0at
         void parser_data_filler::visit(ast::percent *ref)
         {
             data->opers_mul_div_mod.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::exclamation *ref)
+        {
+            data->opers_excl_tildes.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::tilde *ref)
+        {
+            data->opers_excl_tildes.add(ref);
         }
     };
 };

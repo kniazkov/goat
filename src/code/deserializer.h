@@ -134,6 +134,8 @@ namespace g0at
             static void c_div(source *src, code *dst);
             static void c_mod(source *src, code *dst);
             static void c_pos(source *src, code *dst);
+            static void c_not(source *src, code *dst);
+            static void c_inv(source *src, code *dst);
 
             std::map<op, creator> cc;
         };

@@ -97,6 +97,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/remainder.h"
 #include "compiler/ast/unary_plus.h"
 #include "compiler/pt/unary_plus.h"
+#include "compiler/ast/logical_not.h"
+#include "compiler/pt/logical_not.h"
+#include "compiler/ast/bitwise_not.h"
+#include "compiler/pt/bitwise_not.h"
 
 namespace g0at
 {
@@ -452,6 +456,16 @@ namespace g0at
         void expression_builder::visit(ast::unary_plus *ref)
         {
             expr = new pt::unary_plus(ref->get_position(), build_expr_for_unary_prefix(ref));
+        }
+
+        void expression_builder::visit(ast::logical_not *ref)
+        {
+            expr = new pt::logical_not(ref->get_position(), build_expr_for_unary_prefix(ref));
+        }
+
+        void expression_builder::visit(ast::bitwise_not *ref)
+        {
+            expr = new pt::bitwise_not(ref->get_position(), build_expr_for_unary_prefix(ref));
         }
     };
 };

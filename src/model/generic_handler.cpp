@@ -111,6 +111,16 @@ namespace g0at
             {
                 var->data.obj->op_dec(thr);
             }
+
+            void op_not(variable *var, thread *thr)  override
+            {
+                var->data.obj->op_not(thr);
+            }
+
+            void op_inv(variable *var, thread *thr)  override
+            {
+                var->data.obj->op_inv(thr);
+            }
             
             void op_mul(variable *var, thread *thr)  override
             {

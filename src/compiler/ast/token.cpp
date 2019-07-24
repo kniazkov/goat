@@ -602,5 +602,25 @@ namespace g0at
         {
             return nullptr;
         }
+
+        exclamation *token::to_exclamation()
+        {
+            return nullptr;
+        }
+
+        tilde *token::to_tilde()
+        {
+            return nullptr;
+        }
+
+        logical_not *token::to_logical_not()
+        {
+            return nullptr;
+        }
+
+        bitwise_not *token::to_bitwise_not()
+        {
+            return nullptr;
+        }
     }
 };

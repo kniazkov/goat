@@ -421,5 +421,21 @@ namespace g0at
         void token_visitor::visit(unary_plus *ref)
         {
         }
+
+        void token_visitor::visit(exclamation *ref)
+        {
+        }
+
+        void token_visitor::visit(tilde *ref)
+        {
+        }
+
+        void token_visitor::visit(logical_not *ref)
+        {
+        }
+
+        void token_visitor::visit(bitwise_not *ref)
+        {
+        }
     }
 };

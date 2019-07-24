@@ -79,6 +79,8 @@ namespace g0at
         class division;
         class remainder;
         class unary_plus;
+        class logical_not;
+        class bitwise_not;
 
         class node_visitor
         {
@@ -138,6 +140,8 @@ namespace g0at
             virtual void visit(division *ref);
             virtual void visit(remainder *ref);
             virtual void visit(unary_plus *ref);
+            virtual void visit(logical_not *ref);
+            virtual void visit(bitwise_not *ref);
         };
     };
 };

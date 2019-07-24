@@ -77,6 +77,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/double_asterisk.h"
 #include "compiler/ast/slash.h"
 #include "compiler/ast/percent.h"
+#include "compiler/ast/exclamation.h"
+#include "compiler/ast/tilde.h"
 
 namespace g0at
 {
@@ -159,6 +161,7 @@ namespace g0at
             case L'<':
             case L'>':
             case L'%':
+            case L'~':
                 return true;
             default:
                 return false;
@@ -422,6 +425,10 @@ namespace g0at
                 return new ast::increment();
             if (oper == L"--")
                 return new ast::decrement();
+            if (oper == L"!")
+                return new ast::exclamation();
+            if (oper == L"~")
+                return new ast::tilde();
             if (oper == L"$")
                 return new ast::keyword_function();
             if (oper == L"$$")

@@ -73,6 +73,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "division.h"
 #include "remainder.h"
 #include "unary_plus.h"
+#include "logical_not.h"
+#include "bitwise_not.h"
 
 namespace g0at
 {
@@ -725,6 +727,26 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(unary_plus *ref)
+        {
+        }
+
+        void parse_tree_traversal::visit(logical_not *ref)
+        {
+            ref->get_right()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(logical_not *ref)
+        {
+        }
+
+        void parse_tree_traversal::visit(bitwise_not *ref)
+        {
+            ref->get_right()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(bitwise_not *ref)
         {
         }
     };

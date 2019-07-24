@@ -435,6 +435,18 @@ namespace g0at
                 thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_minus_minus));
         }
 
+        void object::op_not(thread *thr)
+        {
+            if (!find_and_vcall(thr, 0, resource::str_oper_exclamation))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_exclamation));
+        }
+
+        void object::op_inv(thread *thr)
+        {
+            if (!find_and_vcall(thr, 0, resource::str_oper_tilde))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_tilde));
+        }
+
         void object::op_mul(thread *thr)
         {
             if (!find_and_vcall(thr, 1, resource::str_oper_asterisk))

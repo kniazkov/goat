@@ -245,5 +245,13 @@ namespace g0at
         void node_visitor::visit(unary_plus *ref)
         {
         }
+
+        void node_visitor::visit(logical_not *ref)
+        {
+        }
+
+        void node_visitor::visit(bitwise_not *ref)
+        {
+        }
     }
 };

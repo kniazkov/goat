@@ -324,5 +324,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        logical_not *node::to_logical_not()
+        {
+            return nullptr;
+        }
+
+        bitwise_not *node::to_bitwise_not()
+        {
+            return nullptr;
+        }
     }
 };

@@ -36,6 +36,8 @@ namespace g0at
         extern std::wstring str_oper_double_asterisk;
         extern std::wstring str_oper_slash;
         extern std::wstring str_oper_percent;
+        extern std::wstring str_oper_exclamation;
+        extern std::wstring str_oper_tilde;
 
         extern std::wstring str_instanceof;
         extern std::wstring str_flat;

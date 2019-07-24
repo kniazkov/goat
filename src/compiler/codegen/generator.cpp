@@ -70,6 +70,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/division.h"
 #include "compiler/pt/remainder.h"
 #include "compiler/pt/unary_plus.h"
+#include "compiler/pt/bitwise_not.h"
+#include "compiler/pt/logical_not.h"
 
 #include "code/string.h"
 #include "code/load.h"
@@ -135,6 +137,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/div.h"
 #include "code/mod.h"
 #include "code/pos.h"
+#include "code/not.h"
+#include "code/inv.h"
 
 namespace g0at
 {
@@ -785,6 +789,18 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             code->add_instruction(new _pos());
+        }
+
+        void generator::visit(pt::logical_not *ref)
+        {
+            ref->get_right()->accept(this);
+            code->add_instruction(new _not());
+        }
+
+        void generator::visit(pt::bitwise_not *ref)
+        {
+            ref->get_right()->accept(this);
+            code->add_instruction(new _inv());
         }
     };
 };

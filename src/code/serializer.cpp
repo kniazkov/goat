@@ -532,5 +532,15 @@ namespace g0at
         {
             push_opcode(op::_pos);
         }
+
+        void serializer::visit(_not *ref)
+        {
+            push_opcode(op::_not);
+        }
+
+        void serializer::visit(_inv *ref)
+        {
+            push_opcode(op::_inv);
+        }
     };
 };

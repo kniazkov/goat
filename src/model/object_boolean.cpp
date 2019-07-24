@@ -149,6 +149,14 @@ namespace g0at
                 return true;
             }
 
+            void op_not(variable *var, thread *thr)  override
+            {
+                thr->pop();
+                variable result;
+                result.set_boolean(!var->data.b);
+                thr->push(result);
+            }
+
             void m_instance_of(variable *var, thread *thr, int arg_count) override
             {
                 thr->pop();

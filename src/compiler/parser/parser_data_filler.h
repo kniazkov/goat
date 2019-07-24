@@ -76,6 +76,8 @@ namespace g0at
             void visit(ast::double_asterisk *ref) override;
             void visit(ast::slash *ref) override;
             void visit(ast::percent *ref) override;
+            void visit(ast::exclamation *ref) override;
+            void visit(ast::tilde *ref) override;
 
         protected:
             parser_data *data;

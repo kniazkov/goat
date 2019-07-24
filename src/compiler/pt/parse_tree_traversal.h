@@ -90,6 +90,8 @@ namespace g0at
             void visit(division *ref) override;
             void visit(remainder *ref) override;
             void visit(unary_plus *ref) override;
+            void visit(logical_not *ref) override;
+            void visit(bitwise_not *ref) override;
 
         protected:
             void postpone(node *n) { queue.push_front(n); }
@@ -148,6 +150,8 @@ namespace g0at
             virtual void payload(division *ref);
             virtual void payload(remainder *ref);
             virtual void payload(unary_plus *ref);
+            virtual void payload(logical_not *ref);
+            virtual void payload(bitwise_not *ref);
 
         private:
             std::deque<node*> queue;

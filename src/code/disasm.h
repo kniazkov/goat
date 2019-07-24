@@ -103,6 +103,8 @@ namespace g0at
             void visit(_div *ref) override;
             void visit(_mod *ref) override;
             void visit(_pos *ref) override;
+            void visit(_not *ref) override;
+            void visit(_inv *ref) override;
 
         protected:
             std::wstringstream &stream;

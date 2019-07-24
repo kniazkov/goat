@@ -98,6 +98,8 @@ namespace g0at
             void visit(pt::division *ref) override;
             void visit(pt::remainder *ref) override;
             void visit(pt::unary_plus *ref) override;
+            void visit(pt::logical_not *ref) override;
+            void visit(pt::bitwise_not *ref) override;
 
         protected:
             lib::pointer<code::code> code; 
