@@ -146,15 +146,16 @@ namespace g0at
     {
         using namespace code;
 
-        generator::generator()
+        generator::generator(model::name_cache *_name_cache)
+            : name_cache(_name_cache)
         {
             code = new code::code();
-            lgen = new lvalue_generator(code, &name_cache, this);
+            lgen = new lvalue_generator(code, name_cache, this);
         }
 
-        lib::pointer<code::code> generator::generate(lib::pointer<pt::function> node_root)
+        lib::pointer<code::code> generator::generate(model::name_cache *name_cache, lib::pointer<pt::function> node_root)
         {
-            generator gen;
+            generator gen(name_cache);
             node_root->accept(&gen);
             while(!gen.queue.empty())
             {
@@ -163,7 +164,7 @@ namespace g0at
                 def.iid_ptr.set(gen.code->get_current_iid());
                 def.node->accept(&gen);
             }
-            gen.code->set_identifiers_list(gen.name_cache.get_vector());
+            gen.code->set_identifiers_list(gen.name_cache->get_vector());
             return gen.code;
         }
 
@@ -188,13 +189,13 @@ namespace g0at
 
         void generator::visit(pt::static_string *ref)
         {
-            int id = name_cache.get_id(ref->get_text());
+            int id = name_cache->get_id(ref->get_text());
             code->add_instruction(new _string(id));
         }
 
         void generator::visit(pt::variable *ref)
         {
-            int id = name_cache.get_id(ref->get_name());
+            int id = name_cache->get_id(ref->get_name());
             code->add_instruction(new _load(id));
         }
 
@@ -264,7 +265,7 @@ namespace g0at
                     info.init_val->accept(this);
                 else
                     code->add_instruction(new _undef());
-                int id = name_cache.get_id(info.name);
+                int id = name_cache->get_id(info.name);
                 code->add_instruction(new _var(id));
             }
         }
@@ -294,7 +295,7 @@ namespace g0at
                 queue.push_front(def);
                 for (int i = 0, count = func->get_args_count(); i < count; i++)
                 {
-                    int id = name_cache.get_id(func->get_arg(i));
+                    int id = name_cache->get_id(func->get_arg(i));
                     instr->add_arg_id(id);
                 }
             }
@@ -308,7 +309,7 @@ namespace g0at
                 queue.push_front(def);
                 for (int i = 0, count = func->get_args_count(); i < count; i++)
                 {
-                    int id = name_cache.get_id(func->get_arg(i));
+                    int id = name_cache->get_id(func->get_arg(i));
                     instr->add_arg_id(id);
                 }
             }
@@ -343,7 +344,7 @@ namespace g0at
         void generator::visit(pt::property *ref)
         {
             ref->get_left()->accept(this);
-            int id = name_cache.get_id(ref->get_name());
+            int id = name_cache->get_id(ref->get_name());
             code->add_instruction(new _read(id));
         }
 
@@ -414,7 +415,7 @@ namespace g0at
                 code->add_instruction(new _next(args_count));
             else
             {
-                int id = name_cache.get_id(name);
+                int id = name_cache->get_id(name);
                 code->add_instruction(new _vcall(id, args_count));
             }
         }
@@ -516,7 +517,7 @@ namespace g0at
                 iid_catch_ptr.set(code->get_current_iid());
                 if (ref->has_var())
                 {
-                    int id = name_cache.get_id(ref->get_var_name());
+                    int id = name_cache->get_id(ref->get_var_name());
                     code->add_instruction(new _catch(id));
                 }
                 stmt_catch->accept(this);
@@ -638,7 +639,7 @@ namespace g0at
         {
             _sector *cycle = new _sector(iid_unknown(), iid_unknown());
             code->add_instruction(cycle);
-            int name_id = name_cache.get_id(ref->get_name());
+            int name_id = name_cache->get_id(ref->get_name());
             if (ref->is_declared())
             {
                 code->add_instruction(new _undef());

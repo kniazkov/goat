@@ -184,7 +184,8 @@ namespace g0at
             {
                 lib::dump_file(opt.prog_name, "ptree.txt", pt::dbg_output::to_string(node_root.get()));
             }
-            auto code = codegen::generator::generate(node_root);
+            model::name_cache name_cache;
+            auto code = codegen::generator::generate(&name_cache, node_root);
             node_root.reset();
             std::vector<uint8_t> binary;
             code::serializer::serialize(code, binary, !opt.do_not_compress);
