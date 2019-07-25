@@ -127,13 +127,13 @@ namespace g0at
 
         void handler::op_eq(variable *var, thread *thr)
         {
-            assert(false);
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_equals));
         }
 
         void handler::op_neq(variable *var, thread *thr)
         {
-            assert(false);
-        }
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_not_equal));
+       }
 
         void handler::op_less(variable *var, thread *thr)
         {

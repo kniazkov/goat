@@ -21,6 +21,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_boolean.h"
+#include "object_string.h"
+#include "object_function_built_in.h"
+#include "resource/strings.h"
 #include "lib/functional.h"
 #include "thread.h"
 #include "lib/assert.h"
@@ -75,6 +78,11 @@ namespace g0at
             return true;
         }
 
+        void object_boolean::op_not(thread *thr)
+        {
+            unary_operation<lib::func::log_not>(thr);
+        }
+
         void object_boolean::m_iterator(thread *thr, int arg_count)
         {
             thr->pop();
@@ -108,9 +116,89 @@ namespace g0at
             Prototype
         */
 
+        template <template<typename R, typename A> class F> class object_boolean_unary_operator : public object_function_built_in
+        {
+        public:
+            object_boolean_unary_operator(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_boolean *this_ptr_boolean = this_ptr->to_object_boolean();
+                if (!this_ptr_boolean)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                thr->pop(arg_count);
+                variable result;
+                result.set_boolean(F<bool, bool>::calculate(this_ptr_boolean->get_value()));
+                thr->push(result);
+            }
+        };
+
+        template <template<typename R, typename X, typename Y> class F, bool Def> class object_boolean_binary_logical_operator : public object_function_built_in
+        {
+        public:
+            object_boolean_binary_logical_operator(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_boolean *this_ptr_boolean = this_ptr->to_object_boolean();
+                if (!this_ptr_boolean)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                variable result;
+                variable right = thr->peek();
+                thr->pop(arg_count);
+                bool right_boolean_value;
+                bool right_is_boolean = right.get_boolean(&right_boolean_value);
+                if (right_is_boolean)
+                {
+                    result.set_boolean(F<bool, bool, bool>::calculate(this_ptr_boolean->get_value(), right_boolean_value));
+                }
+                else
+                {
+                    result.set_boolean(Def);
+                }
+                thr->push(result);
+            }
+        };
+
         object_boolean_proto::object_boolean_proto(object_pool *pool)
             : object(pool)
         {
+        }
+
+        void object_boolean_proto::init(object_pool *pool)
+        {
+            add_object(pool->get_static_string(resource::str_oper_exclamation), new object_boolean_unary_operator<lib::func::log_not>(pool));
         }
 
         /*
@@ -151,10 +239,17 @@ namespace g0at
 
             void op_not(variable *var, thread *thr)  override
             {
-                thr->pop();
-                variable result;
-                result.set_boolean(!var->data.b);
-                thr->push(result);
+                unary_operation<lib::func::log_not>(var, thr);
+            }
+
+            void op_eq(variable *var, thread *thr)  override
+            {
+                binary_operation<lib::func::equals, false>(var, thr);
+            }
+
+            void op_neq(variable *var, thread *thr)  override
+            {
+                binary_operation<lib::func::not_equal, true>(var, thr);
             }
 
             void m_instance_of(variable *var, thread *thr, int arg_count) override
@@ -184,15 +279,21 @@ namespace g0at
                 thr->push(result);
             }
 
-            template <template<typename R, typename X, typename Y> class F> void binary_operation(variable *var, thread *thr)
+            template <template<typename R, typename X, typename Y> class F, bool Def> void binary_operation(variable *var, thread *thr)
             {
                 thr->pop();
                 variable right = thr->pop();
                 bool right_value;
                 bool right_is_boolean = right.get_boolean(&right_value);
-                assert(right_is_boolean);
                 variable result;
-                result.set_boolean(F<bool, bool, bool>::calculate(var->data.b, right_value));
+                if (right_is_boolean)
+                {
+                    result.set_boolean(F<bool, bool, bool>::calculate(var->data.b, right_value));
+                }
+                else
+                {
+                    result.set_boolean(Def);
+                }
                 thr->push(result);
             }
         };

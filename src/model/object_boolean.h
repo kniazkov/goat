@@ -42,6 +42,7 @@ namespace g0at
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
             bool get_boolean(bool *pval) override;
+            void op_not(thread *thr) override;
             void m_iterator(thread *thr, int arg_count) override;
 
             bool get_value() { return value; }
@@ -58,6 +59,7 @@ namespace g0at
         friend class object_pool;
         protected:
             object_boolean_proto(object_pool *pool);
+            void init(object_pool *pool);
         };
     };
 };
