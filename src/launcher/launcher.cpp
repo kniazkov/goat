@@ -121,6 +121,15 @@ namespace g0at
     {
         if (opt.prog_name == nullptr)
         {
+#if 0
+            while(true)
+            {
+                std::wcout << L"> ";
+                std::wstring line;
+                std::getline<wchar_t>(std::wcin, line);
+                std::wcout << line << std::endl;
+            }
+#endif
             throw no_input_file();
         }
         
