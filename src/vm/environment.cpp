@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "environment.h"
+#include "model/built_in/context_factory.h"
 
 namespace g0at
 {
@@ -30,6 +31,7 @@ namespace g0at
             : gct(_gc_type)
         {
             pool = new model::object_pool(_identifiers_list);
+            ctx = model::built_in::context_factory(pool).create_context();
         }
 
         environment::~environment()

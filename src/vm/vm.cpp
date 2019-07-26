@@ -44,10 +44,10 @@ namespace g0at
 
         vm_report vm::run(environment *env)
         {
-            model::context *ctx = model::built_in::context_factory(env->get_pool()).create_context();
+            
             model::thread_list tlist(env->get_pool());
             model::variable ret;
-            model::thread *thr = tlist.create_thread(ctx, &ret);
+            model::thread *thr = tlist.create_thread(env->get_context(), &ret);
             ret.set_object(env->get_pool()->get_undefined_instance());
             thr->iid = code::iid_t(0);
             thr->next = thr;
