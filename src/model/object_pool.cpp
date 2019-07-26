@@ -83,7 +83,7 @@ namespace g0at
             generic_proto_instance = gp;
             auto string_proto = new object_string_proto(this);
             string_proto_instance = string_proto;
-            static_strings.init(identifiers_list, this);
+            static_strings.merge(identifiers_list, this);
             auto function_proto = new object_function_proto(this);
             function_proto_instance = function_proto;
             auto thread_proto = new object_thread_proto(this);

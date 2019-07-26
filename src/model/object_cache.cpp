@@ -33,14 +33,15 @@ namespace g0at
         {
         }
 
-        void object_cache::init(std::vector<std::wstring> &init_list, object_pool *pool)
+        void object_cache::merge(std::vector<std::wstring> &list, object_pool *pool)
         {
-            for (int id = 0, size = (int)init_list.size(); id < size; id++)
+            int offset = (int)objects.size();
+            for (int id = 0, size = (int)list.size(); id < size; id++)
             {
-                std::wstring name = init_list[id];
+                std::wstring name = list[id];
                 assert(indexes.find(name) == indexes.end());
-                object_string *obj = pool->create_object_string(name, id);
-                indexes.insert(std::pair<std::wstring, int>(name, id));
+                object_string *obj = pool->create_object_string(name, id + offset);
+                indexes.insert(std::pair<std::wstring, int>(name, id + offset));
                 objects.push_back(obj);
             }
         }
