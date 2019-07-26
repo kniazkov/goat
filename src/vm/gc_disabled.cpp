@@ -52,7 +52,7 @@ namespace g0at
             }
         };
 
-        lib::pointer<lib::gc> create_grabage_collector_disabled()
+        lib::gc * create_grabage_collector_disabled()
         {
             return new gc_disabled();
         }

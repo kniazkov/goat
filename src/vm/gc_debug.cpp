@@ -75,7 +75,7 @@ namespace g0at
             process *proc;
         };
 
-        lib::pointer<lib::gc> create_grabage_collector_debug(process *proc)
+        lib::gc * create_grabage_collector_debug(process *proc)
         {
             return new gc_debug(proc);
         }

@@ -54,8 +54,6 @@ namespace g0at
             process proc;
             proc.pool = env->get_pool();
             proc.threads = env->get_thread_list();
-            lib::pointer<lib::gc> gc = create_garbage_collector(env->get_gc_type(), &proc);
-            lib::set_garbage_collector(gc.get());
             if (!global::debug)
             {
                 while(thr != nullptr)
@@ -64,7 +62,7 @@ namespace g0at
                     ++thr->iid;
                     auto instr = code->get_instruction(iid);
                     instr->exec(thr);
-                    gc->collect_garbage_if_necessary();
+                    env->get_gc()->collect_garbage_if_necessary();
                     thr = env->get_thread_list()->switch_thread();
                 }
             }
@@ -81,7 +79,7 @@ namespace g0at
                         // convert any value to real object
                         thr->peek().to_object(env->get_pool());
                     }
-                    gc->collect_garbage_if_necessary();
+                    env->get_gc()->collect_garbage_if_necessary();
                     thr = env->get_thread_list()->switch_thread();
                 }
             }
@@ -92,10 +90,8 @@ namespace g0at
                 r.ret_value = (int)ret_value_int64;
             else
                 r.ret_value = 0;
-            r.gcr = gc->get_report();
+            r.gcr = env->get_gc()->get_report();
             r.opr = env->get_pool()->get_report();
-            env->get_pool()->destroy_all();
-            lib::set_garbage_collector(nullptr);
             return r;
         }
     };

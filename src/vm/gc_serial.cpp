@@ -89,7 +89,7 @@ namespace g0at
             const size_t threshold = 1024 * sizeof(model::context) * 2;
         };
 
-        lib::pointer<lib::gc> create_grabage_collector_serial(process *proc)
+        lib::gc * create_grabage_collector_serial(process *proc)
         {
             return new gc_serial(proc);
         }
