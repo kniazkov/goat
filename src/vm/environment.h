@@ -38,7 +38,7 @@ namespace g0at
         public:
             environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list);
             ~environment();
-            
+
             gc_type get_gc_type() { return gct; }
             model::object_pool *get_pool() { return pool; } ;
             model::context *get_context() { return ctx; } ;

@@ -42,18 +42,14 @@ namespace g0at
         {
         }
 
-        vm_report vm::run(environment *env)
+        int vm::run(environment *env)
         {
-            
             model::variable ret;
             model::thread *thr = env->get_thread_list()->create_thread(env->get_context(), &ret);
             ret.set_object(env->get_pool()->get_undefined_instance());
             thr->iid = code::iid_t(0);
             thr->next = thr;
             thr->state = model::thread_state::ok;
-            process proc;
-            proc.pool = env->get_pool();
-            proc.threads = env->get_thread_list();
             if (!global::debug)
             {
                 while(thr != nullptr)
@@ -84,15 +80,10 @@ namespace g0at
                 }
             }
 
-            vm_report r;
             int64_t ret_value_int64;
             if (ret.get_integer(&ret_value_int64) && ret_value_int64 >= INT_MIN && ret_value_int64 <= INT_MAX)
-                r.ret_value = (int)ret_value_int64;
-            else
-                r.ret_value = 0;
-            r.gcr = env->get_gc()->get_report();
-            r.opr = env->get_pool()->get_report();
-            return r;
+                return (int)ret_value_int64;
+            return 0;
         }
     };
 };

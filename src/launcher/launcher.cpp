@@ -103,17 +103,19 @@ namespace g0at
         options::parse(argc, argv, opt);
     }
 
-    static void dump_memory_usage_report(const char *file_name, vm::vm_report &vmr)
+    static void dump_memory_usage_report(const char *file_name, vm::environment *env)
     {
+        auto gcr = env->get_gc()->get_report();
+        auto opr = env->get_pool()->get_report();
         lib::dump_file(file_name, "memory.txt", global::resource->memory_usage_report(
             lib::get_heap_size(),
             lib::get_max_used_memory_size(),
-            vmr.gcr.name ? vmr.gcr.name : L"none",
-            vmr.gcr.count_of_launches,
-            vmr.opr.new_count + vmr.opr.reinit_count,
-            vmr.opr.new_count,
-            vmr.opr.reinit_count,
-            100.0 * vmr.opr.reinit_count / ( vmr.opr.new_count + vmr.opr.reinit_count )
+            gcr.name ? gcr.name : L"none",
+            gcr.count_of_launches,
+            opr.new_count + opr.reinit_count,
+            opr.new_count,
+            opr.reinit_count,
+            100.0 * opr.reinit_count / ( opr.new_count + opr.reinit_count )
         ));
     }
 
@@ -123,6 +125,7 @@ namespace g0at
             throw no_input_file();
 
         lib::pointer<vm::environment> env;
+        int ret_val = 0;
 
         vm::gc_type gct = vm::gc_type::serial;
         if (opt.gc_type_str)
@@ -147,7 +150,6 @@ namespace g0at
             throw no_input_file();
         }
 
-        vm::vm_report vmr = {0};
         if (opt.bin)
         {
             std::vector<uint8_t> binary;
@@ -168,10 +170,10 @@ namespace g0at
             }
             vm::vm vm(code);
             env = new vm::environment(gct, code->get_identifiers_list());
-            vmr = vm.run(env.get());
+            ret_val = vm.run(env.get());
             if (opt.dump_memory_usage_report)
             {
-                dump_memory_usage_report(opt.prog_name, vmr);
+                dump_memory_usage_report(opt.prog_name, env.get());
             }
         }
         else
@@ -204,7 +206,7 @@ namespace g0at
             {
                 vm::vm vm(code_2);
                 env = new vm::environment(gct, code_2->get_identifiers_list());
-                vmr = vm.run(env.get());
+                ret_val = vm.run(env.get());
             }
             else
             {
@@ -216,9 +218,9 @@ namespace g0at
             }
             if (opt.dump_memory_usage_report)
             {
-                dump_memory_usage_report(opt.prog_name, vmr);
+                dump_memory_usage_report(opt.prog_name, env.get());
             }
         }
-        return vmr.ret_value;
+        return ret_val;
     }
 };
