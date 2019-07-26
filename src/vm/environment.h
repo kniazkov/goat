@@ -23,13 +23,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "gc.h"
+#include "lib/ref_counter.h"
 
 namespace g0at
 {
     namespace vm
     {
-        struct environment
+        class environment : public lib::ref_counter
         {
+        public:
+            environment(gc_type _gct);
+            gc_type get_gc_type() { return gct; }
+
+        protected:
             gc_type gct;
         };
     };

@@ -56,7 +56,7 @@ namespace g0at
             process proc;
             proc.pool = &pool;
             proc.threads = &tlist;
-            lib::pointer<lib::gc> gc = create_garbage_collector(env->gct, &proc);
+            lib::pointer<lib::gc> gc = create_garbage_collector(env->get_gc_type(), &proc);
             lib::set_garbage_collector(gc.get());
             if (!global::debug)
             {

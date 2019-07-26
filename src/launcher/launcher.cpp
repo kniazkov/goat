@@ -119,6 +119,17 @@ namespace g0at
 
     int launcher::go()
     {
+        lib::pointer<vm::environment> env;
+
+        vm::gc_type gct = vm::gc_type::serial;
+        if (opt.gc_type_str)
+        {
+            if (0 == strcmp(opt.gc_type_str, "debug"))
+                gct = vm::gc_type::debug;
+            else if (0 == strcmp(opt.gc_type_str, "disabled"))
+                gct = vm::gc_type::disabled;
+        }
+
         if (opt.prog_name == nullptr)
         {
 #if 0
@@ -131,16 +142,6 @@ namespace g0at
             }
 #endif
             throw no_input_file();
-        }
-        
-        vm::environment env;
-        env.gct = vm::gc_type::serial;
-        if (opt.gc_type_str)
-        {
-            if (0 == strcmp(opt.gc_type_str, "debug"))
-                env.gct = vm::gc_type::debug;
-            else if (0 == strcmp(opt.gc_type_str, "disabled"))
-                env.gct = vm::gc_type::disabled;
         }
 
         vm::vm_report vmr = {0};
@@ -163,7 +164,8 @@ namespace g0at
                 lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code));
             }
             vm::vm vm(code);
-            vmr = vm.run(&env);
+            env = new vm::environment(gct);
+            vmr = vm.run(env.get());
             if (opt.dump_memory_usage_report)
             {
                 dump_memory_usage_report(opt.prog_name, vmr);
@@ -198,7 +200,8 @@ namespace g0at
             if (!opt.compile)
             {
                 vm::vm vm(code_2);
-                vmr = vm.run(&env);
+                env = new vm::environment(gct);
+                vmr = vm.run(env.get());
             }
             else
             {
