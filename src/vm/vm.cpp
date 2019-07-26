@@ -44,17 +44,16 @@ namespace g0at
 
         vm_report vm::run(environment *env)
         {
-            model::object_pool pool(code->get_identifiers_list());
-            model::context *ctx = model::built_in::context_factory(&pool).create_context();
-            model::thread_list tlist(&pool);
+            model::context *ctx = model::built_in::context_factory(env->get_pool()).create_context();
+            model::thread_list tlist(env->get_pool());
             model::variable ret;
             model::thread *thr = tlist.create_thread(ctx, &ret);
-            ret.set_object(pool.get_undefined_instance());
+            ret.set_object(env->get_pool()->get_undefined_instance());
             thr->iid = code::iid_t(0);
             thr->next = thr;
             thr->state = model::thread_state::ok;
             process proc;
-            proc.pool = &pool;
+            proc.pool = env->get_pool();
             proc.threads = &tlist;
             lib::pointer<lib::gc> gc = create_garbage_collector(env->get_gc_type(), &proc);
             lib::set_garbage_collector(gc.get());
@@ -81,7 +80,7 @@ namespace g0at
                     if (!thr->stack_is_empty())
                     {
                         // convert any value to real object
-                        thr->peek().to_object(&pool);
+                        thr->peek().to_object(env->get_pool());
                     }
                     gc->collect_garbage_if_necessary();
                     thr = tlist.switch_thread();
@@ -95,8 +94,8 @@ namespace g0at
             else
                 r.ret_value = 0;
             r.gcr = gc->get_report();
-            r.opr = pool.get_report();
-            pool.destroy_all();
+            r.opr = env->get_pool()->get_report();
+            env->get_pool()->destroy_all();
             lib::set_garbage_collector(nullptr);
             return r;
         }

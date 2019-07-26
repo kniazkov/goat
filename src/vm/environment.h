@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "gc.h"
 #include "lib/ref_counter.h"
+#include "model/object_pool.h"
 
 namespace g0at
 {
@@ -32,11 +33,18 @@ namespace g0at
         class environment : public lib::ref_counter
         {
         public:
-            environment(gc_type _gct);
+            environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list);
+            ~environment();
             gc_type get_gc_type() { return gct; }
+            model::object_pool *get_pool() { return pool; } ;
 
         protected:
             gc_type gct;
+            model::object_pool *pool;
+
+        private:
+            environment(const environment &) { }
+            void operator=(const environment &) { }
         };
     };
 };

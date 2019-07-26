@@ -26,9 +26,15 @@ namespace g0at
 {
     namespace vm
     {
-        environment::environment(gc_type _gct)
-            : gct(_gct)
+        environment::environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list)
+            : gct(_gc_type)
         {
+            pool = new model::object_pool(_identifiers_list);
+        }
+
+        environment::~environment()
+        {
+            delete pool;
         }
     };
 };
