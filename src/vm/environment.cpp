@@ -32,10 +32,13 @@ namespace g0at
         {
             pool = new model::object_pool(_identifiers_list);
             ctx = model::built_in::context_factory(pool).create_context();
+            tlist = new model::thread_list(pool);
         }
 
         environment::~environment()
         {
+            delete tlist;
+            pool->destroy_all();
             delete pool;
         }
     };

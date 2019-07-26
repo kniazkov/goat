@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/ref_counter.h"
 #include "model/object_pool.h"
 #include "model/context.h"
+#include "model/thread.h"
 
 namespace g0at
 {
@@ -39,11 +40,13 @@ namespace g0at
             gc_type get_gc_type() { return gct; }
             model::object_pool *get_pool() { return pool; } ;
             model::context *get_context() { return ctx; } ;
+            model::thread_list *get_thread_list() { return tlist; }
 
         protected:
             gc_type gct;
             model::object_pool *pool;
             model::context *ctx;
+            model::thread_list *tlist;
 
         private:
             environment(const environment &) { }

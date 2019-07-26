@@ -45,16 +45,15 @@ namespace g0at
         vm_report vm::run(environment *env)
         {
             
-            model::thread_list tlist(env->get_pool());
             model::variable ret;
-            model::thread *thr = tlist.create_thread(env->get_context(), &ret);
+            model::thread *thr = env->get_thread_list()->create_thread(env->get_context(), &ret);
             ret.set_object(env->get_pool()->get_undefined_instance());
             thr->iid = code::iid_t(0);
             thr->next = thr;
             thr->state = model::thread_state::ok;
             process proc;
             proc.pool = env->get_pool();
-            proc.threads = &tlist;
+            proc.threads = env->get_thread_list();
             lib::pointer<lib::gc> gc = create_garbage_collector(env->get_gc_type(), &proc);
             lib::set_garbage_collector(gc.get());
             if (!global::debug)
@@ -66,7 +65,7 @@ namespace g0at
                     auto instr = code->get_instruction(iid);
                     instr->exec(thr);
                     gc->collect_garbage_if_necessary();
-                    thr = tlist.switch_thread();
+                    thr = env->get_thread_list()->switch_thread();
                 }
             }
             else
@@ -83,7 +82,7 @@ namespace g0at
                         thr->peek().to_object(env->get_pool());
                     }
                     gc->collect_garbage_if_necessary();
-                    thr = tlist.switch_thread();
+                    thr = env->get_thread_list()->switch_thread();
                 }
             }
 

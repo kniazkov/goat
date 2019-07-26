@@ -84,6 +84,8 @@ namespace g0at
                 delete obj;
                 obj = next;
             }
+            first = nullptr;
+            last = nullptr;
         }
     };
 };
