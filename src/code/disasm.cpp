@@ -60,8 +60,8 @@ namespace g0at
 {
     namespace code
     {
-        disasm::disasm(std::wstringstream &_stream, std::vector<std::wstring> &_identifiers)
-            : stream(_stream), identifiers(_identifiers)
+        disasm::disasm(std::wstringstream &_stream, std::vector<std::wstring> &_identifiers, int _offset)
+            : stream(_stream), identifiers(_identifiers), offset(_offset)
         {
         }
 
@@ -79,7 +79,7 @@ namespace g0at
             tmp << "\n";
 #endif
             tmp << L".code\n";
-            disasm da(tmp, i_list);
+            disasm da(tmp, i_list, _code->get_first_identifier_index());
             iid_t last_iid = _code->get_current_iid();
             for (iid_t j = iid_t(0); j < last_iid; ++j)
             {
@@ -104,13 +104,13 @@ namespace g0at
         void disasm::visit(_string *ref)
         {
             int id = ref->get_id();
-            stream << L"string\t" << id << L"\t; \"" <<  lib::escape_special_chars(identifiers.at(id)) << '"';
+            stream << L"string\t" << id << L"\t; \"" <<  lib::escape_special_chars(identifiers.at(id - offset)) << '"';
         }
 
         void disasm::visit(_load *ref)
         {
             int id = ref->get_id();
-            stream << L"load\t" << id << L"\t; " << identifiers.at(id);
+            stream << L"load\t" << id << L"\t; " << identifiers.at(id - offset);
         }
 
         void disasm::visit(_call *ref)
@@ -166,13 +166,13 @@ namespace g0at
         void disasm::visit(_var *ref)
         {
             int id = ref->get_id();
-            stream << L"var\t" << id << L"\t; " << identifiers.at(id);
+            stream << L"var\t" << id << L"\t; " << identifiers.at(id - offset);
         }
 
         void disasm::visit(_store *ref)
         {
             int id = ref->get_id();
-            stream << L"store\t" << id << L"\t; " << identifiers.at(id);
+            stream << L"store\t" << id << L"\t; " << identifiers.at(id - offset);
         }
 
         void disasm::visit(_real *ref)
@@ -195,7 +195,7 @@ namespace g0at
                 {
                     if (i)
                         stream << L", ";
-                    stream << identifiers.at(ref->get_arg_id(i));
+                    stream << identifiers.at(ref->get_arg_id(i) - offset);
                 }
             }
         }
@@ -218,7 +218,7 @@ namespace g0at
         void disasm::visit(_read *ref)
         {
             int id = ref->get_id();
-            stream << L"read\t" << id << L"\t; " << identifiers.at(id);
+            stream << L"read\t" << id << L"\t; " << identifiers.at(id - offset);
         }
 
         void disasm::visit(_true *ref)
@@ -254,7 +254,7 @@ namespace g0at
         void disasm::visit(_vcall *ref)
         {
             int id = ref->get_id();
-            stream << L"vcall\t" << id << L", " << ref->get_arg_count() << L"\t; " << identifiers.at(id);
+            stream << L"vcall\t" << id << L", " << ref->get_arg_count() << L"\t; " << identifiers.at(id - offset);
         }
 
         void disasm::visit(_this *ref)
@@ -300,7 +300,7 @@ namespace g0at
         void disasm::visit(_catch *ref)
         {
             int id = ref->get_id();
-            stream << L"catch\t" << id << L"\t; " << identifiers.at(id);
+            stream << L"catch\t" << id << L"\t; " << identifiers.at(id - offset);
         }
 
         void disasm::visit(_finally *ref)
@@ -337,7 +337,7 @@ namespace g0at
         void disasm::visit(_write *ref)
         {
             int id = ref->get_id();
-            stream << L"write\t" << id << L"\t; " << identifiers.at(id);
+            stream << L"write\t" << id << L"\t; " << identifiers.at(id - offset);
         }
 
         void disasm::visit(_inc *ref)
@@ -360,7 +360,7 @@ namespace g0at
                 {
                     if (i)
                         stream << L", ";
-                    stream << identifiers.at(ref->get_arg_id(i));
+                    stream << identifiers.at(ref->get_arg_id(i - offset));
                 }
             }
         }

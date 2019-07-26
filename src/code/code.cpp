@@ -27,6 +27,7 @@ namespace g0at
     namespace code
     {
         code::code()
+            : first_identifier_index(0)
         {
         }
 

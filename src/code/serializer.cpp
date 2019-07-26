@@ -80,6 +80,8 @@ namespace g0at
             auto i_list = code->get_identifiers_list();
             int i_list_size = (int)i_list.size();
             push_int32(dst, i_list_size);
+            int first_index = code->get_first_identifier_index();
+            push_int32(dst, first_index);
             for (i = 0; i < i_list_size; i++)
             {
                 push_wstring(dst, i_list[i]);

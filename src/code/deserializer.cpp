@@ -139,6 +139,7 @@ namespace g0at
 
             source src(rle ? buff_decoded : buff, rle ? 0 : sizeof(signature));
             int32_t i_list_size = pop_int32(&src);
+            dst->set_first_identifier_index(pop_int32(&src));
             std::vector<std::wstring> &i_list = dst->get_identifiers_list();
             while(src.has_data() && i_list_size > 0)
             {

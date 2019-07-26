@@ -37,6 +37,7 @@ namespace g0at
             int get_id(std::wstring name);
             void clear(int offset);
             
+            int get_offset() { return offset; }
             std::vector<std::wstring> &get_vector() { return vector; }
 
         protected:

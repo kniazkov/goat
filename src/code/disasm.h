@@ -36,7 +36,7 @@ namespace g0at
         class disasm : public instruction_visitor
         {
         public:
-            disasm(std::wstringstream &_stream, std::vector<std::wstring> &_identifiers);
+            disasm(std::wstringstream &_stream, std::vector<std::wstring> &_identifiers, int _offset);
             static std::wstring to_string(lib::pointer<code> _code);
             void visit(_nop *ref) override;
             void visit(_string *ref) override;
@@ -109,6 +109,7 @@ namespace g0at
         protected:
             std::wstringstream &stream;
             std::vector<std::wstring> &identifiers;
+            int offset;
         };
     };
 };

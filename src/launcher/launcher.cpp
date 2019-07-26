@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/new.h"
 #include "lib/utils.h"
 #include "global/global.h"
+#include "compiler/source/source_string.h"
 #include "compiler/source/source_file.h"
 #include "compiler/scanner/scanner.h"
 #include "compiler/parser/parser.h"
@@ -138,19 +139,42 @@ namespace g0at
 
         if (opt.prog_name == nullptr)
         {
-#if 0
+            model::name_cache name_cache;
             while(true)
             {
-                std::wcout << L"> ";
-                std::wstring line;
-                std::getline<wchar_t>(std::wcin, line);
-                std::wcout << line << std::endl;
+                std::cout << "> ";
+                std::string line;
+                std::getline(std::cin, line);
+                if (line == "quit" || line == "q")
+                {
+                    return ret_val;
+                }
+                source_string src(global::char_encoder->decode(line));
+                scanner scan(&src);
+                auto tok_root = parser::parser::parse(&scan, false, "shell", opt.lib_path);
+                auto node_root = analyzer::analyzer::analyze(tok_root);
+                tok_root.reset();
+                auto code = codegen::generator::generate(&name_cache, node_root);
+                node_root.reset();
+                if (opt.dump_assembler_code)
+                {
+                    std::cout << global::char_encoder->encode(code::disasm::to_string(code));
+                }
+                if (!env)
+                {
+                    env = new vm::environment(gct, code->get_identifiers_list());
+                }
+                else
+                {
+                    env->get_pool()->merge_strings_cache(code->get_identifiers_list());
+                }
+                vm::vm vm(code);
+                ret_val = vm.run(env.get());
+                std::cout << std::endl;
+                name_cache.clear(env->get_pool()->get_strings_cache_size());
             }
-#endif
-            throw no_input_file();
         }
-
-        if (opt.bin)
+        else if (opt.bin)
         {
             std::vector<uint8_t> binary;
             std::ifstream bin_file(opt.prog_name);
@@ -175,6 +199,7 @@ namespace g0at
             {
                 dump_memory_usage_report(opt.prog_name, env.get());
             }
+            return ret_val;
         }
         else
         {
@@ -220,7 +245,7 @@ namespace g0at
             {
                 dump_memory_usage_report(opt.prog_name, env.get());
             }
+            return ret_val;
         }
-        return ret_val;
     }
 };
