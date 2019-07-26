@@ -20,15 +20,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "lib/new.h"
 #include "vm.h"
-#include "gc.h"
-#include "process.h"
 #include "model/object.h"
-#include "model/object_cache.h"
-#include "model/built_in/context_factory.h"
-#include "code/disasm.h"
-#include "global/global.h"
 #include "lib/assert.h"
 #include <iostream>
 #include <climits>

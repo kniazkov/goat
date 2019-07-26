@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "environment.h"
 #include "model/built_in/context_factory.h"
+#include "lib/new.h"
 
 namespace g0at
 {
