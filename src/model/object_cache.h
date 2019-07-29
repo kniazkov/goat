@@ -40,8 +40,10 @@ namespace g0at
             void merge(std::vector<std::wstring> &list, object_pool *pool);
             object_string *get_object(std::wstring name, object_pool *pool);
             object_string *get_object(int id);
-            int get_size() { return (int)objects.size(); }
+            std::vector<std::wstring> get_strings_list();
             void mark_all();
+
+            int get_size() { return (int)objects.size(); }
 
         protected:
             object_cache(const object_cache&) { }

@@ -132,8 +132,8 @@ namespace g0at
             void mark_all_static_strings() { static_strings.mark_all(); }
             object_string *get_static_string(std::wstring name) { return static_strings.get_object(name, this); }
             object_string *get_static_string(int id) { return static_strings.get_object(id); }
-            int get_strings_cache_size() { return static_strings.get_size(); }
-            void merge_strings_cache(std::vector<std::wstring> &identifiers_list) { static_strings.merge(identifiers_list, this); }
+            std::vector<std::wstring> get_strings_list() { return static_strings.get_strings_list(); }
+            void merge_strings_list(std::vector<std::wstring> &identifiers_list) { static_strings.merge(identifiers_list, this); }
 
             object_list population;
             object_pool_typed<4, 256> generic_objects;

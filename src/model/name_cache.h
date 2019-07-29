@@ -34,17 +34,15 @@ namespace g0at
         {
         public:
             name_cache();
+            void reinit(std::vector<std::wstring> new_vector);
             int get_id(std::wstring name);
-            void clear(int offset);
             
-            int get_offset() { return offset; }
             std::vector<std::wstring> &get_vector() { return vector; }
 
         protected:
             name_cache(const name_cache&) { }
             void operator=(const name_cache&) { }
 
-            int offset;
             std::map<std::wstring, int> map;
             std::vector<std::wstring> vector;
         };

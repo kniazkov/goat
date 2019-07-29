@@ -166,12 +166,12 @@ namespace g0at
                 }
                 else
                 {
-                    env->get_pool()->merge_strings_cache(code->get_identifiers_list());
+                    env->get_pool()->merge_strings_list(code->get_identifiers_list());
                 }
                 vm::vm vm(code);
                 ret_val = vm.run(env.get());
                 std::cout << std::endl;
-                name_cache.clear(env->get_pool()->get_strings_cache_size());
+                name_cache.reinit(env->get_pool()->get_strings_list());
             }
         }
         else if (opt.bin)
