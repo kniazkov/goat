@@ -140,16 +140,36 @@ namespace g0at
         if (opt.prog_name == nullptr)
         {
             model::name_cache name_cache;
+            std::stringstream stream;
+            bool multiline = false;
+            std::cout << "Hello~" << std::endl;
             while(true)
             {
-                std::cout << "> ";
+                std::cout << (multiline ? "  " : "> ");
                 std::string line;
+                std::string program;
                 std::getline(std::cin, line);
-                if (line == "quit" || line == "q")
+                if (line == "")
+                    continue;
+                if (line[line.size() - 1] == '\\')
                 {
-                    return ret_val;
+                    stream << line.substr(0, line.size() - 1);
+                    multiline = true;
+                    continue;
                 }
-                source_string src(global::char_encoder->decode(line));
+                stream << line;
+                program = lib::trim(stream.str());
+                if (program == "")
+                    continue;
+                if (program == "quit" || program == "q")
+                    return ret_val;
+                if (program[0] == '?' && !multiline)
+                {
+                    stream.str(std::string());
+                    stream << "print(" << program.substr(1, program.size() - 1) << ");";
+                    program = stream.str();
+                }
+                source_string src(global::char_encoder->decode(program));
                 try
                 {
                     scanner scan(&src);
@@ -179,6 +199,8 @@ namespace g0at
                 {
                     std::cerr << ex.what() << std::endl;
                 }
+                stream.str(std::string());
+                multiline = false;
             }
         }
         else if (opt.bin)
