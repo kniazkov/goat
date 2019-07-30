@@ -45,8 +45,6 @@ namespace g0at
             iid_t get_current_iid() { return iid_t(instructions.size()); }
             instruction *get_instruction(iid_t iid) { return instructions.at(iid.as_int()); }
             std::vector<std::wstring> &get_identifiers_list() { return identifiers; }
-            void set_first_identifier_index(int index) { first_identifier_index = index; }
-            int get_first_identifier_index() { return first_identifier_index; }
             void set_identifiers_list(std::vector<std::wstring> &_identifiers) { identifiers = _identifiers; }
 
         protected:
@@ -55,7 +53,6 @@ namespace g0at
 
             std::vector<instruction*> instructions;
             std::vector<std::wstring> identifiers;
-            int first_identifier_index;
         };
     };
 };

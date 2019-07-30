@@ -150,28 +150,35 @@ namespace g0at
                     return ret_val;
                 }
                 source_string src(global::char_encoder->decode(line));
-                scanner scan(&src);
-                auto tok_root = parser::parser::parse(&scan, false, "shell", opt.lib_path);
-                auto node_root = analyzer::analyzer::analyze(tok_root);
-                tok_root.reset();
-                auto code = codegen::generator::generate(&name_cache, node_root);
-                node_root.reset();
-                if (opt.dump_assembler_code)
+                try
                 {
-                    std::cout << global::char_encoder->encode(code::disasm::to_string(code));
+                    scanner scan(&src);
+                    auto tok_root = parser::parser::parse(&scan, false, "shell", opt.lib_path);
+                    auto node_root = analyzer::analyzer::analyze(tok_root);
+                    tok_root.reset();
+                    auto code = codegen::generator::generate(&name_cache, node_root);
+                    node_root.reset();
+                    if (opt.dump_assembler_code)
+                    {
+                        std::cout << global::char_encoder->encode(code::disasm::to_string(code, false));
+                    }
+                    if (!env)
+                    {
+                        env = new vm::environment(gct, code->get_identifiers_list());
+                    }
+                    else
+                    {
+                        env->get_pool()->merge_strings_list(code->get_identifiers_list());
+                    }
+                    vm::vm vm(code);
+                    ret_val = vm.run(env.get());
+                    std::cout << std::endl;
+                    name_cache.reinit(env->get_pool()->get_strings_list());
                 }
-                if (!env)
+                catch (std::exception &ex)
                 {
-                    env = new vm::environment(gct, code->get_identifiers_list());
+                    std::cerr << ex.what() << std::endl;
                 }
-                else
-                {
-                    env->get_pool()->merge_strings_list(code->get_identifiers_list());
-                }
-                vm::vm vm(code);
-                ret_val = vm.run(env.get());
-                std::cout << std::endl;
-                name_cache.reinit(env->get_pool()->get_strings_list());
             }
         }
         else if (opt.bin)
@@ -190,7 +197,7 @@ namespace g0at
             auto code = code::deserializer::deserialize(binary);
             if (opt.dump_assembler_code)
             {
-                lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code));
+                lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code, true));
             }
             vm::vm vm(code);
             env = new vm::environment(gct, code->get_identifiers_list());
@@ -225,7 +232,7 @@ namespace g0at
             auto code_2 = code::deserializer::deserialize(binary);
             if (opt.dump_assembler_code)
             {
-                lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code_2));
+                lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code_2, true));
             }
             if (!opt.compile)
             {

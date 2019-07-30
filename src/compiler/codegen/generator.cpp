@@ -165,7 +165,6 @@ namespace g0at
                 def.node->accept(&gen);
             }
             gen.code->set_identifiers_list(gen.name_cache->get_vector());
-            gen.code->set_first_identifier_index(0);
             return gen.code;
         }
 
