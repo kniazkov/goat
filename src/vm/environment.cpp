@@ -20,41 +20,35 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "gc.h"
+#include "environment.h"
+#include "model/built_in/context_factory.h"
+#include "lib/new.h"
 
 namespace g0at
 {
     namespace vm
     {
-        class gc_disabled : public lib::gc
+        environment::environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list)
+            : gct(_gc_type)
         {
-        public:
-            gc_disabled()
-            {    
-            }
+            pool = new model::object_pool(_identifiers_list);
+            ctx = model::built_in::context_factory(pool).create_context();
+            tlist = new model::thread_list(pool);
+            proc = new process();
+            proc->pool = pool;
+            proc->threads = tlist;
+            gc = create_garbage_collector(_gc_type, proc);
+            lib::set_garbage_collector(gc);
+        }
 
-            void collect_garbage() override
-            {
-                // relax
-            }
-
-            void collect_garbage_if_necessary() override
-            {
-                // relax again
-            }
-
-            lib::gc_report get_report() override
-            {
-                lib::gc_report r;
-                r.name = L"disabled";
-                r.count_of_launches = 0;
-                return r;
-            }
-        };
-
-        lib::gc * create_grabage_collector_disabled()
+        environment::~environment()
         {
-            return new gc_disabled();
+            pool->destroy_all();
+            lib::set_garbage_collector(nullptr);
+            delete gc;
+            delete proc;
+            delete tlist;
+            delete pool;
         }
     };
 };

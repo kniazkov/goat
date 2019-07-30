@@ -29,6 +29,28 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <fstream>
 #include <streambuf>
 
+/*
+
+                                          $"   *.
+              d$$$$$$$P"                  $    J
+                  ^$.                     4r  "
+                  d"b                    .db
+                 P   $                  e" $
+        ..ec.. ."     *.              zP   $.zec..
+    .^        3*b.     *.           .P" .@"4F      "4
+  ."         d"  ^b.    *c        .$"  d"   $         %
+ /          P      $.    "c      d"   @     3r         3
+4        .eE........$r===e$$$$eeP    J       *..        b
+$       $$$$$       $   4$$$$$$$     F       d$$$.      4
+$       $$$$$       $   4$$$$$$$     L       *$$$"      4
+4         "      ""3P ===$$$$$$"     3                  P
+ *                 $       """        b                J
+  ".             .P                    %.             @
+    %.         z*"                      ^%.        .r"
+       "*==*""                             ^"*==*""
+
+*/
+
 namespace g0at
 {
     namespace lib
@@ -242,7 +264,7 @@ namespace g0at
                     if (!flag)
                     {
                         flag = true;
-                        stream << separator;
+                      stream << separator;
                     }
                 }
                 else
@@ -252,6 +274,34 @@ namespace g0at
                 }
             }
             return stream.str();
+        }
+
+        std::string trim(std::string str)
+        {
+            size_t size = str.size();
+            if (size == 0)
+                return str;
+
+            size_t begin = 0;
+            while(begin < size)
+            {
+                if (str[begin] != ' ')
+                    break;
+                begin++;
+            }
+
+            if (begin == size)
+                return "";
+            
+            size_t end = size - 1;
+            while(end > begin)
+            {
+                if (str[end] != ' ')
+                    break;
+                end--;
+            }
+
+            return str.substr(begin, end - begin + 1);
         }
     };
 

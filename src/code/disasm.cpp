@@ -65,19 +65,20 @@ namespace g0at
         {
         }
 
-        std::wstring disasm::to_string(lib::pointer<code> _code)
+        std::wstring disasm::to_string(lib::pointer<code> _code, bool _print_data_segment)
         {
             std::wstringstream tmp;
             int i, size;
             auto i_list = _code->get_identifiers_list();
-#if 1 // we hardly need it
-            tmp << L".data\n";
-            for (i = 0, size = (int)i_list.size(); i < size; i++)
+            if (_print_data_segment)
             {
-                tmp << L"  " << i << L"\t" << i_list[i] << "\n";
+                tmp << L".data\n";
+                for (i = 0, size = (int)i_list.size(); i < size; i++)
+                {
+                    tmp << L"  " << i << L"\t" << i_list[i] << "\n";
+                }
+                tmp << "\n";
             }
-            tmp << "\n";
-#endif
             tmp << L".code\n";
             disasm da(tmp, i_list);
             iid_t last_iid = _code->get_current_iid();

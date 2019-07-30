@@ -37,10 +37,13 @@ namespace g0at
         {
         public:
             object_cache();
-            void init(std::vector<std::wstring> &init_list, object_pool *pool);
+            void merge(std::vector<std::wstring> &list, object_pool *pool);
             object_string *get_object(std::wstring name, object_pool *pool);
             object_string *get_object(int id);
+            std::vector<std::wstring> get_strings_list();
             void mark_all();
+
+            int get_size() { return (int)objects.size(); }
 
         protected:
             object_cache(const object_cache&) { }

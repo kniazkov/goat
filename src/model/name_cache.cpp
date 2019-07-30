@@ -30,6 +30,17 @@ namespace g0at
         {
         }
 
+        void name_cache::reinit(std::vector<std::wstring> new_vector)
+        {
+            map.clear();
+            vector = new_vector;
+
+            for (int id = 0, size = (int)new_vector.size(); id < size; id++)
+            {
+                map.insert(std::pair<std::wstring, int>(new_vector[id], id));
+            }
+        }
+
         int name_cache::get_id(std::wstring name)
         {
             auto iter = map.find(name);

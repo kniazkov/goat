@@ -33,15 +33,22 @@ namespace g0at
         {
         }
 
-        void object_cache::init(std::vector<std::wstring> &init_list, object_pool *pool)
+        void object_cache::merge(std::vector<std::wstring> &list, object_pool *pool)
         {
-            for (int id = 0, size = (int)init_list.size(); id < size; id++)
+            for (int id = 0, size = (int)list.size(); id < size; id++)
             {
-                std::wstring name = init_list[id];
-                assert(indexes.find(name) == indexes.end());
-                object_string *obj = pool->create_object_string(name, id);
-                indexes.insert(std::pair<std::wstring, int>(name, id));
-                objects.push_back(obj);
+                std::wstring name = list[id];
+                auto pair = indexes.find(name);
+                if (pair != indexes.end())
+                {
+                    assert(pair->second == id);
+                }
+                else
+                {
+                    object_string *obj = pool->create_object_string(name, id);
+                    indexes.insert(std::pair<std::wstring, int>(name, id));
+                    objects.push_back(obj);
+                }                
             }
         }
 
@@ -66,6 +73,16 @@ namespace g0at
         object_string *object_cache::get_object(int id)
         {
             return objects.at(id);
+        }
+
+        std::vector<std::wstring> object_cache::get_strings_list()
+        {
+            std::vector<std::wstring> result;
+            for (auto obj: objects)
+            {
+                result.push_back(obj->get_data());
+            }
+            return result;
         }
             
         void object_cache::mark_all()

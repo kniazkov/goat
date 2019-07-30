@@ -34,6 +34,7 @@ namespace g0at
         {
         public:
             name_cache();
+            void reinit(std::vector<std::wstring> new_vector);
             int get_id(std::wstring name);
             
             std::vector<std::wstring> &get_vector() { return vector; }

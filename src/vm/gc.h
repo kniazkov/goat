@@ -37,11 +37,11 @@ namespace g0at
             disabled
         };
 
-        lib::pointer<lib::gc> create_grabage_collector_serial(process *proc);
-        lib::pointer<lib::gc> create_grabage_collector_debug(process *proc);
-        lib::pointer<lib::gc> create_grabage_collector_disabled();
+        lib::gc * create_grabage_collector_serial(process *proc);
+        lib::gc * create_grabage_collector_debug(process *proc);
+        lib::gc * create_grabage_collector_disabled();
 
-        static inline lib::pointer<lib::gc> create_garbage_collector(gc_type type, process *proc)
+        static inline lib::gc * create_garbage_collector(gc_type type, process *proc)
         {
             switch(type)
             {

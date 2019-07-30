@@ -23,14 +23,39 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "gc.h"
+#include "process.h"
+#include "lib/ref_counter.h"
+#include "model/object_pool.h"
+#include "model/context.h"
+#include "model/thread.h"
 
 namespace g0at
 {
     namespace vm
     {
-        struct environment
+        class environment : public lib::ref_counter
         {
+        public:
+            environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list);
+            ~environment();
+
+            gc_type get_gc_type() { return gct; }
+            model::object_pool *get_pool() { return pool; } ;
+            model::context *get_context() { return ctx; } ;
+            model::thread_list *get_thread_list() { return tlist; }
+            lib::gc *get_gc() { return gc; }
+
+        protected:
             gc_type gct;
+            model::object_pool *pool;
+            model::context *ctx;
+            model::thread_list *tlist;
+            process *proc;
+            lib::gc *gc;
+
+        private:
+            environment(const environment &) { }
+            void operator=(const environment &) { }
         };
     };
 };

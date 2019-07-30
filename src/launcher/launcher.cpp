@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/new.h"
 #include "lib/utils.h"
 #include "global/global.h"
+#include "compiler/source/source_string.h"
 #include "compiler/source/source_file.h"
 #include "compiler/scanner/scanner.h"
 #include "compiler/parser/parser.h"
@@ -103,39 +104,106 @@ namespace g0at
         options::parse(argc, argv, opt);
     }
 
-    static void dump_memory_usage_report(const char *file_name, vm::vm_report &vmr)
+    static void dump_memory_usage_report(const char *file_name, vm::environment *env)
     {
+        auto gcr = env->get_gc()->get_report();
+        auto opr = env->get_pool()->get_report();
         lib::dump_file(file_name, "memory.txt", global::resource->memory_usage_report(
             lib::get_heap_size(),
             lib::get_max_used_memory_size(),
-            vmr.gcr.name ? vmr.gcr.name : L"none",
-            vmr.gcr.count_of_launches,
-            vmr.opr.new_count + vmr.opr.reinit_count,
-            vmr.opr.new_count,
-            vmr.opr.reinit_count,
-            100.0 * vmr.opr.reinit_count / ( vmr.opr.new_count + vmr.opr.reinit_count )
+            gcr.name ? gcr.name : L"none",
+            gcr.count_of_launches,
+            opr.new_count + opr.reinit_count,
+            opr.new_count,
+            opr.reinit_count,
+            100.0 * opr.reinit_count / ( opr.new_count + opr.reinit_count )
         ));
     }
 
     int launcher::go()
     {
-        if (opt.prog_name == nullptr)
-        {
+        if (opt.bin && opt.prog_name == nullptr)
             throw no_input_file();
-        }
-        
-        vm::environment env;
-        env.gct = vm::gc_type::serial;
+
+        lib::pointer<vm::environment> env;
+        int ret_val = 0;
+
+        vm::gc_type gct = vm::gc_type::serial;
         if (opt.gc_type_str)
         {
             if (0 == strcmp(opt.gc_type_str, "debug"))
-                env.gct = vm::gc_type::debug;
+                gct = vm::gc_type::debug;
             else if (0 == strcmp(opt.gc_type_str, "disabled"))
-                env.gct = vm::gc_type::disabled;
+                gct = vm::gc_type::disabled;
         }
 
-        vm::vm_report vmr = {0};
-        if (opt.bin)
+        if (opt.prog_name == nullptr)
+        {
+            model::name_cache name_cache;
+            std::stringstream stream;
+            bool multiline = false;
+            std::cout << "Hello~" << std::endl;
+            while(true)
+            {
+                std::cout << (multiline ? "  " : "> ");
+                std::string line;
+                std::string program;
+                std::getline(std::cin, line);
+                if (line == "")
+                    continue;
+                if (line[line.size() - 1] == '\\')
+                {
+                    stream << line.substr(0, line.size() - 1);
+                    multiline = true;
+                    continue;
+                }
+                stream << line;
+                program = lib::trim(stream.str());
+                if (program == "")
+                    continue;
+                if (program == "quit" || program == "q")
+                    return ret_val;
+                if (program[0] == '?' && !multiline)
+                {
+                    stream.str(std::string());
+                    stream << "print(" << program.substr(1, program.size() - 1) << ");";
+                    program = stream.str();
+                }
+                source_string src(global::char_encoder->decode(program));
+                try
+                {
+                    scanner scan(&src);
+                    auto tok_root = parser::parser::parse(&scan, false, "shell", opt.lib_path);
+                    auto node_root = analyzer::analyzer::analyze(tok_root);
+                    tok_root.reset();
+                    auto code = codegen::generator::generate(&name_cache, node_root);
+                    node_root.reset();
+                    if (opt.dump_assembler_code)
+                    {
+                        std::cout << global::char_encoder->encode(code::disasm::to_string(code, false));
+                    }
+                    if (!env)
+                    {
+                        env = new vm::environment(gct, code->get_identifiers_list());
+                    }
+                    else
+                    {
+                        env->get_pool()->merge_strings_list(code->get_identifiers_list());
+                    }
+                    vm::vm vm(code);
+                    ret_val = vm.run(env.get());
+                    std::cout << std::endl;
+                    name_cache.reinit(env->get_pool()->get_strings_list());
+                }
+                catch (std::exception &ex)
+                {
+                    std::cerr << ex.what() << std::endl;
+                }
+                stream.str(std::string());
+                multiline = false;
+            }
+        }
+        else if (opt.bin)
         {
             std::vector<uint8_t> binary;
             std::ifstream bin_file(opt.prog_name);
@@ -151,14 +219,16 @@ namespace g0at
             auto code = code::deserializer::deserialize(binary);
             if (opt.dump_assembler_code)
             {
-                lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code));
+                lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code, true));
             }
             vm::vm vm(code);
-            vmr = vm.run(&env);
+            env = new vm::environment(gct, code->get_identifiers_list());
+            ret_val = vm.run(env.get());
             if (opt.dump_memory_usage_report)
             {
-                dump_memory_usage_report(opt.prog_name, vmr);
+                dump_memory_usage_report(opt.prog_name, env.get());
             }
+            return ret_val;
         }
         else
         {
@@ -175,7 +245,8 @@ namespace g0at
             {
                 lib::dump_file(opt.prog_name, "ptree.txt", pt::dbg_output::to_string(node_root.get()));
             }
-            auto code = codegen::generator::generate(node_root);
+            model::name_cache name_cache;
+            auto code = codegen::generator::generate(&name_cache, node_root);
             node_root.reset();
             std::vector<uint8_t> binary;
             code::serializer::serialize(code, binary, !opt.do_not_compress);
@@ -183,12 +254,13 @@ namespace g0at
             auto code_2 = code::deserializer::deserialize(binary);
             if (opt.dump_assembler_code)
             {
-                lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code_2));
+                lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code_2, true));
             }
             if (!opt.compile)
             {
                 vm::vm vm(code_2);
-                vmr = vm.run(&env);
+                env = new vm::environment(gct, code_2->get_identifiers_list());
+                ret_val = vm.run(env.get());
             }
             else
             {
@@ -200,9 +272,9 @@ namespace g0at
             }
             if (opt.dump_memory_usage_report)
             {
-                dump_memory_usage_report(opt.prog_name, vmr);
+                dump_memory_usage_report(opt.prog_name, env.get());
             }
+            return ret_val;
         }
-        return vmr.ret_value;
     }
 };
