@@ -47,5 +47,6 @@ namespace g0at
         std::wstring str_next = L"next";
         std::wstring str_valid = L"valid";
         std::wstring str_clone = L"clone";
+        std::wstring str_length = L"length";
     };
 };

@@ -1,5 +1,8 @@
 var test = $(a)
 {
+    var _a = "" + a;
+    if (_a == "")
+        _a = "\"\"";
     try
     {
         var b = !a;
@@ -7,15 +10,15 @@ var test = $(a)
         var c = f.call(a);
         if (b != c)
         {
-            println("fail, a = " + a + ", b = " + b + ", c = " + c);
+            println("fail, a = " + _a + ", b = " + b + ", c = " + c);
             return;
         }
-        println("ok, a = " + a + ", !a = " + b);
+        println("ok, a = " + _a + ", !a = " + b);
     }
     catch(err)
     {
         if (err.instanceof(Exception.IllegalReference.OperatorNotFound))
-            println("fail but ok: " + a);
+            println("fail but ok: " + _a);
         else
             println("exception: " + err);
     }
@@ -27,4 +30,6 @@ test(0);
 test(1);
 test('a');
 test({ });
+test("");
+test("test");
 println("done.");
