@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_string.h"
 #include "object_function_built_in.h"
 #include "lib/assert.h"
+#include "resource/strings.h"
 
 namespace g0at
 {
@@ -275,6 +276,29 @@ namespace g0at
             }
         };
 
+        class generic_not : public object_function_built_in
+        {
+        public:
+            generic_not(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                thr->pop();
+                thr->pop(arg_count);
+                variable result;
+                result.set_boolean(false);
+                thr->push(result);
+            }
+        };
+
         generic_proto::generic_proto(object_pool *pool)
             : object(pool, nullptr)
         {
@@ -282,13 +306,14 @@ namespace g0at
 
         void generic_proto::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(L"clone"), new generic_clone(pool));
-            add_object(pool->get_static_string(L"instanceof"), new generic_instance_of(pool));
-            add_object(pool->get_static_string(L"flat"), new generic_flat(pool));
-            add_object(pool->get_static_string(L"get"), new generic_getter(pool));
-            add_object(pool->get_static_string(L"set"), new generic_setter(pool));
-            add_object(pool->get_static_string(L"iterator"), new generic_iterator(pool));
+            add_object(pool->get_static_string(resource::str_clone), new generic_clone(pool));
+            add_object(pool->get_static_string(resource::str_instanceof), new generic_instance_of(pool));
+            add_object(pool->get_static_string(resource::str_flat), new generic_flat(pool));
+            add_object(pool->get_static_string(resource::str_get), new generic_getter(pool));
+            add_object(pool->get_static_string(resource::str_set), new generic_setter(pool));
+            add_object(pool->get_static_string(resource::str_iterator), new generic_iterator(pool));
             add_object(pool->get_static_string(L"contains"), new generic_contains(pool));
+            add_object(pool->get_static_string(resource::str_oper_exclamation), new generic_not(pool));
         }
     };
 };
