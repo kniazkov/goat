@@ -50,5 +50,7 @@ namespace g0at
         extern std::wstring str_valid;
         extern std::wstring str_clone;
         extern std::wstring str_length;
+        extern std::wstring str_run;
+        extern std::wstring str_current;
     };
 };

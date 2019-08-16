@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_string.h"
 #include "object_runner.h"
 #include "lib/assert.h"
+#include "resource/strings.h"
 
 namespace g0at
 {
@@ -106,6 +107,30 @@ namespace g0at
             }
         };
 
+        /**
+         * @brief Built-in method 'current()' for threads
+         * 
+         * The 'current()' method returns current thread
+         */
+        class current_thread : public object_function_built_in
+        {
+        public:
+            current_thread(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode == call_mode::as_method)
+                    thr->pop();
+                thr->pop(arg_count);
+                variable result;
+                result.set_object(new object_runner(thr->pool, thr->get_id()));
+                thr->push(result);
+            }
+        };
+
         object_thread_proto::object_thread_proto(object_pool *pool)
             : object(pool, pool->get_function_proto_instance())
         {
@@ -113,7 +138,8 @@ namespace g0at
 
         void object_thread_proto::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(L"run"), new object_thread_run(pool));
+            add_object(pool->get_static_string(resource::str_run), new object_thread_run(pool));
+            add_object(pool->get_static_string(resource::str_current), new current_thread(pool));
         }
     };
 };
