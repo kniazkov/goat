@@ -50,5 +50,6 @@ namespace g0at
         std::wstring str_length = L"length";
         std::wstring str_run = L"run";
         std::wstring str_current = L"current";
+        std::wstring str_contains = L"contains";
     };
 };

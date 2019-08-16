@@ -267,9 +267,18 @@ namespace g0at
                 }
                 object *this_ptr = thr->pop().get_object();
                 assert(this_ptr != nullptr);
-                object *key = thr->peek().to_object(thr->pool);
+                object *key = thr->peek(0).to_object(thr->pool);
+                bool deep_search = false;
+                if (arg_count > 1)
+                {
+                    variable deep_search_arg = thr->peek(1);
+                    if (!deep_search_arg.get_boolean(&deep_search))
+                    {
+                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    }
+                }
                 thr->pop(arg_count);
-                variable *found = this_ptr->find_object(key);
+                variable *found = deep_search ? this_ptr->find_object(key) : this_ptr->find_own_object(key);
                 variable result;
                 result.set_boolean(found != nullptr);
                 thr->push(result);
@@ -312,7 +321,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_get), new generic_getter(pool));
             add_object(pool->get_static_string(resource::str_set), new generic_setter(pool));
             add_object(pool->get_static_string(resource::str_iterator), new generic_iterator(pool));
-            add_object(pool->get_static_string(L"contains"), new generic_contains(pool));
+            add_object(pool->get_static_string(resource::str_contains), new generic_contains(pool));
             add_object(pool->get_static_string(resource::str_oper_exclamation), new generic_not(pool));
         }
     };

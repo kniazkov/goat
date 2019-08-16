@@ -165,8 +165,11 @@ namespace g0at
                     return ret_val;
                 if (program[0] == '?' && !multiline)
                 {
+                    size_t len = program.size() - 1;
+                    if (program[len] == ';')
+                        len--;
                     stream.str(std::string());
-                    stream << "print(" << program.substr(1, program.size() - 1) << ");";
+                    stream << "print(" << program.substr(1, len) << ");";
                     program = stream.str();
                 }
                 source_string src(global::char_encoder->decode(program));

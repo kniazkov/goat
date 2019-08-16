@@ -52,5 +52,6 @@ namespace g0at
         extern std::wstring str_length;
         extern std::wstring str_run;
         extern std::wstring str_current;
+        extern std::wstring str_contains;
     };
 };
