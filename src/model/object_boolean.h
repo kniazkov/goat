@@ -22,36 +22,27 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "object.h"
+#include "variable_wrapper.h"
 
 namespace g0at
 {
     namespace model
     {
-        class object_boolean : public object
+        class object_boolean : public variable_wrapper
         {
         friend class object_pool;
         protected:
-            object_boolean(object_pool *pool, bool _value);
-            void reinit(bool _value);
+            object_boolean(object_pool *pool, bool value);
+            void reinit(bool value);
 
         public:
             void kill(object_pool *pool) override;
             object_type get_type() const override;
             object_boolean *to_object_boolean() override;
             bool less(const object *obj) const override;
-            std::wstring to_string() const override;
-            bool get_boolean(bool *pval) override;
-            void op_not(thread *thr) override;
             void m_iterator(thread *thr, int arg_count) override;
 
-            bool get_value() { return value; }
-
-        protected:
-            bool value;
-
-            template <template<typename R, typename A> class F> void unary_operation(thread *thr);
-            template <template<typename R, typename X, typename Y> class F> void binary_operation(thread *thr);
+            bool get_value() { return var.data.b; }
         };
 
         class object_boolean_proto : public object
