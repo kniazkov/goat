@@ -33,14 +33,15 @@ namespace g0at
 {
     namespace model
     {
-        object_real::object_real(object_pool *pool, double _value)
-            : object(pool, pool->get_real_proto_instance()), value(_value)
+        object_real::object_real(object_pool *pool, double value)
+            : variable_wrapper(pool, pool->get_real_proto_instance())
         {
+            var.set_real(value);
         }
 
-        void object_real::reinit(double _value)
+        void object_real::reinit(double value)
         {
-            value = _value;
+            var.set_real(value);
         }
 
         void object_real::kill(object_pool *pool)
@@ -65,78 +66,7 @@ namespace g0at
         {
             assert(obj->get_type() == object_type::real);
             const object_real *obj_real = static_cast<const object_real*>(obj);
-            return value < obj_real->value;
-        }
-
-        std::wstring object_real::to_string() const
-        {
-            return lib::double_to_wstring(value);
-        }
-
-        bool object_real::get_real(double *pval)
-        {
-            *pval = value;
-            return true;
-        }
-
-        void object_real::op_add(thread *thr)
-        {
-            binary_math_operation<lib::func::plus>(thr);
-        }
-
-        void object_real::op_sub(thread *thr)
-        {
-            binary_math_operation<lib::func::minus>(thr);
-        }
-
-        void object_real::op_pos(thread *thr)
-        {
-            unary_operation<lib::func::pos>(thr);
-        }
-
-        void object_real::op_neg(thread *thr)
-        {
-            unary_operation<lib::func::neg>(thr);
-        }
-
-        void object_real::op_inc(thread *thr)
-        {
-            unary_operation<lib::func::inc>(thr);
-        }
-
-        void object_real::op_dec(thread *thr)
-        {
-            unary_operation<lib::func::dec>(thr);
-        }
-
-        void object_real::op_mul(thread *thr)
-        {
-            binary_math_operation<lib::func::mul>(thr);
-        }
-
-        void object_real::op_exp(thread *thr)
-        {
-            binary_math_operation<lib::func::exp>(thr);
-        }
-
-        void object_real::op_div(thread *thr)
-        {
-            binary_math_operation<lib::func::div>(thr);
-        }
-
-        void object_real::op_eq(thread *thr)
-        {
-            binary_logical_operation<lib::func::equals, false>(thr);
-        }
-
-        void object_real::op_neq(thread *thr)
-        {
-            binary_logical_operation<lib::func::not_equal, true>(thr);
-        }
-
-        void object_real::op_less(thread *thr)
-        {
-            binary_logical_operation<lib::func::less, true>(thr);
+            return var.data.r < obj_real->var.data.r;
         }
 
         void object_real::m_iterator(thread *thr, int arg_count)
@@ -146,48 +76,6 @@ namespace g0at
             variable tmp;
             tmp.set_object(thr->pool->get_iterator_proto_instance());
             thr->push(tmp);
-        }
-
-        template <template<typename R, typename A> class F> void object_real::unary_operation(thread *thr)
-        {
-            thr->pop();
-            variable result;
-            result.set_real(F<double, double>::calculate(value));
-            thr->push(result);
-        }
-
-        template <template<typename R, typename X, typename Y> class F> void object_real::binary_math_operation(thread *thr)
-        {
-            thr->pop();
-            variable right = thr->pop();
-            double right_value;
-            bool right_is_real = right.get_real(&right_value);
-            if (!right_is_real)
-            {
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
-                return;
-            }
-            variable result;
-            result.set_real(F<double, double, double>::calculate(value, right_value));
-            thr->push(result);
-        }
-
-        template <template<typename R, typename X, typename Y> class F, bool Def> void object_real::binary_logical_operation(thread *thr)
-        {
-            thr->pop();
-            variable right = thr->pop();
-            double right_value;
-            bool right_is_real = right.get_real(&right_value);
-            variable result;
-            if(right_is_real)
-            {
-                result.set_boolean(F<bool, double, double>::calculate(value, right_value));
-            }
-            else
-            {
-                result.set_boolean(Def);
-            }
-            thr->push(result);
         }
 
         /*
