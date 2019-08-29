@@ -33,14 +33,15 @@ namespace g0at
 {
     namespace model
     {
-        object_char::object_char(object_pool *pool, wchar_t _value)
-            : object(pool, pool->get_char_proto_instance()), value(_value)
+        object_char::object_char(object_pool *pool, wchar_t value)
+            : variable_wrapper(pool, pool->get_char_proto_instance())
         {
+            var.set_char(value);
         }
 
-        void object_char::reinit(wchar_t _value)
+        void object_char::reinit(wchar_t value)
         {
-            value = _value;
+            var.set_char(value);
         }
 
         void object_char::kill(object_pool *pool)
@@ -65,51 +66,7 @@ namespace g0at
         {
             assert(obj->get_type() == object_type::charact);
             const object_char *obj_char = static_cast<const object_char*>(obj);
-            return value < obj_char->value;
-        }
-
-        std::wstring object_char::to_string() const
-        {
-            wchar_t tmp[] = { value, 0 };
-            return std::wstring(tmp);
-        }
-
-        std::wstring object_char::to_string_notation() const
-        {
-            std::wstringstream wss;
-            wss << L'\'' << lib::escape_special_chars(&value, 1) << L'\'';
-            return wss.str();
-        }
-
-        bool object_char::get_char(wchar_t *pval)
-        {
-            *pval = value;
-            return true;
-        }
-
-        void object_char::op_inc(thread *thr)
-        {
-            unary_operation<lib::func::inc>(thr);
-        }
-
-        void object_char::op_dec(thread *thr)
-        {
-            unary_operation<lib::func::dec>(thr);
-        }
-
-        void object_char::op_eq(thread *thr)
-        {
-            binary_logical_operation<lib::func::equals, false>(thr);
-        }
-
-        void object_char::op_neq(thread *thr)
-        {
-            binary_logical_operation<lib::func::not_equal, true>(thr);
-        }
-
-        void object_char::op_less(thread *thr)
-        {
-            binary_logical_operation<lib::func::less, true>(thr);
+            return var.data.c < obj_char->var.data.c;
         }
 
         void object_char::m_iterator(thread *thr, int arg_count)
@@ -119,32 +76,6 @@ namespace g0at
             variable tmp;
             tmp.set_object(thr->pool->get_iterator_proto_instance());
             thr->push(tmp);
-        }
-
-        template <template<typename R, typename A> class F> void object_char::unary_operation(thread *thr)
-        {
-            thr->pop();
-            variable result;
-            result.set_char(F<wchar_t, wchar_t>::calculate(value));
-            thr->push(result);
-        }
-
-        template <template<typename R, typename X, typename Y> class F, bool Def> void object_char::binary_logical_operation(thread *thr)
-        {
-            thr->pop();
-            variable right = thr->pop();
-            wchar_t right_value;
-            bool right_is_char = right.get_char(&right_value);
-            variable result;
-            if(right_is_char)
-            {
-                result.set_boolean(F<bool, wchar_t, wchar_t>::calculate(value, right_value));
-            }
-            else
-            {
-                result.set_boolean(Def);
-            }
-            thr->push(result);
         }
 
         /*

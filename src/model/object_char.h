@@ -22,41 +22,27 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "object.h"
+#include "variable_wrapper.h"
 
 namespace g0at
 {
     namespace model
     {
-        class object_char : public object
+        class object_char : public variable_wrapper
         {
         friend class object_pool;
         protected:
-            object_char(object_pool *pool, wchar_t _value);
-            void reinit(wchar_t _value);
+            object_char(object_pool *pool, wchar_t value);
+            void reinit(wchar_t value);
 
         public:
             void kill(object_pool *pool) override;
             object_type get_type() const override;
             object_char *to_object_char() override;
             bool less(const object *obj) const override;
-            std::wstring to_string() const override;
-            std::wstring to_string_notation() const override;
-            bool get_char(wchar_t *pval) override;
-            void op_inc(thread *thr) override;
-            void op_dec(thread *thr) override;
-            void op_eq(thread *thr) override;
-            void op_neq(thread *thr) override;
-            void op_less(thread *thr) override;
             void m_iterator(thread *thr, int arg_count) override;
 
-            wchar_t get_value() { return value; }
-
-        protected:
-            wchar_t value;
-
-            template <template<typename R, typename A> class F> void unary_operation(thread *thr);
-            template <template<typename R, typename X, typename Y> class F, bool Def> void binary_logical_operation(thread *thr);
+            wchar_t get_value() { return var.data.c; }
         };
 
         class object_char_proto : public object
