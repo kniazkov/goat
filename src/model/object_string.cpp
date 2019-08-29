@@ -360,7 +360,8 @@ namespace g0at
         void object_string_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(resource::str_length), new object_string_length(pool));
-            add_object(pool->get_static_string(resource::str_oper_plus), new object_string_operator_plus(pool));
+            //add_object(pool->get_static_string(resource::str_oper_plus), new object_string_operator_plus(pool));
+            add_object(pool->get_static_string(resource::str_oper_plus), new object_operator_add_wrapper(pool));
             add_object(pool->get_static_string(resource::str_oper_exclamation), new object_string_operator_not(pool));
         }
     };
