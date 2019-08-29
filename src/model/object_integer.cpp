@@ -32,9 +32,10 @@ namespace g0at
 {
     namespace model
     {
-        object_integer::object_integer(object_pool *pool, int64_t _value)
-            : object(pool, pool->get_integer_proto_instance()), value(_value)
+        object_integer::object_integer(object_pool *pool, int64_t value)
+            : variable_wrapper(pool, pool->get_integer_proto_instance())
         {
+            var.set_integer(value);
         }
 
         void object_integer::kill(object_pool *pool)
@@ -45,9 +46,9 @@ namespace g0at
             }
         }
 
-        void object_integer::reinit(int64_t _value)
+        void object_integer::reinit(int64_t value)
         {
-            value = _value;
+            var.set_integer(value);
         }
 
         object_type object_integer::get_type() const
@@ -64,94 +65,7 @@ namespace g0at
         {
             assert(obj->get_type() == object_type::integer);
             const object_integer *obj_int = static_cast<const object_integer*>(obj);
-            return value < obj_int->value;
-        }
-
-        std::wstring object_integer::to_string() const
-        {
-            return std::to_wstring(value);
-        }
-
-        bool object_integer::get_integer(int64_t *pval)
-        {
-            *pval = value;
-            return true;
-        }
-
-        bool object_integer::get_real(double *pval)
-        {
-            *pval = (double)value;
-            return true;
-        }
-
-        void object_integer::op_add(thread *thr)
-        {
-            binary_math_operation<lib::func::plus>(thr);
-        }
-
-        void object_integer::op_sub(thread *thr)
-        {
-            binary_math_operation<lib::func::minus>(thr);
-        }
-
-        void object_integer::op_pos(thread *thr)
-        {
-            unary_operation<lib::func::pos>(thr);
-        }
-
-        void object_integer::op_neg(thread *thr)
-        {
-            unary_operation<lib::func::neg>(thr);
-        }
-
-        void object_integer::op_inc(thread *thr)
-        {
-            unary_operation<lib::func::inc>(thr);
-        }
-
-        void object_integer::op_dec(thread *thr)
-        {
-            unary_operation<lib::func::dec>(thr);
-        }
-
-        void object_integer::op_inv(thread *thr)
-        {
-            unary_operation<lib::func::inv>(thr);
-        }
-
-        void object_integer::op_mul(thread *thr)
-        {
-            binary_math_operation<lib::func::mul>(thr);
-        }
-
-        void object_integer::op_exp(thread *thr)
-        {
-            binary_math_operation<lib::func::exp>(thr);
-        }
-
-        void object_integer::op_div(thread *thr)
-        {
-            binary_math_operation<lib::func::div>(thr);
-        }
-
-        void object_integer::op_mod(thread *thr)
-        {
-            binary_math_operation<lib::func::mod>(thr);
-        }
-
-        void object_integer::op_eq(thread *thr)
-        {
-            binary_logical_operation<lib::func::equals, false>(thr);
-        }
-
-        void object_integer::op_neq(thread *thr)
-        {
-            binary_logical_operation<lib::func::not_equal, true>(thr);
-        }
-
-        void object_integer::op_less(thread *thr)
-        {
-            binary_logical_operation<lib::func::less, true>(thr);
+            return var.data.i < obj_int->var.data.i;
         }
 
         void object_integer::m_iterator(thread *thr, int arg_count)
@@ -161,65 +75,6 @@ namespace g0at
             variable tmp;
             tmp.set_object(thr->pool->get_iterator_proto_instance());
             thr->push(tmp);
-        }
-
-        template <template<typename R, typename A> class F> void object_integer::unary_operation(thread *thr)
-        {
-            thr->pop();
-            variable result;
-            result.set_integer(F<int64_t, int64_t>::calculate(value));
-            thr->push(result);
-        }
-
-        template <template<typename R, typename X, typename Y> class F> void object_integer::binary_math_operation(thread *thr)
-        {
-            variable result;
-            thr->pop();
-            variable right = thr->pop();
-            int64_t right_int_value;
-            bool right_is_integer = right.get_integer(&right_int_value);
-            if (right_is_integer)
-            {
-                result.set_integer(F<int64_t, int64_t, int64_t>::calculate(value, right_int_value));
-                thr->push(result);
-                return;
-            }
-            double right_real_value;
-            bool right_is_real = right.get_real(&right_real_value);
-            if (!right_is_real)
-            {
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
-                return;
-            }
-            result.set_real(F<double, int64_t, double>::calculate(value, right_real_value));
-            thr->push(result);
-        }
-
-        template <template<typename R, typename X, typename Y> class F, bool Def> void object_integer::binary_logical_operation(thread *thr)
-        {
-            thr->pop();
-            variable right = thr->pop();
-            int64_t right_int_value;
-            bool right_is_integer = right.get_integer(&right_int_value);
-            variable result;
-            if (right_is_integer)
-            {
-                result.set_boolean(F<bool, int64_t, int64_t>::calculate(value, right_int_value));
-            }
-            else
-            {
-                double right_real_value;
-                bool right_is_real = right.get_real(&right_real_value);
-                if(right_is_real)
-                {
-                    result.set_boolean(F<bool, int64_t, double>::calculate(value, right_real_value));
-                }
-                else
-                {
-                    result.set_boolean(Def);
-                }
-            }
-            thr->push(result);
         }
 
         /*

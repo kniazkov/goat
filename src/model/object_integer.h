@@ -22,52 +22,29 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "object.h"
+#include "variable_wrapper.h"
 
 namespace g0at
 {
     namespace model
     {
-        class object_integer : public object
+        class object_integer : public variable_wrapper
         {
         friend class object_pool;
         protected:
-            object_integer(object_pool *pool, int64_t _value);
-            void reinit(int64_t _value);
+            object_integer(object_pool *pool, int64_t value);
+            void reinit(int64_t value);
 
         public:
             void kill(object_pool *pool) override;
             object_type get_type() const override;
             object_integer *to_object_integer() override;
             bool less(const object *obj) const override;
-            std::wstring to_string() const override;
-            bool get_integer(int64_t *pval) override;
-            bool get_real(double *pval) override;
-            
-            void op_add(thread *thr) override;
-            void op_sub(thread *thr) override;
-            void op_pos(thread *thr) override;
-            void op_neg(thread *thr) override;
-            void op_inc(thread *thr) override;
-            void op_dec(thread *thr) override;
-            void op_inv(thread *thr) override;
-            void op_mul(thread *thr) override;
-            void op_exp(thread *thr) override;
-            void op_div(thread *thr) override;
-            void op_mod(thread *thr) override;
-            void op_eq(thread *thr) override;
-            void op_neq(thread *thr) override;
-            void op_less(thread *thr) override;
             void m_iterator(thread *thr, int arg_count) override;
 
-            int64_t get_value() { return value; }
+            int64_t get_value() { return var.data.i; }
 
         protected:
-            int64_t value;
-
-            template <template<typename R, typename A> class F> void unary_operation(thread *thr);
-            template <template<typename R, typename X, typename Y> class F> void binary_math_operation(thread *thr);
-            template <template<typename R, typename X, typename Y> class F, bool Def> void binary_logical_operation(thread *thr);
         };
 
         class object_integer_proto : public object

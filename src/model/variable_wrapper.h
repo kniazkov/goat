@@ -31,7 +31,7 @@ namespace g0at
         class variable_wrapper : public object
         {
         public:
-            variable_wrapper(object_pool *_pool, object *_proto, variable _var);
+            variable_wrapper(object_pool *pool, object *proto);
 
             std::wstring to_string() const override;
             std::wstring to_string_notation() const override;

@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace model
     {
-        variable_wrapper::variable_wrapper(object_pool *_pool, object *_proto, variable _var)
-            : object(_pool, _proto), var(_var)
+        variable_wrapper::variable_wrapper(object_pool *pool, object *proto)
+            : object(pool, proto)
         {
         }
 
