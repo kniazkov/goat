@@ -33,6 +33,7 @@ namespace g0at
         friend class object_pool;
         protected:
             object_undefined(object_pool *pool);
+            void op_not(thread *thr) override;
             void m_iterator(thread *thr, int arg_count) override;
 
         public:

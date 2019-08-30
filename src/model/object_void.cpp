@@ -21,7 +21,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_void.h"
+#include "object_string.h"
 #include "thread.h"
+#include "resource/strings.h"
 
 namespace g0at
 {
@@ -32,6 +34,11 @@ namespace g0at
         {
         }
 
+        void object_void::init(object_pool *pool)
+        {
+            add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
+        }
+
         object_void *object_void::to_object_void()
         {
             return this;
@@ -39,7 +46,15 @@ namespace g0at
 
         std::wstring object_void::to_string() const
         {
-            return L"void";
+            return resource::str_void;
+        }
+
+        void object_void::op_not(thread *thr)
+        {
+            thr->pop();
+            variable tmp;
+            tmp.set_boolean(true);
+            thr->push(tmp);
         }
 
         void object_void::m_iterator(thread *thr, int arg_count)

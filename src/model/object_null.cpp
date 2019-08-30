@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_null.h"
 #include "thread.h"
+#include "resource/strings.h"
 
 namespace g0at
 {
@@ -39,7 +40,15 @@ namespace g0at
 
         std::wstring object_null::to_string() const
         {
-            return L"null";
+            return resource::str_null;
+        }
+
+        void object_null::op_not(thread *thr)
+        {
+            thr->pop();
+            variable tmp;
+            tmp.set_boolean(true);
+            thr->push(tmp);
         }
 
         void object_null::m_iterator(thread *thr, int arg_count)

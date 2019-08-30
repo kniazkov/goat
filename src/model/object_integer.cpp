@@ -97,6 +97,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_double_asterisk), pool->get_wrap_exp_instance());
             add_object(pool->get_static_string(resource::str_oper_slash), pool->get_wrap_div_instance());
             add_object(pool->get_static_string(resource::str_oper_percent), pool->get_wrap_mod_instance());
+            add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
         }
 
         /*
@@ -169,6 +170,14 @@ namespace g0at
             void op_dec(variable *var, thread *thr)  override
             {
                 unary_operation<lib::func::dec>(var, thr);
+            }
+
+            void op_not(variable *var, thread *thr)  override
+            {
+                thr->pop();
+                variable result;
+                result.set_boolean(var->data.i == 0);
+                thr->push(result);
             }
 
             void op_inv(variable *var, thread *thr)  override

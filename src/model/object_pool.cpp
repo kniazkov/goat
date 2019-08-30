@@ -110,7 +110,8 @@ namespace g0at
             auto runner_proto = new object_runner_proto(this);
             runner_proto_instance = runner_proto;
             gp->init(this);
-            void_instance = new object_void(this);
+            auto void_object = new object_void(this);
+            void_instance = void_object;
             undefined_instance = new object_undefined(this);
             null_instance = new object_null(this);
             number_proto_instance = new object_number_proto(this);
@@ -159,6 +160,7 @@ namespace g0at
             runner_proto->init(this);
             array_proto->init(this);
             iterator_proto->init(this);
+            void_object->init(this);
             exception_illegal_argument_instance = new object_exception_illegal_argument(this);
             exception_illegal_context_instance = new object_exception_illegal_context(this);
             exception_illegal_operation_instance = new object_exception_illegal_operation(this);

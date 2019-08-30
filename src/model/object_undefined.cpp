@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_undefined.h"
 #include "thread.h"
+#include "resource/strings.h"
 
 namespace g0at
 {
@@ -39,7 +40,15 @@ namespace g0at
 
         std::wstring object_undefined::to_string() const
         {
-            return L"undefined";
+            return resource::str_undefined;
+        }
+
+        void object_undefined::op_not(thread *thr)
+        {
+            thr->pop();
+            variable tmp;
+            tmp.set_boolean(true);
+            thr->push(tmp);
         }
 
         void object_undefined::m_iterator(thread *thr, int arg_count)

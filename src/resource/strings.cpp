@@ -51,5 +51,8 @@ namespace g0at
         std::wstring str_run = L"run";
         std::wstring str_current = L"current";
         std::wstring str_contains = L"contains";
+        std::wstring str_void = L"void";
+        std::wstring str_undefined = L"undefined";
+        std::wstring str_null = L"null";
     };
 };
