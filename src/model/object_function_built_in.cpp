@@ -21,7 +21,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_function_built_in.h"
-#include "lib/assert.h"
 
 namespace g0at
 {
@@ -30,23 +29,6 @@ namespace g0at
         object_function_built_in::object_function_built_in(object_pool *pool)
             : object_function(pool)
         {
-        }
-
-        void object_binary_operator_wrapper::call(thread *thr, int arg_count, call_mode mode)
-        {
-            if (mode != call_mode::as_method)
-            {
-                thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                return;
-            }
-            if (arg_count != 1)
-            {
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
-                return;
-            }
-            object *this_ptr = thr->peek().get_object();
-            assert(this_ptr != nullptr);
-            payload(thr, this_ptr);
         }
     };
 };

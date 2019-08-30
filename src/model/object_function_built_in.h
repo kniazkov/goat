@@ -33,35 +33,5 @@ namespace g0at
         public:
             object_function_built_in(object_pool *pool);
         };
-
-        class object_binary_operator_wrapper : public object_function_built_in
-        {
-        public:
-            object_binary_operator_wrapper(object_pool *_pool)
-                : object_function_built_in(_pool)
-            {
-            }
-            
-            void call(thread *thr, int arg_count, call_mode mode) override;
-
-        protected:
-            virtual void payload(thread *thr, object *this_ptr) = 0;
-        };
-
-        class object_operator_add_wrapper : public object_binary_operator_wrapper
-        {
-        public:
-            object_operator_add_wrapper(object_pool *_pool)
-                : object_binary_operator_wrapper(_pool)
-            {
-            }
-
-        protected:
-            void payload(thread *thr, object *this_ptr) override
-            {
-                this_ptr->op_add(thr);
-            }
-        };
-
     };
 };

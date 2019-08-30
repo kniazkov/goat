@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_string.h"
 #include "object_function_built_in.h"
+#include "operator_wrapper.h"
 #include "thread.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
@@ -361,7 +362,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_length), new object_string_length(pool));
             //add_object(pool->get_static_string(resource::str_oper_plus), new object_string_operator_plus(pool));
-            add_object(pool->get_static_string(resource::str_oper_plus), new object_operator_add_wrapper(pool));
+            add_object(pool->get_static_string(resource::str_oper_plus), new binary_operator_adapter<wrap_add>(pool));
             add_object(pool->get_static_string(resource::str_oper_exclamation), new object_string_operator_not(pool));
         }
     };
