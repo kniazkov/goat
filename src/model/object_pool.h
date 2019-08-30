@@ -106,6 +106,7 @@ namespace g0at
             object *get_uid_proto_instance() { return uid_proto_instance; }
             object *get_iterator_proto_instance() { return iterator_proto_instance; }
             object *get_exception_proto_instance() { return exception_proto_instance; }
+
             object *get_exception_illegal_argument_instance() { return exception_illegal_argument_instance; }
             object *get_exception_illegal_context_instance() { return exception_illegal_context_instance; }
             object *get_exception_illegal_operation_instance() { return exception_illegal_operation_instance; }
@@ -114,6 +115,25 @@ namespace g0at
             object *get_exception_operator_not_found_proto_instance() { return exception_operator_not_found_proto_instance; }
             object *get_exception_is_not_a_function_proto_instance() { return exception_is_not_a_function_proto_instance; }
             object *get_exception_is_not_a_method_proto_instance() { return exception_is_not_a_method_proto_instance; }
+
+            object *get_wrap_add_instance() { return wrap_add_instance; }
+            object *get_wrap_sub_instance() { return wrap_sub_instance; }
+            object *get_wrap_pos_instance() { return wrap_pos_instance; }
+            object *get_wrap_neg_instance() { return wrap_neg_instance; }
+            object *get_wrap_pos_add_instance() { return wrap_pos_add_instance; }
+            object *get_wrap_neg_sub_instance() { return wrap_neg_sub_instance; }
+            object *get_wrap_inc_instance() { return wrap_inc_instance; }
+            object *get_wrap_dec_instance() { return wrap_dec_instance; }
+            object *get_wrap_not_instance() { return wrap_not_instance; }
+            object *get_wrap_inv_instance() { return wrap_inv_instance; }
+            object *get_wrap_mul_instance() { return wrap_mul_instance; }
+            object *get_wrap_exp_instance() { return wrap_exp_instance; }
+            object *get_wrap_div_instance() { return wrap_div_instance; }
+            object *get_wrap_mod_instance() { return wrap_mod_instance; }
+            object *get_wrap_eq_instance() { return wrap_eq_instance; }
+            object *get_wrap_neq_instance() { return wrap_neq_instance; }
+            object *get_wrap_less_instance() { return wrap_less_instance; }
+            object *get_wrap_inherit_instance() { return wrap_inherit_instance; }
 
             generic_object *create_generic_object();
             context *create_context();
@@ -170,6 +190,7 @@ namespace g0at
             object *uid_proto_instance;
             object *iterator_proto_instance;
             object *exception_proto_instance;
+
             object *exception_illegal_argument_instance;
             object *exception_illegal_context_instance;
             object *exception_illegal_operation_instance;
@@ -178,6 +199,25 @@ namespace g0at
             object *exception_operator_not_found_proto_instance;
             object *exception_is_not_a_function_proto_instance;
             object *exception_is_not_a_method_proto_instance;
+            
+            object *wrap_add_instance;
+            object *wrap_sub_instance;
+            object *wrap_pos_instance;
+            object *wrap_neg_instance;
+            object *wrap_pos_add_instance;
+            object *wrap_neg_sub_instance;
+            object *wrap_inc_instance;
+            object *wrap_dec_instance;
+            object *wrap_not_instance;
+            object *wrap_inv_instance;
+            object *wrap_mul_instance;
+            object *wrap_exp_instance;
+            object *wrap_div_instance;
+            object *wrap_mod_instance;
+            object *wrap_eq_instance;
+            object *wrap_neq_instance;
+            object *wrap_less_instance;
+            object *wrap_inherit_instance;
 
             object_cache static_strings;
         };

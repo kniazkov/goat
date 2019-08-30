@@ -32,14 +32,15 @@ namespace g0at
 {
     namespace model
     {
-        object_boolean::object_boolean(object_pool *pool, bool _value)
-            : object(pool, pool->get_boolean_proto_instance()), value(_value)
+        object_boolean::object_boolean(object_pool *pool, bool value)
+            : variable_wrapper(pool, pool->get_boolean_proto_instance())
         {
+            var.set_boolean(value);
         }
 
-        void object_boolean::reinit(bool _value)
+        void object_boolean::reinit(bool value)
         {
-            value = _value;
+            var.set_boolean(value);
         }
 
         void object_boolean::kill(object_pool *pool)
@@ -64,23 +65,7 @@ namespace g0at
         {
             assert(obj->get_type() == object_type::boolean);
             const object_boolean *obj_bool = static_cast<const object_boolean*>(obj);
-            return (value ? 0 : 1) < (obj_bool->value ? 1 : 0);
-        }
-
-        std::wstring object_boolean::to_string() const
-        {
-            return value ? L"true" : L"false";
-        }
-
-        bool object_boolean::get_boolean(bool *pval)
-        {
-            *pval = value;
-            return true;
-        }
-
-        void object_boolean::op_not(thread *thr)
-        {
-            unary_operation<lib::func::log_not>(thr);
+            return (var.data.b ? 0 : 1) < (obj_bool->var.data.b ? 1 : 0);
         }
 
         void object_boolean::m_iterator(thread *thr, int arg_count)
@@ -90,26 +75,6 @@ namespace g0at
             variable tmp;
             tmp.set_object(thr->pool->get_iterator_proto_instance());
             thr->push(tmp);
-        }
-
-        template <template<typename R, typename A> class F> void object_boolean::unary_operation(thread *thr)
-        {
-            thr->pop();
-            variable result;
-            result.set_boolean(F<bool, bool>::calculate(value));
-            thr->push(result);
-        }
-
-        template <template<typename R, typename X, typename Y> class F> void object_boolean::binary_operation(thread *thr)
-        {
-            thr->pop();
-            variable right = thr->pop();
-            bool right_value;
-            bool right_is_boolean = right.get_boolean(&right_value);
-            assert(right_is_boolean);
-            variable result;
-            result.set_boolean(F<bool, bool, bool>::calculate(value, right_value));
-            thr->push(result);
         }
 
         /*
