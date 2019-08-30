@@ -159,6 +159,14 @@ namespace g0at
             thr->push(result);
         }
 
+        void object_string::op_bool(thread *thr)
+        {
+            thr->pop();
+            variable result;
+            result.set_boolean(data != L"");
+            thr->push(result);
+        }
+
         void object_string::op_eq(thread *thr)
         {
             binary_logical_operation<lib::func::equals, false>(thr);
@@ -297,6 +305,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_length), new object_string_length(pool));
             add_object(pool->get_static_string(resource::str_oper_plus), pool->get_wrap_add_instance());
             add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
+            add_object(pool->get_static_string(resource::str_oper_double_exclamation), pool->get_wrap_bool_instance());
         }
     };
 };

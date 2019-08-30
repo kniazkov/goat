@@ -147,6 +147,8 @@ namespace g0at
         class tilde;
         class logical_not;
         class bitwise_not;
+        class double_exclamation;
+        class operator_bool;
 
         class token : public lib::ref_counter
         {
@@ -271,6 +273,8 @@ namespace g0at
             virtual tilde *to_tilde();
             virtual logical_not *to_logical_not();
             virtual bitwise_not *to_bitwise_not();
+            virtual double_exclamation *to_double_exclamation();
+            virtual operator_bool *to_operator_bool();
 
             lib::pointer<position> get_position() { return pos; }
 

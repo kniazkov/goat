@@ -34,6 +34,7 @@ namespace g0at
         protected:
             object_null(object_pool *pool);
             void op_not(thread *thr) override;
+            void op_bool(thread *thr) override;
             void m_iterator(thread *thr, int arg_count) override;
 
         public:

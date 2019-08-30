@@ -127,6 +127,8 @@ namespace g0at
         class tilde;
         class logical_not;
         class bitwise_not;
+        class double_exclamation;
+        class operator_bool;
  
         class token_visitor
         {
@@ -234,6 +236,8 @@ namespace g0at
             virtual void visit(tilde *ref);
             virtual void visit(logical_not *ref);
             virtual void visit(bitwise_not *ref);
+            virtual void visit(double_exclamation *ref);
+            virtual void visit(operator_bool *ref);
          };
     };
 };

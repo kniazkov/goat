@@ -37,6 +37,7 @@ namespace g0at
         void object_void::init(object_pool *pool)
         {
             add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
+            add_object(pool->get_static_string(resource::str_oper_double_exclamation), pool->get_wrap_bool_instance());
         }
 
         object_void *object_void::to_object_void()
@@ -54,6 +55,14 @@ namespace g0at
             thr->pop();
             variable tmp;
             tmp.set_boolean(true);
+            thr->push(tmp);
+        }
+
+        void object_void::op_bool(thread *thr)
+        {
+            thr->pop();
+            variable tmp;
+            tmp.set_boolean(false);
             thr->push(tmp);
         }
 

@@ -441,6 +441,12 @@ namespace g0at
                 thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_exclamation));
         }
 
+        void object::op_bool(thread *thr)
+        {
+            if (!find_and_vcall(thr, 0, resource::str_oper_double_exclamation))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_double_exclamation));
+        }
+
         void object::op_inv(thread *thr)
         {
             if (!find_and_vcall(thr, 0, resource::str_oper_tilde))

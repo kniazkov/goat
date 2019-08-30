@@ -308,6 +308,29 @@ namespace g0at
             }
         };
 
+        class generic_bool : public object_function_built_in
+        {
+        public:
+            generic_bool(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                thr->pop();
+                thr->pop(arg_count);
+                variable result;
+                result.set_boolean(true);
+                thr->push(result);
+            }
+        };
+
         generic_proto::generic_proto(object_pool *pool)
             : object(pool, nullptr)
         {
@@ -323,6 +346,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_iterator), new generic_iterator(pool));
             add_object(pool->get_static_string(resource::str_contains), new generic_contains(pool));
             add_object(pool->get_static_string(resource::str_oper_exclamation), new generic_not(pool));
+            add_object(pool->get_static_string(resource::str_oper_double_exclamation), new generic_bool(pool));
         }
     };
 };

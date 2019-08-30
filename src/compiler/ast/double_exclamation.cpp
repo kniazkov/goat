@@ -20,27 +20,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "object.h"
+#include "double_exclamation.h"
+#include "operator_bool.h"
 
 namespace g0at
 {
-    namespace model
+    namespace ast
     {
-        class object_void : public object
+        void double_exclamation::accept(token_visitor *visitor)
         {
-        friend class object_pool;
-        protected:
-            object_void(object_pool *pool);
-            void init(object_pool *pool);
-            void op_not(thread *thr) override;
-            void op_bool(thread *thr) override;
-            void m_iterator(thread *thr, int arg_count) override;
+            visitor->visit(this);
+        }
 
-        public:
-            object_void *to_object_void() override;
-            std::wstring to_string() const override;
-        };
+        double_exclamation *double_exclamation::to_double_exclamation()
+        {
+            return this;
+        }
+
+        lib::pointer<token> double_exclamation::create_unary_prefix_operation(lib::pointer<expression> right)
+        {
+            return new operator_bool(right);
+        }
     };
 };

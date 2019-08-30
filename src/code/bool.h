@@ -22,25 +22,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "object.h"
+#include "instruction.h"
 
 namespace g0at
 {
-    namespace model
+    namespace code
     {
-        class object_void : public object
+        class _bool : public instruction
         {
-        friend class object_pool;
-        protected:
-            object_void(object_pool *pool);
-            void init(object_pool *pool);
-            void op_not(thread *thr) override;
-            void op_bool(thread *thr) override;
-            void m_iterator(thread *thr, int arg_count) override;
-
         public:
-            object_void *to_object_void() override;
-            std::wstring to_string() const override;
+            void accept(instruction_visitor *visitor) override;
+            void exec(model::thread *thr) override;
         };
     };
 };

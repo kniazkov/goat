@@ -95,6 +95,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "pos.h"
 #include "not.h"
 #include "inv.h"
+#include "bool.h"
 
 namespace g0at
 {
@@ -625,6 +626,11 @@ namespace g0at
             dst->add_instruction(new _inv());
         }
 
+        void deserializer::c_bool(source *src, code *dst)
+        {
+            dst->add_instruction(new _bool());
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -694,6 +700,7 @@ namespace g0at
             cc[op::_pos]     = c_pos;
             cc[op::_not]     = c_not;
             cc[op::_inv]     = c_inv;
+            cc[op::_bool]    = c_bool;
         }
     };
 };

@@ -122,6 +122,11 @@ namespace g0at
                 var->data.ref->op_not(thr);
             }
 
+            void op_bool(variable *var, thread *thr)  override
+            {
+                var->data.ref->op_bool(thr);
+            }
+
             void op_inv(variable *var, thread *thr)  override
             {
                 var->data.ref->op_inv(thr);

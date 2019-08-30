@@ -76,6 +76,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "tilde.h"
 #include "logical_not.h"
 #include "bitwise_not.h"
+#include "operator_bool.h"
 
 namespace g0at
 {
@@ -967,6 +968,19 @@ namespace g0at
         void dbg_output::visit(bitwise_not *ref)
         {
             print(L"bitwise not", L"~");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right);
+        }
+
+        void dbg_output::visit(double_exclamation *ref)
+        {
+            print(L"double exclamation", L"!!");
+        }
+
+        void dbg_output::visit(operator_bool *ref)
+        {
+            print(L"operator bool", L"!!");
             dbg_output right(data);
             ref->get_right()->accept(&right);
             link_child(right);

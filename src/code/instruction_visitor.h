@@ -93,6 +93,7 @@ namespace g0at
         class _pos;
         class _not;
         class _inv;
+        class _bool;
 
         class instruction_visitor
         {
@@ -166,6 +167,7 @@ namespace g0at
             virtual void visit(_pos *ref) = 0;
             virtual void visit(_not *ref) = 0;
             virtual void visit(_inv *ref) = 0;
+            virtual void visit(_bool *ref) = 0;
         };
     };
 };

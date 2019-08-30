@@ -334,5 +334,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        operator_bool *node::to_operator_bool()
+        {
+            return nullptr;
+        }
     }
 };

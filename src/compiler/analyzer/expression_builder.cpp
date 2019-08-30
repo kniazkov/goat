@@ -101,6 +101,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/logical_not.h"
 #include "compiler/ast/bitwise_not.h"
 #include "compiler/pt/bitwise_not.h"
+#include "compiler/ast/operator_bool.h"
+#include "compiler/pt/operator_bool.h"
 
 namespace g0at
 {
@@ -466,6 +468,11 @@ namespace g0at
         void expression_builder::visit(ast::bitwise_not *ref)
         {
             expr = new pt::bitwise_not(ref->get_position(), build_expr_for_unary_prefix(ref));
+        }
+
+        void expression_builder::visit(ast::operator_bool *ref)
+        {
+            expr = new pt::operator_bool(ref->get_position(), build_expr_for_unary_prefix(ref));
         }
     };
 };

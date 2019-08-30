@@ -100,6 +100,7 @@ namespace g0at
             void visit(pt::unary_plus *ref) override;
             void visit(pt::logical_not *ref) override;
             void visit(pt::bitwise_not *ref) override;
+            void visit(pt::operator_bool *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

@@ -35,6 +35,7 @@ namespace g0at
         std::wstring str_oper_slash = L"/";
         std::wstring str_oper_percent = L"%";
         std::wstring str_oper_exclamation = L"!";
+        std::wstring str_oper_double_exclamation = L"!!";
         std::wstring str_oper_tilde = L"~";
         std::wstring str_oper_equals = L"==";
         std::wstring str_oper_not_equal = L"!=";

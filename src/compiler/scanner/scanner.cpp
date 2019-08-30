@@ -79,6 +79,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/percent.h"
 #include "compiler/ast/exclamation.h"
 #include "compiler/ast/tilde.h"
+#include "compiler/ast/double_exclamation.h"
 
 namespace g0at
 {
@@ -427,6 +428,8 @@ namespace g0at
                 return new ast::decrement();
             if (oper == L"!")
                 return new ast::exclamation();
+            if (oper == L"!!")
+                return new ast::double_exclamation();
             if (oper == L"~")
                 return new ast::tilde();
             if (oper == L"$")

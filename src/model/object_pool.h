@@ -125,6 +125,7 @@ namespace g0at
             object *get_wrap_inc_instance() { return wrap_inc_instance; }
             object *get_wrap_dec_instance() { return wrap_dec_instance; }
             object *get_wrap_not_instance() { return wrap_not_instance; }
+            object *get_wrap_bool_instance() { return wrap_bool_instance; }
             object *get_wrap_inv_instance() { return wrap_inv_instance; }
             object *get_wrap_mul_instance() { return wrap_mul_instance; }
             object *get_wrap_exp_instance() { return wrap_exp_instance; }
@@ -209,6 +210,7 @@ namespace g0at
             object *wrap_inc_instance;
             object *wrap_dec_instance;
             object *wrap_not_instance;
+            object *wrap_bool_instance;
             object *wrap_inv_instance;
             object *wrap_mul_instance;
             object *wrap_exp_instance;

@@ -72,6 +72,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/unary_plus.h"
 #include "compiler/pt/bitwise_not.h"
 #include "compiler/pt/logical_not.h"
+#include "compiler/pt/operator_bool.h"
 
 #include "code/string.h"
 #include "code/load.h"
@@ -139,6 +140,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/pos.h"
 #include "code/not.h"
 #include "code/inv.h"
+#include "code/bool.h"
 
 namespace g0at
 {
@@ -802,6 +804,12 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             code->add_instruction(new _inv());
+        }
+
+        void generator::visit(pt::operator_bool *ref)
+        {
+            ref->get_right()->accept(this);
+            code->add_instruction(new _bool());
         }
     };
 };

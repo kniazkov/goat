@@ -437,5 +437,13 @@ namespace g0at
         void token_visitor::visit(bitwise_not *ref)
         {
         }
+
+        void token_visitor::visit(double_exclamation *ref)
+        {
+        }
+
+        void token_visitor::visit(operator_bool *ref)
+        {
+        }
     }
 };

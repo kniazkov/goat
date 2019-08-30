@@ -151,6 +151,8 @@ namespace g0at
             void visit(tilde *ref) override;
             void visit(logical_not *ref) override;
             void visit(bitwise_not *ref) override;
+            void visit(double_exclamation *ref) override;
+            void visit(operator_bool *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

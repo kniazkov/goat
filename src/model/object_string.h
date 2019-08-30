@@ -46,6 +46,7 @@ namespace g0at
             std::wstring to_string_notation() const override;
             void op_add(thread *thr) override;
             void op_not(thread *thr) override;
+            void op_bool(thread *thr) override;
             void op_eq(thread *thr) override;
             void op_neq(thread *thr) override;
             void op_less(thread *thr) override;

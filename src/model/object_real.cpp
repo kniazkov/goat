@@ -97,6 +97,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_double_asterisk), pool->get_wrap_exp_instance());
             add_object(pool->get_static_string(resource::str_oper_slash), pool->get_wrap_div_instance());
             add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
+            add_object(pool->get_static_string(resource::str_oper_double_exclamation), pool->get_wrap_bool_instance());
         }
 
         /*
@@ -165,6 +166,14 @@ namespace g0at
                 thr->pop();
                 variable result;
                 result.set_boolean(var->data.r == 0);
+                thr->push(result);
+            }
+
+            void op_bool(variable *var, thread *thr)  override
+            {
+                thr->pop();
+                variable result;
+                result.set_boolean(var->data.r != 0);
                 thr->push(result);
             }
 

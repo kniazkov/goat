@@ -253,5 +253,9 @@ namespace g0at
         void node_visitor::visit(bitwise_not *ref)
         {
         }
+
+        void node_visitor::visit(operator_bool *ref)
+        {
+        }
     }
 };

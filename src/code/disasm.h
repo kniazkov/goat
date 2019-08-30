@@ -105,6 +105,7 @@ namespace g0at
             void visit(_pos *ref) override;
             void visit(_not *ref) override;
             void visit(_inv *ref) override;
+            void visit(_bool *ref) override;
 
         protected:
             std::wstringstream &stream;

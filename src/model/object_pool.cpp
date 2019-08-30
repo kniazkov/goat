@@ -83,6 +83,7 @@ namespace g0at
             wrap_inc_instance = nullptr;
             wrap_dec_instance = nullptr;
             wrap_not_instance = nullptr;
+            wrap_bool_instance = nullptr;
             wrap_inv_instance = nullptr;
             wrap_mul_instance = nullptr;
             wrap_exp_instance = nullptr;
@@ -140,6 +141,7 @@ namespace g0at
             wrap_inc_instance = new unary_operator_adapter<wrap_inc>(this);
             wrap_dec_instance = new unary_operator_adapter<wrap_dec>(this);
             wrap_not_instance = new unary_operator_adapter<wrap_not>(this);
+            wrap_bool_instance = new unary_operator_adapter<wrap_bool>(this);
             wrap_inv_instance = new unary_operator_adapter<wrap_inv>(this);
             wrap_mul_instance = new binary_operator_adapter<wrap_mul>(this);
             wrap_exp_instance = new binary_operator_adapter<wrap_exp>(this);

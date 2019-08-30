@@ -51,6 +51,14 @@ namespace g0at
             thr->push(tmp);
         }
 
+        void object_null::op_bool(thread *thr)
+        {
+            thr->pop();
+            variable tmp;
+            tmp.set_boolean(false);
+            thr->push(tmp);
+        }
+
         void object_null::m_iterator(thread *thr, int arg_count)
         {
             thr->pop();

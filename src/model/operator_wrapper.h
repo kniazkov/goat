@@ -84,6 +84,14 @@ namespace g0at
             }
         };
 
+        struct wrap_bool
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_bool(thr);
+            }
+        };
+
         struct wrap_inv
         {
             static void call(object *obj, thread *thr)

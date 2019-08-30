@@ -48,6 +48,7 @@ namespace g0at
             void op_inc(thread *thr) override;
             void op_dec(thread *thr) override;
             void op_not(thread *thr) override;
+            void op_bool(thread *thr) override;
             void op_inv(thread *thr) override;
             void op_mul(thread *thr) override;
             void op_exp(thread *thr) override;

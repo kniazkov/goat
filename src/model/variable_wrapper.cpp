@@ -96,6 +96,11 @@ namespace g0at
             var.op_not(thr);
         }
 
+        void variable_wrapper::op_bool(thread *thr)
+        {
+            var.op_bool(thr);
+        }
+
         void variable_wrapper::op_inv(thread *thr)
         {
             var.op_inv(thr);

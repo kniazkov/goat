@@ -622,5 +622,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        double_exclamation *token::to_double_exclamation()
+        {
+            return nullptr;
+        }
+
+        operator_bool *token::to_operator_bool()
+        {
+            return nullptr;
+        }
     }
 };
