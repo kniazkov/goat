@@ -287,42 +287,6 @@ namespace g0at
             }
         };
 
-        class object_string_operator_plus : public object_function_built_in
-        {
-        public:
-            object_string_operator_plus(object_pool *_pool)
-                : object_function_built_in(_pool)
-            {
-            }
-            
-            void call(thread *thr, int arg_count, call_mode mode) override
-            {
-                if (mode != call_mode::as_method)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                if (arg_count < 1)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
-                    return;
-                }
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_string *this_ptr_string = this_ptr->to_object_string();
-                if (!this_ptr_string)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                variable right = thr->pop();
-                std::wstring str = this_ptr_string->get_data() + right.to_string();
-                variable result;
-                result.set_object(thr->pool->create_object_string(str));
-                thr->push(result);
-            }
-        };
-
         class object_string_operator_not : public object_function_built_in
         {
         public:
@@ -361,8 +325,7 @@ namespace g0at
         void object_string_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(resource::str_length), new object_string_length(pool));
-            //add_object(pool->get_static_string(resource::str_oper_plus), new object_string_operator_plus(pool));
-            add_object(pool->get_static_string(resource::str_oper_plus), new binary_operator_adapter<wrap_add>(pool));
+            add_object(pool->get_static_string(resource::str_oper_plus), pool->get_wrap_add_instance());
             add_object(pool->get_static_string(resource::str_oper_exclamation), new object_string_operator_not(pool));
         }
     };

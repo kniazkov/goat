@@ -36,6 +36,151 @@ namespace g0at
             }
         };
 
+        struct wrap_sub
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_sub(thr);
+            }
+        };
+
+        struct wrap_pos
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_pos(thr);
+            }
+        };
+
+        struct wrap_neg
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_neg(thr);
+            }
+        };
+
+        struct wrap_inc
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_inc(thr);
+            }
+        };
+
+        struct wrap_dec
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_dec(thr);
+            }
+        };
+
+        struct wrap_not
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_not(thr);
+            }
+        };
+
+        struct wrap_inv
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_inv(thr);
+            }
+        };
+
+        struct wrap_mul
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_mul(thr);
+            }
+        };
+
+        struct wrap_exp
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_exp(thr);
+            }
+        };
+
+        struct wrap_div
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_div(thr);
+            }
+        };
+
+        struct wrap_mod
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_mod(thr);
+            }
+        };
+
+        struct wrap_eq
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_eq(thr);
+            }
+        };
+
+        struct wrap_neq
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_neq(thr);
+            }
+        };
+
+        struct wrap_less
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_less(thr);
+            }
+        };
+
+        struct wrap_inherit
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_inherit(thr);
+            }
+        };
+
+        template <typename W> class unary_operator_adapter : public object_function_built_in
+        {
+        public:
+            unary_operator_adapter(object_pool *pool)
+                : object_function_built_in(pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                if (arg_count != 0)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                object *this_ptr = thr->peek().get_object();
+                W::call(this_ptr, thr);
+            }
+        };
+
         template <typename W> class binary_operator_adapter : public object_function_built_in
         {
         public:

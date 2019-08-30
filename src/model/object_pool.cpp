@@ -39,6 +39,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_uid.h"
 #include "object_iterator.h"
 #include "object_runner.h"
+#include "operator_wrapper.h"
 #include "context.h"
 
 namespace g0at
@@ -73,6 +74,22 @@ namespace g0at
             exception_operator_not_found_proto_instance = nullptr;
             exception_is_not_a_function_proto_instance = nullptr;
             exception_is_not_a_method_proto_instance = nullptr;
+            wrap_add_instance = nullptr;
+            wrap_sub_instance = nullptr;
+            wrap_pos_instance = nullptr;
+            wrap_neg_instance = nullptr;
+            wrap_inc_instance = nullptr;
+            wrap_dec_instance = nullptr;
+            wrap_not_instance = nullptr;
+            wrap_inv_instance = nullptr;
+            wrap_mul_instance = nullptr;
+            wrap_exp_instance = nullptr;
+            wrap_div_instance = nullptr;
+            wrap_mod_instance = nullptr;
+            wrap_eq_instance = nullptr;
+            wrap_neq_instance = nullptr;
+            wrap_less_instance = nullptr;
+            wrap_inherit_instance = nullptr;
 
             /*
                 "It's a kind of magic"
@@ -111,6 +128,22 @@ namespace g0at
             exception_proto_instance = exception_proto;
             auto iterator_proto = new object_iterator_proto(this);
             iterator_proto_instance = iterator_proto;
+            wrap_add_instance = new binary_operator_adapter<wrap_add>(this);
+            wrap_sub_instance = new binary_operator_adapter<wrap_sub>(this);
+            wrap_pos_instance = new unary_operator_adapter<wrap_pos>(this);
+            wrap_neg_instance = new unary_operator_adapter<wrap_neg>(this);
+            wrap_inc_instance = new unary_operator_adapter<wrap_inc>(this);
+            wrap_dec_instance = new unary_operator_adapter<wrap_dec>(this);
+            wrap_not_instance = new unary_operator_adapter<wrap_not>(this);
+            wrap_inv_instance = new unary_operator_adapter<wrap_inv>(this);
+            wrap_mul_instance = new binary_operator_adapter<wrap_mul>(this);
+            wrap_exp_instance = new binary_operator_adapter<wrap_exp>(this);
+            wrap_div_instance = new binary_operator_adapter<wrap_div>(this);
+            wrap_mod_instance = new binary_operator_adapter<wrap_mod>(this);
+            wrap_eq_instance = new binary_operator_adapter<wrap_eq>(this);
+            wrap_neq_instance = new binary_operator_adapter<wrap_neq>(this);
+            wrap_less_instance = new binary_operator_adapter<wrap_less>(this);
+            wrap_inherit_instance = new binary_operator_adapter<wrap_inherit>(this);
             string_proto->init(this);
             function_proto->init(this);
             thread_proto->init(this);
