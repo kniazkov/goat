@@ -78,6 +78,8 @@ namespace g0at
             wrap_sub_instance = nullptr;
             wrap_pos_instance = nullptr;
             wrap_neg_instance = nullptr;
+            wrap_pos_add_instance = nullptr;
+            wrap_neg_sub_instance = nullptr;
             wrap_inc_instance = nullptr;
             wrap_dec_instance = nullptr;
             wrap_not_instance = nullptr;
@@ -132,6 +134,8 @@ namespace g0at
             wrap_sub_instance = new binary_operator_adapter<wrap_sub>(this);
             wrap_pos_instance = new unary_operator_adapter<wrap_pos>(this);
             wrap_neg_instance = new unary_operator_adapter<wrap_neg>(this);
+            wrap_pos_add_instance = new unary_binary_operator_adapter<wrap_pos, wrap_add>(this);
+            wrap_neg_sub_instance = new unary_binary_operator_adapter<wrap_neg, wrap_sub>(this);
             wrap_inc_instance = new unary_operator_adapter<wrap_inc>(this);
             wrap_dec_instance = new unary_operator_adapter<wrap_dec>(this);
             wrap_not_instance = new unary_operator_adapter<wrap_not>(this);

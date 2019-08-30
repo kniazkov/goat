@@ -80,140 +80,6 @@ namespace g0at
         /*
             Prototype
         */
-       
-        template <template<typename R, typename A> class F> class object_integer_unary_operator : public object_function_built_in
-        {
-        public:
-            object_integer_unary_operator(object_pool *_pool)
-                : object_function_built_in(_pool)
-            {
-            }
-            
-            void call(thread *thr, int arg_count, call_mode mode) override
-            {
-                if (mode != call_mode::as_method)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_integer *this_ptr_integer = this_ptr->to_object_integer();
-                if (!this_ptr_integer)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                thr->pop(arg_count);
-                variable result;
-                result.set_integer(F<int64_t, int64_t>::calculate(this_ptr_integer->get_value()));
-                thr->push(result);
-            }
-        };
-
-        template <template<typename R, typename X, typename Y> class F1, template<typename R, typename A> class F2>
-        class object_integer_binary_unary_math_operator : public object_function_built_in
-        {
-        public:
-            object_integer_binary_unary_math_operator(object_pool *_pool)
-                : object_function_built_in(_pool)
-            {
-            }
-            
-            void call(thread *thr, int arg_count, call_mode mode) override
-            {
-                if (mode != call_mode::as_method)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_integer *this_ptr_integer = this_ptr->to_object_integer();
-                if (!this_ptr_integer)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                variable result;
-                if (arg_count < 1)
-                {
-                    result.set_integer(F2<int64_t, int64_t>::calculate(this_ptr_integer->get_value()));
-                    thr->push(result);
-                    return;
-                }
-                variable right = thr->peek();
-                thr->pop(arg_count);
-                int64_t right_int_value;
-                bool right_is_integer = right.get_integer(&right_int_value);
-                if (right_is_integer)
-                {
-                    result.set_integer(F1<int64_t, int64_t, int64_t>::calculate(this_ptr_integer->get_value(), right_int_value));
-                    thr->push(result);
-                    return;
-                }
-                double right_real_value;
-                bool right_is_real = right.get_real(&right_real_value);
-                if (!right_is_real)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
-                    return;
-                }
-                result.set_real(F1<double, int64_t, double>::calculate(this_ptr_integer->get_value(), right_real_value));
-                thr->push(result);
-            }
-        };
-
-        template <template<typename R, typename X, typename Y> class F> class object_integer_binary_math_operator : public object_function_built_in
-        {
-        public:
-            object_integer_binary_math_operator(object_pool *_pool)
-                : object_function_built_in(_pool)
-            {
-            }
-            
-            void call(thread *thr, int arg_count, call_mode mode) override
-            {
-                if (mode != call_mode::as_method)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                if (arg_count < 1)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
-                    return;
-                }
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_integer *this_ptr_integer = this_ptr->to_object_integer();
-                if (!this_ptr_integer)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                variable result;
-                variable right = thr->peek();
-                thr->pop(arg_count);
-                int64_t right_int_value;
-                bool right_is_integer = right.get_integer(&right_int_value);
-                if (right_is_integer)
-                {
-                    result.set_integer(F<int64_t, int64_t, int64_t>::calculate(this_ptr_integer->get_value(), right_int_value));
-                    thr->push(result);
-                    return;
-                }
-                double right_real_value;
-                bool right_is_real = right.get_real(&right_real_value);
-                if (!right_is_real)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
-                    return;
-                }
-                result.set_real(F<double, int64_t, double>::calculate(this_ptr_integer->get_value(), right_real_value));
-                thr->push(result);
-            }
-        };
 
         object_integer_proto::object_integer_proto(object_pool *pool)
             : object(pool, pool->get_number_proto_instance())
@@ -222,15 +88,15 @@ namespace g0at
 
         void object_integer_proto::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(resource::str_oper_plus_plus), new object_integer_unary_operator<lib::func::inc>(pool));
-            add_object(pool->get_static_string(resource::str_oper_minus_minus), new object_integer_unary_operator<lib::func::dec>(pool));
-            add_object(pool->get_static_string(resource::str_oper_tilde), new object_integer_unary_operator<lib::func::inv>(pool));
-            add_object(pool->get_static_string(resource::str_oper_plus), new object_integer_binary_unary_math_operator<lib::func::plus, lib::func::pos>(pool));
-            add_object(pool->get_static_string(resource::str_oper_minus), new object_integer_binary_unary_math_operator<lib::func::minus, lib::func::neg>(pool));
-            add_object(pool->get_static_string(resource::str_oper_asterisk), new object_integer_binary_math_operator<lib::func::mul>(pool));
-            add_object(pool->get_static_string(resource::str_oper_double_asterisk), new object_integer_binary_math_operator<lib::func::exp>(pool));
-            add_object(pool->get_static_string(resource::str_oper_slash), new object_integer_binary_math_operator<lib::func::div>(pool));
-            add_object(pool->get_static_string(resource::str_oper_percent), new object_integer_binary_math_operator<lib::func::mod>(pool));
+            add_object(pool->get_static_string(resource::str_oper_plus_plus), pool->get_wrap_inc_instance());
+            add_object(pool->get_static_string(resource::str_oper_minus_minus), pool->get_wrap_dec_instance());
+            add_object(pool->get_static_string(resource::str_oper_tilde), pool->get_wrap_inv_instance());
+            add_object(pool->get_static_string(resource::str_oper_plus), pool->get_wrap_pos_add_instance());
+            add_object(pool->get_static_string(resource::str_oper_minus), pool->get_wrap_neg_sub_instance());
+            add_object(pool->get_static_string(resource::str_oper_asterisk), pool->get_wrap_mul_instance());
+            add_object(pool->get_static_string(resource::str_oper_double_asterisk), pool->get_wrap_exp_instance());
+            add_object(pool->get_static_string(resource::str_oper_slash), pool->get_wrap_div_instance());
+            add_object(pool->get_static_string(resource::str_oper_percent), pool->get_wrap_mod_instance());
         }
 
         /*

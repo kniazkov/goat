@@ -287,36 +287,6 @@ namespace g0at
             }
         };
 
-        class object_string_operator_not : public object_function_built_in
-        {
-        public:
-            object_string_operator_not(object_pool *_pool)
-                : object_function_built_in(_pool)
-            {
-            }
-            
-            void call(thread *thr, int arg_count, call_mode mode) override
-            {
-                if (mode != call_mode::as_method)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_string *this_ptr_string = this_ptr->to_object_string();
-                if (!this_ptr_string)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                thr->pop(arg_count);
-                variable result;
-                result.set_boolean(this_ptr_string->get_data() == L"");
-                thr->push(result);
-            }
-        };
-
         object_string_proto::object_string_proto(object_pool *pool)
             : object(pool)
         {
@@ -326,7 +296,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_length), new object_string_length(pool));
             add_object(pool->get_static_string(resource::str_oper_plus), pool->get_wrap_add_instance());
-            add_object(pool->get_static_string(resource::str_oper_exclamation), new object_string_operator_not(pool));
+            add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
         }
     };
 };

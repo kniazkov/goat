@@ -27,6 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "thread.h"
 #include "lib/assert.h"
 #include "lib/utils.h"
+#include "resource/strings.h"
 #include <sstream>
 
 namespace g0at
@@ -82,36 +83,6 @@ namespace g0at
             Prototype
         */
 
-        template <template<typename R, typename A> class F> class object_char_unary_operator : public object_function_built_in
-        {
-        public:
-            object_char_unary_operator(object_pool *_pool)
-                : object_function_built_in(_pool)
-            {
-            }
-            
-            void call(thread *thr, int arg_count, call_mode mode) override
-            {
-                if (mode != call_mode::as_method)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                object *this_ptr = thr->pop().get_object();
-                assert(this_ptr != nullptr);
-                object_char *this_ptr_char = this_ptr->to_object_char();
-                if (!this_ptr_char)
-                {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                    return;
-                }
-                thr->pop(arg_count);
-                variable result;
-                result.set_char(F<wchar_t, wchar_t>::calculate(this_ptr_char->get_value()));
-                thr->push(result);
-            }
-        };
-
         object_char_proto::object_char_proto(object_pool *pool)
             : object(pool)
         {
@@ -119,8 +90,8 @@ namespace g0at
 
         void object_char_proto::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(L"++"), new object_char_unary_operator<lib::func::inc>(pool));
-            add_object(pool->get_static_string(L"--"), new object_char_unary_operator<lib::func::dec>(pool));
+            add_object(pool->get_static_string(resource::str_oper_plus_plus), pool->get_wrap_inc_instance());
+            add_object(pool->get_static_string(resource::str_oper_minus_minus), pool->get_wrap_dec_instance());
         }
 
         /*

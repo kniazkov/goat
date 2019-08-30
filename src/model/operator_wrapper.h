@@ -205,5 +205,36 @@ namespace g0at
                 W::call(this_ptr, thr);
             }
         };
+
+        template <typename W0, typename W1> class unary_binary_operator_adapter : public object_function_built_in
+        {
+        public:
+            unary_binary_operator_adapter(object_pool *pool)
+                : object_function_built_in(pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->peek().get_object();
+                if (arg_count == 0)
+                {
+                    W0::call(this_ptr, thr);
+                }
+                else if (arg_count == 1)
+                {
+                    W1::call(this_ptr, thr);
+                }
+                else
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                }
+            }
+        };
     };
 };
