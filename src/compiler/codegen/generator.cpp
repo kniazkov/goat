@@ -380,6 +380,7 @@ namespace g0at
             code->add_instruction(cycle);
             iid_t iid_begin = code->get_current_iid();
             ref->get_expression()->accept(this);
+            code->add_instruction(new _bool());
             _ifnot *if_not = new _ifnot(iid_unknown());
             code->add_instruction(if_not);
             cycle->get_begin_ptr().set(code->get_current_iid());
@@ -460,6 +461,7 @@ namespace g0at
         void generator::visit(pt::statement_if *ref)
         {
             ref->get_expression()->accept(this);
+            code->add_instruction(new _bool());
             _ifnot *ifnot = new _ifnot(iid_unknown());
             code->add_instruction(ifnot);
             ref->get_stmt_if()->accept(this);
@@ -568,6 +570,7 @@ namespace g0at
             if (condition)
             {
                 condition->accept(this);
+                code->add_instruction(new _bool());
                 if_not = new _ifnot(iid_unknown());
                 code->add_instruction(if_not);
             }
@@ -674,6 +677,7 @@ namespace g0at
             cycle->get_begin_ptr().set(iid_begin);
             ref->get_statement()->accept(this);
             ref->get_expression()->accept(this);
+            code->add_instruction(new _bool());
             code->add_instruction(new _if(iid_begin));
             code->add_instruction(new _leave());
             cycle->get_end_ptr().set(code->get_current_iid());
