@@ -1,0 +1,15 @@
+ok, true
+ok, false
+ok, 0
+ok, 1
+ok, 0
+ok, 1.1
+ok, a
+ok, {}
+ok, ""
+ok, test
+ok, []
+ok, null
+ok, undefined
+ok, void
+done.
