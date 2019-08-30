@@ -1,0 +1,15 @@
+ok, a = true, !a = false
+ok, a = false, !a = true
+ok, a = 0, !a = true
+ok, a = 1, !a = false
+ok, a = 0, !a = true
+ok, a = 1.1, !a = false
+ok, a = a, !a = false
+ok, a = {}, !a = false
+ok, a = "", !a = true
+ok, a = test, !a = false
+ok, a = [], !a = false
+ok, a = null, !a = true
+ok, a = undefined, !a = true
+ok, a = void, !a = true
+done.
