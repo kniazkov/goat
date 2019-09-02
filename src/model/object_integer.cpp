@@ -257,7 +257,12 @@ namespace g0at
                 bool right_is_integer = right.get_integer(&right_int_value);
                 if(right_is_integer)
                 {
-                    result.set_integer(var->data.i >> right_int_value);
+                    if (right_int_value < 0)
+                        result.set_integer(0);
+                    else if (right_int_value > 63)
+                        result.set_integer(var->data.i < 0 ? -1 : 0);
+                    else
+                        result.set_integer(var->data.i >> right_int_value);
                     thr->push(result);
                 }
                 else
@@ -275,7 +280,10 @@ namespace g0at
                 bool right_is_integer = right.get_integer(&right_int_value);
                 if(right_is_integer)
                 {
-                    result.set_integer((int64_t)((uint64_t)var->data.i >> (uint64_t)right_int_value));
+                    if (right_int_value > 63 || right_int_value < 0)
+                        result.set_integer(0);
+                    else
+                        result.set_integer((int64_t)((uint64_t)var->data.i >> (uint64_t)right_int_value));
                     thr->push(result);
                 }
                 else
