@@ -1,0 +1,7 @@
+ok: 2 << 1 = 4
+ok: 4 << 2 = 16
+ok: 4 << -1 = 0
+ok: 1 << 100 = 0
+fail but ok: abc << def
+fail but ok: {} << {}
+done.

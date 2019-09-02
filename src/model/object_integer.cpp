@@ -236,7 +236,10 @@ namespace g0at
                 bool right_is_integer = right.get_integer(&right_int_value);
                 if(right_is_integer)
                 {
-                    result.set_integer(var->data.i << right_int_value);
+                    if (right_int_value > 63 || right_int_value < 0)
+                        result.set_integer(0);
+                    else
+                        result.set_integer(var->data.i << right_int_value);
                     thr->push(result);
                 }
                 else
