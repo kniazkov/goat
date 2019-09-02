@@ -133,6 +133,9 @@ namespace g0at
             object *get_wrap_mod_instance() { return wrap_mod_instance; }
             object *get_wrap_eq_instance() { return wrap_eq_instance; }
             object *get_wrap_neq_instance() { return wrap_neq_instance; }
+            object *get_wrap_shl_instance() { return wrap_shl_instance; }
+            object *get_wrap_shr_instance() { return wrap_shr_instance; }
+            object *get_wrap_shrz_instance() { return wrap_shrz_instance; }
             object *get_wrap_less_instance() { return wrap_less_instance; }
             object *get_wrap_inherit_instance() { return wrap_inherit_instance; }
 
@@ -218,6 +221,9 @@ namespace g0at
             object *wrap_mod_instance;
             object *wrap_eq_instance;
             object *wrap_neq_instance;
+            object *wrap_shl_instance;
+            object *wrap_shr_instance;
+            object *wrap_shrz_instance;
             object *wrap_less_instance;
             object *wrap_inherit_instance;
 

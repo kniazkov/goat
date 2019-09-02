@@ -475,5 +475,20 @@ namespace g0at
         {
             stream << L"bool";
         }
+
+        void disasm::visit(_shl *ref)
+        {
+            stream << L"bool";
+        }
+
+        void disasm::visit(_shr *ref)
+        {
+            stream << L"bool";
+        }
+
+        void disasm::visit(_shrz *ref)
+        {
+            stream << L"bool";
+        }
     };
 };

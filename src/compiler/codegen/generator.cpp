@@ -73,6 +73,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/bitwise_not.h"
 #include "compiler/pt/logical_not.h"
 #include "compiler/pt/operator_bool.h"
+#include "compiler/pt/left_shift.h"
+#include "compiler/pt/signed_right_shift.h"
+#include "compiler/pt/zero_fill_right_shift.h"
 
 #include "code/string.h"
 #include "code/load.h"
@@ -141,6 +144,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/not.h"
 #include "code/inv.h"
 #include "code/bool.h"
+#include "code/shl.h"
+#include "code/shr.h"
+#include "code/shrz.h"
 
 namespace g0at
 {
@@ -814,6 +820,27 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             code->add_instruction(new _bool());
+        }
+
+        void generator::visit(pt::left_shift *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _shl());
+        }
+
+        void generator::visit(pt::signed_right_shift *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _shr());
+        }
+
+        void generator::visit(pt::zero_fill_right_shift *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _shrz());
         }
     };
 };

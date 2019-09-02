@@ -162,6 +162,21 @@ namespace g0at
                 var->data.ref->op_neq(thr);
             }
 
+            void op_shl(variable *var, thread *thr) override
+            {
+                var->data.ref->op_shl(thr);
+            }
+
+            void op_shr(variable *var, thread *thr) override
+            {
+                var->data.ref->op_shr(thr);
+            }
+
+            void op_shrz(variable *var, thread *thr) override
+            {
+                var->data.ref->op_shrz(thr);
+            }
+
             void op_less(variable *var, thread *thr) override
             {
                 var->data.ref->op_less(thr);

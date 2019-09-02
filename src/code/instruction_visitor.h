@@ -94,6 +94,9 @@ namespace g0at
         class _not;
         class _inv;
         class _bool;
+        class _shl;
+        class _shr;
+        class _shrz;
 
         class instruction_visitor
         {
@@ -168,6 +171,9 @@ namespace g0at
             virtual void visit(_not *ref) = 0;
             virtual void visit(_inv *ref) = 0;
             virtual void visit(_bool *ref) = 0;
+            virtual void visit(_shl *ref) = 0;
+            virtual void visit(_shr *ref) = 0;
+            virtual void visit(_shrz *ref) = 0;
         };
     };
 };

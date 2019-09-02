@@ -80,6 +80,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/exclamation.h"
 #include "compiler/ast/tilde.h"
 #include "compiler/ast/double_exclamation.h"
+#include "compiler/ast/double_less.h"
+#include "compiler/ast/double_greater.h"
+#include "compiler/ast/triple_greater.h"
 
 namespace g0at
 {
@@ -432,6 +435,12 @@ namespace g0at
                 return new ast::double_exclamation();
             if (oper == L"~")
                 return new ast::tilde();
+            if (oper == L"<<")
+                return new ast::double_less();
+            if (oper == L">>")
+                return new ast::double_greater();
+            if (oper == L">>>")
+                return new ast::triple_greater();
             if (oper == L"$")
                 return new ast::keyword_function();
             if (oper == L"$$")

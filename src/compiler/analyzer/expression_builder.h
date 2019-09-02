@@ -75,6 +75,9 @@ namespace g0at
             void visit(ast::logical_not *ref) override;
             void visit(ast::bitwise_not *ref) override;
             void visit(ast::operator_bool *ref) override;
+            void visit(ast::left_shift *ref) override;
+            void visit(ast::signed_right_shift *ref) override;
+            void visit(ast::zero_fill_right_shift *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

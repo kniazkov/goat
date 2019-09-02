@@ -96,6 +96,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "not.h"
 #include "inv.h"
 #include "bool.h"
+#include "shl.h"
+#include "shr.h"
+#include "shrz.h"
 
 namespace g0at
 {
@@ -631,6 +634,21 @@ namespace g0at
             dst->add_instruction(new _bool());
         }
 
+        void deserializer::c_shl(source *src, code *dst)
+        {
+            dst->add_instruction(new _shl());
+        }
+
+        void deserializer::c_shr(source *src, code *dst)
+        {
+            dst->add_instruction(new _shr());
+        }
+
+        void deserializer::c_shrz(source *src, code *dst)
+        {
+            dst->add_instruction(new _shrz());
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -701,6 +719,9 @@ namespace g0at
             cc[op::_not]     = c_not;
             cc[op::_inv]     = c_inv;
             cc[op::_bool]    = c_bool;
+            cc[op::_shl]     = c_shl;
+            cc[op::_shr]     = c_shr;
+            cc[op::_shrz]    = c_shrz;
         }
     };
 };

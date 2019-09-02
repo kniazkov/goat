@@ -140,9 +140,24 @@ namespace g0at
             thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_not_equal));
        }
 
+        void handler::op_shl(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_double_less));
+        }
+
+        void handler::op_shr(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_double_greater));
+        }
+
+        void handler::op_shrz(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_triple_greater));
+        }
+
         void handler::op_less(variable *var, thread *thr)
         {
-            assert(false);
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_less));
         }
 
         void handler::op_inherit(variable *var, thread *thr)

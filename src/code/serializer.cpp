@@ -547,5 +547,20 @@ namespace g0at
         {
             push_opcode(op::_bool);
         }
+
+        void serializer::visit(_shl *ref)
+        {
+            push_opcode(op::_shl);
+        }
+
+        void serializer::visit(_shr *ref)
+        {
+            push_opcode(op::_shr);
+        }
+
+        void serializer::visit(_shrz *ref)
+        {
+            push_opcode(op::_shrz);
+        }
     };
 };

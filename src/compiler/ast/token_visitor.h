@@ -129,6 +129,12 @@ namespace g0at
         class bitwise_not;
         class double_exclamation;
         class operator_bool;
+        class left_shift;
+        class signed_right_shift;
+        class zero_fill_right_shift;
+        class double_less;
+        class double_greater;
+        class triple_greater;
  
         class token_visitor
         {
@@ -238,6 +244,12 @@ namespace g0at
             virtual void visit(bitwise_not *ref);
             virtual void visit(double_exclamation *ref);
             virtual void visit(operator_bool *ref);
+            virtual void visit(left_shift *ref);
+            virtual void visit(signed_right_shift *ref);
+            virtual void visit(zero_fill_right_shift *ref);
+            virtual void visit(double_less *ref);
+            virtual void visit(double_greater *ref);
+            virtual void visit(triple_greater *ref);
          };
     };
 };

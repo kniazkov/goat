@@ -445,5 +445,29 @@ namespace g0at
         void token_visitor::visit(operator_bool *ref)
         {
         }
+
+        void token_visitor::visit(left_shift *ref)
+        {
+        }
+
+        void token_visitor::visit(signed_right_shift *ref)
+        {
+        }
+
+        void token_visitor::visit(zero_fill_right_shift *ref)
+        {
+        }
+
+        void token_visitor::visit(double_less *ref)
+        {
+        }
+
+        void token_visitor::visit(double_greater *ref)
+        {
+        }
+
+        void token_visitor::visit(triple_greater *ref)
+        {
+        }
     }
 };

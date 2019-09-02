@@ -77,6 +77,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "logical_not.h"
 #include "bitwise_not.h"
 #include "operator_bool.h"
+#include "left_shift.h"
+#include "signed_right_shift.h"
+#include "zero_fill_right_shift.h"
 
 namespace g0at
 {
@@ -984,6 +987,54 @@ namespace g0at
             dbg_output right(data);
             ref->get_right()->accept(&right);
             link_child(right);
+        }
+
+        void dbg_output::visit(left_shift *ref)
+        {
+            print(L"left shift", L"&lt;&lt;");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(signed_right_shift *ref)
+        {
+            print(L"signed right shift", L"&gt;&gt;");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(zero_fill_right_shift *ref)
+        {
+            print(L"zero fill right shift", L"&gt;&gt;&gt;");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(double_less *ref)
+        {
+            print(L"double less", L"&lt;&lt;");
+        }
+
+        void dbg_output::visit(double_greater *ref)
+        {
+            print(L"double greater", L"&gt;&gt;");
+        }
+
+        void dbg_output::visit(triple_greater *ref)
+        {
+            print(L"triple greater", L"&gt;&gt;&gt;");
         }
     };
 };

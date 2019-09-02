@@ -53,6 +53,7 @@ namespace g0at
             gr->vector.push_back(create_pattern_binary(&data->opers_exp));
             gr->vector.push_back(create_pattern_binary(&data->opers_mul_div_mod));
             gr->vector.push_back(create_pattern_binary(&data->opers_plus_minus));
+            gr->vector.push_back(create_pattern_binary(&data->opers_shift));
             gr->vector.push_back(create_pattern_binary(&data->opers_less_greater));
             gr->vector.push_back(create_pattern_binary(&data->opers_equals_and_not));
             gr->vector.push_back(create_pattern_assignment());

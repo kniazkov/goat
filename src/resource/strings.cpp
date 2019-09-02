@@ -39,6 +39,10 @@ namespace g0at
         std::wstring str_oper_tilde = L"~";
         std::wstring str_oper_equals = L"==";
         std::wstring str_oper_not_equal = L"!=";
+        std::wstring str_oper_less = L"<";
+        std::wstring str_oper_double_less = L"<<";
+        std::wstring str_oper_double_greater = L">>";
+        std::wstring str_oper_triple_greater = L">>>";
 
         std::wstring str_instanceof = L"instanceof";
         std::wstring str_flat = L"flat";

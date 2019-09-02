@@ -56,6 +56,9 @@ namespace g0at
             void op_mod(thread *thr) override;
             void op_eq(thread *thr) override;
             void op_neq(thread *thr) override;
+            void op_shl(thread *thr) override;
+            void op_shr(thread *thr) override;
+            void op_shrz(thread *thr) override;
             void op_less(thread *thr) override;
             void op_inherit(thread *thr) override;
 

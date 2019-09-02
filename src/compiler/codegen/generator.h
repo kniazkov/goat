@@ -101,6 +101,9 @@ namespace g0at
             void visit(pt::logical_not *ref) override;
             void visit(pt::bitwise_not *ref) override;
             void visit(pt::operator_bool *ref) override;
+            void visit(pt::left_shift *ref) override;
+            void visit(pt::signed_right_shift *ref) override;
+            void visit(pt::zero_fill_right_shift *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

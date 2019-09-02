@@ -632,5 +632,35 @@ namespace g0at
         {
             return nullptr;
         }
+
+        left_shift *token::to_left_shift()
+        {
+            return nullptr;
+        }
+
+        signed_right_shift *token::to_signed_right_shift()
+        {
+            return nullptr;
+        }
+
+        zero_fill_right_shift *token::to_zero_fill_right_shift()
+        {
+            return nullptr;
+        }
+
+        double_less *token::to_double_less()
+        {
+            return nullptr;
+        }
+
+        double_greater *token::to_double_greater()
+        {
+            return nullptr;
+        }
+
+        triple_greater *token::to_triple_greater()
+        {
+            return nullptr;
+        }
     }
 };

@@ -111,6 +111,9 @@ namespace g0at
             _bool,
             _not,
             _inv,
+            _shl,
+            _shr,
+            _shrz,
 
             _eq,
             _neq,

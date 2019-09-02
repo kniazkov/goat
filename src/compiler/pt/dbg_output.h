@@ -115,6 +115,9 @@ namespace g0at
             void visit(logical_not *ref) override;
             void visit(bitwise_not *ref) override;
             void visit(operator_bool *ref) override;
+            void visit(left_shift *ref) override;
+            void visit(signed_right_shift *ref) override;
+            void visit(zero_fill_right_shift *ref) override;
 
         protected:
             dbg_output(environment &env);

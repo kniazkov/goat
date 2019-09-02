@@ -257,5 +257,17 @@ namespace g0at
         void node_visitor::visit(operator_bool *ref)
         {
         }
+
+        void node_visitor::visit(left_shift *ref)
+        {
+        }
+
+        void node_visitor::visit(signed_right_shift *ref)
+        {
+        }
+
+        void node_visitor::visit(zero_fill_right_shift *ref)
+        {
+        }
     }
 };

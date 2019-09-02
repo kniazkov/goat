@@ -137,6 +137,9 @@ namespace g0at
             static void c_not(source *src, code *dst);
             static void c_inv(source *src, code *dst);
             static void c_bool(source *src, code *dst);
+            static void c_shl(source *src, code *dst);
+            static void c_shr(source *src, code *dst);
+            static void c_shrz(source *src, code *dst);
 
             std::map<op, creator> cc;
         };

@@ -119,6 +119,9 @@ namespace g0at
             inline void op_mod(thread *thr);
             inline void op_eq(thread *thr);
             inline void op_neq(thread *thr);
+            inline void op_shl(thread *thr);
+            inline void op_shr(thread *thr);
+            inline void op_shrz(thread *thr);
             inline void op_less(thread *thr);
             inline void op_inherit(thread *thr);
 
@@ -229,6 +232,9 @@ namespace g0at
             virtual void op_mod(thread *thr);
             virtual void op_eq(thread *thr);
             virtual void op_neq(thread *thr);
+            virtual void op_shl(thread *thr);
+            virtual void op_shr(thread *thr);
+            virtual void op_shrz(thread *thr);
             virtual void op_less(thread *thr);
             virtual void op_inherit(thread *thr);
 
@@ -312,6 +318,9 @@ namespace g0at
             virtual void op_mod(variable *var, thread *thr);
             virtual void op_eq(variable *var, thread *thr);
             virtual void op_neq(variable *var, thread *thr);
+            virtual void op_shl(variable *var, thread *thr);
+            virtual void op_shr(variable *var, thread *thr);
+            virtual void op_shrz(variable *var, thread *thr);
             virtual void op_less(variable *var, thread *thr);
             virtual void op_inherit(variable *var, thread *thr);
 
@@ -499,6 +508,21 @@ namespace g0at
         void variable::op_eq(thread *thr)
         {
             hndl->op_eq(this, thr);
+        }
+
+        void variable::op_shl(thread *thr)
+        {
+            hndl->op_shl(this, thr);
+        }
+
+        void variable::op_shr(thread *thr)
+        {
+            hndl->op_shr(this, thr);
+        }
+
+        void variable::op_shrz(thread *thr)
+        {
+            hndl->op_shrz(this, thr);
         }
 
         void variable::op_less(thread *thr)

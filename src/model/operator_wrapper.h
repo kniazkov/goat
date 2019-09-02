@@ -148,6 +148,30 @@ namespace g0at
             }
         };
 
+        struct wrap_shl
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_shl(thr);
+            }
+        };
+
+        struct wrap_shr
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_shr(thr);
+            }
+        };
+
+        struct wrap_shrz
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_shrz(thr);
+            }
+        };
+
         struct wrap_less
         {
             static void call(object *obj, thread *thr)

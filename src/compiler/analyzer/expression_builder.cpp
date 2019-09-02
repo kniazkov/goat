@@ -103,6 +103,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/bitwise_not.h"
 #include "compiler/ast/operator_bool.h"
 #include "compiler/pt/operator_bool.h"
+#include "compiler/ast/left_shift.h"
+#include "compiler/pt/left_shift.h"
+#include "compiler/ast/signed_right_shift.h"
+#include "compiler/pt/signed_right_shift.h"
+#include "compiler/ast/zero_fill_right_shift.h"
+#include "compiler/pt/zero_fill_right_shift.h"
 
 namespace g0at
 {
@@ -473,6 +479,24 @@ namespace g0at
         void expression_builder::visit(ast::operator_bool *ref)
         {
             expr = new pt::operator_bool(ref->get_position(), build_expr_for_unary_prefix(ref));
+        }
+
+        void expression_builder::visit(ast::left_shift *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::left_shift(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::signed_right_shift *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::signed_right_shift(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::zero_fill_right_shift *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::zero_fill_right_shift(ref->get_position(), pair.first, pair.second);
         }
     };
 };

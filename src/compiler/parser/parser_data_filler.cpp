@@ -67,6 +67,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/exclamation.h"
 #include "compiler/ast/tilde.h"
 #include "compiler/ast/double_exclamation.h"
+#include "compiler/ast/double_less.h"
+#include "compiler/ast/double_greater.h"
+#include "compiler/ast/triple_greater.h"
 
 namespace g0at
 {
@@ -309,6 +312,21 @@ namespace g0at
         void parser_data_filler::visit(ast::double_exclamation *ref)
         {
             data->opers_excl_tildes.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::double_less *ref)
+        {
+            data->opers_shift.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::double_greater *ref)
+        {
+            data->opers_shift.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::triple_greater *ref)
+        {
+            data->opers_shift.add(ref);
         }
     };
 };

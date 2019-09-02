@@ -99,6 +99,9 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_percent), pool->get_wrap_mod_instance());
             add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
             add_object(pool->get_static_string(resource::str_oper_double_exclamation), pool->get_wrap_bool_instance());
+            add_object(pool->get_static_string(resource::str_oper_double_less), pool->get_wrap_shl_instance());
+            add_object(pool->get_static_string(resource::str_oper_double_greater), pool->get_wrap_shr_instance());
+            add_object(pool->get_static_string(resource::str_oper_triple_greater), pool->get_wrap_shrz_instance());
         }
 
         /*
@@ -222,6 +225,60 @@ namespace g0at
             void op_neq(variable *var, thread *thr)  override
             {
                 binary_logical_operation<lib::func::not_equal, true>(var, thr);
+            }
+
+            void op_shl(variable *var, thread *thr)  override
+            {
+                variable result;
+                thr->pop();
+                variable right = thr->pop();
+                int64_t right_int_value;
+                bool right_is_integer = right.get_integer(&right_int_value);
+                if(right_is_integer)
+                {
+                    result.set_integer(var->data.i << right_int_value);
+                    thr->push(result);
+                }
+                else
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                }
+            }
+
+            void op_shr(variable *var, thread *thr)  override
+            {
+                variable result;
+                thr->pop();
+                variable right = thr->pop();
+                int64_t right_int_value;
+                bool right_is_integer = right.get_integer(&right_int_value);
+                if(right_is_integer)
+                {
+                    result.set_integer(var->data.i >> right_int_value);
+                    thr->push(result);
+                }
+                else
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                }
+            }
+
+            void op_shrz(variable *var, thread *thr)  override
+            {
+                variable result;
+                thr->pop();
+                variable right = thr->pop();
+                int64_t right_int_value;
+                bool right_is_integer = right.get_integer(&right_int_value);
+                if(right_is_integer)
+                {
+                    result.set_integer((int64_t)((uint64_t)var->data.i >> (uint64_t)right_int_value));
+                    thr->push(result);
+                }
+                else
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                }
             }
 
             void op_less(variable *var, thread *thr)  override

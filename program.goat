@@ -1,7 +1,27 @@
-var i = 10;
-
-do
+var test = $(a, b)
 {
-    println(i);
-    i--;
-} while(i);
+    try
+    {
+        var x = a << b;
+        var f = a["<<"];
+        var y = f.call(a, b);
+        if (x == y)
+            println("ok: " + a + " << " + b + " = " + x);
+        else
+            println("fail: " + a + " << " + b + ", x = " + x + " but y = " + y);
+    }
+    catch(err)
+    {
+        if (err.instanceof(Exception.IllegalReference.OperatorNotFound))
+            println("fail but ok: " + a + " << " + b);
+        else
+            println("exception: " + err);
+    }
+};
+
+test(2, 1);
+test(4, 2);
+
+test("abc", "def");
+test({ }, { });
+println("done.");

@@ -339,5 +339,20 @@ namespace g0at
         {
             return nullptr;
         }
+
+        left_shift *node::to_left_shift()
+        {
+            return nullptr;
+        }
+
+        signed_right_shift *node::to_signed_right_shift()
+        {
+            return nullptr;
+        }
+
+        zero_fill_right_shift *node::to_zero_fill_right_shift()
+        {
+            return nullptr;
+        }
     }
 };

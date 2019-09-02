@@ -495,9 +495,28 @@ namespace g0at
             thr->push(result);
         }
 
+        void object::op_shl(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_double_less))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_double_less));
+        }
+
+        void object::op_shr(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_double_greater))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_double_greater));
+        }
+
+        void object::op_shrz(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_triple_greater))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_triple_greater));
+        }
+
         void object::op_less(thread *thr)
         {
-            find_and_vcall(thr, 1, L"<");
+            if (!find_and_vcall(thr, 1, resource::str_oper_less))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_less));
         }
 
         void object::op_inherit(thread *thr)

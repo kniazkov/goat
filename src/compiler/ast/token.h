@@ -149,6 +149,12 @@ namespace g0at
         class bitwise_not;
         class double_exclamation;
         class operator_bool;
+        class left_shift;
+        class signed_right_shift;
+        class zero_fill_right_shift;
+        class double_less;
+        class double_greater;
+        class triple_greater;
 
         class token : public lib::ref_counter
         {
@@ -275,6 +281,12 @@ namespace g0at
             virtual bitwise_not *to_bitwise_not();
             virtual double_exclamation *to_double_exclamation();
             virtual operator_bool *to_operator_bool();
+            virtual left_shift *to_left_shift();
+            virtual signed_right_shift *to_signed_right_shift();
+            virtual zero_fill_right_shift *to_zero_fill_right_shift();
+            virtual double_less *to_double_less();
+            virtual double_greater *to_double_greater();
+            virtual triple_greater *to_triple_greater();
 
             lib::pointer<position> get_position() { return pos; }
 

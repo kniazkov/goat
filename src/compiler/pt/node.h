@@ -94,6 +94,9 @@ namespace g0at
         class logical_not;
         class bitwise_not;
         class operator_bool;
+        class left_shift;
+        class signed_right_shift;
+        class zero_fill_right_shift;
 
         class node : public lib::ref_counter
         {
@@ -163,6 +166,9 @@ namespace g0at
             virtual logical_not *to_logical_not();
             virtual bitwise_not *to_bitwise_not();
             virtual operator_bool *to_operator_bool();
+            virtual left_shift *to_left_shift();
+            virtual signed_right_shift *to_signed_right_shift();
+            virtual zero_fill_right_shift *to_zero_fill_right_shift();
 
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }
