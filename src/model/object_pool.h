@@ -106,6 +106,7 @@ namespace g0at
             object *get_uid_proto_instance() { return uid_proto_instance; }
             object *get_iterator_proto_instance() { return iterator_proto_instance; }
             object *get_exception_proto_instance() { return exception_proto_instance; }
+            object *get_string_builder_proto_instance() { return string_builder_proto_instance; }
 
             object *get_exception_illegal_argument_instance() { return exception_illegal_argument_instance; }
             object *get_exception_illegal_context_instance() { return exception_illegal_context_instance; }
@@ -194,6 +195,7 @@ namespace g0at
             object *uid_proto_instance;
             object *iterator_proto_instance;
             object *exception_proto_instance;
+            object *string_builder_proto_instance;
 
             object *exception_illegal_argument_instance;
             object *exception_illegal_context_instance;

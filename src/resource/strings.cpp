@@ -59,5 +59,6 @@ namespace g0at
         std::wstring str_void = L"void";
         std::wstring str_undefined = L"undefined";
         std::wstring str_null = L"null";
+        std::wstring str_data = L"data";
     };
 };

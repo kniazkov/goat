@@ -56,6 +56,7 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"Runner"), pool->get_runner_proto_instance());
                 ctx->add_object(pool->get_static_string(L"Iterator"), pool->get_iterator_proto_instance());
                 ctx->add_object(pool->get_static_string(L"UId"), pool->get_uid_proto_instance());
+                ctx->add_object(pool->get_static_string(L"StringBuilder"), pool->get_string_builder_proto_instance());
 
                 ctx->add_object(pool->get_static_string(L"print"), create_function_print());
                 ctx->add_object(pool->get_static_string(L"println"), create_function_println());

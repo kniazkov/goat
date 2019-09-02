@@ -162,6 +162,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_string_builder *object::to_object_string_builder()
+        {
+            return nullptr;
+        }
+
         bool object::less(const object *obj) const
         {
             return this < obj;

@@ -61,5 +61,6 @@ namespace g0at
         extern std::wstring str_void;
         extern std::wstring str_undefined;
         extern std::wstring str_null;
+        extern std::wstring str_data;
     };
 };
