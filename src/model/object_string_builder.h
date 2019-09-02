@@ -40,6 +40,11 @@ namespace g0at
 
             std::wstring get_data() { return data.str(); }
             int64_t get_length() { return length; }
+            void append(std::wstring str)
+            {
+                data << str;
+                length += str.size();
+            }
 
         protected:
             std::wstringstream data;
@@ -52,6 +57,8 @@ namespace g0at
         protected:
             object_string_builder_proto(object_pool *pool);
             void init(object_pool *pool);
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
     };
 };

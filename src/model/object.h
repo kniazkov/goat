@@ -219,6 +219,7 @@ namespace g0at
             virtual bool get_boolean(bool *pval);
             virtual bool get_char(wchar_t *pval);
 
+            virtual void op_new(thread *thr, int arg_count);
             virtual void op_add(thread *thr);
             virtual void op_sub(thread *thr);
             virtual void op_pos(thread *thr);

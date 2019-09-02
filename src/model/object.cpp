@@ -404,6 +404,22 @@ namespace g0at
             return false;
         }
 
+        void object::op_new(thread *thr, int arg_count)
+        {
+            model::object *new_object = new model::object(thr->pool, this);
+
+            model::variable var;
+            var.set_object(new_object);
+            thr->push(var);
+
+            model::object_string *key = thr->pool->get_static_string(resource::str_init);
+            find_own_and_call_if_exists(thr, arg_count, key, model::call_mode::as_constructor);
+            for_each_proto([thr, key](model::object *proto_proto_object)
+            {
+                proto_proto_object->find_own_and_call_if_exists(thr, 0, key, model::call_mode::as_constructor);
+            });
+        }
+
         void object::op_add(thread *thr)
         {
             if (!find_and_vcall(thr, 1, resource::str_oper_plus))

@@ -60,5 +60,7 @@ namespace g0at
         std::wstring str_undefined = L"undefined";
         std::wstring str_null = L"null";
         std::wstring str_data = L"data";
+        std::wstring str_init = L"init";
+        std::wstring str_add = L"add";
     };
 };

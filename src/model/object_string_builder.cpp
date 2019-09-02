@@ -60,9 +60,7 @@ namespace g0at
         {
             thr->pop();
             variable right = thr->pop();
-            std::wstring str = right.to_string();
-            data << str;
-            length += str.size();
+            append(right.to_string());
             variable result;
             result.set_object(this);
             thr->push(result);
@@ -136,6 +134,27 @@ namespace g0at
             }
         };
 
+        class object_string_builder_add : public object_string_builder_method
+        {
+        public:
+            object_string_builder_add(object_pool *_pool)
+                : object_string_builder_method(_pool)
+            {
+            }
+            
+            variable payload(thread *thr, int arg_count, object_string_builder *this_ptr) override
+            {
+                for (int i = 0; i < arg_count; i++)
+                {
+                    std::wstring arg = thr->peek(i).to_string();
+                    this_ptr->append(arg);
+                }
+                variable result;
+                result.set_object(this_ptr);
+                return result;
+            }
+        };
+
         object_string_builder_proto::object_string_builder_proto(object_pool *pool)
             : object(pool)
         {
@@ -143,9 +162,18 @@ namespace g0at
 
         void object_string_builder_proto::init(object_pool *pool)
         {
+            add_object(pool->get_static_string(resource::str_add), new object_string_builder_add(pool));
             add_object(pool->get_static_string(resource::str_length), new object_string_builder_length(pool));
             add_object(pool->get_static_string(resource::str_data), new object_string_builder_data(pool));
             add_object(pool->get_static_string(resource::str_oper_double_less), pool->get_wrap_shl_instance());
+        }
+
+        void object_string_builder_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->pop(arg_count);
+            variable result;
+            result.set_object(new object_string_builder(thr->pool));
+            thr->push(result);
         }
     };
 };
