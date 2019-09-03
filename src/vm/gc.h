@@ -52,6 +52,7 @@ namespace g0at
                 case gc_type::disabled:
                     return create_grabage_collector_disabled();
             }
+            return nullptr;
         }
     };
 };

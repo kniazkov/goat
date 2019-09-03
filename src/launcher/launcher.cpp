@@ -97,6 +97,7 @@ namespace g0at
         {
             std::cerr << ex.what() << std::endl;
         }
+        return 0;
     }
 
     launcher::launcher(int argc, char **argv)
