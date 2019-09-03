@@ -97,6 +97,9 @@ namespace g0at
         class left_shift;
         class signed_right_shift;
         class zero_fill_right_shift;
+        class is_less_than_or_equal_to;
+        class is_greater_than;
+        class is_greater_than_or_equal_to;
 
         class node : public lib::ref_counter
         {
@@ -169,6 +172,9 @@ namespace g0at
             virtual left_shift *to_left_shift();
             virtual signed_right_shift *to_signed_right_shift();
             virtual zero_fill_right_shift *to_zero_fill_right_shift();
+            virtual is_less_than_or_equal_to *to_is_less_than_or_equal_to();
+            virtual is_greater_than *to_is_greater_than();
+            virtual is_greater_than_or_equal_to *to_is_greater_than_or_equal_to();
 
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }

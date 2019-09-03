@@ -662,5 +662,35 @@ namespace g0at
         {
             return nullptr;
         }
+
+        is_less_than_or_equal_to *token::to_is_less_than_or_equal_to()
+        {
+            return nullptr;
+        }
+
+        is_greater_than *token::to_is_greater_than()
+        {
+            return nullptr;
+        }
+
+        is_greater_than_or_equal_to *token::to_is_greater_than_or_equal_to()
+        {
+            return nullptr;
+        }
+
+        less_or_equal *token::to_less_or_equal()
+        {
+            return nullptr;
+        }
+
+        greater *token::to_greater()
+        {
+            return nullptr;
+        }
+
+        greater_or_equal *token::to_greater_or_equal()
+        {
+            return nullptr;
+        }
     }
 };

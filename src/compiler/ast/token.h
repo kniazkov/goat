@@ -156,6 +156,12 @@ namespace g0at
         class double_less;
         class double_greater;
         class triple_greater;
+        class is_less_than_or_equal_to;
+        class is_greater_than;
+        class is_greater_than_or_equal_to;
+        class less_or_equal;
+        class greater;
+        class greater_or_equal;
 
         class token : public lib::ref_counter
         {
@@ -288,6 +294,12 @@ namespace g0at
             virtual double_less *to_double_less();
             virtual double_greater *to_double_greater();
             virtual triple_greater *to_triple_greater();
+            virtual is_less_than_or_equal_to *to_is_less_than_or_equal_to();
+            virtual is_greater_than *to_is_greater_than();
+            virtual is_greater_than_or_equal_to *to_is_greater_than_or_equal_to();
+            virtual less_or_equal *to_less_or_equal();
+            virtual greater *to_greater();
+            virtual greater_or_equal *to_greater_or_equal();
 
             lib::pointer<position> get_position() { return pos; }
 

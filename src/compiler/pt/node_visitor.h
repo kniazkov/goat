@@ -85,6 +85,9 @@ namespace g0at
         class left_shift;
         class signed_right_shift;
         class zero_fill_right_shift;
+        class is_less_than_or_equal_to;
+        class is_greater_than;
+        class is_greater_than_or_equal_to;
 
         class node_visitor
         {
@@ -150,6 +153,9 @@ namespace g0at
             virtual void visit(left_shift *ref);
             virtual void visit(signed_right_shift *ref);
             virtual void visit(zero_fill_right_shift *ref);
+            virtual void visit(is_less_than_or_equal_to *ref);
+            virtual void visit(is_greater_than *ref);
+            virtual void visit(is_greater_than_or_equal_to *ref);
         };
     };
 };

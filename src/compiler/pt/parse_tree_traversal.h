@@ -92,6 +92,14 @@ namespace g0at
             void visit(unary_plus *ref) override;
             void visit(logical_not *ref) override;
             void visit(bitwise_not *ref) override;
+            void visit(operator_bool *ref) override;
+            void visit(left_shift *ref) override;
+            void visit(signed_right_shift *ref) override;
+            void visit(zero_fill_right_shift *ref) override;
+            void visit(is_less_than_or_equal_to *ref) override;
+            void visit(is_greater_than *ref) override;
+            void visit(is_greater_than_or_equal_to *ref) override;
+
 
         protected:
             void postpone(node *n) { queue.push_front(n); }
@@ -152,6 +160,13 @@ namespace g0at
             virtual void payload(unary_plus *ref);
             virtual void payload(logical_not *ref);
             virtual void payload(bitwise_not *ref);
+            virtual void payload(operator_bool *ref);
+            virtual void payload(left_shift *ref);
+            virtual void payload(signed_right_shift *ref);
+            virtual void payload(zero_fill_right_shift *ref);
+            virtual void payload(is_less_than_or_equal_to *ref);
+            virtual void payload(is_greater_than *ref);
+            virtual void payload(is_greater_than_or_equal_to *ref);
 
         private:
             std::deque<node*> queue;

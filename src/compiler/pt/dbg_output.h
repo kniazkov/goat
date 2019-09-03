@@ -118,6 +118,9 @@ namespace g0at
             void visit(left_shift *ref) override;
             void visit(signed_right_shift *ref) override;
             void visit(zero_fill_right_shift *ref) override;
+            void visit(is_less_than_or_equal_to *ref) override;
+            void visit(is_greater_than *ref) override;
+            void visit(is_greater_than_or_equal_to *ref) override;
 
         protected:
             dbg_output(environment &env);

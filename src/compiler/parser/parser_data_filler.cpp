@@ -70,6 +70,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/double_less.h"
 #include "compiler/ast/double_greater.h"
 #include "compiler/ast/triple_greater.h"
+#include "compiler/ast/less_or_equal.h"
+#include "compiler/ast/greater.h"
+#include "compiler/ast/greater_or_equal.h"
 
 namespace g0at
 {
@@ -327,6 +330,21 @@ namespace g0at
         void parser_data_filler::visit(ast::triple_greater *ref)
         {
             data->opers_shift.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::less_or_equal *ref)
+        {
+            data->opers_less_greater.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::greater *ref)
+        {
+            data->opers_less_greater.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::greater_or_equal *ref)
+        {
+            data->opers_less_greater.add(ref);
         }
     };
 };

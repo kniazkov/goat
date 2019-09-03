@@ -80,6 +80,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "left_shift.h"
 #include "signed_right_shift.h"
 #include "zero_fill_right_shift.h"
+#include "is_less_than_or_equal_to.h"
+#include "is_greater_than.h"
+#include "is_greater_than_or_equal_to.h"
 
 namespace g0at
 {
@@ -991,6 +994,39 @@ namespace g0at
         void dbg_output::visit(zero_fill_right_shift *ref)
         {
             print(ref, L"zero fill right shift", L"&gt;&gt;&gt;");
+            dbg_output left(env);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(env);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(is_less_than_or_equal_to *ref)
+        {
+            print(ref, L"is less than or equal to", L"&lt;=");
+            dbg_output left(env);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(env);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(is_greater_than *ref)
+        {
+            print(ref, L"is greater than", L"&gt;");
+            dbg_output left(env);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(env);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(is_greater_than_or_equal_to *ref)
+        {
+            print(ref, L"is greater than or equal", L"&gt;=");
             dbg_output left(env);
             ref->get_left()->accept(&left);
             link_child(left, L"left");

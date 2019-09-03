@@ -83,6 +83,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/double_less.h"
 #include "compiler/ast/double_greater.h"
 #include "compiler/ast/triple_greater.h"
+#include "compiler/ast/less_or_equal.h"
+#include "compiler/ast/greater.h"
+#include "compiler/ast/greater_or_equal.h"
 
 namespace g0at
 {
@@ -423,6 +426,12 @@ namespace g0at
                 return new ast::not_equal();
             if (oper == L"<")
                 return new ast::less();
+            if (oper == L"<=")
+                return new ast::less_or_equal();
+            if (oper == L">")
+                return new ast::greater();
+            if (oper == L">=")
+                return new ast::greater_or_equal();
             if (oper == L"->")
                 return new ast::inherit();
             if (oper == L"++")

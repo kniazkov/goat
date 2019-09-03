@@ -269,5 +269,17 @@ namespace g0at
         void node_visitor::visit(zero_fill_right_shift *ref)
         {
         }
+
+        void node_visitor::visit(is_less_than_or_equal_to *ref)
+        {
+        }
+
+        void node_visitor::visit(is_greater_than *ref)
+        {
+        }
+
+        void node_visitor::visit(is_greater_than_or_equal_to *ref)
+        {
+        }
     }
 };

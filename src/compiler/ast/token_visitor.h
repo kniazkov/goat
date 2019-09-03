@@ -135,6 +135,12 @@ namespace g0at
         class double_less;
         class double_greater;
         class triple_greater;
+        class is_less_than_or_equal_to;
+        class is_greater_than;
+        class is_greater_than_or_equal_to;
+        class less_or_equal;
+        class greater;
+        class greater_or_equal;
  
         class token_visitor
         {
@@ -250,6 +256,12 @@ namespace g0at
             virtual void visit(double_less *ref);
             virtual void visit(double_greater *ref);
             virtual void visit(triple_greater *ref);
+            virtual void visit(is_less_than_or_equal_to *ref);
+            virtual void visit(is_greater_than *ref);
+            virtual void visit(is_greater_than_or_equal_to *ref);
+            virtual void visit(less_or_equal *ref);
+            virtual void visit(greater *ref);
+            virtual void visit(greater_or_equal *ref);
          };
     };
 };

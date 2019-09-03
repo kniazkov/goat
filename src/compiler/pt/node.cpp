@@ -354,5 +354,20 @@ namespace g0at
         {
             return nullptr;
         }
+
+        is_less_than_or_equal_to *node::to_is_less_than_or_equal_to()
+        {
+            return nullptr;
+        }
+
+        is_greater_than *node::to_is_greater_than()
+        {
+            return nullptr;
+        }
+
+        is_greater_than_or_equal_to *node::to_is_greater_than_or_equal_to()
+        {
+            return nullptr;
+        }
     }
 };

@@ -109,6 +109,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/signed_right_shift.h"
 #include "compiler/ast/zero_fill_right_shift.h"
 #include "compiler/pt/zero_fill_right_shift.h"
+#include "compiler/ast/is_less_than_or_equal_to.h"
+#include "compiler/pt/is_less_than_or_equal_to.h"
+#include "compiler/ast/is_greater_than.h"
+#include "compiler/pt/is_greater_than.h"
+#include "compiler/ast/is_greater_than_or_equal_to.h"
+#include "compiler/pt/is_greater_than_or_equal_to.h"
 
 namespace g0at
 {
@@ -497,6 +503,24 @@ namespace g0at
         {
             auto pair = build_expr_for_binary(ref);
             expr = new pt::zero_fill_right_shift(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::is_less_than_or_equal_to *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::is_less_than_or_equal_to(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::is_greater_than *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::is_greater_than(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::is_greater_than_or_equal_to *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::is_greater_than_or_equal_to(ref->get_position(), pair.first, pair.second);
         }
     };
 };

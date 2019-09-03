@@ -75,6 +75,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "unary_plus.h"
 #include "logical_not.h"
 #include "bitwise_not.h"
+#include "operator_bool.h"
+#include "left_shift.h"
+#include "signed_right_shift.h"
+#include "zero_fill_right_shift.h"
+#include "is_less_than_or_equal_to.h"
+#include "is_greater_than.h"
+#include "is_greater_than_or_equal_to.h"
 
 namespace g0at
 {
@@ -747,6 +754,86 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(bitwise_not *ref)
+        {
+        }
+        
+        void parse_tree_traversal::visit(operator_bool *ref)
+        {
+            ref->get_right()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(operator_bool *ref)
+        {
+        }
+        
+        void parse_tree_traversal::visit(left_shift *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(left_shift *ref)
+        {
+        }
+        
+        void parse_tree_traversal::visit(signed_right_shift *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(signed_right_shift *ref)
+        {
+        }
+
+        
+        void parse_tree_traversal::visit(zero_fill_right_shift *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(zero_fill_right_shift *ref)
+        {
+        }
+
+        
+        void parse_tree_traversal::visit(is_less_than_or_equal_to *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(is_less_than_or_equal_to *ref)
+        {
+        }
+
+        
+        void parse_tree_traversal::visit(is_greater_than *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(is_greater_than *ref)
+        {
+        }
+
+        
+        void parse_tree_traversal::visit(is_greater_than_or_equal_to *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(is_greater_than_or_equal_to *ref)
         {
         }
     };

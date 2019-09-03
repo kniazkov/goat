@@ -469,5 +469,29 @@ namespace g0at
         void token_visitor::visit(triple_greater *ref)
         {
         }
+
+        void token_visitor::visit(is_less_than_or_equal_to *ref)
+        {
+        }
+
+        void token_visitor::visit(is_greater_than *ref)
+        {
+        }
+
+        void token_visitor::visit(is_greater_than_or_equal_to *ref)
+        {
+        }
+
+        void token_visitor::visit(less_or_equal *ref)
+        {
+        }
+
+        void token_visitor::visit(greater *ref)
+        {
+        }
+
+        void token_visitor::visit(greater_or_equal *ref)
+        {
+        }
     }
 };
