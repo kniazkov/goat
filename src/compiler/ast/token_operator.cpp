@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "token_operator.h"
+#include "expression.h"
 
 namespace g0at
 {

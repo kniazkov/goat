@@ -74,7 +74,7 @@ namespace g0at
         data = global::char_encoder->decode(temp);
         file_name = _file_name;
         index = 0;
-        max_index = data.size();
+        max_index = (int)data.size();
         row  = 1;
         column = 1;
     }

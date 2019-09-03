@@ -50,7 +50,7 @@ namespace g0at
     {
         data = _data;
         index = 0;
-        max_index = data.size();
+        max_index = (int)data.size();
     }
 
     wchar_t source_string::get_char()

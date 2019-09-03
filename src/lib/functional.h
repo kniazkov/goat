@@ -127,7 +127,7 @@ namespace g0at
             {
                 static R calculate(const X &x, const Y &y)
                 {
-                    return x % (X)y;
+                    return (R)(x % (X)y);
                 }
             };
 

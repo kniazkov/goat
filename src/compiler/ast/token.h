@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
+#pragma warning( disable : 4250 )
 
 #include "token_visitor.h"
 #include "token_list.h"

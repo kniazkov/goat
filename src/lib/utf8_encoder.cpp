@@ -109,7 +109,7 @@ namespace g0at
 
         std::wstring decode_utf8(std::string str)
         {
-            unsigned int i = 0,
+            size_t i = 0,
                 len = str.size();
             std::wstringstream wss;
             while (i < len)

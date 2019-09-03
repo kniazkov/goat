@@ -38,7 +38,7 @@ namespace g0at
 
             lib::pointer<expression> get_object() { return object; }
             void add_arg(lib::pointer<expression> arg) { args.push_back(arg); }
-            int get_args_count() { return args.size(); }
+            int get_args_count() { return (int)args.size(); }
             lib::pointer<expression> get_arg(int index) { return args.at(index); }
 
         protected:

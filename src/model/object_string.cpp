@@ -195,7 +195,7 @@ namespace g0at
             {
                 thr->pop();
                 thr->pop(arg_count);
-                if (int_index >= 0 && int_index < data.size())
+                if (int_index >= 0 && int_index < (int64_t)data.size())
                 {
                     variable tmp;
                     tmp.set_char(data[(size_t)int_index]);

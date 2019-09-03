@@ -179,7 +179,7 @@ namespace g0at
             {
                 thr->pop();
                 thr->pop(arg_count);
-                if (int_index >= 0 && int_index < vector.size())
+                if (int_index >= 0 && int_index < (int64_t)vector.size())
                     thr->push(vector[(size_t)int_index]);
                 else
                     thr->push_undefined();                
@@ -214,7 +214,7 @@ namespace g0at
                     thr->pop(arg_count);
                     if (int_index >= 0 && int_index < INT32_MAX)
                     {
-                        if (int_index < vector.size())
+                        if (int_index < (int64_t)vector.size())
                         {
                             vector[(size_t)int_index] = value;
                         }
