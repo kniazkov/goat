@@ -40,6 +40,9 @@ namespace g0at
         std::wstring str_oper_equals = L"==";
         std::wstring str_oper_not_equal = L"!=";
         std::wstring str_oper_less = L"<";
+        std::wstring str_oper_less_equal = L"<=";
+        std::wstring str_oper_greater = L">=";
+        std::wstring str_oper_greater_equal = L">=";
         std::wstring str_oper_double_less = L"<<";
         std::wstring str_oper_double_greater = L">>";
         std::wstring str_oper_triple_greater = L">>>";

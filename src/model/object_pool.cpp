@@ -97,6 +97,9 @@ namespace g0at
             wrap_shr_instance = nullptr;
             wrap_shrz_instance = nullptr;
             wrap_less_instance = nullptr;
+            wrap_leq_instance = nullptr;
+            wrap_great_instance = nullptr;
+            wrap_greq_instance = nullptr;
             wrap_inherit_instance = nullptr;
 
             /*
@@ -159,6 +162,10 @@ namespace g0at
             wrap_shl_instance = new binary_operator_adapter<wrap_shl>(this);
             wrap_shr_instance = new binary_operator_adapter<wrap_shr>(this);
             wrap_shrz_instance = new binary_operator_adapter<wrap_shrz>(this);
+            wrap_less_instance = new binary_operator_adapter<wrap_less>(this);
+            wrap_leq_instance = new binary_operator_adapter<wrap_leq>(this);
+            wrap_great_instance = new binary_operator_adapter<wrap_great>(this);
+            wrap_greq_instance = new binary_operator_adapter<wrap_greq>(this);
             wrap_inherit_instance = new binary_operator_adapter<wrap_inherit>(this);
             string_proto->init(this);
             function_proto->init(this);

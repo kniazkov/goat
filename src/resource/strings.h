@@ -42,6 +42,9 @@ namespace g0at
         extern std::wstring str_oper_equals;
         extern std::wstring str_oper_not_equal;
         extern std::wstring str_oper_less;
+        extern std::wstring str_oper_less_equal;
+        extern std::wstring str_oper_greater;
+        extern std::wstring str_oper_greater_equal;
         extern std::wstring str_oper_double_less;
         extern std::wstring str_oper_double_greater;
         extern std::wstring str_oper_triple_greater;

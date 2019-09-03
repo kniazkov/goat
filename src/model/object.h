@@ -124,6 +124,9 @@ namespace g0at
             inline void op_shr(thread *thr);
             inline void op_shrz(thread *thr);
             inline void op_less(thread *thr);
+            inline void op_leq(thread *thr);
+            inline void op_great(thread *thr);
+            inline void op_greq(thread *thr);
             inline void op_inherit(thread *thr);
 
             inline void m_clone(thread *thr, int arg_count);
@@ -239,6 +242,9 @@ namespace g0at
             virtual void op_shr(thread *thr);
             virtual void op_shrz(thread *thr);
             virtual void op_less(thread *thr);
+            virtual void op_leq(thread *thr);
+            virtual void op_great(thread *thr);
+            virtual void op_greq(thread *thr);
             virtual void op_inherit(thread *thr);
 
             virtual void m_clone(thread *thr, int arg_count);
@@ -325,6 +331,9 @@ namespace g0at
             virtual void op_shr(variable *var, thread *thr);
             virtual void op_shrz(variable *var, thread *thr);
             virtual void op_less(variable *var, thread *thr);
+            virtual void op_leq(variable *var, thread *thr);
+            virtual void op_great(variable *var, thread *thr);
+            virtual void op_greq(variable *var, thread *thr);
             virtual void op_inherit(variable *var, thread *thr);
 
             virtual void m_clone(variable *var, thread *thr, int arg_count);
@@ -531,6 +540,21 @@ namespace g0at
         void variable::op_less(thread *thr)
         {
             hndl->op_less(this, thr);
+        }
+
+        void variable::op_leq(thread *thr)
+        {
+            hndl->op_leq(this, thr);
+        }
+
+        void variable::op_great(thread *thr)
+        {
+            hndl->op_great(this, thr);
+        }
+
+        void variable::op_greq(thread *thr)
+        {
+            hndl->op_greq(this, thr);
         }
 
         void variable::op_neq(thread *thr)

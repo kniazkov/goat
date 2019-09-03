@@ -182,6 +182,21 @@ namespace g0at
             binary_logical_operation<lib::func::less, true>(thr);
         }
 
+        void object_string::op_leq(thread *thr)
+        {
+            binary_logical_operation<lib::func::less_or_equal, true>(thr);
+        }
+
+        void object_string::op_great(thread *thr)
+        {
+            binary_logical_operation<lib::func::greater, true>(thr);
+        }
+
+        void object_string::op_greq(thread *thr)
+        {
+            binary_logical_operation<lib::func::greater_or_equal, true>(thr);
+        }
+
         void object_string::m_get(thread *thr, int arg_count)
         {
             if (arg_count < 1)
@@ -306,6 +321,10 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_plus), pool->get_wrap_add_instance());
             add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
             add_object(pool->get_static_string(resource::str_oper_double_exclamation), pool->get_wrap_bool_instance());
+            add_object(pool->get_static_string(resource::str_oper_less), pool->get_wrap_less_instance());
+            add_object(pool->get_static_string(resource::str_oper_less_equal), pool->get_wrap_leq_instance());
+            add_object(pool->get_static_string(resource::str_oper_greater), pool->get_wrap_great_instance());
+            add_object(pool->get_static_string(resource::str_oper_greater_equal), pool->get_wrap_greq_instance());
         }
     };
 };

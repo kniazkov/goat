@@ -138,6 +138,9 @@ namespace g0at
             object *get_wrap_shr_instance() { return wrap_shr_instance; }
             object *get_wrap_shrz_instance() { return wrap_shrz_instance; }
             object *get_wrap_less_instance() { return wrap_less_instance; }
+            object *get_wrap_leq_instance() { return wrap_leq_instance; }
+            object *get_wrap_great_instance() { return wrap_great_instance; }
+            object *get_wrap_greq_instance() { return wrap_greq_instance; }
             object *get_wrap_inherit_instance() { return wrap_inherit_instance; }
 
             generic_object *create_generic_object();
@@ -227,6 +230,9 @@ namespace g0at
             object *wrap_shr_instance;
             object *wrap_shrz_instance;
             object *wrap_less_instance;
+            object *wrap_leq_instance;
+            object *wrap_great_instance;
+            object *wrap_greq_instance;
             object *wrap_inherit_instance;
 
             object_cache static_strings;

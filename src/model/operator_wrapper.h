@@ -180,6 +180,30 @@ namespace g0at
             }
         };
 
+        struct wrap_leq
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_leq(thr);
+            }
+        };
+
+        struct wrap_great
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_great(thr);
+            }
+        };
+
+        struct wrap_greq
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_greq(thr);
+            }
+        };
+
         struct wrap_inherit
         {
             static void call(object *obj, thread *thr)

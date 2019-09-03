@@ -60,6 +60,9 @@ namespace g0at
             void op_shr(thread *thr) override;
             void op_shrz(thread *thr) override;
             void op_less(thread *thr) override;
+            void op_leq(thread *thr) override;
+            void op_great(thread *thr) override;
+            void op_greq(thread *thr) override;
             void op_inherit(thread *thr) override;
 
         protected:

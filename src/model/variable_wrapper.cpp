@@ -156,6 +156,21 @@ namespace g0at
             var.op_less(thr);
         }
 
+        void variable_wrapper::op_leq(thread *thr)
+        {
+            var.op_leq(thr);
+        }
+
+        void variable_wrapper::op_great(thread *thr)
+        {
+            var.op_great(thr);
+        }
+
+        void variable_wrapper::op_greq(thread *thr)
+        {
+            var.op_greq(thr);
+        }
+
         void variable_wrapper::op_inherit(thread *thr)
         {
             var.op_inherit(thr);

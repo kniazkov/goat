@@ -540,6 +540,24 @@ namespace g0at
                 thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_less));
         }
 
+        void object::op_leq(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_less_equal))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_less_equal));
+        }
+
+        void object::op_great(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_greater))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_greater));
+        }
+
+        void object::op_greq(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_greater_equal))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_greater_equal));
+        }
+
         void object::op_inherit(thread *thr)
         {
             thr->pop();

@@ -160,6 +160,21 @@ namespace g0at
             thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_less));
         }
 
+        void handler::op_leq(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_less_equal));
+        }
+
+        void handler::op_great(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_greater));
+        }
+
+        void handler::op_greq(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_greater_equal));
+        }
+
         void handler::op_inherit(variable *var, thread *thr)
         {
             assert(false);

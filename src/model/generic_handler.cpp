@@ -177,6 +177,21 @@ namespace g0at
                 var->data.obj->op_less(thr);
             }
 
+            void op_leq(variable *var, thread *thr) override
+            {
+                var->data.obj->op_leq(thr);
+            }
+
+            void op_great(variable *var, thread *thr) override
+            {
+                var->data.obj->op_great(thr);
+            }
+
+            void op_greq(variable *var, thread *thr) override
+            {
+                var->data.obj->op_greq(thr);
+            }
+
             void op_inherit(variable *var, thread *thr) override
             {
                 var->data.obj->op_inherit(thr);
