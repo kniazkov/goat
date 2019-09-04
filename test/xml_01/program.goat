@@ -1,0 +1,4 @@
+import "xml.goat";
+
+var elem = new Xml.Element("root");
+println(elem.toString());
