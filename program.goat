@@ -1,18 +1,4 @@
-var parent =
-{
-    child :
-    {
-        init : $(x)
-        {
-            this.x = x;
-        },
+import "xml.goat";
 
-        get_x : $()
-        {
-            return x;
-        }
-    }
-};
-
-var obj = new parent.child(13);
-println(obj.get_x());
+var elem = new Xml.Element("root");
+println(elem.toString());

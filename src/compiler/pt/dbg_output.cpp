@@ -683,7 +683,8 @@ namespace g0at
         void dbg_output::visit(character *ref)
         {
             wchar_t tmp[] = { ref->get_value(), 0 };
-            print(ref, L"char", tmp);
+            std::wstring text = lib::escape_html_entities(lib::escape_special_chars(tmp, 1));
+            print(ref, L"char", text);
         }
 
         void dbg_output::visit(statement_for *ref)
