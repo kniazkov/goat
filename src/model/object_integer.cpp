@@ -298,7 +298,7 @@ namespace g0at
 
             void op_less(variable *var, thread *thr)  override
             {
-                binary_logical_operation<lib::func::less, true>(var, thr);
+                binary_logical_operation<lib::func::less, false>(var, thr);
             }
 
             void op_leq(variable *var, thread *thr)  override

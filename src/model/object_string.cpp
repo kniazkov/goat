@@ -179,22 +179,22 @@ namespace g0at
 
         void object_string::op_less(thread *thr)
         {
-            binary_logical_operation<lib::func::less, true>(thr);
+            binary_logical_operation<lib::func::less, false>(thr);
         }
 
         void object_string::op_leq(thread *thr)
         {
-            binary_logical_operation<lib::func::less_or_equal, true>(thr);
+            binary_logical_operation<lib::func::less_or_equal, false>(thr);
         }
 
         void object_string::op_great(thread *thr)
         {
-            binary_logical_operation<lib::func::greater, true>(thr);
+            binary_logical_operation<lib::func::greater, false>(thr);
         }
 
         void object_string::op_greq(thread *thr)
         {
-            binary_logical_operation<lib::func::greater_or_equal, true>(thr);
+            binary_logical_operation<lib::func::greater_or_equal, false>(thr);
         }
 
         void object_string::m_get(thread *thr, int arg_count)
