@@ -48,13 +48,24 @@ var Xml =
         _toSimpleString : $()
         {
             var b = new StringBuilder();
-            this._buildSimpleString(b);
+            this._simpleStringBuilder(b);
             return b.data();
         },
 
-        _buildSimpleString : $(b)
+        _simpleStringBuilder : $(b)
         {
-            b << '<' << tag << "/>";
+            b << '<' << tag;
+            if (!data)
+                b << "/>";
+            else
+            {
+                b << '>';
+                if (data.instanceof(Xml.Element))
+                    data._simpleStringBuilder(b);
+                else
+                    b << data;
+                b << "</" << tag << '>';
+            }
         }
     }
 };
