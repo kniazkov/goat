@@ -498,7 +498,7 @@ namespace g0at
 
         void disasm::visit(_great *ref)
         {
-            stream << L"gret";
+            stream << L"great";
         }
 
         void disasm::visit(_greq *ref)

@@ -23,10 +23,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "pattern.h"
 #include "grammar_factory.h"
 #include "common_exceptions.h"
-#include "compiler/ast/dot.h"
+#include "compiler/ast/property.h"
 #include "compiler/ast/identifier.h"
 #include "compiler/ast/brackets_pair.h"
-#include "compiler/ast/index_access.h"
 #include "compiler/ast/method_call.h"
 #include "lib/assert.h"
 
@@ -48,32 +47,16 @@ namespace g0at
             {
                 ast::expression *left = tok->to_expression();
                 assert(left != nullptr);
+
+                ast::property *prop = left->to_property();
+                if (!prop || !prop->next)
+                    return false;
                 
-                if (!left->next)
+                ast::brackets_pair *args = prop->next->to_brackets_pair();
+                if (!args || args->get_symbol() != '(')
                     return false;
 
-                ast::dot *dot = left->next->to_dot();
-                if(!dot)
-                    return false;
-
-                if (!dot->next)
-                    throw expected_an_identifier_after_dot(dot->get_position());
-
-                if (dot->next->to_index_access())
-                    return false; 
-
-                ast::identifier *right = dot->next->to_identifier();
-                if (!right)
-                    throw expected_an_identifier_after_dot(dot->get_position());
-
-                if (!right->next) // TODO: maybe it is a property
-                    return false;
-
-                ast::brackets_pair *args = right->next->to_brackets_pair();
-                if (args == nullptr || args->get_symbol() != '(')
-                    return false;
-
-                lib::pointer<ast::method_call> vcall  = new ast::method_call(left, right->get_name(), args);
+                lib::pointer<ast::method_call> vcall  = new ast::method_call(prop->get_left(), prop->get_name(), args);
                 left->replace(args, vcall.cast<ast::token>());
                 data->expressions.add(vcall.get());
                 data->method_calls.push_back(vcall.get());

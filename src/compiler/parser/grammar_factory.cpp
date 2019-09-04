@@ -41,9 +41,9 @@ namespace g0at
             gr->vector.push_back(create_pattern_index_access());
             gr->vector.push_back(create_pattern_object());
             gr->vector.push_back(create_pattern_array());
+            gr->vector.push_back(create_pattern_property());
             gr->vector.push_back(create_pattern_operator_new());
             gr->vector.push_back(create_pattern_method_call());
-            gr->vector.push_back(create_pattern_property());
             gr->vector.push_back(create_pattern_function_call());
             gr->vector.push_back(create_pattern_unary_suffix(&data->opers_incr_decr));
             gr->vector.push_back(create_pattern_unary_prefix(&data->opers_incr_decr));
