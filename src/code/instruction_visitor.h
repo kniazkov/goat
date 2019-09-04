@@ -97,6 +97,9 @@ namespace g0at
         class _shl;
         class _shr;
         class _shrz;
+        class _leq;
+        class _great;
+        class _greq;
 
         class instruction_visitor
         {
@@ -174,6 +177,9 @@ namespace g0at
             virtual void visit(_shl *ref) = 0;
             virtual void visit(_shr *ref) = 0;
             virtual void visit(_shrz *ref) = 0;
+            virtual void visit(_leq *ref) = 0;
+            virtual void visit(_great *ref) = 0;
+            virtual void visit(_greq *ref) = 0;
         };
     };
 };

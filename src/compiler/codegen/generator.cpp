@@ -76,6 +76,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/left_shift.h"
 #include "compiler/pt/signed_right_shift.h"
 #include "compiler/pt/zero_fill_right_shift.h"
+#include "compiler/pt/is_less_than_or_equal_to.h"
+#include "compiler/pt/is_greater_than.h"
+#include "compiler/pt/is_greater_than_or_equal_to.h"
 
 #include "code/string.h"
 #include "code/load.h"
@@ -147,6 +150,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/shl.h"
 #include "code/shr.h"
 #include "code/shrz.h"
+#include "code/leq.h"
+#include "code/great.h"
+#include "code/greq.h"
 
 namespace g0at
 {
@@ -841,6 +847,27 @@ namespace g0at
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
             code->add_instruction(new _shrz());
+        }
+
+        void generator::visit(pt::is_less_than_or_equal_to *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _leq());
+        }
+
+        void generator::visit(pt::is_greater_than *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _great());
+        }
+
+        void generator::visit(pt::is_greater_than_or_equal_to *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _greq());
         }
     };
 };

@@ -104,6 +104,9 @@ namespace g0at
             void visit(pt::left_shift *ref) override;
             void visit(pt::signed_right_shift *ref) override;
             void visit(pt::zero_fill_right_shift *ref) override;
+            void visit(pt::is_less_than_or_equal_to *ref) override;
+            void visit(pt::is_greater_than *ref) override;
+            void visit(pt::is_greater_than_or_equal_to *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

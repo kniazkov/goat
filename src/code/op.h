@@ -118,6 +118,9 @@ namespace g0at
             _eq,
             _neq,
             _less,
+            _leq,
+            _great,
+            _greq,
 
             _inherit,
 

@@ -490,5 +490,20 @@ namespace g0at
         {
             stream << L"bool";
         }
+
+        void disasm::visit(_leq *ref)
+        {
+            stream << L"leq";
+        }
+
+        void disasm::visit(_great *ref)
+        {
+            stream << L"gret";
+        }
+
+        void disasm::visit(_greq *ref)
+        {
+            stream << L"greq";
+        }
     };
 };

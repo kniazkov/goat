@@ -562,5 +562,20 @@ namespace g0at
         {
             push_opcode(op::_shrz);
         }
+
+        void serializer::visit(_leq *ref)
+        {
+            push_opcode(op::_leq);
+        }
+
+        void serializer::visit(_great *ref)
+        {
+            push_opcode(op::_great);
+        }
+
+        void serializer::visit(_greq *ref)
+        {
+            push_opcode(op::_greq);
+        }
     };
 };

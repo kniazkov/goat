@@ -99,6 +99,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "shl.h"
 #include "shr.h"
 #include "shrz.h"
+#include "leq.h"
+#include "great.h"
+#include "greq.h"
 
 namespace g0at
 {
@@ -649,6 +652,21 @@ namespace g0at
             dst->add_instruction(new _shrz());
         }
 
+        void deserializer::c_leq(source *src, code *dst)
+        {
+            dst->add_instruction(new _leq());
+        }
+
+        void deserializer::c_great(source *src, code *dst)
+        {
+            dst->add_instruction(new _great());
+        }
+
+        void deserializer::c_greq(source *src, code *dst)
+        {
+            dst->add_instruction(new _greq());
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -722,6 +740,9 @@ namespace g0at
             cc[op::_shl]     = c_shl;
             cc[op::_shr]     = c_shr;
             cc[op::_shrz]    = c_shrz;
+            cc[op::_leq]     = c_leq;
+            cc[op::_great]   = c_great;
+            cc[op::_greq]    = c_greq;
         }
     };
 };

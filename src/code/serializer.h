@@ -110,6 +110,9 @@ namespace g0at
             void visit(_shl *ref) override;
             void visit(_shr *ref) override;
             void visit(_shrz *ref) override;
+            void visit(_leq *ref) override;
+            void visit(_great *ref) override;
+            void visit(_greq *ref) override;
 
         protected:
             std::vector<uint8_t> &buff;
