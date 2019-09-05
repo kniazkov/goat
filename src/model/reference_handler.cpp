@@ -202,6 +202,31 @@ namespace g0at
                 var->data.ref->op_inherit(thr);
             }
 
+            void op_and(variable *var, thread *thr) override
+            {
+                var->data.ref->op_and(thr);
+            }
+
+            void op_or(variable *var, thread *thr) override
+            {
+                var->data.ref->op_or(thr);
+            }
+
+            void op_bitand(variable *var, thread *thr) override
+            {
+                var->data.ref->op_bitand(thr);
+            }
+
+            void op_bitor(variable *var, thread *thr) override
+            {
+                var->data.ref->op_bitor(thr);
+            }
+
+            void op_xor(variable *var, thread *thr) override
+            {
+                var->data.ref->op_xor(thr);
+            }
+
             void m_clone(variable *var, thread *thr, int arg_count) override
             {
                 var->data.ref->m_clone(thr, arg_count);

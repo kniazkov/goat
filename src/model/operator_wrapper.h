@@ -212,6 +212,46 @@ namespace g0at
             }
         };
 
+        struct wrap_and
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_and(thr);
+            }
+        };
+
+        struct wrap_or
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_or(thr);
+            }
+        };
+
+        struct wrap_bitand
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_bitand(thr);
+            }
+        };
+
+        struct wrap_bitor
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_bitor(thr);
+            }
+        };
+
+        struct wrap_xor
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_xor(thr);
+            }
+        };
+
         template <typename W> class unary_operator_adapter : public object_function_built_in
         {
         public:

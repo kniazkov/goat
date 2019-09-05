@@ -177,7 +177,32 @@ namespace g0at
 
         void handler::op_inherit(variable *var, thread *thr)
         {
-            assert(false);
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_inherit));
+        }
+
+        void handler::op_and(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_double_ampersand));
+        }
+
+        void handler::op_or(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_double_vertical_bar));
+        }
+
+        void handler::op_bitand(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_ampersand));
+        }
+
+        void handler::op_bitor(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_vertical_bar));
+        }
+
+        void handler::op_xor(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_caret));
         }
 
         void handler::m_clone(variable *var, thread *thr, int arg_count)

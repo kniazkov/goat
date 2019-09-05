@@ -127,7 +127,7 @@ namespace g0at
             {
                 static R calculate(const X &x, const Y &y)
                 {
-                    return (R)(x % (X)y);
+                    return x % y;
                 }
             };
 
@@ -184,6 +184,30 @@ namespace g0at
                 static R calculate(const X &x, const Y &y)
                 {
                     return x >= y;
+                }
+            };
+
+            template <typename R, typename X, typename Y> struct bitwise_and : public binary <R, X, Y>
+            {
+                static R calculate(const X &x, const Y &y)
+                {
+                    return x & y;
+                }
+            };
+
+            template <typename R, typename X, typename Y> struct bitwise_or : public binary <R, X, Y>
+            {
+                static R calculate(const X &x, const Y &y)
+                {
+                    return x | y;
+                }
+            };
+
+            template <typename R, typename X, typename Y> struct bitwise_xor : public binary <R, X, Y>
+            {
+                static R calculate(const X &x, const Y &y)
+                {
+                    return x ^ y;
                 }
             };
         };

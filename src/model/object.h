@@ -128,6 +128,11 @@ namespace g0at
             inline void op_great(thread *thr);
             inline void op_greq(thread *thr);
             inline void op_inherit(thread *thr);
+            inline void op_and(thread *thr);
+            inline void op_or(thread *thr);
+            inline void op_bitand(thread *thr);
+            inline void op_bitor(thread *thr);
+            inline void op_xor(thread *thr);
 
             inline void m_clone(thread *thr, int arg_count);
             inline void m_instance_of(thread *thr, int arg_count);
@@ -246,6 +251,11 @@ namespace g0at
             virtual void op_great(thread *thr);
             virtual void op_greq(thread *thr);
             virtual void op_inherit(thread *thr);
+            virtual void op_and(thread *thr);
+            virtual void op_or(thread *thr);
+            virtual void op_bitand(thread *thr);
+            virtual void op_bitor(thread *thr);
+            virtual void op_xor(thread *thr);
 
             virtual void m_clone(thread *thr, int arg_count);
             virtual void m_instance_of(thread *thr, int arg_count);
@@ -335,6 +345,11 @@ namespace g0at
             virtual void op_great(variable *var, thread *thr);
             virtual void op_greq(variable *var, thread *thr);
             virtual void op_inherit(variable *var, thread *thr);
+            virtual void op_and(variable *var, thread *thr);
+            virtual void op_or(variable *var, thread *thr);
+            virtual void op_bitand(variable *var, thread *thr);
+            virtual void op_bitor(variable *var, thread *thr);
+            virtual void op_xor(variable *var, thread *thr);
 
             virtual void m_clone(variable *var, thread *thr, int arg_count);
             virtual void m_instance_of(variable *var, thread *thr, int arg_count);
@@ -565,6 +580,31 @@ namespace g0at
         void variable::op_inherit(thread *thr)
         {
             hndl->op_inherit(this, thr);
+        }
+
+        void variable::op_and(thread *thr)
+        {
+            hndl->op_and(this, thr);
+        }
+
+        void variable::op_or(thread *thr)
+        {
+            hndl->op_or(this, thr);
+        }
+
+        void variable::op_bitand(thread *thr)
+        {
+            hndl->op_bitand(this, thr);
+        }
+
+        void variable::op_bitor(thread *thr)
+        {
+            hndl->op_bitor(this, thr);
+        }
+
+        void variable::op_xor(thread *thr)
+        {
+            hndl->op_xor(this, thr);
         }
         
         void variable::m_clone(thread *thr, int arg_count)

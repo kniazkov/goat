@@ -1,5 +1,5 @@
 ok: 27 % 10 = 7
-ok: 27 % 10 = 7
+exception: illegal argument
 fail but ok: 2.5 % 2
 fail but ok: abc % def
 fail but ok: a % b

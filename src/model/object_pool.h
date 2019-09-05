@@ -142,6 +142,11 @@ namespace g0at
             object *get_wrap_great_instance() { return wrap_great_instance; }
             object *get_wrap_greq_instance() { return wrap_greq_instance; }
             object *get_wrap_inherit_instance() { return wrap_inherit_instance; }
+            object *get_wrap_and_instance() { return wrap_and_instance; }
+            object *get_wrap_or_instance() { return wrap_or_instance; }
+            object *get_wrap_bitand_instance() { return wrap_bitand_instance; }
+            object *get_wrap_bitor_instance() { return wrap_bitor_instance; }
+            object *get_wrap_xor_instance() { return wrap_xor_instance; }
 
             generic_object *create_generic_object();
             context *create_context();
@@ -234,6 +239,11 @@ namespace g0at
             object *wrap_great_instance;
             object *wrap_greq_instance;
             object *wrap_inherit_instance;
+            object *wrap_and_instance;
+            object *wrap_or_instance;
+            object *wrap_bitand_instance;
+            object *wrap_bitor_instance;
+            object *wrap_xor_instance;
 
             object_cache static_strings;
         };

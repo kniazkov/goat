@@ -106,6 +106,9 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_less_equal), pool->get_wrap_leq_instance());
             add_object(pool->get_static_string(resource::str_oper_greater), pool->get_wrap_great_instance());
             add_object(pool->get_static_string(resource::str_oper_greater_equal), pool->get_wrap_greq_instance());
+            add_object(pool->get_static_string(resource::str_oper_ampersand), pool->get_wrap_bitand_instance());
+            add_object(pool->get_static_string(resource::str_oper_vertical_bar), pool->get_wrap_bitor_instance());
+            add_object(pool->get_static_string(resource::str_oper_caret), pool->get_wrap_xor_instance());
         }
 
         /*
@@ -218,7 +221,7 @@ namespace g0at
 
             void op_mod(variable *var, thread *thr)  override
             {
-                binary_math_operation<lib::func::mod>(var, thr);
+                binary_math_integer_operation<lib::func::mod>(var, thr);
             }
 
             void op_eq(variable *var, thread *thr)  override
@@ -316,6 +319,21 @@ namespace g0at
                 binary_logical_operation<lib::func::greater_or_equal, false>(var, thr);
             }
 
+            void op_bitand(variable *var, thread *thr)  override
+            {
+                binary_math_integer_operation<lib::func::bitwise_and>(var, thr);
+            }
+
+            void op_bitor(variable *var, thread *thr)  override
+            {
+                binary_math_integer_operation<lib::func::bitwise_or>(var, thr);
+            }
+
+            void op_xor(variable *var, thread *thr)  override
+            {
+                binary_math_integer_operation<lib::func::bitwise_xor>(var, thr);
+            }
+
             void m_instance_of(variable *var, thread *thr, int arg_count) override
             {
                 thr->pop();
@@ -366,6 +384,22 @@ namespace g0at
                 }
                 result.set_real(F<double, int64_t, double>::calculate(var->data.i, right_real_value));
                 thr->push(result);
+            }
+
+            template <template<typename R, typename X, typename Y> class F> void binary_math_integer_operation(variable *var, thread *thr)
+            {
+                variable result;
+                thr->pop();
+                variable right = thr->pop();
+                int64_t right_int_value;
+                bool right_is_integer = right.get_integer(&right_int_value);
+                if(right_is_integer)
+                {
+                    result.set_integer(F<int64_t, int64_t, int64_t>::calculate(var->data.i, right_int_value));
+                    thr->push(result);
+                    return;
+                }
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
             }
 
             template <template<typename R, typename X, typename Y> class F, bool Def> void binary_logical_operation(variable *var, thread *thr)

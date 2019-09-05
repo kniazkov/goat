@@ -48,6 +48,12 @@ namespace g0at
         extern std::wstring str_oper_double_less;
         extern std::wstring str_oper_double_greater;
         extern std::wstring str_oper_triple_greater;
+        extern std::wstring str_oper_ampersand;
+        extern std::wstring str_oper_double_ampersand;
+        extern std::wstring str_oper_vertical_bar;
+        extern std::wstring str_oper_double_vertical_bar;
+        extern std::wstring str_oper_caret;
+        extern std::wstring str_oper_inherit;
 
         extern std::wstring str_instanceof;
         extern std::wstring str_flat;

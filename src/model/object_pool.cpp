@@ -101,6 +101,11 @@ namespace g0at
             wrap_great_instance = nullptr;
             wrap_greq_instance = nullptr;
             wrap_inherit_instance = nullptr;
+            wrap_and_instance = nullptr;
+            wrap_or_instance = nullptr;
+            wrap_bitand_instance = nullptr;
+            wrap_bitor_instance = nullptr;
+            wrap_xor_instance = nullptr;
 
             /*
                 "It's a kind of magic"
@@ -167,6 +172,11 @@ namespace g0at
             wrap_great_instance = new binary_operator_adapter<wrap_great>(this);
             wrap_greq_instance = new binary_operator_adapter<wrap_greq>(this);
             wrap_inherit_instance = new binary_operator_adapter<wrap_inherit>(this);
+            wrap_and_instance = new binary_operator_adapter<wrap_and>(this);
+            wrap_or_instance = new binary_operator_adapter<wrap_or>(this);
+            wrap_bitand_instance = new binary_operator_adapter<wrap_bitand>(this);
+            wrap_bitor_instance = new binary_operator_adapter<wrap_bitor>(this);
+            wrap_xor_instance = new binary_operator_adapter<wrap_xor>(this);
             string_proto->init(this);
             function_proto->init(this);
             thread_proto->init(this);

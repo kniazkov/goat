@@ -175,5 +175,30 @@ namespace g0at
         {
             var.op_inherit(thr);
         }
+
+        void variable_wrapper::op_and(thread *thr)
+        {
+            var.op_and(thr);
+        }
+
+        void variable_wrapper::op_or(thread *thr)
+        {
+            var.op_or(thr);
+        }
+
+        void variable_wrapper::op_bitand(thread *thr)
+        {
+            var.op_bitand(thr);
+        }
+
+        void variable_wrapper::op_bitor(thread *thr)
+        {
+            var.op_bitor(thr);
+        }
+
+        void variable_wrapper::op_xor(thread *thr)
+        {
+            var.op_xor(thr);
+        }
     };
 };

@@ -64,6 +64,11 @@ namespace g0at
             void op_great(thread *thr) override;
             void op_greq(thread *thr) override;
             void op_inherit(thread *thr) override;
+            void op_and(thread *thr) override;
+            void op_or(thread *thr) override;
+            void op_bitand(thread *thr) override;
+            void op_bitor(thread *thr) override;
+            void op_xor(thread *thr) override;
 
         protected:
             variable var;

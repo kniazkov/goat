@@ -566,6 +566,36 @@ namespace g0at
             right->topology.reset();
         }
 
+        void object::op_and(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_double_ampersand))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_double_ampersand));
+        }
+
+        void object::op_or(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_double_vertical_bar))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_double_vertical_bar));
+        }
+
+        void object::op_bitand(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_ampersand))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_ampersand));
+        }
+
+        void object::op_bitor(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_vertical_bar))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_vertical_bar));
+        }
+
+        void object::op_xor(thread *thr)
+        {
+            if (!find_and_vcall(thr, 1, resource::str_oper_caret))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_caret));
+        }
+
         void object::m_clone(thread *thr, int arg_count)
         {
             // base object just returns the object itself, so, primitives are not cloneable
