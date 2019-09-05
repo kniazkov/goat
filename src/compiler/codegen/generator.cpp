@@ -163,6 +163,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/bitand.h"
 #include "code/bitor.h"
 #include "code/xor.h"
+#include "code/swap.h"
 
 namespace g0at
 {
@@ -903,16 +904,40 @@ namespace g0at
 
         void generator::visit(pt::logical_and *ref)
         {
+#if 0
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
             code->add_instruction(new _and());
+#else
+            ref->get_left()->accept(this);
+            code->add_instruction(new _dup());
+            code->add_instruction(new _bool());
+            code::_ifnot *if_false = new _ifnot(iid_unknown());
+            code->add_instruction(if_false);
+            ref->get_right()->accept(this);
+            code->add_instruction(new _swap());
+            code->add_instruction(new _and());
+            if_false->get_iid_ptr().set(code->get_current_iid());
+#endif
         }
 
         void generator::visit(pt::logical_or *ref)
         {
+#if 0
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
             code->add_instruction(new _or());
+#else
+            ref->get_left()->accept(this);
+            code->add_instruction(new _dup());
+            code->add_instruction(new _bool());
+            code::_if *if_true = new _if(iid_unknown());
+            code->add_instruction(if_true);
+            ref->get_right()->accept(this);
+            code->add_instruction(new _swap());
+            code->add_instruction(new _or());
+            if_true->get_iid_ptr().set(code->get_current_iid());
+#endif
         }
     };
 };
