@@ -170,6 +170,11 @@ namespace g0at
             void visit(bitwise_xor *ref) override;
             void visit(logical_and *ref) override;
             void visit(logical_or *ref) override;
+            void visit(ampersand *ref) override;
+            void visit(double_ampersand *ref) override;
+            void visit(vertical_bar *ref) override;
+            void visit(double_vertical_bar *ref) override;
+            void visit(caret *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

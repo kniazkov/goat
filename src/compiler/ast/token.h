@@ -167,6 +167,11 @@ namespace g0at
         class bitwise_xor;
         class logical_and;
         class logical_or;
+        class ampersand;
+        class double_ampersand;
+        class vertical_bar;
+        class double_vertical_bar;
+        class caret;
 
         class token : public lib::ref_counter
         {
@@ -310,6 +315,11 @@ namespace g0at
             virtual bitwise_xor *to_bitwise_xor();
             virtual logical_and *to_logical_and();
             virtual logical_or *to_logical_or();
+            virtual ampersand *to_ampersand();
+            virtual double_ampersand *to_double_ampersand();
+            virtual vertical_bar *to_vertical_bar();
+            virtual double_vertical_bar *to_double_vertical_bar();
+            virtual caret *to_caret();
 
             lib::pointer<position> get_position() { return pos; }
 

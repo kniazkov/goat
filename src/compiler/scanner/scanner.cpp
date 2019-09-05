@@ -86,6 +86,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/less_or_equal.h"
 #include "compiler/ast/greater.h"
 #include "compiler/ast/greater_or_equal.h"
+#include "compiler/ast/ampersand.h"
+#include "compiler/ast/double_ampersand.h"
+#include "compiler/ast/vertical_bar.h"
+#include "compiler/ast/double_vertical_bar.h"
+#include "compiler/ast/caret.h"
 
 namespace g0at
 {
@@ -169,6 +174,9 @@ namespace g0at
             case L'>':
             case L'%':
             case L'~':
+            case L'&':
+            case L'|':
+            case L'^':
                 return true;
             default:
                 return false;
@@ -450,6 +458,16 @@ namespace g0at
                 return new ast::double_greater();
             if (oper == L">>>")
                 return new ast::triple_greater();
+             if (oper == L"&")
+                return new ast::ampersand();
+             if (oper == L"&&")
+                return new ast::double_ampersand();
+             if (oper == L"|")
+                return new ast::vertical_bar();
+             if (oper == L"||")
+                return new ast::double_vertical_bar();
+             if (oper == L"^")
+                return new ast::caret();
             if (oper == L"$")
                 return new ast::keyword_function();
             if (oper == L"$$")

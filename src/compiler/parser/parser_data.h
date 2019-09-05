@@ -72,6 +72,11 @@ namespace g0at
             ast::token_2nd_list opers_exp;
             ast::token_2nd_list opers_excl_tildes;
             ast::token_2nd_list opers_shift;
+            ast::token_2nd_list opers_ampersand;
+            ast::token_2nd_list opers_dbl_ampersand;
+            ast::token_2nd_list opers_vertical_bar;
+            ast::token_2nd_list opers_dbl_vertical_bar;
+            ast::token_2nd_list opers_caret;
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;

@@ -56,6 +56,11 @@ namespace g0at
             gr->vector.push_back(create_pattern_binary(&data->opers_shift));
             gr->vector.push_back(create_pattern_binary(&data->opers_less_greater));
             gr->vector.push_back(create_pattern_binary(&data->opers_equals_and_not));
+            gr->vector.push_back(create_pattern_binary(&data->opers_ampersand));
+            gr->vector.push_back(create_pattern_binary(&data->opers_caret));
+            gr->vector.push_back(create_pattern_binary(&data->opers_vertical_bar));
+            gr->vector.push_back(create_pattern_binary(&data->opers_dbl_ampersand));
+            gr->vector.push_back(create_pattern_binary(&data->opers_dbl_vertical_bar));
             gr->vector.push_back(create_pattern_assignment());
             gr->vector.push_back(create_pattern_declare_variable());
             gr->vector.push_back(create_pattern_statement_return());

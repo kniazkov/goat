@@ -146,6 +146,11 @@ namespace g0at
         class bitwise_xor;
         class logical_and;
         class logical_or;
+        class ampersand;
+        class double_ampersand;
+        class vertical_bar;
+        class double_vertical_bar;
+        class caret;
  
         class token_visitor
         {
@@ -272,6 +277,11 @@ namespace g0at
             virtual void visit(bitwise_xor *ref);
             virtual void visit(logical_and *ref);
             virtual void visit(logical_or *ref);
+            virtual void visit(ampersand *ref);
+            virtual void visit(double_ampersand *ref);
+            virtual void visit(vertical_bar *ref);
+            virtual void visit(double_vertical_bar *ref);
+            virtual void visit(caret *ref);
          };
     };
 };

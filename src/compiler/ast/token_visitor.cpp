@@ -513,5 +513,25 @@ namespace g0at
         void token_visitor::visit(logical_or *ref)
         {
         }
+
+        void token_visitor::visit(ampersand *ref)
+        {
+        }
+
+        void token_visitor::visit(double_ampersand *ref)
+        {
+        }
+
+        void token_visitor::visit(vertical_bar *ref)
+        {
+        }
+
+        void token_visitor::visit(double_vertical_bar *ref)
+        {
+        }
+
+        void token_visitor::visit(caret *ref)
+        {
+        }
     }
 };

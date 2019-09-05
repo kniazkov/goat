@@ -1148,5 +1148,30 @@ namespace g0at
             ref->get_right()->accept(&right);
             link_child(right, L"right");
         }
+
+        void dbg_output::visit(ampersand *ref)
+        {
+            print(L"ampersand", L"&amp;");
+        }
+
+        void dbg_output::visit(double_ampersand *ref)
+        {
+            print(L"double ampersand", L"&amp;");
+        }
+
+        void dbg_output::visit(vertical_bar *ref)
+        {
+            print(L"vertical bar", L"|");
+        }
+
+        void dbg_output::visit(double_vertical_bar *ref)
+        {
+            print(L"double vertical bar", L"||");
+        }
+
+        void dbg_output::visit(caret *ref)
+        {
+            print(L"caret", L"^");
+        }
     };
 };

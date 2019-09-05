@@ -73,6 +73,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/less_or_equal.h"
 #include "compiler/ast/greater.h"
 #include "compiler/ast/greater_or_equal.h"
+#include "compiler/ast/ampersand.h"
+#include "compiler/ast/double_ampersand.h"
+#include "compiler/ast/vertical_bar.h"
+#include "compiler/ast/double_vertical_bar.h"
+#include "compiler/ast/caret.h"
 
 namespace g0at
 {
@@ -345,6 +350,31 @@ namespace g0at
         void parser_data_filler::visit(ast::greater_or_equal *ref)
         {
             data->opers_less_greater.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::ampersand *ref)
+        {
+            data->opers_ampersand.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::double_ampersand *ref)
+        {
+            data->opers_dbl_ampersand.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::vertical_bar *ref)
+        {
+            data->opers_vertical_bar.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::double_vertical_bar *ref)
+        {
+            data->opers_dbl_vertical_bar.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::caret *ref)
+        {
+            data->opers_caret.add(ref);
         }
     };
 };

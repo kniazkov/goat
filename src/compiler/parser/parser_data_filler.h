@@ -85,6 +85,11 @@ namespace g0at
             void visit(ast::less_or_equal *ref) override;
             void visit(ast::greater *ref) override;
             void visit(ast::greater_or_equal *ref) override;
+            void visit(ast::ampersand *ref) override;
+            void visit(ast::double_ampersand *ref) override;
+            void visit(ast::vertical_bar *ref) override;
+            void visit(ast::double_vertical_bar *ref) override;
+            void visit(ast::caret *ref) override;
 
         protected:
             parser_data *data;

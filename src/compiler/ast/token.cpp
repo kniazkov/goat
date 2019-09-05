@@ -717,5 +717,30 @@ namespace g0at
         {
             return nullptr;
         }
+
+        ampersand *token::to_ampersand()
+        {
+            return nullptr;
+        }
+
+        double_ampersand *token::to_double_ampersand()
+        {
+            return nullptr;
+        }
+
+        vertical_bar *token::to_vertical_bar()
+        {
+            return nullptr;
+        }
+
+        double_vertical_bar *token::to_double_vertical_bar()
+        {
+            return nullptr;
+        }
+
+        caret *token::to_caret()
+        {
+            return nullptr;
+        }
     }
 };
