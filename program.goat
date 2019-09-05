@@ -1,22 +1,30 @@
-var A = 0;
-var B = 0;
-
-var func_a = $()
+var test = $(a, b)
 {
-    A++;
-    return 7;
+    try
+    {
+        var x = a && b;
+        var f = a["&&"];
+        var y = f.call(a, b);
+        if (x == y)
+            println("ok: " + a + " && " + b + " = " + x);
+        else
+            println("fail: " + a + " && " + b + ", x = " + x + " but y = " + y);
+    }
+    catch(err)
+    {
+        if (err.instanceof(Exception.IllegalReference.OperatorNotFound))
+            println("fail but ok: " + a + " && " + b);
+        else
+            println("exception: " + err);
+    }
 };
 
-var func_b = $()
-{
-    B++;
-    return 29;
-};
+test(false, false);
+test(false, true);
+test(true, false);
+test(true, true);
 
-println(false || func_a());
-println(true || func_a());
-println(false && func_b());
-println(true && func_b());
+test(0, 13);
+test(1, 13);
 
-println(A);
-println(B);
+println("done.");
