@@ -1,0 +1,6 @@
+ok: 10 & 3 = 2
+ok: -1 & 15 = 15
+fail but ok: abc & def
+fail but ok: true & false
+fail but ok: {} & {}
+done.
