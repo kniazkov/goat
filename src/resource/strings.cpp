@@ -71,5 +71,7 @@ namespace g0at
         std::wstring str_data = L"data";
         std::wstring str_init = L"init";
         std::wstring str_add = L"add";
+        std::wstring str_true = L"true";
+        std::wstring str_false = L"false";
     };
 };

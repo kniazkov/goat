@@ -2,26 +2,26 @@ var test = $(a, b)
 {
     try
     {
-        var x = a ^ b;
-        var f = a["^"];
+        var x = a && b;
+        var f = a["&&"];
         var y = f.call(a, b);
         if (x == y)
-            println("ok: " + a + " ^ " + b + " = " + x);
+            println("ok: " + a + " && " + b + " = " + x);
         else
-            println("fail: " + a + " ^ " + b + ", x = " + x + " but y = " + y);
+            println("fail: " + a + " && " + b + ", x = " + x + " but y = " + y);
     }
     catch(err)
     {
         if (err.instanceof(Exception.IllegalReference.OperatorNotFound))
-            println("fail but ok: " + a + " ^ " + b);
+            println("fail but ok: " + a + " && " + b);
         else
             println("exception: " + err);
     }
 };
 
-test(10, 3);
-
-test("abc", "def");
+test(false, false);
+test(false, true);
 test(true, false);
-test({ }, { });
+test(true, true);
+
 println("done.");

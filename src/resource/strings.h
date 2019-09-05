@@ -73,5 +73,7 @@ namespace g0at
         extern std::wstring str_data;
         extern std::wstring str_init;
         extern std::wstring str_add;
+        extern std::wstring str_true;
+        extern std::wstring str_false;
     };
 };
