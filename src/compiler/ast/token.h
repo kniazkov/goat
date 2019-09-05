@@ -162,6 +162,11 @@ namespace g0at
         class less_or_equal;
         class greater;
         class greater_or_equal;
+        class bitwise_and;
+        class bitwise_or;
+        class bitwise_xor;
+        class logical_and;
+        class logical_or;
 
         class token : public lib::ref_counter
         {
@@ -300,6 +305,11 @@ namespace g0at
             virtual less_or_equal *to_less_or_equal();
             virtual greater *to_greater();
             virtual greater_or_equal *to_greater_or_equal();
+            virtual bitwise_and *to_bitwise_and();
+            virtual bitwise_or *to_bitwise_or();
+            virtual bitwise_xor *to_bitwise_xor();
+            virtual logical_and *to_logical_and();
+            virtual logical_or *to_logical_or();
 
             lib::pointer<position> get_position() { return pos; }
 

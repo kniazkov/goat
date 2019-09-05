@@ -83,6 +83,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "is_less_than_or_equal_to.h"
 #include "is_greater_than.h"
 #include "is_greater_than_or_equal_to.h"
+#include "bitwise_and.h"
+#include "bitwise_or.h"
+#include "bitwise_xor.h"
+#include "logical_and.h"
+#include "logical_or.h"
 
 namespace g0at
 {
@@ -1087,6 +1092,61 @@ namespace g0at
         void dbg_output::visit(greater_or_equal *ref)
         {
             print(L"greater or equal", L"&gt;=");
+        }
+
+        void dbg_output::visit(bitwise_and *ref)
+        {
+            print(L"bitwise and", L"&amp;");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(bitwise_or *ref)
+        {
+            print(L"bitwise or", L"|");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(bitwise_xor *ref)
+        {
+            print(L"bitwise xor", L"^");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(logical_and *ref)
+        {
+            print(L"logical and", L"&amp;&amp;");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
+        void dbg_output::visit(logical_or *ref)
+        {
+            print(L"logical or", L"||");
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
         }
     };
 };

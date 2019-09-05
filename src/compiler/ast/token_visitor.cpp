@@ -493,5 +493,25 @@ namespace g0at
         void token_visitor::visit(greater_or_equal *ref)
         {
         }
+
+        void token_visitor::visit(bitwise_and *ref)
+        {
+        }
+
+        void token_visitor::visit(bitwise_or *ref)
+        {
+        }
+
+        void token_visitor::visit(bitwise_xor *ref)
+        {
+        }
+
+        void token_visitor::visit(logical_and *ref)
+        {
+        }
+
+        void token_visitor::visit(logical_or *ref)
+        {
+        }
     }
 };

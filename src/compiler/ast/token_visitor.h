@@ -141,6 +141,11 @@ namespace g0at
         class less_or_equal;
         class greater;
         class greater_or_equal;
+        class bitwise_and;
+        class bitwise_or;
+        class bitwise_xor;
+        class logical_and;
+        class logical_or;
  
         class token_visitor
         {
@@ -262,6 +267,11 @@ namespace g0at
             virtual void visit(less_or_equal *ref);
             virtual void visit(greater *ref);
             virtual void visit(greater_or_equal *ref);
+            virtual void visit(bitwise_and *ref);
+            virtual void visit(bitwise_or *ref);
+            virtual void visit(bitwise_xor *ref);
+            virtual void visit(logical_and *ref);
+            virtual void visit(logical_or *ref);
          };
     };
 };

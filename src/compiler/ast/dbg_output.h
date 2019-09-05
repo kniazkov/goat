@@ -165,6 +165,11 @@ namespace g0at
             void visit(less_or_equal *ref) override;
             void visit(greater *ref) override;
             void visit(greater_or_equal *ref) override;
+            void visit(bitwise_and *ref) override;
+            void visit(bitwise_or *ref) override;
+            void visit(bitwise_xor *ref) override;
+            void visit(logical_and *ref) override;
+            void visit(logical_or *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

@@ -692,5 +692,30 @@ namespace g0at
         {
             return nullptr;
         }
+
+        bitwise_and *token::to_bitwise_and()
+        {
+            return nullptr;
+        }
+
+        bitwise_or *token::to_bitwise_or()
+        {
+            return nullptr;
+        }
+
+        bitwise_xor *token::to_bitwise_xor()
+        {
+            return nullptr;
+        }
+
+        logical_and *token::to_logical_and()
+        {
+            return nullptr;
+        }
+
+        logical_or *token::to_logical_or()
+        {
+            return nullptr;
+        }
     }
 };
