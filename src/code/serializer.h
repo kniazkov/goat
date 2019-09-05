@@ -114,6 +114,11 @@ namespace g0at
             void visit(_great *ref) override;
             void visit(_greq *ref) override;
             void visit(_swap *ref) override;
+            void visit(_and *ref) override;
+            void visit(_or *ref) override;
+            void visit(_bitand *ref) override;
+            void visit(_bitor *ref) override;
+            void visit(_xor *ref) override;
 
         protected:
             std::vector<uint8_t> &buff;

@@ -115,15 +115,18 @@ namespace g0at
             _shl,
             _shr,
             _shrz,
-
             _eq,
             _neq,
             _less,
             _leq,
             _great,
             _greq,
-
             _inherit,
+            _and,
+            _or,
+            _bitand,
+            _bitor,
+            _xor,
 
             // multithreading
             _lock,

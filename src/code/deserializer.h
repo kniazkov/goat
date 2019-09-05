@@ -144,6 +144,11 @@ namespace g0at
             static void c_great(source *src, code *dst);
             static void c_greq(source *src, code *dst);
             static void c_swap(source *src, code *dst);
+            static void c_and(source *src, code *dst);
+            static void c_or(source *src, code *dst);
+            static void c_bitand(source *src, code *dst);
+            static void c_bitor(source *src, code *dst);
+            static void c_xor(source *src, code *dst);
 
             std::map<op, creator> cc;
         };

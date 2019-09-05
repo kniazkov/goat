@@ -149,6 +149,26 @@ namespace g0at
                 binary_operation<lib::func::not_equal, true>(var, thr);
             }
 
+            void op_and(variable *var, thread *thr)  override
+            {
+                thr->pop();
+                if (!var->data.b)
+                {
+                    thr->pop();
+                    thr->push(*var);
+                }
+            }
+
+            void op_or(variable *var, thread *thr)  override
+            {
+                thr->pop();
+                if (var->data.b)
+                {
+                    thr->pop();
+                    thr->push(*var);
+                }
+            }
+
             void m_instance_of(variable *var, thread *thr, int arg_count) override
             {
                 thr->pop();

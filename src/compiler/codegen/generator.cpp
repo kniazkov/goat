@@ -79,6 +79,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/is_less_than_or_equal_to.h"
 #include "compiler/pt/is_greater_than.h"
 #include "compiler/pt/is_greater_than_or_equal_to.h"
+#include "compiler/pt/bitwise_and.h"
+#include "compiler/pt/bitwise_or.h"
+#include "compiler/pt/bitwise_xor.h"
+#include "compiler/pt/logical_and.h"
+#include "compiler/pt/logical_or.h"
 
 #include "code/string.h"
 #include "code/load.h"
@@ -153,6 +158,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/leq.h"
 #include "code/great.h"
 #include "code/greq.h"
+#include "code/and.h"
+#include "code/or.h"
+#include "code/bitand.h"
+#include "code/bitor.h"
+#include "code/xor.h"
 
 namespace g0at
 {
@@ -868,6 +878,41 @@ namespace g0at
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
             code->add_instruction(new _greq());
+        }
+
+        void generator::visit(pt::bitwise_and *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _bitand());
+        }
+
+        void generator::visit(pt::bitwise_or *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _bitor());
+        }
+
+        void generator::visit(pt::bitwise_xor *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _xor());
+        }
+
+        void generator::visit(pt::logical_and *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _and());
+        }
+
+        void generator::visit(pt::logical_or *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _or());
         }
     };
 };

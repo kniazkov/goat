@@ -103,6 +103,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "great.h"
 #include "greq.h"
 #include "swap.h"
+#include "and.h"
+#include "or.h"
+#include "bitand.h"
+#include "bitor.h"
+#include "xor.h"
 
 namespace g0at
 {
@@ -673,6 +678,31 @@ namespace g0at
             dst->add_instruction(new _swap());
         }
 
+        void deserializer::c_and(source *src, code *dst)
+        {
+            dst->add_instruction(new _and());
+        }
+
+        void deserializer::c_or(source *src, code *dst)
+        {
+            dst->add_instruction(new _or());
+        }
+
+        void deserializer::c_bitand(source *src, code *dst)
+        {
+            dst->add_instruction(new _bitand());
+        }
+
+        void deserializer::c_bitor(source *src, code *dst)
+        {
+            dst->add_instruction(new _bitor());
+        }
+
+        void deserializer::c_xor(source *src, code *dst)
+        {
+            dst->add_instruction(new _xor());
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -750,6 +780,11 @@ namespace g0at
             cc[op::_great]   = c_great;
             cc[op::_greq]    = c_greq;
             cc[op::_swap]    = c_swap;
+            cc[op::_and]     = c_and;
+            cc[op::_or]      = c_or;
+            cc[op::_bitand]  = c_bitand;
+            cc[op::_bitor]   = c_bitor;
+            cc[op::_xor]     = c_xor;
         }
     };
 };

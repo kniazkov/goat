@@ -510,5 +510,30 @@ namespace g0at
         {
             stream << L"swap";
         }
+
+        void disasm::visit(_and *ref)
+        {
+            stream << L"and";
+        }
+
+        void disasm::visit(_or *ref)
+        {
+            stream << L"or";
+        }
+
+        void disasm::visit(_bitand *ref)
+        {
+            stream << L"bitand";
+        }
+
+        void disasm::visit(_bitor *ref)
+        {
+            stream << L"bitor";
+        }
+
+        void disasm::visit(_xor *ref)
+        {
+            stream << L"xor";
+        }
     };
 };

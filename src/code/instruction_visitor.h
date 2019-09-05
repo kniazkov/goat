@@ -101,6 +101,11 @@ namespace g0at
         class _great;
         class _greq;
         class _swap;
+        class _and;
+        class _or;
+        class _bitand;
+        class _bitor;
+        class _xor;
 
         class instruction_visitor
         {
@@ -182,6 +187,11 @@ namespace g0at
             virtual void visit(_great *ref) = 0;
             virtual void visit(_greq *ref) = 0;
             virtual void visit(_swap *ref) = 0;
+            virtual void visit(_and *ref) = 0;
+            virtual void visit(_or *ref) = 0;
+            virtual void visit(_bitand *ref) = 0;
+            virtual void visit(_bitor *ref) = 0;
+            virtual void visit(_xor *ref) = 0;
         };
     };
 };

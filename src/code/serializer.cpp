@@ -582,5 +582,30 @@ namespace g0at
         {
             push_opcode(op::_swap);
         }
+
+        void serializer::visit(_and *ref)
+        {
+            push_opcode(op::_and);
+        }
+
+        void serializer::visit(_or *ref)
+        {
+            push_opcode(op::_or);
+        }
+
+        void serializer::visit(_bitand *ref)
+        {
+            push_opcode(op::_bitand);
+        }
+
+        void serializer::visit(_bitor *ref)
+        {
+            push_opcode(op::_bitor);
+        }
+
+        void serializer::visit(_xor *ref)
+        {
+            push_opcode(op::_xor);
+        }
     };
 };

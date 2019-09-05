@@ -107,6 +107,11 @@ namespace g0at
             void visit(pt::is_less_than_or_equal_to *ref) override;
             void visit(pt::is_greater_than *ref) override;
             void visit(pt::is_greater_than_or_equal_to *ref) override;
+            void visit(pt::bitwise_and *ref) override;
+            void visit(pt::bitwise_or *ref) override;
+            void visit(pt::bitwise_xor *ref) override;
+            void visit(pt::logical_and *ref) override;
+            void visit(pt::logical_or *ref) override;
 
         protected:
             lib::pointer<code::code> code; 
