@@ -88,6 +88,11 @@ namespace g0at
         class is_less_than_or_equal_to;
         class is_greater_than;
         class is_greater_than_or_equal_to;
+        class bitwise_and;
+        class bitwise_or;
+        class bitwise_xor;
+        class logical_and;
+        class logical_or;
 
         class node_visitor
         {
@@ -156,6 +161,11 @@ namespace g0at
             virtual void visit(is_less_than_or_equal_to *ref);
             virtual void visit(is_greater_than *ref);
             virtual void visit(is_greater_than_or_equal_to *ref);
+            virtual void visit(bitwise_and *ref);
+            virtual void visit(bitwise_or *ref);
+            virtual void visit(bitwise_xor *ref);
+            virtual void visit(logical_and *ref);
+            virtual void visit(logical_or *ref);
         };
     };
 };

@@ -81,6 +81,11 @@ namespace g0at
             void visit(ast::is_less_than_or_equal_to *ref) override;
             void visit(ast::is_greater_than *ref) override;
             void visit(ast::is_greater_than_or_equal_to *ref) override;
+            void visit(ast::bitwise_and *ref) override;
+            void visit(ast::bitwise_or *ref) override;
+            void visit(ast::bitwise_xor *ref) override;
+            void visit(ast::logical_and *ref) override;
+            void visit(ast::logical_or *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

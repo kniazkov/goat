@@ -82,6 +82,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "is_less_than_or_equal_to.h"
 #include "is_greater_than.h"
 #include "is_greater_than_or_equal_to.h"
+#include "bitwise_and.h"
+#include "bitwise_or.h"
+#include "bitwise_xor.h"
+#include "logical_and.h"
+#include "logical_or.h"
 
 namespace g0at
 {
@@ -824,8 +829,7 @@ namespace g0at
         void parse_tree_traversal::payload(is_greater_than *ref)
         {
         }
-
-        
+      
         void parse_tree_traversal::visit(is_greater_than_or_equal_to *ref)
         {
             ref->get_right()->accept(this);
@@ -834,6 +838,61 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(is_greater_than_or_equal_to *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(bitwise_and *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(bitwise_and *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(bitwise_or *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(bitwise_or *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(bitwise_xor *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(bitwise_xor *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(logical_and *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(logical_and *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(logical_or *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(logical_or *ref)
         {
         }
     };

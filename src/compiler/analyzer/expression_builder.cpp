@@ -115,6 +115,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/is_greater_than.h"
 #include "compiler/ast/is_greater_than_or_equal_to.h"
 #include "compiler/pt/is_greater_than_or_equal_to.h"
+#include "compiler/ast/bitwise_and.h"
+#include "compiler/pt/bitwise_and.h"
+#include "compiler/ast/bitwise_or.h"
+#include "compiler/pt/bitwise_or.h"
+#include "compiler/ast/bitwise_xor.h"
+#include "compiler/pt/bitwise_xor.h"
+#include "compiler/ast/logical_and.h"
+#include "compiler/pt/logical_and.h"
+#include "compiler/ast/logical_or.h"
+#include "compiler/pt/logical_or.h"
 
 namespace g0at
 {
@@ -521,6 +531,36 @@ namespace g0at
         {
             auto pair = build_expr_for_binary(ref);
             expr = new pt::is_greater_than_or_equal_to(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::logical_and *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::logical_and(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::logical_or *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::logical_or(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::bitwise_and *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::bitwise_and(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::bitwise_or *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::bitwise_or(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::bitwise_xor *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::bitwise_xor(ref->get_position(), pair.first, pair.second);
         }
     };
 };

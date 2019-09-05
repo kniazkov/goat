@@ -281,5 +281,25 @@ namespace g0at
         void node_visitor::visit(is_greater_than_or_equal_to *ref)
         {
         }
+
+        void node_visitor::visit(bitwise_and *ref)
+        {
+        }
+
+        void node_visitor::visit(bitwise_or *ref)
+        {
+        }
+
+        void node_visitor::visit(bitwise_xor *ref)
+        {
+        }
+
+        void node_visitor::visit(logical_and *ref)
+        {
+        }
+
+        void node_visitor::visit(logical_or *ref)
+        {
+        }
     }
 };

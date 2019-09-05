@@ -100,6 +100,11 @@ namespace g0at
         class is_less_than_or_equal_to;
         class is_greater_than;
         class is_greater_than_or_equal_to;
+        class bitwise_and;
+        class bitwise_or;
+        class bitwise_xor;
+        class logical_and;
+        class logical_or;
 
         class node : public lib::ref_counter
         {
@@ -175,7 +180,12 @@ namespace g0at
             virtual is_less_than_or_equal_to *to_is_less_than_or_equal_to();
             virtual is_greater_than *to_is_greater_than();
             virtual is_greater_than_or_equal_to *to_is_greater_than_or_equal_to();
-
+            virtual bitwise_and *to_bitwise_and();
+            virtual bitwise_or *to_bitwise_or();
+            virtual bitwise_xor *to_bitwise_xor();
+            virtual logical_and *to_logical_and();
+            virtual logical_or *to_logical_or();
+            
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }
             

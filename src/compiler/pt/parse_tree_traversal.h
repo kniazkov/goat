@@ -99,6 +99,11 @@ namespace g0at
             void visit(is_less_than_or_equal_to *ref) override;
             void visit(is_greater_than *ref) override;
             void visit(is_greater_than_or_equal_to *ref) override;
+            void visit(bitwise_and *ref) override;
+            void visit(bitwise_or *ref) override;
+            void visit(bitwise_xor *ref) override;
+            void visit(logical_and *ref) override;
+            void visit(logical_or *ref) override;
 
 
         protected:
@@ -167,6 +172,11 @@ namespace g0at
             virtual void payload(is_less_than_or_equal_to *ref);
             virtual void payload(is_greater_than *ref);
             virtual void payload(is_greater_than_or_equal_to *ref);
+            virtual void payload(bitwise_and *ref);
+            virtual void payload(bitwise_or *ref);
+            virtual void payload(bitwise_xor *ref);
+            virtual void payload(logical_and *ref);
+            virtual void payload(logical_or *ref);
 
         private:
             std::deque<node*> queue;

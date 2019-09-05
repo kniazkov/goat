@@ -369,5 +369,30 @@ namespace g0at
         {
             return nullptr;
         }
+
+        bitwise_and *node::to_bitwise_and()
+        {
+            return nullptr;
+        }
+
+        bitwise_or *node::to_bitwise_or()
+        {
+            return nullptr;
+        }
+
+        bitwise_xor *node::to_bitwise_xor()
+        {
+            return nullptr;
+        }
+
+        logical_and *node::to_logical_and()
+        {
+            return nullptr;
+        }
+
+        logical_or *node::to_logical_or()
+        {
+            return nullptr;
+        }
     }
 };
