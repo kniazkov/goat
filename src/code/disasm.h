@@ -112,6 +112,7 @@ namespace g0at
             void visit(_leq *ref) override;
             void visit(_great *ref) override;
             void visit(_greq *ref) override;
+            void visit(_swap *ref) override;
 
         protected:
             std::wstringstream &stream;

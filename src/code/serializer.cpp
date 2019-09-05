@@ -577,5 +577,10 @@ namespace g0at
         {
             push_opcode(op::_greq);
         }
+
+        void serializer::visit(_swap *ref)
+        {
+            push_opcode(op::_swap);
+        }
     };
 };

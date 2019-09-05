@@ -100,6 +100,7 @@ namespace g0at
         class _leq;
         class _great;
         class _greq;
+        class _swap;
 
         class instruction_visitor
         {
@@ -180,6 +181,7 @@ namespace g0at
             virtual void visit(_leq *ref) = 0;
             virtual void visit(_great *ref) = 0;
             virtual void visit(_greq *ref) = 0;
+            virtual void visit(_swap *ref) = 0;
         };
     };
 };

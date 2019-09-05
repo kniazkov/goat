@@ -37,6 +37,7 @@ namespace g0at
             // stack
             _pop,
             _dup,
+            _swap,
 
             // load instructions
             _load,

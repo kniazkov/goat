@@ -505,5 +505,10 @@ namespace g0at
         {
             stream << L"greq";
         }
+
+        void disasm::visit(_swap *ref)
+        {
+            stream << L"swap";
+        }
     };
 };
