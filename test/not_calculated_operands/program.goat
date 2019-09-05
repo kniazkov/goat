@@ -1,0 +1,22 @@
+var A = 0;
+var B = 0;
+
+var func_a = $()
+{
+    A++;
+    return 7;
+};
+
+var func_b = $()
+{
+    B++;
+    return 29;
+};
+
+println(false || func_a());
+println(true || func_a());
+println(false && func_b());
+println(true && func_b());
+
+println(A);
+println(B);
