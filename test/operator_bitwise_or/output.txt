@@ -1,0 +1,6 @@
+ok: 10 | 3 = 11
+ok: -1 | 15 = -1
+fail but ok: abc | def
+fail but ok: true | false
+fail but ok: {} | {}
+done.
