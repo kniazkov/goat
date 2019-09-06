@@ -194,7 +194,7 @@ namespace g0at
             {
                 thr->pop();
                 variable result;
-                result.set_boolean(F<bool, bool>::calculate(var->data.i));
+                result.set_boolean(F<bool, bool>::calculate(var->data.b));
                 thr->push(result);
             }
 
