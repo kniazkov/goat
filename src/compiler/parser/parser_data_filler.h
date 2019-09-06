@@ -90,6 +90,17 @@ namespace g0at
             void visit(ast::vertical_bar *ref) override;
             void visit(ast::double_vertical_bar *ref) override;
             void visit(ast::caret *ref) override;
+            void visit(ast::plus_assign *ref) override;
+            void visit(ast::minus_assign *ref) override;
+            void visit(ast::asterisk_assign *ref) override;
+            void visit(ast::slash_assign *ref) override;
+            void visit(ast::percent_assign *ref) override;
+            void visit(ast::double_less_assign *ref) override;
+            void visit(ast::double_greater_assign *ref) override;
+            void visit(ast::triple_greater_assign *ref) override;
+            void visit(ast::ampersand_assign *ref) override;
+            void visit(ast::vertical_bar_assign *ref) override;
+            void visit(ast::caret_assign *ref) override;
 
         protected:
             parser_data *data;

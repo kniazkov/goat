@@ -78,6 +78,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/vertical_bar.h"
 #include "compiler/ast/double_vertical_bar.h"
 #include "compiler/ast/caret.h"
+#include "compiler/ast/plus_assign.h"
+#include "compiler/ast/minus_assign.h"
+#include "compiler/ast/asterisk_assign.h"
+#include "compiler/ast/slash_assign.h"
+#include "compiler/ast/percent_assign.h"
+#include "compiler/ast/double_less_assign.h"
+#include "compiler/ast/double_greater_assign.h"
+#include "compiler/ast/triple_greater_assign.h"
+#include "compiler/ast/ampersand_assign.h"
+#include "compiler/ast/vertical_bar_assign.h"
+#include "compiler/ast/caret_assign.h"
 
 namespace g0at
 {
@@ -375,6 +386,61 @@ namespace g0at
         void parser_data_filler::visit(ast::caret *ref)
         {
             data->opers_caret.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::plus_assign *ref)
+        {
+            data->opers_assign.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::minus_assign *ref)
+        {
+            data->opers_assign.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::asterisk_assign *ref)
+        {
+            data->opers_assign.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::slash_assign *ref)
+        {
+            data->opers_assign.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::percent_assign *ref)
+        {
+            data->opers_assign.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::double_less_assign *ref)
+        {
+            data->opers_assign.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::double_greater_assign *ref)
+        {
+            data->opers_assign.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::triple_greater_assign *ref)
+        {
+            data->opers_assign.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::ampersand_assign *ref)
+        {
+            data->opers_assign.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::vertical_bar_assign *ref)
+        {
+            data->opers_assign.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::caret_assign *ref)
+        {
+            data->opers_assign.add(ref);
         }
     };
 };

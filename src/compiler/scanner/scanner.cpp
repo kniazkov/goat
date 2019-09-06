@@ -91,6 +91,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/vertical_bar.h"
 #include "compiler/ast/double_vertical_bar.h"
 #include "compiler/ast/caret.h"
+#include "compiler/ast/plus_assign.h"
+#include "compiler/ast/minus_assign.h"
+#include "compiler/ast/asterisk_assign.h"
+#include "compiler/ast/slash_assign.h"
+#include "compiler/ast/percent_assign.h"
+#include "compiler/ast/double_less_assign.h"
+#include "compiler/ast/double_greater_assign.h"
+#include "compiler/ast/triple_greater_assign.h"
+#include "compiler/ast/ampersand_assign.h"
+#include "compiler/ast/vertical_bar_assign.h"
+#include "compiler/ast/caret_assign.h"
 
 namespace g0at
 {
@@ -458,16 +469,38 @@ namespace g0at
                 return new ast::double_greater();
             if (oper == L">>>")
                 return new ast::triple_greater();
-             if (oper == L"&")
+            if (oper == L"&")
                 return new ast::ampersand();
-             if (oper == L"&&")
+            if (oper == L"&&")
                 return new ast::double_ampersand();
-             if (oper == L"|")
+            if (oper == L"|")
                 return new ast::vertical_bar();
-             if (oper == L"||")
+            if (oper == L"||")
                 return new ast::double_vertical_bar();
-             if (oper == L"^")
+            if (oper == L"^")
                 return new ast::caret();
+            if (oper == L"+=")
+                return new ast::plus_assign();
+            if (oper == L"-=")
+                return new ast::minus_assign();
+            if (oper == L"*=")
+                return new ast::asterisk_assign();
+            if (oper == L"/=")
+                return new ast::slash_assign();
+            if (oper == L"%=")
+                return new ast::percent_assign();
+            if (oper == L"<<=")
+                return new ast::double_less_assign();
+            if (oper == L">>=")
+                return new ast::double_greater_assign();
+            if (oper == L">>>=")
+                return new ast::triple_greater_assign();
+            if (oper == L"&=")
+                return new ast::ampersand_assign();
+            if (oper == L"|=")
+                return new ast::vertical_bar_assign();
+            if (oper == L"^=")
+                return new ast::caret_assign();
             if (oper == L"$")
                 return new ast::keyword_function();
             if (oper == L"$$")
