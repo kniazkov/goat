@@ -533,5 +533,49 @@ namespace g0at
         void token_visitor::visit(caret *ref)
         {
         }
+
+        void token_visitor::visit(assignment_by_sum *ref)
+        {
+        }
+
+        void token_visitor::visit(assignment_by_difference *ref)
+        {
+        }
+
+        void token_visitor::visit(assignment_by_product *ref)
+        {
+        }
+
+        void token_visitor::visit(assignment_by_quotient *ref)
+        {
+        }
+
+        void token_visitor::visit(assignment_by_remainder *ref)
+        {
+        }
+
+        void token_visitor::visit(assignment_by_left_shift *ref)
+        {
+        }
+
+        void token_visitor::visit(assignment_by_signed_right_shift *ref)
+        {
+        }
+
+        void token_visitor::visit(assignment_by_zero_fill_right_shift *ref)
+        {
+        }
+
+        void token_visitor::visit(assignment_by_bitwise_and *ref)
+        {
+        }
+
+        void token_visitor::visit(assignment_by_bitwise_or *ref)
+        {
+        }
+
+        void token_visitor::visit(assignment_by_bitwise_xor *ref)
+        {
+        }
     }
 };

@@ -33,6 +33,7 @@ namespace g0at
     namespace ast
     {
         class root;
+        class binary;
 
         class dbg_output : public token_visitor
         {
@@ -175,6 +176,17 @@ namespace g0at
             void visit(vertical_bar *ref) override;
             void visit(double_vertical_bar *ref) override;
             void visit(caret *ref) override;
+            void visit(assignment_by_sum *ref) override;
+            void visit(assignment_by_difference *ref) override;
+            void visit(assignment_by_product *ref) override;
+            void visit(assignment_by_quotient *ref) override;
+            void visit(assignment_by_remainder *ref) override;
+            void visit(assignment_by_left_shift *ref) override;
+            void visit(assignment_by_signed_right_shift *ref) override;
+            void visit(assignment_by_zero_fill_right_shift *ref) override;
+            void visit(assignment_by_bitwise_and *ref) override;
+            void visit(assignment_by_bitwise_or *ref) override;
+            void visit(assignment_by_bitwise_xor *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);
@@ -186,6 +198,7 @@ namespace g0at
             void link_child(const dbg_output &child);
             void link_child(const dbg_output &child, const wchar_t *label);
             void print_token_list(token_list *list, const wchar_t *title);
+            void print_binary(binary *ref, const wchar_t *title, const wchar_t* content);
 
             visitor_data &data;
             int id;

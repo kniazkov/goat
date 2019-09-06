@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "dbg_output.h"
 #include "lib/utils.h"
 #include "root.h"
+#include "binary.h"
 #include "function.h"
 #include "identifier.h"
 #include "variable.h"
@@ -88,6 +89,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "bitwise_xor.h"
 #include "logical_and.h"
 #include "logical_or.h"
+#include "assignment_by_sum.h"
+#include "assignment_by_difference.h"
+#include "assignment_by_product.h"
+#include "assignment_by_quotient.h"
+#include "assignment_by_remainder.h"
+#include "assignment_by_left_shift.h"
+#include "assignment_by_signed_right_shift.h"
+#include "assignment_by_zero_fill_right_shift.h"
+#include "assignment_by_bitwise_and.h"
+#include "assignment_by_bitwise_or.h"
+#include "assignment_by_bitwise_xor.h"
 
 namespace g0at
 {
@@ -176,6 +188,17 @@ namespace g0at
             }
         }
 
+        void dbg_output::print_binary(binary *ref, const wchar_t *title, const wchar_t* content)
+        {
+            print(title, content);
+            dbg_output left(data);
+            ref->get_left()->accept(&left);
+            link_child(left, L"left");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right, L"right");
+        }
+
         void dbg_output::visit(function *ref)
         {
             print(ref->get_type() == function_type::thread ? L"thread" : L"function");
@@ -253,13 +276,7 @@ namespace g0at
 
         void dbg_output::visit(addition *ref)
         {
-            print(L"addition", L"+");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"addition", L"+");
         }
 
         void dbg_output::visit(integer *ref)
@@ -274,13 +291,7 @@ namespace g0at
 
         void dbg_output::visit(subtraction *ref)
         {
-            print(L"subtraction", L"-");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"subtraction", L"-");
         }
 
         void dbg_output::visit(negation *ref)
@@ -340,13 +351,7 @@ namespace g0at
 
         void dbg_output::visit(assignment *ref)
         {
-            print(L"assignment", L"=");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"assignment", L"=");
         }
 
         void dbg_output::visit(comma *ref)
@@ -452,24 +457,12 @@ namespace g0at
 
         void dbg_output::visit(is_equal_to *ref)
         {
-            print(L"is equal to", L"==");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"is equal to", L"==");
         }
 
         void dbg_output::visit(is_not_equal_to *ref)
         {
-            print(L"is not equal to", L"!=");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"is not equal to", L"!=");
         }
 
         void dbg_output::visit(keyword_while *ref)
@@ -670,13 +663,7 @@ namespace g0at
 
         void dbg_output::visit(is_less_than *ref)
         {
-            print(L"is less than", L"&lt;");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"is less than", L"&lt;");
         }
 
         void dbg_output::visit(statement_empty *ref)
@@ -909,46 +896,22 @@ namespace g0at
 
         void dbg_output::visit(multiplication *ref)
         {
-            print(L"multiplication", L"*");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"multiplication", L"*");
         }
 
         void dbg_output::visit(exponentiation *ref)
         {
-            print(L"exponentiation", L"**");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"exponentiation", L"**");
         }
 
         void dbg_output::visit(division *ref)
         {
-            print(L"division", L"/");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"division", L"/");
         }
 
         void dbg_output::visit(remainder *ref)
         {
-            print(L"remainder", L"%");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"remainder", L"%");
         }
 
         void dbg_output::visit(unary_plus *ref)
@@ -1000,36 +963,18 @@ namespace g0at
 
         void dbg_output::visit(left_shift *ref)
         {
-            print(L"left shift", L"&lt;&lt;");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"left shift", L"&lt;&lt;");
         }
 
         void dbg_output::visit(signed_right_shift *ref)
         {
-            print(L"signed right shift", L"&gt;&gt;");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
-        }
+            print_binary(ref, L"signed right shift", L"&gt;&gt;");
+       }
 
         void dbg_output::visit(zero_fill_right_shift *ref)
         {
-            print(L"zero fill right shift", L"&gt;&gt;&gt;");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
-        }
+            print_binary(ref, L"zero fill right shift", L"&gt;&gt;&gt;");
+       }
 
         void dbg_output::visit(double_less *ref)
         {
@@ -1048,35 +993,17 @@ namespace g0at
 
         void dbg_output::visit(is_less_than_or_equal_to *ref)
         {
-            print(L"is less than or equal to", L"&lt;=");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"is less than or equal to", L"&lt;=");
         }
 
         void dbg_output::visit(is_greater_than *ref)
         {
-            print(L"is greater than", L"&gt;");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"is greater than", L"&gt;");
         }
 
         void dbg_output::visit(is_greater_than_or_equal_to *ref)
         {
-            print(L"is greater than or equal to", L"&gt;=");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"is greater than or equal to", L"&gt;=");
         }
 
         void dbg_output::visit(less_or_equal *ref)
@@ -1096,57 +1023,27 @@ namespace g0at
 
         void dbg_output::visit(bitwise_and *ref)
         {
-            print(L"bitwise and", L"&amp;");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"bitwise and", L"&amp;");
         }
 
         void dbg_output::visit(bitwise_or *ref)
         {
-            print(L"bitwise or", L"|");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"bitwise or", L"|");
         }
 
         void dbg_output::visit(bitwise_xor *ref)
         {
-            print(L"bitwise xor", L"^");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"bitwise xor", L"^");
         }
 
         void dbg_output::visit(logical_and *ref)
         {
-            print(L"logical and", L"&amp;&amp;");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"logical and", L"&amp;&amp;");
         }
 
         void dbg_output::visit(logical_or *ref)
         {
-            print(L"logical or", L"||");
-            dbg_output left(data);
-            ref->get_left()->accept(&left);
-            link_child(left, L"left");
-            dbg_output right(data);
-            ref->get_right()->accept(&right);
-            link_child(right, L"right");
+            print_binary(ref, L"logical or", L"||");
         }
 
         void dbg_output::visit(ampersand *ref)
@@ -1172,6 +1069,61 @@ namespace g0at
         void dbg_output::visit(caret *ref)
         {
             print(L"caret", L"^");
+        }
+
+        void dbg_output::visit(assignment_by_sum *ref)
+        {
+            print_binary(ref, L"assignment by sum", L"+=");
+        }
+
+        void dbg_output::visit(assignment_by_difference *ref)
+        {
+            print_binary(ref, L"assignment by difference", L"-=");
+        }
+
+        void dbg_output::visit(assignment_by_product *ref)
+        {
+            print_binary(ref, L"assignment by product", L"*=");
+        }
+
+        void dbg_output::visit(assignment_by_quotient *ref)
+        {
+            print_binary(ref, L"assignment by quotient", L"/=");
+        }
+
+        void dbg_output::visit(assignment_by_remainder *ref)
+        {
+            print_binary(ref, L"assignment by remainder", L"%=");
+        }
+
+        void dbg_output::visit(assignment_by_left_shift *ref)
+        {
+            print_binary(ref, L"assignment by left shift", L"&lt;&lt;=");
+        }
+
+        void dbg_output::visit(assignment_by_signed_right_shift *ref)
+        {
+            print_binary(ref, L"assignment by signed right shift", L"&gt;&gt;=");
+        }
+
+        void dbg_output::visit(assignment_by_zero_fill_right_shift *ref)
+        {
+            print_binary(ref, L"assignment by zero fill right shift", L"&gt;&gt;&gt;=");
+        }
+
+        void dbg_output::visit(assignment_by_bitwise_and *ref)
+        {
+            print_binary(ref, L"assignment by bitwise and", L"&amp;=");
+        }
+
+        void dbg_output::visit(assignment_by_bitwise_or *ref)
+        {
+            print_binary(ref, L"assignment by bitwise or", L"|=");
+        }
+
+        void dbg_output::visit(assignment_by_bitwise_xor *ref)
+        {
+            print_binary(ref, L"assignment by bitwise xor", L"^=");
         }
     };
 };

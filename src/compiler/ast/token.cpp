@@ -742,5 +742,60 @@ namespace g0at
         {
             return nullptr;
         }
+
+        assignment_by_sum *token::to_assignment_by_sum()
+        {
+            return nullptr;
+        }
+
+        assignment_by_difference *token::to_assignment_by_difference()
+        {
+            return nullptr;
+        }
+
+        assignment_by_product *token::to_assignment_by_product()
+        {
+            return nullptr;
+        }
+
+        assignment_by_quotient *token::to_assignment_by_quotient()
+        {
+            return nullptr;
+        }
+
+        assignment_by_remainder *token::to_assignment_by_remainder()
+        {
+            return nullptr;
+        }
+
+        assignment_by_left_shift *token::to_assignment_by_left_shift()
+        {
+            return nullptr;
+        }
+
+        assignment_by_signed_right_shift *token::to_assignment_by_signed_right_shift()
+        {
+            return nullptr;
+        }
+
+        assignment_by_zero_fill_right_shift *token::to_assignment_by_zero_fill_right_shift()
+        {
+            return nullptr;
+        }
+
+        assignment_by_bitwise_and *token::to_assignment_by_bitwise_and()
+        {
+            return nullptr;
+        }
+
+        assignment_by_bitwise_or *token::to_assignment_by_bitwise_or()
+        {
+            return nullptr;
+        }
+
+        assignment_by_bitwise_xor *token::to_assignment_by_bitwise_xor()
+        {
+            return nullptr;
+        }
     }
 };
