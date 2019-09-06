@@ -93,6 +93,17 @@ namespace g0at
         class bitwise_xor;
         class logical_and;
         class logical_or;
+        class assignment_by_sum;
+        class assignment_by_difference;
+        class assignment_by_product;
+        class assignment_by_quotient;
+        class assignment_by_remainder;
+        class assignment_by_left_shift;
+        class assignment_by_signed_right_shift;
+        class assignment_by_zero_fill_right_shift;
+        class assignment_by_bitwise_and;
+        class assignment_by_bitwise_or;
+        class assignment_by_bitwise_xor;
 
         class node_visitor
         {
@@ -166,6 +177,17 @@ namespace g0at
             virtual void visit(bitwise_xor *ref);
             virtual void visit(logical_and *ref);
             virtual void visit(logical_or *ref);
+            virtual void visit(assignment_by_sum *ref);
+            virtual void visit(assignment_by_difference *ref);
+            virtual void visit(assignment_by_product *ref);
+            virtual void visit(assignment_by_quotient *ref);
+            virtual void visit(assignment_by_remainder *ref);
+            virtual void visit(assignment_by_left_shift *ref);
+            virtual void visit(assignment_by_signed_right_shift *ref);
+            virtual void visit(assignment_by_zero_fill_right_shift *ref);
+            virtual void visit(assignment_by_bitwise_and *ref);
+            virtual void visit(assignment_by_bitwise_or *ref);
+            virtual void visit(assignment_by_bitwise_xor *ref);
         };
     };
 };

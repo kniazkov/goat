@@ -105,6 +105,17 @@ namespace g0at
         class bitwise_xor;
         class logical_and;
         class logical_or;
+        class assignment_by_sum;
+        class assignment_by_difference;
+        class assignment_by_product;
+        class assignment_by_quotient;
+        class assignment_by_remainder;
+        class assignment_by_left_shift;
+        class assignment_by_signed_right_shift;
+        class assignment_by_zero_fill_right_shift;
+        class assignment_by_bitwise_and;
+        class assignment_by_bitwise_or;
+        class assignment_by_bitwise_xor;
 
         class node : public lib::ref_counter
         {
@@ -185,6 +196,17 @@ namespace g0at
             virtual bitwise_xor *to_bitwise_xor();
             virtual logical_and *to_logical_and();
             virtual logical_or *to_logical_or();
+            virtual assignment_by_sum *to_assignment_by_sum();
+            virtual assignment_by_difference *to_assignment_by_difference();
+            virtual assignment_by_product *to_assignment_by_product();
+            virtual assignment_by_quotient *to_assignment_by_quotient();
+            virtual assignment_by_remainder *to_assignment_by_remainder();
+            virtual assignment_by_left_shift *to_assignment_by_left_shift();
+            virtual assignment_by_signed_right_shift *to_assignment_by_signed_right_shift();
+            virtual assignment_by_zero_fill_right_shift *to_assignment_by_zero_fill_right_shift();
+            virtual assignment_by_bitwise_and *to_assignment_by_bitwise_and();
+            virtual assignment_by_bitwise_or *to_assignment_by_bitwise_or();
+            virtual assignment_by_bitwise_xor *to_assignment_by_bitwise_xor();
             
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }

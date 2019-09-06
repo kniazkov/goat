@@ -104,7 +104,17 @@ namespace g0at
             void visit(bitwise_xor *ref) override;
             void visit(logical_and *ref) override;
             void visit(logical_or *ref) override;
-
+            void visit(assignment_by_sum *ref) override;
+            void visit(assignment_by_difference *ref) override;
+            void visit(assignment_by_product *ref) override;
+            void visit(assignment_by_quotient *ref) override;
+            void visit(assignment_by_remainder *ref) override;
+            void visit(assignment_by_left_shift *ref) override;
+            void visit(assignment_by_signed_right_shift *ref) override;
+            void visit(assignment_by_zero_fill_right_shift *ref) override;
+            void visit(assignment_by_bitwise_and *ref) override;
+            void visit(assignment_by_bitwise_or *ref) override;
+            void visit(assignment_by_bitwise_xor *ref) override;
 
         protected:
             void postpone(node *n) { queue.push_front(n); }
@@ -177,6 +187,17 @@ namespace g0at
             virtual void payload(bitwise_xor *ref);
             virtual void payload(logical_and *ref);
             virtual void payload(logical_or *ref);
+            virtual void payload(assignment_by_sum *ref);
+            virtual void payload(assignment_by_difference *ref);
+            virtual void payload(assignment_by_product *ref);
+            virtual void payload(assignment_by_quotient *ref);
+            virtual void payload(assignment_by_remainder *ref);
+            virtual void payload(assignment_by_left_shift *ref);
+            virtual void payload(assignment_by_signed_right_shift *ref);
+            virtual void payload(assignment_by_zero_fill_right_shift *ref);
+            virtual void payload(assignment_by_bitwise_and *ref);
+            virtual void payload(assignment_by_bitwise_or *ref);
+            virtual void payload(assignment_by_bitwise_xor *ref);
 
         private:
             std::deque<node*> queue;

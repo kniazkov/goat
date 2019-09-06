@@ -87,6 +87,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "bitwise_xor.h"
 #include "logical_and.h"
 #include "logical_or.h"
+#include "assignment_by_sum.h"
+#include "assignment_by_difference.h"
+#include "assignment_by_product.h"
+#include "assignment_by_quotient.h"
+#include "assignment_by_remainder.h"
+#include "assignment_by_left_shift.h"
+#include "assignment_by_signed_right_shift.h"
+#include "assignment_by_zero_fill_right_shift.h"
+#include "assignment_by_bitwise_and.h"
+#include "assignment_by_bitwise_or.h"
+#include "assignment_by_bitwise_xor.h"
 
 namespace g0at
 {
@@ -893,6 +904,127 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(logical_or *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(assignment_by_sum *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(assignment_by_sum *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(assignment_by_difference *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(assignment_by_difference *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(assignment_by_product *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(assignment_by_product *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(assignment_by_quotient *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(assignment_by_quotient *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(assignment_by_remainder *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(assignment_by_remainder *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(assignment_by_left_shift *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(assignment_by_left_shift *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(assignment_by_signed_right_shift *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(assignment_by_signed_right_shift *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(assignment_by_zero_fill_right_shift *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(assignment_by_zero_fill_right_shift *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(assignment_by_bitwise_and *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(assignment_by_bitwise_and *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(assignment_by_bitwise_or *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(assignment_by_bitwise_or *ref)
+        {
+        }
+      
+        void parse_tree_traversal::visit(assignment_by_bitwise_xor *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(assignment_by_bitwise_xor *ref)
         {
         }
     };

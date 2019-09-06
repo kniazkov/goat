@@ -301,5 +301,49 @@ namespace g0at
         void node_visitor::visit(logical_or *ref)
         {
         }
+
+        void node_visitor::visit(assignment_by_sum *ref)
+        {
+        }
+
+        void node_visitor::visit(assignment_by_difference *ref)
+        {
+        }
+
+        void node_visitor::visit(assignment_by_product *ref)
+        {
+        }
+
+        void node_visitor::visit(assignment_by_quotient *ref)
+        {
+        }
+
+        void node_visitor::visit(assignment_by_remainder *ref)
+        {
+        }
+
+        void node_visitor::visit(assignment_by_left_shift *ref)
+        {
+        }
+
+        void node_visitor::visit(assignment_by_signed_right_shift *ref)
+        {
+        }
+
+        void node_visitor::visit(assignment_by_zero_fill_right_shift *ref)
+        {
+        }
+
+        void node_visitor::visit(assignment_by_bitwise_and *ref)
+        {
+        }
+
+        void node_visitor::visit(assignment_by_bitwise_or *ref)
+        {
+        }
+
+        void node_visitor::visit(assignment_by_bitwise_xor *ref)
+        {
+        }
     }
 };
