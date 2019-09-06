@@ -1,0 +1,16 @@
+ok: false || false = false
+ok: false || true = true
+ok: true || false = true
+ok: true || true = true
+ok: 0 || 13 = 13
+ok: 1 || 13 = 1
+ok: 0 || 13.2 = 13.2
+ok: 1.1 || 13.2 = 1.1
+ok: a || b = a
+ok:  || 13 = 13
+ok: test || 13 = test
+ok: void || something = something
+ok: null || something = something
+ok: undefined || something = something
+ok: {} || something = {}
+done.
