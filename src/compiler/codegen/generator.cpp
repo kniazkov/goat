@@ -84,6 +84,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/bitwise_xor.h"
 #include "compiler/pt/logical_and.h"
 #include "compiler/pt/logical_or.h"
+#include "compiler/pt/assignment_by_sum.h"
+#include "compiler/pt/assignment_by_difference.h"
+#include "compiler/pt/assignment_by_product.h"
+#include "compiler/pt/assignment_by_quotient.h"
+#include "compiler/pt/assignment_by_remainder.h"
+#include "compiler/pt/assignment_by_left_shift.h"
+#include "compiler/pt/assignment_by_signed_right_shift.h"
+#include "compiler/pt/assignment_by_zero_fill_right_shift.h"
+#include "compiler/pt/assignment_by_bitwise_and.h"
+#include "compiler/pt/assignment_by_bitwise_or.h"
+#include "compiler/pt/assignment_by_bitwise_xor.h"
 
 #include "code/string.h"
 #include "code/load.h"
@@ -904,11 +915,6 @@ namespace g0at
 
         void generator::visit(pt::logical_and *ref)
         {
-#if 0
-            ref->get_right()->accept(this);
-            ref->get_left()->accept(this);
-            code->add_instruction(new _and());
-#else
             ref->get_left()->accept(this);
             code->add_instruction(new _dup());
             code->add_instruction(new _bool());
@@ -918,16 +924,10 @@ namespace g0at
             code->add_instruction(new _swap());
             code->add_instruction(new _and());
             if_false->get_iid_ptr().set(code->get_current_iid());
-#endif
         }
 
         void generator::visit(pt::logical_or *ref)
         {
-#if 0
-            ref->get_right()->accept(this);
-            ref->get_left()->accept(this);
-            code->add_instruction(new _or());
-#else
             ref->get_left()->accept(this);
             code->add_instruction(new _dup());
             code->add_instruction(new _bool());
@@ -937,7 +937,94 @@ namespace g0at
             code->add_instruction(new _swap());
             code->add_instruction(new _or());
             if_true->get_iid_ptr().set(code->get_current_iid());
-#endif
+        }
+
+        void generator::visit(pt::assignment_by_sum *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _add());
+            ref->get_left()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::assignment_by_difference *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _sub());
+            ref->get_left()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::assignment_by_product *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _mul());
+            ref->get_left()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::assignment_by_quotient *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _div());
+            ref->get_left()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::assignment_by_remainder *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _mod());
+            ref->get_left()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::assignment_by_left_shift *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _shl());
+            ref->get_left()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::assignment_by_signed_right_shift *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _shr());
+            ref->get_left()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::assignment_by_zero_fill_right_shift *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _shrz());
+            ref->get_left()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::assignment_by_bitwise_and *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _bitand());
+            ref->get_left()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::assignment_by_bitwise_or *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _bitor());
+            ref->get_left()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::assignment_by_bitwise_xor *ref)
+        {
+            ref->get_right()->accept(this);
+            ref->get_left()->accept(this);
+            code->add_instruction(new _xor());
+            ref->get_left()->accept(lgen.get());
         }
     };
 };

@@ -112,6 +112,17 @@ namespace g0at
             void visit(pt::bitwise_xor *ref) override;
             void visit(pt::logical_and *ref) override;
             void visit(pt::logical_or *ref) override;
+            void visit(pt::assignment_by_sum *ref) override;
+            void visit(pt::assignment_by_difference *ref) override;
+            void visit(pt::assignment_by_product *ref) override;
+            void visit(pt::assignment_by_quotient *ref) override;
+            void visit(pt::assignment_by_remainder *ref) override;
+            void visit(pt::assignment_by_left_shift *ref) override;
+            void visit(pt::assignment_by_signed_right_shift *ref) override;
+            void visit(pt::assignment_by_zero_fill_right_shift *ref) override;
+            void visit(pt::assignment_by_bitwise_and *ref) override;
+            void visit(pt::assignment_by_bitwise_or *ref) override;
+            void visit(pt::assignment_by_bitwise_xor *ref) override;
 
         protected:
             lib::pointer<code::code> code; 
