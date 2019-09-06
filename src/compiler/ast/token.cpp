@@ -797,5 +797,60 @@ namespace g0at
         {
             return nullptr;
         }
+
+        plus_assign *token::to_plus_assign()
+        {
+            return nullptr;
+        }
+
+        minus_assign *token::to_minus_assign()
+        {
+            return nullptr;
+        }
+
+        asterisk_assign *token::to_asterisk_assign()
+        {
+            return nullptr;
+        }
+
+        slash_assign *token::to_slash_assign()
+        {
+            return nullptr;
+        }
+
+        percent_assign *token::to_percent_assign()
+        {
+            return nullptr;
+        }
+
+        double_less_assign *token::to_double_less_assign()
+        {
+            return nullptr;
+        }
+
+        double_greater_assign *token::to_double_greater_assign()
+        {
+            return nullptr;
+        }
+
+        triple_greater_assign *token::to_triple_greater_assign()
+        {
+            return nullptr;
+        }
+
+        ampersand_assign *token::to_ampersand_assign()
+        {
+            return nullptr;
+        }
+
+        vertical_bar_assign *token::to_vertical_bar_assign()
+        {
+            return nullptr;
+        }
+
+        caret_assign *token::to_caret_assign()
+        {
+            return nullptr;
+        }
     }
 };

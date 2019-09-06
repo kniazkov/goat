@@ -577,5 +577,49 @@ namespace g0at
         void token_visitor::visit(assignment_by_bitwise_xor *ref)
         {
         }
+
+        void token_visitor::visit(plus_assign *ref)
+        {
+        }
+
+        void token_visitor::visit(minus_assign *ref)
+        {
+        }
+
+        void token_visitor::visit(asterisk_assign *ref)
+        {
+        }
+
+        void token_visitor::visit(slash_assign *ref)
+        {
+        }
+
+        void token_visitor::visit(percent_assign *ref)
+        {
+        }
+
+        void token_visitor::visit(double_less_assign *ref)
+        {
+        }
+
+        void token_visitor::visit(double_greater_assign *ref)
+        {
+        }
+
+        void token_visitor::visit(triple_greater_assign *ref)
+        {
+        }
+
+        void token_visitor::visit(ampersand_assign *ref)
+        {
+        }
+
+        void token_visitor::visit(vertical_bar_assign *ref)
+        {
+        }
+
+        void token_visitor::visit(caret_assign *ref)
+        {
+        }
     }
 };

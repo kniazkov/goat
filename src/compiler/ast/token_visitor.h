@@ -162,7 +162,18 @@ namespace g0at
         class assignment_by_bitwise_and;
         class assignment_by_bitwise_or;
         class assignment_by_bitwise_xor;
- 
+        class plus_assign;
+        class minus_assign;
+        class asterisk_assign;
+        class slash_assign;
+        class percent_assign;
+        class double_less_assign;
+        class double_greater_assign;
+        class triple_greater_assign;
+        class ampersand_assign;
+        class vertical_bar_assign;
+        class caret_assign;
+
         class token_visitor
         {
         public:
@@ -304,6 +315,17 @@ namespace g0at
             virtual void visit(assignment_by_bitwise_and *ref);
             virtual void visit(assignment_by_bitwise_or *ref);
             virtual void visit(assignment_by_bitwise_xor *ref);
+            virtual void visit(plus_assign *ref);
+            virtual void visit(minus_assign *ref);
+            virtual void visit(asterisk_assign *ref);
+            virtual void visit(slash_assign *ref);
+            virtual void visit(percent_assign *ref);
+            virtual void visit(double_less_assign *ref);
+            virtual void visit(double_greater_assign *ref);
+            virtual void visit(triple_greater_assign *ref);
+            virtual void visit(ampersand_assign *ref);
+            virtual void visit(vertical_bar_assign *ref);
+            virtual void visit(caret_assign *ref);
          };
     };
 };

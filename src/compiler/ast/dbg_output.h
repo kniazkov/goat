@@ -187,6 +187,17 @@ namespace g0at
             void visit(assignment_by_bitwise_and *ref) override;
             void visit(assignment_by_bitwise_or *ref) override;
             void visit(assignment_by_bitwise_xor *ref) override;
+            void visit(plus_assign *ref) override;
+            void visit(minus_assign *ref) override;
+            void visit(asterisk_assign *ref) override;
+            void visit(slash_assign *ref) override;
+            void visit(percent_assign *ref) override;
+            void visit(double_less_assign *ref) override;
+            void visit(double_greater_assign *ref) override;
+            void visit(triple_greater_assign *ref) override;
+            void visit(ampersand_assign *ref) override;
+            void visit(vertical_bar_assign *ref) override;
+            void visit(caret_assign *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

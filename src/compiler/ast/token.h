@@ -183,6 +183,17 @@ namespace g0at
         class assignment_by_bitwise_and;
         class assignment_by_bitwise_or;
         class assignment_by_bitwise_xor;
+        class plus_assign;
+        class minus_assign;
+        class asterisk_assign;
+        class slash_assign;
+        class percent_assign;
+        class double_less_assign;
+        class double_greater_assign;
+        class triple_greater_assign;
+        class ampersand_assign;
+        class vertical_bar_assign;
+        class caret_assign;
 
         class token : public lib::ref_counter
         {
@@ -342,6 +353,17 @@ namespace g0at
             virtual assignment_by_bitwise_and *to_assignment_by_bitwise_and();
             virtual assignment_by_bitwise_or *to_assignment_by_bitwise_or();
             virtual assignment_by_bitwise_xor *to_assignment_by_bitwise_xor();
+            virtual plus_assign *to_plus_assign();
+            virtual minus_assign *to_minus_assign();
+            virtual asterisk_assign *to_asterisk_assign();
+            virtual slash_assign *to_slash_assign();
+            virtual percent_assign *to_percent_assign();
+            virtual double_less_assign *to_double_less_assign();
+            virtual double_greater_assign *to_double_greater_assign();
+            virtual triple_greater_assign *to_triple_greater_assign();
+            virtual ampersand_assign *to_ampersand_assign();
+            virtual vertical_bar_assign *to_vertical_bar_assign();
+            virtual caret_assign *to_caret_assign();
 
             lib::pointer<position> get_position() { return pos; }
 

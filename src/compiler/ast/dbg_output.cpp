@@ -101,6 +101,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "assignment_by_bitwise_or.h"
 #include "assignment_by_bitwise_xor.h"
 
+
 namespace g0at
 {
     namespace ast
@@ -1124,6 +1125,61 @@ namespace g0at
         void dbg_output::visit(assignment_by_bitwise_xor *ref)
         {
             print_binary(ref, L"assignment by bitwise xor", L"^=");
+        }
+        
+        void dbg_output::visit(plus_assign *ref)
+        {
+            print(L"plus assign", L"+=");
+        }
+        
+        void dbg_output::visit(minus_assign *ref)
+        {
+            print(L"minus assign", L"-=");
+        }
+        
+        void dbg_output::visit(asterisk_assign *ref)
+        {
+            print(L"asterisk assign", L"*=");
+        }
+        
+        void dbg_output::visit(slash_assign *ref)
+        {
+            print(L"slash assign", L"/=");
+        }
+        
+        void dbg_output::visit(percent_assign *ref)
+        {
+            print(L"percent assign", L"%=");
+        }
+        
+        void dbg_output::visit(double_less_assign *ref)
+        {
+            print(L"double less assign", L"&lt;&lt;=");
+        }
+        
+        void dbg_output::visit(double_greater_assign *ref)
+        {
+            print(L"double greater assign", L"&gt;&gt;=");
+        }
+        
+        void dbg_output::visit(triple_greater_assign *ref)
+        {
+            print(L"triple greater assign", L"&gt;&gt;&gt;=");
+        }
+        
+        void dbg_output::visit(ampersand_assign *ref)
+        {
+            print(L"ampersand assign", L"&amp;=");
+        }
+        
+        void dbg_output::visit(vertical_bar_assign *ref)
+        {
+            print(L"vertical bar assign", L"|=");
+        }
+        
+        void dbg_output::visit(caret_assign *ref)
+        {
+            print(L"caret assign", L"^=");
         }
     };
 };
