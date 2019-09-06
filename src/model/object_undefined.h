@@ -35,6 +35,8 @@ namespace g0at
             object_undefined(object_pool *pool);
             void op_not(thread *thr) override;
             void op_bool(thread *thr) override;
+            void op_and(thread *thr) override;
+            void op_or(thread *thr) override;
             void m_iterator(thread *thr, int arg_count) override;
 
         public:

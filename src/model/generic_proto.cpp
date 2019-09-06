@@ -331,6 +331,59 @@ namespace g0at
             }
         };
 
+        class generic_and : public object_function_built_in
+        {
+        public:
+            generic_and(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                thr->pop();
+                variable arg = thr->peek();
+                thr->pop(arg_count);
+                thr->push(arg);
+            }
+        };
+
+        class generic_or : public object_function_built_in
+        {
+        public:
+            generic_or(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return;
+                }
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                variable this_ptr = thr->pop();
+                thr->pop(arg_count);
+                thr->push(this_ptr);
+            }
+        };
+
         generic_proto::generic_proto(object_pool *pool)
             : object(pool, nullptr)
         {
@@ -347,6 +400,8 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_contains), new generic_contains(pool));
             add_object(pool->get_static_string(resource::str_oper_exclamation), new generic_not(pool));
             add_object(pool->get_static_string(resource::str_oper_double_exclamation), new generic_bool(pool));
+            add_object(pool->get_static_string(resource::str_oper_double_ampersand), new generic_and(pool));
+            add_object(pool->get_static_string(resource::str_oper_double_vertical_bar), new generic_or(pool));
         }
     };
 };

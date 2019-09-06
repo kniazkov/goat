@@ -53,6 +53,8 @@ namespace g0at
             void op_leq(thread *thr) override;
             void op_great(thread *thr) override;
             void op_greq(thread *thr) override;
+            void op_and(thread *thr) override;
+            void op_or(thread *thr) override;
             void m_get(thread *thr, int arg_count) override;
             void m_set(thread *thr, int arg_count) override;
             void m_iterator(thread *thr, int arg_count) override;

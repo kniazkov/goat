@@ -197,6 +197,30 @@ namespace g0at
             binary_logical_operation<lib::func::greater_or_equal, false>(thr);
         }
 
+        void object_string::op_and(thread *thr)
+        {
+            thr->pop();
+            if (data == L"")
+            {
+                thr->pop();
+                variable result;
+                result.set_object(this);
+                thr->push(result);
+            }
+        }
+
+        void object_string::op_or(thread *thr)
+        {
+            thr->pop();
+            if (data != L"")
+            {
+                thr->pop();
+                variable result;
+                result.set_object(this);
+                thr->push(result);
+            }
+        }
+
         void object_string::m_get(thread *thr, int arg_count)
         {
             if (arg_count < 1)
@@ -325,6 +349,8 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_less_equal), pool->get_wrap_leq_instance());
             add_object(pool->get_static_string(resource::str_oper_greater), pool->get_wrap_great_instance());
             add_object(pool->get_static_string(resource::str_oper_greater_equal), pool->get_wrap_greq_instance());
+            add_object(pool->get_static_string(resource::str_oper_double_ampersand), pool->get_wrap_and_instance());
+            add_object(pool->get_static_string(resource::str_oper_double_vertical_bar), pool->get_wrap_or_instance());
         }
     };
 };

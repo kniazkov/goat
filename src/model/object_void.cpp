@@ -38,6 +38,8 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
             add_object(pool->get_static_string(resource::str_oper_double_exclamation), pool->get_wrap_bool_instance());
+            add_object(pool->get_static_string(resource::str_oper_double_ampersand), pool->get_wrap_and_instance());
+            add_object(pool->get_static_string(resource::str_oper_double_vertical_bar), pool->get_wrap_or_instance());
         }
 
         object_void *object_void::to_object_void()
@@ -64,6 +66,20 @@ namespace g0at
             variable tmp;
             tmp.set_boolean(false);
             thr->push(tmp);
+        }
+
+        void object_void::op_and(thread *thr)
+        {
+            thr->pop();
+            thr->pop();
+            variable result;
+            result.set_object(this);
+            thr->push(result);
+        }
+
+        void object_void::op_or(thread *thr)
+        {
+            thr->pop();
         }
 
         void object_void::m_iterator(thread *thr, int arg_count)

@@ -102,6 +102,8 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_less_equal), pool->get_wrap_leq_instance());
             add_object(pool->get_static_string(resource::str_oper_greater), pool->get_wrap_great_instance());
             add_object(pool->get_static_string(resource::str_oper_greater_equal), pool->get_wrap_greq_instance());
+            add_object(pool->get_static_string(resource::str_oper_double_ampersand), pool->get_wrap_and_instance());
+            add_object(pool->get_static_string(resource::str_oper_double_vertical_bar), pool->get_wrap_or_instance());
         }
 
         /*
@@ -234,6 +236,26 @@ namespace g0at
             void op_greq(variable *var, thread *thr)  override
             {
                 binary_logical_operation<lib::func::greater_or_equal, false>(var, thr);
+            }
+
+            void op_and(variable *var, thread *thr)  override
+            {
+                thr->pop();
+                if (var->data.r == 0)
+                {
+                    thr->pop();
+                    thr->push(*var);
+                }
+            }
+
+            void op_or(variable *var, thread *thr)  override
+            {
+                thr->pop();
+                if (var->data.r != 0)
+                {
+                    thr->pop();
+                    thr->push(*var);
+                }
             }
 
             void m_instance_of(variable *var, thread *thr, int arg_count) override
