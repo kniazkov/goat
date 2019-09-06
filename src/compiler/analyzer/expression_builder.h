@@ -86,12 +86,24 @@ namespace g0at
             void visit(ast::bitwise_xor *ref) override;
             void visit(ast::logical_and *ref) override;
             void visit(ast::logical_or *ref) override;
+            void visit(ast::assignment_by_sum *ref) override;
+            void visit(ast::assignment_by_difference *ref) override;
+            void visit(ast::assignment_by_product *ref) override;
+            void visit(ast::assignment_by_quotient *ref) override;
+            void visit(ast::assignment_by_remainder *ref) override;
+            void visit(ast::assignment_by_left_shift *ref) override;
+            void visit(ast::assignment_by_signed_right_shift *ref) override;
+            void visit(ast::assignment_by_zero_fill_right_shift *ref) override;
+            void visit(ast::assignment_by_bitwise_and *ref) override;
+            void visit(ast::assignment_by_bitwise_or *ref) override;
+            void visit(ast::assignment_by_bitwise_xor *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }
 
         protected:
             lib::pointer<pt::expression> expr;
+            
             std::pair<lib::pointer<pt::expression>, lib::pointer<pt::expression>> build_expr_for_binary(ast::binary *ref);
             lib::pointer<pt::expression> build_expr_for_unary_prefix(ast::unary_prefix *ref);
             lib::pointer<pt::expression> build_expr_for_unary_suffix(ast::unary_suffix *ref);

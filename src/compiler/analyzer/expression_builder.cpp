@@ -125,6 +125,28 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/logical_and.h"
 #include "compiler/ast/logical_or.h"
 #include "compiler/pt/logical_or.h"
+#include "compiler/ast/assignment_by_sum.h"
+#include "compiler/pt/assignment_by_sum.h"
+#include "compiler/ast/assignment_by_difference.h"
+#include "compiler/pt/assignment_by_difference.h"
+#include "compiler/ast/assignment_by_product.h"
+#include "compiler/pt/assignment_by_product.h"
+#include "compiler/ast/assignment_by_quotient.h"
+#include "compiler/pt/assignment_by_quotient.h"
+#include "compiler/ast/assignment_by_remainder.h"
+#include "compiler/pt/assignment_by_remainder.h"
+#include "compiler/ast/assignment_by_left_shift.h"
+#include "compiler/pt/assignment_by_left_shift.h"
+#include "compiler/ast/assignment_by_signed_right_shift.h"
+#include "compiler/pt/assignment_by_signed_right_shift.h"
+#include "compiler/ast/assignment_by_zero_fill_right_shift.h"
+#include "compiler/pt/assignment_by_zero_fill_right_shift.h"
+#include "compiler/ast/assignment_by_bitwise_and.h"
+#include "compiler/pt/assignment_by_bitwise_and.h"
+#include "compiler/ast/assignment_by_bitwise_or.h"
+#include "compiler/pt/assignment_by_bitwise_or.h"
+#include "compiler/ast/assignment_by_bitwise_xor.h"
+#include "compiler/pt/assignment_by_bitwise_xor.h"
 
 namespace g0at
 {
@@ -561,6 +583,72 @@ namespace g0at
         {
             auto pair = build_expr_for_binary(ref);
             expr = new pt::bitwise_xor(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::assignment_by_sum *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::assignment_by_sum(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::assignment_by_difference *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::assignment_by_difference(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::assignment_by_product *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::assignment_by_product(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::assignment_by_quotient *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::assignment_by_quotient(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::assignment_by_remainder *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::assignment_by_remainder(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::assignment_by_left_shift *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::assignment_by_left_shift(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::assignment_by_signed_right_shift *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::assignment_by_signed_right_shift(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::assignment_by_zero_fill_right_shift *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::assignment_by_zero_fill_right_shift(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::assignment_by_bitwise_and *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::assignment_by_bitwise_and(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::assignment_by_bitwise_or *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::assignment_by_bitwise_or(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::assignment_by_bitwise_xor *ref)
+        {
+            auto pair = build_expr_for_binary(ref);
+            expr = new pt::assignment_by_bitwise_xor(ref->get_position(), pair.first, pair.second);
         }
     };
 };
