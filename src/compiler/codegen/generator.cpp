@@ -95,6 +95,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/assignment_by_bitwise_and.h"
 #include "compiler/pt/assignment_by_bitwise_or.h"
 #include "compiler/pt/assignment_by_bitwise_xor.h"
+#include "compiler/pt/ternary.h"
 
 #include "code/string.h"
 #include "code/load.h"
@@ -931,7 +932,7 @@ namespace g0at
             ref->get_left()->accept(this);
             code->add_instruction(new _dup());
             code->add_instruction(new _bool());
-            code::_if *if_true = new _if(iid_unknown());
+            code::_if *if_true = new code::_if(iid_unknown());
             code->add_instruction(if_true);
             ref->get_right()->accept(this);
             code->add_instruction(new _swap());
@@ -1025,6 +1026,20 @@ namespace g0at
             ref->get_left()->accept(this);
             code->add_instruction(new _xor());
             ref->get_left()->accept(lgen.get());
+        }
+
+        void generator::visit(pt::ternary *ref)
+        {
+            ref->get_condition()->accept(this);
+            code->add_instruction(new code::_bool());
+            code::_if *if_true = new code::_if(iid_unknown());
+            code->add_instruction(if_true);
+            ref->get_expr_false()->accept(this);
+            code::_jmp *jmp_end = new code::_jmp(iid_unknown());            
+            code->add_instruction(jmp_end);
+            if_true->get_iid_ptr().set(code->get_current_iid());
+            ref->get_expr_true()->accept(this);
+            jmp_end->get_iid_ptr().set(code->get_current_iid());
         }
     };
 };

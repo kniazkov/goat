@@ -104,6 +104,7 @@ namespace g0at
         class assignment_by_bitwise_and;
         class assignment_by_bitwise_or;
         class assignment_by_bitwise_xor;
+        class ternary;
 
         class node_visitor
         {
@@ -188,6 +189,7 @@ namespace g0at
             virtual void visit(assignment_by_bitwise_and *ref);
             virtual void visit(assignment_by_bitwise_or *ref);
             virtual void visit(assignment_by_bitwise_xor *ref);
+            virtual void visit(ternary *ref);
         };
     };
 };

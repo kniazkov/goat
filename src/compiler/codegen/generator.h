@@ -123,6 +123,7 @@ namespace g0at
             void visit(pt::assignment_by_bitwise_and *ref) override;
             void visit(pt::assignment_by_bitwise_or *ref) override;
             void visit(pt::assignment_by_bitwise_xor *ref) override;
+            void visit(pt::ternary *ref) override;
 
         protected:
             lib::pointer<code::code> code; 

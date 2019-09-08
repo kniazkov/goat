@@ -1,1 +1,5 @@
 println(true ? 7 : 13);
+println(false ? 7 : 13);
+println(null ? 7 : 13);
+var a = 0 + 1 ? true : false;
+println(a);

@@ -116,6 +116,7 @@ namespace g0at
         class assignment_by_bitwise_and;
         class assignment_by_bitwise_or;
         class assignment_by_bitwise_xor;
+        class ternary;
 
         class node : public lib::ref_counter
         {
@@ -207,6 +208,7 @@ namespace g0at
             virtual assignment_by_bitwise_and *to_assignment_by_bitwise_and();
             virtual assignment_by_bitwise_or *to_assignment_by_bitwise_or();
             virtual assignment_by_bitwise_xor *to_assignment_by_bitwise_xor();
+            virtual ternary *to_ternary();
             
             lib::pointer<position> get_position() { return pos; }
             lib::pointer<scope> get_scope() { return sk; }

@@ -99,6 +99,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "assignment_by_bitwise_and.h"
 #include "assignment_by_bitwise_or.h"
 #include "assignment_by_bitwise_xor.h"
+#include "ternary.h"
 
 namespace g0at
 {
@@ -1045,6 +1046,20 @@ namespace g0at
         void dbg_output::visit(assignment_by_bitwise_xor *ref)
         {
             print_binary(ref, L"assignment by bitwise xor", L"^=");
+        }
+
+        void dbg_output::visit(ternary *ref)
+        {
+            print(ref, L"ternary");
+            dbg_output condition(env);
+            ref->get_condition()->accept(&condition);
+            link_child(condition, L"condition");
+            dbg_output out_true(env);
+            ref->get_expr_true()->accept(&out_true);
+            link_child(out_true, L"expr if true");
+            dbg_output out_false(env);
+            ref->get_expr_false()->accept(&out_false);
+            link_child(out_false, L"expr if false");
         }
     };
 };

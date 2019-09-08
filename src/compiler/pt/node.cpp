@@ -449,5 +449,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        ternary *node::to_ternary()
+        {
+            return nullptr;
+        }
     }
 };

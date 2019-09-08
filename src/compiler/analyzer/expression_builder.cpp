@@ -147,6 +147,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/assignment_by_bitwise_or.h"
 #include "compiler/ast/assignment_by_bitwise_xor.h"
 #include "compiler/pt/assignment_by_bitwise_xor.h"
+#include "compiler/ast/ternary.h"
+#include "compiler/pt/ternary.h"
 
 namespace g0at
 {
@@ -649,6 +651,21 @@ namespace g0at
         {
             auto pair = build_expr_for_binary(ref);
             expr = new pt::assignment_by_bitwise_xor(ref->get_position(), pair.first, pair.second);
+        }
+
+        void expression_builder::visit(ast::ternary *ref)
+        {
+            expression_builder condition_visitor;
+            ref->get_condition()->accept(&condition_visitor);
+            assert(condition_visitor.has_expr());
+            expression_builder expr_true_visitor;
+            ref->get_expr_true()->accept(&expr_true_visitor);
+            assert(expr_true_visitor.has_expr());
+            expression_builder expr_false_visitor;
+            ref->get_expr_false()->accept(&expr_false_visitor);
+            assert(expr_false_visitor.has_expr());
+            expr = new pt::ternary(ref->get_position(),
+                condition_visitor.get_expr(), expr_true_visitor.get_expr(), expr_false_visitor.get_expr());
         }
     };
 };

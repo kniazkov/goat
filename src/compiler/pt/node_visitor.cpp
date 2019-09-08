@@ -345,5 +345,9 @@ namespace g0at
         void node_visitor::visit(assignment_by_bitwise_xor *ref)
         {
         }
+
+        void node_visitor::visit(ternary *ref)
+        {
+        }
     }
 };
