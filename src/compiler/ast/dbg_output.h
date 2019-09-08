@@ -198,6 +198,8 @@ namespace g0at
             void visit(ampersand_assign *ref) override;
             void visit(vertical_bar_assign *ref) override;
             void visit(caret_assign *ref) override;
+            void visit(question_mark *ref) override;
+            void visit(ternary *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

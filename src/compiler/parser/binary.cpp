@@ -47,11 +47,11 @@ namespace g0at
                 assert(oper != nullptr);
                 
                 if (!oper->prev)
-                    return 0;
+                    return false;
 
                 ast::expression *left = oper->prev->to_expression();
                 if (!left)
-                    return 0;
+                    return false;
 
                 if (!oper->next)
                     throw expected_an_expression_after_operator(oper->get_position());

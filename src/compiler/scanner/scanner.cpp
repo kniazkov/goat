@@ -102,6 +102,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/ampersand_assign.h"
 #include "compiler/ast/vertical_bar_assign.h"
 #include "compiler/ast/caret_assign.h"
+#include "compiler/ast/question_mark.h"
 
 namespace g0at
 {
@@ -188,6 +189,7 @@ namespace g0at
             case L'&':
             case L'|':
             case L'^':
+            case L'?':
                 return true;
             default:
                 return false;
@@ -501,6 +503,8 @@ namespace g0at
                 return new ast::vertical_bar_assign();
             if (oper == L"^=")
                 return new ast::caret_assign();
+            if (oper == L"?")
+                return new ast::question_mark();
             if (oper == L"$")
                 return new ast::keyword_function();
             if (oper == L"$$")

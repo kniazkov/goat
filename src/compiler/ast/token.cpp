@@ -852,5 +852,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        question_mark *token::to_question_mark()
+        {
+            return nullptr;
+        }
+
+        ternary *token::to_ternary()
+        {
+            return nullptr;
+        }
     }
 };

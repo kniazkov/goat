@@ -194,6 +194,8 @@ namespace g0at
         class ampersand_assign;
         class vertical_bar_assign;
         class caret_assign;
+        class question_mark;
+        class ternary;
 
         class token : public lib::ref_counter
         {
@@ -364,6 +366,8 @@ namespace g0at
             virtual ampersand_assign *to_ampersand_assign();
             virtual vertical_bar_assign *to_vertical_bar_assign();
             virtual caret_assign *to_caret_assign();
+            virtual question_mark *to_question_mark();
+            virtual ternary *to_ternary();
 
             lib::pointer<position> get_position() { return pos; }
 

@@ -100,7 +100,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "assignment_by_bitwise_and.h"
 #include "assignment_by_bitwise_or.h"
 #include "assignment_by_bitwise_xor.h"
-
+#include "ternary.h"
 
 namespace g0at
 {
@@ -1180,6 +1180,25 @@ namespace g0at
         void dbg_output::visit(caret_assign *ref)
         {
             print(L"caret assign", L"^=");
+        }
+
+        void dbg_output::visit(question_mark *ref)
+        {
+            print(L"question mark", L"?");
+        }
+
+        void dbg_output::visit(ternary *ref)
+        {
+            print(L"ternary");
+            dbg_output condition(data);
+            ref->get_condition()->accept(&condition);
+            link_child(condition, L"condition");
+            dbg_output out_true(data);
+            ref->get_expr_true()->accept(&out_true);
+            link_child(out_true, L"expr if true");
+            dbg_output out_false(data);
+            ref->get_expr_false()->accept(&out_false);
+            link_child(out_false, L"expr if false");
         }
     };
 };

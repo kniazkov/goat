@@ -77,6 +77,7 @@ namespace g0at
             ast::token_2nd_list opers_vertical_bar;
             ast::token_2nd_list opers_dbl_vertical_bar;
             ast::token_2nd_list opers_caret;
+            ast::token_2nd_list question_marks;
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;

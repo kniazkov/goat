@@ -621,5 +621,13 @@ namespace g0at
         void token_visitor::visit(caret_assign *ref)
         {
         }
+
+        void token_visitor::visit(question_mark *ref)
+        {
+        }
+
+        void token_visitor::visit(ternary *ref)
+        {
+        }
     }
 };

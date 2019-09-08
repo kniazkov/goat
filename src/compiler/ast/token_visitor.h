@@ -173,6 +173,8 @@ namespace g0at
         class ampersand_assign;
         class vertical_bar_assign;
         class caret_assign;
+        class question_mark;
+        class ternary;
 
         class token_visitor
         {
@@ -326,6 +328,8 @@ namespace g0at
             virtual void visit(ampersand_assign *ref);
             virtual void visit(vertical_bar_assign *ref);
             virtual void visit(caret_assign *ref);
+            virtual void visit(question_mark *ref);
+            virtual void visit(ternary *ref);
          };
     };
 };

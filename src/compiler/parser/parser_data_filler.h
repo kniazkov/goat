@@ -101,6 +101,7 @@ namespace g0at
             void visit(ast::ampersand_assign *ref) override;
             void visit(ast::vertical_bar_assign *ref) override;
             void visit(ast::caret_assign *ref) override;
+            void visit(ast::question_mark *ref) override;
 
         protected:
             parser_data *data;
