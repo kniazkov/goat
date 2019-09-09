@@ -48,6 +48,11 @@ var Xml =
         buildSimpleString : $(buff)
         {
             buff << '<' << tag;
+            for (var name in attrib)
+            {
+                if (attrib.contains(name))
+                    buff << ' ' << name << "=\"" << attrib[name] << '\"';
+            }
             if (!data)
             {
                 buff << "/>";
