@@ -59,6 +59,7 @@ var Xml =
                     buff << "/>";
                 else
                 {
+                    buff << '>';
                     for (var i = 0; i < count; i++)
                     {
                         var item = data[i];
@@ -67,6 +68,7 @@ var Xml =
                         else
                             buff << "" + item;
                     }
+                    buff << "</" << tag << '>';
                 }
             }
             else
