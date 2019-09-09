@@ -38,30 +38,45 @@ var Xml =
         toString : $(indent)
         {
             if (!indent)
-                return this._toSimpleString();
-            
+            {
+                var buff = new StringBuilder();
+                this.buildSimpleString(buff);
+                return buff.data();
+            }
         },
 
-        _toSimpleString : $()
+        buildSimpleString : $(buff)
         {
-            var b = new StringBuilder();
-            this._simpleStringBuilder(b);
-            return b.data();
-        },
-
-        _simpleStringBuilder : $(b)
-        {
-            b << '<' << tag;
+            buff << '<' << tag;
             if (!data)
-                b << "/>";
+            {
+                buff << "/>";
+            }
+            else if (data.instanceof(Array))
+            {
+                var count = data.length();
+                if (!count)
+                    buff << "/>";
+                else
+                {
+                    for (var i = 0; i < count; i++)
+                    {
+                        var item = data[i];
+                        if (item.instanceof(Xml.Element))
+                            item.buildSimpleString(buff);
+                        else
+                            buff << "" + item;
+                    }
+                }
+            }
             else
             {
-                b << '>';
+                buff << '>';
                 if (data.instanceof(Xml.Element))
-                    data._simpleStringBuilder(b);
+                    data.buildSimpleString(buff);
                 else
-                    b << data;
-                b << "</" << tag << '>';
+                    buff << "" + data;
+                buff << "</" << tag << '>';
             }
         }
     }

@@ -33,9 +33,9 @@ namespace g0at
         friend class object_pool;
         protected:
             object_string(object_pool *pool, std::wstring _data);
-            object_string(object_pool *pool, std::wstring _data, int _id);
+            object_string(object_pool *pool, std::wstring _data, int _ids);
             void reinit(std::wstring _data);
-            void reinit(std::wstring _data, int _id);
+            void reinit(std::wstring _data, int _ids);
             
         public:
             void kill(object_pool *pool) override;
@@ -63,7 +63,7 @@ namespace g0at
 
         protected:
             std::wstring data;
-            int id;
+            int ids;
 
             template <template<typename R, typename X, typename Y> class F, bool Def> void binary_logical_operation(thread *thr);
         };

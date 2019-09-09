@@ -78,12 +78,12 @@ namespace g0at
             String
         */
         object_string::object_string(object_pool *pool, std::wstring _data)
-            : object(pool, pool->get_string_proto_instance()), data(_data), id(-1)
+            : object(pool, pool->get_string_proto_instance()), data(_data), ids(-1)
         {
         }
 
-        object_string::object_string(object_pool *pool, std::wstring _data, int _id)
-            : object(pool, pool->get_string_proto_instance()), data(_data), id(_id)
+        object_string::object_string(object_pool *pool, std::wstring _data, int _ids)
+            : object(pool, pool->get_string_proto_instance()), data(_data), ids(_ids)
         {
         }
 
@@ -99,13 +99,13 @@ namespace g0at
         void object_string::reinit(std::wstring _data)
         {
             data = _data;
-            id = -1;
+            ids = -1;
         }
 
-        void object_string::reinit(std::wstring _data, int _id)
+        void object_string::reinit(std::wstring _data, int _ids)
         {
             data = _data;
-            id = _id;
+            ids = _ids;
         }
 
 
@@ -123,10 +123,10 @@ namespace g0at
         {
             assert(obj->get_type() == object_type::string);
             const object_string *str = static_cast<const object_string*>(obj);
-            if (id < 0 || str->id < 0)
+            if (ids < 0 || str->ids < 0)
                 return data < str->data;
             else
-                return id < str->id;
+                return ids < str->ids;
         }
 
         std::wstring object_string::to_string() const
