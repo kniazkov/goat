@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "expression_builder.h"
 #include "statement_builder.h"
 #include "lib/assert.h"
+#include "compiler/ast/parenthesized_expression.h"
 #include "compiler/ast/variable.h"
 #include "compiler/pt/variable.h"
 #include "compiler/ast/static_string.h"
@@ -666,6 +667,14 @@ namespace g0at
             assert(expr_false_visitor.has_expr());
             expr = new pt::ternary(ref->get_position(),
                 condition_visitor.get_expr(), expr_true_visitor.get_expr(), expr_false_visitor.get_expr());
+        }
+
+        void expression_builder::visit(ast::parenthesized_expression *ref)
+        {
+            expression_builder visitor;
+            ref->get_expression()->accept(&visitor);
+            assert(visitor.has_expr());
+            expr = visitor.get_expr();
         }
     };
 };

@@ -207,6 +207,11 @@ namespace g0at
             {
                 parse_switch_body(stmt);
             }
+
+            for (auto expr : data->parenthesized)
+            {
+                parse_parenthesized_expression(expr);
+            }
         }
 
         void parser::parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
@@ -547,6 +552,12 @@ namespace g0at
                 tok = next;
             }
             assert(raw->is_empty());
+        }
+
+        void parser::parse_parenthesized_expression(ast::parenthesized_expression *expr)
+        {
+            if (!expr->convert())
+                throw expected_an_expression(expr->get_position());
         }
     };
 };

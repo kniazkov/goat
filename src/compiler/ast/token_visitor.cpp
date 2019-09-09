@@ -629,5 +629,9 @@ namespace g0at
         void token_visitor::visit(ternary *ref)
         {
         }
+
+        void token_visitor::visit(parenthesized_expression *ref)
+        {
+        }
     }
 };

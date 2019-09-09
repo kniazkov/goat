@@ -101,6 +101,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "assignment_by_bitwise_or.h"
 #include "assignment_by_bitwise_xor.h"
 #include "ternary.h"
+#include "parenthesized_expression.h"
 
 namespace g0at
 {
@@ -1199,6 +1200,19 @@ namespace g0at
             dbg_output out_false(data);
             ref->get_expr_false()->accept(&out_false);
             link_child(out_false, L"expr if false");
+        }
+
+        void dbg_output::visit(parenthesized_expression *ref)
+        {
+            print(L"parenthesized expression");
+            print_token_list(ref->get_raw_list(), L"body (raw)");
+            auto expr = ref->get_expression();
+            if (expr)
+            {
+                dbg_output out_expr(data);
+                expr->accept(&out_expr);
+                link_child(out_expr, L"expr");
+            }
         }
     };
 };

@@ -65,6 +65,7 @@ namespace g0at
             lib::pointer<pattern> create_pattern_statement_break();
             lib::pointer<pattern> create_pattern_statement_continue();
             lib::pointer<pattern> create_pattern_ternary();
+            lib::pointer<pattern> create_pattern_parenthesized_expression();
 
             parser_data *data;
         };

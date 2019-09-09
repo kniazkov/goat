@@ -175,6 +175,7 @@ namespace g0at
         class caret_assign;
         class question_mark;
         class ternary;
+        class parenthesized_expression;
 
         class token_visitor
         {
@@ -330,6 +331,7 @@ namespace g0at
             virtual void visit(caret_assign *ref);
             virtual void visit(question_mark *ref);
             virtual void visit(ternary *ref);
+            virtual void visit(parenthesized_expression *ref);
          };
     };
 };

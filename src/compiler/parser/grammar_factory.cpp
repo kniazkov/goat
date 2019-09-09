@@ -45,6 +45,7 @@ namespace g0at
             gr->vector.push_back(create_pattern_operator_new());
             gr->vector.push_back(create_pattern_method_call());
             gr->vector.push_back(create_pattern_function_call());
+            gr->vector.push_back(create_pattern_parenthesized_expression());
             gr->vector.push_back(create_pattern_unary_suffix(&data->opers_incr_decr));
             gr->vector.push_back(create_pattern_unary_prefix(&data->opers_incr_decr));
             gr->vector.push_back(create_pattern_unary_prefix(&data->opers_plus_minus));

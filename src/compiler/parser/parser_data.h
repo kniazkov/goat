@@ -32,6 +32,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/operator_new.h"
 #include "compiler/ast/index_access.h"
 #include "compiler/ast/statement_switch.h"
+#include "compiler/ast/parenthesized_expression.h"
 #include <vector>
 
 namespace g0at
@@ -48,6 +49,7 @@ namespace g0at
             ast::token_2nd_list var_keywords;
             ast::token_2nd_list function_keywords;
             ast::token_2nd_list return_keywords;
+            ast::token_2nd_list pairs_of_round_brackets;
             ast::token_2nd_list pairs_of_curly_brackets;
             ast::token_2nd_list pairs_of_square_brackets;
             ast::token_2nd_list dots;
@@ -81,6 +83,7 @@ namespace g0at
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;
+            std::vector<ast::parenthesized_expression*> parenthesized;
             std::vector<ast::method_call*> method_calls;
             std::vector<ast::token_object*> objects;
             std::vector<ast::token_array*> arrays;

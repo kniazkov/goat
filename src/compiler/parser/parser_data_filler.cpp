@@ -158,7 +158,9 @@ namespace g0at
         void parser_data_filler::visit(ast::brackets_pair *ref)
         {
             auto symbol = ref->get_symbol();
-            if (symbol == L'{')
+            if (symbol == L'(')
+                data->pairs_of_round_brackets.add(ref);
+            else if (symbol == L'{')
                 data->pairs_of_curly_brackets.add(ref);
             else if (symbol == L'[')
                 data->pairs_of_square_brackets.add(ref);

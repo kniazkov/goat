@@ -196,6 +196,7 @@ namespace g0at
         class caret_assign;
         class question_mark;
         class ternary;
+        class parenthesized_expression;
 
         class token : public lib::ref_counter
         {
@@ -368,6 +369,7 @@ namespace g0at
             virtual caret_assign *to_caret_assign();
             virtual question_mark *to_question_mark();
             virtual ternary *to_ternary();
+            virtual parenthesized_expression *to_parenthesized_expression();
 
             lib::pointer<position> get_position() { return pos; }
 

@@ -862,5 +862,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        parenthesized_expression *token::to_parenthesized_expression()
+        {
+            return nullptr;
+        }
     }
 };

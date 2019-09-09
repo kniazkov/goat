@@ -200,6 +200,7 @@ namespace g0at
             void visit(caret_assign *ref) override;
             void visit(question_mark *ref) override;
             void visit(ternary *ref) override;
+            void visit(parenthesized_expression *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);
