@@ -478,17 +478,17 @@ namespace g0at
 
         void disasm::visit(_shl *ref)
         {
-            stream << L"bool";
+            stream << L"shl";
         }
 
         void disasm::visit(_shr *ref)
         {
-            stream << L"bool";
+            stream << L"shr";
         }
 
         void disasm::visit(_shrz *ref)
         {
-            stream << L"bool";
+            stream << L"shrz";
         }
 
         void disasm::visit(_leq *ref)

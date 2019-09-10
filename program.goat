@@ -1,6 +1,6 @@
 import "xml.goat";
 
-var child = new Xml.Element("child", [new Xml.Element("a", 1), new Xml.Element("b", 2)]); 
+var child = new Xml.Element("child", ["test"]); 
 var root = new Xml.Element("root", child);
 root.attrib["first"] = "test";
 root.attrib.second = 3;
