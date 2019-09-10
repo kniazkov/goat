@@ -178,6 +178,10 @@ namespace g0at
                         dst << L"&gt;"; break;
                     case L'&':
                         dst << L"&amp;"; break;
+                    case L'[':
+                        dst << L"&#91;"; break;
+                    case L']':
+                        dst << L"&#93;"; break;
                     default:
                         dst << c;
                 }

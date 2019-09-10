@@ -37,7 +37,8 @@ namespace g0at
         void symbol_builder::payload(pt::declare_variable *ref)
         {
             auto scope = ref->get_scope();
-            assert(scope != nullptr);
+            if (scope == nullptr)
+                return;
             for (int i = 0, count = ref->get_count(); i < count; i++)
             {
                 auto info = ref->get_variable(i);

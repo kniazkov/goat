@@ -37,80 +37,80 @@ var Xml =
 
         toString : $(indent)
         {
-            var buff = new StringBuilder();
+            var b = new StringBuilder();
             if (!indent)
-                this.buildSimpleString(buff);
+                this.buildSimpleString(b);
             else
-                this.buildIndentedString(buff, indent, 0);
-            return buff.data();
+                this.buildIndentedString(b, indent, 0);
+            return b.data();
         },
 
-        buildSimpleString : $(buff)
+        buildSimpleString : $(b)
         {
-            buff << '<' << tag;
+            b << '<' << tag;
             for (var name in attrib)
             {
                 if (attrib.contains(name))
                 {
-                    buff << ' ' << name << "=\"";
-                    addStringButEscapeEntities(buff, attrib[name]);
-                    buff << '\"';
+                    b << ' ' << name << "=\"";
+                    addStringButEscapeEntities(b, attrib[name]);
+                    b << '\"';
                 }
             }
             if (!data)
             {
-                buff << "/>";
+                b << "/>";
             }
             else if (data.instanceof(Array))
             {
                 var count = data.length();
                 if (count > 0)
                 {
-                    buff << '>';
+                    b << '>';
                     for (var i = 0; i < count; i++)
                     {
                         var item = data[i];
                         if (item.instanceof(Xml.Element))
-                            item.buildSimpleString(buff);
+                            item.buildSimpleString(b);
                         else
-                            addStringButEscapeEntities(buff, item);
+                            addStringButEscapeEntities(b, item);
                     }
-                    buff << "</" << tag << '>';
+                    b << "</" << tag << '>';
                 }
                 else
                 {
-                    buff << "/>";
+                    b << "/>";
                 }
             }
             else
             {
-                buff << '>';
+                b << '>';
                 if (data.instanceof(Xml.Element))
-                    data.buildSimpleString(buff);
+                    data.buildSimpleString(b);
                 else
-                    addStringButEscapeEntities(buff, data);
-                buff << "</" << tag << '>';
+                    addStringButEscapeEntities(b, data);
+                b << "</" << tag << '>';
             }
         },
 
-        buildIndentedString : $(buff, indent, level)
+        buildIndentedString : $(b, indent, level)
         {
             if (level)
-                addIndent(buff, indent, level);
-            buff << '<' << tag;
+                addIndent(b, indent, level);
+            b << '<' << tag;
             for (var name in attrib)
             {
                 if (attrib.contains(name))
                 {
-                    buff << ' ' << name << "=\"";
-                    addStringButEscapeEntities(buff, attrib[name]);
-                    buff << '\"';
+                    b << ' ' << name << "=\"";
+                    addStringButEscapeEntities(b, attrib[name]);
+                    b << '\"';
                 }
             }
             var data = this.data;
             if (!data)
             {
-                buff << "/>";
+                b << "/>";
                 return;
             }
             if (data.instanceof(Array))
@@ -118,77 +118,505 @@ var Xml =
                 var count = data.length();
                 if (!count)
                 {
-                    buff << "/>";
+                    b << "/>";
                     return;
                 }
                 if (count > 1)
                 {
-                    buff << '>';
+                    b << '>';
                     for (var i = 0; i < count; i++)
                     {
                         var item = data[i];
                         if (item.instanceof(Xml.Element))
                         {
-                            item.buildIndentedString(buff, indent, level + 1);
+                            item.buildIndentedString(b, indent, level + 1);
                         }
                         else
                         {
-                            addIndent(buff, indent, level + 1);
-                            addStringButEscapeEntities(buff, item);
+                            addIndent(b, indent, level + 1);
+                            addStringButEscapeEntities(b, item);
                         }
                     }
-                    addIndent(buff, indent, level);
-                    buff << "</" << tag << '>';
+                    addIndent(b, indent, level);
+                    b << "</" << tag << '>';
                     return;
                 }
                 data = data[0];
             }
-            buff << '>';
+            b << '>';
             if (data.instanceof(Xml.Element))
             {
-                data.buildIndentedString(buff, indent, level + 1);
-                addIndent(buff, indent, level);
+                data.buildIndentedString(b, indent, level + 1);
+                addIndent(b, indent, level);
             }
             else
             {
-                addStringButEscapeEntities(buff, data);
+                addStringButEscapeEntities(b, data);
             }
-            buff << "</" << tag << '>';
+            b << "</" << tag << '>';
         },
 
-        addIndent : $(buff, indent, level)
+        addIndent : $(b, indent, level)
         {
-            buff << '\n';
+            b << '\n';
             for (var i = 0; i < level; i++)
-                buff << indent;
+                b << indent;
         },
 
-        addStringButEscapeEntities : $(buff, str)
+        addStringButEscapeEntities : $(b, str)
         {
-            for (var ch in "" + str)
+            for (var c in "" + str)
             {
-                switch(ch)
+                switch(c)
                 {
                     case '<':
-                        buff << "&lt;";
+                        b << "&lt;";
                         break;
                     case '>':
-                        buff << "&gt;";
+                        b << "&gt;";
                         break;
                     case '&':
-                        buff << "&amp;";
+                        b << "&amp;";
                         break;
                     case '\"':
-                        buff << "&quot;";
+                        b << "&quot;";
                         break;
                     case '\'':
-                        buff << "&apos;";
+                        b << "&apos;";
                         break;
                     default:
-                        buff  << ch;
+                        b  << c;
                         break;
                 }
             }
         }
+    },
+
+    Token :
+    {
+        type : null,
+        index : null,
+        data : null,
+        
+        init : $(type, index, data)
+        {
+            this.type = type;
+            this.index = index;
+            this.data = data;
+        },
+        
+        OPEN_BRACKET : '<',
+        CLOSE_BRACKET : '>',
+        SLASH : '/',
+        IDENTIFIER : "IDENTIFIER",
+        TEXT : "TEXT",
+        STRING : "STRING",
+        ASSIGN : '='
+    },
+
+    Scanner :
+    {
+        data : "",
+        index : 0,
+        length : 0,
+        
+        init : $(data)
+        {
+            this.data = data;
+            this.index = 0;
+            this.length = data.length();
+        },
+        
+        get : $()
+        {
+            return index < length ? data[index] : null;
+        },
+        
+        next : $()
+        {
+            index++;
+            return index < length ? data[index] : null;            
+        },
+        
+        Mode :
+        {
+            TAG : 0,
+            DATA : 1,
+        },
+        
+        isSpace : $(c)
+        {
+            switch(c)
+            {
+                case ' ':
+                case '\n':
+                case '\r':
+                case '\t':
+                    return true;
+                default:
+                    return false;
+            }
+        },
+        
+        isSymbolOfIdentifier : $(c)
+        {
+            if (isSpace(c))
+            {
+                return false;
+            }
+            
+            switch(c)
+            {
+                case '!':
+                case '\"':
+                case '$':
+                case '%':
+                case '&':
+                case '\'':
+                case '(':
+                case ')':
+                case '*':
+                case '+':
+                case ',':
+                case '/':
+                case ';':
+                case '<':
+                case '>':
+                case '?':
+                case '@':
+                case '[':
+                case ']':
+                case '^':
+                case '{':
+                case '|':
+                case '}':
+                case '~':
+                case '=':
+                    return false;
+                default:
+                    return true;
+            }
+        },
+        
+        isBeginOfIdentifier : $(c)
+        {
+            return (!(false == isSymbolOfIdentifier(c) || (c >= '0' && c <= '9') || c == '.' || c == '-'));
+        },
+        
+        parseEntity : $()
+        {
+            var c = this.next();
+            var b = new StringBuilder();
+            do
+            {
+                if (c == ';')
+                    break;
+                if (c == null)
+                    throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
+                if (isSymbolOfIdentifier(c))
+                    b << c;
+                else
+                    throw new Xml.Error(Xml.Error.INVALID_CHARACTER, index);
+                c = this.next();
+            } while(true);
+            var entity = b.data();
+            switch(entity)
+            {
+                case "lt":
+                    return '<';
+                case "gt":
+                    return '>';
+                case "amp":
+                    return '&';
+                case "apos":
+                    return '\'';
+                case "quot":
+                    return '\"';
+                default:
+                    throw new Xml.Error(Xml.Error.UNKNOWN_ENTITY, index);
+            }
+        },
+        
+        getToken : $(mode)
+        {
+            var c = this.get();
+            
+            while(this.isSpace(c))
+                c = this.next();
+            
+            var i = index;
+            
+            switch(c)
+            {
+                case null:
+                    return null;                    
+                case '<':
+                    c = this.next();
+                    if (c == '!') // <![CDATA[ ?
+                    {
+                        i = index;
+                        c = this.next();
+                        var b = new StringBuilder();
+                        do
+                        {
+                            b << c;
+                            c = this.next();
+                        } while(c != '[' && c != null);
+                        if (c == null)
+                            throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
+                        if (b.data() != "[CDATA")
+                            return new Xml.Token(Xml.Token.EXPECTED_CDATA_SEQUENCE, i);
+                        i = index;
+                        b = new StringBuilder();
+                        while(true)
+                        {
+                            var c0 = this.next();
+                            if (c0 == null)
+                                throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
+                            else if (c0 != ']')
+                                b << c0;
+                            else
+                            {
+                                var c1 = this.next();
+                                if (c1 == null)
+                                    throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
+                                else if (c1 != ']')
+                                {
+                                    b << c0;
+                                    b << c1;
+                                }
+                                else
+                                {
+                                    var c2 = this.next();
+                                    if (c2 == null)
+                                        throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
+                                    else if (c2 != '>')
+                                    {
+                                        b << c0;
+                                        b << c1;
+                                        b << c2;
+                                    }
+                                    else
+                                    {
+                                        this.next();
+                                        return new Xml.Token(Xml.Token.TEXT, i, b.data());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return new Xml.Token(Xml.Token.OPEN_BRACKET, i);
+                    }
+                case '>':
+                    this.next();
+                    return new Xml.Token(Xml.Token.CLOSE_BRACKET, i);
+            }
+            
+            switch(mode)
+            {
+                case Xml.Scanner.Mode.TAG:
+                    if (c ==  '/')
+                    {
+                        this.next();
+                        return new Xml.Token(Xml.Token.SLASH, i);
+                    }
+                    if (c ==  '=')
+                    {
+                        this.next();
+                        return new Xml.Token(Xml.Token.ASSIGN, i);
+                    }
+                    if (this.isBeginOfIdentifier(c))
+                    {
+                        var b = new StringBuilder();
+                        do
+                        {
+                            b << c;
+                            c = this.next();
+                        } while(isSymbolOfIdentifier(c));
+                        return new Xml.Token(Xml.Token.IDENTIFIER, i, b.data());
+                    }
+                    if (c == '\"')
+                    {
+                        var b = new StringBuilder();
+                        c = this.next();
+                        while(c != '\"')
+                        {
+                            if (c == null)
+                                throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
+                            if (c == '&')
+                                b << this.parseEntity();
+                            else
+                                b << c;
+                            c = this.next();
+                        }
+                        this.next();
+                        return new Xml.Token(Xml.Token.STRING, i, b.data());
+                    }
+                    if (c == '\'')
+                    {
+                        var b = new StringBuilder();
+                        c = this.next();
+                        while(c != '\'')
+                        {
+                            if (c == null)
+                                throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
+                            if (c == '&')
+                                b << this.parseEntity();
+                            else
+                                b << c;
+                            c = this.next();
+                        }
+                        this.next();
+                        return new Xml.Token(Xml.Token.STRING, i, b.data());
+                    }
+                    break;
+                    
+                case Xml.Scanner.Mode.DATA:
+                    var b = new StringBuilder();
+                    do
+                    {
+                        if (c == '&')
+                            b << this.parseEntity();
+                        else
+                            b << c;
+                        c = this.next();
+                    } while(c != '<' && c != '>' && c != null);
+                    return new Xml.Token(Xml.Token.TEXT, i, b.data());
+            }
+            
+            throw new Xml.Error(Xml.Error.INVALID_CHARACTER, index);
+        }
+    },
+    
+    Error : Exception ->
+    {
+        type : null,
+        index : null,
+        
+        init : $(type, index)
+        {
+            this.type = type;
+            this.index = index;
+        },
+        
+        INVALID_TOKEN : "invalid token",
+        EXPECTED_TAG_NAME : "expected tag name",
+        UNEXPECTED_END : "unexpected end",
+        END_TAG_MISMATCH : "end tag does not match the start tag",
+        UNCLOSED_END_TAG : "end element was missing the character \'>\'",
+        MISSING_EQUALS : "missing \'=\' sign between attribute and attribute value",
+        MISSING_STRING : "a string literal was expected",
+        DUPLICATE_ATTRIBUTE: "duplicate attribute",
+        UNKNOWN_ENTITY: "unknown entity",
+        INVALID_CHARACTER: "invalid character",
+        EXPECTED_CDATA_SEQUENCE: "expected <![CDATA[ sequence"
     }
+    
+    /*
+    Parser : {
+        scan : null,
+        
+        init : $(scan) {
+            this.scan = scan;
+        },
+        
+        parseContent : $(elem) {
+            while(true) {
+                var tok = scan.token(Xml.Scanner.Mode.DATA);
+                
+                if (!tok) {
+                    if (elem.tag != null) {
+                        throw new Xml.Error(Xml.Error.UNEXPECTED_END, scan.index);
+                    }
+                    return;
+                }
+                else if (tok.type == Xml.Token.OPEN_BRACKET) {        // <
+                    var next = scan.token(Xml.Scanner.Mode.TAG); 
+                    if (next.type == Xml.Token.IDENTIFIER) {        // <tag
+                        elem.content.push(this.parseTag(next.data));
+                    }
+                    else if (next.type == Xml.Token.SLASH) {        // </
+                        var ident = scan.token(Xml.Scanner.Mode.TAG);
+                        if (!ident) {
+                            throw new Xml.Error(Xml.Error.EXPECTED_TAG_NAME, scan.index);
+                        }
+                        if (ident.type != Xml.Token.IDENTIFIER) {
+                            throw new Xml.Error(Xml.Error.EXPECTED_TAG_NAME, ident.index);
+                        }
+                        if (ident.data != elem.tag) {
+                            throw new Xml.Error(Xml.Error.END_TAG_MISMATCH, ident.index);
+                        }
+                        var bracket = scan.token(Xml.Scanner.Mode.TAG);
+                        if (!bracket) {
+                            throw new Xml.Error(Xml.Error.UNCLOSED_END_TAG, scan.index);
+                        }
+                        if (bracket.type != Xml.Token.CLOSE_BRACKET) {
+                            throw new Xml.Error(Xml.Error.UNCLOSED_END_TAG, bracket.index);
+                        }
+                        return;
+                    }
+                    else {
+                        throw new Xml.Error(Xml.Error.INVALID_TOKEN, next.index);
+                    }
+                }
+                else if (tok.type == Xml.Token.TEXT) {
+                    elem.content.push(tok.data);
+                }
+                else {
+                    throw new Xml.Error(Xml.Error.INVALID_TOKEN, tok.index);
+                }
+            }
+        },
+        
+        parseTag : $(name) {
+            var elem = new Xml.Element(name);
+            
+            while(true) {
+                var tok = scan.token(Xml.Scanner.Mode.TAG);
+                if (!tok) {
+                    throw new Xml.Error(Xml.Error.UNEXPECTED_END, scan.index);
+                }
+                if (tok.type == Xml.Token.CLOSE_BRACKET) {
+                    this.parseContent(elem);
+                    return elem;
+                }
+                else if (tok.type == Xml.Token.SLASH) {
+                    var bracket = scan.token(Xml.Scanner.Mode.TAG);
+                    if (!bracket) {
+                        throw new Xml.Error(Xml.Error.UNCLOSED_END_TAG, scan.index);
+                    }
+                    if (bracket.type != Xml.Token.CLOSE_BRACKET) {
+                        throw new Xml.Error(Xml.Error.UNCLOSED_END_TAG, bracket.index);
+                    }
+                    return elem;
+                }
+                else if (tok.type == Xml.Token.IDENTIFIER) {
+                    var oper = scan.token(Xml.Scanner.Mode.TAG);
+                    if (!oper) {
+                        throw new Xml.Error(Xml.Error.MISSING_EQUALS, scan.index);
+                    }
+                    if (oper.type != Xml.Token.ASSIGN) {
+                        throw new Xml.Error(Xml.Error.MISSING_EQUALS, oper.index);
+                    }
+                    var value = scan.token(Xml.Scanner.Mode.TAG);
+                    if (!value) {
+                        throw new Xml.Error(Xml.Error.MISSING_STRING, scan.index);
+                    }
+                    if (value.type != Xml.Token.STRING) {
+                        throw new Xml.Error(Xml.Error.MISSING_STRING, value.index);
+                    }
+                    if (defined(elem.attrib[tok.data])) {
+                        throw new Xml.Error(Xml.Error.DUPLICATE_ATTRIBUTE, tok.index);
+                    }
+                    elem.attrib[tok.data] = value.data;
+                }
+                else {
+                    throw new Xml.Error(Xml.Error.INVALID_TOKEN, tok.index);
+                }                
+            }
+        }
+    }
+    */
 };
