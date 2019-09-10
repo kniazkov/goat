@@ -1,7 +1,7 @@
 import "xml.goat";
 
-var child = new Xml.Element("child", ["test"]); 
+var child = new Xml.Element("child", ["t&est"]); 
 var root = new Xml.Element("root", child);
-root.attrib["first"] = "test";
+root.attrib["first"] = "tes\"t";
 root.attrib.second = 3;
 println(root.toString('\t'));

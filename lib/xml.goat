@@ -51,7 +51,11 @@ var Xml =
             for (var name in attrib)
             {
                 if (attrib.contains(name))
-                    buff << ' ' << name << "=\"" << attrib[name] << '\"';
+                {
+                    buff << ' ' << name << "=\"";
+                    addStringButEscapeEntities(buff, attrib[name]);
+                    buff << '\"';
+                }
             }
             if (!data)
             {
@@ -69,7 +73,7 @@ var Xml =
                         if (item.instanceof(Xml.Element))
                             item.buildSimpleString(buff);
                         else
-                            buff << "" + item;
+                            addStringButEscapeEntities(buff, item);
                     }
                     buff << "</" << tag << '>';
                 }
@@ -84,16 +88,9 @@ var Xml =
                 if (data.instanceof(Xml.Element))
                     data.buildSimpleString(buff);
                 else
-                    buff << "" + data;
+                    addStringButEscapeEntities(buff, data);
                 buff << "</" << tag << '>';
             }
-        },
-
-        addIndent : $(buff, indent, level)
-        {
-            buff << '\n';
-            for (var i = 0; i < level; i++)
-                buff << indent;
         },
 
         buildIndentedString : $(buff, indent, level)
@@ -104,7 +101,11 @@ var Xml =
             for (var name in attrib)
             {
                 if (attrib.contains(name))
-                    buff << ' ' << name << "=\"" << attrib[name] << '\"';
+                {
+                    buff << ' ' << name << "=\"";
+                    addStringButEscapeEntities(buff, attrib[name]);
+                    buff << '\"';
+                }
             }
             var data = this.data;
             if (!data)
@@ -133,7 +134,7 @@ var Xml =
                         else
                         {
                             addIndent(buff, indent, level + 1);
-                            buff << "" + item;
+                            addStringButEscapeEntities(buff, item);
                         }
                     }
                     addIndent(buff, indent, level);
@@ -150,9 +151,44 @@ var Xml =
             }
             else
             {
-                buff << "" + data;
+                addStringButEscapeEntities(buff, data);
             }
             buff << "</" << tag << '>';
+        },
+
+        addIndent : $(buff, indent, level)
+        {
+            buff << '\n';
+            for (var i = 0; i < level; i++)
+                buff << indent;
+        },
+
+        addStringButEscapeEntities : $(buff, str)
+        {
+            for (var ch in "" + str)
+            {
+                switch(ch)
+                {
+                    case '<':
+                        buff << "&lt;";
+                        break;
+                    case '>':
+                        buff << "&gt;";
+                        break;
+                    case '&':
+                        buff << "&amp;";
+                        break;
+                    case '\"':
+                        buff << "&quot;";
+                        break;
+                    case '\'':
+                        buff << "&apos;";
+                        break;
+                    default:
+                        buff  << ch;
+                        break;
+                }
+            }
         }
     }
 };
