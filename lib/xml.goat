@@ -37,12 +37,17 @@ var Xml =
 
         toString : $(indent)
         {
+            var buff = new StringBuilder();
             if (!indent)
-            {
-                var buff = new StringBuilder();
                 this.buildSimpleString(buff);
-                return buff.data();
-            }
+            else
+                this.buildIndentedString(buff, indent, 0);
+            return buff.data();
+        },
+
+        empty : $()
+        {
+            return (!data) || (data.instanceof(Array) && data.length() == 0);
         },
 
         buildSimpleString : $(buff)
@@ -53,28 +58,23 @@ var Xml =
                 if (attrib.contains(name))
                     buff << ' ' << name << "=\"" << attrib[name] << '\"';
             }
-            if (!data)
+            if (this.empty())
             {
                 buff << "/>";
             }
             else if (data.instanceof(Array))
             {
+                buff << '>';
                 var count = data.length();
-                if (!count)
-                    buff << "/>";
-                else
+                for (var i = 0; i < count; i++)
                 {
-                    buff << '>';
-                    for (var i = 0; i < count; i++)
-                    {
-                        var item = data[i];
-                        if (item.instanceof(Xml.Element))
-                            item.buildSimpleString(buff);
-                        else
-                            buff << "" + item;
-                    }
-                    buff << "</" << tag << '>';
+                    var item = data[i];
+                    if (item.instanceof(Xml.Element))
+                        item.buildSimpleString(buff);
+                    else
+                        buff << "" + item;
                 }
+                buff << "</" << tag << '>';
             }
             else
             {
@@ -83,6 +83,66 @@ var Xml =
                     data.buildSimpleString(buff);
                 else
                     buff << "" + data;
+                buff << "</" << tag << '>';
+            }
+        },
+
+        buildIndentedString : $(buff, indent, level)
+        {
+            if (level)
+            {
+                buff << '\n';
+                for (var i = 0; i < level; i++)
+                    buff << indent;
+            }
+            buff << '<' << tag;
+            for (var name in attrib)
+            {
+                if (attrib.contains(name))
+                    buff << ' ' << name << "=\"" << attrib[name] << '\"';
+            }
+            if (this.empty())
+            {
+                buff << "/>";
+            }
+            else if (data.instanceof(Array))
+            {
+                buff << '>';
+                var count = data.length();
+                for (var i = 0; i < count; i++)
+                {
+                    var item = data[i];
+                    if (item.instanceof(Xml.Element))
+                    {
+                        item.buildIndentedString(buff, indent, level + 1);
+                    }
+                    else
+                    {
+                        buff << '\n';
+                        for (var i = 0; i < level + 1; i++)
+                            buff << indent;
+                        buff << "" + item;
+                    }
+                }
+                buff << '\n';
+                for (var i = 0; i < level; i++)
+                    buff << indent;
+                buff << "</" << tag << '>';
+            }
+            else
+            {
+                buff << '>';
+                if (data.instanceof(Xml.Element))
+                {
+                    data.buildIndentedString(buff, indent, level + 1);
+                    buff << '\n';
+                    for (var i = 0; i < level; i++)
+                        buff << indent;
+                }
+                else
+                {
+                    buff << "" + data;
+                }
                 buff << "</" << tag << '>';
             }
         }
