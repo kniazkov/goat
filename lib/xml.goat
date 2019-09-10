@@ -22,6 +22,15 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 var Xml =
 {
+    parse : $(str)
+    {
+        var elem = new Xml.Element(null);
+        var scan = new Xml.Scanner("" + str);
+        var parser = new Xml.Parser(scan);
+        parser.parseData(elem);
+        return elem.data;
+    },
+
     Element :
     {
         tag : "",
@@ -341,7 +350,7 @@ var Xml =
         {
             var c = this.get();
             
-            while(this.isSpace(c))
+            while(isSpace(c))
                 c = this.next();
             
             var i = index;
@@ -512,111 +521,109 @@ var Xml =
         UNKNOWN_ENTITY: "unknown entity",
         INVALID_CHARACTER: "invalid character",
         EXPECTED_CDATA_SEQUENCE: "expected <![CDATA[ sequence"
-    }
+    },
     
-    /*
-    Parser : {
+    Parser :
+    {
         scan : null,
         
-        init : $(scan) {
+        init : $(scan)
+        {
             this.scan = scan;
         },
         
-        parseContent : $(elem) {
-            while(true) {
-                var tok = scan.token(Xml.Scanner.Mode.DATA);
+        parseData : $(elem)
+        {
+            while(true)
+            {
+                var tok = scan.getToken(Xml.Scanner.Mode.DATA);
                 
-                if (!tok) {
-                    if (elem.tag != null) {
+                if (!tok)
+                {
+                    if (elem.tag != null)
                         throw new Xml.Error(Xml.Error.UNEXPECTED_END, scan.index);
-                    }
                     return;
                 }
-                else if (tok.type == Xml.Token.OPEN_BRACKET) {        // <
-                    var next = scan.token(Xml.Scanner.Mode.TAG); 
-                    if (next.type == Xml.Token.IDENTIFIER) {        // <tag
-                        elem.content.push(this.parseTag(next.data));
-                    }
-                    else if (next.type == Xml.Token.SLASH) {        // </
-                        var ident = scan.token(Xml.Scanner.Mode.TAG);
-                        if (!ident) {
+                else if (tok.type == Xml.Token.OPEN_BRACKET)                // <
+                {
+                    var next = scan.getToken(Xml.Scanner.Mode.TAG); 
+                    if (next.type == Xml.Token.IDENTIFIER)                  // <tag
+                        elem.data.push(this.parseTag(next.data));
+                    else if (next.type == Xml.Token.SLASH)                  // </
+                    {
+                        var ident = scan.getToken(Xml.Scanner.Mode.TAG);
+                        if (!ident)
                             throw new Xml.Error(Xml.Error.EXPECTED_TAG_NAME, scan.index);
-                        }
-                        if (ident.type != Xml.Token.IDENTIFIER) {
+                        if (ident.type != Xml.Token.IDENTIFIER)
                             throw new Xml.Error(Xml.Error.EXPECTED_TAG_NAME, ident.index);
-                        }
-                        if (ident.data != elem.tag) {
+                        if (ident.data != elem.tag)
                             throw new Xml.Error(Xml.Error.END_TAG_MISMATCH, ident.index);
-                        }
-                        var bracket = scan.token(Xml.Scanner.Mode.TAG);
-                        if (!bracket) {
+                        var bracket = scan.getToken(Xml.Scanner.Mode.TAG);
+                        if (!bracket)
                             throw new Xml.Error(Xml.Error.UNCLOSED_END_TAG, scan.index);
-                        }
-                        if (bracket.type != Xml.Token.CLOSE_BRACKET) {
+                        if (bracket.type != Xml.Token.CLOSE_BRACKET)
                             throw new Xml.Error(Xml.Error.UNCLOSED_END_TAG, bracket.index);
-                        }
                         return;
                     }
-                    else {
+                    else
+                    {
                         throw new Xml.Error(Xml.Error.INVALID_TOKEN, next.index);
                     }
                 }
-                else if (tok.type == Xml.Token.TEXT) {
-                    elem.content.push(tok.data);
+                else if (tok.type == Xml.Token.TEXT)
+                {
+                    elem.data.push(tok.data);
                 }
-                else {
+                else
+                {
                     throw new Xml.Error(Xml.Error.INVALID_TOKEN, tok.index);
                 }
             }
         },
         
-        parseTag : $(name) {
+        parseTag : $(name)
+        {
             var elem = new Xml.Element(name);
-            
-            while(true) {
-                var tok = scan.token(Xml.Scanner.Mode.TAG);
-                if (!tok) {
+            while(true)
+            {
+                var tok = scan.getToken(Xml.Scanner.Mode.TAG);
+                if (!tok)
                     throw new Xml.Error(Xml.Error.UNEXPECTED_END, scan.index);
-                }
-                if (tok.type == Xml.Token.CLOSE_BRACKET) {
-                    this.parseContent(elem);
+                if (tok.type == Xml.Token.CLOSE_BRACKET)
+                {
+                    this.parseData(elem);
                     return elem;
                 }
-                else if (tok.type == Xml.Token.SLASH) {
-                    var bracket = scan.token(Xml.Scanner.Mode.TAG);
-                    if (!bracket) {
+                else if (tok.type == Xml.Token.SLASH)
+                {
+                    var bracket = scan.getToken(Xml.Scanner.Mode.TAG);
+                    if (!bracket)
                         throw new Xml.Error(Xml.Error.UNCLOSED_END_TAG, scan.index);
-                    }
-                    if (bracket.type != Xml.Token.CLOSE_BRACKET) {
+                    if (bracket.type != Xml.Token.CLOSE_BRACKET)
                         throw new Xml.Error(Xml.Error.UNCLOSED_END_TAG, bracket.index);
-                    }
                     return elem;
                 }
-                else if (tok.type == Xml.Token.IDENTIFIER) {
-                    var oper = scan.token(Xml.Scanner.Mode.TAG);
-                    if (!oper) {
+                else if (tok.type == Xml.Token.IDENTIFIER)
+                {
+                    var oper = scan.getToken(Xml.Scanner.Mode.TAG);
+                    if (!oper)
                         throw new Xml.Error(Xml.Error.MISSING_EQUALS, scan.index);
-                    }
-                    if (oper.type != Xml.Token.ASSIGN) {
+                    if (oper.type != Xml.Token.ASSIGN)
                         throw new Xml.Error(Xml.Error.MISSING_EQUALS, oper.index);
-                    }
-                    var value = scan.token(Xml.Scanner.Mode.TAG);
-                    if (!value) {
+                    var value = scan.getToken(Xml.Scanner.Mode.TAG);
+                    if (!value)
                         throw new Xml.Error(Xml.Error.MISSING_STRING, scan.index);
-                    }
-                    if (value.type != Xml.Token.STRING) {
+                    if (value.type != Xml.Token.STRING)
                         throw new Xml.Error(Xml.Error.MISSING_STRING, value.index);
-                    }
-                    if (defined(elem.attrib[tok.data])) {
+                    if (!!(elem.attrib[tok.data]))
                         throw new Xml.Error(Xml.Error.DUPLICATE_ATTRIBUTE, tok.index);
-                    }
                     elem.attrib[tok.data] = value.data;
                 }
-                else {
+                else
+                {
                     throw new Xml.Error(Xml.Error.INVALID_TOKEN, tok.index);
                 }                
             }
         }
     }
-    */
 };
