@@ -34,6 +34,7 @@ namespace g0at
         void _enter::exec(model::thread *thr)
         {
             model::context *ctx = thr->pool->create_context(thr->ctx);
+            ctx->this_ptr = thr->ctx->this_ptr;
             thr->set_context(ctx);
         }
     };
