@@ -32,7 +32,7 @@ namespace g0at
         class statement_for_in : public statement
         {
         public:
-            statement_for_in(lib::pointer<position> _pos, std::wstring _name, bool _declared, lib::pointer<expression> _expr, lib::pointer<statement> _body);
+            statement_for_in(fragment _frag, std::wstring _name, bool _declared, lib::pointer<expression> _expr, lib::pointer<statement> _body);
             void accept(node_visitor *visitor) override;
             statement_for_in *to_statement_for_in() override;
 

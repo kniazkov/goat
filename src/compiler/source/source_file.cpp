@@ -58,7 +58,7 @@ namespace g0at
         int column;
     };
 
-    source_file::source_file(std::string _file_name)
+    source_file::source_file(std::string _file_name, int _offset)
     {
         std::string temp;
         std::ifstream stream(_file_name);
@@ -77,6 +77,8 @@ namespace g0at
         max_index = (int)data.size();
         row  = 1;
         column = 1;
+        cached_position_index = -1;
+        offset = _offset;
     }
 
     wchar_t source_file::get_char()
@@ -110,6 +112,16 @@ namespace g0at
 
     lib::pointer<position> source_file::get_position()
     {
-        return new source_file_position(file_name, index, row, column);
+        if (index == cached_position_index)
+            return cached_position;
+
+        cached_position_index = index;
+        cached_position = new source_file_position(file_name, index + offset, row, column);
+        return cached_position;
+    }
+
+    std::wstring source_file::get_data()
+    {
+        return data;
     }
 };

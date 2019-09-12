@@ -32,7 +32,7 @@ namespace g0at
         class integer : public expression
         {
         public:
-            integer(lib::pointer<position> _pos, int64_t _value);
+            integer(fragment _frag, int64_t _value);
             void accept(node_visitor *visitor) override;
             integer *to_integer() override;
 

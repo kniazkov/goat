@@ -38,7 +38,8 @@ namespace g0at
             assert((_kw->to_keyword_function() != nullptr && _type == function_type::function) || (_kw->to_keyword_thread() != nullptr && _type == function_type::thread));
             assert(_args->get_symbol() == L'(');
             assert(_body->get_symbol() == L'{');
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _body->get_fragment().end;
             args_raw.swap(_args->get_raw_list());
             raw.swap(_body->get_raw_list());
             type = _type;

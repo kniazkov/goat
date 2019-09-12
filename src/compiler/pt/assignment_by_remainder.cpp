@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        assignment_by_remainder::assignment_by_remainder(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right)
-            : binary(_pos, _left, _right)
+        assignment_by_remainder::assignment_by_remainder(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right)
+            : binary(_frag, _left, _right)
         {
         }
 

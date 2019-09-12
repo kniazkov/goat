@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        value_undefined::value_undefined(lib::pointer<position> _pos)
-            : expression(_pos)
+        value_undefined::value_undefined(fragment _frag)
+            : expression(_frag)
         {
         }
 

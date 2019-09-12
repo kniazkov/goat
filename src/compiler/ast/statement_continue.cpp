@@ -28,7 +28,7 @@ namespace g0at
     {
         statement_continue::statement_continue(keyword_continue *_kw)
         {
-            pos = _kw->get_position();
+            frag = _kw->get_fragment();
         }
 
         void statement_continue::accept(token_visitor *visitor)

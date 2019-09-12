@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        operator_bool::operator_bool(lib::pointer<position> _pos, lib::pointer<expression> _right)
-            : unary_prefix(_pos, _right)
+        operator_bool::operator_bool(fragment _frag, lib::pointer<expression> _right)
+            : unary_prefix(_frag, _right)
         {
         }
 

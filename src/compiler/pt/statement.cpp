@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        statement::statement(lib::pointer<position> _pos)
-            : node(_pos)
+        statement::statement(fragment _frag)
+            : node(_frag)
         {
         }
 

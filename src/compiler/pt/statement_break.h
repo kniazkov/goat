@@ -31,7 +31,7 @@ namespace g0at
         class statement_break : public statement
         {
         public:
-            statement_break(lib::pointer<position> _pos);
+            statement_break(fragment _frag);
             void accept(node_visitor *visitor) override;
             statement_break *to_statement_break() override;
         };

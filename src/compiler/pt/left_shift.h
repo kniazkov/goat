@@ -31,7 +31,7 @@ namespace g0at
         class left_shift : public binary
         {
         public:
-            left_shift(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            left_shift(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             left_shift *to_left_shift() override;
         };

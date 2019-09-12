@@ -30,7 +30,8 @@ namespace g0at
         operator_new::operator_new(keyword_new *_kw, lib::pointer<expression> _proto)
         {
             proto = _proto;
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _proto->get_fragment().end;
         }
 
         operator_new::operator_new(keyword_new *_kw, lib::pointer<expression> _proto,  brackets_pair *_args)
@@ -38,7 +39,8 @@ namespace g0at
             assert(_args->get_symbol() == L'(');
             proto = _proto;
             raw.swap(_args->get_raw_list());
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _args->get_fragment().end;
         }
 
         void operator_new::accept(token_visitor *visitor)

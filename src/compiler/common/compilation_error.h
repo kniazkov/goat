@@ -32,6 +32,11 @@ namespace g0at
     class compilation_error : public lib::exception
     {
     public:
-        compilation_error(lib::pointer<position> pos, std::wstring message);
+        compilation_error(lib::pointer<position> _pos, std::wstring _message);
+
+        lib::pointer<position> get_position() { return pos; }
+
+    protected:
+        lib::pointer<position> pos;
     };
 };

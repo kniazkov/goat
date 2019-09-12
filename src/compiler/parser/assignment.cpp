@@ -58,18 +58,18 @@ namespace g0at
                 assert(oper != nullptr);
                 
                 if (!oper->prev)
-                    throw invald_lvalue_expression(oper->get_position());
+                    throw invald_lvalue_expression(oper->get_fragment().begin);
 
                 ast::left_expression *left = oper->prev->to_left_expression();
                 if (!left)
-                    throw invald_lvalue_expression(oper->get_position());
+                    throw invald_lvalue_expression(oper->get_fragment().begin);
 
                 if (!oper->next)
-                    throw expected_an_expression_after_operator(oper->get_position());
+                    throw expected_an_expression_after_operator(oper->get_fragment().end);
 
                 ast::expression *right = oper->next->to_expression();
                 if (!right)
-                    throw expected_an_expression_after_operator(oper->get_position());
+                    throw expected_an_expression_after_operator(oper->get_fragment().end);
 
                 lib::pointer<ast::token> bin_op = oper->create_binary_operation(left, right);
                 left->replace(right, bin_op);

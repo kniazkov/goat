@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        value_false::value_false(lib::pointer<position> _pos)
-            : expression(_pos)
+        value_false::value_false(fragment _frag)
+            : expression(_frag)
         {
         }
 

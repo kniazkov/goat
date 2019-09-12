@@ -30,7 +30,8 @@ namespace g0at
         {
             left = _left;
             right = _right->get_name();
-            pos = _right->get_position();
+            frag.begin = _left->get_fragment().begin;
+            frag.end = _right->get_fragment().end;
         }
 
         void property::accept(token_visitor *visitor)

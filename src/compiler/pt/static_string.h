@@ -32,7 +32,7 @@ namespace g0at
         class static_string : public expression
         {
         public:
-            static_string(lib::pointer<position> _pos, std::wstring _text);
+            static_string(fragment _frag, std::wstring _text);
             void accept(node_visitor *visitor) override;
             static_string *to_static_string() override;
 

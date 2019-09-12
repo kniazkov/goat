@@ -51,14 +51,14 @@ namespace g0at
                 assert(dot != nullptr);
 
                 if (!dot->prev)
-                    throw expected_an_expression_before_dot(dot->get_position());
+                    throw expected_an_expression_before_dot(dot->get_fragment().begin);
 
                 lib::pointer<ast::expression> left = dot->prev->to_expression();
                 if (!left)
-                    throw expected_an_expression_before_dot(dot->get_position());
+                    throw expected_an_expression_before_dot(dot->get_fragment().begin);
 
                 if (!dot->next)
-                    throw expected_an_identifier_after_dot(dot->get_position());
+                    throw expected_an_identifier_after_dot(dot->get_fragment().end);
 
                 ast::index_access *index_access = dot->next->to_index_access();
                 if (index_access)
@@ -70,7 +70,7 @@ namespace g0at
                     */
                     ast::identifier *ident = index_access->get_expression()->to_identifier();
                     if (!ident)
-                        throw expected_an_identifier_after_dot(dot->get_position());
+                        throw expected_an_identifier_after_dot(dot->get_fragment().end);
                     lib::pointer<ast::expression> prop = new ast::property(left, ident);
                     left->remove();
                     left->remove_2nd();
@@ -82,7 +82,7 @@ namespace g0at
                 {
                     ast::identifier *right = dot->next->to_identifier();
                     if (!right)
-                        throw expected_an_identifier_after_dot(dot->get_position());
+                        throw expected_an_identifier_after_dot(dot->get_fragment().end);
 
                     lib::pointer<ast::token> prop = new ast::property(left, right);
                     left->replace(dot->next.get(), prop);

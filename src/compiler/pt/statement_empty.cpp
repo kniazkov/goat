@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        statement_empty::statement_empty(lib::pointer<position> _pos)
-            : statement(_pos)
+        statement_empty::statement_empty(fragment _frag)
+            : statement(_frag)
         {
         }
 

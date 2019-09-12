@@ -31,7 +31,7 @@ namespace g0at
         class expression : public node
         {
         public:
-            expression(lib::pointer<position> _pos);
+            expression(fragment _frag);
             expression *to_expression() override;
         
             type* ret_type;

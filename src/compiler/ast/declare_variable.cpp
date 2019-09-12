@@ -28,7 +28,7 @@ namespace g0at
     {
         declare_variable::declare_variable(keyword_var *kw)
         {
-            pos = kw->get_position();
+            frag = kw->get_fragment();
         }
 
         void declare_variable::accept(token_visitor *visitor)
@@ -39,6 +39,13 @@ namespace g0at
         declare_variable *declare_variable::to_declare_variable()
         {
             return this;
+        }
+
+        void declare_variable::add_variable(variable_info &item)
+        {
+            items.push_back(item);
+            if (item.init_val)
+                frag.end = item.init_val->get_fragment().end;
         }
     };
 };

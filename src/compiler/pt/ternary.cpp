@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        ternary::ternary(lib::pointer<position> _pos, lib::pointer<expression> _condition, lib::pointer<expression> _expr_true, lib::pointer<expression> _expr_false)
-            : expression(_pos), condition(_condition), expr_true(_expr_true), expr_false(_expr_false)
+        ternary::ternary(fragment _frag, lib::pointer<expression> _condition, lib::pointer<expression> _expr_true, lib::pointer<expression> _expr_false)
+            : expression(_frag), condition(_condition), expr_true(_expr_true), expr_false(_expr_false)
         {
         }
 

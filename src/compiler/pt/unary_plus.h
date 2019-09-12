@@ -31,7 +31,7 @@ namespace g0at
         class unary_plus : public unary_prefix
         {
         public:
-            unary_plus(lib::pointer<position> _pos, lib::pointer<expression> _right);
+            unary_plus(fragment _frag, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             unary_plus *to_unary_plus() override;
         };

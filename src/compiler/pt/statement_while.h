@@ -32,7 +32,7 @@ namespace g0at
         class statement_while : public statement
         {
         public:
-            statement_while(lib::pointer<position> _pos, lib::pointer<expression> _expr, lib::pointer<statement> _stmt);
+            statement_while(fragment _frag, lib::pointer<expression> _expr, lib::pointer<statement> _stmt);
             void accept(node_visitor *visitor) override;
             statement_while *to_statement_while() override;
 

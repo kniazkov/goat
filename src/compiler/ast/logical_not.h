@@ -31,7 +31,7 @@ namespace g0at
         class logical_not : public unary_prefix
         {
         public:
-            logical_not(lib::pointer<expression> _right);
+            logical_not(lib::pointer<expression> _right, token_operator *_oper);
             void accept(token_visitor *visitor) override;
             logical_not *to_logical_not() override;
         };

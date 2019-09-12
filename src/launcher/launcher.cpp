@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/new.h"
 #include "lib/utils.h"
 #include "global/global.h"
+#include "compiler/common/compilation_error.h"
 #include "compiler/source/source_string.h"
 #include "compiler/source/source_file.h"
 #include "compiler/scanner/scanner.h"
@@ -140,6 +141,7 @@ namespace g0at
 
         if (opt.prog_name == nullptr)
         {
+            all_source_data listing;
             model::name_cache name_cache;
             std::stringstream stream;
             bool multiline = false;
@@ -173,11 +175,12 @@ namespace g0at
                     stream << "print(" << program.substr(1, len) << ");";
                     program = stream.str();
                 }
-                source_string src(global::char_encoder->decode(program));
+                source_string src(global::char_encoder->decode(program), listing.get_last_offset());
+                listing.add_data(src.get_data());
                 try
                 {
                     scanner scan(&src);
-                    auto tok_root = parser::parser::parse(&scan, false, "shell", opt.lib_path);
+                    auto tok_root = parser::parser::parse(&scan, false, "shell", opt.lib_path, nullptr);
                     auto node_root = analyzer::analyzer::analyze(tok_root);
                     tok_root.reset();
                     auto code = codegen::generator::generate(&name_cache, node_root);
@@ -236,49 +239,61 @@ namespace g0at
         }
         else
         {
-            source_file src(opt.prog_name);
-            scanner scan(&src);
-            auto tok_root = parser::parser::parse(&scan, opt.dump_abstract_syntax_tree, opt.prog_name, opt.lib_path);
-            if (opt.dump_abstract_syntax_tree)
+            all_source_data listing;
+            try
             {
-                lib::dump_file(opt.prog_name, "tokens.txt", ast::dbg_output::to_string(tok_root.get()));
+                source_file src(opt.prog_name, 0);
+                listing.add_data(src.get_data());
+                scanner scan(&src);
+                auto tok_root = parser::parser::parse(&scan, opt.dump_abstract_syntax_tree, opt.prog_name, opt.lib_path, &listing);
+                if (opt.dump_abstract_syntax_tree)
+                {
+                    lib::dump_file(opt.prog_name, "tokens.txt", ast::dbg_output::to_string(tok_root.get()));
+                }
+                auto node_root = analyzer::analyzer::analyze(tok_root);
+                tok_root.reset();
+                if (opt.dump_parse_tree)
+                {
+                    lib::dump_file(opt.prog_name, "ptree.txt", pt::dbg_output::to_string(node_root.get()));
+                }
+                model::name_cache name_cache;
+                auto code = codegen::generator::generate(&name_cache, node_root);
+                node_root.reset();
+                std::vector<uint8_t> binary;
+                code::serializer::serialize(code, binary, !opt.do_not_compress);
+                code.reset();
+                auto code_2 = code::deserializer::deserialize(binary);
+                if (opt.dump_assembler_code)
+                {
+                    lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code_2, true));
+                }
+                if (!opt.compile)
+                {
+                    vm::vm vm(code_2);
+                    env = new vm::environment(gct, code_2->get_identifiers_list());
+                    ret_val = vm.run(env.get());
+                }
+                else
+                {
+                    char *full_file_name = lib::file_name_postfix(opt.prog_name, "bin");
+                    std::ofstream bin_file(full_file_name);
+                    bin_file.write((const char*)(&binary[0]), binary.size());
+                    bin_file.close();
+                    delete full_file_name;
+                }
+                if (opt.dump_memory_usage_report)
+                {
+                    dump_memory_usage_report(opt.prog_name, env.get());
+                }
+                return ret_val;
             }
-            auto node_root = analyzer::analyzer::analyze(tok_root);
-            tok_root.reset();
-            if (opt.dump_parse_tree)
+            catch (compilation_error &c_err)
             {
-                lib::dump_file(opt.prog_name, "ptree.txt", pt::dbg_output::to_string(node_root.get()));
+                int index = c_err.get_position()->get_index();
+                std::wstring frag = listing.get_fragment_by_index(index);
+                std::cerr << global::char_encoder->encode(frag) << std::endl << c_err.what() << std::endl;
+                return -1;
             }
-            model::name_cache name_cache;
-            auto code = codegen::generator::generate(&name_cache, node_root);
-            node_root.reset();
-            std::vector<uint8_t> binary;
-            code::serializer::serialize(code, binary, !opt.do_not_compress);
-            code.reset();
-            auto code_2 = code::deserializer::deserialize(binary);
-            if (opt.dump_assembler_code)
-            {
-                lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code_2, true));
-            }
-            if (!opt.compile)
-            {
-                vm::vm vm(code_2);
-                env = new vm::environment(gct, code_2->get_identifiers_list());
-                ret_val = vm.run(env.get());
-            }
-            else
-            {
-                char *full_file_name = lib::file_name_postfix(opt.prog_name, "bin");
-                std::ofstream bin_file(full_file_name);
-                bin_file.write((const char*)(&binary[0]), binary.size());
-                bin_file.close();
-                delete full_file_name;
-            }
-            if (opt.dump_memory_usage_report)
-            {
-                dump_memory_usage_report(opt.prog_name, env.get());
-            }
-            return ret_val;
         }
     }
 };

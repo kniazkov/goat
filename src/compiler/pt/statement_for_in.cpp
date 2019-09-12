@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        statement_for_in::statement_for_in(lib::pointer<position> _pos, std::wstring _name, bool _declared, lib::pointer<expression> _expr, lib::pointer<statement> _body)
-            : statement(_pos), name(_name), declared(_declared), expr(_expr), body(_body)
+        statement_for_in::statement_for_in(fragment _frag, std::wstring _name, bool _declared, lib::pointer<expression> _expr, lib::pointer<statement> _body)
+            : statement(_frag), name(_name), declared(_declared), expr(_expr), body(_body)
         {
         }
 

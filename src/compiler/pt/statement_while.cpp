@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        statement_while::statement_while(lib::pointer<position> _pos, lib::pointer<expression> _expr, lib::pointer<statement> _stmt)
-            : statement(_pos), expr(_expr), stmt(_stmt)
+        statement_while::statement_while(fragment _frag, lib::pointer<expression> _expr, lib::pointer<statement> _stmt)
+            : statement(_frag), expr(_expr), stmt(_stmt)
         {
         }
 

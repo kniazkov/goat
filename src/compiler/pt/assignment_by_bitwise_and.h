@@ -31,7 +31,7 @@ namespace g0at
         class assignment_by_bitwise_and : public binary
         {
         public:
-            assignment_by_bitwise_and(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            assignment_by_bitwise_and(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             assignment_by_bitwise_and *to_assignment_by_bitwise_and() override;
         };

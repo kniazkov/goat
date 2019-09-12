@@ -93,7 +93,7 @@ namespace g0at
                 return false;
 
             error:
-                throw unable_to_parse_token_sequence(body->get_position());
+                throw unable_to_parse_token_sequence(body->get_fragment().begin);
 
             okay:
                 lib::pointer<ast::statement_block> obj  = new ast::statement_block(body);

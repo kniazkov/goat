@@ -40,7 +40,7 @@ namespace g0at
 
         lib::pointer<token> tilde::create_unary_prefix_operation(lib::pointer<expression> right)
         {
-            return new bitwise_not(right);
+            return new bitwise_not(right, this);
         }
     };
 };

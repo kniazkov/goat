@@ -29,7 +29,8 @@ namespace g0at
         statement_throw::statement_throw(keyword_throw *_kw, lib::pointer<expression> _expr)
             : expr(_expr)
         {
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _expr != nullptr ? _expr->get_fragment().end : _kw->get_fragment().end;
         }
 
         void statement_throw::accept(token_visitor *visitor)

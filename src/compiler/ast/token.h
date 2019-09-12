@@ -26,7 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "token_visitor.h"
 #include "token_list.h"
 #include "token_2nd_list.h"
-#include "compiler/source/position.h"
+#include "compiler/source/fragment.h"
 #include "lib/ref_counter.h"
 #include "lib/pointer.h"
 
@@ -371,7 +371,7 @@ namespace g0at
             virtual ternary *to_ternary();
             virtual parenthesized_expression *to_parenthesized_expression();
 
-            lib::pointer<position> get_position() { return pos; }
+            fragment get_fragment() { return frag; }
 
             token_list *list;
             token *prev;
@@ -382,7 +382,7 @@ namespace g0at
             token *next_2;
         
         protected:
-            lib::pointer<position> pos;
+            fragment frag;
         };
     };
 };

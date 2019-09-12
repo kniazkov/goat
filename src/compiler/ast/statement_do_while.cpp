@@ -29,7 +29,8 @@ namespace g0at
         statement_do_while::statement_do_while(keyword_do *_kw, lib::pointer<expression> _expr, lib::pointer<statement> _stmt)
             : expr(_expr), stmt(_stmt)
         {
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _stmt->get_fragment().end;
         }
 
         void statement_do_while::accept(token_visitor *visitor)

@@ -32,7 +32,7 @@ namespace g0at
         class index_access : public expression
         {
         public:
-            index_access(lib::pointer<position> _pos, lib::pointer<expression> _object);
+            index_access(fragment _frag, lib::pointer<expression> _object);
             void accept(node_visitor *visitor) override;
             index_access *to_index_access() override;
 

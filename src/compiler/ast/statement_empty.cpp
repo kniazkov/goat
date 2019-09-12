@@ -28,7 +28,7 @@ namespace g0at
     {
         statement_empty::statement_empty(semicolon *token)
         {
-            pos = token->get_position();
+            frag = token->get_fragment();
         }
 
         void statement_empty::accept(token_visitor *visitor)

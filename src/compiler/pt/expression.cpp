@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        expression::expression(lib::pointer<position> _pos)
-            : node(_pos), ret_type(nullptr)
+        expression::expression(fragment _frag)
+            : node(_frag), ret_type(nullptr)
         {
         }
 

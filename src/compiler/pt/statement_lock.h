@@ -31,7 +31,7 @@ namespace g0at
         class statement_lock : public statement
         {
         public:
-            statement_lock(lib::pointer<position> _pos, lib::pointer<statement> _stmt);
+            statement_lock(fragment _frag, lib::pointer<statement> _stmt);
             void accept(node_visitor *visitor) override;
             statement_lock *to_statement_lock() override;
 

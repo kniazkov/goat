@@ -62,7 +62,7 @@ namespace g0at
         class statement_switch : public statement
         {
         public:
-            statement_switch(lib::pointer<position> _pos, lib::pointer<expression> _expr);
+            statement_switch(fragment _frag, lib::pointer<expression> _expr);
             void accept(node_visitor *visitor) override;
             statement_switch *to_statement_switch() override;
             void set_default_block(lib::pointer<default_block> block);

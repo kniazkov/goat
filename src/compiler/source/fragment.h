@@ -22,18 +22,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "unary_prefix.h"
+#include "lib/pointer.h"
+#include "position.h"
 
 namespace g0at
 {
-    namespace ast
+    class fragment
     {
-        class prefix_increment : public unary_prefix
-        {
-        public:
-            prefix_increment(lib::pointer<expression> _right, token_operator *_oper);
-            void accept(token_visitor *visitor) override;
-            prefix_increment *to_prefix_increment() override;
-        };
+    public:
+        lib::pointer<position> begin;
+        lib::pointer<position> end;
     };
 };

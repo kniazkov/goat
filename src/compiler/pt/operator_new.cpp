@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        operator_new::operator_new(lib::pointer<position> _pos, lib::pointer<expression> _proto)
-            : expression(_pos), proto(_proto)
+        operator_new::operator_new(fragment _frag, lib::pointer<expression> _proto)
+            : expression(_frag), proto(_proto)
         {
         }
 

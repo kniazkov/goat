@@ -32,7 +32,7 @@ namespace g0at
         class unary_suffix : public expression, public nonterminal
         {
         public:
-            unary_suffix(lib::pointer<expression> _left);
+            unary_suffix(lib::pointer<expression> _left, token_operator *_oper);
             unary_suffix *to_unary_suffix() override;
 
             lib::pointer<expression> get_left() { return left; }

@@ -29,13 +29,15 @@ namespace g0at
         statement_if::statement_if(keyword_if *_kw, lib::pointer<expression> _expr, lib::pointer<statement> _stmt_if)
             : expr(_expr), stmt_if(_stmt_if), stmt_else(nullptr)
         {
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _stmt_if->get_fragment().end;
         }
 
         statement_if::statement_if(keyword_if *_kw, lib::pointer<expression> _expr, lib::pointer<statement> _stmt_if, lib::pointer<statement> _stmt_else)
             : expr(_expr), stmt_if(_stmt_if), stmt_else(_stmt_else)
         {
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _stmt_else->get_fragment().end;
         }
 
         void statement_if::accept(token_visitor *visitor)

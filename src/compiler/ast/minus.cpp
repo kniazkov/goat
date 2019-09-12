@@ -45,7 +45,7 @@ namespace g0at
 
         lib::pointer<token> minus::create_unary_prefix_operation(lib::pointer<expression> right)
         {
-            return new negation(right);
+            return new negation(right, this);
         }
     };
 };

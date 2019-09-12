@@ -40,7 +40,7 @@ namespace g0at
         class declare_variable : public statement
         {
         public:
-            declare_variable(lib::pointer<position> _pos);
+            declare_variable(fragment _frag);
             void accept(node_visitor *visitor) override;
             declare_variable *to_declare_variable() override;
 

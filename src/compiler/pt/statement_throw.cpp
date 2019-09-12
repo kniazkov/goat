@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        statement_throw::statement_throw(lib::pointer<position> _pos, lib::pointer<expression> _expr)
-            : statement(_pos), expr(_expr)
+        statement_throw::statement_throw(fragment _frag, lib::pointer<expression> _expr)
+            : statement(_frag), expr(_expr)
         {
         }
 

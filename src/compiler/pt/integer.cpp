@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        integer::integer(lib::pointer<position> _pos, int64_t _value)
-            : expression(_pos), value(_value)
+        integer::integer(fragment _frag, int64_t _value)
+            : expression(_frag), value(_value)
         {
         }
 

@@ -31,7 +31,7 @@ namespace g0at
         class operator_bool : public unary_prefix
         {
         public:
-            operator_bool(lib::pointer<position> _pos, lib::pointer<expression> _right);
+            operator_bool(fragment _frag, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             operator_bool *to_operator_bool() override;
         };

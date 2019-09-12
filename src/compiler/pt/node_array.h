@@ -32,7 +32,7 @@ namespace g0at
         class node_array : public expression
         {
         public:
-            node_array(lib::pointer<position> _pos);
+            node_array(fragment _frag);
             void accept(node_visitor *visitor) override;
             node_array *to_node_array() override;
 

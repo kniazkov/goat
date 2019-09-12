@@ -127,10 +127,10 @@ namespace g0at
             delete data;
         }
 
-        lib::pointer<ast::root> parser::parse(scanner *scan, bool debug, const char *prog_name, std::vector<std::string> &lib_path)
+        lib::pointer<ast::root> parser::parse(scanner *scan, bool debug, const char *prog_name, std::vector<std::string> &lib_path, all_source_data *listing)
         {
             parser pobj;
-            pobj.create_root(scan, lib_path);
+            pobj.create_root(scan, lib_path, listing);
             try
             {
                 pobj.parse();
@@ -144,7 +144,7 @@ namespace g0at
             return pobj.get_root();
         }
 
-        void parser::create_root(scanner *scan, std::vector<std::string> &lib_path)
+        void parser::create_root(scanner *scan, std::vector<std::string> &lib_path, all_source_data *listing)
         {
             root = new ast::root();
             delete data;
@@ -152,7 +152,7 @@ namespace g0at
             data->functions.push_back(root.get());
             parser_data_filler data_filler(data);
             std::set<std::string> imported;
-            parse_brackets_and_fill_data(scan, root.cast<ast::token_with_list>(), &data_filler, L'\0', imported, lib_path);
+            parse_brackets_and_fill_data(scan, root.cast<ast::token_with_list>(), &data_filler, L'\0', imported, lib_path, listing);
         }
 
         void parser::parse()
@@ -214,9 +214,9 @@ namespace g0at
             }
         }
 
-        void parser::parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
+        lib::pointer<position> parser::parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
             parser_data_filler *data_filler, wchar_t open_bracket, std::set<std::string> &imported,
-            std::vector<std::string> &lib_path)
+            std::vector<std::string> &lib_path, all_source_data *listing)
         {
             auto *tok_list = dst->get_raw_list();
             while(true)
@@ -225,7 +225,7 @@ namespace g0at
                 if (!tok)
                 {
                     assert(open_bracket == L'\0'); // TODO: exception
-                    return;
+                    return nullptr;
                 }
 
                 ast::bracket *bracket = tok->to_bracket();
@@ -234,15 +234,16 @@ namespace g0at
                     if (bracket->is_closed())
                     {
                         assert(bracket->get_inverse_symbol() == open_bracket); // TODO: exception
-                        return;
+                        return bracket->get_fragment().end;
                     }
                     else
                     {
                         lib::pointer<ast::brackets_pair> bracket_expr = new ast::brackets_pair(bracket);
                         tok_list->add(bracket_expr.cast<ast::token>());
                         std::set<std::string> imported2;
-                        parse_brackets_and_fill_data(scan, bracket_expr.cast<ast::token_with_list>(), data_filler,
-                            bracket->get_symbol(), imported2, lib_path);
+                        lib::pointer<position> end_pos = parse_brackets_and_fill_data(scan, bracket_expr.cast<ast::token_with_list>(), data_filler,
+                            bracket->get_symbol(), imported2, lib_path, listing);
+                        bracket_expr->set_end_position(end_pos);
                         bracket_expr->accept(data_filler);
                     }
                 }
@@ -250,23 +251,23 @@ namespace g0at
                 {
                     auto tok_file_name = scan->get_token();
                     if (!tok_file_name)
-                        throw expected_a_file_name(tok->get_position());
+                        throw expected_a_file_name(tok->get_fragment().end);
                     auto tok_file_name_string = tok_file_name->to_static_string();
                     if (!tok_file_name_string)
-                        throw expected_a_file_name(tok->get_position());
+                        throw expected_a_file_name(tok->get_fragment().end);
 
                     auto semicolon = scan->get_token();
                     if (!semicolon || !semicolon->to_semicolon())
-                        throw the_next_token_must_be_a_semicolon(tok_file_name->get_position());
+                        throw the_next_token_must_be_a_semicolon(tok_file_name->get_fragment().end);
 
                     std::wstring file_name = tok_file_name_string->get_text();
                     if (file_name.length() == 0)
-                        throw wrong_file_name(tok_file_name->get_position(), file_name);
+                        throw wrong_file_name(tok_file_name->get_fragment().begin, file_name);
 
                     bool is_ascii;
                     std::string file_name_ascii = lib::wstring_to_ascii_string(file_name, &is_ascii);
                     if (!is_ascii)
-                        throw wrong_file_name(tok_file_name->get_position(), file_name);
+                        throw wrong_file_name(tok_file_name->get_fragment().begin, file_name);
 
                     bool found = false;
                     std::string full_path;
@@ -280,14 +281,15 @@ namespace g0at
                         }
                     }
                     if (!found)
-                        throw file_not_found(tok_file_name->get_position(), file_name_ascii.c_str());
+                        throw file_not_found(tok_file_name->get_fragment().begin, file_name_ascii.c_str());
 
                     if (imported.find(full_path) == imported.end())
                     {
                         imported.insert(full_path);
-                        source_file src2(full_path);
+                        source_file src2(full_path, listing->get_last_offset());
+                        listing->add_data(src2.get_data());
                         scanner scan2(&src2);
-                        parse_brackets_and_fill_data(&scan2, dst, data_filler, L'\0', imported, lib_path);
+                        parse_brackets_and_fill_data(&scan2, dst, data_filler, L'\0', imported, lib_path, listing);
                     }
                 }
                 else
@@ -316,7 +318,7 @@ namespace g0at
                             break;
                         }
                     }
-                    throw unable_to_parse_token_sequence(tok->get_position());
+                    throw unable_to_parse_token_sequence(tok->get_fragment().begin);
                 }
                 else
                 {
@@ -352,13 +354,13 @@ namespace g0at
                 if (even)
                 {
                     if (!tok->to_comma())
-                        throw function_arguments_must_be_separated_by_commas(tok->get_position());
+                        throw function_arguments_must_be_separated_by_commas(tok->get_fragment().begin);
                     tok->remove();
                 }
                 else
                 {
                     if (!tok->to_identifier())
-                        throw expected_an_identifier(tok->get_position());
+                        throw expected_an_identifier(tok->get_fragment().begin);
                     dst->add(tok);
                 }
                 tok = next;
@@ -377,13 +379,13 @@ namespace g0at
                 if (even)
                 {
                     if (!tok->to_comma())
-                        throw function_arguments_must_be_separated_by_commas(tok->get_position());
+                        throw function_arguments_must_be_separated_by_commas(tok->get_fragment().begin);
                     tok->remove();
                 }
                 else
                 {
                     if (!tok->to_expression())
-                        throw expected_an_expression(tok->get_position());
+                        throw expected_an_expression(tok->get_fragment().begin);
                     dst->add(tok);
                 }
                 tok = next;
@@ -428,27 +430,27 @@ namespace g0at
             {
                 ast::expression *key = tok->to_expression();
                 if (!key)
-                    throw expected_an_expression(tok->get_position());
+                    throw expected_an_expression(tok->get_fragment().begin);
 
                 if (!key->next)
-                    throw the_next_token_must_be_a_colon(key->get_position());
+                    throw the_next_token_must_be_a_colon(key->get_fragment().end);
 
                 ast::colon *colon = key->next->to_colon();
                 if (!colon)
-                    throw key_must_be_separated_by_a_colon(key->next->get_position());
+                    throw key_must_be_separated_by_a_colon(key->next->get_fragment().begin);
 
                 if (!colon->next)
-                    throw expected_an_expression(colon->get_position());
+                    throw expected_an_expression(colon->get_fragment().end);
 
                 ast::expression *value = colon->next->to_expression();
                 if (!value)
-                    throw expected_an_expression(colon->next->get_position());
+                    throw expected_an_expression(colon->next->get_fragment().begin);
 
                 if (value->next)
                 {
                     ast::comma *comma = value->next->to_comma();
                     if (!comma)
-                        throw pairs_must_be_separated_by_commas(value->next->get_position());
+                        throw pairs_must_be_separated_by_commas(value->next->get_fragment().begin);
 
                     tok = comma->next;
                 }
@@ -482,13 +484,13 @@ namespace g0at
                 if (even)
                 {
                     if (!tok->to_comma())
-                        throw objects_must_be_separated_by_commas(tok->get_position());
+                        throw objects_must_be_separated_by_commas(tok->get_fragment().begin);
                     tok->remove();
                 }
                 else
                 {
                     if (!tok->to_expression())
-                        throw expected_an_expression(tok->get_position());
+                        throw expected_an_expression(tok->get_fragment().begin);
                     dst->add(tok);
                 }
                 tok = next;
@@ -505,7 +507,7 @@ namespace g0at
             if (!tok)
                 return;
             if (!tok->to_keyword_case() && !tok->to_keyword_default())
-                throw expected_case_or_default_keyword(tok->get_position());
+                throw expected_case_or_default_keyword(tok->get_fragment().begin);
             ast::token_list *list = nullptr;
             while(tok)
             {
@@ -513,12 +515,12 @@ namespace g0at
                 if (tok->to_keyword_default())
                 {
                     if (has_default)
-                        throw can_have_only_one_default_block(tok->get_position());
+                        throw can_have_only_one_default_block(tok->get_fragment().begin);
                     has_default = true;
                     if (!tok->next)
-                        throw the_next_token_must_be_a_colon(tok->get_position());
+                        throw the_next_token_must_be_a_colon(tok->get_fragment().end);
                     if (!tok->next->to_colon())
-                        throw the_next_token_must_be_a_colon(tok->next->get_position());
+                        throw the_next_token_must_be_a_colon(tok->next->get_fragment().begin);
                     next = tok->next->next;
                     tok->next->remove();
                     tok->remove();
@@ -527,16 +529,16 @@ namespace g0at
                 else if (tok->to_keyword_case())
                 {
                     if (!tok->next)
-                        throw expected_an_expression(tok->get_position());
+                        throw expected_an_expression(tok->get_fragment().end);
                     lib::pointer<ast::expression> expr = tok->next->to_expression();
                     if (!expr)
-                        throw expected_an_expression(tok->next->get_position());
+                        throw expected_an_expression(tok->next->get_fragment().begin);
                     lib::pointer<ast::case_block> block = new ast::case_block(expr);
                     stmt->add_block(block);
                     if (!expr->next)
-                        throw the_next_token_must_be_a_colon(tok->get_position());
+                        throw the_next_token_must_be_a_colon(tok->get_fragment().end);
                     if (!expr->next->to_colon())
-                        throw the_next_token_must_be_a_colon(tok->next->get_position());\
+                        throw the_next_token_must_be_a_colon(tok->next->get_fragment().begin);
                     next = expr->next->next;
                     expr->next->remove();
                     expr->remove();
@@ -546,7 +548,7 @@ namespace g0at
                 else
                 {
                     if (!tok->to_statement())
-                        throw expected_a_statement(tok->get_position());
+                        throw expected_a_statement(tok->get_fragment().begin);
                     list->add(tok);
                 }
                 tok = next;
@@ -557,7 +559,7 @@ namespace g0at
         void parser::parse_parenthesized_expression(ast::parenthesized_expression *expr)
         {
             if (!expr->convert())
-                throw expected_an_expression(expr->get_position());
+                throw expected_an_expression(expr->get_fragment().begin);
         }
     };
 };

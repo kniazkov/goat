@@ -29,7 +29,7 @@ namespace g0at
         variable::variable(lib::pointer<identifier> _ident)
         {
             ident = _ident;
-            pos = ident->get_position();
+            frag = ident->get_fragment();
         }
 
         void variable::accept(token_visitor *visitor)

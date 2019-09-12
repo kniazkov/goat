@@ -31,7 +31,7 @@ namespace g0at
         class addition : public binary
         {
         public:
-            addition(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            addition(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             addition *to_addition() override;
         };

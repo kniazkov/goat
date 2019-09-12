@@ -29,7 +29,7 @@ namespace g0at
         statement_return::statement_return(keyword_return *_kw, lib::pointer<expression> _expr)
             : expr(_expr)
         {
-            pos = _kw->get_position();
+            frag = _kw->get_fragment();
         }
 
         void statement_return::accept(token_visitor *visitor)

@@ -57,26 +57,26 @@ namespace g0at
                 assert(kw != nullptr);
 
                 if (!kw->next)
-                    throw expected_an_expression(kw->get_position());
+                    throw expected_an_expression(kw->get_fragment().end);
                 
                 ast::brackets_pair *expr_token = kw->next->to_brackets_pair();
                 if (!expr_token || expr_token->get_symbol() != L'(')
-                    throw expected_an_expression(kw->get_position());
+                    throw expected_an_expression(kw->get_fragment().end);
 
                 auto list = expr_token->get_raw_list();
                 if (!list->has_only_one_item())
-                    throw expected_an_expression(expr_token->get_position());
+                    throw expected_an_expression(expr_token->get_fragment().begin);
 
                 ast::expression *expr = list->first->to_expression();
                 if (!expr)
-                    throw expected_an_expression(list->first->get_position());
+                    throw expected_an_expression(list->first->get_fragment().begin);
 
                 if (!expr_token->next)
-                    throw expected_a_switch_body(expr_token->get_position());
+                    throw expected_a_switch_body(expr_token->get_fragment().end);
 
                 ast::brackets_pair *body = expr_token->next->to_brackets_pair();
                 if (!body || body->get_symbol() != L'{')
-                    throw expected_a_switch_body(expr_token->next->get_position());
+                    throw expected_a_switch_body(expr_token->next->get_fragment().begin);
 
                 lib::pointer<ast::statement_switch> result = new ast::statement_switch(kw, expr, body);
                 kw->replace(body, result.cast<ast::token>());

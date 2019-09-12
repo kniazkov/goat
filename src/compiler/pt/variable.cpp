@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        variable::variable(lib::pointer<position> _pos, std::wstring _name)
-            : expression(_pos), name(_name)
+        variable::variable(fragment _frag, std::wstring _name)
+            : expression(_frag), name(_name)
         {
         }
 

@@ -32,7 +32,7 @@ namespace g0at
         class variable : public expression
         {
         public:
-            variable(lib::pointer<position> _pos, std::wstring _name);
+            variable(fragment _frag, std::wstring _name);
             void accept(node_visitor *visitor) override;
             variable *to_variable() override;
 

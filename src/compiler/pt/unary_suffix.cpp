@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        unary_suffix::unary_suffix(lib::pointer<position> _pos, lib::pointer<expression> _left)
-            : expression(_pos), left(_left)
+        unary_suffix::unary_suffix(fragment _frag, lib::pointer<expression> _left)
+            : expression(_frag), left(_left)
         {
         }
 

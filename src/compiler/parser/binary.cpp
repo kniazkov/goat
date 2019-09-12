@@ -54,11 +54,11 @@ namespace g0at
                     return false;
 
                 if (!oper->next)
-                    throw expected_an_expression_after_operator(oper->get_position());
+                    throw expected_an_expression_after_operator(oper->get_fragment().end);
 
                 ast::expression *right = oper->next->to_expression();
                 if (!right)
-                    throw expected_an_expression_after_operator(oper->get_position());
+                    throw expected_an_expression_after_operator(oper->get_fragment().end);
 
                 lib::pointer<ast::token> bin_op = oper->create_binary_operation(left, right);
                 left->replace(right, bin_op);

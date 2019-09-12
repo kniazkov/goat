@@ -31,7 +31,7 @@ namespace g0at
         class statement_empty : public statement
         {
         public:
-            statement_empty(lib::pointer<position> _pos);
+            statement_empty(fragment _frag);
             void accept(node_visitor *visitor) override;
             statement_empty *to_statement_empty() override;
         };

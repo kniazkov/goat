@@ -31,7 +31,7 @@ namespace g0at
         class suffix_increment : public unary_suffix
         {
         public:
-            suffix_increment(lib::pointer<expression> _left);
+            suffix_increment(lib::pointer<expression> _left, token_operator *_oper);
             void accept(token_visitor *visitor) override;
             suffix_increment *to_suffix_increment() override;
         };

@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        declare_variable::declare_variable(lib::pointer<position> _pos)
-            : statement(_pos)
+        declare_variable::declare_variable(fragment _frag)
+            : statement(_frag)
         {
         }
 

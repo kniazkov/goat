@@ -31,7 +31,7 @@ namespace g0at
         class is_greater_than : public binary
         {
         public:
-            is_greater_than(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            is_greater_than(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             is_greater_than *to_is_greater_than() override;
         };

@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        value_void::value_void(lib::pointer<position> _pos)
-            : expression(_pos)
+        value_void::value_void(fragment _frag)
+            : expression(_frag)
         {
         }
 

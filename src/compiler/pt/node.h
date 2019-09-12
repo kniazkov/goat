@@ -24,7 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "node_visitor.h"
 #include "scope.h"
-#include "compiler/source/position.h"
+#include "compiler/source/fragment.h"
 #include "lib/ref_counter.h"
 #include "lib/pointer.h"
 #include "compiler/analyzer/scope_builder.h"
@@ -122,7 +122,7 @@ namespace g0at
         {
         friend class g0at::analyzer::scope_builder;
         public:
-            node(lib::pointer<position> _pos);
+            node(fragment _frag);
             virtual ~node();
             virtual void accept(node_visitor *visitor) = 0;
             virtual expression *to_expression();
@@ -210,15 +210,15 @@ namespace g0at
             virtual assignment_by_bitwise_xor *to_assignment_by_bitwise_xor();
             virtual ternary *to_ternary();
             
-            lib::pointer<position> get_position() { return pos; }
+            fragment get_fragment() { return frag; }
             lib::pointer<scope> get_scope() { return sk; }
             
         protected:
-            void set_position(lib::pointer<position> _pos) { pos = _pos; }
+            //void set_fragment(fragment _frag) { frag = _frag; }
             void set_scope(lib::pointer<scope> _sk) { sk = _sk; }
 
         private:
-            lib::pointer<position> pos;
+            fragment frag;
             lib::pointer<scope> sk;
         };
     };

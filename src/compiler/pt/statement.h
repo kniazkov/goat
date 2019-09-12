@@ -31,7 +31,7 @@ namespace g0at
         class statement : public node
         {
         public:
-            statement(lib::pointer<position> _pos);
+            statement(fragment _frag);
             statement *to_statement() override;
         };
     };

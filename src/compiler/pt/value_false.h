@@ -31,7 +31,7 @@ namespace g0at
         class value_false : public expression
         {
         public:
-            value_false(lib::pointer<position> _pos);
+            value_false(fragment _frag);
             void accept(node_visitor *visitor) override;
             value_false *to_value_false() override;
         };

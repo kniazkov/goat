@@ -32,9 +32,9 @@ namespace g0at
         class statement_try : public statement
         {
         public:
-            statement_try(lib::pointer<position> _pos, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_catch, std::wstring _var_name);
-            statement_try(lib::pointer<position> _pos, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_finally);
-            statement_try(lib::pointer<position> _pos, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_catch, std::wstring _var_name, lib::pointer<statement> _stmt_finally);
+            statement_try(fragment _frag, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_catch, std::wstring _var_name);
+            statement_try(fragment _frag, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_finally);
+            statement_try(fragment _frag, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_catch, std::wstring _var_name, lib::pointer<statement> _stmt_finally);
             void accept(node_visitor *visitor) override;
             statement_try *to_statement_try() override;
 

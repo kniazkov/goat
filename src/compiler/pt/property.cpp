@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        property::property(lib::pointer<position> _pos, lib::pointer<expression> _left, std::wstring _right)
-            : expression(_pos), left(_left), right(_right)
+        property::property(fragment _frag, lib::pointer<expression> _left, std::wstring _right)
+            : expression(_frag), left(_left), right(_right)
         {
         }
 

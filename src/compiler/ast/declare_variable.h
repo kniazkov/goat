@@ -46,7 +46,7 @@ namespace g0at
             void accept(token_visitor *visitor) override;
             declare_variable *to_declare_variable() override;
 
-            void add_variable(variable_info &item) { items.push_back(item); }
+            void add_variable(variable_info &item);
             int get_count() { return (int)items.size(); }
             variable_info get_variable(int idx) { return items.at(idx); }
 

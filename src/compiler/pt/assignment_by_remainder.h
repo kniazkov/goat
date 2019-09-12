@@ -31,7 +31,7 @@ namespace g0at
         class assignment_by_remainder : public binary
         {
         public:
-            assignment_by_remainder(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            assignment_by_remainder(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             assignment_by_remainder *to_assignment_by_remainder() override;
         };

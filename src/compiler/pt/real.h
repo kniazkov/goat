@@ -31,7 +31,7 @@ namespace g0at
         class real : public expression
         {
         public:
-            real(lib::pointer<position> _pos, double _value);
+            real(fragment _frag, double _value);
             void accept(node_visitor *visitor) override;
             real *to_real() override;
 

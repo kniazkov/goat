@@ -31,7 +31,7 @@ namespace g0at
         class assignment_by_sum : public binary
         {
         public:
-            assignment_by_sum(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            assignment_by_sum(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             assignment_by_sum *to_assignment_by_sum() override;
         };

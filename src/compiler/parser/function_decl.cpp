@@ -56,18 +56,18 @@ namespace g0at
                 assert(kw != nullptr);
 
                 if (!kw->next)
-                    throw expected_an_argument_list(kw->get_position());
+                    throw expected_an_argument_list(kw->get_fragment().end);
 
                 ast::brackets_pair *args = kw->next->to_brackets_pair();
                 if (!args || args->get_symbol() != L'(')
-                    throw expected_an_argument_list(kw->next->get_position());
+                    throw expected_an_argument_list(kw->next->get_fragment().begin);
 
                 if (!args->next)
-                    throw expected_a_function_body(args->get_position());
+                    throw expected_a_function_body(args->get_fragment().end);
 
                 ast::brackets_pair *body = args->next->to_brackets_pair();
                 if (!body || body->get_symbol() != L'{')
-                    throw expected_a_function_body(args->next->get_position());
+                    throw expected_a_function_body(args->next->get_fragment().begin);
 
                 lib::pointer<ast::function> func  = new ast::function(kw, args, body, type);
                 lib::pointer<ast::declare_function> decl_func = new ast::declare_function(func);

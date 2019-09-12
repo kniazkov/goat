@@ -31,7 +31,7 @@ namespace g0at
         class logical_or : public binary
         {
         public:
-            logical_or(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            logical_or(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             logical_or *to_logical_or() override;
         };

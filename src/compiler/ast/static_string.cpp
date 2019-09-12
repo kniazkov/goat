@@ -33,7 +33,7 @@ namespace g0at
 
         static_string::static_string(identifier *_ident)
         {
-            pos = _ident->get_position();
+            frag = _ident->get_fragment();
             text = _ident->get_name();
         }
 

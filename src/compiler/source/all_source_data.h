@@ -22,18 +22,33 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "unary_prefix.h"
+#include <vector>
+#include <string>
 
 namespace g0at
 {
-    namespace ast
+    class all_source_data
     {
-        class prefix_increment : public unary_prefix
+    public:
+        all_source_data();
+        void add_data(std::wstring data);
+        std::wstring get_fragment_by_index(int index);
+
+        int get_last_offset() { return last_offset; };
+
+    protected:
+
+        struct item
         {
-        public:
-            prefix_increment(lib::pointer<expression> _right, token_operator *_oper);
-            void accept(token_visitor *visitor) override;
-            prefix_increment *to_prefix_increment() override;
+            std::wstring data;
+            int offset;
         };
+
+        std::vector<item> items;
+        int last_offset;
+
+    private:
+        all_source_data(const all_source_data &) { }
+        void operator=(const all_source_data &) { }
     };
 };

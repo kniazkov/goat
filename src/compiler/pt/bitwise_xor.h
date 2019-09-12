@@ -31,7 +31,7 @@ namespace g0at
         class bitwise_xor : public binary
         {
         public:
-            bitwise_xor(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            bitwise_xor(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             bitwise_xor *to_bitwise_xor() override;
         };

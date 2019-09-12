@@ -29,7 +29,8 @@ namespace g0at
     {
         statement_lock::statement_lock(keyword_lock *_kw, lib::pointer<statement> _stmt)
         {
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _stmt->get_fragment().end;
             stmt = _stmt;
         }
 

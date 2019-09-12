@@ -40,7 +40,7 @@ namespace g0at
 
         lib::pointer<token> exclamation::create_unary_prefix_operation(lib::pointer<expression> right)
         {
-            return new logical_not(right);
+            return new logical_not(right, this);
         }
     };
 };

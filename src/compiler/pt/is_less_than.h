@@ -31,7 +31,7 @@ namespace g0at
         class is_less_than : public binary
         {
         public:
-            is_less_than(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            is_less_than(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             is_less_than *to_is_less_than() override;
         };

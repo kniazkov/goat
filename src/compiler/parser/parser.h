@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/scanner/scanner.h"
 #include "parser_data.h"
 #include "parser_data_filler.h"
+#include "compiler/source/all_source_data.h"
 #include "lib/pointer.h"
 #include <set>
 #include <vector>
@@ -39,16 +40,17 @@ namespace g0at
         public:
             parser();
             ~parser();
-            static lib::pointer<ast::root> parse(scanner *scan, bool debug, const char *prog_name, std::vector<std::string> &lib_path);
-            void create_root(scanner *scan, std::vector<std::string> &lib_path);
+            static lib::pointer<ast::root> parse(scanner *scan, bool debug, const char *prog_name, std::vector<std::string> &lib_path, all_source_data *listing);
+            void create_root(scanner *scan, std::vector<std::string> &lib_path, all_source_data *listing);
             void parse();
             lib::pointer<ast::root> get_root() { return root; }
 
         protected:
             parser(const parser &) { }
             void operator=(const parser &) { }
-            static void parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
-                parser_data_filler *data_filler, wchar_t open_bracket, std::set<std::string> &imported, std::vector<std::string> &lib_path);
+            static lib::pointer<position> parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
+                parser_data_filler *data_filler, wchar_t open_bracket, std::set<std::string> &imported, std::vector<std::string> &lib_path,
+                all_source_data *listing);
             static void parse_block_body(ast::token_list *src, ast::token_list *dst);
             static void parse_function_body(ast::function *func);
             static void parse_statement_block_body(ast::statement_block *block);

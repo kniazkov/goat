@@ -27,8 +27,8 @@ namespace g0at
 {
     namespace pt
     {
-        statement_switch::statement_switch(lib::pointer<position> _pos, lib::pointer<expression> _expr)
-            : statement(_pos), expr(_expr)
+        statement_switch::statement_switch(fragment _frag, lib::pointer<expression> _expr)
+            : statement(_frag), expr(_expr)
         {
         }
 

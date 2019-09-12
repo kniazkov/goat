@@ -29,7 +29,8 @@ namespace g0at
         statement_for::statement_for(keyword_for *_kw, lib::pointer<statement> _stmt_init, lib::pointer<expression> _condition, lib::pointer<statement> _increment, lib::pointer<statement> _body)
             : stmt_init(_stmt_init), condition(_condition), increment(_increment), body(_body)
         {
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _body->get_fragment().end;
         }
 
         void statement_for::accept(token_visitor *visitor)

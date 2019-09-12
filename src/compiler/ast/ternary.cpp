@@ -29,7 +29,8 @@ namespace g0at
         ternary::ternary(lib::pointer<expression> _condition, lib::pointer<expression> _expr_true, lib::pointer<expression> _expr_false)
             : condition(_condition), expr_true(_expr_true), expr_false(_expr_false)
         {
-            pos = _condition->get_position();
+            frag.begin = _condition->get_fragment().begin;
+            frag.end = _expr_false->get_fragment().end;
         }
 
         void ternary::accept(token_visitor *visitor)
