@@ -32,7 +32,7 @@ namespace g0at
         class statement_expression : public statement
         {
         public:
-            statement_expression(lib::pointer<position> _pos, lib::pointer<expression> _expr);
+            statement_expression(fragment _frag, lib::pointer<expression> _expr);
             void accept(node_visitor *visitor) override;
             statement_expression *to_statement_expression() override;
 

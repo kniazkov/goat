@@ -21,15 +21,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "unary_suffix.h"
+#include "token_operator.h"
 
 namespace g0at
 {
     namespace ast
     {
-        unary_suffix::unary_suffix(lib::pointer<expression> _left)
+        unary_suffix::unary_suffix(lib::pointer<expression> _left, token_operator *_oper)
             : left(_left)
         {
-            pos = _left->get_position();
+            frag.begin = _left->get_fragment().begin;
+            frag.end = _oper->get_fragment().end;
         }
 
         unary_suffix *unary_suffix::to_unary_suffix()

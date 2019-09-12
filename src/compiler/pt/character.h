@@ -31,7 +31,7 @@ namespace g0at
         class character : public expression
         {
         public:
-            character(lib::pointer<position> _pos, wchar_t _value);
+            character(fragment _frag, wchar_t _value);
             void accept(node_visitor *visitor) override;
             character *to_character() override;
 

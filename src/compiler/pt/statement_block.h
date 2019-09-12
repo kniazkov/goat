@@ -32,7 +32,7 @@ namespace g0at
         class statement_block : public statement
         {
         public:
-            statement_block(lib::pointer<position> _pos);
+            statement_block(fragment _frag);
             void accept(node_visitor *visitor) override;
             statement_block *to_statement_block() override;
             void add_stmt(lib::pointer<statement> stmt);

@@ -55,7 +55,7 @@ namespace g0at
                 
                 ast::semicolon *semicolon = kw->next->to_semicolon();
                 if (!semicolon)
-                    throw the_next_token_must_be_a_semicolon(kw->get_position());
+                    throw the_next_token_must_be_a_semicolon(kw->get_fragment().end);
                 else
                 {
                     lib::pointer<ast::token> stmt = new ast::statement_break(kw);

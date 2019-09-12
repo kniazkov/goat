@@ -31,7 +31,7 @@ namespace g0at
         class suffix_decrement : public unary_suffix
         {
         public:
-            suffix_decrement(lib::pointer<expression> _left);
+            suffix_decrement(lib::pointer<expression> _left, token_operator *_oper);
             void accept(token_visitor *visitor) override;
             suffix_decrement *to_suffix_decrement() override;
         };

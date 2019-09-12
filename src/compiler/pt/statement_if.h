@@ -32,8 +32,8 @@ namespace g0at
         class statement_if : public statement
         {
         public:
-            statement_if(lib::pointer<position> _pos, lib::pointer<expression> _expr, lib::pointer<statement> _stmt_if);
-            statement_if(lib::pointer<position> _pos, lib::pointer<expression> _expr, lib::pointer<statement> _stmt_if, lib::pointer<statement> _stmt_else);
+            statement_if(fragment _frag, lib::pointer<expression> _expr, lib::pointer<statement> _stmt_if);
+            statement_if(fragment _frag, lib::pointer<expression> _expr, lib::pointer<statement> _stmt_if, lib::pointer<statement> _stmt_else);
             void accept(node_visitor *visitor) override;
             statement_if *to_statement_if() override;
 

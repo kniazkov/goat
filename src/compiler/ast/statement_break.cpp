@@ -28,7 +28,7 @@ namespace g0at
     {
         statement_break::statement_break(keyword_break *_kw)
         {
-            pos = _kw->get_position();
+            frag = _kw->get_fragment();
         }
 
         void statement_break::accept(token_visitor *visitor)

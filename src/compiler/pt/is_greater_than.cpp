@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        is_greater_than::is_greater_than(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right)
-            : binary(_pos, _left, _right)
+        is_greater_than::is_greater_than(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right)
+            : binary(_frag, _left, _right)
         {
         }
 

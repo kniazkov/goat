@@ -29,19 +29,22 @@ namespace g0at
         statement_try::statement_try(keyword_try *_kw, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_catch, std::wstring _var_name)
             : stmt_try(_stmt_try), stmt_catch(_stmt_catch), var_name(_var_name)
         {
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _stmt_catch->get_fragment().end;
         }
 
         statement_try::statement_try(keyword_try *_kw, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_finally)
             : stmt_try(_stmt_try), stmt_finally(_stmt_finally)
         {
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _stmt_finally->get_fragment().end;
         }
 
         statement_try::statement_try(keyword_try *_kw, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_catch, std::wstring _var_name, lib::pointer<statement> _stmt_finally)
             : stmt_try(_stmt_try), stmt_catch(_stmt_catch), var_name(_var_name), stmt_finally(_stmt_finally)
         {
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _stmt_finally->get_fragment().end;
         }
 
         void statement_try::accept(token_visitor *visitor)

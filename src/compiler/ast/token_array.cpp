@@ -31,7 +31,7 @@ namespace g0at
         {
             assert(_objects->get_symbol() == L'[');
             raw.swap(_objects->get_raw_list());
-            pos = _objects->get_position();
+            frag = _objects->get_fragment();
         }
 
         void token_array::accept(token_visitor *visitor)

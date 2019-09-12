@@ -246,10 +246,14 @@ namespace g0at
             c = src->next();
         }
 
-        lib::pointer<position> pos = src->get_position();
+        fragment frag;
+        frag.begin = src->get_position();
         lib::pointer<ast::token> tok = create_token();
+        frag.end = src->get_position();
         if (tok)
-            tok->pos = pos;
+        {
+            tok->frag = frag;
+        }
         return tok;
     }
 

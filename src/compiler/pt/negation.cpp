@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        negation::negation(lib::pointer<position> _pos, lib::pointer<expression> _right)
-            : unary_prefix(_pos, _right)
+        negation::negation(fragment _frag, lib::pointer<expression> _right)
+            : unary_prefix(_frag, _right)
         {
         }
 

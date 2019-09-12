@@ -47,32 +47,32 @@ namespace g0at
                 assert(quest != nullptr);
 
                 if (!quest->prev)
-                    throw expected_a_conditional_expression(quest->get_position());
+                    throw expected_a_conditional_expression(quest->get_fragment().begin);
 
                 ast::expression *condition = quest->prev->to_expression();
                 if (!condition)
-                    throw expected_a_conditional_expression(quest->get_position());
+                    throw expected_a_conditional_expression(quest->get_fragment().begin);
 
                 if (!quest->next)
-                    throw expected_an_expression(quest->get_position());
+                    throw expected_an_expression(quest->get_fragment().end);
  
                 ast::expression *expr_true = quest->next->to_expression();
                 if (!expr_true)
-                    throw expected_an_expression(quest->get_position());
+                    throw expected_an_expression(quest->get_fragment().end);
 
                 if (!expr_true->next)
-                    throw the_next_token_must_be_a_colon(expr_true->get_position());
+                    throw the_next_token_must_be_a_colon(expr_true->get_fragment().end);
 
                 ast::colon *colon = expr_true->next->to_colon();
                 if (!colon)
-                    throw the_next_token_must_be_a_colon(expr_true->get_position());
+                    throw the_next_token_must_be_a_colon(expr_true->get_fragment().end);
 
                 if (!colon->next)
-                    throw expected_an_expression(colon->get_position());
+                    throw expected_an_expression(colon->get_fragment().end);
 
                 ast::expression *expr_false = colon->next->to_expression();
                 if (!expr_false)
-                    throw expected_an_expression(colon->next->get_position());
+                    throw expected_an_expression(colon->next->get_fragment().begin);
                 
                 lib::pointer<ast::token> result = new ast::ternary(condition, expr_true, expr_false);
                 condition->replace(expr_false, result);

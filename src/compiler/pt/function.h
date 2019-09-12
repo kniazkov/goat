@@ -40,7 +40,7 @@ namespace g0at
         class function : public node
         {
         public:
-            function(lib::pointer<position> _pos, function_type _type);
+            function(fragment _frag, function_type _type);
             void accept(node_visitor *visitor) override;
             function *to_function() override;
 
@@ -50,7 +50,7 @@ namespace g0at
             void add_arg(std::wstring arg) { args.push_back(arg); }
             int get_args_count() { return (int)args.size(); }
             std::wstring get_arg(int index) { return args.at(index); }
-            bool is_root_function() { return get_position() == nullptr; }
+            bool is_root_function() { return get_fragment().begin == nullptr; }
             function_type get_type() { return type; }
 
         protected:

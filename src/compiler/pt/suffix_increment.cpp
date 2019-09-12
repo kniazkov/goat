@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        suffix_increment::suffix_increment(lib::pointer<position> _pos, lib::pointer<expression> _left)
-            : unary_suffix(_pos, _left)
+        suffix_increment::suffix_increment(fragment _frag, lib::pointer<expression> _left)
+            : unary_suffix(_frag, _left)
         {
         }
 

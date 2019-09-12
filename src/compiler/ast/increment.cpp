@@ -40,12 +40,12 @@ namespace g0at
 
         lib::pointer<token> increment::create_unary_prefix_operation(lib::pointer<expression> right)
         {
-            return new prefix_increment(right);
+            return new prefix_increment(right, this);
         }
 
         lib::pointer<token> increment::create_unary_suffix_operation(lib::pointer<expression> left)
         {
-            return new suffix_increment(left);
+            return new suffix_increment(left, this);
         }
     };
 };

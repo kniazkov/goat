@@ -32,7 +32,8 @@ namespace g0at
             assert(_args->get_symbol() == L'[');
             expr = _expr;
             raw.swap(_args->get_raw_list());
-            pos = _args->get_position();
+            frag.begin = _expr->get_fragment().begin;
+            frag.end = _args->get_fragment().end;
         }
 
         void index_access::accept(token_visitor *visitor)

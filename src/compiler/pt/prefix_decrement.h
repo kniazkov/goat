@@ -31,7 +31,7 @@ namespace g0at
         class prefix_decrement : public unary_prefix
         {
         public:
-            prefix_decrement(lib::pointer<position> _pos, lib::pointer<expression> _right);
+            prefix_decrement(fragment _frag, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             prefix_decrement *to_prefix_decrement() override;
         };

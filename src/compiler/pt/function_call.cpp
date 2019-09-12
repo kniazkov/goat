@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        function_call::function_call(lib::pointer<position> _pos, lib::pointer<expression> _func_object)
-            : expression(_pos), func_object(_func_object)
+        function_call::function_call(fragment _frag, lib::pointer<expression> _func_object)
+            : expression(_frag), func_object(_func_object)
         {
         }
 

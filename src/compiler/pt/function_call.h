@@ -32,7 +32,7 @@ namespace g0at
         class function_call : public expression
         {
         public:
-            function_call(lib::pointer<position> _pos, lib::pointer<expression> _func_object);
+            function_call(fragment _frag, lib::pointer<expression> _func_object);
             void accept(node_visitor *visitor) override;
             function_call *to_function_call() override;
 

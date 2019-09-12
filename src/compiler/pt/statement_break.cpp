@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        statement_break::statement_break(lib::pointer<position> _pos)
-            : statement(_pos)
+        statement_break::statement_break(fragment _frag)
+            : statement(_frag)
         {
         }
 

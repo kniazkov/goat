@@ -32,7 +32,7 @@ namespace g0at
         class operator_new : public expression
         {
         public:
-            operator_new(lib::pointer<position> _pos, lib::pointer<expression> _proto);
+            operator_new(fragment _frag, lib::pointer<expression> _proto);
             void accept(node_visitor *visitor) override;
             operator_new *to_operator_new() override;
 

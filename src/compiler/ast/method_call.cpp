@@ -33,7 +33,8 @@ namespace g0at
             left = _left;
             right = _right;
             raw.swap(_args->get_raw_list());
-            pos = _args->get_position();
+            frag.begin = _left->get_fragment().begin;
+            frag.end = _args->get_fragment().end;
         }
 
         void method_call::accept(token_visitor *visitor)

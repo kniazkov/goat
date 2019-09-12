@@ -32,7 +32,8 @@ namespace g0at
             assert(_args->get_symbol() == L'(');
             func_object = _func_object;
             raw.swap(_args->get_raw_list());
-            pos = _args->get_position();
+            frag.begin = _func_object->get_fragment().begin;
+            frag.end = _args->get_fragment().end;
         }
 
         void function_call::accept(token_visitor *visitor)

@@ -43,5 +43,7 @@ namespace g0at
         int max_index;
         int row;
         int column;
+        lib::pointer<position> cached_position;
+        int cached_position_index;
     };
 };

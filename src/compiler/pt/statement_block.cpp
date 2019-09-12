@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        statement_block::statement_block(lib::pointer<position> _pos)
-            : statement(_pos), vars(false)
+        statement_block::statement_block(fragment _frag)
+            : statement(_frag), vars(false)
         {
         }
 

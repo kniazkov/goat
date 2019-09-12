@@ -77,6 +77,7 @@ namespace g0at
         max_index = (int)data.size();
         row  = 1;
         column = 1;
+        cached_position_index = -1;
     }
 
     wchar_t source_file::get_char()
@@ -110,6 +111,11 @@ namespace g0at
 
     lib::pointer<position> source_file::get_position()
     {
-        return new source_file_position(file_name, index, row, column);
+        if (index == cached_position_index)
+            return cached_position;
+
+        cached_position_index = index;
+        cached_position = new source_file_position(file_name, index, row, column);
+        return cached_position;
     }
 };

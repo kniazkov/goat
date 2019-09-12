@@ -31,7 +31,7 @@ namespace g0at
         class bitwise_or : public binary
         {
         public:
-            bitwise_or(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            bitwise_or(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             bitwise_or *to_bitwise_or() override;
         };

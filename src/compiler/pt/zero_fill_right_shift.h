@@ -31,7 +31,7 @@ namespace g0at
         class zero_fill_right_shift : public binary
         {
         public:
-            zero_fill_right_shift(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            zero_fill_right_shift(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             zero_fill_right_shift *to_zero_fill_right_shift() override;
         };

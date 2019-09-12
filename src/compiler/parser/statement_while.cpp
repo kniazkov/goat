@@ -49,26 +49,26 @@ namespace g0at
                 assert(kw != nullptr);
 
                 if (!kw->next)
-                    throw expected_a_conditional_expression(kw->get_position());
+                    throw expected_a_conditional_expression(kw->get_fragment().end);
                 
                 ast::brackets_pair *condition = kw->next->to_brackets_pair();
                 if (!condition || condition->get_symbol() != L'(')
-                    throw expected_a_conditional_expression(kw->get_position());
+                    throw expected_a_conditional_expression(kw->get_fragment().end);
 
                 auto list = condition->get_raw_list();
                 if (!list->has_only_one_item())
-                    throw expected_an_expression(condition->get_position());
+                    throw expected_an_expression(condition->get_fragment().begin);
 
                 ast::expression *expr = list->first->to_expression();
                 if (!expr)
-                    throw expected_an_expression(list->first->get_position());
+                    throw expected_an_expression(list->first->get_fragment().begin);
 
                 if (!condition->next)
-                    throw expected_a_statement(condition->get_position());
+                    throw expected_a_statement(condition->get_fragment().end);
 
                 ast::statement *stmt = condition->next->to_statement();
                 if (!stmt)
-                    throw expected_a_statement(condition->next->get_position());
+                    throw expected_a_statement(condition->next->get_fragment().begin);
                 
                 lib::pointer<ast::token> result = new ast::statement_while(kw, expr, stmt);
                 kw->replace(stmt, result);

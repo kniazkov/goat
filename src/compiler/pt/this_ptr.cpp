@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        this_ptr::this_ptr(lib::pointer<position> _pos)
-            : expression(_pos)
+        this_ptr::this_ptr(fragment _frag)
+            : expression(_frag)
         {
         }
 

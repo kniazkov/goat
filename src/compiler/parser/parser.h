@@ -47,7 +47,7 @@ namespace g0at
         protected:
             parser(const parser &) { }
             void operator=(const parser &) { }
-            static void parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
+            static lib::pointer<position> parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
                 parser_data_filler *data_filler, wchar_t open_bracket, std::set<std::string> &imported, std::vector<std::string> &lib_path);
             static void parse_block_body(ast::token_list *src, ast::token_list *dst);
             static void parse_function_body(ast::function *func);

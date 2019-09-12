@@ -65,12 +65,12 @@ namespace g0at
             expression_builder visitor;
             ref->get_expression()->accept(&visitor);
             assert(visitor.has_expr());
-            stmt = new pt::statement_expression(ref->get_position(), visitor.get_expr());
+            stmt = new pt::statement_expression(ref->get_fragment(), visitor.get_expr());
         }
         
         void statement_builder::visit(ast::declare_variable *ref)
         {
-            lib::pointer<pt::declare_variable> result = new pt::declare_variable(ref->get_position());
+            lib::pointer<pt::declare_variable> result = new pt::declare_variable(ref->get_fragment());
             for (int i = 0, count = ref->get_count(); i < count; i++)
             {
                 ast::variable_info src = ref->get_variable(i);
@@ -96,11 +96,11 @@ namespace g0at
             {
                 tok_expr->accept(&visitor);
                 assert(visitor.has_expr());
-                stmt = new pt::statement_return(ref->get_position(), visitor.get_expr());
+                stmt = new pt::statement_return(ref->get_fragment(), visitor.get_expr());
             }
             else
             {
-                stmt = new pt::statement_return(ref->get_position(), nullptr);
+                stmt = new pt::statement_return(ref->get_fragment(), nullptr);
             }
         }
 
@@ -112,12 +112,12 @@ namespace g0at
             statement_builder stmt_visitor;
             ref->get_statement()->accept(&stmt_visitor);
             assert(stmt_visitor.has_stmt());
-            stmt = new pt::statement_while(ref->get_position(), expr_visitor.get_expr(), stmt_visitor.get_stmt());
+            stmt = new pt::statement_while(ref->get_fragment(), expr_visitor.get_expr(), stmt_visitor.get_stmt());
         }
 
         void statement_builder::visit(ast::statement_block *ref)
         {
-            lib::pointer<pt::statement_block> result = new pt::statement_block(ref->get_position());
+            lib::pointer<pt::statement_block> result = new pt::statement_block(ref->get_fragment());
             auto body = ref->get_body();
             auto tok = body->first;
             while(tok)
@@ -145,12 +145,12 @@ namespace g0at
                 statement_builder stmt_else_visitor;
                 stmt_else->accept(&stmt_else_visitor);
                 assert(stmt_else_visitor.has_stmt());
-                stmt = new pt::statement_if(ref->get_position(), expr_visitor.get_expr(),
+                stmt = new pt::statement_if(ref->get_fragment(), expr_visitor.get_expr(),
                     stmt_if_visitor.get_stmt(), stmt_else_visitor.get_stmt());
             }
             else
             {
-                stmt = new pt::statement_if(ref->get_position(), expr_visitor.get_expr(), stmt_if_visitor.get_stmt());
+                stmt = new pt::statement_if(ref->get_fragment(), expr_visitor.get_expr(), stmt_if_visitor.get_stmt());
             }
         }
 
@@ -162,11 +162,11 @@ namespace g0at
             {
                 tok_expr->accept(&visitor);
                 assert(visitor.has_expr());
-                stmt = new pt::statement_throw(ref->get_position(), visitor.get_expr());
+                stmt = new pt::statement_throw(ref->get_fragment(), visitor.get_expr());
             }
             else
             {
-                stmt = new pt::statement_throw(ref->get_position(), nullptr);
+                stmt = new pt::statement_throw(ref->get_fragment(), nullptr);
             }
         }
 
@@ -187,12 +187,12 @@ namespace g0at
                     statement_builder stmt_finally_visitor;
                     stmt_finally->accept(&stmt_finally_visitor);
                     assert(stmt_finally_visitor.has_stmt());
-                    stmt = new pt::statement_try(ref->get_position(), stmt_try_visitor.get_stmt(),
+                    stmt = new pt::statement_try(ref->get_fragment(), stmt_try_visitor.get_stmt(),
                         stmt_catch_visitor.get_stmt(), ref->get_var_name(), stmt_finally_visitor.get_stmt());
                 }
                 else
                 {
-                    stmt = new pt::statement_try(ref->get_position(), stmt_try_visitor.get_stmt(),
+                    stmt = new pt::statement_try(ref->get_fragment(), stmt_try_visitor.get_stmt(),
                         stmt_catch_visitor.get_stmt(), ref->get_var_name());
                 }
             }
@@ -203,7 +203,7 @@ namespace g0at
                 statement_builder stmt_finally_visitor;
                 stmt_finally->accept(&stmt_finally_visitor);
                 assert(stmt_finally_visitor.has_stmt());
-                stmt = new pt::statement_try(ref->get_position(), stmt_try_visitor.get_stmt(), stmt_finally_visitor.get_stmt());
+                stmt = new pt::statement_try(ref->get_fragment(), stmt_try_visitor.get_stmt(), stmt_finally_visitor.get_stmt());
             }
         }
 
@@ -244,12 +244,12 @@ namespace g0at
             assert(body_visitor.has_stmt());
             lib::pointer<pt::statement> node_body = body_visitor.get_stmt();
 
-            stmt = new pt::statement_for(ref->get_position(), node_stmt_init, node_condition, node_increment, node_body);
+            stmt = new pt::statement_for(ref->get_fragment(), node_stmt_init, node_condition, node_increment, node_body);
         }
 
         void statement_builder::visit(ast::statement_empty *ref)
         {
-            stmt = new pt::statement_empty(ref->get_position());
+            stmt = new pt::statement_empty(ref->get_fragment());
         }
 
         void statement_builder::visit(ast::statement_lock *ref)
@@ -257,7 +257,7 @@ namespace g0at
             statement_builder visitor;
             ref->get_statement()->accept(&visitor);
             assert(visitor.has_stmt());
-            stmt = new pt::statement_lock(ref->get_position(), visitor.get_stmt());
+            stmt = new pt::statement_lock(ref->get_fragment(), visitor.get_stmt());
         }
 
         void statement_builder::visit(ast::statement_for_in *ref)
@@ -268,7 +268,7 @@ namespace g0at
             statement_builder body_visitor;
             ref->get_body()->accept(&body_visitor);
             assert(body_visitor.has_stmt());
-            stmt = new pt::statement_for_in(ref->get_position(), ref->get_name(), ref->is_declared(),
+            stmt = new pt::statement_for_in(ref->get_fragment(), ref->get_name(), ref->is_declared(),
                 expr_visitor.get_expr(), body_visitor.get_stmt());
         }
 
@@ -280,17 +280,17 @@ namespace g0at
             statement_builder stmt_visitor;
             ref->get_statement()->accept(&stmt_visitor);
             assert(stmt_visitor.has_stmt());
-            stmt = new pt::statement_do_while(ref->get_position(), expr_visitor.get_expr(), stmt_visitor.get_stmt());
+            stmt = new pt::statement_do_while(ref->get_fragment(), expr_visitor.get_expr(), stmt_visitor.get_stmt());
         }
 
         void statement_builder::visit(ast::statement_break *ref)
         {
-            stmt = new pt::statement_break(ref->get_position());
+            stmt = new pt::statement_break(ref->get_fragment());
         }
 
         void statement_builder::visit(ast::statement_continue *ref)
         {
-            stmt = new pt::statement_continue(ref->get_position());
+            stmt = new pt::statement_continue(ref->get_fragment());
         }
 
         void statement_builder::visit(ast::statement_switch *ref)
@@ -298,7 +298,7 @@ namespace g0at
             expression_builder expr_visitor;
             ref->get_expression()->accept(&expr_visitor);
             assert(expr_visitor.has_expr());
-            lib::pointer<pt::statement_switch> result = new pt::statement_switch(ref->get_position(), expr_visitor.get_expr());
+            lib::pointer<pt::statement_switch> result = new pt::statement_switch(ref->get_fragment(), expr_visitor.get_expr());
             int i, n;
             for (i = 0, n = ref->get_count(); i < n; i++)
             {

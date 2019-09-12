@@ -31,7 +31,7 @@ namespace g0at
         class multiplication : public binary
         {
         public:
-            multiplication(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            multiplication(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             multiplication *to_multiplication() override;
         };

@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        statement_lock::statement_lock(lib::pointer<position> _pos, lib::pointer<statement> _stmt)
-            : statement(_pos), stmt(_stmt)
+        statement_lock::statement_lock(fragment _frag, lib::pointer<statement> _stmt)
+            : statement(_frag), stmt(_stmt)
         {
         }
 

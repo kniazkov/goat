@@ -30,7 +30,7 @@ namespace g0at
     class fragment
     {
     public:
-        lib::pointer<position> start;
+        lib::pointer<position> begin;
         lib::pointer<position> end;
     };
 };

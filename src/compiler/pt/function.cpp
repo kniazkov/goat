@@ -27,8 +27,8 @@ namespace g0at
 {
     namespace pt
     {
-        function::function(lib::pointer<position> _pos, function_type _type)
-            : node(_pos), type(_type)
+        function::function(fragment _frag, function_type _type)
+            : node(_frag), type(_type)
         {
             assert(_type == pt::function_type::function || _type == pt::function_type::thread);
         }

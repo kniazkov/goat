@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        statement_for::statement_for(lib::pointer<position> _pos, lib::pointer<statement> _stmt_init, lib::pointer<expression> _condition, lib::pointer<statement> _increment, lib::pointer<statement> _body)
-            : statement(_pos), stmt_init(_stmt_init), condition(_condition), increment(_increment), body(_body)
+        statement_for::statement_for(fragment _frag, lib::pointer<statement> _stmt_init, lib::pointer<expression> _condition, lib::pointer<statement> _increment, lib::pointer<statement> _body)
+            : statement(_frag), stmt_init(_stmt_init), condition(_condition), increment(_increment), body(_body)
         {
         }
 

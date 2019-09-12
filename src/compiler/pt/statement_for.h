@@ -32,7 +32,7 @@ namespace g0at
         class statement_for : public statement
         {
         public:
-            statement_for(lib::pointer<position> _pos, lib::pointer<statement> _stmt_init, lib::pointer<expression> _condition, lib::pointer<statement> _increment, lib::pointer<statement> _body);
+            statement_for(fragment _frag, lib::pointer<statement> _stmt_init, lib::pointer<expression> _condition, lib::pointer<statement> _increment, lib::pointer<statement> _body);
             void accept(node_visitor *visitor) override;
             statement_for *to_statement_for() override;
 

@@ -31,7 +31,7 @@ namespace g0at
         class assignment : public binary
         {
         public:
-            assignment(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            assignment(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             assignment *to_assignment() override;
         };

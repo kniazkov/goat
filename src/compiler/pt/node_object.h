@@ -35,7 +35,7 @@ namespace g0at
         class node_object : public expression
         {
         public:
-            node_object(lib::pointer<position> _pos);
+            node_object(fragment _frag);
             void accept(node_visitor *visitor) override;
             node_object *to_node_object() override;
 

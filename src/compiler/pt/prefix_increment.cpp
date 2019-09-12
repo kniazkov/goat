@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        prefix_increment::prefix_increment(lib::pointer<position> _pos, lib::pointer<expression> _right)
-            : unary_prefix(_pos, _right)
+        prefix_increment::prefix_increment(fragment _frag, lib::pointer<expression> _right)
+            : unary_prefix(_frag, _right)
         {
         }
 

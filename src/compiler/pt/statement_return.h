@@ -32,7 +32,7 @@ namespace g0at
         class statement_return : public statement
         {
         public:
-            statement_return(lib::pointer<position> _pos, lib::pointer<expression> _expr);
+            statement_return(fragment _frag, lib::pointer<expression> _expr);
             void accept(node_visitor *visitor) override;
             statement_return *to_statement_return() override;
 

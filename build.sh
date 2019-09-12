@@ -4,7 +4,7 @@ rm ./*.png -f
 mkdir -p build
 cd build
 cmake ../src
-make -j8
+make -j1
 cd ..
 ls -l build/goat
 [ -f build/goat ] && cp build/goat .

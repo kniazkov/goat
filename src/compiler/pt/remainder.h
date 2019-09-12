@@ -31,7 +31,7 @@ namespace g0at
         class remainder : public binary
         {
         public:
-            remainder(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            remainder(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             remainder *to_remainder() override;
         };

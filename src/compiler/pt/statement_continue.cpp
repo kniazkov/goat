@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        statement_continue::statement_continue(lib::pointer<position> _pos)
-            : statement(_pos)
+        statement_continue::statement_continue(fragment _frag)
+            : statement(_frag)
         {
         }
 

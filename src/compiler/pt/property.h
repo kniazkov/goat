@@ -32,7 +32,7 @@ namespace g0at
         class property : public expression
         {
         public:
-            property(lib::pointer<position> _pos, lib::pointer<expression> _left, std::wstring _right);
+            property(fragment _frag, lib::pointer<expression> _left, std::wstring _right);
             void accept(node_visitor *visitor) override;
             property *to_property() override;
 

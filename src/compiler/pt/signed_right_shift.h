@@ -31,7 +31,7 @@ namespace g0at
         class signed_right_shift : public binary
         {
         public:
-            signed_right_shift(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            signed_right_shift(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             signed_right_shift *to_signed_right_shift() override;
         };

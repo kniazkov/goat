@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        character::character(lib::pointer<position> _pos, wchar_t _value)
-            : expression(_pos), value(_value)
+        character::character(fragment _frag, wchar_t _value)
+            : expression(_frag), value(_value)
         {
         }
 

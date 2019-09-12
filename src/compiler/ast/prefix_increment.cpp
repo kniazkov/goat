@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace ast
     {
-        prefix_increment::prefix_increment(lib::pointer<expression> _right)
-            : unary_prefix(_right)
+        prefix_increment::prefix_increment(lib::pointer<expression> _right, token_operator *_oper)
+            : unary_prefix(_right, _oper)
         {
         }
 

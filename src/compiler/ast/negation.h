@@ -31,7 +31,7 @@ namespace g0at
         class negation : public unary_prefix
         {
         public:
-            negation(lib::pointer<expression> _right);
+            negation(lib::pointer<expression> _right, token_operator *_oper);
             void accept(token_visitor *visitor) override;
             negation *to_negation() override;
         };

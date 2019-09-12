@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace ast
     {
-        bitwise_not::bitwise_not(lib::pointer<expression> _right)
-            : unary_prefix(_right)
+        bitwise_not::bitwise_not(lib::pointer<expression> _right, token_operator *_oper)
+            : unary_prefix(_right, _oper)
         {
         }
 

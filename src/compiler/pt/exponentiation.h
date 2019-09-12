@@ -31,7 +31,7 @@ namespace g0at
         class exponentiation : public binary
         {
         public:
-            exponentiation(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            exponentiation(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             exponentiation *to_exponentiation() override;
         };

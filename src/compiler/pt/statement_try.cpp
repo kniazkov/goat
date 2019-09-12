@@ -26,18 +26,18 @@ namespace g0at
 {
     namespace pt
     {
-        statement_try::statement_try(lib::pointer<position> _pos, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_catch, std::wstring _var_name)
-            : statement(_pos), stmt_try(_stmt_try), stmt_catch(_stmt_catch), var_name(_var_name)
+        statement_try::statement_try(fragment _frag, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_catch, std::wstring _var_name)
+            : statement(_frag), stmt_try(_stmt_try), stmt_catch(_stmt_catch), var_name(_var_name)
         {
         }
 
-        statement_try::statement_try(lib::pointer<position> _pos, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_finally)
-            : statement(_pos), stmt_try(_stmt_try), stmt_finally(_stmt_finally)
+        statement_try::statement_try(fragment _frag, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_finally)
+            : statement(_frag), stmt_try(_stmt_try), stmt_finally(_stmt_finally)
         {
         }
 
-        statement_try::statement_try(lib::pointer<position> _pos, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_catch, std::wstring _var_name, lib::pointer<statement> _stmt_finally)
-            : statement(_pos), stmt_try(_stmt_try), stmt_catch(_stmt_catch), var_name(_var_name), stmt_finally(_stmt_finally)
+        statement_try::statement_try(fragment _frag, lib::pointer<statement> _stmt_try, lib::pointer<statement> _stmt_catch, std::wstring _var_name, lib::pointer<statement> _stmt_finally)
+            : statement(_frag), stmt_try(_stmt_try), stmt_catch(_stmt_catch), var_name(_var_name), stmt_finally(_stmt_finally)
         {
         }
 

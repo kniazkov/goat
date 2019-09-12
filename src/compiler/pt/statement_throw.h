@@ -32,7 +32,7 @@ namespace g0at
         class statement_throw : public statement
         {
         public:
-            statement_throw(lib::pointer<position> _pos, lib::pointer<expression> _expr);
+            statement_throw(fragment _frag, lib::pointer<expression> _expr);
             void accept(node_visitor *visitor) override;
             statement_throw *to_statement_throw() override;
 

@@ -31,7 +31,7 @@ namespace g0at
         class subtraction : public binary
         {
         public:
-            subtraction(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            subtraction(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             subtraction *to_subtraction() override;
         };

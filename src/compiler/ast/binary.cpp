@@ -29,7 +29,8 @@ namespace g0at
         binary::binary(lib::pointer<expression> _left, lib::pointer<expression> _right)
             : left(_left), right(_right)
         {
-            pos = left->get_position();
+            frag.begin = left->get_fragment().begin;
+            frag.end = right->get_fragment().end;
         }
 
         binary *binary::to_binary()

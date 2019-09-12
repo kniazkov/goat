@@ -31,7 +31,7 @@ namespace g0at
         class unary_plus : public unary_prefix
         {
         public:
-            unary_plus(lib::pointer<expression> _right);
+            unary_plus(lib::pointer<expression> _right, token_operator *_oper);
             void accept(token_visitor *visitor) override;
             unary_plus *to_unary_plus() override;
         };

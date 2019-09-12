@@ -31,7 +31,7 @@ namespace g0at
         class logical_and : public binary
         {
         public:
-            logical_and(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            logical_and(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             logical_and *to_logical_and() override;
         };

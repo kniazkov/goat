@@ -27,7 +27,7 @@ namespace g0at
     namespace pt
     {
         declare_function::declare_function(lib::pointer<function> _func)
-            : expression(_func->get_position()), func(_func)
+            : expression(_func->get_fragment()), func(_func)
         {
         }
 

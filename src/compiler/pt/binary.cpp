@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        binary::binary(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right)
-            : expression(_pos), left(_left), right(_right)
+        binary::binary(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right)
+            : expression(_frag), left(_left), right(_right)
         {
         }
 

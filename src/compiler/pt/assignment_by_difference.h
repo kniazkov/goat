@@ -31,7 +31,7 @@ namespace g0at
         class assignment_by_difference : public binary
         {
         public:
-            assignment_by_difference(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            assignment_by_difference(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             assignment_by_difference *to_assignment_by_difference() override;
         };

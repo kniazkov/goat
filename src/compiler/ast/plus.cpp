@@ -45,7 +45,7 @@ namespace g0at
 
         lib::pointer<token> plus::create_unary_prefix_operation(lib::pointer<expression> right)
         {
-            return new unary_plus(right);
+            return new unary_plus(right, this);
         }
     };
 };

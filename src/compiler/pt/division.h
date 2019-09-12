@@ -31,7 +31,7 @@ namespace g0at
         class division : public binary
         {
         public:
-            division(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            division(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             division *to_division() override;
         };

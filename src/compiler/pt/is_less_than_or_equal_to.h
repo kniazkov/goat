@@ -31,7 +31,7 @@ namespace g0at
         class is_less_than_or_equal_to : public binary
         {
         public:
-            is_less_than_or_equal_to(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            is_less_than_or_equal_to(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             is_less_than_or_equal_to *to_is_less_than_or_equal_to() override;
         };

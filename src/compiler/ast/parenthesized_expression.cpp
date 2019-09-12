@@ -31,7 +31,7 @@ namespace g0at
         {
             assert(_body->get_symbol() == L'(');
             raw.swap(_body->get_raw_list());
-            pos = _body->get_position();
+            frag = _body->get_fragment();
         }
 
         void parenthesized_expression::accept(token_visitor *visitor)

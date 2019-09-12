@@ -59,33 +59,33 @@ namespace g0at
                 assert(kw != nullptr);
 
                 if (!kw->next)
-                    throw expected_a_statement(kw->get_position());
+                    throw expected_a_statement(kw->get_fragment().end);
 
                 ast::statement *stmt = kw->next->to_statement();
                 if (!stmt)
-                    throw expected_a_statement(kw->next->get_position());
+                    throw expected_a_statement(kw->next->get_fragment().begin);
 
                 if (!stmt->next)
-                    throw expected_a_while_keyword(stmt->get_position());
+                    throw expected_a_while_keyword(stmt->get_fragment().end);
                 
                 ast::keyword_while *kw_while = stmt->next->to_keyword_while();
                 if (!kw_while)
-                    throw expected_a_while_keyword(stmt->next->get_position());
+                    throw expected_a_while_keyword(stmt->next->get_fragment().begin);
 
                 if (!kw_while->next)
-                    throw expected_a_conditional_expression(kw->get_position());
+                    throw expected_a_conditional_expression(kw->get_fragment().end);
                 
                 ast::brackets_pair *condition = kw_while->next->to_brackets_pair();
                 if (!condition || condition->get_symbol() != L'(')
-                    throw expected_a_conditional_expression(kw->get_position());
+                    throw expected_a_conditional_expression(kw->get_fragment().end);
 
                 auto list = condition->get_raw_list();
                 if (!list->has_only_one_item())
-                    throw expected_an_expression(condition->get_position());
+                    throw expected_an_expression(condition->get_fragment().begin);
 
                 ast::expression *expr = list->first->to_expression();
                 if (!expr)
-                    throw expected_an_expression(list->first->get_position());
+                    throw expected_an_expression(list->first->get_fragment().begin);
 
                 lib::pointer<ast::token> result = new ast::statement_do_while(kw, expr, stmt);
                 kw->replace(condition, result);

@@ -31,7 +31,7 @@ namespace g0at
         class bitwise_not : public unary_prefix
         {
         public:
-            bitwise_not(lib::pointer<expression> _right);
+            bitwise_not(lib::pointer<expression> _right, token_operator *_oper);
             void accept(token_visitor *visitor) override;
             bitwise_not *to_bitwise_not() override;
         };

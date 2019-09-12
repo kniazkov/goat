@@ -27,10 +27,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
+    namespace parser
+    {
+        class parser;
+    };
+
     namespace ast
     {
         class brackets_pair : public token_with_list
         {
+            friend class g0at::parser::parser;
         public:
             brackets_pair(bracket *open_bracket);
             void accept(token_visitor *visitor) override;
@@ -40,6 +46,11 @@ namespace g0at
             wchar_t get_inverse_symbol() { return inverse_symbol; }
 
         protected:
+            void set_end_position(lib::pointer<position> pos)
+            {
+                frag.end = pos;
+            }
+
             wchar_t symbol;
             wchar_t inverse_symbol;
         };

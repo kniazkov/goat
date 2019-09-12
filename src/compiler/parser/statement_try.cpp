@@ -60,14 +60,14 @@ namespace g0at
                 assert(kw != nullptr);
 
                 if (!kw->next)
-                    throw expected_a_statement(kw->get_position());
+                    throw expected_a_statement(kw->get_fragment().end);
 
                 ast::statement *stmt_try = kw->next->to_statement();
                 if (!stmt_try)
-                    throw expected_a_statement(kw->next->get_position());
+                    throw expected_a_statement(kw->next->get_fragment().begin);
 
                 if (!stmt_try->next)
-                    throw the_next_block_must_be_a_catch_or_finally(stmt_try->get_position());
+                    throw the_next_block_must_be_a_catch_or_finally(stmt_try->get_fragment().end);
 
                 ast::keyword *kw_catch = stmt_try->next->to_keyword_catch();
                 if (kw_catch)
@@ -75,7 +75,7 @@ namespace g0at
                     lib::pointer<ast::token> kw_catch_next = kw_catch->next;
 
                     if (!kw_catch_next)
-                        throw expected_a_statement(kw_catch->get_position());
+                        throw expected_a_statement(kw_catch->get_fragment().end);
 
                     std::wstring var_name = L"";
                     ast::brackets_pair *brackets = kw_catch->next->to_brackets_pair();
@@ -83,21 +83,21 @@ namespace g0at
                     {
                         ast::token_list *list = brackets->get_raw_list();
                         if (list->is_empty())
-                            throw expected_an_identifier(brackets->get_position());
+                            throw expected_an_identifier(brackets->get_fragment().begin);
                         if (!list->has_only_one_item())
-                            throw unable_to_parse_token_sequence(brackets->get_position());
+                            throw unable_to_parse_token_sequence(brackets->get_fragment().begin);
                         ast::identifier *ident = list->first->to_identifier();
                         if (!ident)
-                            throw expected_an_identifier(list->first->get_position());
+                            throw expected_an_identifier(list->first->get_fragment().begin);
                         var_name = ident->get_name();
                         kw_catch_next = kw_catch_next->next;
                         if (!kw_catch_next)
-                            throw expected_a_statement(brackets->get_position());
+                            throw expected_a_statement(brackets->get_fragment().end);
                     }
                     
                     ast::statement *stmt_catch = kw_catch_next->to_statement();
                     if (!stmt_catch)
-                        throw expected_a_statement(kw_catch_next->get_position());
+                        throw expected_a_statement(kw_catch_next->get_fragment().end);
                     
                     do
                     {
@@ -109,11 +109,11 @@ namespace g0at
                             break;
 
                         if (!kw_finally->next)
-                            throw expected_a_statement(kw_finally->get_position());
+                            throw expected_a_statement(kw_finally->get_fragment().end);
 
                         ast::statement *stmt_finally = kw_finally->next->to_statement();
                         if (!stmt_finally)
-                            throw expected_a_statement(kw_finally->next->get_position());
+                            throw expected_a_statement(kw_finally->next->get_fragment().end);
 
                         lib::pointer<ast::token> result = new ast::statement_try(kw, stmt_try, stmt_catch, var_name, stmt_finally);
                         kw->replace(stmt_finally, result);
@@ -127,14 +127,14 @@ namespace g0at
 
                 ast::keyword *kw_finally = stmt_try->next->to_keyword_finally();
                 if (!kw_finally)
-                    throw the_next_block_must_be_a_catch_or_finally(stmt_try->get_position());
+                    throw the_next_block_must_be_a_catch_or_finally(stmt_try->get_fragment().end);
 
                 if (!kw_finally->next)
-                    throw expected_a_statement(kw_finally->get_position());
+                    throw expected_a_statement(kw_finally->get_fragment().end);
 
                 ast::statement *stmt_finally = kw_finally->next->to_statement();
                 if (!stmt_finally)
-                    throw expected_a_statement(kw_finally->next->get_position());
+                    throw expected_a_statement(kw_finally->next->get_fragment().begin);
 
                 lib::pointer<ast::token> result = new ast::statement_try(kw, stmt_try, stmt_finally);
                 kw->replace(stmt_finally, result);

@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        left_shift::left_shift(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right)
-            : binary(_pos, _left, _right)
+        left_shift::left_shift(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right)
+            : binary(_frag, _left, _right)
         {
         }
 

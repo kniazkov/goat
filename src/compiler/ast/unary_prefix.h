@@ -32,7 +32,7 @@ namespace g0at
         class unary_prefix : public expression, public nonterminal
         {
         public:
-            unary_prefix(lib::pointer<expression> _right);
+            unary_prefix(lib::pointer<expression> _right, token_operator *_oper);
             unary_prefix *to_unary_prefix() override;
 
             lib::pointer<expression> get_right() { return right; }

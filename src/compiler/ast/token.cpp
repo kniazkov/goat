@@ -28,8 +28,7 @@ namespace g0at
     namespace ast
     {
         token::token()
-            : pos(nullptr), 
-            list(nullptr), prev(nullptr), next(nullptr), list_2(nullptr), prev_2(nullptr), next_2(nullptr)
+            : list(nullptr), prev(nullptr), next(nullptr), list_2(nullptr), prev_2(nullptr), next_2(nullptr)
         {
         }
 

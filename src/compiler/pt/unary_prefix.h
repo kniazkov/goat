@@ -31,7 +31,7 @@ namespace g0at
         class unary_prefix : public expression
         {
         public:
-            unary_prefix(lib::pointer<position> _pos, lib::pointer<expression> _right);
+            unary_prefix(fragment _frag, lib::pointer<expression> _right);
             unary_prefix *to_unary_prefix() override;
 
             lib::pointer<expression> get_right() { return right; }

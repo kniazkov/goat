@@ -31,7 +31,7 @@ namespace g0at
         class binary : public expression
         {
         public:
-            binary(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right);
+            binary(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right);
             binary *to_binary() override;
 
             lib::pointer<expression> get_left() { return left; }

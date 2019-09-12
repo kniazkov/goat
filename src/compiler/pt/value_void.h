@@ -31,7 +31,7 @@ namespace g0at
         class value_void : public expression
         {
         public:
-            value_void(lib::pointer<position> _pos);
+            value_void(fragment _frag);
             void accept(node_visitor *visitor) override;
             value_void *to_value_void() override;
         };

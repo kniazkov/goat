@@ -31,7 +31,7 @@ namespace g0at
         class prefix_increment : public unary_prefix
         {
         public:
-            prefix_increment(lib::pointer<position> _pos, lib::pointer<expression> _right);
+            prefix_increment(fragment _frag, lib::pointer<expression> _right);
             void accept(node_visitor *visitor) override;
             prefix_increment *to_prefix_increment() override;
         };

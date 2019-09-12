@@ -31,7 +31,7 @@ namespace g0at
         class ternary : public expression
         {
         public:
-            ternary(lib::pointer<position> _pos, lib::pointer<expression> _condition, lib::pointer<expression> _expr_true, lib::pointer<expression> _expr_false);
+            ternary(fragment _frag, lib::pointer<expression> _condition, lib::pointer<expression> _expr_true, lib::pointer<expression> _expr_false);
             void accept(node_visitor *visitor) override;
             ternary *to_ternary() override;
 

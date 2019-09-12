@@ -29,7 +29,8 @@ namespace g0at
         statement_for_in::statement_for_in(keyword_for *_kw, std::wstring _name, bool _declared, lib::pointer<expression> _expr, lib::pointer<statement> _body)
             : name(_name), declared(_declared), expr(_expr), body(_body)
         {
-            pos = _kw->get_position();
+            frag.begin = _kw->get_fragment().begin;
+            frag.end = _body->get_fragment().end;
         }
 
         void statement_for_in::accept(token_visitor *visitor)

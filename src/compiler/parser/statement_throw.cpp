@@ -64,7 +64,7 @@ namespace g0at
                 {
                     ast::expression *expr = kw->next->to_expression();
                     if (!expr)
-                        throw expected_an_expression(kw->next->get_position());
+                        throw expected_an_expression(kw->next->get_fragment().begin);
 
                     lib::pointer<ast::token> stmt = new ast::statement_throw(kw, expr);
 
@@ -76,7 +76,7 @@ namespace g0at
                     {
                         semicolon = expr->next->to_semicolon();
                         if (!semicolon)
-                            throw the_next_token_must_be_a_semicolon(expr->next->get_position());
+                            throw the_next_token_must_be_a_semicolon(expr->next->get_fragment().begin);
                         kw->replace(semicolon, stmt);
                     }
                 }

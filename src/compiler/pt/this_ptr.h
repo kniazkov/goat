@@ -31,7 +31,7 @@ namespace g0at
         class this_ptr : public expression
         {
         public:
-            this_ptr(lib::pointer<position> _pos);
+            this_ptr(fragment _frag);
             void accept(node_visitor *visitor) override;
             this_ptr *to_this_ptr() override;
         };

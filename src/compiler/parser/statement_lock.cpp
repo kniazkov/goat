@@ -47,11 +47,11 @@ namespace g0at
                 assert(kw != nullptr);
 
                 if (!kw->next)
-                    throw expected_a_statement(kw->get_position());
+                    throw expected_a_statement(kw->get_fragment().end);
 
                 ast::statement *stmt = kw->next->to_statement();
                 if (!stmt)
-                    throw expected_a_statement(kw->next->get_position());
+                    throw expected_a_statement(kw->next->get_fragment().begin);
 
                 lib::pointer<ast::token> result = new ast::statement_lock(kw, stmt);
                 kw->replace(stmt, result);

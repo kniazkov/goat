@@ -49,17 +49,11 @@ namespace g0at
                 assert(kw != nullptr);
 
                 if (!kw->next)
-                    throw expected_an_expression(kw->get_position());
+                    throw expected_an_expression(kw->get_fragment().end);
 
                 ast::expression *expr = kw->next->to_expression();
                 if (!expr)
-                    throw expected_an_expression(kw->next->get_position());
-
-                while (expr->next && expr->next->to_dot() != nullptr)
-                {
-                    // TODO
-                    break;
-                }
+                    throw expected_an_expression(kw->next->get_fragment().begin);
 
                 if (expr->next)
                 {
@@ -67,7 +61,7 @@ namespace g0at
                     if (args)
                     {
                         if (args->get_symbol() != '(')
-                            throw expected_an_argument_list(args->get_position());
+                            throw expected_an_argument_list(args->get_fragment().begin);
 
                         lib::pointer<ast::operator_new> op_new_0  = new ast::operator_new(kw, expr, args);
                         kw->replace(args, op_new_0.cast<ast::token>());

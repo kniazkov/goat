@@ -40,5 +40,7 @@ namespace g0at
         std::wstring data;
         int index;
         int max_index;
+        lib::pointer<position> cached_position;
+        int cached_position_index;
     };
 };

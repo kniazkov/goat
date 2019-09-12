@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace ast
     {
-        operator_bool::operator_bool(lib::pointer<expression> _right)
-            : unary_prefix(_right)
+        operator_bool::operator_bool(lib::pointer<expression> _right, token_operator *_oper)
+            : unary_prefix(_right, _oper)
         {
         }
 

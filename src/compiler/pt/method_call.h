@@ -33,7 +33,7 @@ namespace g0at
         class method_call : public expression
         {
         public:
-            method_call(lib::pointer<position> _pos, lib::pointer<expression> _left, std::wstring _right);
+            method_call(fragment _frag, lib::pointer<expression> _left, std::wstring _right);
             void accept(node_visitor *visitor) override;
             method_call *to_method_call() override;
 

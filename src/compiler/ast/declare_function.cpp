@@ -29,7 +29,7 @@ namespace g0at
         declare_function::declare_function(lib::pointer<function> _func)
         {
             func = _func;
-            pos = func->get_position();
+            frag = _func->get_fragment();
         }
 
         void declare_function::accept(token_visitor *visitor)

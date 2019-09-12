@@ -31,7 +31,7 @@ namespace g0at
         class statement_continue : public statement
         {
         public:
-            statement_continue(lib::pointer<position> _pos);
+            statement_continue(fragment _frag);
             void accept(node_visitor *visitor) override;
             statement_continue *to_statement_continue() override;
         };

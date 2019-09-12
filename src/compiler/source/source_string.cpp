@@ -51,6 +51,7 @@ namespace g0at
         data = _data;
         index = 0;
         max_index = (int)data.size();
+        cached_position_index = -1;
     }
 
     wchar_t source_string::get_char()
@@ -75,6 +76,11 @@ namespace g0at
 
     lib::pointer<position> source_string::get_position()
     {
-        return new source_string_position(index);
+        if (index == cached_position_index)
+            return cached_position;
+
+        cached_position_index = index;
+        cached_position = new source_string_position(index);
+        return cached_position;
     }
 };

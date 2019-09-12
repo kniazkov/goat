@@ -57,11 +57,11 @@ namespace g0at
                 assert(kw_in != nullptr);
                 
                 if (!kw_in->prev)
-                    throw expected_an_identifier(kw_in->get_position());
+                    throw expected_an_identifier(kw_in->get_fragment().begin);
 
                 ast::identifier *ident = kw_in->prev->to_identifier();
                 if (!ident)
-                    throw expected_an_identifier(kw_in->get_position());
+                    throw expected_an_identifier(kw_in->get_fragment().begin);
 
                 if (ident->prev)
                 {
@@ -72,7 +72,7 @@ namespace g0at
                     }
                     else
                     {
-                        throw expected_a_var_keyword(ident->get_position());
+                        throw expected_a_var_keyword(ident->get_fragment().begin);
                     }
                 }
                 else

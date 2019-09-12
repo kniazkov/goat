@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        zero_fill_right_shift::zero_fill_right_shift(lib::pointer<position> _pos, lib::pointer<expression> _left, lib::pointer<expression> _right)
-            : binary(_pos, _left, _right)
+        zero_fill_right_shift::zero_fill_right_shift(fragment _frag, lib::pointer<expression> _left, lib::pointer<expression> _right)
+            : binary(_frag, _left, _right)
         {
         }
 

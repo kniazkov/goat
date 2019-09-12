@@ -31,7 +31,7 @@ namespace g0at
         class value_undefined : public expression
         {
         public:
-            value_undefined(lib::pointer<position> _pos);
+            value_undefined(fragment _frag);
             void accept(node_visitor *visitor) override;
             value_undefined *to_value_undefined() override;
         };

@@ -61,24 +61,24 @@ namespace g0at
                 assert(kw != nullptr);
 
                 if (!kw->next)
-                    throw expected_parameters_of_cycle_statement(kw->get_position());
+                    throw expected_parameters_of_cycle_statement(kw->get_fragment().end);
 
                 ast::brackets_pair *params = kw->next->to_brackets_pair();
                 if (!params || params->get_symbol() != '(' || params->get_raw_list()->is_empty())
-                    throw expected_parameters_of_cycle_statement(kw->next->get_position());
+                    throw expected_parameters_of_cycle_statement(kw->next->get_fragment().begin);
 
                 lib::pointer<ast::token> param = params->get_raw_list()->first;
 
                 ast::statement *body = params->next->to_statement();
                 if (!body)
-                    throw expected_a_statement(params->next->get_position());
+                    throw expected_a_statement(params->next->get_fragment().begin);
 
                 ast::statement *stmt_init = param->to_statement();
                 if (stmt_init)
                 {
                     // for ([init] ; [condition] ; [increment])
                     if (!stmt_init->next)
-                        throw expected_an_expression(stmt_init->get_position());
+                        throw expected_an_expression(stmt_init->get_fragment().end);
 
                     lib::pointer<ast::expression> condition = nullptr;
                     ast::statement_expression *stmt_condition = stmt_init->next->to_statement_expression();
@@ -89,7 +89,7 @@ namespace g0at
                     else
                     {
                         if (stmt_init->next->to_statement_empty() == nullptr)
-                            throw expected_an_expression(stmt_init->next->get_position());
+                            throw expected_an_expression(stmt_init->next->get_fragment().begin);
                     }
 
                     lib::pointer<ast::statement> increment = nullptr;
@@ -97,7 +97,7 @@ namespace g0at
                     {
                         ast::expression *expr_increment = stmt_init->next->next->to_expression();
                         if (!expr_increment)
-                            throw expected_a_statement(stmt_init->next->next->get_position());
+                            throw expected_a_statement(stmt_init->next->next->get_fragment().begin);
                         increment = new ast::statement_expression(expr_increment);
                     }
                     
@@ -111,11 +111,11 @@ namespace g0at
                 if (var_in)
                 {
                     if (!var_in->next)
-                        throw expected_an_expression(var_in->get_position());
+                        throw expected_an_expression(var_in->get_fragment().end);
                     
                     ast::expression *expr = var_in->next->to_expression();
                     if (!expr)
-                        throw expected_an_expression(var_in->next->get_position());
+                        throw expected_an_expression(var_in->next->get_fragment().begin);
 
                     lib::pointer<ast::token> result = new ast::statement_for_in(kw, var_in->get_name(),
                         var_in->is_declared(), expr, body);
@@ -124,7 +124,7 @@ namespace g0at
                     return false;
                 }
 
-                throw expected_a_statement(param->get_position());
+                throw expected_a_statement(param->get_fragment().begin);
 
             }
         };

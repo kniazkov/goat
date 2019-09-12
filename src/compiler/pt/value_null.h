@@ -31,7 +31,7 @@ namespace g0at
         class value_null : public expression
         {
         public:
-            value_null(lib::pointer<position> _pos);
+            value_null(fragment _frag);
             void accept(node_visitor *visitor) override;
             value_null *to_value_null() override;
         };

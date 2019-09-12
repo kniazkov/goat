@@ -50,26 +50,26 @@ namespace g0at
                 assert(kw != nullptr);
 
                 if (!kw->next)
-                    throw expected_a_conditional_expression(kw->get_position());
+                    throw expected_a_conditional_expression(kw->get_fragment().end);
                 
                 ast::brackets_pair *condition = kw->next->to_brackets_pair();
                 if (!condition || condition->get_symbol() != L'(')
-                    throw expected_a_conditional_expression(kw->get_position());
+                    throw expected_a_conditional_expression(kw->get_fragment().end);
 
                 auto list = condition->get_raw_list();
                 if (!list->has_only_one_item())
-                    throw expected_an_expression(condition->get_position());
+                    throw expected_an_expression(condition->get_fragment().begin);
 
                 ast::expression *expr = list->first->to_expression();
                 if (!expr)
-                    throw expected_an_expression(list->first->get_position());
+                    throw expected_an_expression(list->first->get_fragment().begin);
 
                 if (!condition->next)
-                    throw expected_a_statement(condition->get_position());
+                    throw expected_a_statement(condition->get_fragment().end);
 
                 ast::statement *stmt_if = condition->next->to_statement();
                 if (!stmt_if)
-                    throw expected_a_statement(condition->next->get_position());
+                    throw expected_a_statement(condition->next->get_fragment().begin);
 
                 ast::statement *stmt_else = nullptr;
 
@@ -79,11 +79,11 @@ namespace g0at
                     if (kw_else)
                     {
                         if (!kw_else->next)
-                            throw expected_a_statement(kw_else->get_position());
+                            throw expected_a_statement(kw_else->get_fragment().end);
                         
                         stmt_else = kw_else->next->to_statement();
                         if (!stmt_else)
-                            throw expected_a_statement(kw_else->next->get_position());
+                            throw expected_a_statement(kw_else->next->get_fragment().begin);
                     }
                 }
 

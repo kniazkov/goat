@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        real::real(lib::pointer<position> _pos, double _value)
-            : expression(_pos), value(_value)
+        real::real(fragment _frag, double _value)
+            : expression(_frag), value(_value)
         {
         }
 

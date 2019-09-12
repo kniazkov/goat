@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        index_access::index_access(lib::pointer<position> _pos, lib::pointer<expression> _object)
-            : expression(_pos), object(_object)
+        index_access::index_access(fragment _frag, lib::pointer<expression> _object)
+            : expression(_frag), object(_object)
         {
         }
 

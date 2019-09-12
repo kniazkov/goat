@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace pt
     {
-        logical_not::logical_not(lib::pointer<position> _pos, lib::pointer<expression> _right)
-            : unary_prefix(_pos, _right)
+        logical_not::logical_not(fragment _frag, lib::pointer<expression> _right)
+            : unary_prefix(_frag, _right)
         {
         }
 

@@ -26,13 +26,13 @@ namespace g0at
 {
     namespace pt
     {
-        statement_if::statement_if(lib::pointer<position> _pos, lib::pointer<expression> _expr, lib::pointer<statement> _stmt_if)
-            : statement(_pos), expr(_expr), stmt_if(_stmt_if), stmt_else(nullptr)
+        statement_if::statement_if(fragment _frag, lib::pointer<expression> _expr, lib::pointer<statement> _stmt_if)
+            : statement(_frag), expr(_expr), stmt_if(_stmt_if), stmt_else(nullptr)
         {
         }
 
-        statement_if::statement_if(lib::pointer<position> _pos, lib::pointer<expression> _expr, lib::pointer<statement> _stmt_if, lib::pointer<statement> _stmt_else)
-            : statement(_pos), expr(_expr), stmt_if(_stmt_if), stmt_else(_stmt_else)
+        statement_if::statement_if(fragment _frag, lib::pointer<expression> _expr, lib::pointer<statement> _stmt_if, lib::pointer<statement> _stmt_else)
+            : statement(_frag), expr(_expr), stmt_if(_stmt_if), stmt_else(_stmt_else)
         {
         }
 

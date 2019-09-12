@@ -26,8 +26,8 @@ namespace g0at
 {
     namespace ast
     {
-        suffix_decrement::suffix_decrement(lib::pointer<expression> _left)
-            : unary_suffix(_left)
+        suffix_decrement::suffix_decrement(lib::pointer<expression> _left, token_operator *_oper)
+            : unary_suffix(_left, _oper)
         {
         }
 

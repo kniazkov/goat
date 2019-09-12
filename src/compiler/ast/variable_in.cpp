@@ -30,7 +30,7 @@ namespace g0at
         {
             ident = _ident;
             declared = _declared;
-            pos = ident->get_position();
+            frag = ident->get_fragment();
         }
 
         void variable_in::accept(token_visitor *visitor)
