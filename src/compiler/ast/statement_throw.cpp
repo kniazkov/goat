@@ -30,7 +30,7 @@ namespace g0at
             : expr(_expr)
         {
             frag.begin = _kw->get_fragment().begin;
-            frag.end = _expr->get_fragment().end;
+            frag.end = _expr != nullptr ? _expr->get_fragment().end : _kw->get_fragment().end;
         }
 
         void statement_throw::accept(token_visitor *visitor)

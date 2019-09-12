@@ -1,1 +1,3 @@
-program.goat, 2.9: the next token must be a comma or a semicolon
+    b = 3
+         ^
+program.goat, 2.10: the next token must be a comma or a semicolon

@@ -42,8 +42,10 @@ namespace g0at
 
     std::wstring all_source_data::get_fragment_by_index(int index)
     {
-        int i, k, n, p, a, b;
-        assert(index >= 0 && index < last_offset);
+        int j, k, n, p, a, b;
+        if (index >= last_offset)
+            index = last_offset - 1;
+        assert(index >= 0);
         for (k = 1, n = items.size(); k < n; k++)
         {
             if (items[k].offset > index)
@@ -69,7 +71,7 @@ namespace g0at
         }
         std::wstringstream buff;
         buff << data.substr(a, b - a) << '\n';
-        for (i = 0; i < p - a; i++)
+        for (j = 0; j < p - a; j++)
             buff << L' ';
         buff << L'^';
         return buff.str();

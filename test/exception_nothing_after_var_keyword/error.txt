@@ -1,1 +1,3 @@
-program.goat, 2.1: expected an identifier
+var
+   ^
+program.goat, 2.4: expected an identifier
