@@ -30,11 +30,12 @@ namespace g0at
     class source_file : public source
     {
     public:
-        source_file(std::string _file_name);
+        source_file(std::string _file_name, int _offset);
         wchar_t get_char() override;
         wchar_t get_char(int offset) override;
         wchar_t next() override;
         lib::pointer<position> get_position() override;
+        std::wstring get_data() override;
 
     protected:
         std::string file_name;
@@ -45,5 +46,6 @@ namespace g0at
         int column;
         lib::pointer<position> cached_position;
         int cached_position_index;
+        int offset;
     };
 };

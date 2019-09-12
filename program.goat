@@ -2,3 +2,5 @@ import "xml.goat";
 
 var root = Xml.parse("<root></root>");
 println(root.toString('\t'));
+
+println(1 2);

@@ -22,21 +22,33 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "compiler/source/position.h"
-#include "lib/pointer.h"
-#include "lib/exception.h"
+#include <vector>
 #include <string>
 
 namespace g0at
 {
-    class compilation_error : public lib::exception
+    class all_source_data
     {
     public:
-        compilation_error(lib::pointer<position> _pos, std::wstring _message);
+        all_source_data();
+        void add_data(std::wstring data);
+        std::wstring get_fragment_by_index(int index);
 
-        lib::pointer<position> get_position() { return pos; }
+        int get_last_offset() { return last_offset; };
 
     protected:
-        lib::pointer<position> pos;
+
+        struct item
+        {
+            std::wstring data;
+            int offset;
+        };
+
+        std::vector<item> items;
+        int last_offset;
+
+    private:
+        all_source_data(const all_source_data &) { }
+        void operator=(const all_source_data &) { }
     };
 };

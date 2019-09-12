@@ -24,8 +24,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
-    compilation_error::compilation_error(lib::pointer<position> pos, std::wstring message)
-        : lib::exception(pos->to_string() + L": " + message)
+    compilation_error::compilation_error(lib::pointer<position> _pos, std::wstring _message)
+        : lib::exception(_pos->to_string() + L": " + _message), pos(_pos)
     {
     }
 };

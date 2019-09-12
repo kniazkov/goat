@@ -46,12 +46,13 @@ namespace g0at
         int index;
     };
 
-    source_string::source_string(std::wstring _data)
+    source_string::source_string(std::wstring _data, int _offset)
     {
         data = _data;
         index = 0;
         max_index = (int)data.size();
         cached_position_index = -1;
+        offset = _offset;
     }
 
     wchar_t source_string::get_char()
@@ -80,7 +81,12 @@ namespace g0at
             return cached_position;
 
         cached_position_index = index;
-        cached_position = new source_string_position(index);
+        cached_position = new source_string_position(index + offset);
         return cached_position;
+    }
+
+    std::wstring source_string::get_data()
+    {
+        return data;
     }
 };

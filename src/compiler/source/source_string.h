@@ -30,11 +30,12 @@ namespace g0at
     class source_string : public source
     {
     public:
-        source_string(std::wstring _data);
+        source_string(std::wstring _data, int _offset);
         wchar_t get_char() override;
         wchar_t get_char(int offset) override;
         wchar_t next() override;
         lib::pointer<position> get_position() override;
+        std::wstring get_data() override;
 
     protected:
         std::wstring data;
@@ -42,5 +43,6 @@ namespace g0at
         int max_index;
         lib::pointer<position> cached_position;
         int cached_position_index;
+        int offset;
     };
 };

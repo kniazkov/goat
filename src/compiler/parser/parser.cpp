@@ -127,10 +127,10 @@ namespace g0at
             delete data;
         }
 
-        lib::pointer<ast::root> parser::parse(scanner *scan, bool debug, const char *prog_name, std::vector<std::string> &lib_path)
+        lib::pointer<ast::root> parser::parse(scanner *scan, bool debug, const char *prog_name, std::vector<std::string> &lib_path, all_source_data *listing)
         {
             parser pobj;
-            pobj.create_root(scan, lib_path);
+            pobj.create_root(scan, lib_path, listing);
             try
             {
                 pobj.parse();
@@ -144,7 +144,7 @@ namespace g0at
             return pobj.get_root();
         }
 
-        void parser::create_root(scanner *scan, std::vector<std::string> &lib_path)
+        void parser::create_root(scanner *scan, std::vector<std::string> &lib_path, all_source_data *listing)
         {
             root = new ast::root();
             delete data;
@@ -152,7 +152,7 @@ namespace g0at
             data->functions.push_back(root.get());
             parser_data_filler data_filler(data);
             std::set<std::string> imported;
-            parse_brackets_and_fill_data(scan, root.cast<ast::token_with_list>(), &data_filler, L'\0', imported, lib_path);
+            parse_brackets_and_fill_data(scan, root.cast<ast::token_with_list>(), &data_filler, L'\0', imported, lib_path, listing);
         }
 
         void parser::parse()
@@ -216,7 +216,7 @@ namespace g0at
 
         lib::pointer<position> parser::parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
             parser_data_filler *data_filler, wchar_t open_bracket, std::set<std::string> &imported,
-            std::vector<std::string> &lib_path)
+            std::vector<std::string> &lib_path, all_source_data *listing)
         {
             auto *tok_list = dst->get_raw_list();
             while(true)
@@ -242,7 +242,7 @@ namespace g0at
                         tok_list->add(bracket_expr.cast<ast::token>());
                         std::set<std::string> imported2;
                         lib::pointer<position> end_pos = parse_brackets_and_fill_data(scan, bracket_expr.cast<ast::token_with_list>(), data_filler,
-                            bracket->get_symbol(), imported2, lib_path);
+                            bracket->get_symbol(), imported2, lib_path, listing);
                         bracket_expr->set_end_position(end_pos);
                         bracket_expr->accept(data_filler);
                     }
@@ -286,9 +286,10 @@ namespace g0at
                     if (imported.find(full_path) == imported.end())
                     {
                         imported.insert(full_path);
-                        source_file src2(full_path);
+                        source_file src2(full_path, listing->get_last_offset());
+                        listing->add_data(src2.get_data());
                         scanner scan2(&src2);
-                        parse_brackets_and_fill_data(&scan2, dst, data_filler, L'\0', imported, lib_path);
+                        parse_brackets_and_fill_data(&scan2, dst, data_filler, L'\0', imported, lib_path, listing);
                     }
                 }
                 else
