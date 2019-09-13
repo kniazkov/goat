@@ -29,6 +29,5 @@ namespace g0at
     {
         lib::char_encoder *char_encoder = lib::utf8_encoder::get_instance();
         resource::resource *resource = resource::resource::get_instance("en");
-        bool debug = false;
     }
 };

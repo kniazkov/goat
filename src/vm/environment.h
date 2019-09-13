@@ -36,7 +36,7 @@ namespace g0at
         class environment : public lib::ref_counter
         {
         public:
-            environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list);
+            environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list, bool _debug);
             ~environment();
 
             gc_type get_gc_type() { return gct; }
@@ -44,6 +44,7 @@ namespace g0at
             model::context *get_context() { return ctx; } ;
             model::thread_list *get_thread_list() { return tlist; }
             lib::gc *get_gc() { return gc; }
+            bool debug_mode() { return debug; }
 
         protected:
             gc_type gct;
@@ -52,6 +53,7 @@ namespace g0at
             model::thread_list *tlist;
             process *proc;
             lib::gc *gc;
+            bool debug;
 
         private:
             environment(const environment &) { }

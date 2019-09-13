@@ -43,7 +43,7 @@ namespace g0at
             thr->iid = code::iid_t(0);
             thr->next = thr;
             thr->state = model::thread_state::ok;
-            if (!global::debug)
+            if (!env->debug_mode())
             {
                 while(thr != nullptr)
                 {

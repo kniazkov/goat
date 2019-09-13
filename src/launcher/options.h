@@ -45,6 +45,7 @@ namespace g0at
         char *gc_type_str;
         bool do_not_compress;
         std::vector<std::string> lib_path;
+        bool debug;
 
     protected:
         void parse_lib_path(const char *pathes);

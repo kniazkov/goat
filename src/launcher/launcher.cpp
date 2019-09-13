@@ -191,7 +191,7 @@ namespace g0at
                     }
                     if (!env)
                     {
-                        env = new vm::environment(gct, code->get_identifiers_list());
+                        env = new vm::environment(gct, code->get_identifiers_list(), true);
                     }
                     else
                     {
@@ -229,7 +229,7 @@ namespace g0at
                 lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code, true));
             }
             vm::vm vm(code);
-            env = new vm::environment(gct, code->get_identifiers_list());
+            env = new vm::environment(gct, code->get_identifiers_list(), opt.debug);
             ret_val = vm.run(env.get());
             if (opt.dump_memory_usage_report)
             {
@@ -257,7 +257,7 @@ namespace g0at
                     lib::dump_file(opt.prog_name, "ptree.txt", pt::dbg_output::to_string(node_root.get()));
                 }
                 model::name_cache name_cache;
-                auto code = codegen::generator::generate(&name_cache, node_root, global::debug);
+                auto code = codegen::generator::generate(&name_cache, node_root, opt.debug);
                 node_root.reset();
                 std::vector<uint8_t> binary;
                 code::serializer::serialize(code, binary, !opt.do_not_compress);
@@ -270,7 +270,7 @@ namespace g0at
                 if (!opt.compile)
                 {
                     vm::vm vm(code_2);
-                    env = new vm::environment(gct, code_2->get_identifiers_list());
+                    env = new vm::environment(gct, code_2->get_identifiers_list(), opt.debug);
                     ret_val = vm.run(env.get());
                 }
                 else

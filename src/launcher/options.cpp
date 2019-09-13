@@ -48,7 +48,8 @@ namespace g0at
             bin(false),
             dump_memory_usage_report(false),
             gc_type_str(nullptr),
-            do_not_compress(false)
+            do_not_compress(false),
+            debug(false)
     {
         lib_path.push_back(".");
     }
@@ -64,7 +65,7 @@ namespace g0at
         const char *env_debug = std::getenv("GOAT_DEBUG");
         if (env_debug && 0 == std::strcmp(env_debug, "1"))
         {
-            global::debug = true;
+            opt.debug = true;
         }
 
         for (int i = 1; i < argc; i++)
@@ -102,7 +103,7 @@ namespace g0at
                 }
                 else if (0 == std::strcmp(arg + 2, "debug"))
                 {
-                    global::debug = true;
+                    opt.debug = true;
                 }
                 else if (0 == std::strcmp(arg + 2, "dump-memory-usage-report"))
                 {
