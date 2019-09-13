@@ -33,5 +33,11 @@ namespace g0at
         instruction::~instruction()
         {
         }
+
+        bool instruction::exec_debug(model::thread *thr, vm::debug_mode_info *debug_info)
+        {
+            exec(thr);
+            return false;
+        }
     }
 };

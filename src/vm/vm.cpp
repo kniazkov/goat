@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "vm.h"
+#include "debug_mode_info.h"
 #include "model/object.h"
 #include "lib/assert.h"
 #include <iostream>
@@ -57,12 +58,20 @@ namespace g0at
             }
             else
             {
+                debug_mode_info debug_info;
                 while(thr != nullptr)
                 {
                     code::iid_t iid = thr->iid;
                     ++thr->iid;
                     auto instr = code->get_instruction(iid);
-                    instr->exec(thr);
+                    bool suspend = instr->exec_debug(thr, &debug_info);
+                    if (suspend)
+                    {
+                        std::wstring frag = env->get_listing()->get_fragment(debug_info.frame_begin, debug_info.frame_end);
+                        std::cout << std::endl << global::char_encoder->encode(frag) << std::endl << "> ";
+                        std::string line;
+                        std::getline(std::cin, line);
+                    }
                     if (!thr->stack_is_empty())
                     {
                         // convert any value to real object

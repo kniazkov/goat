@@ -191,7 +191,7 @@ namespace g0at
                     }
                     if (!env)
                     {
-                        env = new vm::environment(gct, code->get_identifiers_list(), true);
+                        env = new vm::environment(gct, code->get_identifiers_list(), true, &listing);
                     }
                     else
                     {
@@ -229,7 +229,7 @@ namespace g0at
                 lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code, true));
             }
             vm::vm vm(code);
-            env = new vm::environment(gct, code->get_identifiers_list(), opt.debug);
+            env = new vm::environment(gct, code->get_identifiers_list(), opt.debug, nullptr);
             ret_val = vm.run(env.get());
             if (opt.dump_memory_usage_report)
             {
@@ -270,7 +270,7 @@ namespace g0at
                 if (!opt.compile)
                 {
                     vm::vm vm(code_2);
-                    env = new vm::environment(gct, code_2->get_identifiers_list(), opt.debug);
+                    env = new vm::environment(gct, code_2->get_identifiers_list(), opt.debug, &listing);
                     ret_val = vm.run(env.get());
                 }
                 else

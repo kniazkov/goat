@@ -40,6 +40,35 @@ namespace g0at
         last_offset += (int)data.size();
     }
 
+    std::wstring all_source_data::get_fragment(int begin, int end)
+    {
+        int k, n, a, b;
+        if (begin >= last_offset)
+            begin = last_offset - 1;
+        assert(begin >= 0);
+        if (end < begin)
+            end = begin;
+        for (k = 1, n = items.size(); k < n; k++)
+        {
+            if (items[k].offset > begin)
+                break;
+        }
+        k--;
+        std::wstring &data = items[k].data;
+        a = begin - items[k].offset; // real offset
+        n = end - begin;
+        if (n > 80)
+            n = 80;
+        b = a; // end
+        while(b - a < n)
+        {
+            if (data[b] == '\r' || data[b] == '\n')
+                break;
+            b++;
+        }
+        return data.substr(a, b - a);
+    }
+
     std::wstring all_source_data::get_fragment_by_index(int index)
     {
         int j, k, n, p, a, b;

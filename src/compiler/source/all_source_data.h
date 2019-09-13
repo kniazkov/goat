@@ -32,6 +32,7 @@ namespace g0at
     public:
         all_source_data();
         void add_data(std::wstring data);
+        std::wstring get_fragment(int begin, int end);
         std::wstring get_fragment_by_index(int index);
 
         int get_last_offset() { return last_offset; };

@@ -22,26 +22,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "instruction.h"
-
 namespace g0at
 {
-    namespace code
+    namespace vm
     {
-        class _frame : public instruction
+        class debug_mode_info
         {
         public:
-            _frame(int _begin, int _end);
-            void accept(instruction_visitor *visitor) override;
-            void exec(model::thread *thr) override;
-            bool exec_debug(model::thread *thr, vm::debug_mode_info *debug_info) override;
+            debug_mode_info()
+                : frame_begin(-1), frame_end(-1)
+            {
+            }
 
-            int get_begin() { return begin; }
-            int get_end() { return end; }
-
-        protected:
-            int begin;
-            int end;
+            int frame_begin;
+            int frame_end;
         };
     };
 };
