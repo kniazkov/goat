@@ -183,7 +183,7 @@ namespace g0at
                     auto tok_root = parser::parser::parse(&scan, false, "shell", opt.lib_path, nullptr);
                     auto node_root = analyzer::analyzer::analyze(tok_root);
                     tok_root.reset();
-                    auto code = codegen::generator::generate(&name_cache, node_root);
+                    auto code = codegen::generator::generate(&name_cache, node_root, true);
                     node_root.reset();
                     if (opt.dump_assembler_code)
                     {
@@ -257,7 +257,7 @@ namespace g0at
                     lib::dump_file(opt.prog_name, "ptree.txt", pt::dbg_output::to_string(node_root.get()));
                 }
                 model::name_cache name_cache;
-                auto code = codegen::generator::generate(&name_cache, node_root);
+                auto code = codegen::generator::generate(&name_cache, node_root, global::debug);
                 node_root.reset();
                 std::vector<uint8_t> binary;
                 code::serializer::serialize(code, binary, !opt.do_not_compress);

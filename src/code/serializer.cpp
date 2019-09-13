@@ -58,6 +58,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "next.h"
 #include "if.h"
 #include "sector.h"
+#include "frame.h"
 
 namespace g0at
 {
@@ -606,6 +607,13 @@ namespace g0at
         void serializer::visit(_xor *ref)
         {
             push_opcode(op::_xor);
+        }
+
+        void serializer::visit(_frame *ref)
+        {
+            push_opcode(op::_frame);
+            push_int32(ref->get_begin());
+            push_int32(ref->get_end());
         }
     };
 };

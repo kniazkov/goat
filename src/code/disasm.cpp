@@ -54,6 +54,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "next.h"
 #include "if.h"
 #include "sector.h"
+#include "frame.h"
 
 
 namespace g0at
@@ -534,6 +535,11 @@ namespace g0at
         void disasm::visit(_xor *ref)
         {
             stream << L"xor";
+        }
+
+        void disasm::visit(_frame *ref)
+        {
+            stream << L"frame\t" << ref->get_begin() << L", " << ref->get_end();
         }
     };
 };

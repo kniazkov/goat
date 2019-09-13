@@ -130,7 +130,10 @@ namespace g0at
 
             // multithreading
             _lock,
-            _unlock
+            _unlock,
+
+            // debug
+            _frame
         };
     };
 };

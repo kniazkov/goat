@@ -43,8 +43,9 @@ namespace g0at
         class generator : public pt::node_visitor
         {
         public:
-            generator(model::name_cache *_name_cache);
-            static lib::pointer<code::code> generate(model::name_cache *name_cache, lib::pointer<pt::function> node_root);
+            generator(model::name_cache *_name_cache, bool _debug);
+            static lib::pointer<code::code> generate(model::name_cache *name_cache, lib::pointer<pt::function> node_root, bool debug);
+            void add_frame(pt::node *node);
             void visit(pt::variable *ref) override;
             void visit(pt::function *ref) override;
             void visit(pt::static_string *ref) override;
@@ -130,6 +131,7 @@ namespace g0at
             model::name_cache *name_cache;
             lib::pointer<lvalue_generator> lgen;
             std::deque<deferred_node> queue;
+            bool debug;
         };
     };
 };

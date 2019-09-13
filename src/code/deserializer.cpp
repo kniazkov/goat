@@ -108,6 +108,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "bitand.h"
 #include "bitor.h"
 #include "xor.h"
+#include "frame.h"
 
 namespace g0at
 {
@@ -703,6 +704,13 @@ namespace g0at
             dst->add_instruction(new _xor());
         }
 
+        void deserializer::c_frame(source *src, code *dst)
+        {
+            int begin = pop_int32(src);
+            int end = pop_int32(src);
+            dst->add_instruction(new _frame(begin, end));
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -785,6 +793,7 @@ namespace g0at
             cc[op::_bitand]  = c_bitand;
             cc[op::_bitor]   = c_bitor;
             cc[op::_xor]     = c_xor;
+            cc[op::_frame]   = c_frame;
         }
     };
 };

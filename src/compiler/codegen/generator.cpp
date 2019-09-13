@@ -176,6 +176,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/bitor.h"
 #include "code/xor.h"
 #include "code/swap.h"
+#include "code/frame.h"
 
 namespace g0at
 {
@@ -183,16 +184,16 @@ namespace g0at
     {
         using namespace code;
 
-        generator::generator(model::name_cache *_name_cache)
-            : name_cache(_name_cache)
+        generator::generator(model::name_cache *_name_cache, bool _debug)
+            : name_cache(_name_cache), debug(_debug)
         {
             code = new code::code();
             lgen = new lvalue_generator(code, name_cache, this);
         }
 
-        lib::pointer<code::code> generator::generate(model::name_cache *name_cache, lib::pointer<pt::function> node_root)
+        lib::pointer<code::code> generator::generate(model::name_cache *name_cache, lib::pointer<pt::function> node_root, bool debug)
         {
-            generator gen(name_cache);
+            generator gen(name_cache, debug);
             node_root->accept(&gen);
             while(!gen.queue.empty())
             {
@@ -203,6 +204,15 @@ namespace g0at
             }
             gen.code->set_identifiers_list(gen.name_cache->get_vector());
             return gen.code;
+        }
+
+        void generator::add_frame(pt::node *node)
+        {
+            if (debug)
+            {
+                auto frag = node->get_fragment();
+                code->add_instruction(new _frame(frag.begin->get_index(), frag.end->get_index()));
+            }
         }
 
         void generator::visit(pt::function *ref)
@@ -249,6 +259,7 @@ namespace g0at
 
         void generator::visit(pt::statement_expression *ref)
         {
+            add_frame(ref);
             ref->get_expression()->accept(this);
             code->add_instruction(new _pop());
         }
@@ -295,6 +306,7 @@ namespace g0at
 
         void generator::visit(pt::declare_variable *ref)
         {
+            add_frame(ref);
             for (int i = 0, count = ref->get_count(); i < count; i++)
             {
                 pt::variable_info info = ref->get_variable(i);
@@ -354,6 +366,7 @@ namespace g0at
 
         void generator::visit(pt::statement_return *ref)
         {
+            add_frame(ref);
             auto expr = ref->get_expression();
             if (expr)
             {
@@ -411,6 +424,7 @@ namespace g0at
 
         void generator::visit(pt::statement_while *ref)
         {
+            add_frame(ref);
             _sector *cycle = new _sector(iid_unknown(), iid_unknown());
             code->add_instruction(cycle);
             iid_t iid_begin = code->get_current_iid();
@@ -495,6 +509,7 @@ namespace g0at
 
         void generator::visit(pt::statement_if *ref)
         {
+            add_frame(ref);
             ref->get_expression()->accept(this);
             code->add_instruction(new _bool());
             _ifnot *ifnot = new _ifnot(iid_unknown());
@@ -518,6 +533,7 @@ namespace g0at
 
         void generator::visit(pt::statement_throw *ref)
         {
+            add_frame(ref);
             auto expr = ref->get_expression();
             if (expr)
             {
@@ -592,6 +608,7 @@ namespace g0at
 
         void generator::visit(pt::statement_for *ref)
         {
+            add_frame(ref);
             _sector *cycle = new _sector(iid_unknown(), iid_unknown());
             code->add_instruction(cycle);
             auto stmt_init = ref->get_stmt_init();
@@ -677,6 +694,7 @@ namespace g0at
 
         void generator::visit(pt::statement_for_in *ref)
         {
+            add_frame(ref);
             _sector *cycle = new _sector(iid_unknown(), iid_unknown());
             code->add_instruction(cycle);
             int name_id = name_cache->get_id(ref->get_name());
@@ -730,6 +748,7 @@ namespace g0at
 
         void generator::visit(pt::statement_switch *ref)
         {
+            add_frame(ref);
             _sector *sector = new _sector(iid_unknown(), iid_unknown());
             code->add_instruction(sector);
             ref->get_expression()->accept(this);
