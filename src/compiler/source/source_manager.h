@@ -22,34 +22,35 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "source.h"
 #include <vector>
 #include <string>
 
 namespace g0at
 {
-    class all_source_data
+    class source_manager
     {
     public:
-        all_source_data();
-        void add_data(std::wstring data);
+        source_manager();
+        source * create_source_from_string(std::wstring data);
+        source * create_source_from_file(std::string file_name);
         std::wstring get_fragment(int begin, int end);
         std::wstring get_fragment_by_index(int index);
 
-        int get_last_offset() { return last_offset; };
-
     protected:
-
         struct item
         {
-            std::wstring data;
+            lib::pointer<source> src;
             int offset;
         };
 
-        std::vector<item> items;
+        void add_source(lib::pointer<source> src);
+
+        std::vector<item> list;
         int last_offset;
 
     private:
-        all_source_data(const all_source_data &) { }
-        void operator=(const all_source_data &) { }
+        source_manager(const source_manager &) { }
+        void operator=(const source_manager &) { }
     };
 };

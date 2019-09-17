@@ -120,7 +120,7 @@ namespace g0at
         return cached_position;
     }
 
-    std::wstring source_file::get_data()
+    std::wstring &source_file::get_data()
     {
         return data;
     }

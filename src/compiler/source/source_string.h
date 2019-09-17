@@ -27,17 +27,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace g0at
 {
+    class source_manager;
+
     class source_string : public source
     {
+        friend class source_manager;
     public:
-        source_string(std::wstring _data, int _offset);
         wchar_t get_char() override;
         wchar_t get_char(int offset) override;
         wchar_t next() override;
         lib::pointer<position> get_position() override;
-        std::wstring get_data() override;
+        std::wstring &get_data() override;
 
     protected:
+        source_string(std::wstring _data, int _offset);
         std::wstring data;
         int index;
         int max_index;

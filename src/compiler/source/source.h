@@ -23,12 +23,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "position.h"
+#include "lib/ref_counter.h"
 #include "lib/pointer.h"
 #include <string>
 
 namespace g0at
 {
-    class source
+    class source : public lib::ref_counter
     {
     public:
         source();
@@ -37,6 +38,6 @@ namespace g0at
         virtual wchar_t get_char(int offset) = 0;
         virtual wchar_t next() = 0;
         virtual lib::pointer<position> get_position() = 0;
-        virtual std::wstring get_data() = 0;
+        virtual std::wstring &get_data() = 0;
     };
 };

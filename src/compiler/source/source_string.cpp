@@ -85,7 +85,7 @@ namespace g0at
         return cached_position;
     }
 
-    std::wstring source_string::get_data()
+    std::wstring &source_string::get_data()
     {
         return data;
     }

@@ -20,27 +20,43 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "all_source_data.h"
+#include "source_manager.h"
+#include "source_string.h"
+#include "source_file.h"
 #include "lib/assert.h"
 #include <sstream>
 
 namespace g0at
 {
-    all_source_data::all_source_data()
+    source_manager::source_manager()
         : last_offset(0)
     {
     }
 
-    void all_source_data::add_data(std::wstring data)
+    source * source_manager::create_source_from_string(std::wstring data)
     {
-        item i;
-        i.data = data;
-        i.offset = last_offset;
-        items.push_back(i);
-        last_offset += (int)data.size();
+        lib::pointer<source> src = new source_string(data, last_offset);
+        add_source(src);
+        return src.get();
     }
 
-    std::wstring all_source_data::get_fragment(int begin, int end)
+    source * source_manager::create_source_from_file(std::string file_name)
+    {
+        lib::pointer<source> src = new source_file(file_name, last_offset);
+        add_source(src);
+        return src.get();
+    }
+
+    void source_manager::add_source(lib::pointer<source> src)
+    {
+        item it;
+        it.src = src;
+        it.offset = last_offset;
+        list.push_back(it);
+        last_offset += (int)src->get_data().size();
+    }
+
+    std::wstring source_manager::get_fragment(int begin, int end)
     {
         int k, n, a, b;
         if (begin >= last_offset)
@@ -48,14 +64,14 @@ namespace g0at
         assert(begin >= 0);
         if (end < begin)
             end = begin;
-        for (k = 1, n = items.size(); k < n; k++)
+        for (k = 1, n = list.size(); k < n; k++)
         {
-            if (items[k].offset > begin)
+            if (list[k].offset > begin)
                 break;
         }
         k--;
-        std::wstring &data = items[k].data;
-        a = begin - items[k].offset; // real offset
+        std::wstring &data = list[k].src->get_data();
+        a = begin - list[k].offset; // real offset
         n = end - begin;
         if (n > 80)
             n = 80;
@@ -69,20 +85,20 @@ namespace g0at
         return data.substr(a, b - a);
     }
 
-    std::wstring all_source_data::get_fragment_by_index(int index)
+    std::wstring source_manager::get_fragment_by_index(int index)
     {
         int j, k, n, p, a, b;
         if (index >= last_offset)
             index = last_offset - 1;
         assert(index >= 0);
-        for (k = 1, n = items.size(); k < n; k++)
+        for (k = 1, n = list.size(); k < n; k++)
         {
-            if (items[k].offset > index)
+            if (list[k].offset > index)
                 break;
         }
         k--;
-        std::wstring &data = items[k].data;
-        p = index - items[k].offset; // real offset
+        std::wstring &data = list[k].src->get_data();
+        p = index - list[k].offset; // real offset
         n = (int)data.size();
         a = p; // begin
         while(a != 0 && p - a < 60)

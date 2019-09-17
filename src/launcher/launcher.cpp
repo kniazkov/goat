@@ -141,7 +141,7 @@ namespace g0at
 
         if (opt.prog_name == nullptr)
         {
-            all_source_data listing;
+            source_manager listing;
             model::name_cache name_cache;
             std::stringstream stream;
             bool multiline = false;
@@ -175,11 +175,10 @@ namespace g0at
                     stream << "print(" << program.substr(1, len) << ");";
                     program = stream.str();
                 }
-                source_string src(global::char_encoder->decode(program), listing.get_last_offset());
-                listing.add_data(src.get_data());
+                source *src = listing.create_source_from_string(global::char_encoder->decode(program));
                 try
                 {
-                    scanner scan(&src);
+                    scanner scan(src);
                     auto tok_root = parser::parser::parse(&scan, false, "shell", opt.lib_path, nullptr);
                     auto node_root = analyzer::analyzer::analyze(tok_root);
                     tok_root.reset();
@@ -239,12 +238,11 @@ namespace g0at
         }
         else
         {
-            all_source_data listing;
+            source_manager listing;
             try
             {
-                source_file src(opt.prog_name, 0);
-                listing.add_data(src.get_data());
-                scanner scan(&src);
+                source *src = listing.create_source_from_file(opt.prog_name);
+                scanner scan(src);
                 auto tok_root = parser::parser::parse(&scan, opt.dump_abstract_syntax_tree, opt.prog_name, opt.lib_path, &listing);
                 if (opt.dump_abstract_syntax_tree)
                 {

@@ -28,7 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "model/object_pool.h"
 #include "model/context.h"
 #include "model/thread.h"
-#include "compiler/source/all_source_data.h"
+#include "compiler/source/source_manager.h"
 
 namespace g0at
 {
@@ -38,7 +38,7 @@ namespace g0at
         {
         public:
             environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list,
-                bool _debug, all_source_data *_listing);
+                bool _debug, source_manager *_listing);
             ~environment();
 
             gc_type get_gc_type() { return gct; }
@@ -47,7 +47,7 @@ namespace g0at
             model::thread_list *get_thread_list() { return tlist; }
             lib::gc *get_gc() { return gc; }
             bool debug_mode() { return debug; }
-            all_source_data *get_listing() { return listing; };
+            source_manager *get_listing() { return listing; };
 
         protected:
             gc_type gct;
@@ -57,7 +57,7 @@ namespace g0at
             process *proc;
             lib::gc *gc;
             bool debug;
-            all_source_data *listing;
+            source_manager *listing;
 
         private:
             environment(const environment &) { }

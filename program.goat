@@ -1,4 +1,10 @@
-import "xml.goat";
+var f = function(v)
+{
+    if (v >= 5)
+        println(v - 5);
+};
 
-var root = Xml.parse("<root></root>");
-println(root.toString());
+for (var i = 0; i < 10; i++)
+{
+    f(i);
+};

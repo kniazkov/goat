@@ -127,7 +127,7 @@ namespace g0at
             delete data;
         }
 
-        lib::pointer<ast::root> parser::parse(scanner *scan, bool debug, const char *prog_name, std::vector<std::string> &lib_path, all_source_data *listing)
+        lib::pointer<ast::root> parser::parse(scanner *scan, bool debug, const char *prog_name, std::vector<std::string> &lib_path, source_manager *listing)
         {
             parser pobj;
             pobj.create_root(scan, lib_path, listing);
@@ -144,7 +144,7 @@ namespace g0at
             return pobj.get_root();
         }
 
-        void parser::create_root(scanner *scan, std::vector<std::string> &lib_path, all_source_data *listing)
+        void parser::create_root(scanner *scan, std::vector<std::string> &lib_path, source_manager *listing)
         {
             root = new ast::root();
             delete data;
@@ -216,7 +216,7 @@ namespace g0at
 
         lib::pointer<position> parser::parse_brackets_and_fill_data(scanner *scan, lib::pointer<ast::token_with_list> dst,
             parser_data_filler *data_filler, wchar_t open_bracket, std::set<std::string> &imported,
-            std::vector<std::string> &lib_path, all_source_data *listing)
+            std::vector<std::string> &lib_path, source_manager *listing)
         {
             auto *tok_list = dst->get_raw_list();
             while(true)
@@ -286,9 +286,8 @@ namespace g0at
                     if (imported.find(full_path) == imported.end())
                     {
                         imported.insert(full_path);
-                        source_file src2(full_path, listing->get_last_offset());
-                        listing->add_data(src2.get_data());
-                        scanner scan2(&src2);
+                        source *src2 = listing->create_source_from_file(full_path);
+                        scanner scan2(src2);
                         parse_brackets_and_fill_data(&scan2, dst, data_filler, L'\0', imported, lib_path, listing);
                     }
                 }
