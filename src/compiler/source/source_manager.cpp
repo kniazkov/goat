@@ -56,22 +56,28 @@ namespace g0at
         last_offset += (int)src->get_data().size();
     }
 
+    item * source_manager::find_item(int index)
+    {
+        int k, n;
+        for (k = 1, n = list.size(); k < n; k++)
+        {
+            if (list[k].offset > index)
+                break;
+        }
+        return &list[k - 1];
+    }
+
     std::wstring source_manager::get_fragment(int begin, int end)
     {
-        int k, n, a, b;
+        int n, a, b;
         if (begin >= last_offset)
             begin = last_offset - 1;
         assert(begin >= 0);
         if (end < begin)
             end = begin;
-        for (k = 1, n = list.size(); k < n; k++)
-        {
-            if (list[k].offset > begin)
-                break;
-        }
-        k--;
-        std::wstring &data = list[k].src->get_data();
-        a = begin - list[k].offset; // real offset
+        item *it = find_item(begin);
+        std::wstring &data = it->src->get_data();
+        a = begin - it->offset; // real offset
         n = end - begin;
         if (n > 80)
             n = 80;
@@ -87,18 +93,13 @@ namespace g0at
 
     std::wstring source_manager::get_fragment_by_index(int index)
     {
-        int j, k, n, p, a, b;
+        int j, n, p, a, b;
         if (index >= last_offset)
             index = last_offset - 1;
         assert(index >= 0);
-        for (k = 1, n = list.size(); k < n; k++)
-        {
-            if (list[k].offset > index)
-                break;
-        }
-        k--;
-        std::wstring &data = list[k].src->get_data();
-        p = index - list[k].offset; // real offset
+        item *it = find_item(index);
+        std::wstring &data = it->src->get_data();
+        p = index - it->offset; // real offset
         n = (int)data.size();
         a = p; // begin
         while(a != 0 && p - a < 60)

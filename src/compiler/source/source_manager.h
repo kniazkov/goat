@@ -45,6 +45,7 @@ namespace g0at
         };
 
         void add_source(lib::pointer<source> src);
+        item * find_item(int index);
 
         std::vector<item> list;
         int last_offset;
