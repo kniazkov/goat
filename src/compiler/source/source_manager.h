@@ -30,6 +30,9 @@ namespace g0at
 {
     class source_manager
     {
+    protected:
+        static const int max_width = 80;
+
     public:
         source_manager();
         source * create_source_from_string(std::wstring data);

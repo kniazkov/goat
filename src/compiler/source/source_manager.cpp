@@ -79,8 +79,8 @@ namespace g0at
         std::wstring &data = it->src->get_data();
         a = begin - it->offset; // real offset
         n = end - begin;
-        if (n > 80)
-            n = 80;
+        if (n > max_width)
+            n = max_width;
         b = a; // end
         while(b - a < n)
         {
@@ -102,14 +102,14 @@ namespace g0at
         p = index - it->offset; // real offset
         n = (int)data.size();
         a = p; // begin
-        while(a != 0 && p - a < 60)
+        while(a != 0 && p - a < max_width * 3 / 4)
         {
             if (data[a - 1] == '\r' || data[a - 1] == '\n')
                 break;
             a--;
         }
         b = p; // end
-        while(b != n && b - a < 80)
+        while(b != n && b - a < max_width)
         {
             if (data[b] == '\r' || data[b] == '\n')
                 break;
