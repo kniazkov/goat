@@ -38,6 +38,7 @@ namespace g0at
         virtual wchar_t get_char(int offset) = 0;
         virtual wchar_t next() = 0;
         virtual lib::pointer<position> get_position() = 0;
+        virtual lib::pointer<position> get_position(int absolute_position) = 0;
         virtual std::wstring &get_data() = 0;
     };
 };

@@ -34,14 +34,14 @@ namespace g0at
     class source_file_position : public position
     {
     public:
-        source_file_position(std::string _file_name, int _index, int _row, int _column)
-            : file_name(_file_name), index(_index), row(_row), column(_column)
+        source_file_position(std::string _file_name, int _absolute_position, int _row, int _column)
+            : file_name(_file_name), absolute_position(_absolute_position), row(_row), column(_column)
         {
         }
 
-        int get_index() override
+        int get_absolute_position() override
         {
-            return index;
+            return absolute_position;
         }
 
         std::wstring to_string() override
@@ -53,7 +53,7 @@ namespace g0at
 
     protected:
         std::string file_name;
-        int index;
+        int absolute_position;
         int row;
         int column;
     };
@@ -99,6 +99,7 @@ namespace g0at
             {
                 row++;
                 column = 1;
+                row_index.push_back(index + 1);
             }
             else
             {
@@ -118,6 +119,21 @@ namespace g0at
         cached_position_index = index;
         cached_position = new source_file_position(file_name, index + offset, row, column);
         return cached_position;
+    }
+
+    lib::pointer<position> source_file::get_position(int absolute_position)
+    {
+        int relative_position = absolute_position - offset;
+        assert(relative_position >= 0 && relative_position < (int)data.size());
+        int k, n;
+        for (k = 0, n = (int)row_index.size(); k < n; k++)
+        {
+            if (row_index[k] > relative_position)
+                break;
+        }
+        k--;
+        return new source_file_position(file_name, absolute_position, k + 2,
+            k < 0 ? relative_position + 1 : relative_position - row_index[k] + 1);
     }
 
     std::wstring &source_file::get_data()

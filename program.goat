@@ -1,3 +1,7 @@
+import "example.goat";
+
+testing();
+
 var f = function(v)
 {
     if (v >= 5)

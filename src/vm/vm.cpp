@@ -67,8 +67,11 @@ namespace g0at
                     bool suspend = instr->exec_debug(thr, &debug_info);
                     if (suspend)
                     {
-                        std::wstring frag = env->get_listing()->get_fragment(debug_info.frame_begin, debug_info.frame_end);
-                        std::cout << std::endl << global::char_encoder->encode(frag) << std::endl << "> ";
+                        source_manager *listing = env->get_listing();
+                        lib::pointer<position> pos = listing->get_position_by_absolute_position(debug_info.frame_begin);
+                        std::wstring frag = listing->get_fragment(debug_info.frame_begin, debug_info.frame_end);
+                        std::cout << std::endl << global::char_encoder->encode(pos->to_string()) 
+                                  << std::endl << global::char_encoder->encode(frag) << std::endl << "? ";
                         std::string line;
                         std::getline(std::cin, line);
                     }

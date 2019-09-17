@@ -145,10 +145,10 @@ namespace g0at
             model::name_cache name_cache;
             std::stringstream stream;
             bool multiline = false;
-            std::cout << "Hello~" << std::endl;
+            std::cout << "Ok." << std::endl;
             while(true)
             {
-                std::cout << (multiline ? "  " : "> ");
+                std::cout << (multiline ? "  " : "? ");
                 std::string line;
                 std::string program;
                 std::getline(std::cin, line);
@@ -287,8 +287,8 @@ namespace g0at
             }
             catch (compilation_error &c_err)
             {
-                int index = c_err.get_position()->get_index();
-                std::wstring frag = listing.get_fragment_by_index(index);
+                int pos = c_err.get_position()->get_absolute_position();
+                std::wstring frag = listing.get_fragment_by_absolute_position(pos);
                 std::cerr << global::char_encoder->encode(frag) << std::endl << c_err.what() << std::endl;
                 return -1;
             }

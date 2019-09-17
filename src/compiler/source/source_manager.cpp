@@ -56,12 +56,15 @@ namespace g0at
         last_offset += (int)src->get_data().size();
     }
 
-    source_manager::item * source_manager::find_item(int index)
+    source_manager::item * source_manager::find_item(int &pos)
     {
-        int k, n;
+        if (pos >= last_offset)
+            pos = last_offset - 1;
+        assert(pos >= 0);
+         int k, n;
         for (k = 1, n = list.size(); k < n; k++)
         {
-            if (list[k].offset > index)
+            if (list[k].offset > pos)
                 break;
         }
         return &list[k - 1];
@@ -70,12 +73,9 @@ namespace g0at
     std::wstring source_manager::get_fragment(int begin, int end)
     {
         int n, a, b;
-        if (begin >= last_offset)
-            begin = last_offset - 1;
-        assert(begin >= 0);
+        item *it = find_item(begin);
         if (end < begin)
             end = begin;
-        item *it = find_item(begin);
         std::wstring &data = it->src->get_data();
         a = begin - it->offset; // real offset
         n = end - begin;
@@ -91,15 +91,12 @@ namespace g0at
         return data.substr(a, b - a);
     }
 
-    std::wstring source_manager::get_fragment_by_index(int index)
+    std::wstring source_manager::get_fragment_by_absolute_position(int pos)
     {
         int j, n, p, a, b;
-        if (index >= last_offset)
-            index = last_offset - 1;
-        assert(index >= 0);
-        item *it = find_item(index);
+        item *it = find_item(pos);
         std::wstring &data = it->src->get_data();
-        p = index - it->offset; // real offset
+        p = pos - it->offset; // real offset
         n = (int)data.size();
         a = p; // begin
         while(a != 0 && p - a < max_width * 3 / 4)
@@ -121,5 +118,11 @@ namespace g0at
             buff << L' ';
         buff << L'^';
         return buff.str();
+    }
+
+    lib::pointer<position> source_manager::get_position_by_absolute_position(int pos)
+    {
+        item *it = find_item(pos);
+        return it->src->get_position(pos);
     }
 };

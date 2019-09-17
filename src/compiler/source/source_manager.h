@@ -38,7 +38,8 @@ namespace g0at
         source * create_source_from_string(std::wstring data);
         source * create_source_from_file(std::string file_name);
         std::wstring get_fragment(int begin, int end);
-        std::wstring get_fragment_by_index(int index);
+        std::wstring get_fragment_by_absolute_position(int pos);
+        lib::pointer<position> get_position_by_absolute_position(int pos);
 
     protected:
         class item
@@ -49,7 +50,7 @@ namespace g0at
         };
 
         void add_source(lib::pointer<source> src);
-        item * find_item(int index);
+        item * find_item(int &pos);
 
         std::vector<item> list;
         int last_offset;

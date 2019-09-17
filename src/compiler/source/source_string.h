@@ -37,6 +37,7 @@ namespace g0at
         wchar_t get_char(int offset) override;
         wchar_t next() override;
         lib::pointer<position> get_position() override;
+        lib::pointer<position> get_position(int absolute_position) override;
         std::wstring &get_data() override;
 
     protected:

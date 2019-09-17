@@ -211,7 +211,7 @@ namespace g0at
             if (debug)
             {
                 auto frag = node->get_fragment();
-                code->add_instruction(new _frame(frag.begin->get_index(), frag.end->get_index()));
+                code->add_instruction(new _frame(frag.begin->get_absolute_position(), frag.end->get_absolute_position()));
             }
         }
 

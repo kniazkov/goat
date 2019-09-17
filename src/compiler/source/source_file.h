@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "source.h"
 #include <string>
+#include <vector>
 
 namespace g0at
 {
@@ -38,6 +39,7 @@ namespace g0at
         wchar_t get_char(int offset) override;
         wchar_t next() override;
         lib::pointer<position> get_position() override;
+        lib::pointer<position> get_position(int absolute_position) override;
         std::wstring &get_data() override;
 
     protected:
@@ -47,8 +49,10 @@ namespace g0at
         int max_index;
         int row;
         int column;
+        std::vector<int> row_index;
         lib::pointer<position> cached_position;
         int cached_position_index;
         int offset;
+
     };
 };
