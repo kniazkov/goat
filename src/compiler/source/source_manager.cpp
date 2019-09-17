@@ -56,7 +56,7 @@ namespace g0at
         last_offset += (int)src->get_data().size();
     }
 
-    item * source_manager::find_item(int index)
+    source_manager::item * source_manager::find_item(int index)
     {
         int k, n;
         for (k = 1, n = list.size(); k < n; k++)

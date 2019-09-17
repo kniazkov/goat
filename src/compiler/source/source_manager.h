@@ -38,8 +38,9 @@ namespace g0at
         std::wstring get_fragment_by_index(int index);
 
     protected:
-        struct item
+        class item
         {
+        public:
             lib::pointer<source> src;
             int offset;
         };
