@@ -34,6 +34,7 @@ namespace g0at
             _vcall(int _id, int _arg_count);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
+            bool exec_debug(model::thread *thr, vm::debug_mode_info *debug_info) override;
 
             int get_id() { return id; }
             int get_arg_count() { return arg_count; }

@@ -218,6 +218,12 @@ namespace g0at
         void generator::visit(pt::function *ref)
         {
             int code_size = ref->get_code_size();
+
+            if (ref->is_root_function())
+            {
+                code->add_instruction(new _frame(0, 0));
+            }
+
             for (int i = 0; i < code_size; i++)
             {
                 ref->get_stmt(i)->accept(this);

@@ -29,13 +29,18 @@ namespace g0at
         class debug_mode_info
         {
         public:
-            debug_mode_info()
-                : frame_begin(-1), frame_end(-1)
+            debug_mode_info() :
+                frame_begin(-1),
+                frame_end(-1),
+                set_level(0),
+                current_level(0)
             {
             }
 
             int frame_begin;
             int frame_end;
+            int set_level;
+            int current_level;
         };
     };
 };

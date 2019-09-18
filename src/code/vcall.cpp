@@ -57,5 +57,12 @@ namespace g0at
             else
                 func->call(thr, arg_count, model::call_mode::as_method);
         }
+
+        bool _vcall::exec_debug(model::thread *thr, vm::debug_mode_info *debug_info)
+        {
+            exec(thr);
+            debug_info->current_level++;
+            return false;
+        }
     };
 };

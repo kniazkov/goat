@@ -38,14 +38,14 @@ namespace g0at
 
         void _frame::exec(model::thread *thr)
         {
-
+            // do nothing
         }
 
         bool _frame::exec_debug(model::thread *thr, vm::debug_mode_info *debug_info)
         {
             debug_info->frame_begin = begin;
             debug_info->frame_end = end;
-            return true;
+            return debug_info->set_level == debug_info->current_level;
         }
     };
 };

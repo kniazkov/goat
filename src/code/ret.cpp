@@ -64,5 +64,12 @@ namespace g0at
                 thr->state = model::thread_state::zombie;
             }
         }
+
+        bool _ret::exec_debug(model::thread *thr, vm::debug_mode_info *debug_info)
+        {
+            exec(thr);
+            debug_info->current_level--;
+            return false;
+        }
     };
 };
