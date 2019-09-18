@@ -6,6 +6,8 @@ var f = function(v)
 {
     if (v >= 5)
         println(v - 5);
+    if (v >= 7)
+        println(v - 7);
 };
 
 for (var i = 0; i < 10; i++)

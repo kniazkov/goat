@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "debug_mode_info.h"
 #include "model/object.h"
 #include "lib/assert.h"
+#include "lib/utils.h"
 #include <iostream>
 #include <climits>
 
@@ -71,9 +72,42 @@ namespace g0at
                         lib::pointer<position> pos = listing->get_position_by_absolute_position(debug_info.frame_begin);
                         std::wstring frag = listing->get_fragment(debug_info.frame_begin, debug_info.frame_end);
                         std::cout << '\n' << global::char_encoder->encode(pos->to_string()) 
-                                  << '\n' << global::char_encoder->encode(frag) << '\n' << "? ";
+                                  << '\n' << global::char_encoder->encode(frag) << '\n';
+                        switch (debug_info.state)
+                        {
+                            case debug_mode_state::step_over:
+                                std::cout << "n "; // next
+                                break;
+                            case debug_mode_state::step_into:
+                                std::cout << "e "; // enter
+                                break;
+                            case debug_mode_state::step_out:
+                                std::cout << "l "; // leave
+                                break;
+                        }
+                        std::cout << "? ";
                         std::string line;
                         std::getline(std::cin, line);
+                        line = lib::trim(line);
+                        
+                        if (line == "c") // continue
+                            debug_info.state = debug_mode_state::do_not_stop;
+                        else if (line == "n") // next
+                            debug_info.state = debug_mode_state::step_over;
+                        else if (line == "e") // enter
+                            debug_info.state = debug_mode_state::step_into;
+                        else if (line == "l") // leave
+                            debug_info.state = debug_mode_state::step_out;
+
+                        switch (debug_info.state)
+                        {
+                            case debug_mode_state::step_into:
+                                debug_info.set_level++;
+                                break;
+                            case debug_mode_state::step_out:
+                                debug_info.set_level--;
+                                break;
+                        }
                     }
                     if (!thr->stack_is_empty())
                     {

@@ -45,6 +45,15 @@ namespace g0at
         {
             debug_info->frame_begin = begin;
             debug_info->frame_end = end;
+            if (debug_info->set_level > debug_info->current_level)
+            {
+                debug_info->set_level = debug_info->current_level;
+            }
+            switch(debug_info->state)
+            {
+                case vm::debug_mode_state::do_not_stop:
+                    return false;
+            }
             return debug_info->set_level == debug_info->current_level;
         }
     };
