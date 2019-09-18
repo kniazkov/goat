@@ -60,7 +60,18 @@ namespace g0at
             else
             {
                 debug_mode_info debug_info;
-                thr->debug_state = model::thread_debug_state::step_over;
+                if (!env->run_mode())
+                {
+                    while(true)
+                    {
+                        std::cout << "? ";
+                        std::string line;
+                        std::getline(std::cin, line);
+                        line = lib::trim(line);
+                        if (line == "r")
+                            break;
+                    }
+                }
                 while(thr != nullptr)
                 {
                     code::iid_t iid = thr->iid;

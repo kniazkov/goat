@@ -49,7 +49,8 @@ namespace g0at
             dump_memory_usage_report(false),
             gc_type_str(nullptr),
             do_not_compress(false),
-            debug(false)
+            debug(false),
+            run(false)
     {
         lib_path.push_back(".");
     }
@@ -104,6 +105,10 @@ namespace g0at
                 else if (0 == std::strcmp(arg + 2, "debug"))
                 {
                     opt.debug = true;
+                }
+                else if (0 == std::strcmp(arg + 2, "run"))
+                {
+                    opt.run = true;
                 }
                 else if (0 == std::strcmp(arg + 2, "dump-memory-usage-report"))
                 {

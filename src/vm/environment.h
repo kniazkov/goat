@@ -38,7 +38,7 @@ namespace g0at
         {
         public:
             environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list,
-                bool _debug, source_manager *_listing);
+                bool _debug, bool _run, source_manager *_listing);
             ~environment();
 
             gc_type get_gc_type() { return gct; }
@@ -47,6 +47,7 @@ namespace g0at
             model::thread_list *get_thread_list() { return tlist; }
             lib::gc *get_gc() { return gc; }
             bool debug_mode() { return debug; }
+            bool run_mode() { return run; }
             source_manager *get_listing() { return listing; };
 
         protected:
@@ -57,6 +58,7 @@ namespace g0at
             process *proc;
             lib::gc *gc;
             bool debug;
+            bool run;
             source_manager *listing;
 
         private:

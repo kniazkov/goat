@@ -29,8 +29,8 @@ namespace g0at
     namespace vm
     {
         environment::environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list,
-            bool _debug, source_manager *_listing)
-            : gct(_gc_type), debug(_debug), listing(_listing)
+            bool _debug, bool _run, source_manager *_listing)
+            : gct(_gc_type), debug(_debug), run(_run), listing(_listing)
         {
             pool = new model::object_pool(_identifiers_list);
             ctx = model::built_in::context_factory(pool).create_context();
