@@ -37,7 +37,7 @@ namespace g0at
     protected:
         scanner(const scanner &) { }
         void operator=(const scanner &) { }
-        lib::pointer<ast::token> create_token();
+        lib::pointer<ast::token> create_token(lib::pointer<position> &begin);
         std::wstring parse_string_sequence(wchar_t closing_quote);
 
         source *src;

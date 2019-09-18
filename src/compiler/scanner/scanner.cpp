@@ -247,20 +247,18 @@ namespace g0at
         }
 
         fragment frag;
-        frag.begin = src->get_position();
-        lib::pointer<ast::token> tok = create_token();
-        frag.end = src->get_position();
+        lib::pointer<ast::token> tok = create_token(frag.begin);
         if (tok)
         {
+            frag.end = src->get_position();
             tok->frag = frag;
         }
         return tok;
     }
 
-    lib::pointer<ast::token> scanner::create_token()
+    lib::pointer<ast::token> scanner::create_token(lib::pointer<position> &begin)
     {
         wchar_t c = src->get_char();
-
 
         while(true)
         {
@@ -315,6 +313,8 @@ namespace g0at
                 break;
             }
         }
+
+        begin = src->get_position();
 
         if (is_letter(c))
         {
