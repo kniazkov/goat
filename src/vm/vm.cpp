@@ -65,9 +65,7 @@ namespace g0at
                     while(true)
                     {
                         std::cout << "? ";
-                        std::string line;
-                        std::getline(std::cin, line);
-                        line = lib::trim(line);
+                        std::string line = lib::get_line();
                         if (line == "r")
                             break;
                     }
@@ -97,9 +95,7 @@ namespace g0at
                                 std::cout << "[l] ";    // leave
                                 break;
                         }
-                        std::string line;
-                        std::getline(std::cin, line);
-                        line = lib::trim(line);
+                        std::string line = lib::get_line();
                         
                         if (line == "c")                // continue
                             thr->debug_state = model::thread_debug_state::do_not_stop;

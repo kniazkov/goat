@@ -148,10 +148,9 @@ namespace g0at
             std::cout << "Ok." << std::endl;
             while(true)
             {
-                std::cout << (multiline ? "  " : "? ");
-                std::string line;
+                std::cout << (multiline ? "  " : "> ");
                 std::string program;
-                std::getline(std::cin, line);
+                std::string line = lib::get_line();
                 if (line == "")
                     continue;
                 if (line[line.size() - 1] == '\\')
