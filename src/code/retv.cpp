@@ -73,12 +73,5 @@ namespace g0at
                     *(thr->ret) = val;
             }
         }
-
-        bool _retv::exec_debug(model::thread *thr, vm::debug_mode_info *debug_info)
-        {
-            exec(thr);
-            debug_info->current_level--;
-            return false;
-        }
     };
 };

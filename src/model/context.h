@@ -62,6 +62,7 @@ namespace g0at
             variable *ret;
             int stack_size;
             int lock;
+            int debug_level;
         };
     };
 };

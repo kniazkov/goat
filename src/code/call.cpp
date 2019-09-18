@@ -57,7 +57,7 @@ namespace g0at
         bool _call::exec_debug(model::thread *thr, vm::debug_mode_info *debug_info)
         {
             exec(thr);
-            debug_info->current_level++;
+            thr->ctx->debug_level++;
             return false;
         }
     };

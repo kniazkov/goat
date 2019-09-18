@@ -60,6 +60,7 @@ namespace g0at
             else
             {
                 debug_mode_info debug_info;
+                thr->debug_state = model::thread_debug_state::step_over;
                 while(thr != nullptr)
                 {
                     code::iid_t iid = thr->iid;
@@ -72,40 +73,39 @@ namespace g0at
                         lib::pointer<position> pos = listing->get_position_by_absolute_position(debug_info.frame_begin);
                         std::wstring frag = listing->get_fragment(debug_info.frame_begin, debug_info.frame_end);
                         std::cout << '\n' << global::char_encoder->encode(pos->to_string()) 
-                                  << '\n' << global::char_encoder->encode(frag) << '\n';
-                        switch (debug_info.state)
+                                  << '\n' << global::char_encoder->encode(frag) << "\n? ";
+                        switch (thr->debug_state)
                         {
-                            case debug_mode_state::step_over:
-                                std::cout << "n "; // next
+                            case model::thread_debug_state::step_into:
+                                std::cout << "[e] ";    // enter
                                 break;
-                            case debug_mode_state::step_into:
-                                std::cout << "e "; // enter
+                            case model::thread_debug_state::step_over:
+                                std::cout << "[n] ";    // next
                                 break;
-                            case debug_mode_state::step_out:
-                                std::cout << "l "; // leave
+                            case model::thread_debug_state::step_out:
+                                std::cout << "[l] ";    // leave
                                 break;
                         }
-                        std::cout << "? ";
                         std::string line;
                         std::getline(std::cin, line);
                         line = lib::trim(line);
                         
-                        if (line == "c") // continue
-                            debug_info.state = debug_mode_state::do_not_stop;
-                        else if (line == "n") // next
-                            debug_info.state = debug_mode_state::step_over;
-                        else if (line == "e") // enter
-                            debug_info.state = debug_mode_state::step_into;
-                        else if (line == "l") // leave
-                            debug_info.state = debug_mode_state::step_out;
+                        if (line == "c")                // continue
+                            thr->debug_state = model::thread_debug_state::do_not_stop;
+                        else if (line == "e")           // enter
+                            thr->debug_state = model::thread_debug_state::step_into;
+                        else if (line == "n")           // next
+                            thr->debug_state = model::thread_debug_state::step_over;
+                        else if (line == "l")           // leave
+                            thr->debug_state = model::thread_debug_state::step_out;
 
-                        switch (debug_info.state)
+                        switch (thr->debug_state)
                         {
-                            case debug_mode_state::step_into:
-                                debug_info.set_level++;
+                            case model::thread_debug_state::step_into:
+                                thr->debug_level++;
                                 break;
-                            case debug_mode_state::step_out:
-                                debug_info.set_level--;
+                            case model::thread_debug_state::step_out:
+                                thr->debug_level--;
                                 break;
                         }
                     }

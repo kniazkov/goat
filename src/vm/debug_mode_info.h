@@ -26,31 +26,19 @@ namespace g0at
 {
     namespace vm
     {
-        enum class debug_mode_state
-        {
-            do_not_stop,
-            step_over,
-            step_into,
-            step_out
-        };
-
         class debug_mode_info
         {
         public:
             debug_mode_info() :
                 frame_begin(-1),
-                frame_end(-1),
-                set_level(0),
-                current_level(0),
-                state(debug_mode_state::step_over)
+                frame_end(-1)
             {
             }
 
             int frame_begin;
             int frame_end;
-            int set_level;
-            int current_level;
-            debug_mode_state state;
+
+            // add breakpoints here
         };
     };
 };

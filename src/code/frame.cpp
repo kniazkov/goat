@@ -45,16 +45,15 @@ namespace g0at
         {
             debug_info->frame_begin = begin;
             debug_info->frame_end = end;
-            if (debug_info->set_level > debug_info->current_level)
+            if (thr->debug_level > thr->ctx->debug_level)
+                thr->debug_level = thr->ctx->debug_level;
+
+            if (thr->debug_state == model::thread_debug_state::do_not_stop)
             {
-                debug_info->set_level = debug_info->current_level;
+                // check breakpoints
+                return false;
             }
-            switch(debug_info->state)
-            {
-                case vm::debug_mode_state::do_not_stop:
-                    return false;
-            }
-            return debug_info->set_level == debug_info->current_level;
+            return thr->debug_level == thr->ctx->debug_level;
         }
     };
 };

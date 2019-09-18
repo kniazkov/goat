@@ -49,6 +49,21 @@ namespace g0at
         };
 
         /**
+         * @brief Additional state of thread in debug mode
+         */
+        enum class thread_debug_state
+        {
+            // Resumes code execution until the next breakpoint is hit
+            do_not_stop,
+            // Runs the next statement. If the current line contains a function call, steps into the most deeply nested function
+            step_into,
+            // Runs the next statement without stepping into functions or methods
+            step_over,
+            // Continues running code and suspends execution when the current function returns
+            step_out
+        };
+
+        /**
          * @brief Order of execution of branching instructions
          */
         enum class thread_flow
@@ -176,6 +191,8 @@ namespace g0at
             variable except;
             std::vector<thread*> joined;
             int lock;
+            int debug_level;
+            thread_debug_state debug_state;
 
         protected:
             thread(const thread &) { }
