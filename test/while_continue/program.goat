@@ -1,0 +1,10 @@
+var x = 0;
+while(x < 12)
+{
+    ++x;
+    if (x == 6)
+        continue;
+    println(x);
+}
+
+println(x);

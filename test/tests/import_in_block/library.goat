@@ -1,3 +1,0 @@
-var getValue = $() {
-	return 666;
-};

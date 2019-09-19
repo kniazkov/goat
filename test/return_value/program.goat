@@ -1,0 +1,7 @@
+var f = $()
+{
+    println(0);
+    return 1;
+};
+
+println(f());

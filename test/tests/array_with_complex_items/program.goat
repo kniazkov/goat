@@ -1,6 +1,0 @@
-var x = 2;
-var f = $(v) {
-	return v * 4;
-};
-var a = [x + 3, f(16), false];
-print(a);

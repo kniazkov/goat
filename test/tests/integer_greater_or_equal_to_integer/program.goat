@@ -1,5 +1,0 @@
-print(4 >= 3);
-print(' ');
-print(3 >= 3);
-print(' ');
-print(2 >= 3);

@@ -1,0 +1,2 @@
+var i = null.iterator();
+println(i.valid());

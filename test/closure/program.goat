@@ -1,0 +1,21 @@
+var x = 0;
+var y = 0;
+
+var f1 = $()
+{
+    x = x + 1;
+};
+
+var f2 = $()
+{
+    var y = 0;
+    y = y + 1;
+};
+
+println(x);
+f1();
+println(x);
+
+println(y);
+f2();
+println(y);

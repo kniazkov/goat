@@ -1,0 +1,40 @@
+var A =
+{
+    init : $()
+    {
+        this.x = 1;
+    }
+};
+
+var B = A ->
+{
+    init : $()
+    {
+        this.y = 2;
+    }
+};
+
+var C = A ->
+{
+    init : $()
+    {
+        this.y = 3;
+    }
+};
+
+var D = [B, C] ->
+{
+    init : $()
+    {
+        this.z = 4;
+    }
+};
+
+var E = D ->
+{
+};
+
+var obj = new E();
+println(obj.x);
+println(obj.y);
+println(obj.z);

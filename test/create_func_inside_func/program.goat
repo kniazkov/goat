@@ -1,0 +1,11 @@
+var f = $()
+{
+    var g = function()
+    {
+        println("it works.");
+    };
+
+    g();
+};
+
+f();

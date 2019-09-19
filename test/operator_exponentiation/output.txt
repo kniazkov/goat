@@ -1,0 +1,10 @@
+ok: 2 ** 8 = 256
+ok: 2 ** 8 = 256
+ok: 2.5 ** 2 = 6.25
+ok: 2.5 ** 2 = 6.25
+fail but ok: abc ** def
+fail but ok: a ** b
+fail but ok: true ** false
+fail but ok: null ** null
+fail but ok: {} ** {}
+done.

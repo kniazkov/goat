@@ -1,0 +1,2 @@
+var i = 'a'.iterator();
+println(i.valid());

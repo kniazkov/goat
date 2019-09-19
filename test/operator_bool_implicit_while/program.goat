@@ -1,0 +1,7 @@
+var i = 10;
+
+while(i)
+{
+    println(i);
+    i--;
+}

@@ -1,0 +1,9 @@
+var t = $$(a, b)
+{
+    println("it works.");
+    println(this);
+    println(a + b);
+};
+
+println(t);
+t.apply(null, [3, 4]);

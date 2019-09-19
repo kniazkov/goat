@@ -1,0 +1,7 @@
+var a = [1, 2, 3];
+var v;
+
+for (v in a)
+{
+    println(v);
+}

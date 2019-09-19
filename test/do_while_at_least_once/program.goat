@@ -1,0 +1,7 @@
+var x = 20;
+do
+{
+    ++x;
+} while(x < 10)
+
+println(x);

@@ -1,0 +1,22 @@
+var f = $(x)
+{
+    switch (x)
+    {
+        case 0:
+            println("zero");
+            break;
+        case 2:
+        case 3:
+            println("two or three");
+            break;
+        case 1:
+            println("one");
+        default:
+            println("other");
+    }
+};
+
+for (var i = 0; i < 5; ++i)
+{
+    f(i);
+}

@@ -1,5 +1,0 @@
-print('a' <= 'b');
-print(' ');
-print('c' <= 'c');
-print(' ');
-print('d' <= 'c'); 

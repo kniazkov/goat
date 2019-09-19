@@ -1,6 +1,0 @@
-var s = "it";
-print(s);
-print("\n");
-print(s += " really works.");
-print("\n");
-print(s);

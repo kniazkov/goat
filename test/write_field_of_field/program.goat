@@ -1,0 +1,6 @@
+var obj = { };
+obj.obj = { };
+obj.obj.obj = { };
+obj.obj.obj.obj = { };
+obj.obj.obj.obj.value = 7;
+println(obj);

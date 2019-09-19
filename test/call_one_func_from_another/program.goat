@@ -1,0 +1,17 @@
+var x = function()
+{
+    println("it works.");
+};
+
+var y = function()
+{
+    x();
+};
+
+var z = function()
+{
+    y();
+};
+
+z();
+

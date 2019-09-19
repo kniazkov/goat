@@ -1,0 +1,21 @@
+ok: 2 <= 3 = true
+ok: 3 <= 2 = false
+ok: 2 <= 2 = true
+ok: 2.1 <= 3.1 = true
+ok: 3.1 <= 2.1 = false
+ok: 2.1 <= 2.1 = true
+ok: 2 <= 3.1 = true
+ok: 3 <= 2.1 = false
+ok: 2.1 <= 3 = true
+ok: 3.1 <= 2 = false
+ok: abc <= abe = true
+ok: abe <= abc = false
+ok: abc <= abc = true
+ok: a <= b = true
+ok: b <= a = false
+ok: a <= a = true
+ok: 2 <= true = false
+ok: abc <= 13 = false
+fail but ok: null <= void
+fail but ok: {} <= {}
+done.

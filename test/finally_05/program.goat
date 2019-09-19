@@ -1,0 +1,27 @@
+var f1 = $()
+{
+    try
+    {
+        try
+        {
+            return 5;
+        }
+        catch
+        {
+        }
+        finally
+        {
+            return 7;
+        }
+    }
+    catch
+    {
+    }
+    finally
+    {
+        return 11;
+    }
+};
+
+var x = f1();
+println(x);

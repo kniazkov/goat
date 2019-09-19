@@ -1,0 +1,3 @@
+var i;
+for (i = 10; i; i--)
+    println(i);

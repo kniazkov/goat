@@ -1,0 +1,16 @@
+var t = thread()
+{
+    var i;
+    for (i = 0; i < 10; ++i)
+    {
+        println(i);
+    }
+};
+
+var r1 = t.run();
+var r2 = t.run();
+r2.suspend();
+r1.join();
+r2.resume();
+r2.join();
+println("ok.");

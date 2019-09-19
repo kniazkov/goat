@@ -1,0 +1,3 @@
+<root first="tes&quot;t" second="3">
+	<child>t&amp;est</child>
+</root>

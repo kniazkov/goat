@@ -1,5 +1,0 @@
-print("0123456789".subString(3));
-print("\n");
-print("0123456789".subString(2,3));
-print("\n");
-print("0123456789".subString(2, 30));

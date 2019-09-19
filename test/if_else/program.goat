@@ -1,0 +1,17 @@
+if (true)
+{
+    println("ok.");
+}
+else
+{
+    println("fail!");
+}
+
+if (false)
+{
+    println("fail.");
+}
+else
+{
+    println("ok!");
+}

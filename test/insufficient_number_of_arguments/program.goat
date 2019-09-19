@@ -1,0 +1,7 @@
+var f = $(x, y)
+{
+    println(x);
+    println(y);
+};
+
+f(2);

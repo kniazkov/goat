@@ -1,7 +1,0 @@
- 
-print('b' >= 'a');
-print(' ');
-print('b' >= 'b');
-print(' ');
-print('c' >= 'd');
- 

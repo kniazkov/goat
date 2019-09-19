@@ -1,5 +1,0 @@
-field: value
-text: data
-3: true
-false: #
-$: {name:"dollar"}

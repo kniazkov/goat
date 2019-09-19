@@ -1,0 +1,4 @@
+import "example.goat";
+
+var x = testing();
+println(x);

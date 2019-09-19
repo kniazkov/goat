@@ -1,0 +1,9 @@
+var a = $$(c)
+{
+    var i;
+    for (i = 0; i < 10; ++i)
+        print(c);
+};
+
+a.run('A');
+a.run('B');

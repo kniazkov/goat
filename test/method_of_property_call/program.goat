@@ -1,0 +1,14 @@
+var obj =
+{
+    child :
+    {
+        x : 13,
+
+        get_x : $()
+        {
+            return x;
+        }
+    }
+};
+
+println(obj.child.get_x());

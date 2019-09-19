@@ -1,0 +1,5 @@
+var id = uid();
+var n = 7;
+n[id] = { value : 11 };
+println(n);
+println(n[id]);

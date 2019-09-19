@@ -1,8 +1,0 @@
-print(false && false);
-print(' ');
-print(false && true);
-print(' ');
-print(true && false);
-print(' ');
-print(true && true);
-

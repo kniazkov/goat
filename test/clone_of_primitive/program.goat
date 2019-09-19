@@ -1,0 +1,5 @@
+var obj = 7;
+var copy = obj.clone();
+
+println(copy);
+println(copy != obj);

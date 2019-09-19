@@ -1,0 +1,37 @@
+var x = 0;
+
+var t = thread()
+{
+    var i;
+    try
+    {
+        for (i = 0; i < 10; ++i)
+        {
+            lock
+            {
+                ++x;
+                if (i == 5)
+                    throw 1;
+            }
+        }
+    }
+    catch
+    {
+    }
+};
+
+var r1 = t.run();
+var r2 = t.run();
+var r3 = t.run();
+var r4 = t.run();
+var r5 = t.run();
+var r6 = t.run();
+var r7 = t.run();
+r1.join();
+r2.join();
+r3.join();
+r4.join();
+r5.join();
+r6.join();
+r7.join();
+println(x);

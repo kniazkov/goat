@@ -1,0 +1,6 @@
+var a,
+    b = 3,
+    x;
+a = 2;
+x = a + b;
+println(x);

@@ -1,0 +1,6 @@
+var obj =
+{
+    v : null
+};
+
+println(obj);

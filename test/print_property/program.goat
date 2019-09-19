@@ -1,0 +1,8 @@
+var obj =
+{
+    z : { b : "bbb", a : "aaa" },
+    y : 7,
+    x : 13
+};
+
+println(obj.x);

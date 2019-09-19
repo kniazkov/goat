@@ -1,0 +1,7 @@
+var a = [0, true, false, null];
+var i;
+
+for (i = 0; i < a.length(); ++i)
+{
+    println(a[i]);
+}

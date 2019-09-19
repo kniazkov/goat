@@ -1,0 +1,12 @@
+var obj = 
+{
+    value :
+    {
+        value :
+        {
+            value : 1
+        }
+    }
+};
+
+println(obj.value.value["value"]);

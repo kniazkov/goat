@@ -1,0 +1,7 @@
+var b = new StringBuilder();
+b << "abc";
+b << 123 << '-' << null << '#';
+b.add("def", 3.14);
+println(b.data());
+println(b);
+println(b.length());

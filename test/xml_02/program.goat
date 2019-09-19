@@ -1,0 +1,5 @@
+import "xml.goat";
+
+var elem = new Xml.Element("root");
+elem.data = "Crazy goat bites naive creators of programming languages";
+println(elem.toString());

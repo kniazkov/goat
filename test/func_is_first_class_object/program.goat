@@ -1,0 +1,2 @@
+var fn = println;
+fn("it also works.");

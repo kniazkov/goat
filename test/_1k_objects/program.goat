@@ -1,0 +1,11 @@
+var a = [];
+var x = 0;
+
+while (x != 1000)
+{
+    var obj = {val:x};
+    a.push(obj);
+    x = x + 1;
+}
+
+println(a.length());

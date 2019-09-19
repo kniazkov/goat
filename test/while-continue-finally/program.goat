@@ -1,0 +1,15 @@
+var x = 0;
+while(x < 12)
+{
+    try
+    {
+        ++x;
+        if (x == 6)
+            continue;
+        print(x);
+    }
+    finally
+    {
+        println('+');
+    }
+}

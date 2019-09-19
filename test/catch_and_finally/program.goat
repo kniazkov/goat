@@ -1,0 +1,26 @@
+var plus_2 = $(val)
+{
+    if (val.instanceof(Number))
+    {
+        println(2 + val);
+    }
+    else
+    {
+        throw "it is not a number: '" + val + "'";
+    }
+};
+
+try
+{
+    plus_2(3.1);
+    plus_2(11);
+    plus_2("ass of hedgehog");
+}
+catch(err)
+{
+    println("shit happens; " + err);
+}
+finally
+{
+    println("the finalizer worked also");
+}

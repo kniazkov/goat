@@ -1,0 +1,20 @@
+var Vector =
+{
+    init : $(x, y)
+    {
+        this.x = x;
+        this.y = y;
+    },
+
+    "+" : $(v)
+    {
+        return new Vector(x + v.x, y + v.y);
+    }
+};
+
+var v1 = new Vector(20, 10);
+var v2 = new Vector(30, 25);
+var v3 = v1 + v2;
+
+println(v3.x);
+println(v3.y);

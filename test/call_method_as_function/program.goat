@@ -1,0 +1,11 @@
+var obj =
+{
+    method : $()
+    {
+        println(this);
+    }
+};
+
+obj.method();
+var copy = obj.method;
+copy();

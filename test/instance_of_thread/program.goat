@@ -1,0 +1,7 @@
+var t = $$()
+{
+    println("it works.");
+};
+
+println(t.instanceof(Thread));
+println(t.instanceof(Function));

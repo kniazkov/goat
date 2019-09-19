@@ -1,0 +1,11 @@
+var g = $()
+{
+    return 2;
+};
+
+var f = $()
+{
+    return g();
+};
+
+println(f());

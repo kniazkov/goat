@@ -1,0 +1,13 @@
+var gen = $(y)
+{
+    return $(x)
+    {
+        return x + y;
+    }
+};
+
+var func = gen(7);
+
+println(func(0));
+println(func(4));
+println(func(6));

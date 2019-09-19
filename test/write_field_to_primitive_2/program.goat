@@ -1,0 +1,5 @@
+var p = 7;
+p["value"] = "test";
+var q = p;
+println(q);
+println(q.value);

@@ -1,0 +1,3 @@
+println("test);
+              ^
+program.goat, 1.16: missing a closing quote

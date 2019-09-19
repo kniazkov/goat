@@ -1,3 +1,0 @@
-var doSomething = $() {
-	return 666;
-};

@@ -1,5 +1,0 @@
-var f = $(a, b, c) {
-	print(arguments.clone());
-};
-
-f(1, 2, 3);

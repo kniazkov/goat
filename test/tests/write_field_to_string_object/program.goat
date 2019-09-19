@@ -1,3 +1,0 @@
-var s = "test";
-s.value = 123;
-print(s + s.value);

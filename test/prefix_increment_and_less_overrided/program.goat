@@ -1,0 +1,26 @@
+var Wrapper =
+{
+    init : $(val)
+    {
+        this.val = val;
+    },
+
+    "<" : $(obj)
+    {
+        return val < obj.val;
+    },
+
+    "++" : $()
+    {
+        return new Wrapper(val + 2);
+    }
+};
+
+var begin = new Wrapper(0);
+var end = new Wrapper(20);
+var obj;
+
+for (obj = begin; obj < end; ++obj)
+{
+    println(obj.val);
+}

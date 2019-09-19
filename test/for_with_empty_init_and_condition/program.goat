@@ -1,0 +1,8 @@
+var i = 2;
+
+for ( ; ; i = i + 1)
+{
+    if (i == 10)
+        exit();
+    println(i);
+}

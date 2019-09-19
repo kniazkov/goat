@@ -1,0 +1,3 @@
+var s = "text";
+s["value"] = 7;
+println(s.value);

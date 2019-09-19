@@ -1,0 +1,10 @@
+var factory = $()
+{
+    return $()
+    {
+        return 7;
+    };
+};
+
+var func = factory();
+println(func());

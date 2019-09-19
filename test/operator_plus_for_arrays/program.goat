@@ -1,0 +1,6 @@
+println([1,2,3] + [4,5,6]);
+println([] + 1 + 2 + 3);
+var a = [];
+var f = a["+"];
+println(f.call([1,2,3],[4,5,6]));
+println(f.call([],1));

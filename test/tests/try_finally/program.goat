@@ -1,9 +1,0 @@
-var v;
-
-try {
-	v = 1/0;
-}
-finally {
-	print("finally...\n");
-}
-print("no problems!\n");

@@ -1,5 +1,0 @@
-var a;
-var b;
-a = "test";
-b = a;
-print(b);

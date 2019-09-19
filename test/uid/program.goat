@@ -1,0 +1,6 @@
+var id = uid();
+var id2 = uid();
+var id3 = id;
+
+println(id == id2);
+println(id == id3);

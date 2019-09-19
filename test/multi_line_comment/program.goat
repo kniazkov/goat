@@ -1,0 +1,7 @@
+/* multi-line comment
+    second line
+    another one line ******/
+
+println("okay, it works again.");
+
+/* ------ the end ------ */

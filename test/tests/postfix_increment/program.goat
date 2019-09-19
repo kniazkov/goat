@@ -1,4 +1,0 @@
-var v = 12;
-
-print(v++);
-print("\n" + v);

@@ -1,0 +1,26 @@
+var f1 = $()
+{
+    try
+    {
+        println('A');
+    }
+    finally
+    {
+        println('B');
+    }
+};
+
+var f2 = $()
+{
+    try
+    {
+        f1();
+    }
+    finally
+    {
+        println('C');
+    }
+    println('D');
+};
+
+f2();

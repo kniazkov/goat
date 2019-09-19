@@ -1,8 +1,0 @@
-var f = $(x) {
-	var v;
-	debug;
-	v = x * 13;
-	return v;
-};
-
-print(f(0.01));

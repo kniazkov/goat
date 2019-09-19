@@ -1,0 +1,6 @@
+var obj =
+{
+	xxx : abs
+};
+
+println(obj.xxx(-0.1));

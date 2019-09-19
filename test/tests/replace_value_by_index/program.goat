@@ -1,4 +1,0 @@
-var obj = {};
-obj.value = 13;
-obj["value"] = 666;
-print(obj.value);

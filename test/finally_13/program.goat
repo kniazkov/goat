@@ -1,0 +1,44 @@
+var f3 = $()
+{
+    try
+    {
+        throw 7;
+    }
+    finally
+    {
+        throw 11;
+    }
+};
+
+var f2 = $()
+{
+    try
+    {
+        f3();
+    }
+    finally
+    {
+        println("finally 2");
+    }
+};
+
+var f1 = $()
+{
+    try
+    {
+        f2();
+    }
+    finally
+    {
+        println("finally 1");
+    }
+};
+
+try
+{
+    f1();
+}
+catch(err)
+{
+    println("caught: " + err);
+}

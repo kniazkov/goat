@@ -1,0 +1,19 @@
+var A =
+{
+    init : $()
+    {
+        this.x = 7;
+    }
+};
+
+var B = A ->
+{
+    init : $()
+    {
+        this.y = 11;
+    }
+};
+
+var obj = new B();
+println(obj.x);
+println(obj.y);

@@ -1,0 +1,7 @@
+var calc = $()
+{
+    return { x: 100, y: 200 };
+};
+
+var obj = calc();
+println("x = " + obj.x + ", y = " + obj.y);

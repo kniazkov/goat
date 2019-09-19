@@ -1,0 +1,17 @@
+var Wrapper =
+{
+    init : $(val)
+    {
+        this.val = val;
+    },
+
+    "++" : $()
+    {
+        return new Wrapper(val + 2);
+    }
+};
+
+var obj = new Wrapper(0);
+++obj;
+++obj;
+println(obj);

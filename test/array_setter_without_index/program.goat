@@ -1,0 +1,5 @@
+var a = [];
+a.set(1);
+a.set(2);
+a.set(3);
+println(a);

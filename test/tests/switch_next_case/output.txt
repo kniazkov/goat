@@ -1,5 +1,0 @@
-case 0... one
-one
-two
-other
-other

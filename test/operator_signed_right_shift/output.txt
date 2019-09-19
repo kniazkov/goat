@@ -1,0 +1,9 @@
+ok: 2 >> 1 = 1
+ok: 8 >> 2 = 2
+ok: -1 >> 1 = -1
+ok: 3 >> -1 = 0
+ok: 3 >> 100 = 0
+ok: -3 >> 100 = -1
+fail but ok: abc >> def
+fail but ok: {} >> {}
+done.

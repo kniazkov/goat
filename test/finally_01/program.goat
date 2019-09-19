@@ -1,0 +1,13 @@
+var f1 = $()
+{
+    try
+    {
+        println('A');
+    }
+    finally
+    {
+        println('B');
+    }
+};
+
+f1();

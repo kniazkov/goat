@@ -1,8 +1,0 @@
-var f = $(v) {
-	if (v == 0)
-		return 13;
-	else
-		return 1;
-};
-
-print(f(666));

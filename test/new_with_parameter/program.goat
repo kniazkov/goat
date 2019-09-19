@@ -1,0 +1,16 @@
+var Test = 
+{
+	init : $(x)
+	{
+        this.x = x;
+	},
+
+    get_x : $()
+    {
+        return x;
+    }
+};
+
+var test = new Test(13);
+var x = test.get_x();
+println(x);

@@ -1,0 +1,3 @@
+var obj = { };
+obj.set("value", 7);
+println(obj);

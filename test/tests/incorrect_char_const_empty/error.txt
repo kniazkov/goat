@@ -1,1 +1,0 @@
-program.goat, 1.11, scan error: incorrect character constant

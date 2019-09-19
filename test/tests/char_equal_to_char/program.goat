@@ -1,3 +1,0 @@
-print('a' == 'a');
-print(' ');
-print('b' == 'a');

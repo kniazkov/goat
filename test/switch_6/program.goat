@@ -1,0 +1,14 @@
+var f = $(x)
+{
+    switch (x)
+    {
+        default:
+            println("other");
+            break;
+    }
+};
+
+for (var i = 0; i < 5; ++i)
+{
+    f(i);
+}

@@ -1,0 +1,4 @@
+for (var v in range(2, 20, 2))
+{
+    println(v);
+}

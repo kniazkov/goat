@@ -1,0 +1,10 @@
+zero
+one
+two
+other
+other
+other
+other
+seven
+other
+other

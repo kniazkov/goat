@@ -1,0 +1,15 @@
+var obj =
+{
+    x : 7,
+    y : 11,
+    z : "test"
+};
+
+var iter = obj.iterator();
+
+while(iter.valid())
+{
+    var key = iter.next();
+    if (Object[key] == undefined)
+        println("" + key + " = " + obj[key]);
+}

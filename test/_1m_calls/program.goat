@@ -1,0 +1,94 @@
+var x = 0;
+
+var a = function()
+{
+    x = x + 1;
+};
+
+var b = function()
+{
+    a();
+    a();
+    a();
+    a();
+    a();
+    a();
+    a();
+    a();
+    a();
+    a();
+};
+
+var c = function()
+{
+    b();
+    b();
+    b();
+    b();
+    b();
+    b();
+    b();
+    b();
+    b();
+    b();
+};
+
+var d = function()
+{
+    c();
+    c();
+    c();
+    c();
+    c();
+    c();
+    c();
+    c();
+    c();
+    c();
+};
+
+var e = function()
+{
+    d();
+    d();
+    d();
+    d();
+    d();
+    d();
+    d();
+    d();
+    d();
+    d();
+};
+
+var f = function()
+{
+    e();
+    e();
+    e();
+    e();
+    e();
+    e();
+    e();
+    e();
+    e();
+    e();
+};
+
+var g = function()
+{
+    f();
+    f();
+    f();
+    f();
+    f();
+    f();
+    f();
+    f();
+    f();
+    f();
+};
+
+println(x);
+g();
+println(x);

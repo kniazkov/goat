@@ -1,0 +1,15 @@
+var x = 0;
+do
+{
+    try
+    {
+        ++x;
+        if (x == 6)
+            continue;
+        print("" + x + " -> ");
+    }
+    finally
+    {
+        println(x);
+    }
+} while(x < 13)

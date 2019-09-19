@@ -1,0 +1,4 @@
+var x = 7;
+var f = x["+"];
+var s = f.call(x, 6);
+println(s);

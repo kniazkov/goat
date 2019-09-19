@@ -1,0 +1,16 @@
+var x = 0;
+do
+{
+    try
+    {
+        ++x;
+        if (x == 3)
+            break;
+    }
+    finally
+    {
+        println("f " + x);
+    }
+} while(true)
+
+println(x);

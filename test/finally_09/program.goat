@@ -1,0 +1,20 @@
+var f1 = $()
+{
+    try
+    {
+        throw 1;
+    }
+    finally
+    {
+        println("ok.")
+    }
+};
+
+try
+{
+    f1();
+}
+catch(err)
+{
+    println("caught: " + err);
+}

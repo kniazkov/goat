@@ -1,0 +1,56 @@
+var a = 0;
+
+var test_a =
+{
+    exec : $()
+    {
+        println(a);
+    }
+};
+
+test_a.exec();
+
+var b = 0;
+
+var test_b =
+{
+    b : 1,
+
+    exec : $()
+    {
+        println(b);
+    }
+};
+
+test_b.exec();
+
+var c = 0;
+
+var test_c =
+{
+    c : 1,
+
+    exec : $(c)
+    {
+        println(c);
+    }
+};
+
+test_c.exec(2);
+
+var d = 0;
+
+var test_d =
+{
+    d : 1,
+
+    exec : $(d)
+    {
+        var d = 3;
+
+        println(d);
+    }
+};
+
+test_d.exec(2);
+

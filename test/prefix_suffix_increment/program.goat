@@ -1,0 +1,3 @@
+var i = 7;
+++i++;
+println(i);

@@ -1,5 +1,0 @@
-var c = getc();
-while(c != null) {
-	print(c);
-	c = getc();
-}

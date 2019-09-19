@@ -1,0 +1,5 @@
+ok: false && false = false
+ok: false && true = false
+ok: true && false = false
+ok: true && true = true
+done.

@@ -1,0 +1,31 @@
+var func = $(val)
+{
+    if (val == 0)
+    {
+        println("zero");
+    }
+    else if (val == 1)
+    {
+        println("one");
+    }
+    else if (val == 2)
+    {
+        println("two");
+    }
+    else if (val == 7)
+    {
+        println("seven");
+    }
+    else
+    {
+        println("other");
+    }
+};
+
+var x = 0;
+
+while(x != 10)
+{
+    func(x);
+    x = x + 1;
+}

@@ -1,0 +1,9 @@
+var factory = $()
+{
+    return $()
+    {
+        return 7;
+    };
+};
+
+println(factory()());

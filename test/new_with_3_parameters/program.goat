@@ -1,0 +1,32 @@
+var Test = 
+{
+	init : $(x, y, z)
+	{
+        this.x = x;
+        this.y = y;
+        this.z = z;
+	},
+
+    get_x : $()
+    {
+        return x;
+    },
+    
+    get_y : $()
+    {
+        return y;
+    },
+
+    get_z : $()
+    {
+        return z;
+    }
+};
+
+var test = new Test(1, 2);
+var x = test.get_x();
+var y = test.get_y();
+var z = test.get_z();
+println(x);
+println(y);
+println(z);

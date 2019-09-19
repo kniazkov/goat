@@ -1,4 +1,0 @@
-import "example.goat";
-
-var obj = new Example();
-print(obj.get());

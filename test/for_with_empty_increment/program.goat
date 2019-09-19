@@ -1,0 +1,7 @@
+var i = 2;
+
+for (i = 0 ; i < 10; )
+{
+    println(i);
+    i = i + 1;
+}

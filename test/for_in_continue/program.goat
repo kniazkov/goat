@@ -1,0 +1,6 @@
+var obj = { x : 10, y : 20 };
+for (var key in obj)
+{
+    if (obj.contains(key))
+        println(key + " -> " + obj[key]);
+}

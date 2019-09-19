@@ -1,0 +1,3 @@
+var n = 3;
+var i = n.iterator();
+println(i.valid());

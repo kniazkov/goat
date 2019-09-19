@@ -1,0 +1,5 @@
+import "xml.goat";
+
+var child = new Xml.Element("child", []); 
+var root = new Xml.Element("root", child);
+println(root.toString());

@@ -1,0 +1,27 @@
+var test = $(a)
+{
+    var _a = "" + a;
+    if (_a == "")
+        _a = "\"\"";
+
+    if (a)
+        println("1, " + _a);
+    else
+        println("0, " + _a);
+};
+
+test(true);
+test(false);
+test(0);
+test(1);
+test(0.0);
+test(1.1);
+test('a');
+test({ });
+test("");
+test("test");
+test([]);
+test(null);
+test(undefined);
+test(void);
+println("done.");

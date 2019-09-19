@@ -1,0 +1,35 @@
+var test = $(a)
+{
+    try
+    {
+        var b = a;
+        var x = b--;
+        var y = a;
+        if (x != y)
+        {
+            println("fail, a = " + a + ", x = " + x + ", y = " + y);
+            return;
+        }
+        var f = a["--"];
+        var z = f.call(a);
+        x--;
+        if (x != z)
+        {
+            println("fail, a = " + a + ", x = " + x + ", z = " + z);
+            return;
+        }
+        println("ok, a-- = " + x);
+    }
+    catch(err)
+    {
+        if (err.instanceof(Exception.IllegalReference.OperatorNotFound))
+            println("fail but ok: " + a);
+        else
+            println("exception: " + err);
+    }
+};
+
+test(3);
+test(3.1);
+test('h');
+println("done.");

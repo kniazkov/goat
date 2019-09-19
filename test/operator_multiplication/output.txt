@@ -1,0 +1,10 @@
+ok: 2 * 3 = 6
+ok: 2 * 3.1 = 6.2
+ok: 2.1 * 3 = 6.3
+ok: 2.1 * 3.1 = 6.51
+fail but ok: abc * def
+fail but ok: a * b
+fail but ok: true * false
+fail but ok: null * null
+fail but ok: {} * {}
+done.

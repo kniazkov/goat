@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017, 2018 Ivan Kniazkov
+Copyright (C) 17..19 Ivan Kniazkov
 
 This file is part of standard library for programming language
 codenamed "Goat" ("Goat standard library").
@@ -20,245 +20,103 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-import "iterator.goat";
-
-var List = BidirectIterable -> {
-
-    init : $() {
+var List =
+{
+    init : $()
+    {
+        this.id = uid();
         this.first = null;
         this.last = null;
+        this.count = 0;
     },
 
-    empty : $() {
-        return first == null;
-    },
-
-    ListIsEmpty : Exception -> {
-    },
-
-    _check : $() {
-        // TODO: remove this method
-        var item = first;
-        while(item != null) {
-            if (item.prev != null) {
-                if (item.prev.next != item) {
-                    throw "corrupted previos " + item.val + " " + item.next.val;
-                }
-            }
-            if (item.next != null) {
-                if (item.next.prev != item) {
-                    throw "corrupted next " + item.val + " " + item.prev.val;
-                }
-            }
-            item = item.next;
-        }
-    },
-
-    pushf : $(val) {
-        var item = {
-            prev : null,
-            next : first,
-            val : val
+    push : $(item)
+    {
+        item[id] =
+        {
+            list : this,
+            previous : last,
+            next : null
         };
-
         if (last != null)
-            first.prev = item;
-        else
-            last = item;
-        first = item;
-    },
-
-    push : $(val) {
-        var item = {
-            prev : last,
-            next : null,
-            val : val
-        };
-
-        if (first != null)
-            last.next = item;
+            last[id].next = item;
         else
             first = item;
         last = item;
+        count++;
     },
 
-    popf : $() {
-        if (first == null)
-            throw new ListIsEmpty();
-        var item = first;
-        first = first.next;
-        if (first == null)
-            last = null;
-        return item.val;
-    },
-
-    pop : $() {
-        if (last == null)
-            throw new ListIsEmpty();
-        var item = last;
-        last = last.prev;
-        if (last == null)
-            first = null;
-        return item.val;
-    },
-
-    peekf : $() {
-        if (first == null)
-            throw new ListIsEmpty();
-        return first.val;
-    },
-
-    peek : $() {
-        if (last == null)
-            throw new ListIsEmpty();
-        return last.val;
-    },
-
-    remove : $(begin, end) {
-        if (!begin.item)
-            throw new Exception.InvalidOperation();
-        if (begin.list != this)
-            throw new Exception.IllegalArgument();
-        
-        begin = begin.item;
-        
-        if (end != void) {
-            if (!end.instanceOf(List.ForwardIterator))
-                throw new Exception.IllegalArgument();
-            if (end.list != this)
-                throw new Exception.IllegalArgument();
-            end = end.item;
-        }
-        else
-            end = begin;
-
-        if (begin.prev != null)
-            begin.prev.next = end.next;
-        else
-            first = end.next;
-
-        if (end.next != null)
-            end.next.prev = begin.prev;
-        else
-            last = begin.prev;
-    },
-
-    iterator : $() {
-        return new List.ForwardIterator(this, first);
-    },
-
-    reverseIterator : $() {
-        return new List.ReverseIterator(this, last);
-    },
-
-    insert : $(iter, val) {
-        if (iter.list != this)
-            throw new Exception.IllegalArgument();
-        
-        var next = iter.item;
-        
-        if (next == null) {
-            this.push(val);
-            return;
-        }
-
-        var item = {
-            prev : next.prev,
-            next : next,
-            val : val
+    pushf : $(item)
+    {
+        item[id] =
+        {
+            list : this,
+            previous : null,
+            next : first
         };
-
-        if (next.prev != null)
-            next.prev.next = item;
+        if (first != null)
+            first[id].previous = item;
         else
-            first = item;
-        next.prev = item;
+            last = item;
+        first = item;
+        count++;
     },
-    
-    ascend : $(val) {
-        var next = first;
 
-        while (next != null) {
-            if (next.val < val) {
-                next = next.next;
-            }
-            else {
-                var item = {
-                    prev : next.prev,
-                    next : next,
-                    val : val
-                };
+    pop : $()
+    {
+        if (last == null)
+            return undefined;
+        count--;
+        var item = last;
+        if (count != 0)
+            item[id].previous[id].next = null;
+        else
+            first = null;
+        last = item[id].previous;
+        item[id].previous = null;
+        return item;
+    },
 
-                if (next.prev != null)
-                    next.prev.next = item;
-                else
-                    first = item;
-                next.prev = item;
+    popf : $()
+    {
+        if (first == null)
+            return undefined;
+        count--;
+        var item = first;
+        if (count != 0)
+            item[id].next[id].previous = null;
+        else
+            last = null;
+        first = item[id].next;
+        item[id].next = null;
+        return item;
+    },
 
-                return;
-            }
+    iterator : $()
+    {
+        return new _Iterator(id, first);
+    },
+
+    _Iterator : Iterator ->
+    {
+        init : $(id, item)
+        {
+            this.id = id;
+            this.item = item;
+        },
+
+        valid : $()
+        {
+            return item != null;
+        },
+
+        next : $()
+        {
+            if (item == null)
+                return undefined;
+            var value = item;
+            item = item[id].next;
+            return value;
         }
-        this.push(val);
-    },
-
-    clear : $() {
-        first = null;
-        last = null;
-    },
-};
-
-List.ForwardIterator = Iterator -> {
-    list : null,
-    item : null,
-    
-    init : $(list, item) {
-        this.list = list;
-        this.item = item;
-    },
-    
-    valid : $() {
-        return item != null;
-    },
-    
-    next : $() {
-        if (!item)
-            throw new Exception.InvalidOperation();
-        item = item.next;
-    },
-    
-    read : $() {
-        if (!item)
-            throw new Exception.InvalidOperation();
-        return item.val;
-    },
-    
-    write : $(val) {
-        if (!item)
-            throw new Exception.InvalidOperation();
-        item.val = val;
-    },
-
-    remove : $(iter) {
-        if (!iter)
-            iter = this;
-        if (!iter.item)
-            throw new Exception.InvalidOperation();
-
-        var following = iter.item.next;
-        list.remove(this, iter);
-        item = following;
-    }
-};
-
-List.ReverseIterator = List.ForwardIterator -> {
-    init : $(list, item) {
-        this.list = list;
-        this.item = item;
-    },
-    
-    next : $() {
-        if (!item)
-            throw new Exception.InvalidOperation();
-        item = item.prev;
     }
 };

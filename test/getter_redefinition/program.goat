@@ -1,0 +1,19 @@
+var obj =
+{
+    get : $(index)
+    {
+        if (index == 0)
+            return "zero";
+        if (index == 1)
+            return "one";
+        if (index == 2)
+            return "two";
+        return "other"
+    }
+};
+
+var i;
+for (i = 0; i < 5; ++i)
+{
+    println(obj[i]);
+}

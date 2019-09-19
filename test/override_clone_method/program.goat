@@ -1,0 +1,14 @@
+var obj =
+{
+    val : 1,
+
+    clone : $()
+    {
+        return this;
+    }
+};
+
+var copy = obj.clone();
+
+println(copy);
+println(copy != obj);

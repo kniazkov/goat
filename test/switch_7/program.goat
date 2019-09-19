@@ -1,0 +1,12 @@
+var f = $(x)
+{
+    switch (x)
+    {
+    }
+};
+
+for (var i = 0; i < 5; ++i)
+{
+    f(i);
+}
+println("ok.");

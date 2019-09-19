@@ -1,6 +1,0 @@
-case 0... zero
-one
-two
-other
-other
-1

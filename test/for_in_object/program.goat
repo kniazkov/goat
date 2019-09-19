@@ -1,0 +1,10 @@
+for (var v in { value : 0 })
+{
+    if (Object.contains(v))
+    {
+    }
+    else
+    {
+        println(v);
+    }
+}

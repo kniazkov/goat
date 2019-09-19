@@ -1,0 +1,22 @@
+var f1 = $()
+{
+    try
+    {
+        println("do something.");
+    }
+    finally
+    {
+        println("finally.");
+        throw { value : 7 };
+        println("blah blah blah.");
+    }
+};
+
+try
+{
+    f1();
+}
+catch(err)
+{
+    println("caught: " + err);
+}

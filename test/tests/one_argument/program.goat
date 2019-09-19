@@ -1,5 +1,0 @@
-var f = $(msg) {
-	print(msg);
-};
-
-f("it works.");
