@@ -67,7 +67,27 @@ namespace g0at
                         std::cout << "? ";
                         std::string line = lib::get_line();
                         if (line == "r")
+                        {
                             break;
+                        }
+                        else if (line.find("b ") == 0)
+                        {
+                            std::string request = lib::trim(line.substr(2));
+                            lib::pointer<breakpoint> bp = env->get_listing()->set_breakpoint(request);
+                            if (bp)
+                            {
+                                std::cout << global::char_encoder->encode(global::resource->setting_breakpoint_at(bp->to_string())) << std::endl;
+                                debug_info.breakpoints.push_back(bp);
+                            }
+                            else
+                            {
+                                std::cout << global::char_encoder->encode(global::resource->can_not_set_breakpoint()) << std::endl;
+                            }
+                        }
+                        else if (line != "")
+                        {
+                            std::cout << global::char_encoder->encode(global::resource->syntax_error()) << std::endl;
+                        }
                     }
                 }
                 while(thr != nullptr)

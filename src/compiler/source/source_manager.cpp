@@ -125,4 +125,15 @@ namespace g0at
         item *it = find_item(pos);
         return it->src->get_position(pos);
     }
+
+    lib::pointer<breakpoint> source_manager::set_breakpoint(std::string request)
+    {
+        for (item &it : list)
+        {
+            lib::pointer<breakpoint> bp = it.src->set_breakpoint(request);
+            if (bp)
+                return bp;
+        }
+        return nullptr;
+    }
 };

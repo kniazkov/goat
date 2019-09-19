@@ -39,6 +39,7 @@ namespace g0at
         lib::pointer<position> get_position() override;
         lib::pointer<position> get_position(int absolute_position) override;
         std::wstring &get_data() override;
+        lib::pointer<breakpoint> set_breakpoint(std::string request) override;
 
     protected:
         source_string(std::wstring _data, int _offset);

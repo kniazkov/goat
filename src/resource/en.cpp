@@ -328,6 +328,32 @@ namespace g0at
             {
                 return name + L" is not a method";
             }
+
+
+
+            std::wstring setting_breakpoint_at(std::wstring position)
+            {
+                std::wstringstream wss;
+                wss << L"setting breakpoint at " << position;
+                return wss.str();
+            }
+
+            std::wstring can_not_set_breakpoint()
+            {
+                return L"can not set breakpoint: source not found";
+            }
+
+            std::wstring syntax_error()
+            {
+                return L"syntax error";
+            }
+
+            std::wstring breakpoint_is_hit(std::wstring position)
+            {
+                std::wstringstream wss;
+                wss << position << L", breakpoint is hit";
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_en()

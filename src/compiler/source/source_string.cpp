@@ -98,4 +98,10 @@ namespace g0at
     {
         return data;
     }
+
+    lib::pointer<breakpoint> source_string::set_breakpoint(std::string request)
+    {
+        // we can't set breakpoints on string sources
+        return nullptr;
+    }
 };

@@ -41,6 +41,7 @@ namespace g0at
         lib::pointer<position> get_position() override;
         lib::pointer<position> get_position(int absolute_position) override;
         std::wstring &get_data() override;
+        lib::pointer<breakpoint> set_breakpoint(std::string request) override;
 
     protected:
         std::string file_name;

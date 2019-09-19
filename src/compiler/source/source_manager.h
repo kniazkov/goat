@@ -40,6 +40,7 @@ namespace g0at
         std::wstring get_fragment(int begin, int end);
         std::wstring get_fragment_by_absolute_position(int pos);
         lib::pointer<position> get_position_by_absolute_position(int pos);
+        lib::pointer<breakpoint> set_breakpoint(std::string request);
 
     protected:
         class item

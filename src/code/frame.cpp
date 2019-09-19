@@ -50,7 +50,13 @@ namespace g0at
 
             if (thr->debug_state == model::thread_debug_state::do_not_stop)
             {
-                // check breakpoints
+                for (auto bp : debug_info->breakpoints)
+                {
+                    if (bp->triggered(begin))
+                    {
+                        return true;                        
+                    }
+                }
                 return false;
             }
             return thr->debug_level == thr->ctx->debug_level;

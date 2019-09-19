@@ -22,6 +22,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "compiler/source/breakpoint.h"
+#include "lib/pointer.h"
+#include <vector>
+
 namespace g0at
 {
     namespace vm
@@ -37,8 +41,11 @@ namespace g0at
 
             int frame_begin;
             int frame_end;
+            std::vector<lib::pointer<breakpoint>> breakpoints;
 
-            // add breakpoints here
+        private:
+            debug_mode_info(const debug_mode_info&) { }
+            void operator=(const debug_mode_info&) { }
         };
     };
 };

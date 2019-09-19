@@ -332,6 +332,31 @@ namespace g0at
                 wss << L"объект " << name << L" не может быть вызван как метод";
                 return wss.str();
             }
+
+
+            std::wstring setting_breakpoint_at(std::wstring position)
+            {
+                std::wstringstream wss;
+                wss << L"создана точка останова: " << position;
+                return wss.str();
+            }
+
+            std::wstring can_not_set_breakpoint()
+            {
+                return L"невозможно создать точку останова: исходный код не найден";
+            }
+
+            std::wstring syntax_error()
+            {
+                return L"синтаксическая ошибка";
+            }
+
+            std::wstring breakpoint_is_hit(std::wstring position)
+            {
+                std::wstringstream wss;
+                wss << position << L", останов";
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_ru()
