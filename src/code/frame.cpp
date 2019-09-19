@@ -38,7 +38,28 @@ namespace g0at
 
         void _frame::exec(model::thread *thr)
         {
+            // do nothing
+        }
 
+        bool _frame::exec_debug(model::thread *thr, vm::debug_mode_info *debug_info)
+        {
+            debug_info->frame_begin = begin;
+            debug_info->frame_end = end;
+            if (thr->debug_level > thr->ctx->debug_level)
+                thr->debug_level = thr->ctx->debug_level;
+
+            if (thr->debug_state == model::thread_debug_state::do_not_stop)
+            {
+                for (auto bp : debug_info->breakpoints)
+                {
+                    if (bp->triggered(begin))
+                    {
+                        return true;                        
+                    }
+                }
+                return false;
+            }
+            return thr->debug_level == thr->ctx->debug_level;
         }
     };
 };

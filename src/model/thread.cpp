@@ -39,7 +39,8 @@ namespace g0at
 
         thread::thread(thread_list *_list, thread_id _tid, context *_ctx, object_pool *_pool, variable *_ret)
             : list(_list), tid(_tid), next(nullptr), state(thread_state::pause),
-              flow(thread_flow::direct), ctx(_ctx), pool(_pool), ret(_ret), lock(0)
+              flow(thread_flow::direct), ctx(_ctx), pool(_pool), ret(_ret), lock(0),
+              debug_level(0), debug_state(thread_debug_state::do_not_stop)
         {
             except.set_object(pool->get_undefined_instance());
         }

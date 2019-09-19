@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstring>
 #include <fstream>
 #include <streambuf>
+#include <iostream>
 
 /*
 
@@ -307,6 +308,18 @@ namespace g0at
 
             return str.substr(begin, end - begin + 1);
         }
-    };
 
+        std::string get_line()
+        {
+            std::string line;
+            std::getline(std::cin, line);
+            return trim(line);
+        }
+
+        bool ends_with(std::string const & value, std::string const & ending)
+        {
+            if (ending.size() > value.size()) return false;
+            return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+        }
+    };
 };

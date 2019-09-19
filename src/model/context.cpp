@@ -29,32 +29,30 @@ namespace g0at
     {
         context::context(object_pool *pool)
             : object(pool), prev(nullptr), this_ptr(nullptr), address_type(context_address_type::none),
-              ret(nullptr), stack_size(-1), lock(-1)
+              ret(nullptr), stack_size(-1), lock(-1), debug_level(0)
         {
         }
 
         context::context(object_pool *pool, context *proto)
             : object(pool, proto), prev(proto), this_ptr(nullptr), address_type(context_address_type::none),
-              ret(nullptr), stack_size(-1), lock(-1)
+              ret(nullptr), stack_size(-1), lock(-1), debug_level(proto->debug_level)
         {
             assert(proto != nullptr);
         }
 
         context::context(object_pool *pool, context *proto, context *parent)
             : object(pool, proto), prev(parent), this_ptr(nullptr), address_type(context_address_type::none),
-              ret(nullptr), stack_size(-1), lock(-1)
+              ret(nullptr), stack_size(-1), lock(-1), debug_level(parent->debug_level)
         {
             assert(proto != nullptr);
-            assert(parent != nullptr);
         }
 
         context::context(object_pool *pool, object *_this_ptr, context *proto, context *parent)
             : object(pool, _this_ptr, proto), prev(parent), this_ptr(_this_ptr), address_type(context_address_type::none),
-              ret(nullptr), stack_size(-1), lock(-1)
+              ret(nullptr), stack_size(-1), lock(-1), debug_level(parent->debug_level)
         {
             assert(this_ptr != nullptr);
             assert(proto != nullptr);
-            assert(parent != nullptr);
         }
 
         void context::reinit(object_pool *pool)
@@ -69,6 +67,7 @@ namespace g0at
             assert(proto != nullptr);
             this->proto = proto;
             prev = proto;
+            debug_level = proto->debug_level;
         }
 
         void context::reinit(context *proto, context *parent)
@@ -78,6 +77,7 @@ namespace g0at
             assert(parent != nullptr);
             this->proto = proto;
             prev = parent;
+            debug_level = parent->debug_level;
         }
 
         void context::reinit(object *this_ptr, context *proto, context *parent)
@@ -93,6 +93,7 @@ namespace g0at
             topology->proto[1] = proto;
             topology->build();
             prev = parent;
+            debug_level = parent->debug_level;
         }
 
         void context::kill(object_pool *pool)
@@ -108,6 +109,7 @@ namespace g0at
                     address[i] = code::iid_t();
                 address_type = context_address_type::none;
                 ret = nullptr;
+                debug_level = -1;
             }
         }
 

@@ -20,35 +20,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include <vector>
-#include <string>
+#include "breakpoint.h"
 
 namespace g0at
 {
-    class all_source_data
+    breakpoint::breakpoint()
     {
-    public:
-        all_source_data();
-        void add_data(std::wstring data);
-        std::wstring get_fragment_by_index(int index);
+    }
 
-        int get_last_offset() { return last_offset; };
-
-    protected:
-
-        struct item
-        {
-            std::wstring data;
-            int offset;
-        };
-
-        std::vector<item> items;
-        int last_offset;
-
-    private:
-        all_source_data(const all_source_data &) { }
-        void operator=(const all_source_data &) { }
-    };
+    breakpoint::~breakpoint()
+    {
+    }
 };

@@ -22,34 +22,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <vector>
+#include "lib/ref_counter.h"
 #include <string>
-#include <set>
 
 namespace g0at
 {
-    class options
+    class breakpoint : public lib::ref_counter
     {
     public:
-        options();
-        static void parse(int argc, char **argv, options &opt);
-
-        char *prog_name;
-        std::vector<char*> args;
-        bool dump_abstract_syntax_tree;
-        bool dump_parse_tree;
-        bool dump_assembler_code;
-        bool compile;
-        bool bin;
-        bool dump_memory_usage_report;
-        char *gc_type_str;
-        bool do_not_compress;
-        std::vector<std::string> lib_path;
-        bool debug;
-        bool run;
-
-    protected:
-        void parse_lib_path(const char *pathes);
-        std::set<std::string> lib_path_set;
+        breakpoint();
+        virtual ~breakpoint();
+        virtual bool triggered(int absolute_position) = 0;
+        virtual std::wstring to_string() = 0;
     };
 };

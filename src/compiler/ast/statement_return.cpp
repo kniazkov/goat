@@ -29,7 +29,15 @@ namespace g0at
         statement_return::statement_return(keyword_return *_kw, lib::pointer<expression> _expr)
             : expr(_expr)
         {
-            frag = _kw->get_fragment();
+            if (expr)
+            {
+                frag.begin = _kw->get_fragment().begin;
+                frag.end = _expr->get_fragment().end;
+            }
+            else
+            {
+                frag = _kw->get_fragment();
+            }
         }
 
         void statement_return::accept(token_visitor *visitor)

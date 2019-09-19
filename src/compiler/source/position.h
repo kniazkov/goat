@@ -32,7 +32,7 @@ namespace g0at
     public:
         position();
         virtual ~position();
-        virtual int get_index() = 0;
+        virtual int get_absolute_position() = 0;
         virtual std::wstring to_string() = 0;
     };
 };

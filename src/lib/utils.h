@@ -72,5 +72,7 @@ namespace g0at
         std::string wstring_to_ascii_string(std::wstring src, bool *okay);
         std::string normalize_file_path(std::string path);
         std::string trim(std::string str);
+        std::string get_line();
+        bool ends_with(std::string const & value, std::string const & ending);
     };
 };

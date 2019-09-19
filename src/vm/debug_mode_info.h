@@ -22,34 +22,30 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "compiler/source/breakpoint.h"
+#include "lib/pointer.h"
 #include <vector>
-#include <string>
-#include <set>
 
 namespace g0at
 {
-    class options
+    namespace vm
     {
-    public:
-        options();
-        static void parse(int argc, char **argv, options &opt);
+        class debug_mode_info
+        {
+        public:
+            debug_mode_info() :
+                frame_begin(-1),
+                frame_end(-1)
+            {
+            }
 
-        char *prog_name;
-        std::vector<char*> args;
-        bool dump_abstract_syntax_tree;
-        bool dump_parse_tree;
-        bool dump_assembler_code;
-        bool compile;
-        bool bin;
-        bool dump_memory_usage_report;
-        char *gc_type_str;
-        bool do_not_compress;
-        std::vector<std::string> lib_path;
-        bool debug;
-        bool run;
+            int frame_begin;
+            int frame_end;
+            std::vector<lib::pointer<breakpoint>> breakpoints;
 
-    protected:
-        void parse_lib_path(const char *pathes);
-        std::set<std::string> lib_path_set;
+        private:
+            debug_mode_info(const debug_mode_info&) { }
+            void operator=(const debug_mode_info&) { }
+        };
     };
 };

@@ -76,7 +76,7 @@ for dir in ([os.path.join(d, o) for o in sorted(os.listdir(d)) if ((select == Fa
 		terminated = False
 		begin = time.time()
 		if debugMode :
-			proc = subprocess.Popen([interpreter, prog, "--debug", "--gc=debug", "--lib=./lib"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			proc = subprocess.Popen([interpreter, prog, "--debug", "--run", "--gc=debug", "--lib=./lib"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		else :
 			proc = subprocess.Popen([interpreter, prog, "--lib=./lib"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		try :

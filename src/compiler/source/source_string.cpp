@@ -21,29 +21,31 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "source_string.h"
+#include "lib/assert.h"
 
 namespace g0at
 {
     class source_string_position : public position
     {
     public:
-        source_string_position(int _index)
-            : index(_index)
+        source_string_position(int _relative_position, int _absolute_position)
+            : relative_position(_relative_position), absolute_position(_absolute_position)
         {
         }
 
-        int get_index() override
+        int get_absolute_position() override
         {
-            return index;
+            return absolute_position;
         }
 
         std::wstring to_string() override
         {
-            return std::to_wstring(index);
+            return std::to_wstring(relative_position);
         }
 
     protected:
-        int index;
+        int relative_position;
+        int absolute_position;
     };
 
     source_string::source_string(std::wstring _data, int _offset)
@@ -81,12 +83,25 @@ namespace g0at
             return cached_position;
 
         cached_position_index = index;
-        cached_position = new source_string_position(index + offset);
+        cached_position = new source_string_position(index, index + offset);
         return cached_position;
     }
 
-    std::wstring source_string::get_data()
+    lib::pointer<position> source_string::get_position(int absolute_position)
+    {
+        int relative_position = absolute_position - offset;
+        assert(relative_position >= 0 && relative_position < (int)data.size());
+        return new source_string_position(relative_position, absolute_position);
+    }
+
+    std::wstring &source_string::get_data()
     {
         return data;
+    }
+
+    lib::pointer<breakpoint> source_string::set_breakpoint(std::string request)
+    {
+        // we can't set breakpoints on string sources
+        return nullptr;
     }
 };

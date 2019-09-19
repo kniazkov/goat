@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "instruction_visitor.h"
 #include "../model/thread.h"
+#include "../vm/debug_mode_info.h"
 #include <cstdint>
 
 namespace g0at
@@ -50,6 +51,13 @@ namespace g0at
              * @param thr A thread
              */
             virtual void exec(model::thread *thr) = 0;
+            /**
+             * @brief Executes an instruction in debug mode
+             * @param thr A thread
+             * @param debug_info Debug mode information
+             * @return true, if virtual machine should be suspended
+             */
+            virtual bool exec_debug(model::thread *thr, vm::debug_mode_info *debug_info);
         };
     };
 };

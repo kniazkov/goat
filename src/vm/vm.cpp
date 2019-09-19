@@ -21,8 +21,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "vm.h"
+#include "debug_mode_info.h"
 #include "model/object.h"
 #include "lib/assert.h"
+#include "lib/utils.h"
 #include <iostream>
 #include <climits>
 
@@ -57,12 +59,83 @@ namespace g0at
             }
             else
             {
+                debug_mode_info debug_info;
+                if (!env->run_mode())
+                {
+                    while(true)
+                    {
+                        std::cout << "? ";
+                        std::string line = lib::get_line();
+                        if (line == "r")
+                        {
+                            break;
+                        }
+                        else if (line.find("b ") == 0)
+                        {
+                            std::string request = lib::trim(line.substr(2));
+                            lib::pointer<breakpoint> bp = env->get_listing()->set_breakpoint(request);
+                            if (bp)
+                            {
+                                std::cout << global::char_encoder->encode(global::resource->setting_breakpoint_at(bp->to_string())) << std::endl;
+                                debug_info.breakpoints.push_back(bp);
+                            }
+                            else
+                            {
+                                std::cout << global::char_encoder->encode(global::resource->can_not_set_breakpoint()) << std::endl;
+                            }
+                        }
+                        else if (line != "")
+                        {
+                            std::cout << global::char_encoder->encode(global::resource->syntax_error()) << std::endl;
+                        }
+                    }
+                }
                 while(thr != nullptr)
                 {
                     code::iid_t iid = thr->iid;
                     ++thr->iid;
                     auto instr = code->get_instruction(iid);
-                    instr->exec(thr);
+                    bool suspend = instr->exec_debug(thr, &debug_info);
+                    if (suspend)
+                    {
+                        source_manager *listing = env->get_listing();
+                        lib::pointer<position> pos = listing->get_position_by_absolute_position(debug_info.frame_begin);
+                        std::wstring frag = listing->get_fragment(debug_info.frame_begin, debug_info.frame_end);
+                        std::cout << '\n' << global::char_encoder->encode(pos->to_string()) 
+                                  << '\n' << global::char_encoder->encode(frag) << "\n? ";
+                        switch (thr->debug_state)
+                        {
+                            case model::thread_debug_state::step_into:
+                                std::cout << "[e] ";    // enter
+                                break;
+                            case model::thread_debug_state::step_over:
+                                std::cout << "[n] ";    // next
+                                break;
+                            case model::thread_debug_state::step_out:
+                                std::cout << "[l] ";    // leave
+                                break;
+                        }
+                        std::string line = lib::get_line();
+                        
+                        if (line == "c")                // continue
+                            thr->debug_state = model::thread_debug_state::do_not_stop;
+                        else if (line == "e")           // enter
+                            thr->debug_state = model::thread_debug_state::step_into;
+                        else if (line == "n")           // next
+                            thr->debug_state = model::thread_debug_state::step_over;
+                        else if (line == "l")           // leave
+                            thr->debug_state = model::thread_debug_state::step_out;
+
+                        switch (thr->debug_state)
+                        {
+                            case model::thread_debug_state::step_into:
+                                thr->debug_level++;
+                                break;
+                            case model::thread_debug_state::step_out:
+                                thr->debug_level--;
+                                break;
+                        }
+                    }
                     if (!thr->stack_is_empty())
                     {
                         // convert any value to real object

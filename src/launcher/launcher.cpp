@@ -141,17 +141,16 @@ namespace g0at
 
         if (opt.prog_name == nullptr)
         {
-            all_source_data listing;
+            source_manager listing;
             model::name_cache name_cache;
             std::stringstream stream;
             bool multiline = false;
-            std::cout << "Hello~" << std::endl;
+            std::cout << "Ok." << std::endl;
             while(true)
             {
                 std::cout << (multiline ? "  " : "> ");
-                std::string line;
                 std::string program;
-                std::getline(std::cin, line);
+                std::string line = lib::get_line();
                 if (line == "")
                     continue;
                 if (line[line.size() - 1] == '\\')
@@ -175,11 +174,10 @@ namespace g0at
                     stream << "print(" << program.substr(1, len) << ");";
                     program = stream.str();
                 }
-                source_string src(global::char_encoder->decode(program), listing.get_last_offset());
-                listing.add_data(src.get_data());
+                source *src = listing.create_source_from_string(global::char_encoder->decode(program));
                 try
                 {
-                    scanner scan(&src);
+                    scanner scan(src);
                     auto tok_root = parser::parser::parse(&scan, false, "shell", opt.lib_path, nullptr);
                     auto node_root = analyzer::analyzer::analyze(tok_root);
                     tok_root.reset();
@@ -191,7 +189,7 @@ namespace g0at
                     }
                     if (!env)
                     {
-                        env = new vm::environment(gct, code->get_identifiers_list(), true);
+                        env = new vm::environment(gct, code->get_identifiers_list(), true, true, &listing);
                     }
                     else
                     {
@@ -229,7 +227,7 @@ namespace g0at
                 lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code, true));
             }
             vm::vm vm(code);
-            env = new vm::environment(gct, code->get_identifiers_list(), opt.debug);
+            env = new vm::environment(gct, code->get_identifiers_list(), opt.debug, true, nullptr);
             ret_val = vm.run(env.get());
             if (opt.dump_memory_usage_report)
             {
@@ -239,12 +237,11 @@ namespace g0at
         }
         else
         {
-            all_source_data listing;
+            source_manager listing;
             try
             {
-                source_file src(opt.prog_name, 0);
-                listing.add_data(src.get_data());
-                scanner scan(&src);
+                source *src = listing.create_source_from_file(opt.prog_name);
+                scanner scan(src);
                 auto tok_root = parser::parser::parse(&scan, opt.dump_abstract_syntax_tree, opt.prog_name, opt.lib_path, &listing);
                 if (opt.dump_abstract_syntax_tree)
                 {
@@ -270,7 +267,7 @@ namespace g0at
                 if (!opt.compile)
                 {
                     vm::vm vm(code_2);
-                    env = new vm::environment(gct, code_2->get_identifiers_list(), opt.debug);
+                    env = new vm::environment(gct, code_2->get_identifiers_list(), opt.debug, opt.run, &listing);
                     ret_val = vm.run(env.get());
                 }
                 else
@@ -289,8 +286,8 @@ namespace g0at
             }
             catch (compilation_error &c_err)
             {
-                int index = c_err.get_position()->get_index();
-                std::wstring frag = listing.get_fragment_by_index(index);
+                int pos = c_err.get_position()->get_absolute_position();
+                std::wstring frag = listing.get_fragment_by_absolute_position(pos);
                 std::cerr << global::char_encoder->encode(frag) << std::endl << c_err.what() << std::endl;
                 return -1;
             }

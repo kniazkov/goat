@@ -1,7 +1,16 @@
-import "xml.goat";
+import "example.goat";
 
-var child = new Xml.Element("child", ["t&est"]); 
-var root = new Xml.Element("root", child);
-root.attrib["first"] = "tes\"t";
-root.attrib.second = 3;
-println(root.toString('\t'));
+testing();
+
+var f = function(v)
+{
+    if (v >= 5)
+        println(v - 5);
+    if (v >= 7)
+        println(v - 7);
+};
+
+for (var i = 0; i < 10; i++)
+{
+    f(i);
+};

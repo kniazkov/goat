@@ -34,6 +34,7 @@ namespace g0at
             _frame(int _begin, int _end);
             void accept(instruction_visitor *visitor) override;
             void exec(model::thread *thr) override;
+            bool exec_debug(model::thread *thr, vm::debug_mode_info *debug_info) override;
 
             int get_begin() { return begin; }
             int get_end() { return end; }

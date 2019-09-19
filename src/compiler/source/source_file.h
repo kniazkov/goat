@@ -24,18 +24,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "source.h"
 #include <string>
+#include <vector>
 
 namespace g0at
 {
+    class source_manager;
+
     class source_file : public source
     {
+        friend class source_manager;
     public:
         source_file(std::string _file_name, int _offset);
         wchar_t get_char() override;
         wchar_t get_char(int offset) override;
         wchar_t next() override;
         lib::pointer<position> get_position() override;
-        std::wstring get_data() override;
+        lib::pointer<position> get_position(int absolute_position) override;
+        std::wstring &get_data() override;
+        lib::pointer<breakpoint> set_breakpoint(std::string request) override;
 
     protected:
         std::string file_name;
@@ -44,8 +50,10 @@ namespace g0at
         int max_index;
         int row;
         int column;
+        std::vector<int> row_index;
         lib::pointer<position> cached_position;
         int cached_position_index;
         int offset;
+
     };
 };

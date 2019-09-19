@@ -34,14 +34,14 @@ namespace g0at
     class source_file_position : public position
     {
     public:
-        source_file_position(std::string _file_name, int _index, int _row, int _column)
-            : file_name(_file_name), index(_index), row(_row), column(_column)
+        source_file_position(std::string _file_name, int _absolute_position, int _row, int _column)
+            : file_name(_file_name), absolute_position(_absolute_position), row(_row), column(_column)
         {
         }
 
-        int get_index() override
+        int get_absolute_position() override
         {
-            return index;
+            return absolute_position;
         }
 
         std::wstring to_string() override
@@ -53,10 +53,38 @@ namespace g0at
 
     protected:
         std::string file_name;
-        int index;
+        int absolute_position;
         int row;
         int column;
     };
+
+    class source_file_breakpoint : public breakpoint
+    {
+    public:
+        source_file_breakpoint(std::string _file_name, int _line, int _begin, int _end)
+            : file_name(_file_name), line(_line), begin(_begin), end(_end)
+        {
+        }
+
+        bool triggered(int absolute_position) override
+        {
+            return absolute_position >= begin && absolute_position < end;
+        }
+
+        std::wstring to_string() override
+        {
+            std::wstringstream wss;
+            wss << lib::file_name_from_full_path(file_name).c_str() << L", " << line;
+            return wss.str();
+        }
+
+    protected:
+        std::string file_name;
+        int line;
+        int begin;
+        int end;
+    };
+
 
     source_file::source_file(std::string _file_name, int _offset)
     {
@@ -99,6 +127,7 @@ namespace g0at
             {
                 row++;
                 column = 1;
+                row_index.push_back(index + 1);
             }
             else
             {
@@ -120,8 +149,45 @@ namespace g0at
         return cached_position;
     }
 
-    std::wstring source_file::get_data()
+    lib::pointer<position> source_file::get_position(int absolute_position)
+    {
+        int relative_position = absolute_position - offset;
+        assert(relative_position >= 0 && relative_position < (int)data.size());
+        int k, n;
+        for (k = 0, n = (int)row_index.size(); k < n; k++)
+        {
+            if (row_index[k] > relative_position)
+                break;
+        }
+        k--;
+        return new source_file_position(file_name, absolute_position, k + 2,
+            k < 0 ? relative_position + 1 : relative_position - row_index[k] + 1);
+    }
+
+    std::wstring &source_file::get_data()
     {
         return data;
+    }
+
+    lib::pointer<breakpoint> source_file::set_breakpoint(std::string request)
+    {
+        size_t colon = request.find(':');
+        if (colon == std::string::npos)
+            return nullptr;
+
+        std::string bp_file_name = lib::trim(request.substr(0, colon));
+
+        if (!lib::ends_with(file_name, bp_file_name))
+            return nullptr;
+
+        std::string bp_row = lib::trim(request.substr(colon + 1));
+        int line = std::atoi(bp_row.c_str());
+        if (line < 1 || line - 2 >= (int)row_index.size())
+            return nullptr;
+
+        int begin = line - 2 < 0 ? 0 : row_index.at(line - 2);
+        int end = line - 1 == (int)row_index.size() ? max_index : row_index.at(line - 1);
+
+        return new source_file_breakpoint(file_name, line, begin, end);
     }
 };

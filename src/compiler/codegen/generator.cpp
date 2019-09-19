@@ -211,13 +211,19 @@ namespace g0at
             if (debug)
             {
                 auto frag = node->get_fragment();
-                code->add_instruction(new _frame(frag.begin->get_index(), frag.end->get_index()));
+                code->add_instruction(new _frame(frag.begin->get_absolute_position(), frag.end->get_absolute_position()));
             }
         }
 
         void generator::visit(pt::function *ref)
         {
             int code_size = ref->get_code_size();
+
+            if (ref->is_root_function())
+            {
+                code->add_instruction(new _frame(0, 0));
+            }
+
             for (int i = 0; i < code_size; i++)
             {
                 ref->get_stmt(i)->accept(this);
