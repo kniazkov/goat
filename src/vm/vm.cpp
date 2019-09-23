@@ -90,6 +90,7 @@ namespace g0at
                         }
                     }
                 }
+                long int ticks = 0;
                 while(thr != nullptr)
                 {
                     code::iid_t iid = thr->iid;
@@ -101,7 +102,7 @@ namespace g0at
                         source_manager *listing = env->get_listing();
                         lib::pointer<position> pos = listing->get_position_by_absolute_position(debug_info.frame_begin);
                         std::wstring frag = listing->get_fragment(debug_info.frame_begin, debug_info.frame_end);
-                        std::cout << '\n' << global::char_encoder->encode(pos->to_string()) 
+                        std::cout << '\n' << ticks << " -> " << global::char_encoder->encode(pos->to_string())
                                   << '\n' << global::char_encoder->encode(frag) << "\n";
 
                         while (true)
@@ -182,13 +183,19 @@ namespace g0at
                     }
                     env->get_gc()->collect_garbage_if_necessary();
                     thr = env->get_thread_list()->switch_thread();
+                    ticks++;
                 }
             }
 
+            int ret_value = 0;
             int64_t ret_value_int64;
             if (ret.get_integer(&ret_value_int64) && ret_value_int64 >= INT_MIN && ret_value_int64 <= INT_MAX)
-                return (int)ret_value_int64;
-            return 0;
+                ret_value = (int)ret_value_int64;
+
+            if (env->debug_mode())
+                std::cout << '\n' << global::char_encoder->encode(global::resource->program_terminated_with_exit_code(ret_value)) << '\n';
+
+            return ret_value;
         }
     };
 };

@@ -357,6 +357,13 @@ namespace g0at
                 wss << position << L", останов";
                 return wss.str();
             }
+
+            std::wstring program_terminated_with_exit_code(int code)
+            {
+                std::wstringstream wss;
+                wss << L"программа завершена с кодом " << code;
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_ru()

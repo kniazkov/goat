@@ -185,8 +185,8 @@ namespace g0at
         if (line < 1 || line - 2 >= (int)row_index.size())
             return nullptr;
 
-        int begin = line - 2 < 0 ? 0 : row_index.at(line - 2);
-        int end = line - 1 == (int)row_index.size() ? max_index : row_index.at(line - 1);
+        int begin = (line - 2 < 0 ? 0 : row_index.at(line - 2)) + offset;
+        int end = (line - 1 == (int)row_index.size() ? max_index : row_index.at(line - 1)) + offset;
 
         return new source_file_breakpoint(file_name, line, begin, end);
     }

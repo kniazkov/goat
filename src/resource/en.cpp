@@ -354,6 +354,13 @@ namespace g0at
                 wss << position << L", breakpoint is hit";
                 return wss.str();
             }
+
+            std::wstring program_terminated_with_exit_code(int code)
+            {
+                std::wstringstream wss;
+                wss << L"program terminated with exit code " << code;
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_en()
