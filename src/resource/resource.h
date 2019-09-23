@@ -97,6 +97,7 @@ namespace g0at
             virtual std::wstring syntax_error() = 0;
             virtual std::wstring breakpoint_is_hit(std::wstring position) = 0;
             virtual std::wstring program_terminated_with_exit_code(int code) = 0;
+            virtual std::wstring illegal_reference_variable_is_not_defined(std::wstring name) = 0;
             
         protected:
             static resource *get_intance_en();

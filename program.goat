@@ -2,6 +2,8 @@ import "example.goat";
 
 testing();
 
+var obj = { value : { value : 7 } };
+
 var f = function(v)
 {
     if (v >= 5)

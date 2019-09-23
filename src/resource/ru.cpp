@@ -364,6 +364,13 @@ namespace g0at
                 wss << L"программа завершена с кодом " << code;
                 return wss.str();
             }
+
+            std::wstring illegal_reference_variable_is_not_defined(std::wstring name)
+            {
+                std::wstringstream wss;
+                wss << L"недопустимая ссылка: переменная '" << name << "' не определена";
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_ru()

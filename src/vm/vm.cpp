@@ -23,9 +23,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "vm.h"
 #include "debug_mode_info.h"
 #include "model/object.h"
+#include "model/object_string.h"
 #include "lib/assert.h"
 #include "lib/utils.h"
 #include <iostream>
+#include <sstream>
 #include <climits>
 
 namespace g0at
@@ -162,6 +164,53 @@ namespace g0at
                                 else
                                 {
                                     std::cout << global::char_encoder->encode(global::resource->can_not_set_breakpoint()) << std::endl;
+                                }
+                            }
+                            else if (line.find("p ") == 0)
+                            {
+                                std::wstring request = global::char_encoder->decode(lib::trim(line.substr(2)));
+                                std::vector<std::wstring> list;
+                                size_t begin = 0, end;
+                                while(std::string::npos != (end = request.find(L'.', begin)))
+                                {
+                                    list.push_back(request.substr(begin, end - begin));
+                                    begin = end + 1;
+                                }
+                                list.push_back(request.substr(begin));
+                                model::object *obj = thr->ctx;
+                                size_t i, l = list.size();
+                                for (i = 0; i < l; i++)
+                                {
+                                    model::object_string *key = thr->pool->get_static_string(list[i]);
+                                    model::variable *ref = obj->find_object(key);
+                                    if(ref != nullptr)
+                                    {
+                                        obj = ref->to_object(thr->pool);
+                                    }
+                                    else
+                                    {
+                                        if (i == l - 1)
+                                            obj = thr->pool->get_undefined_instance();
+                                        else
+                                        {
+                                            obj = nullptr;
+                                            std::wstringstream partial_name;
+                                            for (int j = 0; j <= i; j++)
+                                            {
+                                                if (j)
+                                                    partial_name << L".";
+                                                partial_name << list[j];
+                                            }
+                                            std::cout
+                                                << global::char_encoder->encode(global::resource->illegal_reference_variable_is_not_defined(partial_name.str()))
+                                                << std::endl;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (obj != nullptr)
+                                {
+                                    std::cout << global::char_encoder->encode(obj->to_string_notation()) << std::endl;
                                 }
                             }
                         }

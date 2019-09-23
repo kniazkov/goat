@@ -361,6 +361,13 @@ namespace g0at
                 wss << L"program terminated with exit code " << code;
                 return wss.str();
             }
+
+            std::wstring illegal_reference_variable_is_not_defined(std::wstring name)
+            {
+                std::wstringstream wss;
+                wss << L"illegal reference: variable '" << name << "' is not defined";
+                return wss.str();
+            }
         };
 
         resource *resource::get_intance_en()
