@@ -248,7 +248,7 @@ namespace g0at
             if (ret.get_integer(&ret_value_int64) && ret_value_int64 >= INT_MIN && ret_value_int64 <= INT_MAX)
                 ret_value = (int)ret_value_int64;
 
-            if (env->debug_mode())
+            if (env->debug_mode() && !env->run_mode())
                 std::cout << '\n' << global::char_encoder->encode(global::resource->program_terminated_with_exit_code(ret_value)) << '\n';
 
             return ret_value;
