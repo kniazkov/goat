@@ -174,7 +174,7 @@ namespace g0at
 
             void op_neq(variable *var, thread *thr)  override
             {
-                binary_logical_operation<lib::func::not_equal, false>(var, thr);
+                binary_logical_operation<lib::func::not_equal, true>(var, thr);
             }
 
             void op_less(variable *var, thread *thr)  override
