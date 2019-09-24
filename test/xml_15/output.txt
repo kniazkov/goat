@@ -1,0 +1,8 @@
+1:
+<root><first>Test &amp;&quot;&apos; string</first><second>Another &lt;&gt; string</second></root>
+3:
+<root>
+  <first>Test &amp;&quot;&apos; string</first>
+  <second>Another &lt;&gt; string</second>
+</root>
+ok.
