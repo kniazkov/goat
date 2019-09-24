@@ -383,13 +383,18 @@ var Xml =
                                         throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
                                     else if (c1 == '-')
                                     {
-                                        var c2 = this.next();
-                                        if (c2 == null)
-                                            throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
-                                        else if (c2 == '>')
+                                        while(true)
                                         {
-                                            this.next();
-                                            return this.getToken(mode);
+                                            var c2 = this.next();
+                                            if (c2 == null)
+                                                throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
+                                            else if (c2 == '>')
+                                            {
+                                                this.next();
+                                                return this.getToken(mode);
+                                            }
+                                            else if (c2 != '-')
+                                                break;
                                         }
                                     }
                                 }
