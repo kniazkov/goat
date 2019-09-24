@@ -1,0 +1,7 @@
+1:
+<root><first>any data &amp; what you want</first></root>
+3:
+<root>
+  <first>any data &amp; what you want</first>
+</root>
+ok.
