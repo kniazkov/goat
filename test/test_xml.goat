@@ -1,0 +1,33 @@
+var testXml = $(xml)
+{
+    var result = true;
+    var root = Xml.parse("<root><first>Test string</first></root>");
+
+    var A = root.toString();
+    println("1:");
+    println(A);
+    var B = Xml.parse(A);
+    var C = B.toString();
+
+    if (C != A)
+    {
+        println("2:");
+        println(C);
+        result = false;
+    }
+
+    var D = root.toString("  ");
+    println("3:");
+    println(D);
+    var E = Xml.parse(D);
+    var F = E.toString("  ");
+
+    if (D != F)
+    {
+        println("4:");
+        println(F);
+        result = false;
+    }
+
+    return result;
+};
