@@ -1,0 +1,8 @@
+1:
+<root><first>Test string</first><second>Another string</second></root>
+3:
+<root>
+  <first>Test string</first>
+  <second>Another string</second>
+</root>
+ok.
