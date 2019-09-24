@@ -1,0 +1,12 @@
+1:
+<root><first aaa="on&lt;e" bbb="345">Test string</first><second/><third ccc="qwerty"><eeee/><ddddd/></third></root>
+3:
+<root>
+  <first aaa="on&lt;e" bbb="345">Test string</first>
+  <second/>
+  <third ccc="qwerty">
+    <eeee/>
+    <ddddd/>
+  </third>
+</root>
+ok.
