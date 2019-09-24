@@ -361,10 +361,40 @@ var Xml =
                     return null;                    
                 case '<':
                     c = this.next();
-                    if (c == '!') // <![CDATA[ ?
+                    if (c == '!') // <![CDATA[ ? or comment <!--
                     {
                         i = index;
                         c = this.next();
+                        if (c == '-')
+                        {
+                            c = this.next();
+                            if (c != '-')
+                                throw new Xml.Error(Xml.Error.INVALID_SEQUENCE, index);
+                            // comment starts: <!--
+                            while(true)
+                            {
+                                var c0 = this.next();
+                                if (c0 == null)
+                                    throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
+                                else if (c0 == '-')
+                                {
+                                    var c1 = this.next();
+                                    if (c1 == null)
+                                        throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
+                                    else if (c1 == '-')
+                                    {
+                                        var c2 = this.next();
+                                        if (c2 == null)
+                                            throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
+                                        else if (c2 == '>')
+                                        {
+                                            this.next();
+                                            return this.getToken(mode);
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         var b = new StringBuilder();
                         do
                         {
@@ -520,7 +550,8 @@ var Xml =
         DUPLICATE_ATTRIBUTE: "duplicate attribute",
         UNKNOWN_ENTITY: "unknown entity",
         INVALID_CHARACTER: "invalid character",
-        EXPECTED_CDATA_SEQUENCE: "expected <![CDATA[ sequence"
+        EXPECTED_CDATA_SEQUENCE: "expected <![CDATA[ sequence",
+        INVALID_SEQUENCE: "invalid sequence"
     },
     
     Parser :
