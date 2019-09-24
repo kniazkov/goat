@@ -1,18 +1,6 @@
-import "example.goat";
+import "xml.goat";
 
-testing();
+var root = Xml.parse("<root></root>");
 
-var obj = { value : { value : 7 } };
-
-var f = function(v)
-{
-    if (v >= 5)
-        println(v - 5);
-    if (v >= 7)
-        println(v - 7);
-};
-
-for (var i = 0; i < 10; i++)
-{
-    f(i);
-};
+println(root.toString());
+println(root.toString("  "));

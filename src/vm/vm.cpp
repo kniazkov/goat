@@ -178,8 +178,15 @@ namespace g0at
                                 }
                                 list.push_back(request.substr(begin));
                                 model::object *obj = thr->ctx;
-                                size_t i, l = list.size();
-                                for (i = 0; i < l; i++)
+                                size_t i = 0, l = list.size();
+                                if (list[0] == L"this")
+                                {
+                                    obj = thr->ctx->this_ptr;
+                                    if (!obj)
+                                        obj = thr->pool->get_undefined_instance();
+                                    i++;
+                                }
+                                for (; i < l; i++)
                                 {
                                     model::object_string *key = thr->pool->get_static_string(list[i]);
                                     model::variable *ref = obj->find_object(key);

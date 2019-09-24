@@ -54,6 +54,7 @@ namespace g0at
                 {
                     if (bp->triggered(begin))
                     {
+                        thr->debug_level = thr->ctx->debug_level;
                         return true;                        
                     }
                 }

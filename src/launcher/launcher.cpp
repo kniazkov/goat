@@ -189,7 +189,7 @@ namespace g0at
                     }
                     if (!env)
                     {
-                        env = new vm::environment(gct, code->get_identifiers_list(), true, true, &listing);
+                        env = new vm::environment(gct, code->get_identifiers_list(), false, true, &listing);
                     }
                     else
                     {

@@ -28,7 +28,7 @@ var Xml =
         var scan = new Xml.Scanner("" + str);
         var parser = new Xml.Parser(scan);
         parser.parseData(elem);
-        return elem.data;
+        return elem.data[0];
     },
 
     Element :
@@ -41,7 +41,7 @@ var Xml =
         {
             this.tag = tag;
             this.attrib = {};
-            this.data = data || null;
+            this.data = data || [];
         },
 
         toString : $(indent)
@@ -267,9 +267,9 @@ var Xml =
             }
         },
         
-        isSymbolOfIdentifier : $(c)
+        isPartOfIdentifier : $(c)
         {
-            if (isSpace(c))
+            if (Xml.Scanner.isSpace(c))
             {
                 return false;
             }
@@ -309,7 +309,7 @@ var Xml =
         
         isBeginOfIdentifier : $(c)
         {
-            return (!(false == isSymbolOfIdentifier(c) || (c >= '0' && c <= '9') || c == '.' || c == '-'));
+            return (!(false == Xml.Scanner.isPartOfIdentifier(c) || (c >= '0' && c <= '9') || c == '.' || c == '-'));
         },
         
         parseEntity : $()
@@ -322,7 +322,7 @@ var Xml =
                     break;
                 if (c == null)
                     throw new Xml.Error(Xml.Error.UNEXPECTED_END, index);
-                if (isSymbolOfIdentifier(c))
+                if (isPartOfIdentifier(c))
                     b << c;
                 else
                     throw new Xml.Error(Xml.Error.INVALID_CHARACTER, index);
@@ -436,14 +436,14 @@ var Xml =
                         this.next();
                         return new Xml.Token(Xml.Token.ASSIGN, i);
                     }
-                    if (this.isBeginOfIdentifier(c))
+                    if (isBeginOfIdentifier(c))
                     {
                         var b = new StringBuilder();
                         do
                         {
                             b << c;
                             c = this.next();
-                        } while(isSymbolOfIdentifier(c));
+                        } while(isPartOfIdentifier(c));
                         return new Xml.Token(Xml.Token.IDENTIFIER, i, b.data());
                     }
                     if (c == '\"')
@@ -592,6 +592,11 @@ var Xml =
                 if (tok.type == Xml.Token.CLOSE_BRACKET)
                 {
                     this.parseData(elem);
+                    var len = elem.data.length();
+                    if (len == 0)
+                        elem.data = null;
+                    else if (len == 1)
+                        elem.data = elem.data[0];
                     return elem;
                 }
                 else if (tok.type == Xml.Token.SLASH)

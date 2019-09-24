@@ -39,6 +39,7 @@ namespace g0at
         void _sector::exec(model::thread *thr)
         {
             model::context *ctx = thr->pool->create_context(thr->ctx);
+            ctx->this_ptr = thr->ctx->this_ptr;
             ctx->address[0] = begin;
             ctx->address[1] = end;
             ctx->address_type = model::context_address_type::sector;
