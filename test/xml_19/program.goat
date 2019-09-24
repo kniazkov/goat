@@ -1,0 +1,6 @@
+import "xml.goat";
+import "test/test_xml.goat";
+
+var xml = "<root><first>Test string</first><!--<second>Test -- string</second>------><third/></root>";
+var result = testXml(xml);
+println(result ? "ok." : "fail");
