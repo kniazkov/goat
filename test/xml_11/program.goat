@@ -1,0 +1,6 @@
+import "xml.goat";
+
+var root = Xml.parse("<root></root>");
+
+println(root.toString());
+println(root.toString("  "));
