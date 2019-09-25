@@ -55,6 +55,7 @@ namespace g0at
         class object_runner;
         class object_uid;
         class object_string_builder;
+        class object_byte_array;
         class handler;
         enum class call_mode;
 
@@ -104,6 +105,7 @@ namespace g0at
             inline bool get_real(double *pval);
             inline bool get_boolean(bool *pval);
             inline bool get_char(wchar_t *pval);
+            inline bool get_byte(uint8_t *pval);
 
             inline void op_add(thread *thr);
             inline void op_sub(thread *thr);
@@ -203,6 +205,7 @@ namespace g0at
             virtual object_uid *to_object_uid();
             virtual object_runner *to_object_runner();
             virtual object_string_builder *to_object_string_builder();
+            virtual object_byte_array *to_object_byte_array();
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
@@ -465,6 +468,20 @@ namespace g0at
         bool variable::get_char(wchar_t *pval)
         {
             return hndl->get_char(this, pval);
+        }
+
+        bool variable::get_byte(uint8_t *pval)
+        {
+            int64_t val;
+            if (get_integer(&val))
+            {
+                if (val >= 0 && val <= 255)
+                {
+                    *pval = (uint8_t)val;
+                    return true;
+                }
+            }
+            return false;
         }
 
         void variable::op_add(thread *thr)

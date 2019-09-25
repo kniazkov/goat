@@ -1,6 +1,8 @@
-import "xml.goat";
-import "test/test_xml.goat";
+var a = new ByteArray();
 
-var xml = "<root><first>Test string</first><!--<second>Test -- string</second>------><third/></root>";
-var result = testXml(xml);
-println(result ? "ok." : "fail");
+a.push(0);
+a.push(1);
+a.push(255);
+
+println(a.length());
+println(a);
