@@ -44,6 +44,7 @@ namespace g0at
             void add_byte(uint8_t byte) { vector.push_back(byte); }
             int get_length() { return (int)vector.size(); }
             uint8_t &get_byte_at(int idx) { return vector.at(idx); }
+            uint8_t *get_data() { return &vector[0]; }
 
         protected:
             std::vector<uint8_t> vector;

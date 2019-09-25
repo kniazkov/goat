@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "thread.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
+#include "lib/utf8_encoder.h"
 #include "resource/strings.h"
 #include <sstream>
 #include <iomanip>
@@ -284,6 +285,23 @@ namespace g0at
             }
         };
 
+        class object_byte_array_decode_utf8 : public object_byte_array_method
+        {
+        public:
+            object_byte_array_decode_utf8(object_pool *_pool)
+                : object_byte_array_method(_pool)
+            {
+            }
+
+            bool payload(object_byte_array *this_ptr, thread *thr, int arg_count, variable *result) override
+            {
+                std::string data((char*)this_ptr->get_data(), this_ptr->get_length());
+                std::wstring decoded_data = lib::decode_utf8(data);
+                result->set_object(thr->pool->create_object_string(decoded_data));
+                return true;
+            }
+        };
+
         object_byte_array_proto::object_byte_array_proto(object_pool *pool)
             : object(pool)
         {
@@ -293,6 +311,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_length), new object_byte_array_length(pool));
             add_object(pool->get_static_string(resource::str_push), new object_byte_array_push(pool));
+            add_object(pool->get_static_string(resource::str_decode_utf8), new object_byte_array_decode_utf8(pool));
         }
 
         void object_byte_array_proto::op_new(thread *thr, int arg_count)

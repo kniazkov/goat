@@ -76,5 +76,6 @@ namespace g0at
         extern std::wstring str_true;
         extern std::wstring str_false;
         extern std::wstring str_push;
+        extern std::wstring str_decode_utf8;
     };
 };
