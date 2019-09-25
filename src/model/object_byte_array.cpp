@@ -144,7 +144,7 @@ namespace g0at
             else if (arg_count < 2)
             {
                 thr->pop();
-                variable value = thr->peek();
+                variable value = thr->pop();
                 uint8_t byte;
                 if (!value.get_byte(&byte))
                 {
