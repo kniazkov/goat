@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "thread.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
+#include "resource/strings.h"
 #include <sstream>
 
 namespace g0at
@@ -381,9 +382,9 @@ namespace g0at
 
         void object_array_proto::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(L"length"), new object_array_length(pool));
-            add_object(pool->get_static_string(L"push"), new object_array_push(pool));
-            add_object(pool->get_static_string(L"+"), new object_array_operator_plus(pool));
+            add_object(pool->get_static_string(resource::str_length), new object_array_length(pool));
+            add_object(pool->get_static_string(resource::str_push), new object_array_push(pool));
+            add_object(pool->get_static_string(resource::str_oper_plus), new object_array_operator_plus(pool));
         }
     };
 };

@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "thread.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
+#include "resource/strings.h"
 #include <sstream>
 #include <iomanip>
 
@@ -290,8 +291,8 @@ namespace g0at
 
         void object_byte_array_proto::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(L"length"), new object_byte_array_length(pool));
-            add_object(pool->get_static_string(L"push"), new object_byte_array_push(pool));
+            add_object(pool->get_static_string(resource::str_length), new object_byte_array_length(pool));
+            add_object(pool->get_static_string(resource::str_push), new object_byte_array_push(pool));
         }
 
         void object_byte_array_proto::op_new(thread *thr, int arg_count)
