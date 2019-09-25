@@ -74,6 +74,7 @@ namespace g0at
         std::wstring str_true = L"true";
         std::wstring str_false = L"false";
         std::wstring str_push = L"push";
-        std::wstring str_decode_utf8 = L"decodeUtf8";
+        std::wstring str_decode = L"decode";
+        std::wstring str_encode = L"encode";
     };
 };

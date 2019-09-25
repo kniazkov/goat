@@ -30,6 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "resource/strings.h"
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
 
 namespace g0at
 {
@@ -87,6 +88,17 @@ namespace g0at
         object_byte_array::object_byte_array(object_pool *pool)
             : object(pool, pool->get_byte_array_proto_instance())
         {
+        }
+
+        object_byte_array::object_byte_array(object_pool *pool, std::string data)
+            : object(pool, pool->get_byte_array_proto_instance())
+        {
+            auto size = data.size();
+            if (size > 0)
+            {
+                vector.reserve(size);
+                vector.insert(vector.end(), data.begin(), data.end());
+            }
         }
 
         object_byte_array *object_byte_array::to_object_byte_array()
@@ -295,10 +307,34 @@ namespace g0at
 
             bool payload(object_byte_array *this_ptr, thread *thr, int arg_count, variable *result) override
             {
-                std::string data((char*)this_ptr->get_data(), this_ptr->get_length());
-                std::wstring decoded_data = lib::decode_utf8(data);
-                result->set_object(thr->pool->create_object_string(decoded_data));
-                return true;
+                if (arg_count > 0)
+                {
+                    variable arg = thr->peek();
+                    object *obj = arg.get_object();
+                    if (obj)
+                    {
+                        object_string *str = obj->to_object_string();
+                        if (str)
+                        {
+                            std::wstring encoding = str->get_data();
+                            std::transform(encoding.begin(), encoding.end(), encoding.begin(),
+                                [](wchar_t c){ return std::tolower(c); });
+                            
+                            if (encoding == L"utf8")
+                            {
+                                std::string data((char*)this_ptr->get_data(), this_ptr->get_length());
+                                std::wstring decoded_data = lib::decode_utf8(data);
+                                result->set_object(thr->pool->create_object_string(decoded_data));
+                                return true;
+                            }
+
+                            result->set_object(thr->pool->get_undefined_instance());
+                            return true;
+                        }
+                    }
+                }
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                return false;
             }
         };
 
@@ -311,7 +347,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_length), new object_byte_array_length(pool));
             add_object(pool->get_static_string(resource::str_push), new object_byte_array_push(pool));
-            add_object(pool->get_static_string(resource::str_decode_utf8), new object_byte_array_decode_utf8(pool));
+            add_object(pool->get_static_string(resource::str_decode), new object_byte_array_decode_utf8(pool));
         }
 
         void object_byte_array_proto::op_new(thread *thr, int arg_count)

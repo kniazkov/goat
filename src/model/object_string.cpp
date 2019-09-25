@@ -22,13 +22,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_string.h"
 #include "object_function_built_in.h"
+#include "object_byte_array.h"
 #include "operator_wrapper.h"
 #include "thread.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
 #include "lib/functional.h"
+#include "lib/utf8_encoder.h"
 #include "resource/strings.h"
 #include <sstream>
+#include <algorithm>
+#include <cctype>
 
 namespace g0at
 {
@@ -304,10 +308,10 @@ namespace g0at
             Prototype
         */
 
-        class object_string_length : public object_function_built_in
+        class object_string_method : public object_function_built_in
         {
         public:
-            object_string_length(object_pool *_pool)
+            object_string_method(object_pool *_pool)
                 : object_function_built_in(_pool)
             {
             }
@@ -327,10 +331,71 @@ namespace g0at
                     thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
                     return;
                 }
-                thr->pop(arg_count);
                 variable result;
-                result.set_integer(this_ptr_string->get_data().length());
-                thr->push(result);
+                if(payload(this_ptr_string, thr, arg_count, &result))
+                {
+                    thr->pop(arg_count);
+                    thr->push(result);
+                }
+            }
+
+            virtual bool payload(object_string *this_ptr, thread *thr, int arg_count, variable *result) = 0;
+        };
+
+        class object_string_length : public object_string_method
+        {
+        public:
+            object_string_length(object_pool *_pool)
+                : object_string_method(_pool)
+            {
+            }
+
+            bool payload(object_string *this_ptr, thread *thr, int arg_count, variable *result) override
+            {
+                result->set_integer((int64_t)this_ptr->get_data().size());
+                return true;
+            }
+        };
+
+        class object_string_encode : public object_string_method
+        {
+        public:
+            object_string_encode(object_pool *_pool)
+                : object_string_method(_pool)
+            {
+            }
+
+            bool payload(object_string *this_ptr, thread *thr, int arg_count, variable *result) override
+            {
+                if (arg_count > 0)
+                {
+                    variable arg = thr->peek();
+                    object *obj = arg.get_object();
+                    if (obj)
+                    {
+                        object_string *str = obj->to_object_string();
+                        if (str)
+                        {
+                            std::wstring encoding = str->get_data();
+                            std::transform(encoding.begin(), encoding.end(), encoding.begin(),
+                                [](wchar_t c){ return std::tolower(c); });
+                            
+                            std::wstring data = this_ptr->get_data();
+
+                            if (encoding == L"utf8")
+                            {
+                                std::string encoded_data = lib::encode_utf8(data);
+                                result->set_object(new object_byte_array(thr->pool, encoded_data));
+                                return true;
+                            }
+
+                            result->set_object(thr->pool->get_undefined_instance());
+                            return true;
+                        }
+                    }
+                }
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                return false;
             }
         };
 
@@ -342,6 +407,7 @@ namespace g0at
         void object_string_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(resource::str_length), new object_string_length(pool));
+            add_object(pool->get_static_string(resource::str_encode), new object_string_encode(pool));
             add_object(pool->get_static_string(resource::str_oper_plus), pool->get_wrap_add_instance());
             add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
             add_object(pool->get_static_string(resource::str_oper_double_exclamation), pool->get_wrap_bool_instance());

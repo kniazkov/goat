@@ -1,3 +1,6 @@
-var a = new ByteArray(65, 66, 67, 68);
-var s = a.decodeUtf8();
-println(s);
+var s0 = "abcd 123 Тест";
+
+var a = s0.encode("utf8");
+println(a);
+var s1 = a.decode("utf8");
+println(s0 == s1);

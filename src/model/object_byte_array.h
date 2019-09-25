@@ -34,6 +34,7 @@ namespace g0at
         {
         public:
             object_byte_array(object_pool *pool);
+            object_byte_array(object_pool *pool, std::string data);
             object_byte_array *to_object_byte_array() override;
             std::wstring to_string() const override;
 
