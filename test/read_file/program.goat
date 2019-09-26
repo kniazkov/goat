@@ -1,0 +1,11 @@
+var file = open("test/test_file_open.txt", File.Mode.READ);
+if (file)
+{
+    var data = file.read(208);
+    if (data)
+    {
+        var text = data.decode("utf8");
+        println(text);
+    }
+    file.close();
+}
