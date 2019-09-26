@@ -1,0 +1,8 @@
+import "io.goat";
+
+var data = load("test/test_file_open.txt");
+if (data)
+{
+    var text = data.decode("utf8");
+    println(text);
+}
