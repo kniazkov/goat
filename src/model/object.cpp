@@ -172,6 +172,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_file *object::to_object_file()
+        {
+            return nullptr;
+        }
+
         bool object::less(const object *obj) const
         {
             return this < obj;

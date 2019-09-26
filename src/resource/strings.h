@@ -78,5 +78,9 @@ namespace g0at
         extern std::wstring str_push;
         extern std::wstring str_decode;
         extern std::wstring str_encode;
+        extern std::wstring str_file;
+        extern std::wstring str_read;
+        extern std::wstring str_write;
+        extern std::wstring str_append;
     };
 };

@@ -56,6 +56,7 @@ namespace g0at
         class object_uid;
         class object_string_builder;
         class object_byte_array;
+        class object_file;
         class handler;
         enum class call_mode;
 
@@ -206,6 +207,7 @@ namespace g0at
             virtual object_runner *to_object_runner();
             virtual object_string_builder *to_object_string_builder();
             virtual object_byte_array *to_object_byte_array();
+            virtual object_file *to_object_file();
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
