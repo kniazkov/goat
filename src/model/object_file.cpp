@@ -159,6 +159,100 @@ namespace g0at
             }
         };
 
+        class object_file_seek : public object_file_method
+        {
+        public:
+            object_file_seek(object_pool *_pool)
+                : object_file_method(_pool)
+            {
+            }
+            
+            bool payload(thread *thr, int arg_count, file_descriptor *descr, FILE *stream, variable *result) override
+            {
+                bool ret_val = false;
+                if (stream && descr->mode != file_access_mode::closed && descr->mode != file_access_mode::append)
+                {
+                    if (arg_count < 1)
+                    {
+                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        return false;
+                    }
+                    variable &position = thr->peek(0);                    
+                    int64_t position_int64;
+                    if (!position.get_integer(&position_int64) || position_int64 < 0)
+                    {
+                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        return false;
+                    }
+                    bool has_origin; 
+                    int origin;
+                    if (arg_count > 1)
+                    {
+                        has_origin = false;
+                        variable &origin_arg = thr->peek(1);
+                        object *origin_obj = origin_arg.get_object();
+                        if (origin_obj)
+                        {
+                            object_string *origin_obj_str = origin_obj->to_object_string();
+                            if (origin_obj_str)
+                            {
+                                std::wstring origin_str = origin_obj_str->get_data();
+                                if (origin_str == resource::str_BEGIN)
+                                {
+                                    origin = SEEK_SET;
+                                    has_origin = true;
+                                }
+                                else if (origin_str == resource::str_END)
+                                {
+                                    origin = SEEK_END;
+                                    has_origin = true;
+                                }
+                                else if (origin_str == resource::str_CURRENT)
+                                {
+                                    origin = SEEK_CUR;
+                                    has_origin = true;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        has_origin = true;
+                        origin = SEEK_SET;
+                    }
+                    if (!has_origin)
+                    {
+                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        return false;
+                    }
+                    int seek_result = std::fseek(stream, position_int64, origin);
+                    ret_val = (seek_result == 0);
+                }
+                result->set_boolean(ret_val);
+                return true;
+            }
+        };
+
+        class object_file_position : public object_file_method
+        {
+        public:
+            object_file_position(object_pool *_pool)
+                : object_file_method(_pool)
+            {
+            }
+            
+            bool payload(thread *thr, int arg_count, file_descriptor *descr, FILE *stream, variable *result) override
+            {
+                int64_t position = -1;
+                if (stream)
+                {
+                    position = std::ftell(stream);
+                }
+                result->set_integer(position);
+                return true;
+            }
+        };
+
         object_file_proto::object_file_proto(object_pool *pool)
             : object(pool)
         {
@@ -172,8 +266,16 @@ namespace g0at
             mode->add_object(pool->get_static_string(resource::str_APPEND));
             mode->add_object(pool->get_static_string(resource::str_FULL));
 
+            object *origin = pool->create_generic_object();
+            origin->add_object(pool->get_static_string(resource::str_BEGIN));
+            origin->add_object(pool->get_static_string(resource::str_END));
+            origin->add_object(pool->get_static_string(resource::str_CURRENT));
+
             add_object(pool->get_static_string(resource::str_Mode), mode);
+            add_object(pool->get_static_string(resource::str_Origin), origin);
             add_object(pool->get_static_string(resource::str_read), new object_file_read(pool));
+            add_object(pool->get_static_string(resource::str_seek), new object_file_seek(pool));
+            add_object(pool->get_static_string(resource::str_position), new object_file_position(pool));
             add_object(pool->get_static_string(resource::str_close), new object_file_close(pool));
         }
     };

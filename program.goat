@@ -1,11 +1,17 @@
 var file = open("test/test_file_open.txt", File.Mode.READ);
 if (file)
 {
-    var data = file.read(208);
-    if (data)
+    file.seek(0, File.Origin.END);
+    var size = file.position();
+    if (size)
     {
-        var text = data.decode("utf8");
-        println(text);
+        file.seek(0, File.Origin.BEGIN);
+        var data = file.read(size);
+        if (data)
+        {
+            var text = data.decode("utf8");
+            println(text);
+        }
     }
     file.close();
 }
