@@ -138,6 +138,27 @@ namespace g0at
             }
         };
 
+        class object_file_close : public object_file_method
+        {
+        public:
+            object_file_close(object_pool *_pool)
+                : object_file_method(_pool)
+            {
+            }
+            
+            bool payload(thread *thr, int arg_count, file_descriptor *descr, FILE *stream, variable *result) override
+            {
+                if (stream)
+                {
+                    std::fclose(stream);
+                    descr->mode == file_access_mode::closed;
+                    descr->sysctl = nullptr;
+                }
+                result->set_object(thr->pool->get_undefined_instance());
+                return true;
+            }
+        };
+
         object_file_proto::object_file_proto(object_pool *pool)
             : object(pool)
         {
@@ -153,6 +174,7 @@ namespace g0at
 
             add_object(pool->get_static_string(resource::str_Mode), mode);
             add_object(pool->get_static_string(resource::str_read), new object_file_read(pool));
+            add_object(pool->get_static_string(resource::str_close), new object_file_close(pool));
         }
     };
 };
