@@ -1,17 +1,8 @@
-var file = open("test/test_file_open.txt", File.Mode.READ);
-if (file)
+import "io.goat";
+
+var data = load("test/test_file_open.txt");
+if (data)
 {
-    file.seek(0, File.Origin.END);
-    var size = file.position();
-    if (size)
-    {
-        file.seek(0, File.Origin.BEGIN);
-        var data = file.read(size);
-        if (data)
-        {
-            var text = data.decode("utf8");
-            println(text);
-        }
-    }
-    file.close();
+    var text = data.decode("utf8");
+    println(text);
 }
