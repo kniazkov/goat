@@ -30,7 +30,8 @@ namespace g0at
     {
         enum class file_access_mode
         {
-            closed = 0,
+            invalid = 0,
+            closed,
             read,
             write,
             append,
@@ -40,6 +41,7 @@ namespace g0at
         struct file_descriptor
         {
             void *sysctl;
+            std::string name;
             file_access_mode mode;
         };
 

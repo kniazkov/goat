@@ -1,6 +1,11 @@
-var s0 = "abcd 123 Тест";
+var file = open("test/test_file_open.txt", File.Mode.READ);
+if (file)
+{
+    var data = file.read(256);
+    if (data)
+    {
+        var text = data.decode("utf8");
+        println(text);
+    }
 
-var a = s0.encode("utf8");
-println(a);
-var s1 = a.decode("utf8");
-println(s0 == s1);
+}

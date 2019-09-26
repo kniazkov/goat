@@ -80,5 +80,12 @@ namespace g0at
         std::wstring str_read = L"read";
         std::wstring str_write = L"write";
         std::wstring str_append = L"append";
+
+        std::wstring str_Mode = L"Mode";
+
+        std::wstring str_READ = L"READ";
+        std::wstring str_WRITE = L"WRITE";
+        std::wstring str_APPEND = L"APPEND";
+        std::wstring str_FULL = L"FULL";
     };
 };

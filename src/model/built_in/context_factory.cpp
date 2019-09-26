@@ -58,6 +58,7 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"UId"), pool->get_uid_proto_instance());
                 ctx->add_object(pool->get_static_string(L"StringBuilder"), pool->get_string_builder_proto_instance());
                 ctx->add_object(pool->get_static_string(L"ByteArray"), pool->get_byte_array_proto_instance());
+                ctx->add_object(pool->get_static_string(L"File"), pool->get_file_proto_instance());
 
                 ctx->add_object(pool->get_static_string(L"print"), create_function_print());
                 ctx->add_object(pool->get_static_string(L"println"), create_function_println());
@@ -71,6 +72,7 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"clock"), create_function_clock());
                 ctx->add_object(pool->get_static_string(L"range"), create_function_range());
                 ctx->add_object(pool->get_static_string(L"uid"), create_function_uid());
+                ctx->add_object(pool->get_static_string(L"open"), create_function_open());
 
                 model::variable tmp;
                 tmp.set_real(std::atan((double)1.0) * 4);

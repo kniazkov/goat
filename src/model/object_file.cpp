@@ -108,7 +108,7 @@ namespace g0at
             
             bool payload(thread *thr, int arg_count, file_descriptor *descr, FILE *stream, variable *result) override
             {
-                if (stream && descr->mode == file_access_mode::read || descr->mode == file_access_mode::full)
+                if (stream && (descr->mode == file_access_mode::read || descr->mode == file_access_mode::full))
                 {
                     if (arg_count < 1)
                     {
@@ -132,6 +132,7 @@ namespace g0at
                     size_t actually_read = std::fread(buff, 1, bytes_to_read, stream);
                     result->set_object(new object_byte_array(thr->pool, buff, actually_read));
                     delete[] buff;
+                    return true;
                 }
                 assert(false);
             }
@@ -144,6 +145,13 @@ namespace g0at
 
         void object_file_proto::init(object_pool *pool)
         {
+            object *mode = pool->create_generic_object();
+            mode->add_object(pool->get_static_string(resource::str_READ));
+            mode->add_object(pool->get_static_string(resource::str_WRITE));
+            mode->add_object(pool->get_static_string(resource::str_APPEND));
+            mode->add_object(pool->get_static_string(resource::str_FULL));
+
+            add_object(pool->get_static_string(resource::str_Mode), mode);
             add_object(pool->get_static_string(resource::str_read), new object_file_read(pool));
         }
     };

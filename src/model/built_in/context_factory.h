@@ -50,6 +50,7 @@ namespace g0at
                 object *create_function_clock();
                 object *create_function_range();
                 object *create_function_uid();
+                object *create_function_open();
 
                 object_pool *pool;
             };

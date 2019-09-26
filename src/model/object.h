@@ -221,6 +221,7 @@ namespace g0at
 
             void add_object(object *key, variable &value);
             void add_object(object *key, object *value);
+            void add_object(object *key_value) { add_object(key_value, key_value); }
             variable *find_object(object *key);
             variable *find_own_object(object *key);
             void find_own_and_call_if_exists(thread *thr, int arg_count, object_string *key, call_mode mode);

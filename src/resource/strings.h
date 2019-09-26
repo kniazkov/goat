@@ -82,5 +82,12 @@ namespace g0at
         extern std::wstring str_read;
         extern std::wstring str_write;
         extern std::wstring str_append;
+
+        extern std::wstring str_Mode;
+
+        extern std::wstring str_READ;
+        extern std::wstring str_WRITE;
+        extern std::wstring str_APPEND;
+        extern std::wstring str_FULL;
     };
 };

@@ -151,7 +151,7 @@ namespace g0at
             string_builder_proto_instance = string_builder_proto;
             auto byte_array_proto = new object_byte_array_proto(this);
             byte_array_proto_instance = byte_array_proto;
-            auto file_proto = new object_byte_array_proto(this);
+            auto file_proto = new object_file_proto(this);
             file_proto_instance = file_proto;
             auto iterator_proto = new object_iterator_proto(this);
             iterator_proto_instance = iterator_proto;
