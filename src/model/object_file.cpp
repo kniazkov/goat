@@ -124,7 +124,7 @@ namespace g0at
                     }
                     if (count_int64 <= 0)
                     {
-                        result->set_object(thr->pool->get_undefined_instance());
+                        result->set_object(thr->pool->get_null_instance());
                         return true;
                     }
                     size_t bytes_to_read = (size_t)count_int64;
@@ -253,6 +253,50 @@ namespace g0at
             }
         };
 
+        class object_file_eof : public object_file_method
+        {
+        public:
+            object_file_eof(object_pool *_pool)
+                : object_file_method(_pool)
+            {
+            }
+            
+            bool payload(thread *thr, int arg_count, file_descriptor *descr, FILE *stream, variable *result) override
+            {
+                bool ret_val = true;
+                if (stream)
+                {
+                    ret_val = (std::feof(stream) != 0);
+                }
+                result->set_boolean(ret_val);
+                return true;
+            }
+        };
+
+        class object_file_getc : public object_file_method
+        {
+        public:
+            object_file_getc(object_pool *_pool)
+                : object_file_method(_pool)
+            {
+            }
+            
+            bool payload(thread *thr, int arg_count, file_descriptor *descr, FILE *stream, variable *result) override
+            {
+                if (stream)
+                {
+                    int ret_val = std::fgetc(stream);
+                    if (ret_val != EOF)
+                    {
+                        result->set_integer(ret_val & 0xFF);
+                        return true;
+                    }
+                }
+                result->set_object(thr->pool->get_null_instance());
+                return true;
+            }
+        };
+
         object_file_proto::object_file_proto(object_pool *pool)
             : object(pool)
         {
@@ -273,7 +317,9 @@ namespace g0at
 
             add_object(pool->get_static_string(resource::str_Mode), mode);
             add_object(pool->get_static_string(resource::str_Origin), origin);
+            add_object(pool->get_static_string(resource::str_eof), new object_file_eof(pool));
             add_object(pool->get_static_string(resource::str_read), new object_file_read(pool));
+            add_object(pool->get_static_string(resource::str_getc), new object_file_getc(pool));
             add_object(pool->get_static_string(resource::str_seek), new object_file_seek(pool));
             add_object(pool->get_static_string(resource::str_position), new object_file_position(pool));
             add_object(pool->get_static_string(resource::str_close), new object_file_close(pool));

@@ -1,8 +1,14 @@
-import "io.goat";
-
-var data = load("test/test_file_open.txt");
-if (data)
+var file = open("test/test_file_open.txt", File.Mode.READ);
+if (file)
 {
+    var data = new ByteArray();
+    while(!file.eof())
+    {
+        var ch = file.getc();
+        if(ch)
+            data.push(ch);
+    }
+    file.close();
     var text = data.decode("utf8");
     println(text);
 }

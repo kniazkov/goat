@@ -91,6 +91,7 @@ namespace g0at
                                     std::string file_name_ascii = lib::wstring_to_ascii_string(file_name, &is_ascii);
                                     if (is_ascii)
                                     {
+                                        variable result;
                                         FILE *stream;
                                         switch(access_mode)
                                         {
@@ -111,18 +112,17 @@ namespace g0at
                                         }
                                         if (!stream)
                                         {
-                                            thr->push_undefined();
+                                            result.set_object(thr->pool->get_null_instance());
                                         }
                                         else
                                         {
-                                            variable result;
                                             file_descriptor descr;
                                             descr.sysctl = (void*)stream;
                                             descr.name = file_name_ascii;
                                             descr.mode = access_mode;
                                             result.set_object(new object_file(thr->pool, descr));
-                                            thr->push(result);
                                         } // stream
+                                        thr->push(result);
                                         return;
                                     } // is_ascii
                                 } // arg_fname_obj_str
