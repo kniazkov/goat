@@ -53,6 +53,9 @@ namespace g0at
                     if (oper->prev->to_token_operator())
                         break;
 
+                    if (oper->prev->to_keyword())
+                        break;
+
                     if (oper->prev->to_comma())
                         break;
 
@@ -62,15 +65,15 @@ namespace g0at
                     if (oper->prev->to_statement())
                         break;
 
-                    return 0;
+                    return false;
                 } while(false);
 
                 if (!oper->next)
-                    return 0;
+                    return false;
 
                 ast::expression *right = oper->next->to_expression();
                 if (!right)
-                    return 0;
+                    return false;
 
                 lib::pointer<ast::token> un_op = oper->create_unary_prefix_operation(right);
                 oper->replace(right, un_op);

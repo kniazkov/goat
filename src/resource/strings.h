@@ -87,7 +87,6 @@ namespace g0at
         extern std::wstring str_position;
         extern std::wstring str_eof;
         extern std::wstring str_getc;
-        extern std::wstring str_find;
 
         extern std::wstring str_Mode;
         extern std::wstring str_Origin;

@@ -1,17 +1,6 @@
-import "io.goat";
-import "xml.goat";
+import "algorithm.goat";
 
-var source = load("docs/reference.xml");
-if (!source)
-{
-    println("Can not open source XML");
-    exit(-1);
-}
+var a = [0, 1, 3, 5, 7, 11, 13];
 
-var xml = Xml.parse(source.decode("utf8"));
-
-var html = new Xml.Element("html");
-var body = new Xml.Element("body");
-html.append(body);
-
-println(xml.findByTag("s"));
+println(indexOf(a, 7));
+println(indexOf(a, 23));
