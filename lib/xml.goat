@@ -40,8 +40,18 @@ var Xml =
         init : $(tag, data)
         {
             this.tag = tag;
-            this.attrib = {};
-            this.data = data || [];
+            this.attrib = { };
+            this.data = data || [ ];
+        },
+
+        append : $(child)
+        {
+            if (!data)
+                data = child;
+            else if (data.instanceof(Array))
+                data.push(child);
+            else
+                data = [ data, child ];
         },
 
         toString : $(indent)
@@ -584,7 +594,7 @@ var Xml =
                 {
                     var next = scan.getToken(Xml.Scanner.Mode.TAG); 
                     if (next.type == Xml.Token.IDENTIFIER)                  // <tag
-                        elem.data.push(this.parseTag(next.data));
+                        elem.append(this.parseTag(next.data));
                     else if (next.type == Xml.Token.SLASH)                  // </
                     {
                         var ident = scan.getToken(Xml.Scanner.Mode.TAG);
@@ -608,7 +618,7 @@ var Xml =
                 }
                 else if (tok.type == Xml.Token.TEXT)
                 {
-                    elem.data.push(tok.data);
+                    elem.append(tok.data);
                 }
                 else
                 {
