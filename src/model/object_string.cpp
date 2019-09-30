@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_string.h"
 #include "object_function_built_in.h"
+#include "object_array.h"
 #include "object_byte_array.h"
 #include "operator_wrapper.h"
 #include "thread.h"
@@ -399,6 +400,49 @@ namespace g0at
             }
         };
 
+        class object_string_split : public object_string_method
+        {
+        public:
+            object_string_split(object_pool *_pool)
+                : object_string_method(_pool)
+            {
+            }
+
+            bool payload(object_string *this_ptr, thread *thr, int arg_count, variable *result) override
+            {
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return false;
+                }
+
+                std::wstring value = this_ptr->get_data();
+                object_array *list = thr->pool->create_object_array();
+                result->set_object(list);
+
+                if (value != L"")
+                {
+                    variable arg = thr->peek();
+                    wchar_t char_arg;
+                    if (arg.get_char(&char_arg))
+                    {
+                        size_t i = 0,
+                            j;
+                        variable item;
+                        while(std::string::npos != (j = value.find(char_arg, i)))
+                        {
+                            item.set_object(thr->pool->create_object_string(value.substr(i, j - i)));
+                            list->add_item(item);
+                            i = j + 1;
+                        }
+                        item.set_object(thr->pool->create_object_string(value.substr(i)));
+                        list->add_item(item);
+                    }
+                }
+                return true;
+            }
+        };
+
         object_string_proto::object_string_proto(object_pool *pool)
             : object(pool)
         {
@@ -408,6 +452,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_length), new object_string_length(pool));
             add_object(pool->get_static_string(resource::str_encode), new object_string_encode(pool));
+            add_object(pool->get_static_string(resource::str_split), new object_string_split(pool));
             add_object(pool->get_static_string(resource::str_oper_plus), pool->get_wrap_add_instance());
             add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
             add_object(pool->get_static_string(resource::str_oper_double_exclamation), pool->get_wrap_bool_instance());
