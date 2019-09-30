@@ -420,26 +420,55 @@ namespace g0at
                 object_array *list = thr->pool->create_object_array();
                 result->set_object(list);
 
-                if (value != L"")
+                if (value == L"")
+                    return true;
+
+                variable arg = thr->peek();
+                wchar_t char_arg;
+                if (arg.get_char(&char_arg))
                 {
-                    variable arg = thr->peek();
-                    wchar_t char_arg;
-                    if (arg.get_char(&char_arg))
+                    size_t i = 0,
+                        j;
+                    variable item;
+                    while(std::string::npos != (j = value.find(char_arg, i)))
                     {
-                        size_t i = 0,
-                            j;
-                        variable item;
-                        while(std::string::npos != (j = value.find(char_arg, i)))
-                        {
-                            item.set_object(thr->pool->create_object_string(value.substr(i, j - i)));
-                            list->add_item(item);
-                            i = j + 1;
-                        }
-                        item.set_object(thr->pool->create_object_string(value.substr(i)));
+                        item.set_object(thr->pool->create_object_string(value.substr(i, j - i)));
                         list->add_item(item);
+                        i = j + 1;
+                    }
+                    item.set_object(thr->pool->create_object_string(value.substr(i)));
+                    list->add_item(item);
+                    return true;
+                }
+
+                object *obj_arg = arg.get_object();
+                if (obj_arg)
+                {
+                    object_string *obj_string_arg = obj_arg->to_object_string();
+                    if (obj_string_arg)
+                    {
+                        std::wstring string_arg = obj_string_arg->get_data();
+                        size_t arg_len = string_arg.size();
+                        if (arg_len > 0)
+                        {
+                            size_t i = 0,
+                                j;
+                            variable item;
+                            while(std::string::npos != (j = value.find(string_arg, i)))
+                            {
+                                item.set_object(thr->pool->create_object_string(value.substr(i, j - i)));
+                                list->add_item(item);
+                                i = j + arg_len;
+                            }
+                            item.set_object(thr->pool->create_object_string(value.substr(i)));
+                            list->add_item(item);
+                            return true;
+                        }                        
                     }
                 }
-                return true;
+
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                return false;
             }
         };
 
