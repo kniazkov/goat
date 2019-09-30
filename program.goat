@@ -12,22 +12,21 @@ var xml = Xml.parse(source.decode("utf8"));
 
 var html = new Xml.Element("html");
 var body = new Xml.Element("body");
-html.append(body);
+html.data.push(body);
 
 var parseSection = $(src, dst)
 {
-    var children = src.children();
-    var length = children.length();
+    var length = src.data.length();
     var i;
     for (i = 0; i < length; ++i)
     {
-        var child = children[i];
+        var child = src.data[i];
         switch(child.tag)
         {
             case "s":
             case "section":
                 var title = new Xml.Element("div", child.attrib.name);
-                dst.append(title);
+                dst.data.push(title);
                 break;
         }
     }

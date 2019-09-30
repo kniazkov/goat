@@ -36,67 +36,44 @@ var Xml =
     Element :
     {
         tag : "",
-        attrib : {},
-        data : null,
+        attrib : { },
+        data : [ ],
 
-        init : $(tag, data)
+        init : $(tag, child)
         {
             this.tag = tag;
             this.attrib = { };
-            this.data = data || [ ];
-        },
-
-        append : $(child)
-        {
-            if (!data)
-                data = child;
-            else if (data.instanceof(Array))
-                data.push(child);
-            else
-                data = [ data, child ];
-        },
-
-        children : $()
-        {
-            if (!data)
-                return [];
-            if (data.instanceof(Array))
-                return data;
-            return [ data ];
+            this.data = [ ];
+            if (child)
+            {
+                if (child.instanceof(Array))
+                    this.data = child;
+                else
+                    this.data.push(child);
+            }
         },
 
         findByTag : $(tag)
         {
-            if (data)
+            var result = [];
+            if (tag.instanceof(String))
             {
-                if (tag.instanceof(String))
+                for (var item in data)
                 {
-                    if (data.instanceof(Xml.Element) && data.tag == tag)
-                        return [ data ];
-                    
-                    var result = [];
-                    for (var item in data)
-                    {
-                        if (item.instanceof(Xml.Element) && item.tag == tag)
-                            result.push(item);
-                    }
-                    return result;
-                }
-                else if (tag.instanceof(Array))
-                {
-                    if (data.instanceof(Xml.Element) && indexOf(tag, data.tag) != -1)
-                        return [ data ];
-                    
-                    var result = [];
-                    for (var item in data)
-                    {
-                        if (item.instanceof(Xml.Element) && indexOf(tag, item.tag) != -1)
-                            result.push(item);
-                    }
-                    return result;
+                    if (item.instanceof(Xml.Element) && item.tag == tag)
+                        result.push(item);
                 }
             }
-            return [];
+            else if (tag.instanceof(Array))
+            {
+                for (var item in data)
+                {
+                    if (item.instanceof(Xml.Element) && indexOf(tag, item.tag) != -1)
+                        result.push(item);
+                }
+                return result;
+            }
+            return result;
         },
 
         toString : $(indent)
@@ -121,38 +98,22 @@ var Xml =
                     b << '\"';
                 }
             }
-            if (!data)
+            var count = data.length();
+            if (count == 0)
             {
                 b << "/>";
-            }
-            else if (data.instanceof(Array))
-            {
-                var count = data.length();
-                if (count > 0)
-                {
-                    b << '>';
-                    for (var i = 0; i < count; i++)
-                    {
-                        var item = data[i];
-                        if (item.instanceof(Xml.Element))
-                            item.buildSimpleString(b);
-                        else
-                            addStringButEscapeEntities(b, item);
-                    }
-                    b << "</" << tag << '>';
-                }
-                else
-                {
-                    b << "/>";
-                }
             }
             else
             {
                 b << '>';
-                if (data.instanceof(Xml.Element))
-                    data.buildSimpleString(b);
-                else
-                    addStringButEscapeEntities(b, data);
+                for (var i = 0; i < count; i++)
+                {
+                    var item = data[i];
+                    if (item.instanceof(Xml.Element))
+                        item.buildSimpleString(b);
+                    else
+                        addStringButEscapeEntities(b, item);
+                }
                 b << "</" << tag << '>';
             }
         },
@@ -171,53 +132,36 @@ var Xml =
                     b << '\"';
                 }
             }
-            var data = this.data;
-            if (!data)
+            var count = data.length();
+            if (count == 0)
             {
                 b << "/>";
-                return;
             }
-            if (data.instanceof(Array))
+            else if (count > 1 || data[0].instanceof(Xml.Element))
             {
-                var count = data.length();
-                if (!count)
+                b << '>';
+                for (var i = 0; i < count; i++)
                 {
-                    b << "/>";
-                    return;
-                }
-                if (count > 1)
-                {
-                    b << '>';
-                    for (var i = 0; i < count; i++)
+                    var item = data[i];
+                    if (item.instanceof(Xml.Element))
                     {
-                        var item = data[i];
-                        if (item.instanceof(Xml.Element))
-                        {
-                            item.buildIndentedString(b, indent, level + 1);
-                        }
-                        else
-                        {
-                            addIndent(b, indent, level + 1);
-                            addStringButEscapeEntities(b, item);
-                        }
+                        item.buildIndentedString(b, indent, level + 1);
                     }
-                    addIndent(b, indent, level);
-                    b << "</" << tag << '>';
-                    return;
+                    else
+                    {
+                        addIndent(b, indent, level + 1);
+                        addStringButEscapeEntities(b, item);
+                    }
                 }
-                data = data[0];
-            }
-            b << '>';
-            if (data.instanceof(Xml.Element))
-            {
-                data.buildIndentedString(b, indent, level + 1);
                 addIndent(b, indent, level);
+                b << "</" << tag << '>';
             }
             else
             {
-                addStringButEscapeEntities(b, data);
+                b << '>';
+                addStringButEscapeEntities(b, data[0]);
+                b << "</" << tag << '>';
             }
-            b << "</" << tag << '>';
         },
 
         addIndent : $(b, indent, level)
@@ -639,7 +583,7 @@ var Xml =
                 {
                     var next = scan.getToken(Xml.Scanner.Mode.TAG); 
                     if (next.type == Xml.Token.IDENTIFIER)                  // <tag
-                        elem.append(this.parseTag(next.data));
+                        elem.data.push(this.parseTag(next.data));
                     else if (next.type == Xml.Token.SLASH)                  // </
                     {
                         var ident = scan.getToken(Xml.Scanner.Mode.TAG);
@@ -663,7 +607,7 @@ var Xml =
                 }
                 else if (tok.type == Xml.Token.TEXT)
                 {
-                    elem.append(tok.data);
+                    elem.data.push(tok.data);
                 }
                 else
                 {
@@ -683,11 +627,6 @@ var Xml =
                 if (tok.type == Xml.Token.CLOSE_BRACKET)
                 {
                     this.parseData(elem);
-                    var len = elem.data.length();
-                    if (len == 0)
-                        elem.data = null;
-                    else if (len == 1)
-                        elem.data = elem.data[0];
                     return elem;
                 }
                 else if (tok.type == Xml.Token.SLASH)
