@@ -254,10 +254,10 @@ namespace g0at
             Prototype
         */
 
-        class object_array_length : public object_function_built_in
+        class object_array_method : public object_function_built_in
         {
         public:
-            object_array_length(object_pool *_pool)
+            object_array_method(object_pool *_pool)
                 : object_function_built_in(_pool)
             {
             }
@@ -277,47 +277,49 @@ namespace g0at
                     thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
                     return;
                 }
-                thr->pop(arg_count);
-                variable tmp;
-                tmp.set_integer(this_ptr_array->get_length());
-                thr->push(tmp);
+                variable result;
+                if(payload(this_ptr_array, thr, arg_count, &result))
+                {
+                    thr->pop(arg_count);
+                    thr->push(result);
+                }
             }
+
+            virtual bool payload(object_array *this_ptr, thread *thr, int arg_count, variable *result) = 0;
         };
 
-        class object_array_push : public object_function_built_in
+        class object_array_length : public object_array_method
         {
         public:
-            object_array_push(object_pool *_pool)
-                : object_function_built_in(_pool)
+            object_array_length(object_pool *_pool)
+                : object_array_method(_pool)
             {
             }
             
-            void call(thread *thr, int arg_count, call_mode mode) override
+            bool payload(object_array *this_ptr, thread *thr, int arg_count, variable *result) override
             {
-                if(arg_count > 0)
+                result->set_integer(this_ptr->get_length());
+                return true;
+            }
+        };
+
+        class object_array_push : public object_array_method
+        {
+        public:
+            object_array_push(object_pool *_pool)
+                : object_array_method(_pool)
+            {
+            }
+            
+            bool payload(object_array *this_ptr, thread *thr, int arg_count, variable *result) override
+            {
+                for (int i = 0; i < arg_count; i++)
                 {
-                    if (mode != call_mode::as_method)
-                    {
-                        thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                        return;
-                    }
-                    object *this_ptr = thr->pop().get_object();
-                    assert(this_ptr != nullptr);
-                    object_array *this_ptr_array = this_ptr->to_object_array();
-                    if (!this_ptr_array)
-                    {
-                        thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
-                        return;
-                    }
-                    while (arg_count--)
-                    {
-                        variable item = thr->pop().deref();
-                        this_ptr_array->add_item(item);
-                    }
-                    thr->push_undefined();
-                    return;
+                    variable item = thr->peek(i).deref();
+                    this_ptr->add_item(item);
                 }
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                result->set_object(thr->pool->get_undefined_instance());
+                return true;
             }
         };
 

@@ -85,6 +85,7 @@ namespace g0at
         std::wstring str_position = L"position";
         std::wstring str_eof = L"eof";
         std::wstring str_getc = L"getc";
+        std::wstring str_find = L"find";
 
         std::wstring str_Mode = L"Mode";
         std::wstring str_Origin = L"Origin";
