@@ -87,7 +87,23 @@ namespace g0at
                     if (body->prev->to_keyword_lock())
                         goto okay;                
                     if (body->prev->to_keyword_do())
-                        goto okay;                
+                        goto okay;
+                    if (body->prev->to_colon()) 
+                    {
+                        // case expression : { } ?
+                        ast::token *left = body->prev->prev;
+                        while(left)
+                        {
+                            if (left->to_keyword_case())
+                                goto okay;
+                            if (left->to_comma())
+                                return false;
+                            if (left->to_colon())
+                                return false;
+                            left = left->prev;
+                        };
+                        return false;
+                    }
                 } while(false);
 
                 return false;

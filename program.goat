@@ -25,9 +25,11 @@ var parseSection = $(src, dst)
         {
             case "s":
             case "section":
+            {
                 var title = new Xml.Element("div", child.attrib.name);
                 dst.data.push(title);
                 break;
+            }
         }
     }
 };
