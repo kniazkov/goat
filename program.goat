@@ -14,26 +14,85 @@ var html = new Xml.Element("html");
 var body = new Xml.Element("body");
 html.data.push(body);
 
-var parseSection = $(src, dst)
+var parseSection = $(src, dst, level)
 {
     var length = src.data.length();
     var i;
     for (i = 0; i < length; ++i)
     {
         var child = src.data[i];
+        if (!child.instanceof(Xml.Element))
+            continue;
         switch(child.tag)
         {
             case "s":
             case "section":
             {
-                var title = new Xml.Element("div", child.attrib.name);
+                var title = new Xml.Element("h" + (level + 1), child.attrib.name);
                 dst.data.push(title);
+                var container = new Xml.Element("div");
+                dst.data.push(container);
+                parseSection(child, container, level + 1);
                 break;
+            }
+            case "p":
+            case "paragraph":
+            {
+                var container = new Xml.Element("div");
+                dst.data.push(container);
+                parseParagraph(child, container);
+                break;
+            }
+            case "c":
+            case "code":
+            {
+                if (child.data.length() == 1)
+                {
+                    var container = new Xml.Element("pre", child.data[0]);
+                    dst.data.push(container);
+                    break;
+                }
             }
         }
     }
 };
 
-parseSection(xml, body);
+var parseParagraph = $(src, dst)
+{
+    var length = src.data.length();
+    var i;
+    for (i = 0; i < length; ++i)
+    {
+        var child = src.data[i];
+        if (child.instanceof(String))
+        {
+            dst.data.push(child);
+        }
+        else if (child.instanceof(Xml.Element))
+        {
+            switch(child.tag)
+            {
+                case "b":
+                case "bold":
+                {
+                    var span = new Xml.Element("b");
+                    dst.data.push(span);
+                    parseParagraph(child, span);
+                    break;
+                }
+                case "c":
+                case "code":
+                {
+                    var span = new Xml.Element("code");
+                    dst.data.push(span);
+                    parseParagraph(child, span);
+                    break;
+                }
+            }
+        }
+    }
+};
+
+parseSection(xml, body, 0);
 
 println(html.toString("  "));
