@@ -20,6 +20,8 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+import "algorithm.goat";
+
 var Xml =
 {
     parse : $(str)
@@ -54,20 +56,47 @@ var Xml =
                 data = [ data, child ];
         },
 
-        findByTag : $(tag)
+        children : $()
         {
             if (!data)
                 return [];
-            if (data.instanceof(Xml.Element) && data.tag == tag)
-                return [ data ];
-            
-            var result = [];
-            for (var item in data)
+            if (data.instanceof(Array))
+                return data;
+            return [ data ];
+        },
+
+        findByTag : $(tag)
+        {
+            if (data)
             {
-                if (item.instanceof(Xml.Element) && item.tag == tag)
-                    result.push(item);
+                if (tag.instanceof(String))
+                {
+                    if (data.instanceof(Xml.Element) && data.tag == tag)
+                        return [ data ];
+                    
+                    var result = [];
+                    for (var item in data)
+                    {
+                        if (item.instanceof(Xml.Element) && item.tag == tag)
+                            result.push(item);
+                    }
+                    return result;
+                }
+                else if (tag.instanceof(Array))
+                {
+                    if (data.instanceof(Xml.Element) && indexOf(tag, data.tag) != -1)
+                        return [ data ];
+                    
+                    var result = [];
+                    for (var item in data)
+                    {
+                        if (item.instanceof(Xml.Element) && indexOf(tag, item.tag) != -1)
+                            result.push(item);
+                    }
+                    return result;
+                }
             }
-            return result;
+            return [];
         },
 
         toString : $(indent)
