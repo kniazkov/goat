@@ -1,0 +1,6 @@
+import "algorithm.goat";
+
+var a = [0, 1, 3, 5, 7, 11, 13];
+
+println(indexOf(a, 7));
+println(indexOf(a, 23));
