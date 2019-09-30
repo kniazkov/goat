@@ -54,6 +54,22 @@ var Xml =
                 data = [ data, child ];
         },
 
+        findByTag : $(tag)
+        {
+            if (!data)
+                return [];
+            if (data.instanceof(Xml.Element) && data.tag == tag)
+                return [ data ];
+            
+            var result = [];
+            for (var item in data)
+            {
+                if (item.instanceof(Xml.Element) && item.tag == tag)
+                    result.push(item);
+            }
+            return result;
+        },
+
         toString : $(indent)
         {
             var b = new StringBuilder();
