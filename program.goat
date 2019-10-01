@@ -1,23 +1,13 @@
 import "io.goat";
 import "xml.goat";
 
-var source = load("docs/reference.xml");
-if (!source)
-{
-    println("Can not open source XML");
-    exit(-1);
-}
-
-var xml = Xml.parse(source.decode("utf8"));
-
-var html = new Xml.Element("html");
-var body = new Xml.Element("body");
-html.data.push(body);
-
-var parseSection = $(src, dst, level)
+var parseSection = $(src, dst, level, prefix)
 {
     var length = src.data.length();
-    var i;
+    var i,
+        k = 0;
+    var content = new Xml.Element("ul");
+    dst.data.push(content);
     for (i = 0; i < length; ++i)
     {
         var child = src.data[i];
@@ -28,17 +18,25 @@ var parseSection = $(src, dst, level)
             case "s":
             case "section":
             {
-                var title = new Xml.Element("h" + (level + 1), child.attrib.name);
-                dst.data.push(title);
+                k++;
+                var prefix2 = prefix + k + '.';
+                var header = new Xml.Element("div", level < 4 ? prefix2 + ' ' + child.attrib.name : child.attrib.name);
+                header.attrib.class = "header";
+                header.attrib.style = "font-size: " + levelToFontSize(level) + ';';
+                dst.data.push(header);
+                content.data.push(new Xml.Element("li", child.attrib.name));
                 var container = new Xml.Element("div");
-                dst.data.push(container);
-                parseSection(child, container, level + 1);
+                container.attrib.class = "section";
+                parseSection(child, container, level + 1, prefix2);
+                if (container.data.length() > 0)
+                    dst.data.push(container);
                 break;
             }
             case "p":
             case "paragraph":
             {
                 var container = new Xml.Element("div");
+                container.attrib.class = "para";
                 dst.data.push(container);
                 parseParagraph(child, container);
                 break;
@@ -49,12 +47,28 @@ var parseSection = $(src, dst, level)
                 if (child.data.length() == 1 && child.data[0].instanceof(String))
                 {
                     var container = new Xml.Element("div");
+                    container.attrib.class = "code";
                     dst.data.push(container);
                     parseCode(child.data[0], container);
                     break;
                 }
             }
         }
+    }
+};
+
+var levelToFontSize = $(level)
+{
+    switch(level)
+    {
+        case 0:
+            return "xx-large";
+        case 1:
+            return "x-large";
+        case 2:
+            return "large";
+        default:
+            return "medium";
     }
 };
 
@@ -85,6 +99,7 @@ var parseParagraph = $(src, dst)
                 case "code":
                 {
                     var span = new Xml.Element("code");
+                    span.attrib.class = "inline";
                     dst.data.push(span);
                     parseParagraph(child, span);
                     break;
@@ -160,6 +175,39 @@ var parseCode = $(value, dst)
     }
 };
 
-parseSection(xml, body, 0);
+var source = load("docs/reference.xml");
+if (!source)
+{
+    println("Can not open source XML");
+    exit(-1);
+}
+
+var xml = Xml.parse(source.decode("utf8"));
+
+var html = new Xml.Element("html");
+
+var head = new Xml.Element("head");
+html.data.push(head);
+
+var title = new Xml.Element("title", "The Goat Programming Language Reference");
+head.data.push(title);
+
+var style = new Xml.Element("style");
+head.data.push(style);
+style.data.push(".section { padding-left: 10pt; }");
+style.data.push(".header { font-weight: bold; padding-top: 15pt; }");
+style.data.push(".para { padding-top: 10pt; }");
+style.data.push(".code { font-family: monospace; font-size: large; padding-top: 10pt; }");
+style.data.push(".inline { font-family: monospace; font-size: large; background-color: lightgray; padding-left: 2pt; padding-right: 2pt; }");
+
+var body = new Xml.Element("body");
+html.data.push(body);
+
+var content = new Xml.Element("div", "Table of contents");
+content.attrib.class = "header";
+content.attrib.style = "font-size: " + levelToFontSize(0) + ';';
+body.data.push(content);
+
+parseSection(xml, body, 0, "");
 
 println(html.toString("  "));
