@@ -112,7 +112,12 @@ var Xml =
                     if (item.instanceof(Xml.Element))
                         item.buildSimpleString(b);
                     else
-                        addStringButEscapeEntities(b, item);
+                    {
+                        if (item.noEscape)
+                            b << item;
+                        else
+                            addStringButEscapeEntities(b, item);
+                    }
                 }
                 b << "</" << tag << '>';
             }
@@ -150,7 +155,10 @@ var Xml =
                     else
                     {
                         addIndent(b, indent, level + 1);
-                        addStringButEscapeEntities(b, item);
+                        if (item.noEscape)
+                            b << item;
+                        else
+                            addStringButEscapeEntities(b, item);
                     }
                 }
                 addIndent(b, indent, level);
@@ -159,7 +167,10 @@ var Xml =
             else
             {
                 b << '>';
-                addStringButEscapeEntities(b, data[0]);
+                if (data[0].noEscape)
+                    b << data[0];
+                else
+                    addStringButEscapeEntities(b, data[0]);
                 b << "</" << tag << '>';
             }
         },

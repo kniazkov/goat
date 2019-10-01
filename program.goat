@@ -1,3 +1,165 @@
-var s = "0123456789";
+import "io.goat";
+import "xml.goat";
 
-println(s.substr(20) + ".");
+var source = load("docs/reference.xml");
+if (!source)
+{
+    println("Can not open source XML");
+    exit(-1);
+}
+
+var xml = Xml.parse(source.decode("utf8"));
+
+var html = new Xml.Element("html");
+var body = new Xml.Element("body");
+html.data.push(body);
+
+var parseSection = $(src, dst, level)
+{
+    var length = src.data.length();
+    var i;
+    for (i = 0; i < length; ++i)
+    {
+        var child = src.data[i];
+        if (!child.instanceof(Xml.Element))
+            continue;
+        switch(child.tag)
+        {
+            case "s":
+            case "section":
+            {
+                var title = new Xml.Element("h" + (level + 1), child.attrib.name);
+                dst.data.push(title);
+                var container = new Xml.Element("div");
+                dst.data.push(container);
+                parseSection(child, container, level + 1);
+                break;
+            }
+            case "p":
+            case "paragraph":
+            {
+                var container = new Xml.Element("div");
+                dst.data.push(container);
+                parseParagraph(child, container);
+                break;
+            }
+            case "c":
+            case "code":
+            {
+                if (child.data.length() == 1 && child.data[0].instanceof(String))
+                {
+                    var container = new Xml.Element("div");
+                    dst.data.push(container);
+                    parseCode(child.data[0], container);
+                    break;
+                }
+            }
+        }
+    }
+};
+
+var parseParagraph = $(src, dst)
+{
+    var length = src.data.length();
+    var i;
+    for (i = 0; i < length; ++i)
+    {
+        var child = src.data[i];
+        if (child.instanceof(String))
+        {
+            dst.data.push(child);
+        }
+        else if (child.instanceof(Xml.Element))
+        {
+            switch(child.tag)
+            {
+                case "b":
+                case "bold":
+                {
+                    var span = new Xml.Element("b");
+                    dst.data.push(span);
+                    parseParagraph(child, span);
+                    break;
+                }
+                case "c":
+                case "code":
+                {
+                    var span = new Xml.Element("code");
+                    dst.data.push(span);
+                    parseParagraph(child, span);
+                    break;
+                }
+            }
+        }
+    }
+};
+
+var parseCode = $(value, dst)
+{
+    var b = new StringBuilder();
+    for (var c in value)
+    {
+        switch(c)
+        {
+            case '\t':
+                b << "  "; break;
+            case '\r': break;
+            default: b << c;
+        }
+    }
+    value = b.data();
+    var lines = value.split('\n');
+    var li = lines.length();
+    if (li > 0)
+    {
+        var i,
+            offset = null,
+            line,
+            first;
+        for (i = 0; i < li; ++i)
+        {
+            line = lines[i];
+            var j,
+                lj = line.length();
+            for (j = 0; j < lj; ++j)
+            {
+                if (line[j] != ' ')
+                {
+                    offset = j;
+                    first = i;
+                    break;
+                }
+            }
+            if (offset != null)
+                break;
+        }
+        if (offset != null)
+        {
+            for (i = first; i < li; ++i)
+            {
+                if (i != first)
+                    dst.data.push(new Xml.Element("br"));
+                line = lines[i].substr(offset);
+                var b = new StringBuilder();
+                var j,
+                    lj = line.length();
+                for (j = 0; j < lj; j++)
+                {
+                    var c = line[j];
+                    if (c == ' ')
+                        b << "&nbsp;";
+                    else
+                        break;
+                }
+                var nbsp = b.data();
+                nbsp.noEscape = true;
+                dst.data.push(nbsp);
+                dst.data.push(line.substr(j));
+            }
+        }
+    }
+};
+
+parseSection(xml, body, 0);
+
+println(html.toString("  "));
