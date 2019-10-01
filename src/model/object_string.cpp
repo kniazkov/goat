@@ -472,6 +472,58 @@ namespace g0at
             }
         };
 
+        class object_string_substr : public object_string_method
+        {
+        public:
+            object_string_substr(object_pool *_pool)
+                : object_string_method(_pool)
+            {
+            }
+
+            bool payload(object_string *this_ptr, thread *thr, int arg_count, variable *result) override
+            {
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return false;
+                }
+
+                int64_t begin;
+                if (!thr->peek(0).get_integer(&begin) || begin > INT32_MAX)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    return false;
+                }
+                std::wstring value = this_ptr->get_data();
+                int64_t size = (int64_t)value.size();
+                if (begin >= size) begin = size;
+                else if (begin < 0) begin = 0;
+
+                int64_t count;
+                if (arg_count > 1)
+                {
+                    if (!thr->peek(1).get_integer(&count) || count > INT32_MAX)
+                    {
+                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        return false;
+                    }
+                    if (count > size - begin) count = size - begin;
+                    else if (count < 0) count = 0;                    
+                }
+                else
+                {
+                    count = size - begin;
+                }
+                
+                if (count == 0)
+                    result->set_object(thr->pool->get_static_string(resource::empty_string));
+                else
+                    result->set_object(thr->pool->create_object_string(value.substr((size_t)begin, (size_t)count)));
+
+                return true;
+            }
+        };
+
         object_string_proto::object_string_proto(object_pool *pool)
             : object(pool)
         {
@@ -482,6 +534,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_length), new object_string_length(pool));
             add_object(pool->get_static_string(resource::str_encode), new object_string_encode(pool));
             add_object(pool->get_static_string(resource::str_split), new object_string_split(pool));
+            add_object(pool->get_static_string(resource::str_substr), new object_string_substr(pool));
             add_object(pool->get_static_string(resource::str_oper_plus), pool->get_wrap_add_instance());
             add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
             add_object(pool->get_static_string(resource::str_oper_double_exclamation), pool->get_wrap_bool_instance());
