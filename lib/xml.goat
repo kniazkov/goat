@@ -71,9 +71,29 @@ var Xml =
                     if (item.instanceof(Xml.Element) && indexOf(tag, item.tag) != -1)
                         result.push(item);
                 }
-                return result;
             }
             return result;
+        },
+
+        findFirstByTag : $(tag)
+        {
+            if (tag.instanceof(String))
+            {
+                for (var item in data)
+                {
+                    if (item.instanceof(Xml.Element) && item.tag == tag)
+                        return item;
+                }
+            }
+            else if (tag.instanceof(Array))
+            {
+                for (var item in data)
+                {
+                    if (item.instanceof(Xml.Element) && indexOf(tag, item.tag) != -1)
+                        return item;
+                }
+            }
+            return null;
         },
 
         toString : $(indent)

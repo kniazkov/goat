@@ -2280,7 +2280,7 @@
 			</s>
 			<s name="The 'throw' statement">
 				<p>The <c>throw</c> statement allows you to create a custom error.</p>
-				<p>Technically you can <p>throw an exception</p> (throw an error). The exception can be any object:</p>
+				<p>Technically you can <b>throw an exception</b> (throw an error). The exception can be any object:</p>
 				<c>throw "Oops!"; // throw a string</c>
 				<p>The thrown object passes as parameter of the <c>catch</c> statement.</p>
 				<p>If you use <c>throw</c> together with <c>try</c> and <c>catch</c>, you can control program flow and generate custom error messages.</p>
