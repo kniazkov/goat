@@ -494,7 +494,7 @@ var parseMethod = $(src, dst)
 	return args;
 };
 
-var source = load("docs/reference.xml");
+var source = load("reference.xml");
 if (!source)
 {
     println("Can not open source Xml");
@@ -520,11 +520,11 @@ style.data.push(".section { padding-left: 10pt; }");
 style.data.push(".header { font-weight: bold; padding-top: 15pt; }");
 style.data.push(".para { padding-top: 10pt; }");
 style.data.push(".code { font-family: sans-serif; padding-top: 10pt; }");
-style.data.push(".inline { font-family: sans-serif; background-color: whitesmoke; padding-left: 2pt; padding-right: 2pt; }");
+style.data.push(".inline { font-family: sans-serif; border: 1px solid lightgray; padding: 0pt 2pt; }");
 style.data.push(".draft { text-decoration: line-through; }");
 style.data.push(".table { margin-top: 10px; border-spacing: 0; width: 90%; }");
-style.data.push(".cellHeader { font-weight: bold; border-top: 1px solid black; border-bottom: 1px solid black; padding : 5px 2px; }");
-style.data.push(".cell { padding : 5px 2px; vertical-align: top; }");
+style.data.push(".cellHeader { font-weight: bold; border-top: 1px solid black; border-bottom: 1px solid black; padding : 5pt; }");
+style.data.push(".cell { padding : 5pt; vertical-align: top; }");
 style.data.push(".cell2 { border-left: 1px solid black; }");
 
 var body = new Xml.Element("body");
