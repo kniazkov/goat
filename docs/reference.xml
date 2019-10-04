@@ -13,6 +13,7 @@
 		<s name="Quick start">
 			<p>Just download the executable file, open console, type executable name and specify a script file name as a parameter:</p>
 			<c>goat.exe program.goat</c>
+			<p>For UNIX-like systems executable name is <c>goat</c>, without <c>.exe</c> extension.</p>
 		</s>
 		<s name="Command line parameters">
 			<p>The Goat interpreter parses command line arguments as follows. All arguments started with two hyphens are internal parameters of the interpreter ("options"). The first argument which is not an option is the name of the script file. All next arguments send to script.</p>
@@ -27,10 +28,21 @@
 			<h name="--lib">
 				<p>Path (paths) to external libraries (to importable files). For example, a path to the Goat standard library. Several paths can be separated by a semicolon.</p>
 				<c>goat.exe program.goat --lib=c:\goat\lib;c:\project</c>
-				<p>Note about path delimiting character, this is most commonly the slash ("/") or the backslash  ("\"). While the interpreter parsed paths, it changes delimiting characters to the character used in the current platform. Say, for Windows, all delimiter characters replaced to the backslash, and for Linux (Unix) - to slash. So path <c>--lib=..\folder\lib</c> interpreted as well as path <c>--lib=../folder/lib</c>, for all platforms.</p>
+				<p><d>Note about path delimiting character, this is most commonly the slash ("/") or the backslash  ("\"). While the interpreter parsed paths, it changes delimiting characters to the character used in the current platform. Say, for Windows, all delimiter characters replaced to the backslash, and for Linux (Unix) - to slash. So path <c>--lib=..\folder\lib</c> interpreted as well as path <c>--lib=../folder/lib</c>, for all platforms.</d></p>
+			</h>
+			<h name="--language or --lang">
+				<p>Set language for compiler output messages. Supported languages are:</p>
+				<l>
+					<i>english (en) - default</i>
+					<i>russian (ru)</i>
+				</l>
+				<p>Example:</p>
+				<c>goat.exe program.goat --lang=ru</c>
 			</h>
 			<h name="--debug">
-				<p>The Goat interpreter launched in debug mode. It means that interpretation will stop and set step-by-step mode when the interpreter executes <c>debug;</c> statement.</p>
+				<p>The Goat interpreter launched in debug mode. <d>It means that interpretation will stop and set step-by-step mode when the interpreter executes <c>debug;</c> statement.</d></p>
+				<p>Example:</p>
+				<c>goat.exe program.goat --debug</c>
 			</h>
 			<h name="--gc">
 				<p>One of three modes of garbage collection. <c>--gc=serial</c> enable serial mode, it means that the garbage collector periodically stops all threads (but it takes low processor resources for collection and has small memory overhead). <c>--gc=parallel</c> does not stop threads (but it constantly uses some processor resources and also it uses some extra memory), this mode enabled by default. <c>--gc=debug</c> used for debugging purposes for interpreter developer, it calls collector after each statement of a script and this is <b>very</b> slow.</p>
