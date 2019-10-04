@@ -310,7 +310,8 @@ var parseParagraph = $(src, dst)
                 {
                     if (child.data.length() == 1 && child.data[0].instanceof(String))
                     {
-                        var link = new Xml.Element("a", child.data[0]);
+                        var title = child.attrib.title;
+                        var link = new Xml.Element("a", title || child.data[0]);
                         link.attrib.href = child.data[0];
                         dst.data.push(link);
                         break;
