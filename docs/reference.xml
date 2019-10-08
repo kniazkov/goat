@@ -107,7 +107,8 @@
 			<s name="Code blocks">
 				<p>Goat statements can be grouped together in code blocks, inside curly brackets <c>{...}</c>. The purpose of code blocks is to define statements to be executed together. One place you will find statements grouped together in blocks, is in Goat functions:</p>
 				<c><![CDATA[
-					var f = $(a, b) {
+					var f = $(a, b)
+					{
 						var x;
 						var y;
 						x = a + b;
@@ -275,7 +276,8 @@
 					The code below declares the function which calculates
 					and print sum and difference of two arguments
 					*/
-					var f = $(a, b) {
+					var f = $(a, b)
+					{
 						var x;
 						var y;
 						x = a + b;
@@ -1136,7 +1138,8 @@
 		<s name="Functions">
 			<p>A Goat function is a block of code designed to perform a particular task. A Goat function is executed when "something" invokes it (calls it).</p>
 			<c><![CDATA[
-				var myFunction = function(a, b) {
+				var myFunction = function(a, b)
+				{
 					return a * b; // the function returns the product of 'a' and 'b'
 				};]]>
 			</c>
@@ -1144,13 +1147,15 @@
 			<s name="Syntax">
 				<p>A Goat function is defined with the <c>function</c> keyword, followed by parentheses (). The parentheses may include parameter names separated by commas: <c>(parameter_1, parameter_2, ...)</c>. The code to be executed, by the function, is placed inside curly brackets: <c>{}</c>. To name a function (for the ability of invocation), the function object needs to be written to a variable:</p>
 				<c><![CDATA[
-					var name = function(parameter_1, parameter_2, parameter_3) {
+					var name = function(parameter_1, parameter_2, parameter_3)
+					{
 						//code to be executed
 					};]]>
 				</c>
 				<p>In the Goat language, the <c>function</c> keyword (it is long and is used very often ) can be changed to a dollar sign <c>$</c>:</p>
 				<c><![CDATA[
-					var name = $(parameter_1, parameter_2, parameter_3) {
+					var name = $(parameter_1, parameter_2, parameter_3)
+					{
 						//code to be executed
 					};]]>
 				</c>
@@ -1159,7 +1164,8 @@
 			<s name="Return">
 				<p>When the Goat interpreter reaches a <b>return statement</b>, the function will stop executing, then the interpreter will "return" to execute the code after the invoking statement. Functions often compute a return value. The return value is "returned" back to the "caller":</p>
 				<c><![CDATA[
-					var myFunction = function(a, b) {
+					var myFunction = function(a, b)
+					{
 						return a * b; // the function returns the product of 'a' and 'b'
 					};
 					
@@ -1171,7 +1177,8 @@
 				<p>The <c>()</c> operator invokes the function.</p>.
 				<p>To invoke a function without arguments, use empty operator:</p>
 				<c><![CDATA[
-					var doSomething = function() {
+					var doSomething = function()
+					{
 						//...
 					};
 					
@@ -1181,7 +1188,8 @@
 				</c>
 				<p>To invoke a function with arguments, place arguments, separated by comma, inside the <c>()</c> operator: </p>
 				<c><![CDATA[
-					var doSomething = function(a, b, c) {
+					var doSomething = function(a, b, c)
+					{
 						//...
 					};
 					
@@ -1252,12 +1260,14 @@
 			<s name="Methods">
 				<p>Methods are <b>actions</b> that can be performed on objects. Methods are stored in properties as <b>function definitions.</b> In other words, methods are functions that are performed on an object.</p>
 				<c><![CDATA[
-					var person = {
+					var person = 
+					{
 						firstName : "Scott",
 						lastName : "Cameron",
 						age : 45,
 						
-						fullName : function() {
+						fullName : function()
+						{
 							return firstName + ' ' + lastName;
 						}
 					};
@@ -1270,7 +1280,8 @@
 				<c>var person = { firstName : "Scott", lastName : "Cameron", age : 45 };</c>
 				<p>Spaces and line breaks are not important. An object definition can span multiple lines:</p>
 				<c><![CDATA[
-					var person = {
+					var person =
+					{
 						firstName : "Scott",
 						lastName : "Cameron",
 						age : 45
@@ -1338,7 +1349,8 @@
 			<c><![CDATA[
 				// code here can not use 'nickname'
 				
-				var myFunction = function() {
+				var myFunction = function()
+				{
 					var nickname = "Stinky";
 					
 					// code here can use 'nickname'
@@ -1348,11 +1360,13 @@
 			</c>
 			<p>However, local variables can be accessed from inner blocks:</p>
 			<c><![CDATA[
-				var myFunction = function() {
+				var myFunction = function()
+				{
 					var nickname = "Stinky";
 					
 					//...
-					if (expression) {
+					if (expression)
+					{
 						// code here can use 'nickname'
 					}
 					
@@ -1361,11 +1375,13 @@
 			</c>
 			<p>Functions are inner blocks also. So, each function can access variables, declared outside this function:</p>
 			<c><![CDATA[
-				var myFunction = function() {
+				var myFunction = function()
+				{
 					var nickname = "Stinky";
 					
 					//...
-					var innerFunction = function() {
+					var innerFunction = function()
+					{
 						// code here can use 'nickname'
 					};
 					
@@ -1374,12 +1390,14 @@
 			</c>
 			<p>Variables declared within a block, redefines variables with the same names, declared outside a block. New variable uses only in this block:</p>
 			<c><![CDATA[
-				var myFunction = function() {
+				var myFunction = function()
+				{
 					var nickname = "Stinky";
 					//...
 					print(nickname); // output: "Stinky"
 					//...
-					var innerFunction = function() {
+					var innerFunction = function()
+					{
 						var nickname = "Dirty"; // redefine 'nickname' variable
 						//...
 						print(nickname); // output: "Dirty"
@@ -1739,7 +1757,8 @@
 				<c><![CDATA[
 					var fruits = ["Banana", "Orange", "Apple", "Mango"];
 					var i, l = fruits.length();
-					for (i = 0; i < l; i++) {
+					for (i = 0; i < l; i++)
+					{
 						print(fruits[i] + "\n");
 					}]]>
 				</c>
@@ -1904,7 +1923,8 @@
 				<c><![CDATA[
 					var s = "1024";
 					var i = 256 * 4;
-					if (String.valueOf(i) == s) {
+					if (String.valueOf(i) == s)
+					{
 						// do something
 					}]]>
 				</c>
@@ -1925,7 +1945,8 @@
 			<s name="The 'if' statement">
 				<p>Use the <c>if</c> statement to specify a block of Goat code to be executed if a condition is true. Syntax:</p>
 				<c><![CDATA[
-					if (condition) {
+					if (condition)
+					{
 						block of code to be executed if the condition is true
 					}]]>
 				</c>
@@ -1933,7 +1954,8 @@
 				<c><![CDATA[
 					var hour = 12;
 					//...
-					if (hour < 18) {
+					if (hour < 18)
+					{
 						print("Good day");
 					}]]>
 				</c>
@@ -1942,10 +1964,12 @@
 			<s name="The 'else' statement">
 				<p>Use the <c>else</c> statement to specify a block of code to be executed if the condition is false. Syntax:</p>
 				<c><![CDATA[
-					if (condition) {
+					if (condition)
+					{
 						block of code to be executed if the condition is true
 					}
-					else {
+					else
+					{
 						block of code to be executed if the condition is false
 					}]]>
 				</c>
@@ -1953,10 +1977,12 @@
 				<c><![CDATA[
 					var hour = 12;
 					//...
-					if (hour < 18) {
+					if (hour < 18)
+					{
 						print("Good day");
 					}
-					else {
+					else
+					{
 						print("Good evening");
 					}]]>
 				</c>
@@ -1964,25 +1990,31 @@
 			<s name="The 'else if' statement">
 				<p>Use the <c>else if</c> statement to specify a new condition if the first condition is false. Syntax:</p>
 				<c><![CDATA[
-					if (condition1) {
+					if (condition1)
+					{
 						block of code to be executed if condition1 is true
 					}
-					else if (condition2) {
+					else if (condition2)
+					{
 						block of code to be executed if the condition1 is false and condition2 is true
 					}
-					else {
+					else
+					{
 						block of code to be executed if the condition1 is false and condition2 is false
 					}]]>
 				</c>
 				<p>Example:</p>
 				<c><![CDATA[
-					if (hour < 10) {
+					if (hour < 10)
+					{
 						print("Good morning");
 					}
-					else if (hour < 18) {
+					else if (hour < 18)
+					{
 						print("Good day");
 					}
-					else {
+					else
+					{
 						print("Good evening");
 					}]]>
 				</c>
@@ -1992,7 +2024,8 @@
 			<p>The switch statement is used to perform different actions based on different conditions. Use the switch statement to select one of many blocks of code to be executed.</p>
 			<s name="Syntax">
 				<c><![CDATA[
-					switch(expression) {
+					switch(expression)
+					{
 						case n:
 							code block
 							break;
@@ -2011,9 +2044,11 @@
 				</l>
 				<p>Example. This function converts weekday (as a number between 0 and 6) to a string:</p>
 				<c><![CDATA[
-					var weekday = function(number) {
+					var weekday = function(number)
+					{
 						var day;
-						switch (number) {
+						switch (number)
+						{
 							case 0:
 								day = "Sunday";
 								break;
@@ -2047,9 +2082,11 @@
 				<p>The <c>default</c> keyword specifies the code to run if there is no case match.</p>
 				<p>Example. This function converts weekday (as a number between 0 and 6) to a string, but if weekday is neither Saturday (6) nor Sunday (0), returns a default message:</p>
 				<c><![CDATA[
-					var weekday = function(number) {
+					var weekday = function(number)
+					{
 						var day;
-						switch (number) {
+						switch (number)
+						{
 							case 0:
 								day = "Sunday";
 								break;
@@ -2067,9 +2104,11 @@
 			<s name="Common code blocks">
 				<p>Sometimes you will want different switch cases to use the same code:</p>
 				<c><![CDATA[
-					var weekday = function(number) {
+					var weekday = function(number)
+					{
 						var day;
-						switch (number) {
+						switch (number)
+						{
 							case 0:
 								day = "Sunday";
 								break;
@@ -2106,7 +2145,8 @@
 				<p>You can write:</p>
 				<c><![CDATA[
 					var i, l = herd.length();
-					for (i = 0; i < l; i++) {
+					for (i = 0; i < l; i++)
+					{
 						print(herd[i] + "\n");
 					}]]>
 				</c>
@@ -2123,7 +2163,8 @@
 			<s name="The 'for' loop">
 				<p>The <c>for</c> loop is often the tool you will use when you want to create a loop. The <c>for</c> loop has the following syntax:</p>
 				<c><![CDATA[
-					for (statement 1; statement 2; statement 3) {
+					for (statement 1; statement 2; statement 3)
+					{
 						code block to be executed
 					}]]>
 				</c>
@@ -2133,7 +2174,8 @@
 				<p>Example (outputs <c>"0123456789"</c>):</p>
 				<c><![CDATA[
 					var i;
-					for (i = 0; i < 10; i++) {
+					for (i = 0; i < 10; i++)
+					{
 						print(i);
 					}]]>
 				</c>
@@ -2145,13 +2187,15 @@
 					<p>Normally you will use statement 1 to initialize the variable used in the loop (<c>i = 0</c>). This is not always the case, Goat doesn't care. Statement 1 is optional. You can omit statement 1 (like when your values are set before the loop starts):</p>
 					<c><![CDATA[
 						var i = 0;
-						for (; i < 10; i++) {
+						for (; i < 10; i++)
+						{
 							print(i);
 						}]]>
 					</c>
 					<p>Also, you can declare a variable in statement 1 using <c>var</c> keyword:</p>
 					<c><![CDATA[
-						for (var i = 0; i < 10; i++) {
+						for (var i = 0; i < 10; i++)
+						{
 							print(i);
 						}]]>
 					</c>
@@ -2164,7 +2208,8 @@
 				<s name="Statement 3">
 					<p>Often statement 3 increments the value of the initial variable. This is not always the case, Goat doesn't care, and statement 3 is optional. Statement 3 can do anything like negative increment (<c>i--</c>), positive increment (<c>i = i + 15</c>), or anything else. Statement 3 can also be omitted (like when you increment your values inside the loop):</p>
 					<c><![CDATA[
-						for (i = 0; i < 10; ) {
+						for (i = 0; i < 10; )
+						{
 							print(i);
 							i++;
 						}]]>
@@ -2176,7 +2221,8 @@
 				<c><![CDATA[
 					var person = {name: "Ivan", age: 33, gender: "male"};
 					var x;
-					for (x in person) {
+					for (x in person)
+					{
 						print(x + ": " + person[x] + "\n");
 					}]]>
 				</c>
@@ -2196,14 +2242,16 @@
 			<s name="The 'while' loop">
 				<p>The <c>while</c> loop loops through a block of code as long as a specified condition is <c>true</c>. Syntax:</p>
 				<c><![CDATA[
-					while (condition) {
+					while (condition)
+					{
 						code block to be executed
 					}]]>
 				</c>
 				<p>Example  (outputs <c>"0123456789"</c>):</p>
 				<c><![CDATA[
 					var i = 0;
-					while (i < 10) {
+					while (i < 10)
+					{
 						print(i);
 						i++;
 					}]]>
@@ -2213,7 +2261,8 @@
 			<s name="The 'do..while' loop">
 				<p>The <c>do..while</c> loop is a variant of the while loop. This loop will execute the code block once, before checking if the condition is <c>true</c>, then it will repeat the loop as long as the condition is <c>true</c>. Syntax:</p>
 				<c><![CDATA[
-					do {
+					do 
+					{
 						code block to be executed
 					}
 					while (condition);]]>
@@ -2221,7 +2270,8 @@
 				<p>Example. The loop will always be executed at least once, even if the condition is <c>false</c>, because the code block is executed before the condition is tested:</p>
 				<c><![CDATA[
 					var i = 0;
-					do {
+					do 
+					{
 						print(i);
 						i++;
 					} while (i < 10);]]>
@@ -2231,7 +2281,8 @@
 				<p>You have already seen the <c>break</c> statement used in an earlier chapter of this tutorial. It was used to "jump out" of a <c>switch</c> statement. The <c>break</c> statement can also be used to "jump out" of a loop. The <c>break</c> statement breaks the loop and continues executing the code after the loop (if any):</p>
 				<c><![CDATA[
 					var i;
-					for (i = 0; i < 10; i++) {
+					for (i = 0; i < 10; i++)
+					{
 						if (i == 6)
 							break;
 						print(i);
@@ -2244,7 +2295,8 @@
 				<p>This example skips the value of 3:</p>
 				<c><![CDATA[
 					var i;
-					for (i = 0; i < 10; i++) {
+					for (i = 0; i < 10; i++)
+					{
 						if (i == 3)
 							continue;
 						print(i);
@@ -2267,22 +2319,26 @@
 				<p>The <c>catch</c> statement allows you to define a block of code to be executed, if an error occurs in the try block.</p>
 				<p>The Goat statements <c>try</c> and <c>catch</c> come in pairs:</p>
 				<c><![CDATA[
-					try {
+					try 
+					{
 						Block of code to try
 					}
-					catch(err) {
+					catch(err) 
+					{
 						Block of code to handle errors
 					}]]>
 				</c>
 				<p>Example:</p>
 				<c><![CDATA[
-					try {
+					try 
+					{
 						print(4 / 4);
 						print(4 / 2);
 						print(4 / 1);
 						print(4 / 0);
 					}
-					catch(err) {
+					catch(err)
+					{
 						print("Error");
 					}]]>
 				</c>
@@ -2297,19 +2353,22 @@
 				<p>The thrown object passes as parameter of the <c>catch</c> statement.</p>
 				<p>If you use <c>throw</c> together with <c>try</c> and <c>catch</c>, you can control program flow and generate custom error messages.</p>
 				<c><![CDATA[
-					var kelvin2Celsius = function(value) {
+					var kelvin2Celsius = function(value)
+					{
 						if (value < 0)
 							throw "Wrong parameter: " + value;
 						
 						return value -273.15;
 					};
 					
-					try {
+					try 
+					{
 						print("\n" + kelvin2Celsius(300));
 						print("\n" + kelvin2Celsius(0));
 						print("\n" + kelvin2Celsius(-10));
 					}
-					catch(err) {
+					catch(err)
+					{
 						print("\n" + err);
 					}]]>
 				</c>
@@ -2323,13 +2382,16 @@
 			<s name="The 'finally' statement">
 				<p>The finally statement lets you execute code, after try and catch, regardless of the result:</p>
 				<c><![CDATA[
-					try {
+					try
+					{
 						Block of code to try
 					}
-					catch(err) {
+					catch(err)
+					{
 						Block of code to handle errors
 					} 
-					finally {
+					finally
+					{
 						Block of code to be executed regardless of the try / catch result
 					}]]>
 				</c>
@@ -2370,13 +2432,16 @@
 						<c>Wrong argument of a function or an operator</c>
 					</r>
 				</t>
-				<p>Each object (include error objects) has the <c>instanceOf</c> method. You can use this method to determine the type of exception:</p>
+				<p>Each object (include error objects) has the <c>instanceof</c> method. You can use this method to determine the type of exception:</p>
 				<c><![CDATA[
-					try {
+					try 
+					{
 						// do something
 					}
-					catch(err) {
-						if (err.instanceOf(Exception.OutOfBounds)) {
+					catch(err)
+					{
+						if (err.instanceof(Exception.OutOfBounds))
+						{
 							// do domething if out of bounds
 						}
 					}]]>
@@ -2390,7 +2455,7 @@
 				import "xml.goat";
 				
 				// now, you can use functions from XML library:
-				var root = XML.parse("<root></root>");]]>
+				var root = Xml.parse("<root></root>");]]>
 			</c>
 			<p>No file will be imported twice. For example, your program uses library <c>A</c> and library <c>B</c>. But library <c>B</c> uses (imports) library <c>A</c> also. So, library <c>A</c> will be imported only once, for all project.</p>
 			<p>Where the interpreter finds files to import? </p>
@@ -2432,7 +2497,8 @@
 				</c>
 				<p>If statement takes more than one line, add a backslash to go a new line:</p>
 				<c><![CDATA[
-					? for (var k = 0; k < 10; k++) { \
+					? for (var k = 0; k < 10; k++) \
+					{ \
 						if (k == 3) continue; \
 						print(k); \
 					}
@@ -2457,7 +2523,8 @@
 					<p>The <c>debug</c> keyword stops the execution of Goat, and switch the interpreter to step-by-step mode. If no debugging is available, the <c>debug</c> statement has no effect.</p>
 					<c><![CDATA[
 						var i, j;
-						for (i = 0; i < 10; i++) {
+						for (i = 0; i < 10; i++)
+						{
 							debug;
 							j = i * i;
 							print("" + j + "\n");
@@ -2574,11 +2641,12 @@
 			</s>
 			<s name="Each object has some predefined methods">
 				<p>Goat adds these methods to each object.</p>
-				<m name="instanceOf" descr="Returns whether an object is derived from another object or not.">
+				<m name="instanceof" descr="Returns whether an object is derived from another object or not.">
 					<a name="object" type="any type" descr="the prototype"/>
 					<e><![CDATA[
-						var isInteger = $(obj) {
-							return obj.instanceOf(Integer);
+						var isInteger = $(obj)
+						{
+							return obj.instanceof(Integer);
 						};]]>
 					</e>
 					<n>The method is used to determine the type (more correctly, the prototype) of the object. What is a prototype, will be described a little later.</n>
@@ -2605,17 +2673,18 @@
 				<p>...or add some method to an integer:</p>
 				<c><![CDATA[
 					var n = 123;
-					n.increment = $(){
+					n.increment = $()
+					{
 						return this + 1;
 					}; ]]>
 				</c>
 				<p>As each object has some predefined methods, strings, booleans, integers, and others also have all these methods:</p>
 				<c><![CDATA[
 					var str = "hello!";
-					print(str.instanceOf(String)); // output: true
+					print(str.instanceof(String)); // output: true
 					
 					var num = 10;
-					print(num.instanceOf(Boolean)); // ounput: false]]>
+					print(num.instanceof(Boolean)); // ounput: false]]>
 				</c>
 			</s>
 		</s>
@@ -2625,10 +2694,12 @@
 				<p>In other words, functions work only with parameters, but methods also "see" all the properties (fields and other methods) of own object and can modify these.</p>
 				<p>Example. Declare an object <c>obj</c> that contains one field <c>x</c> and one method <c>getX</c>. The method can access the field:</p>
 				<c><![CDATA[
-					var obj = {
+					var obj = 
+					{
 						x: 10;
 						
-						getX : $() {
+						getX : $()
+						{
 							return x;
 						}
 					};
@@ -2640,10 +2711,12 @@
 				<p>Since a property (or variable) with the same name can be defined in many places, the programming language specifies a clear order of searching for the value by name.</p>
 				<p>Suppose we want to read a variable named <c>x</c>. The highest priority has local variables:</p>
 				<c><![CDATA[
-					var obj = {
+					var obj = 
+					{
 						x: 10; // property 'x'
 						
-						getX : $() {
+						getX : $() 
+						{
 							var x = 2 + 3; // local variable 'x'
 							return x;
 						}
@@ -2653,10 +2726,12 @@
 				</c>
 				<p>If a local variable with this name is not found, the Goat programming language tries to find this name in the list of arguments of the method:</p>
 				<c><![CDATA[
-					var obj = {
+					var obj = 
+					{
 						x: 10; // property 'x'
 						
-						getX : $(x) { // method with argument named 'x'
+						getX : $(x) // method with argument named 'x'
+						{ 
 							return x;
 						}
 					};
@@ -2670,7 +2745,8 @@
 					var obj = {
 						x: 10; // property 'x'
 						
-						getX : $() {
+						getX : $()
+						{
 							return x;
 						}
 					};
@@ -2681,8 +2757,10 @@
 				<c><![CDATA[
 					var x = 777; // external variable 'x'
 					
-					var obj = {
-						getX : $() {
+					var obj = 
+					{
+						getX : $() 
+						{
 							return x;
 						}
 					};
@@ -2693,10 +2771,12 @@
 			<s name="The 'this' keyword">
 				<p>When a method is called, a special variable named <c>this</c> is always defined. This variable refers to the object whose method was called. You can not overwrite the value of this variable. This variable is used to explicitly access the properties of the "own" object.</p>
 				<c><![CDATA[
-					var obj = {
+					var obj = 
+					{
 						x: 10; // property 'x'
 						
-						getX : $() {
+						getX : $() 
+						{
 							return this.x;
 						}
 					};
@@ -2708,7 +2788,8 @@
 					var obj = {
 						x: 10; // property 'x'
 						
-						getX : $() {
+						getX : $() 
+						{
 							return x; // without 'this' keyword
 						}
 					};
@@ -2720,11 +2801,13 @@
 					var obj = {
 						x: 10; // property 'x'
 						
-						getX : $() {
+						getX : $() 
+						{
 							return x;
 						}
 						
-						setX " $(x) {
+						setX " $(x)
+						{
 							this.x = x; // read the argument 'x' and write the property 'x' 
 						}
 					};
@@ -2734,10 +2817,12 @@
 				</c>
 				<p>Or, you can add new properties to own object (which are not yet there):</p>
 				<c><![CDATA[
-					var obj = {
+					var obj = 
+					{
 						x: 10; // property 'x'
 						
-						init : $() { // constructor
+						init : $() // constructor
+						{ 
 							this.y = 20; // add a new property 'y'
 						}
 					};]]>
@@ -2848,8 +2933,10 @@
 					<p>A constructor is a method named <c>init</c>.</p>
 					<c><![CDATA[
 						// declare the class:
-						var Vector = { 
-							init : $() {
+						var Vector = 
+						{ 
+							init : $() 
+							{
 								this.x = 0;
 								this.y = 0;
 							}
@@ -2864,10 +2951,12 @@
 					<p>Where can this be useful? This is necessary in cases where each object must have its own independent data set.</p>
 					<p>Let's consider another example. Say there is some "Dictionary" class that stores values in an associative array:</p>
 					<c><![CDATA[
-						var Dictionary = { 
+						var Dictionary = 
+						{ 
 							data : {},
 							
-							add : $(english, french) {
+							add : $(english, french) 
+							{
 								data[english] = french;
 							}
 						};
@@ -2889,12 +2978,15 @@
 					<c>{"red":"rouge","green":"vert","blue":"bleu","black":"noir"}</c>
 					<p>The resulting object contains data from both the first and second dictionary. Why? Because the <c>d.data</c> object  does not belong to <c>d1</c> object, but belongs to its prototype, that is, both objects <c>d1</c> and <c>d2</c> have access to it. But this is wrong. Each dictionary instance must have its own object for data storage. You can create this object in the constructor:</p>
 					<c><![CDATA[
-						var Dictionary = { 
-							init : $() {
+						var Dictionary = 
+						{ 
+							init : $() 
+							{
 								this.data = {};
 							},
 							
-							add : $(english, french) {
+							add : $(english, french) 
+							{
 								data[english] = french;
 							}
 						};
@@ -2919,8 +3011,10 @@
 				<s name="Constructor with parameters">
 					<p>An <c>init</c> method can have parameters that are passed to it as arguments of the <c>new</c> operator:</p>
 					<c><![CDATA[
-						var Vector = {
-							init : $(x, y) {
+						var Vector = 
+						{
+							init : $(x, y) 
+							{
 								this.x = x;
 								this.y = y;
 							}
@@ -2938,20 +3032,26 @@
 				<s name="Constructors chain">
 					<p>Consider a chain of prototypes, with each prototype containing an <c>init</c> method:</p>
 					<c><![CDATA[
-						var A = {
-							init : $() {
+						var A = 
+						{
+							init : $() 
+							{
 								this.x = 1;
 							}
 						};
 
-						var B = A -> {
-							init : $() {
+						var B = A -> 
+						{
+							init : $() 
+							{
 								this.y = 2;
 							}
 						};
 
-						var C = B -> {
-							init : $() {
+						var C = B -> 
+						{
+							init : $() 
+							{
 								this.z = 3;
 							}
 						};
@@ -2967,20 +3067,26 @@
 					<p>In the example above, the <c>init</c> method of object <c>A</c> will be called first, then the <c>init</c> method of object <c>B</c>, then the <c>init</c> method of object <c>C</c>.</p>
 					<p>This order of calling constructors allows you to correctly initialize the object. Let's try to change the value of the variable in the last constructor:</p>
 					<c><![CDATA[
-						var A = {
-							init : $() {
+						var A = 
+						{
+							init : $() 
+							{
 								this.x = 1;
 							}
 						};
 
-						var B = A -> {
-							init : $() {
+						var B = A -> 
+						{
+							init : $() 
+							{
 								this.y = 2;
 							}
 						};
 
-						var C = B -> {
-							init : $() {
+						var C = B -> 
+						{
+							init : $() 
+							{
 								x = 7;
 								this.z = 3;
 							}
@@ -3004,14 +3110,18 @@
 				<s name="Passing parameters to the constructors chain">
 					<p>When passing parameters through the <c>new</c> operator, all parameters are passed only to the first constructor:</p>
 					<c><![CDATA[
-						var A = {
-							init : $() {
+						var A =
+						{
+							init : $() 
+							{
 								this.x = 10;
 							}
 						};
 
-						var B = A -> {
-							init : $(y, z) {
+						var B = A -> 
+						{
+							init : $(y, z) 
+							{
 								this.y = y;
 								this.z = z;
 							}
@@ -3032,29 +3142,35 @@
 				<p>Method overriding, in Goat programming language, is a language feature that allows a subobject to provide a specific implementation of a method that is already provided by one of its prototypes. The implementation in the subobject overrides (replaces) the implementation in the prototype by providing a method that has the same name as the method in the prototype. The version of a method that is executed will be determined by the object that is used to invoke it.</p>
 				<c><![CDATA[
 					// the object with the method which will be overridden:
-					var Animal = {
-						talk : $() {
+					var Animal = 
+					{
+						talk : $() 
+						{
 							print("This animal can not speak.\n");
 						}
 					};
 					
 					// inherit the first object and override the method:
-					var Goat = Animal -> {
-						talk : $() {
+					var Goat = Animal -> 
+					{
+						talk : $() 
+						{
 							print("Baa!\n");
 						}
 					}; 
 					
 					// inherit the second object and override the method again:
-					var Cow = Animal -> {
-						talk : $() {
+					var Cow = Animal -> 
+					{
+						talk : $() 
+						{
 							print("Moo!\n");
 						}
 					}; 
 
 					// inherit the third object but does not override the method:
-					var Fish = Animal -> {
-					
+					var Fish = Animal -> 
+					{
 					};
 					
 					// create three objects and call the methods:
@@ -3075,18 +3191,20 @@
 				<p>The same rule for fields. Field with the same name as in prototype overrides the previous field:</p>
 				<c><![CDATA[
 					// the object with the field which will be overridden:
-					var Programmer = {
+					var Programmer = 
+					{
 						salary : 1000
 					};
 					
 					// inherit the first object and override the field:
-					var Senior = Programmer -> {
+					var Senior = Programmer -> 
+					{
 						salary : 1500
 					}; 
 					
 					// inherit the second object but does not override the field:
-					var UnitTester = Programmer -> {
-					
+					var UnitTester = Programmer -> 
+					{
 					};
 					
 					// create two objects and read the fields:
@@ -3106,17 +3224,25 @@
 			<s name="Operator overloading">
 				<p>Operators can be redefined. From the point of view of the interpreter, the operator is no different from the usual method. The method that defines the operator has the same name as the operator itself. Let's consider an example:</p>
 				<c><![CDATA[
-					var Vector = {
-						init : $(x, y) {
+					var Vector = 
+					{
+						init : $(x, y) 
+						{
 							this.x = x; this.y = y
 						},
-						toString : $() {
+						
+						toString : $() 
+						{
 							return "X: " + x + ", Y: " + y;
 						},
-						"+" : $(vec) {
+						
+						"+" : $(vec) 
+						{
 							return new Vector(x + vec.x, y + vec.y);
 						},
-						"*" : $(val) {
+						
+						"*" : $(val) 
+						{
 							return new Vector(x * val, y * val);
 						}
 					};
@@ -3144,27 +3270,33 @@
 			<s name="Multiple inheritance">
 				<p>Objects in the Goat programming language can have more than one prototype. In this case, the resulting object will contain all the properties and methods of all parents:</p>
 				<c><![CDATA[
-					var Animal = {
-						eat : $() {
+					var Animal = 
+					{
+						eat : $() 
+						{
 							print("'eat' method is called\n");
 						}
 					};
 
-					var Mammal = Animal -> {
-						drinkMilk : $() {
+					var Mammal = Animal -> 
+					{
+						drinkMilk : $()
+						{
 							print("'drinkMilk' method is called\n");
 						}
 					};
 
-					var WingedAnimal = Animal -> {
-						flap : $() {
+					var WingedAnimal = Animal -> 
+					{
+						flap : $() 
+						{
 							print("'flap' method is called\n");
 						}
 					};
 
 					// A bat is a winged mammal
-					var Bat = [Mammal, WingedAnimal] -> {
-
+					var Bat = [Mammal, WingedAnimal] -> 
+					{
 					};
 
 					var bat = new Bat();
@@ -3180,19 +3312,23 @@
 				</c>
 				<p>There is one problem that is called the "diamond problem". Consider this structure of inheritance:</p>
 				<c><![CDATA[
-					var A = {
+					var A = 
+					{
 						alpha : 1
 					};
 
-					var B = A -> {
+					var B = A -> 
+					{
 						beta : 2
 					};
 
-					var C = A -> {
+					var C = A -> 
+					{
 						beta : 3
 					};
 
-					var D = [B, C] -> {
+					var D = [B, C] -> 
+					{
 						gamma : 4
 					};
 
@@ -3206,9 +3342,9 @@
 				<p>The interpreter uses depth search. If he did not find a property in the object, it first explores the properties of the first (left) prototype, and then all the prototypes of this prototype (<c>D-&gt;B-&gt;A</c>). And only then the next chain of prototypes is explored (<c>D-&gt;C-&gt;A</c>).</p>
 				<p><b>Be careful with multiple inheritance.</b> Sometimes this type of inheritance is very useful, but misuse can lead to errors.</p>
 			</s>
-			<s name="The 'instanceOf' method">
+			<s name="The 'instanceof' method">
 				<p>The method checks whether there is an object passed as an argument in the prototype chain. This is a way to determine if an object is instantiated from a specific prototype.</p>
-				<p>Each object has the <c>instanceOf</c> method.</p>
+				<p>Each object has the <c>instanceof</c> method.</p>
 				<p>Consider this code:</p>
 				<c><![CDATA[
 					var A = { };
@@ -3221,14 +3357,14 @@
 				</c>
 				<p>So,</p>
 				<l>
-					<i><c>X.instanceOf(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>X</c>;</i>
-					<i>but <c>X.instanceOf(B)</c> and <c>X.instanceOf(C)</c> returns <c>false</c> because objects <c>B</c> and <c>C</c> are not prototypes of object <c>X</c>;</i>
-					<i><c>Y.instanceOf(B)</c> returns <c>true</c> because object <c>B</c> is a prototype of object <c>Y</c>;</i>
-					<i><c>Y.instanceOf(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>B</c> and object <c>B</c> is a prototype of object <c>Y</c>;</i>
-					<i><c>Y.instanceOf(C)</c> returns <c>false</c> because object <c>C</c> is not prototypes of object <c>Y</c>;</i>
-					<i><c>Z.instanceOf(C)</c> returns <c>true</c> because object <c>C</c> is a prototype of object <c>Z</c>;</i>
-					<i><c>Z.instanceOf(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>C</c> and object <c>C</c> is a prototype of object <c>Z</c>;</i>
-					<i><c>Z.instanceOf(B)</c> returns <c>false</c> because object <c>B</c> is not prototype of object <c>Z</c>.</i>
+					<i><c>X.instanceof(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>X</c>;</i>
+					<i>but <c>X.instanceof(B)</c> and <c>X.instanceof(C)</c> returns <c>false</c> because objects <c>B</c> and <c>C</c> are not prototypes of object <c>X</c>;</i>
+					<i><c>Y.instanceof(B)</c> returns <c>true</c> because object <c>B</c> is a prototype of object <c>Y</c>;</i>
+					<i><c>Y.instanceof(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>B</c> and object <c>B</c> is a prototype of object <c>Y</c>;</i>
+					<i><c>Y.instanceof(C)</c> returns <c>false</c> because object <c>C</c> is not prototypes of object <c>Y</c>;</i>
+					<i><c>Z.instanceof(C)</c> returns <c>true</c> because object <c>C</c> is a prototype of object <c>Z</c>;</i>
+					<i><c>Z.instanceof(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>C</c> and object <c>C</c> is a prototype of object <c>Z</c>;</i>
+					<i><c>Z.instanceof(B)</c> returns <c>false</c> because object <c>B</c> is not prototype of object <c>Z</c>.</i>
 				</l>
 			</s>
 			<s name="The 'clone' method">
@@ -3236,7 +3372,8 @@
 				<p>Each object has the <c>clone</c> method.</p>
 				<p>The method creates a new object and then copies all the properties and methods from the original object to the new one. Now, if you change the copy, the original object will remain unchanged:</p>
 				<c><![CDATA[
-					var original = {
+					var original = 
+					{
 						x : 10,
 						y : 20,
 						z : 30
@@ -3255,12 +3392,14 @@
 				<p>The <c>clone</c> method is implicitly called in some other operations. For example, operators <c>-&gt;</c> (inherit) and <c>@</c> (lock, see below) call this method. This method (however, like all the others) can be redefined. And then the operators will call the overridden method.</p>
 				<p>For example, you can prevent cloning an object, and instead of a clone, return the object itself:</p>
 				<c><![CDATA[
-					var original = {
+					var original = 
+					{
 						x : 10,
 						y : 20,
 						z : 30,
 						
-						clone : $() {
+						clone : $() 
+						{
 							return this;
 						}
 					};
@@ -3274,15 +3413,18 @@
 				<p>Each object has the <c>flat</c> method.</p>
 				<p>The method creates a new object and then copies all the properties and methods from the original object and from all prototypes of the original object. Thus, a new object has no prototypes but has all data from the original object:</p>
 				<c><![CDATA[
-					var A = {
+					var A = 
+					{
 						x : 10
 					};
 
-					var B = A -> {
+					var B = A -> 
+					{
 						y : 20
 					};
 
-					var C = B-> {
+					var C = B-> 
+					{
 						z : 30
 					};
 
@@ -3294,7 +3436,8 @@
 				<c>{x:10,y:20,z:30}</c>
 				<p>The new object is, as it were, "flat", the same as if it were declared thus:</p>
 				<c><![CDATA[
-					var F = {
+					var F = 
+					{
 						x : 10,
 						y : 20,
 						z : 30
@@ -3302,16 +3445,19 @@
 				</c>
 				<p>Note that the copying is done starting from the very "deep" prototype. Thus, if somewhere in the chain of prototypes some property was redefined, then the "flat" object will contain an overridden property:</p>
 				<c><![CDATA[
-					var A = {
+					var A = 
+					{
 						x : 10
 					};
 
-					var B = A -> {
+					var B = A -> 
+					{
 						x : 15, // overrided
 						y : 20
 					};
 
-					var C = B-> {
+					var C = B-> 
+					{
 						z : 30
 					};
 
@@ -3338,8 +3484,10 @@
 				<p>Each prototype has, respectively, its properties, methods, and operators. For example, strings have a predefined <c>+</c> operator, which allows to concatenate strings.</p>
 				<p>Using a prototype, you can check whether the object is the right data type. Here is an example of a function, at the beginning of which it is checked whether the argument is an integer:</p>
 				<c><![CDATA[
-					var f = $(value) {
-						if (value.instanceOf(Integer)) {
+					var f = $(value) 
+					{
+						if (value.instanceof(Integer)) 
+						{
 							//...
 						}
 					};]]>
@@ -3363,13 +3511,15 @@
 				</c>
 				<p>Is <c>undefined</c> an object? Yes. This is an object, and it even has its own prototype: <c>Undefined</c>. But you can not do anything with this object. You cannot change properties of <c>undefined</c>, you can not call methods. All you can is compare this object to <c>undefined</c>:</p>
 				<c><![CDATA[
-					if (obj == undedined) {
+					if (obj == undedined) 
+					{
 						//...
 					}]]>
 				</c>
 				<p>Or:</p>
 				<c><![CDATA[
-					if (defined(obj)) {
+					if (defined(obj)) 
+					{
 						//...
 					}]]>
 				</c>
@@ -3380,7 +3530,8 @@
 				<c><![CDATA[
 					var n = null;
 					
-					var f = $() {
+					var f = $() 
+					{
 						//...
 						return null;
 					};]]>
@@ -3389,26 +3540,30 @@
 				<c><![CDATA[
 					var u; // undefined
 					
-					if (u == null) { // false!
+					if (u == null) // false!
+					{
 						//...
 					}
 					
 					var n = null;
 					
-					if (defined(n)) { // true!
+					if (defined(n)) // true!
+					{
 						// ...
 					}
 					]]>
 				</c>
 				<p>Is <c>null</c> an object? Yes. This is an object, like <c>undefined</c>, and it has its own prototype: <c>Null</c>. You can not add prototypes to <c>null</c>, but you can call methods, for example:</p>
-				<c>print(null.instanceOf(Null)); // "true"</c>
+				<c>print(null.instanceof(Null)); // "true"</c>
 			</s>
 			<s name="void">
 				<p>The third data type, which combines the two previous ones.</p>
 				<p>The <c>void</c> object has prototype <c>Void</c>", and both <c>Undefined</c> and <c>Null</c> inheriths from <c>Void</c>. So, in other words, <b><c>undefined</c> is <c>void</c> and <c>null</c> is <c>void</c>.</b> This is used if you need to check with one operation whether the object is <c>null</c> or <c>undefined</c>:</p>
 				<c><![CDATA[
-					var f = $(value) {
-						if (value == void) {
+					var f = $(value) 
+					{
+						if (value == void) 
+						{
 							throw new Exception.IllegalArgument();
 						}
 						
@@ -3417,8 +3572,10 @@
 				</c>
 				<p>This is the same as:</p>
 				<c><![CDATA[
-					var f = $(value) {
-						if (value == undefined || value == null) {
+					var f = $(value) 
+					{
+						if (value == undefined || value == null) 
+						{
 							throw new Exception.IllegalArgument();
 						}
 						
@@ -3430,11 +3587,16 @@
 				<p>You can not read a property from <c>undefined</c> or <c>null</c>. If you try to read a property (or call a method) from <c>undefined</c>, this will throw an exception <c>Exception.CanNotReadPropertyOfUndefined</c>. If you try to read a property from <c>null</c>, then <c>null</c> contains no properties (except standard methods and operators). Thus, sometimes it is necessary to check whether a variable (most often an argument of a method) is a void. This avoids unintended consequences like exceptions. For example:</p>
 				<c><![CDATA[
 					// safe 'exist' field reading from 'some.object.that.might.not.exist': 
-					if (some != void) {
-						if (some.object != void) {
-							if (some.object.that != void) {
-								if (some.object.that.might != void) {
-									if (some.object.that.might.not != void) {
+					if (some != void) 
+					{
+						if (some.object != void) 
+						{
+							if (some.object.that != void) 
+							{
+								if (some.object.that.might != void) 
+								{
+									if (some.object.that.might.not != void) 
+									{
 										return some.object.that.might.not.exist;
 									}
 								}
@@ -3473,7 +3635,8 @@
 			<s name="Operator @">
 				<p>This is an unary operator. It clones an object passed as a parameter (to the right of the operator) and then blocks the result of cloning. The object returned by the operator cannot be changed:</p>
 				<c><![CDATA[
-					var obj = @ {
+					var obj = @ 
+					{
 						x : 10,
 						y : 20
 					};
@@ -3483,7 +3646,8 @@
 				</c>
 				<p>The operator does not change the original object. Only its copy is locked:</p>
 				<c><![CDATA[
-					var A = {
+					var A = 
+					{
 						x : 10,
 						y : 20
 					};
@@ -3498,16 +3662,19 @@
 			<s name="What happens when write to a locked object?">
 				<p>The interpreter will immediately throw an exception <c>Exception.CanNotWritePropertyOfLockedObject</c>:</p>
 				<c><![CDATA[
-					var A = @ {
+					var A = @ 
+					{
 						x: 10,
 						y: 20
 					};
 
-					try {
+					try 
+					{
 						A.z = 0;
 					}
-					catch(e) {
-						if (e.instanceOf(Exception.CanNotWritePropertyOfLockedObject))
+					catch(e) 
+					{
+						if (e.instanceof(Exception.CanNotWritePropertyOfLockedObject))
 							print("exception!");
 					}]]>
 				</c>
@@ -3515,7 +3682,8 @@
 			<s name="Why need to lock objects?">
 				<p>A classic example is the creation of enumerations. Suppose we have an object that contains only constants:</p>
 				<c><![CDATA[
-					var Colors = {
+					var Colors = 
+					{
 						RED : "#FF0000",
 						GREEN : "#00FF00",
 						BLUE : "#0000FF"
@@ -3527,7 +3695,8 @@
 				<c>Colors.RED = "#FF00FF"; // oops, now everything red will turn violet</c>
 				<p>To protect the object from accidental changes, you need to lock it. Just add <c>@</c>:</p>
 				<c><![CDATA[
-					var Colors = @ {
+					var Colors = @ 
+					{
 						RED : "#FF0000",
 						GREEN : "#00FF00",
 						BLUE : "#0000FF"
@@ -3544,7 +3713,8 @@
 			<s name="Threads declaration">
 				<p>Threads are declared in the same way as functions, but the <c>thread</c> keyword is used instead of the <c>function</c> keyword:</p>
 				<c><![CDATA[
-					var a = thread() {
+					var a = thread() 
+					{
 						for (var i = 0; i < 10; i++)
 							print('A');
 					};]]>
@@ -3553,7 +3723,8 @@
 			<s name="Starting">
 				<p>To start a thread, need to call the <c>run()</c> method:</p>
 				<c><![CDATA[
-					var a = thread() {
+					var a = thread() 
+					{
 						for (var i = 0; i < 10; i++)
 							print('A');
 					};
@@ -3565,12 +3736,14 @@
 				<p>You can not re-run a thread that is already in progress.</p>
 				<p>You can run two, three, as many threads as you need, and they will run at the same time:</p>
 				<c><![CDATA[
-					var a = thread() {
+					var a = thread() 
+					{
 						for (var i = 0; i < 10; i++)
 							print('A');
 					};
 
-					var b = thread() {
+					var b = thread() 
+					{
 						for (var i = 0; i < 10; i++)
 							print('B');
 					};
@@ -3587,7 +3760,8 @@
 			<s name="Stopping">
 				<p>The running thread can be stopped by the <c>stop()</c> method:</p>
 				<c><![CDATA[
-					var b = thread() {
+					var b = thread() 
+					{
 						// this thread will never end if it does not stop!
 						while(true)
 							print('B');
@@ -3624,7 +3798,8 @@
 					</m>
 					<m name="getc" descr="Reads one character from the standard input. Returns null if no characters (end-of-file is reached).">
 						<e><![CDATA[
-							while(true) {
+							while(true) 
+							{
 								var c = getc();
 								if (c == null)
 									break;
@@ -3634,7 +3809,8 @@
 					</m>
 					<m name="gets" descr="Reads characters from the standard input and stores them as a string until a newline character or the end-of-file is reached.">
 						<e><![CDATA[
-							while(true) {
+							while(true) 
+							{
 								var s = gets();
 								println(s);
 							}]]>
@@ -3655,8 +3831,10 @@
 						<d>Returns <c>true</c> if the object is defined (i.e. not equals <c>undefined</c>), and <c>false</c> otherwise.</d>
 						<a name="object" type="any type" descr="an object"/>
 						<e><![CDATA[
-							var func = $(param) {
-								if (!defined(param)) {
+							var func = $(param) 
+							{
+								if (!defined(param))
+								{
 									return;
 								}
 								
@@ -3666,16 +3844,19 @@
 					</m>
 					<m name="clock" descr="Returns current system time in nanoseconds.">
 						<e><![CDATA[
-							var wait = $(time) {
+							var wait = $(time)
+							{
 								var begin = clock();
 								var diff = 0;
-								do {
+								do
+								{
 									diff = clock() - begin;
 								} while(diff < time * 1000000000);
 							};
 
 							var i;
-							for (i = 5; i > 0; i--) {
+							for (i = 5; i > 0; i--)
+							{
 								print("" + i + "\n");
 								wait(1);
 							}
@@ -3704,7 +3885,8 @@
 								<d>Checks whether the end of file indicator associated with file is set, returning <c>true</c> if it is.</d>
 								<e><![CDATA[
 									var f = open("data.txt", File.Mode.READ);
-									while (!f.eof()) {
+									while (!f.eof())
+									{
 										// read the file in chunks of size 1024 bytes
 										var a = f.read(1024);
 										// ...
@@ -3736,7 +3918,8 @@
 							<h name="File.Mode">
 								<p>The object contains constants for file access mode, is used as an argument for <c>open</c> function.</p>
 								<c><![CDATA[
-									File.Mode = {
+									File.Mode =
+									{
 										READ : ?,
 										WRITE : ?,
 										APPEND : ?
@@ -3751,7 +3934,8 @@
 							<h name="File.Origin">
 								<p>The object contains constants for origin, is used as an argument for <c>File.seek</c> method.</p>
 								<c><![CDATA[
-									File.Origin = {
+									File.Origin =
+									{
 										BEGIN : ?,
 										END : ?,
 										CURRENT : ?
@@ -4005,7 +4189,8 @@
 
 							print("begin... ");
 
-							Timer.setTimer($() {
+							Timer.setTimer($()
+							{
 								print("done!");
 							}, new Timer.Seconds(5));]]>
 						</e>
@@ -4020,12 +4205,14 @@
 							print("begin...\n");
 
 							var c = 0;
-							var i = Timer.setInterval($() {
+							var i = Timer.setInterval($()
+							{
 								print("" + c + "\n");
 								c++;
 							}, new Timer.Seconds(1));
 
-							while(c < 10) {
+							while(c < 10)
+							{
 								// wait for 10 seconds
 							}
 
@@ -4221,10 +4408,12 @@
 			<h name="JavaScript">
 				<p>There are two types of scopes: global and local. Variables defined inside a function are in the local scope. Variables defined inside of a block statement will remain in the scope they were already in. ECMAScript 6 introduced the <c>let</c> keyword. Contrary to the <c>var</c> keyword, the <c>let</c> keyword supports the declaration of local scope inside block statements.</p>
 				<c><![CDATA[
-					var func = function() {
+					var func = function()
+					{
 						var v = 0;
 						// do something...
-						if (true) {
+						if (true)
+						{
 							let v = 1; // local declaration
 						}
 					};]]>
@@ -4234,9 +4423,11 @@
 			<h name="Goat">
 				<p>There is no global scope. You can re-declare variable with the same name in inner block statement, it will be used only in this block.</p>
 				<c><![CDATA[
-					var func = $() {
+					var func = $()
+					{
 						var v = 0;
-						if (true) {
+						if (true)
+						{
 							var v = 1;
 							print(v); // output: "1"
 						}
@@ -4250,11 +4441,13 @@
 			<h name="JavaScript">
 				<p>You must use the <c>this</c> keyword to refer to the field of own object:</p>
 				<c><![CDATA[
-					var MyClass = function() {
+					var MyClass = function()
+					{
 						this.x = 0;
 					};
 					
-					MyClass.prototype.getX = function() {
+					MyClass.prototype.getX = function()
+					{
 						return this.x;
 					};]]>
 				</c>
@@ -4262,12 +4455,15 @@
 			<h name="Goat">
 				<p>You can use the <c>this</c> keyword to refer to the field of own object, but you must not do it in all cases. You can skip this keyword in the methods. But in some cases, <c>this</c> keyword cannot be avoided, for example, if you already have a local variable or an argument with that name, but you want to explicit read or write the property of the object, or, you can add new properties to own object (which are not yet there):</p>
 				<c><![CDATA[
-					var MyClass = {
-						init : $() {
+					var MyClass = 
+					{
+						init : $()
+						{
 							this.x = 0; // with 'this'
 						},
 						
-						getX : $() {
+						getX : $()
+						{
 							return x; // without 'this'
 						}
 					};]]>
@@ -4276,8 +4472,8 @@
 		</s>
 		<s name="Operators">
 			<p>The Goat language has no comparison operators <c>===</c> (equal value and equal type) and <c>!==</c> (not equal value or not equal type). Operators <c>==</c> and <c>!=</c> works in most cases as <c>===</c> and <c>!==</c> operators in JavaScript.</p>
-			<p>The Goat language has not <c>typeof</c> and <c>instanceof</c> operators. Use <c>instanceOf</c> method instead:</p>
-			<c>print(13.instanceOf(Integer)); // output: "true"</c>
+			<p>The Goat language has not <c>typeof</c> and <c>instanceof</c> operators. Use <c>instanceof</c> method instead:</p>
+			<c>print(13.instanceof(Integer)); // output: "true"</c>
 			<p>The Goat language provides  several new operators:</p>
 			<l>
 				<i><c>-&gt;</c> that means inheritance;</i>
@@ -4292,17 +4488,25 @@
 			<h name="Goat">
 				<p>You can use the operator as method name:</p>
 				<c><![CDATA[
-					var Vector = {
-						init : $(x, y) {
+					var Vector =
+					{
+						init : $(x, y)
+						{
 							this.x = x; this.y = y
 						},
-						toString : $() {
+						
+						toString : $()
+						{
 							return "X: " + x + ", Y: " + y;
 						},
-						"+" : $(vec) {
+						
+						"+" : $(vec)
+						{
 							return new Vector(x + vec.x, y + vec.y);
 						},
-						"*" : $(val) {
+						
+						"*" : $(val)
+						{
 							return new Vector(x * val, y * val);
 						}
 					};
@@ -4323,14 +4527,18 @@
 			<h name="Goat">
 				<p>There is <c>thread</c> keyword. It possible to declare any function as a separate thread.</p>
 				<c><![CDATA[
-					var t0 = thread(){
-						while(true) {
+					var t0 = thread()
+					{
+						while(true)
+						{
 							print('A');
 						}
 					};
 
-					var t1 = thread(){
-						while(true) {
+					var t1 = thread()
+					{
+						while(true)
+						{
 							print('B');
 						}
 					};
@@ -4346,11 +4554,13 @@
 			<h name="JavaScript">
 				<p>Constructors are like regular functions, but we use them with the <c>new</c> keyword. If you inherit your object and the parent has a constructor, you need to call parent constructor to perform initialization logic.</p>
 				<c><![CDATA[
-					var A = function() {
+					var A = function()
+					{
 						// init something...
 					};
 
-					var B = function() {
+					var B = function()
+					{
 						A.apply(this);
 						// init something else...
 					};
@@ -4360,14 +4570,18 @@
 			<h name="Goat">
 				<p>There is special method <c>init()</c>. If method defined, interpreter call it. If method also defined in base object, interpreter call it first (order of calling constructors as in C++).</p>
 				<c><![CDATA[
-					var A = {
-						init : $() {
+					var A = 
+					{
+						init : $()
+						{
 							// init something...
 						}
 					};
 
-					var B = A -> {
-						init : $() {
+					var B = A -> 
+					{
+						init : $()
+						{
 							// init something else...
 						}
 					};
@@ -4380,17 +4594,20 @@
 		<s name="Inheritance">
 			<h name="JavaScript">
 				<c><![CDATA[
-					var A = function() {
+					var A = function()
+					{
 						this.x = 0;
 					};
 
-					var B = function() {
+					var B = function()
+					{
 						A.apply(this);
 						this.y = 1;
 					};
 					B.prototype = new A();
 
-					var C = function() {
+					var C = function()
+					{
 						B.apply(this);
 						this.z = 2;
 					};
@@ -4401,15 +4618,18 @@
 			<h name="Goat">
 				<p>The syntax is much simpler. Use operator <c>-&gt;</c>:</p>
 				<c><![CDATA[
-					var A = {
+					var A =
+					{
 						x : 0
 					};
 
-					var B = A -> {
+					var B = A ->
+					{
 						y : 1
 					};
 
-					var C = B -> {
+					var C = B ->
+					{
 						z : 2
 					};]]>
 				</c>
@@ -4429,15 +4649,18 @@
 			<h name="Goat">
 				<p>Why not.</p>
 				<c><![CDATA[
-					var A = {
+					var A =
+					{
 						x : 0
 					};
 
-					var B = {
+					var B =
+					{
 						y : 1
 					};
 
-					var C = [A, B] -> {
+					var C = [A, B] ->
+					{
 						z : 2
 					};]]>
 				</c>

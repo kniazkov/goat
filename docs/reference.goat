@@ -513,23 +513,33 @@ try
 
     var title = new Xml.Element("title", "The Goat Programming Language Reference");
     head.data.push(title);
+    
+    var fonts = new Xml.Element("link");
+    fonts.attrib.href = "https://fonts.googleapis.com/css?family=Anonymous+Pro|Open+Sans&display=swap";
+    fonts.attrib.rel = "stylesheet";
+    head.data.push(fonts);   
 
-    var style = new Xml.Element("style");
-    head.data.push(style);
-    style.data.push("b { font-family: serif; }");
-    style.data.push("a { color: darkblue; text-decoration: none; }");
-    style.data.push(".content { list-style-type: circle; margin-bottom: 0; }");
-    style.data.push(".section { padding-left: 10pt; }");
-    style.data.push(".header { font-weight: bold; padding-top: 15pt; }");
-    style.data.push(".para { padding-top: 10pt; }");
-    style.data.push(".code { font-family: sans-serif; padding-top: 10pt; }");
-    style.data.push(".inline { font-family: sans-serif; border: 1px solid lightgray; padding: 0pt 2pt; }");
-    style.data.push(".draft { text-decoration: line-through; }");
-    style.data.push(".table { margin-top: 10px; border-spacing: 0; width: 90%; }");
-    style.data.push(".cellHeader { font-weight: bold; border-top: 1px solid black; border-bottom: 1px solid black; padding : 5pt; }");
-    style.data.push(".cell { padding : 5pt; vertical-align: top; }");
-    style.data.push(".cell2 { border-left: 1px solid black; }");
-    style.data.push(".table .inline { border: none; }");
+    var styles = new Xml.Element("style");
+    head.data.push(styles);
+    var addStyle = $(style)
+    {
+		style.noEscape = true;
+		styles.data.push(style);
+    };
+    addStyle("body { font-family: 'Open Sans', sans-serif; }");
+    addStyle("a { color: darkblue; text-decoration: none; }");
+    addStyle(".content { list-style-type: circle; margin-bottom: 0; }");
+    addStyle(".section { padding-left: 10pt; }");
+    addStyle(".header { font-weight: bold; padding-top: 15pt; }");
+    addStyle(".para { padding-top: 10pt; }");
+    addStyle(".code { font-family: 'Anonymous Pro', monospace; padding-top: 10pt; }");
+    addStyle(".inline { font-family: 'Anonymous Pro', monospace; border: 1px solid lightgray; padding: 0pt 2pt; }");
+    addStyle(".draft { text-decoration: line-through; }");
+    addStyle(".table { margin-top: 10px; border-spacing: 0; width: 90%; }");
+    addStyle(".cellHeader { font-weight: bold; border-top: 1px solid black; border-bottom: 1px solid black; padding : 5pt; }");
+    addStyle(".cell { padding : 5pt; vertical-align: top; }");
+    addStyle(".cell2 { border-left: 1px solid black; }");
+    addStyle(".table .inline { border: none; }");
 
     var body = new Xml.Element("body");
     html.data.push(body);
