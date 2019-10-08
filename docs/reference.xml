@@ -2845,6 +2845,7 @@
 					// now you have access to properties in the parent object:
 					print(child.x); // output: 1]]>
 				</c>
+				<p><pic>graph/inheritance.png</pic></p>
 			</s>
 			<s name="Operator -&gt;">
 				<p>Operator <c>-&gt;</c> builds a new object from the <b>prototype</b> and <b>description:</b></p>

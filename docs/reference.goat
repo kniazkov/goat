@@ -314,8 +314,8 @@ var parseParagraph = $(src, dst)
                         var link = new Xml.Element("a", title || child.data[0]);
                         link.attrib.href = child.data[0];
                         dst.data.push(link);
-                        break;
                     }
+                    break;
                 }
                 case "d":
                 case "draft":
@@ -324,6 +324,16 @@ var parseParagraph = $(src, dst)
                     span.attrib.class = "draft";
                     dst.data.push(span);
                     parseParagraph(child, span);
+                    break;
+                }
+                case "pic":
+                {
+                    if (child.data.length() == 1 && child.data[0].instanceof(String))
+                    {
+                        var link = new Xml.Element("img");
+                        link.attrib.src = child.data[0];
+                        dst.data.push(link);
+                    }
                     break;
                 }
                 default:
