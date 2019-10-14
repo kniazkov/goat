@@ -25,6 +25,8 @@ import "xml.goat";
 import "algorithm.goat";
 
 var ref = 0;
+var links = {};
+var anchors = {};
 
 var parseSection = $(src, dst, level, prefix)
 {
@@ -68,14 +70,21 @@ var parseSection = $(src, dst, level, prefix)
             case "s":
             case "section":
             {
-                if (content)
+                if (content || child.attrib.anchor)
                 {
                     var anchor = new Xml.Element("a", ' ');
                     anchor.attrib.name = "ref_" + ref;
                     dst.data.push(anchor);
-                    var link = new Xml.Element("a", child.attrib.name);
-                    link.attrib.href = "#ref_" + ref;
-                    content.data.push(new Xml.Element("li", link));
+                    if (child.attrib.anchor)
+                    {
+						anchors[child.attrib.anchor] = "#ref_" + ref;
+                    }
+                    if (content)
+                    {
+						var link = new Xml.Element("a", child.attrib.name);
+						link.attrib.href = "#ref_" + ref;
+						content.data.push(new Xml.Element("li", link));
+                    }
                     ref++;
                 }
                 subsection++;
@@ -317,6 +326,18 @@ var parseParagraph = $(src, dst)
                     }
                     break;
                 }
+                case "link":
+                {
+                    if (child.data.length() == 1 && child.data[0].instanceof(String))
+                    {
+                        var title = child.attrib.title;
+                        var link = new Xml.Element("a", title || child.data[0]);
+                        link.attrib.href = "#";
+                        dst.data.push(link);
+                        links[link] = child.data[0];
+                    }
+                    break;
+                }
                 case "d":
                 case "draft":
                 {
@@ -505,6 +526,7 @@ var parseMethod = $(src, dst)
     return args;
 };
 
+var raw = "";
 try
 {
     var source = load("reference.xml");
@@ -514,7 +536,8 @@ try
         exit(-1);
     }
 
-    var xml = Xml.parse(source.decode("utf8"));
+	raw = source.decode("utf8");
+    var xml = Xml.parse(raw);
 
     var html = new Xml.Element("html");
 
@@ -578,6 +601,15 @@ try
     body.data.push(content);
 
     parseSection(xml, body, 0, "");
+    
+    for (var link in links)
+    {
+		if (links.contains(link, true))
+		{
+			var anchor = links[link];
+			link.attrib.href = anchors[anchor];
+		}
+    }
 
     println(html.toString("  "));
 }
@@ -585,7 +617,7 @@ catch(e)
 {
     if (e.instanceof(Xml.Error))
     {
-        println("XML error, position: " + e.index + ", type: " + e.type + ", data: \"..." + XML.Element.escapeEntities(xml.subString(e.index - 5, 100)) + "...\"");
+        println("XML error, position: " + e.index + ", type: " + e.type + ", data: \"..." + raw.substr(e.index - 5, 100) + "...\"");
     }
     else
     {

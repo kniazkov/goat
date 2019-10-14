@@ -13,9 +13,10 @@
 		<s name="Quick start">
 			<p>Just download the executable file, open console, type executable name and specify a script file name as a parameter:</p>
 			<c>goat.exe program.goat</c>
-			<p>For UNIX-like systems executable name is <c>goat</c>, without <c>.exe</c> extension.</p>
+			<p>For UNIX-like systems executable name is <c>goat</c>, without <c>.exe</c> extension:</p>
+			<c>./goat program.goat</c>
 		</s>
-		<s name="Command line parameters">
+		<s name="Command line options">
 			<p>The Goat interpreter parses command line arguments as follows. All arguments started with two hyphens are internal parameters of the interpreter ("options"). The first argument which is not an option is the name of the script file. All next arguments send to script.</p>
 			<p>For example,</p>
 			<c>goat.exe --lib=../lib program.goat arg1 arg2</c>
@@ -24,11 +25,11 @@
 			<p>or:</p>
 			<c>goat.exe program.goat arg1 arg2 --lib=../lib</c>
 			<p>where: <c>goat.exe</c> is Goat executable, <c>program.goat</c> is name of the script, <c>--lib=../lib</c> is option of the interpterer, <c>arg1</c> and <c>arg2</c> are arguments of the script.</p>
-			<p>Here is a list of interpreter options:</p>
+			<p>Here is a short list of interpreter options. All options are described in the <link title="Appendix">Full list of command line options</link> section.</p>
 			<h name="--lib">
 				<p>Path (paths) to external libraries (to importable files). For example, a path to the Goat standard library. Several paths can be separated by a semicolon.</p>
 				<c>goat.exe program.goat --lib=c:\goat\lib;c:\project</c>
-				<p><d>Note about path delimiting character, this is most commonly the slash ("/") or the backslash  ("\"). While the interpreter parsed paths, it changes delimiting characters to the character used in the current platform. Say, for Windows, all delimiter characters replaced to the backslash, and for Linux (Unix) - to slash. So path <c>--lib=..\folder\lib</c> interpreted as well as path <c>--lib=../folder/lib</c>, for all platforms.</d></p>
+				<p>Note about path delimiting character, this is most commonly the slash ("/") or the backslash  ("\"). While the interpreter parsed paths, it changes delimiting characters to the character used in the current platform. Say, for Windows, all delimiter characters replaced to the backslash, and for Linux (Unix) - to slash. So path <c>--lib=..\folder\lib</c> interpreted as well as path <c>--lib=../folder/lib</c>, for all platforms.</p>
 			</h>
 			<h name="--language or --lang">
 				<p>Set language for compiler output messages. Supported languages are:</p>
@@ -4348,339 +4349,345 @@
 		</s>
 	</s>
 	
-	<s name="In comparison with JavaScript">
-		<p>The Goat programming language based in general on JavaScript, but it has some differences.</p>
-		<l>
-			<i>The interpreter (engine) of the programming language is not a complement to the existing solutions, say, V8. It is completely developed from scratch. The interpreter is very small program and can be compiled and started in different platforms. I tried  Windows and Linux (both x86 and ARM). All you need are C++11 compiler and standard C library (libc etc).</i>
-			<i>Programs are launched not in a browser, not in a special environment (say Node.js); you can write general-purpose applications. Easy to install: just copy the file with your code and interpreter and then start.</i>
-			<i>The syntax is more simple, the object model is more unified.</i>
-			<i>Goat language supports multi-threading and operators overloading.</i>
-			<i>You can create an object from more than one prototype.</i>
-		</l>
-		<p>Some samples are below.</p>
-		<s name="Identifiers">
-			<h name="JavaScript">
-				<p>The first character of an identifier must be a letter, or an underscore (<c>_</c>), or a dollar sign (<c>$</c>). Subsequent characters may be letters, digits, underscores, or dollar signs.</p>
-			</h>
-			<h name="Goat">
-				<p>The first character must be a letter or an underscore (<c>_</c>). Subsequent characters may be letters, digits or underscores.</p>
-				<p>Dollar sign used as a short replacement of <c>function</c> keyword:</p>
-				<c>var f = $(a, b) { };</c>
-				<p>it's the same as:</p>
-				<c>var f = function(a, b) { };</c>
-			</h>
-		</s>
-		<s name="Keywords">
-			<p>The Goat programming language reserves several additional keywords:</p>
-			<t>
-				<h>
-					<c>Keyword</c>
-					<c>Description</c>
-				</h>
-				<r>
-					<c><c>thread</c></c>
-					<c>Declares a thread</c>
-				</r>
-				<r>
-					<c><c>import</c></c>
-					<c>Imports a source file</c>
-				</r>
-				<r>
-					<c><c>debug</c>(instead of <c>debugger</c>)</c>
-					<c>Stops the execution of Goat script, and switch the interpreter to debug (step-by-step) mode</c>
-				</r>
-			</t>
-		</s>
-		<s name="Primitive types">
-			<h name="JavaScript">
-				A primitive data type is a data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol. All primitives are immutable.
-			</h>
-			<h name="Goat">
-				<p>There are no primitive types. All data represented as objects. Each object except <c>undefined</c> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: <c>Char</c>, <c>String</c>, <c>Integer</c>, <c>Real</c>, <c>Boolean</c>, <c>Void</c>, <c>Undefined</c> and <c>Null</c>.</p>
-				<p>This programming language clearly distinguishes between strings (prototype is <c>String</c>) and individual characters (prototype is <c>Char</c>), as well as integers (<c>Integer</c>) and floating-point numbers (<c>Real</c>). These types have different set of methods and operators, but if necessary type can be converted to another:</p>
-				<c><![CDATA[
-					var c = 'a'; // prototype of c is Char
-					var s = String.valueOf(c); // conversion to String]]>
-				</c>
-				<p>All other structures, for example, functions, threads, arrays etc have own prototypes (<c>Function</c>, <c>Thread</c>, <c>Array</c>).</p>
-			</h>
-		</s>
-		<s name="Scope">
-			<h name="JavaScript">
-				<p>There are two types of scopes: global and local. Variables defined inside a function are in the local scope. Variables defined inside of a block statement will remain in the scope they were already in. ECMAScript 6 introduced the <c>let</c> keyword. Contrary to the <c>var</c> keyword, the <c>let</c> keyword supports the declaration of local scope inside block statements.</p>
-				<c><![CDATA[
-					var func = function()
-					{
-						var v = 0;
-						// do something...
-						if (true)
-						{
-							let v = 1; // local declaration
-						}
-					};]]>
-				</c>
-				<p>If you re-declare a JavaScript variable in the same block, it will not lose its value.</p>
-			</h>
-			<h name="Goat">
-				<p>There is no global scope. You can re-declare variable with the same name in inner block statement, it will be used only in this block.</p>
-				<c><![CDATA[
-					var func = $()
-					{
-						var v = 0;
-						if (true)
-						{
-							var v = 1;
-							print(v); // output: "1"
-						}
-						print(v); // output: "0"
-					};]]>
-				</c>
-				<p>But, if you re-declare a Goat variable in the same block, it will lose its value.</p>
-			</h>
-		</s>
-		<s name="The 'this' keyword">
-			<h name="JavaScript">
-				<p>You must use the <c>this</c> keyword to refer to the field of own object:</p>
-				<c><![CDATA[
-					var MyClass = function()
-					{
-						this.x = 0;
-					};
-					
-					MyClass.prototype.getX = function()
-					{
-						return this.x;
-					};]]>
-				</c>
-			</h>
-			<h name="Goat">
-				<p>You can use the <c>this</c> keyword to refer to the field of own object, but you must not do it in all cases. You can skip this keyword in the methods. But in some cases, <c>this</c> keyword cannot be avoided, for example, if you already have a local variable or an argument with that name, but you want to explicit read or write the property of the object, or, you can add new properties to own object (which are not yet there):</p>
-				<c><![CDATA[
-					var MyClass = 
-					{
-						init : $()
-						{
-							this.x = 0; // with 'this'
-						},
-						
-						getX : $()
-						{
-							return x; // without 'this'
-						}
-					};]]>
-				</c>
-			</h>
-		</s>
-		<s name="Operators">
-			<p>The Goat language has no comparison operators <c>===</c> (equal value and equal type) and <c>!==</c> (not equal value or not equal type). Operators <c>==</c> and <c>!=</c> works in most cases as <c>===</c> and <c>!==</c> operators in JavaScript.</p>
-			<p>The Goat language has not <c>typeof</c> and <c>instanceof</c> operators. Use <c>instanceof</c> method instead:</p>
-			<c>print(13.instanceof(Integer)); // output: "true"</c>
-			<p>The Goat language provides  several new operators:</p>
+	<s name="Appendix">
+		<s name="In comparison with JavaScript">
+			<p>The Goat programming language based in general on JavaScript syntax, but it has some differences.</p>
 			<l>
-				<i><c>-&gt;</c> that means inheritance;</i>
-				<i><c>@</c> for object locking (after locking, an object cannot be changed);</i>
-				<i><c>?.</c>as null conditional operator.</i>
+				<i>The interpreter (engine) of the programming language is not a complement to the existing solutions, say, V8. It is completely developed from scratch. The interpreter is very small program and can be compiled and started in different platforms. I tried  Windows and Linux (both x86 and ARM). All you need are C++11 compiler and standard C library (libc etc).</i>
+				<i>Programs are launched not in a browser, not in a special environment (say Node.js); you can write general-purpose applications. Easy to install: just copy the file with your code and interpreter and then start.</i>
+				<i>The syntax is more simple, the object model is more unified.</i>
+				<i>Goat language supports multi-threading and operators overloading.</i>
+				<i>You can create an object from more than one prototype.</i>
 			</l>
-		</s>
-		<s name="Operators overloading">
-			<h name="JavaScript">
-				<p>Doesn't support.</p>
-			</h>
-			<h name="Goat">
-				<p>You can use the operator as method name:</p>
-				<c><![CDATA[
-					var Vector =
-					{
-						init : $(x, y)
-						{
-							this.x = x; this.y = y
-						},
-						
-						toString : $()
-						{
-							return "X: " + x + ", Y: " + y;
-						},
-						
-						"+" : $(vec)
-						{
-							return new Vector(x + vec.x, y + vec.y);
-						},
-						
-						"*" : $(val)
-						{
-							return new Vector(x * val, y * val);
-						}
-					};
-
-					var v1 = new Vector(100, 200);
-					var v2 = new Vector(200, 400);
-
-					print((v1 + v2).toString()); // output: "X: 300, Y: 600"
-					print(' ');
-					print((v1 * 5).toString()); // output: "X: 500, Y: 1000";]]>
-				</c>
-			</h>
-		</s>
-		<s name="Multithreading">
-			<h name="JavaScript">
-				<p>Doesn't support. There are some workarounds, say web workers, and, of course, functions <c>setTimeout()</c> and <c>setInterval()</c>.</p>
-			</h>
-			<h name="Goat">
-				<p>There is <c>thread</c> keyword. It possible to declare any function as a separate thread.</p>
-				<c><![CDATA[
-					var t0 = thread()
-					{
-						while(true)
-						{
-							print('A');
-						}
-					};
-
-					var t1 = thread()
-					{
-						while(true)
-						{
-							print('B');
-						}
-					};
-
-					t0.run();
-					t1.run();
-
-					// Output: "ABABABABABABAB...."]]>
-				</c>
-			</h>
-		</s>
-		<s name="The 'new' keyword and constructors">
-			<h name="JavaScript">
-				<p>Constructors are like regular functions, but we use them with the <c>new</c> keyword. If you inherit your object and the parent has a constructor, you need to call parent constructor to perform initialization logic.</p>
-				<c><![CDATA[
-					var A = function()
-					{
-						// init something...
-					};
-
-					var B = function()
-					{
-						A.apply(this);
-						// init something else...
-					};
-					B.prototype = new A();]]>
-				</c>
-			</h>
-			<h name="Goat">
-				<p>There is special method <c>init()</c>. If method defined, interpreter call it. If method also defined in base object, interpreter call it first (order of calling constructors as in C++).</p>
-				<c><![CDATA[
-					var A = 
-					{
-						init : $()
-						{
-							// init something...
-						}
-					};
-
-					var B = A -> 
-					{
-						init : $()
-						{
-							// init something else...
-						}
-					};
-
-					var obj = new B(); /* both init method will be called,
-										  first from A, second from B */]]>
-				</c>
-			</h>
-		</s>
-		<s name="Inheritance">
-			<h name="JavaScript">
-				<c><![CDATA[
-					var A = function()
-					{
-						this.x = 0;
-					};
-
-					var B = function()
-					{
-						A.apply(this);
-						this.y = 1;
-					};
-					B.prototype = new A();
-
-					var C = function()
-					{
-						B.apply(this);
-						this.z = 2;
-					};
-					C.prototype = new B();]]>
-				</c>
-				<p>Nearly all objects in JavaScript are instances of <c>Object</c>, a typical object inherits properties (including methods) from <c>Object.prototype</c>.</p>
-			</h>
-			<h name="Goat">
-				<p>The syntax is much simpler. Use operator <c>-&gt;</c>:</p>
-				<c><![CDATA[
-					var A =
-					{
-						x : 0
-					};
-
-					var B = A ->
-					{
-						y : 1
-					};
-
-					var C = B ->
-					{
-						z : 2
-					};]]>
-				</c>
-				<p>Goat language has not class (prototype) named <c>Object</c> (is the root of the class hierarchy in Java and prototype hierarchy in JavaScript). Objects have not a super-prototype. An object has prototype if it created from literal (for example, strings), or it created by new keyword, or if prototype(s) is explicitly specified when creating an object:</p>
-				<c><![CDATA[
-					var A = { }; // A has no prototypes 
-					var S = "hello"; // the prototype of 'S' is 'String'
-					var B = new A(); // the prototype of 'B' is 'A'
-					var C = B->{ }; // the prototype of 'C' is 'B']]>
-				</c>
-			</h>
-		</s>
-		<s name="Multiple inheritance">
-			<h name="JavaScript">
-				<p>Is not supported. You can use some tricks (say mixins) but it is not true multiple inheritance.</p>
-			</h>
-			<h name="Goat">
-				<p>Why not.</p>
-				<c><![CDATA[
-					var A =
-					{
-						x : 0
-					};
-
-					var B =
-					{
-						y : 1
-					};
-
-					var C = [A, B] ->
-					{
-						z : 2
-					};]]>
-				</c>
-				<p>The solution of the problem of multiple inheritance ("the diamond problem"): Goat uses the list of prototypes to inherit from as an ordered list. The interpreter uses the first method it finds by depth-first searching.</p>
-			</h>
-		</s>
-		<s name="Syntactic sugar">
-			<s name="Null conditional operator">
+			<p>Some samples are below.</p>
+			<s name="Identifiers">
 				<h name="JavaScript">
-					<p>Doesn't support. Currently, it is proposal options, it will be supported later.</p>
+					<p>The first character of an identifier must be a letter, or an underscore (<c>_</c>), or a dollar sign (<c>$</c>). Subsequent characters may be letters, digits, underscores, or dollar signs.</p>
 				</h>
 				<h name="Goat">
-					<p>Operator <c>?.</c> is added. Operator <c>?.</c> read a property (calls a method) only if a left object is not void, otherwise returns <c>undefined:</c></p>
+					<p>The first character must be a letter or an underscore (<c>_</c>). Subsequent characters may be letters, digits or underscores.</p>
+					<p>Dollar sign used as a short replacement of <c>function</c> keyword:</p>
+					<c>var f = $(a, b) { };</c>
+					<p>it's the same as:</p>
+					<c>var f = function(a, b) { };</c>
+				</h>
+			</s>
+			<s name="Keywords">
+				<p>The Goat programming language reserves several additional keywords:</p>
+				<t>
+					<h>
+						<c>Keyword</c>
+						<c>Description</c>
+					</h>
+					<r>
+						<c><c>thread</c></c>
+						<c>Declares a thread</c>
+					</r>
+					<r>
+						<c><c>import</c></c>
+						<c>Imports a source file</c>
+					</r>
+					<r>
+						<c><c>debug</c>(instead of <c>debugger</c>)</c>
+						<c>Stops the execution of Goat script, and switch the interpreter to debug (step-by-step) mode</c>
+					</r>
+				</t>
+			</s>
+			<s name="Primitive types">
+				<h name="JavaScript">
+					A primitive data type is a data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol. All primitives are immutable.
+				</h>
+				<h name="Goat">
+					<p>There are no primitive types. All data represented as objects. Each object except <c>undefined</c> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: <c>Char</c>, <c>String</c>, <c>Integer</c>, <c>Real</c>, <c>Boolean</c>, <c>Void</c>, <c>Undefined</c> and <c>Null</c>.</p>
+					<p>This programming language clearly distinguishes between strings (prototype is <c>String</c>) and individual characters (prototype is <c>Char</c>), as well as integers (<c>Integer</c>) and floating-point numbers (<c>Real</c>). These types have different set of methods and operators, but if necessary type can be converted to another:</p>
 					<c><![CDATA[
-						var value = user?.address?.street;
-						]]>
+						var c = 'a'; // prototype of c is Char
+						var s = String.valueOf(c); // conversion to String]]>
+					</c>
+					<p>All other structures, for example, functions, threads, arrays etc have own prototypes (<c>Function</c>, <c>Thread</c>, <c>Array</c>).</p>
+				</h>
+			</s>
+			<s name="Scope">
+				<h name="JavaScript">
+					<p>There are two types of scopes: global and local. Variables defined inside a function are in the local scope. Variables defined inside of a block statement will remain in the scope they were already in. ECMAScript 6 introduced the <c>let</c> keyword. Contrary to the <c>var</c> keyword, the <c>let</c> keyword supports the declaration of local scope inside block statements.</p>
+					<c><![CDATA[
+						var func = function()
+						{
+							var v = 0;
+							// do something...
+							if (true)
+							{
+								let v = 1; // local declaration
+							}
+						};]]>
+					</c>
+					<p>If you re-declare a JavaScript variable in the same block, it will not lose its value.</p>
+				</h>
+				<h name="Goat">
+					<p>There is no global scope. You can re-declare variable with the same name in inner block statement, it will be used only in this block.</p>
+					<c><![CDATA[
+						var func = $()
+						{
+							var v = 0;
+							if (true)
+							{
+								var v = 1;
+								print(v); // output: "1"
+							}
+							print(v); // output: "0"
+						};]]>
+					</c>
+					<p>But, if you re-declare a Goat variable in the same block, it will lose its value.</p>
+				</h>
+			</s>
+			<s name="The 'this' keyword">
+				<h name="JavaScript">
+					<p>You must use the <c>this</c> keyword to refer to the field of own object:</p>
+					<c><![CDATA[
+						var MyClass = function()
+						{
+							this.x = 0;
+						};
+						
+						MyClass.prototype.getX = function()
+						{
+							return this.x;
+						};]]>
+					</c>
+				</h>
+				<h name="Goat">
+					<p>You can use the <c>this</c> keyword to refer to the field of own object, but you must not do it in all cases. You can skip this keyword in the methods. But in some cases, <c>this</c> keyword cannot be avoided, for example, if you already have a local variable or an argument with that name, but you want to explicit read or write the property of the object, or, you can add new properties to own object (which are not yet there):</p>
+					<c><![CDATA[
+						var MyClass = 
+						{
+							init : $()
+							{
+								this.x = 0; // with 'this'
+							},
+							
+							getX : $()
+							{
+								return x; // without 'this'
+							}
+						};]]>
 					</c>
 				</h>
 			</s>
+			<s name="Operators">
+				<p>The Goat language has no comparison operators <c>===</c> (equal value and equal type) and <c>!==</c> (not equal value or not equal type). Operators <c>==</c> and <c>!=</c> works in most cases as <c>===</c> and <c>!==</c> operators in JavaScript.</p>
+				<p>The Goat language has not <c>typeof</c> and <c>instanceof</c> operators. Use <c>instanceof</c> method instead:</p>
+				<c>print(13.instanceof(Integer)); // output: "true"</c>
+				<p>The Goat language provides  several new operators:</p>
+				<l>
+					<i><c>-&gt;</c> that means inheritance;</i>
+					<i><c>@</c> for object locking (after locking, an object cannot be changed);</i>
+					<i><c>?.</c>as null conditional operator.</i>
+				</l>
+			</s>
+			<s name="Operators overloading">
+				<h name="JavaScript">
+					<p>Doesn't support.</p>
+				</h>
+				<h name="Goat">
+					<p>You can use the operator as method name:</p>
+					<c><![CDATA[
+						var Vector =
+						{
+							init : $(x, y)
+							{
+								this.x = x; this.y = y
+							},
+							
+							toString : $()
+							{
+								return "X: " + x + ", Y: " + y;
+							},
+							
+							"+" : $(vec)
+							{
+								return new Vector(x + vec.x, y + vec.y);
+							},
+							
+							"*" : $(val)
+							{
+								return new Vector(x * val, y * val);
+							}
+						};
+
+						var v1 = new Vector(100, 200);
+						var v2 = new Vector(200, 400);
+
+						print((v1 + v2).toString()); // output: "X: 300, Y: 600"
+						print(' ');
+						print((v1 * 5).toString()); // output: "X: 500, Y: 1000";]]>
+					</c>
+				</h>
+			</s>
+			<s name="Multithreading">
+				<h name="JavaScript">
+					<p>Doesn't support. There are some workarounds, say web workers, and, of course, functions <c>setTimeout()</c> and <c>setInterval()</c>.</p>
+				</h>
+				<h name="Goat">
+					<p>There is <c>thread</c> keyword. It possible to declare any function as a separate thread.</p>
+					<c><![CDATA[
+						var t0 = thread()
+						{
+							while(true)
+							{
+								print('A');
+							}
+						};
+
+						var t1 = thread()
+						{
+							while(true)
+							{
+								print('B');
+							}
+						};
+
+						t0.run();
+						t1.run();
+
+						// Output: "ABABABABABABAB...."]]>
+					</c>
+				</h>
+			</s>
+			<s name="The 'new' keyword and constructors">
+				<h name="JavaScript">
+					<p>Constructors are like regular functions, but we use them with the <c>new</c> keyword. If you inherit your object and the parent has a constructor, you need to call parent constructor to perform initialization logic.</p>
+					<c><![CDATA[
+						var A = function()
+						{
+							// init something...
+						};
+
+						var B = function()
+						{
+							A.apply(this);
+							// init something else...
+						};
+						B.prototype = new A();]]>
+					</c>
+				</h>
+				<h name="Goat">
+					<p>There is special method <c>init()</c>. If method defined, interpreter call it. If method also defined in base object, interpreter call it first (order of calling constructors as in C++).</p>
+					<c><![CDATA[
+						var A = 
+						{
+							init : $()
+							{
+								// init something...
+							}
+						};
+
+						var B = A -> 
+						{
+							init : $()
+							{
+								// init something else...
+							}
+						};
+
+						var obj = new B(); /* both init method will be called,
+											  first from A, second from B */]]>
+					</c>
+				</h>
+			</s>
+			<s name="Inheritance">
+				<h name="JavaScript">
+					<c><![CDATA[
+						var A = function()
+						{
+							this.x = 0;
+						};
+
+						var B = function()
+						{
+							A.apply(this);
+							this.y = 1;
+						};
+						B.prototype = new A();
+
+						var C = function()
+						{
+							B.apply(this);
+							this.z = 2;
+						};
+						C.prototype = new B();]]>
+					</c>
+					<p>Nearly all objects in JavaScript are instances of <c>Object</c>, a typical object inherits properties (including methods) from <c>Object.prototype</c>.</p>
+				</h>
+				<h name="Goat">
+					<p>The syntax is much simpler. Use operator <c>-&gt;</c>:</p>
+					<c><![CDATA[
+						var A =
+						{
+							x : 0
+						};
+
+						var B = A ->
+						{
+							y : 1
+						};
+
+						var C = B ->
+						{
+							z : 2
+						};]]>
+					</c>
+					<p>Goat language has not class (prototype) named <c>Object</c> (is the root of the class hierarchy in Java and prototype hierarchy in JavaScript). Objects have not a super-prototype. An object has prototype if it created from literal (for example, strings), or it created by new keyword, or if prototype(s) is explicitly specified when creating an object:</p>
+					<c><![CDATA[
+						var A = { }; // A has no prototypes 
+						var S = "hello"; // the prototype of 'S' is 'String'
+						var B = new A(); // the prototype of 'B' is 'A'
+						var C = B->{ }; // the prototype of 'C' is 'B']]>
+					</c>
+				</h>
+			</s>
+			<s name="Multiple inheritance">
+				<h name="JavaScript">
+					<p>Is not supported. You can use some tricks (say mixins) but it is not true multiple inheritance.</p>
+				</h>
+				<h name="Goat">
+					<p>Why not.</p>
+					<c><![CDATA[
+						var A =
+						{
+							x : 0
+						};
+
+						var B =
+						{
+							y : 1
+						};
+
+						var C = [A, B] ->
+						{
+							z : 2
+						};]]>
+					</c>
+					<p>The solution of the problem of multiple inheritance ("the diamond problem"): Goat uses the list of prototypes to inherit from as an ordered list. The interpreter uses the first method it finds by depth-first searching.</p>
+				</h>
+			</s>
+			<s name="Syntactic sugar">
+				<s name="Null conditional operator">
+					<h name="JavaScript">
+						<p>Doesn't support. Currently, it is proposal options, it will be supported later.</p>
+					</h>
+					<h name="Goat">
+						<p>Operator <c>?.</c> is added. Operator <c>?.</c> read a property (calls a method) only if a left object is not void, otherwise returns <c>undefined:</c></p>
+						<c><![CDATA[
+							var value = user?.address?.street;
+							]]>
+						</c>
+					</h>
+				</s>
+			</s>
+		</s>
+		<s name="Command line options" anchor="Full list of command line options">
+			<p>Here is full list of command line options.</p>
+			
 		</s>
 	</s>
 </goat>
