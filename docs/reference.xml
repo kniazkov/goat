@@ -31,23 +31,34 @@
 				<c>goat.exe program.goat --lib=c:\goat\lib;c:\project</c>
 				<p>Note about path delimiting character, this is most commonly the slash ("/") or the backslash  ("\"). While the interpreter parsed paths, it changes delimiting characters to the character used in the current platform. Say, for Windows, all delimiter characters replaced to the backslash, and for Linux (Unix) - to slash. So path <c>--lib=..\folder\lib</c> interpreted as well as path <c>--lib=../folder/lib</c>, for all platforms.</p>
 			</h>
-			<h name="--language or --lang">
+			<h name="--language= or --lang=">
 				<p>Set language for compiler output messages. Supported languages are:</p>
 				<l>
 					<i>english (en) - default</i>
 					<i>russian (ru)</i>
 				</l>
-				<p>Example:</p>
-				<c>goat.exe program.goat --lang=ru</c>
+				<p>Example. If the interpreter finds an error in the script, the error message will be displayed in Russian:</p>
+				<c><![CDATA[
+					program.goat (contains an error "Unknown character"):
+						
+						println(`Hello world`);
+						
+					Command line:
+						
+						./goat program.goat --lang=ru
+						
+					Output:
+					
+						println(`Hello world`);
+						        ^
+						program.goat, 1.9: неизвестный символ '`'
+					]]>
+				</c>
 			</h>
 			<h name="--debug">
-				<p>The Goat interpreter launched in debug mode. <d>It means that interpretation will stop and set step-by-step mode when the interpreter executes <c>debug;</c> statement.</d></p>
+				<p>After starting, you switch to debug mode, where you can add breakpoints and execute the program line by line. This mode is described in the <link>Step-by-step debugging</link> section.</p>
 				<p>Example:</p>
 				<c>goat.exe program.goat --debug</c>
-			</h>
-			<h name="--gc">
-				<p>One of three modes of garbage collection. <c>--gc=serial</c> enable serial mode, it means that the garbage collector periodically stops all threads (but it takes low processor resources for collection and has small memory overhead). <c>--gc=parallel</c> does not stop threads (but it constantly uses some processor resources and also it uses some extra memory), this mode enabled by default. <c>--gc=debug</c> used for debugging purposes for interpreter developer, it calls collector after each statement of a script and this is <b>very</b> slow.</p>
-				<p>If you don't know what "garbage collection" means, please do not use this parameter, parallel collector is okay for most purposes.</p>
 			</h>
 		</s>
 	</s>
@@ -62,8 +73,8 @@
 			<p>That's all. The interpreter will start the script and will print <c>Hello, world!</c> to the console.</p>
 		</s>
 		<s name="Internationalization and localization">
-			<p>It possible to use any Unicode characters in string literals. The Goat interpreter parses source files in UTF-8  format. Output stream also encoded to UTF-8. The previous example, but contains some "special" symbols:</p>
-			<c>print("Bonjour, réalité cruelle et ingrate!");</c>
+			<p>It possible to use any Unicode characters in string literals. The Goat interpreter parses source files in UTF-8  format. Output stream also encoded to UTF-8. The previous example, but contains non latin characters:</p>
+			<c>print("Привет, мир!");</c>
 		</s>
 		<s name="Program and statements">
 			<s name="Program">
@@ -2519,9 +2530,9 @@
 				<p>The special statement <c>exit</c> exits interactive mode.</p>
 				<c>exit</c>
 			</s>
-			<s name="Step-by-step debugging">
+			<s name="Step-by-step debugging" anchor="Step-by-step debugging">
 				<s name="The 'debug' keyword">
-					<p>The <c>debug</c> keyword stops the execution of Goat, and switch the interpreter to step-by-step mode. If no debugging is available, the <c>debug</c> statement has no effect.</p>
+					<p><d>The <c>debug</c> keyword stops the execution of Goat, and switch the interpreter to step-by-step mode. If no debugging is available, the <c>debug</c> statement has no effect.</d></p>
 					<c><![CDATA[
 						var i, j;
 						for (i = 0; i < 10; i++)
@@ -4685,9 +4696,63 @@
 				</s>
 			</s>
 		</s>
-		<s name="Command line options" anchor="Full list of command line options">
+		<s name="Command line options and environment variables" anchor="Full list of command line options">
 			<p>Here is full list of command line options.</p>
-			
+			<h name="--lib">
+				<p>Path (paths) to external libraries (to importable files), for example, a path to the Goat standard library. Several paths should be separated by a semicolon.</p>
+				<p>Example, for Windows:</p>
+				<c>goat.exe program.goat --lib=c:\goat\lib;c:\project</c>
+				<p>Example, for Linux:</p>
+				<c>./goat program.goat --lib=/work/goat/lib;/work/project</c>
+				<p>The search for the included file is performed in the order specified in the list. In the example above, the list contains two items:</p>
+				<l>
+					<i>c:\goat\lib</i>
+					<i>c:\project</i>
+				</l>
+				<p>Say the script contains the line:</p>
+				<c>import &quot;xml.goat&quot;;</c>
+				<p>The interpreter first tried to open the file <c>c:\goat\lib\xml.goat</c>, and if it was not found, the file <c>c:\project\xml.goat</c>.</p>
+				<p>The current folder where the script was launched from has the highest priority; the search starts from it. If you need to include a file from a specific folder, specify the full path in the <c>include</c> directive:</p>
+				<c>import &quot;project/xml.goat&quot;;</c>
+				<p>This option can be set as environment variable <c>GOAT_LIBRARY_PATH</c>. Example, for Windows:</p>
+				<c><![CDATA[
+					set GOAT_LIBRARY_PATH=c:\goat\lib;c:\project
+					goat.exe program.goat
+					]]>
+				</c>
+				<p>Example, for Linux:</p>
+				<c><![CDATA[
+					export GOAT_LIBRARY_PATH=/work/goat/lib;/work/project
+					/work/goat program.goat
+					]]>
+				</c>
+				<p>If both the environment variable and the command line option are set, then the command line option is preferred. This means that both lists will be used, but first the search will be performed in the list defined in the command line.</p>
+			</h>
+			<h name="--language= or --lang=">
+				<p>Set language for compiler output messages. Supported languages are:</p>
+				<l>
+					<i>english (en) - default</i>
+					<i>russian (ru)</i>
+				</l>
+				<p>This option can be set as environment variable <c>GOAT_LANGUAGE</c>.</p>
+			</h>
+			<h name="--debug and --run">
+				<p>After starting, you switch to debug mode, where you can add breakpoints and execute the program line by line. This mode is described in the <link>Step-by-step debugging</link> section.</p>
+				<p>Example:</p>
+				<c>goat.exe program.goat --debug</c>
+				<p>After starting with the <c>--debug</c> option, the interpreter immediately enters debug mode. You should add breakpoints, and then enter <c>r</c> command to run the script. However, you can pre-set breakpoints directly in the script using the <c>debug</c> statement. If you have such statements and if you don't want to enter <c>r</c> command to run script, add <c>--run</c> option, and script will be executed after launching until the first <c>debug</c> statement:</p>
+				<c>goat.exe program.goat --debug --run</c>
+			</h>
+			<h name="--gc">
+				<p>One of four modes of garbage collection.</p>
+				<l>
+					<i><c>--gc=serial</c> enable serial mode, it means that the garbage collector periodically stops all threads (but it takes low processor resources for collection and has small memory overhead);</i>
+					<i><c>--gc=parallel</c> does not stop threads (but it constantly uses some processor resources and also it uses some extra memory), this mode enabled by default;</i>
+					<i><c>--gc=disabled</c> completely disables garbage collection. All memory is cleared only after the script is finished;</i>
+					<i><c>--gc=debug</c> used for debugging purposes for interpreter developer, it calls collector after each statement of a script and this is <b>very</b> slow.</i>
+				</l>
+				<p>If you don't know what "garbage collection" means, please do not use this parameter, parallel collector is okay for most purposes.</p>
+			</h>
 		</s>
 	</s>
 </goat>

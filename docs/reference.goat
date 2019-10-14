@@ -77,13 +77,13 @@ var parseSection = $(src, dst, level, prefix)
                     dst.data.push(anchor);
                     if (child.attrib.anchor)
                     {
-						anchors[child.attrib.anchor] = "#ref_" + ref;
+                        anchors[child.attrib.anchor] = "#ref_" + ref;
                     }
                     if (content)
                     {
-						var link = new Xml.Element("a", child.attrib.name);
-						link.attrib.href = "#ref_" + ref;
-						content.data.push(new Xml.Element("li", link));
+                        var link = new Xml.Element("a", child.attrib.name);
+                        link.attrib.href = "#ref_" + ref;
+                        content.data.push(new Xml.Element("li", link));
                     }
                     ref++;
                 }
@@ -536,7 +536,7 @@ try
         exit(-1);
     }
 
-	raw = source.decode("utf8");
+    raw = source.decode("utf8");
     var xml = Xml.parse(raw);
 
     var html = new Xml.Element("html");
@@ -556,8 +556,8 @@ try
     head.data.push(styles);
     var addStyle = $(style)
     {
-		style.noEscape = true;
-		styles.data.push(style);
+        style.noEscape = true;
+        styles.data.push(style);
     };
     addStyle("body { font-family: 'Open Sans', sans-serif; }");
     addStyle("a { color: darkblue; text-decoration: none; }");
@@ -604,11 +604,11 @@ try
     
     for (var link in links)
     {
-		if (links.contains(link, true))
-		{
-			var anchor = links[link];
-			link.attrib.href = anchors[anchor];
-		}
+        if (links.contains(link, true))
+        {
+            var anchor = links[link];
+            link.attrib.href = anchors[anchor];
+        }
     }
 
     println(html.toString("  "));
