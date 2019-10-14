@@ -60,6 +60,18 @@
 				<p>Example:</p>
 				<c>goat.exe program.goat --debug</c>
 			</h>
+			<h name="--compile">
+				<p>Compile the script into bytecode, but do not execute it.</p>
+				<p>Example:</p>
+				<c>goat.exe program.goat --compile</c>
+				<p>As a result, a binary file <c>program.goat.bin</c> will be written.</p>
+			</h>
+			<h name="--bin">
+				<p>Run a previously compiled script.</p>
+				<p>Example:</p>
+				<c>goat.exe --bin program.goat.bin</c>
+				<p>Since the compilation procedure was performed earlier, loading prepared bytecode is faster. This will reduce the overall program execution time.</p>
+			</h>
 		</s>
 	</s>
 	
@@ -4740,8 +4752,22 @@
 				<p>After starting, you switch to debug mode, where you can add breakpoints and execute the program line by line. This mode is described in the <link>Step-by-step debugging</link> section.</p>
 				<p>Example:</p>
 				<c>goat.exe program.goat --debug</c>
+				<p>This option can be set as environment variable <c>GOAT_DEBUG</c>.</p>
 				<p>After starting with the <c>--debug</c> option, the interpreter immediately enters debug mode. You should add breakpoints, and then enter <c>r</c> command to run the script. However, you can pre-set breakpoints directly in the script using the <c>debug</c> statement. If you have such statements and if you don't want to enter <c>r</c> command to run script, add <c>--run</c> option, and script will be executed after launching until the first <c>debug</c> statement:</p>
 				<c>goat.exe program.goat --debug --run</c>
+			</h>
+			<h name="--compile">
+				<p>Compile the script into bytecode, but do not execute it.</p>
+				<p>Example:</p>
+				<c>goat.exe program.goat --compile</c>
+				<p>As a result, a binary file <c>&lt;program_name&gt;+.bin</c> (in this case: <c>program.goat.bin</c>) will be written.  The binary is compressed to save space and is unpacked at each loading. To leave the file uncompressed (speeds up loading), use option <c>--do-not-compress</c>:</p>
+				<c>goat.exe program.goat --compile --do-not-compress</c>
+			</h>
+			<h name="--bin">
+				<p>Run a previously compiled script.</p>
+				<p>Example:</p>
+				<c>goat.exe --bin program.goat.bin</c>
+				<p>Since the compilation procedure was performed earlier, loading prepared bytecode is faster. This will reduce the overall program execution time.</p>
 			</h>
 			<h name="--gc">
 				<p>One of four modes of garbage collection.</p>
@@ -4752,6 +4778,52 @@
 					<i><c>--gc=debug</c> used for debugging purposes for interpreter developer, it calls collector after each statement of a script and this is <b>very</b> slow.</i>
 				</l>
 				<p>If you don't know what "garbage collection" means, please do not use this parameter, parallel collector is okay for most purposes.</p>
+			</h>
+			<h name="--heap-size=">
+				<p>Limit memory used by a script. The value is specified in megabytes.</p>
+				<p>Example. Limit memory usage to one megabyte:</p>
+				<c>goat.exe program.goat --heap-size=1</c>
+				<p>By default, the script uses all available RAM. Limiting memory can lead to a more frequent garbage collector operation and, as a result, to slower work. If there is not enough memory due to a large number of objects, the script will end with an error.</p>
+			</h>
+			<h name="--dump-memory-usage-report">
+				<p>Write memory usage report to <c>&lt;program_name&gt;+.memory.txt</c> file.</p>
+				<p>Example:</p>
+				<c>goat.exe program.goat --dump-memory-usage-report</c>
+				<p>A possible output (<c>program.goat.memory.txt</c>):</p>
+				<c><![CDATA[
+					MEMORY USAGE REPORT  
+
+					heap size, bytes:     268435456
+					peak usage, bytes:    19240301
+					gc algorithm:         'serial'
+					count of gc launches: 834
+					total objects:        986649
+					   actually created:  96828
+					   reused:            889821 (90.1 %)]]>
+				</c>
+			</h>
+			<h name="--dump-assembler-code">
+				<p>Write compiled bytecode to <c>&lt;program_name&gt;+.asm</c> file as list of assembler instructions for the virtual machine.</p>
+				<p>Example. The script:</p>
+				<c>println(2 + 3 * 4);</c>
+				<p>Command line:</p>
+				<c>goat.exe program.goat --dump-assembler-code</c>
+				<p>A possible output (<c>program.goat.asm</c>):</p>
+				<c><![CDATA[
+					.data
+					  0	println
+
+					.code
+						integer	4
+						integer	3
+						mul
+						integer	2
+						add
+						load	0	; println
+						call	1
+						pop
+						end]]>
+				</c>
 			</h>
 		</s>
 	</s>
