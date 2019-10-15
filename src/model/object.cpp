@@ -34,7 +34,7 @@ namespace g0at
     namespace model
     {
         object::object(object_pool *pool)
-            : marked(false)
+            : marked(false), locked(false)
         {
 #ifdef MODEL_DEBUG
             id = pool->get_next_id();
@@ -45,7 +45,7 @@ namespace g0at
         }
 
         object::object(object_pool *pool, object *proto)
-            : marked(false)
+            : marked(false), locked(false)
         {
 #ifdef MODEL_DEBUG
             id = pool->get_next_id();
@@ -56,7 +56,7 @@ namespace g0at
         }
 
         object::object(object_pool *pool, object *proto_0, object *proto_1)
-            : marked(false)
+            : marked(false), locked(false)
         {
             assert(proto_0 != nullptr);
             assert(proto_1 != nullptr);
@@ -284,20 +284,28 @@ namespace g0at
             return keys;
         }
 
-        void object::add_object(object *key, variable &value)
+        bool object::add_object(object *key, variable &value)
         {
+            if (locked)
+                return false;
+
             assert(key != nullptr);
             objects[key] = value;
+            return true;
         }
 
-        void object::add_object(object *key, object *value)
+        bool object::add_object(object *key, object *value)
         {
+            if (locked)
+                return false;
+
             assert(key != nullptr);
             assert(value != nullptr);
 
             variable var;
             var.set_object(value);
             objects[key] = var;
+            return true;
         }
 
         variable *object::find_object(object *key)

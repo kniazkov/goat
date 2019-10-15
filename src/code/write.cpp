@@ -42,7 +42,10 @@ namespace g0at
             model::object_string *key = thr->pool->get_static_string(id);
             model::object *object = thr->pop().to_object(thr->pool);
             model::variable value = thr->peek().deref();
-            object->add_object(key, value);
+            if (!object->add_object(key, value))
+            {
+                thr->raise_exception(thr->pool->get_exception_illegal_operation_instance());
+            }
         }
     };
 };

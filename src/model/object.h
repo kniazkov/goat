@@ -189,6 +189,7 @@ namespace g0at
             inline void mark();
             inline void unmark();
             inline void sweep(object_pool *pool);
+            void lock() { locked = true; }
 
             virtual object_type get_type() const;
             virtual object_string *to_object_string();
@@ -219,9 +220,9 @@ namespace g0at
             void flat(object *dst);
             std::vector<object*> get_keys();
 
-            void add_object(object *key, variable &value);
-            void add_object(object *key, object *value);
-            void add_object(object *key_value) { add_object(key_value, key_value); }
+            bool add_object(object *key, variable &value);
+            bool add_object(object *key, object *value);
+            bool add_object(object *key_value) { return add_object(key_value, key_value); }
             variable *find_object(object *key);
             variable *find_own_object(object *key);
             void find_own_and_call_if_exists(thread *thr, int arg_count, object_string *key, call_mode mode);
@@ -280,6 +281,7 @@ namespace g0at
             int id;
 #endif
             bool marked;
+            bool locked;
             std::map<object*, variable, object_comparator> objects;
             object *proto;
             lib::pointer<topology_descriptor> topology;
