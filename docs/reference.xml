@@ -13,18 +13,18 @@
 		<s name="Quick start">
 			<p>Just download the executable file, open console, type executable name and specify a script file name as a parameter:</p>
 			<c>goat.exe program.goat</c>
-			<p>For UNIX-like systems executable name is <c>goat</c>, without <c>.exe</c> extension:</p>
+			<p>For UNIX-like systems, executable name is <c>goat</c>, without <c>.exe</c> extension:</p>
 			<c>./goat program.goat</c>
 		</s>
 		<s name="Command line options">
-			<p>The Goat interpreter parses command line arguments as follows. All arguments started with two hyphens are internal parameters of the interpreter ("options"). The first argument which is not an option is the name of the script file. All next arguments send to script.</p>
+			<p>The Goat interpreter parses command line arguments as follows. All arguments started with two hyphens are internal parameters of the interpreter ("options"). The first argument which is not an option is the name of the script file. All next arguments are send to the script.</p>
 			<p>For example,</p>
 			<c>goat.exe --lib=../lib program.goat arg1 arg2</c>
 			<p>or, the same thing:</p>
 			<c>goat.exe program.goat --lib=../lib arg1 arg2</c>
 			<p>or:</p>
 			<c>goat.exe program.goat arg1 arg2 --lib=../lib</c>
-			<p>where: <c>goat.exe</c> is Goat executable, <c>program.goat</c> is name of the script, <c>--lib=../lib</c> is option of the interpterer, <c>arg1</c> and <c>arg2</c> are arguments of the script.</p>
+			<p>where: <c>goat.exe</c> is Goat executable, <c>program.goat</c> is name of the script, <c>--lib=../lib</c> is option of the interpreter, <c>arg1</c> and <c>arg2</c> are arguments of the script.</p>
 			<p>Here is a short list of interpreter options. All options are described in the <link title="Appendix">Full list of command line options</link> section.</p>
 			<h name="--lib">
 				<p>Path (paths) to external libraries (to importable files). For example, a path to the Goat standard library. Several paths can be separated by a semicolon.</p>
@@ -4376,7 +4376,7 @@
 		<s name="In comparison with JavaScript">
 			<p>The Goat programming language based in general on JavaScript syntax, but it has some differences.</p>
 			<l>
-				<i>The interpreter (engine) of the programming language is not a complement to the existing solutions, say, V8. It is completely developed from scratch. The interpreter is very small program and can be compiled and started in different platforms. I tried  Windows and Linux (both x86 and ARM). All you need are C++11 compiler and standard C library (libc etc).</i>
+				<i>The interpreter (engine) of the programming language is not a complement to the existing solutions, say, V8. It is completely developed from scratch. The interpreter is a very small program and can be compiled and started on different platforms. I tried  Windows and Linux (both x86 and ARM). All you need are C++11 compiler and standard C library (libc etc).</i>
 				<i>Programs are launched not in a browser, not in a special environment (say Node.js); you can write general-purpose applications. Easy to install: just copy the file with your code and interpreter and then start.</i>
 				<i>The syntax is more simple, the object model is more unified.</i>
 				<i>Goat language supports multi-threading and operators overloading.</i>
@@ -4407,6 +4407,10 @@
 						<c>Declares a thread</c>
 					</r>
 					<r>
+						<c><c>lock</c></c>
+						<c>Declares a critical section (this is a synchronization primitive)</c>
+					</r>
+					<r>
 						<c><c>import</c></c>
 						<c>Imports a source file</c>
 					</r>
@@ -4418,16 +4422,16 @@
 			</s>
 			<s name="Primitive types">
 				<h name="JavaScript">
-					A primitive data type is a data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol. All primitives are immutable.
+					A primitive data type is data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol. All primitives are immutable.
 				</h>
 				<h name="Goat">
 					<p>There are no primitive types. All data represented as objects. Each object except <c>undefined</c> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: <c>Char</c>, <c>String</c>, <c>Integer</c>, <c>Real</c>, <c>Boolean</c>, <c>Void</c>, <c>Undefined</c> and <c>Null</c>.</p>
-					<p>This programming language clearly distinguishes between strings (prototype is <c>String</c>) and individual characters (prototype is <c>Char</c>), as well as integers (<c>Integer</c>) and floating-point numbers (<c>Real</c>). These types have different set of methods and operators, but if necessary type can be converted to another:</p>
+					<p>This programming language clearly distinguishes between strings (the prototype is <c>String</c>) and individual characters (the prototype is <c>Char</c>), as well as integers (<c>Integer</c>) and floating-point numbers (<c>Real</c>). These types have a different set of methods and operators, but if necessary, a type can be converted to another:</p>
 					<c><![CDATA[
 						var c = 'a'; // prototype of c is Char
-						var s = String.valueOf(c); // conversion to String]]>
+						var s = String.valueof(c); // conversion to String]]>
 					</c>
-					<p>All other structures, for example, functions, threads, arrays etc have own prototypes (<c>Function</c>, <c>Thread</c>, <c>Array</c>).</p>
+					<p>All other structures, for example, functions, threads, arrays, etc have own prototypes (<c>Function</c>, <c>Thread</c>, <c>Array</c>).</p>
 				</h>
 			</s>
 			<s name="Scope">
@@ -4447,7 +4451,7 @@
 					<p>If you re-declare a JavaScript variable in the same block, it will not lose its value.</p>
 				</h>
 				<h name="Goat">
-					<p>There is no global scope. You can re-declare variable with the same name in inner block statement, it will be used only in this block.</p>
+					<p>There is no global scope. You can re-declare variable with the same name in inner block statement, it will be used only in this block and its inner blocks.</p>
 					<c><![CDATA[
 						var func = $()
 						{
@@ -4460,7 +4464,7 @@
 							print(v); // output: "0"
 						};]]>
 					</c>
-					<p>But, if you re-declare a Goat variable in the same block, it will lose its value.</p>
+					<p>But, if you re-declare a Goat variable in the same block, it will lose old value.</p>
 				</h>
 			</s>
 			<s name="The 'this' keyword">
@@ -4479,7 +4483,7 @@
 					</c>
 				</h>
 				<h name="Goat">
-					<p>You can use the <c>this</c> keyword to refer to the field of own object, but you must not do it in all cases. You can skip this keyword in the methods. But in some cases, <c>this</c> keyword cannot be avoided, for example, if you already have a local variable or an argument with that name, but you want to explicit read or write the property of the object, or, you can add new properties to own object (which are not yet there):</p>
+					<p>You can use the <c>this</c> keyword to refer to the field of own object, but you must not do it in all cases. You can skip <c>this</c> keyword in the methods. But in some cases, <c>this</c> keyword cannot be avoided, for example, if you already have a local variable or an argument with that name, but you want to explicit read or write the property of the object, or, you can add new properties to own object (which are not yet there):</p>
 					<c><![CDATA[
 						var MyClass = 
 						{
@@ -4540,9 +4544,8 @@
 						var v1 = new Vector(100, 200);
 						var v2 = new Vector(200, 400);
 
-						print((v1 + v2).toString()); // output: "X: 300, Y: 600"
-						print(' ');
-						print((v1 * 5).toString()); // output: "X: 500, Y: 1000";]]>
+						println((v1 + v2).toString()); // output: "X: 300, Y: 600"
+						println((v1 * 5).toString()); // output: "X: 500, Y: 1000";]]>
 					</c>
 				</h>
 			</s>
@@ -4594,7 +4597,7 @@
 					</c>
 				</h>
 				<h name="Goat">
-					<p>There is special method <c>init()</c>. If method defined, interpreter call it. If method also defined in base object, interpreter call it first (order of calling constructors as in C++).</p>
+					<p>There is special method <c>init()</c>. If method defined, interpreter call it. If method also defined in base object, interpreter call it first (the order in which constructors are called is determined by the inheritance topology).</p>
 					<c><![CDATA[
 						var A = 
 						{
@@ -4659,9 +4662,9 @@
 							z : 2
 						};]]>
 					</c>
-					<p>Goat language has not class (prototype) named <c>Object</c> (is the root of the class hierarchy in Java and prototype hierarchy in JavaScript). Objects have not a super-prototype. An object has prototype if it created from literal (for example, strings), or it created by new keyword, or if prototype(s) is explicitly specified when creating an object:</p>
+					<p>Goat language has also has class (prototype) named <c>Object</c>, is the root of the class hierarchy. Any object has prototype; if it created from literal (for example, strings), or it created by <c>new</c> keyword, or if prototype(s) is explicitly specified when creating an object:</p>
 					<c><![CDATA[
-						var A = { }; // A has no prototypes 
+						var A = { }; // the prototype of 'A' is 'Object' 
 						var S = "hello"; // the prototype of 'S' is 'String'
 						var B = new A(); // the prototype of 'B' is 'A'
 						var C = B->{ }; // the prototype of 'C' is 'B']]>
@@ -4690,7 +4693,7 @@
 							z : 2
 						};]]>
 					</c>
-					<p>The solution of the problem of multiple inheritance ("the diamond problem"): Goat uses the list of prototypes to inherit from as an ordered list. The interpreter uses the first method it finds by depth-first searching.</p>
+					<p>The prototype traversal order for multiple inheritance is determined by the topological sorting of the prototype tree.</p>
 				</h>
 			</s>
 			<s name="Syntactic sugar">
@@ -4709,7 +4712,7 @@
 			</s>
 		</s>
 		<s name="Command line options and environment variables" anchor="Full list of command line options">
-			<p>Here is full list of command line options.</p>
+			<p>Here is the full list of command line options.</p>
 			<h name="--lib">
 				<p>Path (paths) to external libraries (to importable files), for example, a path to the Goat standard library. Several paths should be separated by a semicolon.</p>
 				<p>Example, for Windows:</p>
@@ -4726,7 +4729,7 @@
 				<p>The interpreter first tried to open the file <c>c:\goat\lib\xml.goat</c>, and if it was not found, the file <c>c:\project\xml.goat</c>.</p>
 				<p>The current folder where the script was launched from has the highest priority; the search starts from it. If you need to include a file from a specific folder, specify the full path in the <c>include</c> directive:</p>
 				<c>import &quot;project/xml.goat&quot;;</c>
-				<p>This option can be set as environment variable <c>GOAT_LIBRARY_PATH</c>. Example, for Windows:</p>
+				<p>This option can be set as an environment variable <c>GOAT_LIBRARY_PATH</c>. Example, for Windows:</p>
 				<c><![CDATA[
 					set GOAT_LIBRARY_PATH=c:\goat\lib;c:\project
 					goat.exe program.goat
@@ -4738,7 +4741,7 @@
 					/work/goat program.goat
 					]]>
 				</c>
-				<p>If both the environment variable and the command line option are set, then the command line option is preferred. This means that both lists will be used, but first the search will be performed in the list defined in the command line.</p>
+				<p>If both the environment variable and the command line option are set, then the command line option is preferred. This means that both lists will be used, but first, the search will be performed in the list defined in the command line.</p>
 			</h>
 			<h name="--language= or --lang=">
 				<p>Set language for compiler output messages. Supported languages are:</p>
@@ -4746,21 +4749,21 @@
 					<i>english (en) - default</i>
 					<i>russian (ru)</i>
 				</l>
-				<p>This option can be set as environment variable <c>GOAT_LANGUAGE</c>.</p>
+				<p>This option can be set as an environment variable <c>GOAT_LANGUAGE</c>.</p>
 			</h>
 			<h name="--debug and --run">
 				<p>After starting, you switch to debug mode, where you can add breakpoints and execute the program line by line. This mode is described in the <link>Step-by-step debugging</link> section.</p>
 				<p>Example:</p>
 				<c>goat.exe program.goat --debug</c>
-				<p>This option can be set as environment variable <c>GOAT_DEBUG</c>.</p>
-				<p>After starting with the <c>--debug</c> option, the interpreter immediately enters debug mode. You should add breakpoints, and then enter <c>r</c> command to run the script. However, you can pre-set breakpoints directly in the script using the <c>debug</c> statement. If you have such statements and if you don't want to enter <c>r</c> command to run script, add <c>--run</c> option, and script will be executed after launching until the first <c>debug</c> statement:</p>
+				<p>This option can be set as an environment variable <c>GOAT_DEBUG</c>.</p>
+				<p>After starting with the <c>--debug</c> option, the interpreter immediately enters debug mode. You should add breakpoints, and then enter <c>r</c> command to run the script. However, you can pre-set breakpoints directly in the script using the <c>debug</c> statement. If you have such statements and if you don't want to enter <c>r</c> command to run the script, add <c>--run</c> option and the script will be executed after launching until the first <c>debug</c> statement:</p>
 				<c>goat.exe program.goat --debug --run</c>
 			</h>
 			<h name="--compile">
 				<p>Compile the script into bytecode, but do not execute it.</p>
 				<p>Example:</p>
 				<c>goat.exe program.goat --compile</c>
-				<p>As a result, a binary file <c>&lt;program_name&gt;+.bin</c> (in this case: <c>program.goat.bin</c>) will be written.  The binary is compressed to save space and is unpacked at each loading. To leave the file uncompressed (speeds up loading), use option <c>--do-not-compress</c>:</p>
+				<p>As a result, a binary file <c>&lt;program_name&gt;+.bin</c> (in this case: <c>program.goat.bin</c>) will be written.  The binary is compressed to save space and is unpacked at each loading. To leave the file uncompressed (speeds uploading), use option <c>--do-not-compress</c>:</p>
 				<c>goat.exe program.goat --compile --do-not-compress</c>
 			</h>
 			<h name="--bin">
@@ -4770,14 +4773,14 @@
 				<p>Since the compilation procedure was performed earlier, loading prepared bytecode is faster. This will reduce the overall program execution time.</p>
 			</h>
 			<h name="--gc">
-				<p>One of four modes of garbage collection.</p>
+				<p>One of the four modes of garbage collection.</p>
 				<l>
 					<i><c>--gc=serial</c> enable serial mode, it means that the garbage collector periodically stops all threads (but it takes low processor resources for collection and has small memory overhead);</i>
 					<i><c>--gc=parallel</c> does not stop threads (but it constantly uses some processor resources and also it uses some extra memory), this mode enabled by default;</i>
 					<i><c>--gc=disabled</c> completely disables garbage collection. All memory is cleared only after the script is finished;</i>
 					<i><c>--gc=debug</c> used for debugging purposes for interpreter developer, it calls collector after each statement of a script and this is <b>very</b> slow.</i>
 				</l>
-				<p>If you don't know what "garbage collection" means, please do not use this parameter, parallel collector is okay for most purposes.</p>
+				<p>If you don't know what "garbage collection" means, please do not use this parameter, the parallel collector is okay for most purposes.</p>
 			</h>
 			<h name="--heap-size=">
 				<p>Limit memory used by a script. The value is specified in megabytes.</p>
@@ -4803,7 +4806,7 @@
 				</c>
 			</h>
 			<h name="--dump-abstract-syntax-tree">
-				<p>As a first step, the compiler parses the source code of the script into tokens and generates an abstract syntax tree (<url>https://en.wikipedia.org/wiki/Abstract_syntax_tree</url>). This option dumps abstract syntax tree of tokens to <c>&lt;program_name&gt;+.tokens.txt</c> file as a graph in DOT format (see <url>https://en.wikipedia.org/wiki/DOT_(graph_description_language)</url>). To visualize it, use appropriate tool, for example, graphwiz (<url>http://graphviz.org</url>).</p>
+				<p>As a first step, the compiler parses the source code of the script into tokens and generates an abstract syntax tree (<url>https://en.wikipedia.org/wiki/Abstract_syntax_tree</url>). This option dumps abstract syntax tree of tokens to <c>&lt;program_name&gt;+.tokens.txt</c> file as a graph in DOT format (see <url>https://en.wikipedia.org/wiki/DOT_(graph_description_language)</url>). To visualize it, use an appropriate tool, for example, graphwiz (<url>http://graphviz.org</url>).</p>
 				<p>Example. The script:</p>
 				<c>println(2 + 3 * 4);</c>
 				<p>Command line:</p>
