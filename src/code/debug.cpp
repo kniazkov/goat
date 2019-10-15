@@ -38,6 +38,7 @@ namespace g0at
 
         bool _debug::exec_debug(model::thread *thr, vm::debug_mode_info *debug_info)
         {
+            thr->debug_level = thr->ctx->debug_level;
             return true;                        
         }
     };
