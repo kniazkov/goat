@@ -150,6 +150,7 @@ namespace g0at
             static void c_bitor(source *src, code *dst);
             static void c_xor(source *src, code *dst);
             static void c_frame(source *src, code *dst);
+            static void c_debug(source *src, code *dst);
 
             std::map<op, creator> cc;
         };

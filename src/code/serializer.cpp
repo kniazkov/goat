@@ -615,5 +615,10 @@ namespace g0at
             push_int32(ref->get_begin());
             push_int32(ref->get_end());
         }
+
+        void serializer::visit(_debug *ref)
+        {
+            push_opcode(op::_debug);
+        }
     };
 };

@@ -866,5 +866,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        keyword_debug *token::to_keyword_debug()
+        {
+            return nullptr;
+        }
+
+        statement_debug *token::to_statement_debug()
+        {
+            return nullptr;
+        }
     }
 };

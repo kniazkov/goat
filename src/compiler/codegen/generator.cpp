@@ -96,6 +96,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/assignment_by_bitwise_or.h"
 #include "compiler/pt/assignment_by_bitwise_xor.h"
 #include "compiler/pt/ternary.h"
+#include "compiler/pt/statement_debug.h"
 
 #include "code/string.h"
 #include "code/load.h"
@@ -177,6 +178,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/xor.h"
 #include "code/swap.h"
 #include "code/frame.h"
+#include "code/debug.h"
 
 namespace g0at
 {
@@ -1060,6 +1062,11 @@ namespace g0at
             if_true->get_iid_ptr().set(code->get_current_iid());
             ref->get_expr_true()->accept(this);
             jmp_end->get_iid_ptr().set(code->get_current_iid());
+        }
+
+        void generator::visit(pt::statement_debug *ref)
+        {
+            code->add_instruction(new _debug());
         }
     };
 };

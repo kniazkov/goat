@@ -1214,5 +1214,15 @@ namespace g0at
                 link_child(out_expr, L"expr");
             }
         }
+
+        void dbg_output::visit(keyword_debug *ref)
+        {
+            print(L"keyword", L"debug");
+        }
+
+        void dbg_output::visit(statement_debug *ref)
+        {
+            print(L"debug");
+        }
     };
 };

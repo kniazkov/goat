@@ -633,5 +633,13 @@ namespace g0at
         void token_visitor::visit(parenthesized_expression *ref)
         {
         }
+
+        void token_visitor::visit(keyword_debug *ref)
+        {
+        }
+
+        void token_visitor::visit(statement_debug *ref)
+        {
+        }
     }
 };

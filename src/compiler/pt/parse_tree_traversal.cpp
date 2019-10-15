@@ -1040,5 +1040,14 @@ namespace g0at
         void parse_tree_traversal::payload(ternary *ref)
         {
         }
+
+        void parse_tree_traversal::visit(statement_debug *ref)
+        {
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(statement_debug *ref)
+        {
+        }
     };
 };

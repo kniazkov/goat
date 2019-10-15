@@ -90,6 +90,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/vertical_bar_assign.h"
 #include "compiler/ast/caret_assign.h"
 #include "compiler/ast/question_mark.h"
+#include "compiler/ast/keyword_debug.h"
 
 namespace g0at
 {
@@ -449,6 +450,11 @@ namespace g0at
         void parser_data_filler::visit(ast::question_mark *ref)
         {
             data->question_marks.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::keyword_debug *ref)
+        {
+            data->debug_keywords.add(ref);
         }
     };
 };

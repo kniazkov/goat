@@ -541,5 +541,10 @@ namespace g0at
         {
             stream << L"frame\t" << ref->get_begin() << L", " << ref->get_end();
         }
+
+        void disasm::visit(_debug *ref)
+        {
+            stream << L"debug";
+        }
     };
 };

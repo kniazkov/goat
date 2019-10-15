@@ -107,6 +107,7 @@ namespace g0at
         class _bitor;
         class _xor;
         class _frame;
+        class _debug;
 
         class instruction_visitor
         {
@@ -194,6 +195,7 @@ namespace g0at
             virtual void visit(_bitor *ref) = 0;
             virtual void visit(_xor *ref) = 0;
             virtual void visit(_frame *ref) = 0;
+            virtual void visit(_debug *ref) = 0;
         };
     };
 };

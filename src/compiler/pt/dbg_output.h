@@ -139,6 +139,9 @@ namespace g0at
             void visit(assignment_by_bitwise_or *ref) override;
             void visit(assignment_by_bitwise_xor *ref) override;
             void visit(ternary *ref) override;
+            void visit(statement_break *ref) override;
+            void visit(statement_continue *ref) override;
+            void visit(statement_debug *ref) override;
 
         protected:
             dbg_output(environment &env);

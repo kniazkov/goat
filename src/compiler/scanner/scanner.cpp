@@ -103,6 +103,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/vertical_bar_assign.h"
 #include "compiler/ast/caret_assign.h"
 #include "compiler/ast/question_mark.h"
+#include "compiler/ast/keyword_debug.h"
 
 namespace g0at
 {
@@ -381,6 +382,8 @@ namespace g0at
                 return new ast::keyword_default();
             if (name == L"import")
                 return new ast::keyword_import();
+            if (name == L"debug")
+                return new ast::keyword_debug();
             return new ast::identifier(name);
         }
 

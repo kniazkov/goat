@@ -116,6 +116,7 @@ namespace g0at
             void visit(assignment_by_bitwise_or *ref) override;
             void visit(assignment_by_bitwise_xor *ref) override;
             void visit(ternary *ref) override;
+            void visit(statement_debug *ref) override;
 
         protected:
             void postpone(node *n) { queue.push_front(n); }
@@ -200,6 +201,7 @@ namespace g0at
             virtual void payload(assignment_by_bitwise_or *ref);
             virtual void payload(assignment_by_bitwise_xor *ref);
             virtual void payload(ternary *ref);
+            virtual void payload(statement_debug *ref);
 
         private:
             std::deque<node*> queue;

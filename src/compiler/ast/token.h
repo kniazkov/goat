@@ -197,6 +197,8 @@ namespace g0at
         class question_mark;
         class ternary;
         class parenthesized_expression;
+        class keyword_debug;
+        class statement_debug;
 
         class token : public lib::ref_counter
         {
@@ -370,6 +372,8 @@ namespace g0at
             virtual question_mark *to_question_mark();
             virtual ternary *to_ternary();
             virtual parenthesized_expression *to_parenthesized_expression();
+            virtual keyword_debug *to_keyword_debug();
+            virtual statement_debug *to_statement_debug();
 
             fragment get_fragment() { return frag; }
 

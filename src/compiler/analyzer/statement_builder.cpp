@@ -55,6 +55,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/statement_continue.h"
 #include "compiler/ast/statement_switch.h"
 #include "compiler/pt/statement_switch.h"
+#include "compiler/ast/statement_debug.h"
+#include "compiler/pt/statement_debug.h"
 
 namespace g0at
 {
@@ -334,6 +336,11 @@ namespace g0at
                 }
             }
             stmt = result.cast<pt::statement>();
+        }
+
+        void statement_builder::visit(ast::statement_debug *ref)
+        {
+            stmt = new pt::statement_debug(ref->get_fragment());
         }
     };
 };

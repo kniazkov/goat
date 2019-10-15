@@ -100,6 +100,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "assignment_by_bitwise_or.h"
 #include "assignment_by_bitwise_xor.h"
 #include "ternary.h"
+#include "statement_break.h"
+#include "statement_continue.h"
+#include "statement_debug.h"
 
 namespace g0at
 {
@@ -1060,6 +1063,21 @@ namespace g0at
             dbg_output out_false(env);
             ref->get_expr_false()->accept(&out_false);
             link_child(out_false, L"expr if false");
+        }
+
+        void dbg_output::visit(statement_break *ref)
+        {
+            print(ref, L"break");
+        }
+
+        void dbg_output::visit(statement_continue *ref)
+        {
+            print(ref, L"continue");
+        }
+
+        void dbg_output::visit(statement_debug *ref)
+        {
+            print(ref, L"debug");
         }
     };
 };

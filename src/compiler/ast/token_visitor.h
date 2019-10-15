@@ -176,6 +176,8 @@ namespace g0at
         class question_mark;
         class ternary;
         class parenthesized_expression;
+        class keyword_debug;
+        class statement_debug;
 
         class token_visitor
         {
@@ -332,6 +334,8 @@ namespace g0at
             virtual void visit(question_mark *ref);
             virtual void visit(ternary *ref);
             virtual void visit(parenthesized_expression *ref);
+            virtual void visit(keyword_debug *ref);
+            virtual void visit(statement_debug *ref);
          };
     };
 };

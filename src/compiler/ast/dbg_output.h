@@ -201,6 +201,8 @@ namespace g0at
             void visit(question_mark *ref) override;
             void visit(ternary *ref) override;
             void visit(parenthesized_expression *ref) override;
+            void visit(keyword_debug *ref) override;
+            void visit(statement_debug *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

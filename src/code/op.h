@@ -133,7 +133,8 @@ namespace g0at
             _unlock,
 
             // debug
-            _frame
+            _frame,
+            _debug
         };
     };
 };

@@ -454,5 +454,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        statement_debug *node::to_statement_debug()
+        {
+            return nullptr;
+        }
     }
 };
