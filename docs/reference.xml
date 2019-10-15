@@ -85,7 +85,7 @@
 			<p>That's all. The interpreter will start the script and will print <c>Hello, world!</c> to the console.</p>
 		</s>
 		<s name="Internationalization and localization">
-			<p>It possible to use any Unicode characters in string literals. The Goat interpreter parses source files in UTF-8  format. Output stream also encoded to UTF-8. The previous example, but contains non latin characters:</p>
+			<p>It is possible to use any Unicode characters in string literals. The Goat interpreter parses source files in UTF-8  format. The output stream also encoded to UTF-8. The previous example, but contains nonlatin characters:</p>
 			<c>print("Привет, мир!");</c>
 		</s>
 		<s name="Program and statements">
@@ -159,6 +159,10 @@
 					<r>
 						<c><c>thread</c></c>
 						<c>Declares a thread</c>
+					</r>
+					<r>
+						<c><c>lock</c></c>
+						<c>Declares a critical section</c>
 					</r>
 					<r>
 						<c><c>return</c></c>
@@ -382,7 +386,7 @@
 				<c>var name; // value of 'name' is undefined</c>
 			</s>
 			<s name="Re-declaring variables">
-				<p>If you re-declare a Goat variable, it will lose its value.</p>
+				<p>If you re-declare a Goat variable, it will lose old value.</p>
 				<c><![CDATA[
 					var name = "Ivan";
 					// do something...
@@ -462,33 +466,33 @@
 					</h>
 					<r>
 						<c><c>=</c></c>
-						<c>x = y</c>
+						<c><c>x = y</c></c>
 						<c></c>
 					</r>
 					<r>
 						<c><c>+=</c></c>
-						<c>x += y</c>
-						<c>x = x + y</c>
+						<c><c>x += y</c></c>
+						<c><c>x = x + y</c></c>
 					</r>
 					<r>
 						<c><c>-=</c></c>
-						<c>x -= y</c>
-						<c>x = x - y</c>
+						<c><c>x -= y</c></c>
+						<c><c>x = x - y</c></c>
 					</r>
 					<r>
 						<c><c>*=</c></c>
-						<c>x *= y</c>
-						<c>x = x * y</c>
+						<c><c>x *= y</c></c>
+						<c><c>x = x * y</c></c>
 					</r>
 					<r>
 						<c><c>/=</c></c>
-						<c>x /= y</c>
-						<c>x = x / y</c>
+						<c><c>x /= y</c></c>
+						<c><c>x = x / y</c></c>
 					</r>
 					<r>
 						<c><c>%=</c></c>
-						<c>x %= y</c>
-						<c>x = x % y</c>
+						<c><c>x %= y</c></c>
+						<c><c>x = x % y</c></c>
 					</r>
 				</t>
 				<p>The <b>addition assignment</b> operator (<c>+=</c>) adds a value to a variable.</p>
@@ -552,7 +556,7 @@
 				</t>
 			</s>
 			<s name="Logical operators">
-				<p>Logical operators work with binary (<c>Boolean</c>) type.</p>
+				<p>These logical operators work only with binary (<c>Boolean</c>) type:</p>
 				<t>
 					<h>
 						<c width="100">Operator</c>
@@ -566,9 +570,20 @@
 						<c><c>||</c></c>
 						<c>Logical or</c>
 					</r>
+				</t>
+				<p>These logical operators work with all types:</p>
+				<t>
+					<h>
+						<c width="100">Operator</c>
+						<c>Description</c>
+					</h>
 					<r>
 						<c><c>!</c></c>
 						<c>Logical not</c>
+					</r>
+					<r>
+						<c><c>!!</c></c>
+						<c>Logical double not</c>
 					</r>
 				</t>
 			</s>
@@ -586,58 +601,58 @@
 					<r>
 						<c><c>&amp;</c></c>
 						<c>And</c>
-						<c>5 &amp; 1</c>
-						<c>0101 &amp; 0001</c>
-						<c>0001</c>
-						<c>1</c>
+						<c><c>5 &amp; 1</c></c>
+						<c><c>0101 &amp; 0001</c></c>
+						<c><c>0001</c></c>
+						<c><c>1</c></c>
 					</r>
 					<r>
 						<c><c>|</c></c>
 						<c>Or</c>
-						<c>5 | 1</c>
-						<c>0101 | 0001</c>
-						<c>0101</c>
-						<c>5</c>
+						<c><c>5 | 1</c></c>
+						<c><c>0101 | 0001</c></c>
+						<c><c>0101</c></c>
+						<c><c>5</c></c>
 					</r>
 					<r>
 						<c><c>~</c></c>
 						<c>Not</c>
-						<c>~5</c>
-						<c>~0101</c>
-						<c>...111010</c>
-						<c>-6</c>
+						<c><c>~5</c></c>
+						<c><c>~0101</c></c>
+						<c><c>...111010</c></c>
+						<c><c>-6</c></c>
 					</r>
 					<r>
 						<c><c>^</c></c>
 						<c>Xor</c>
-						<c>5 ^ 1</c>
-						<c>0101 ^ 0001</c>
-						<c>0100</c>
-						<c>4</c>
+						<c><c>5 ^ 1</c></c>
+						<c><c>0101 ^ 0001</c></c>
+						<c><c>0100</c></c>
+						<c><c>4</c></c>
 					</r>
 					<r>
 						<c><c>&lt;&lt;</c></c>
 						<c>Left shift</c>
-						<c>5 &lt;&lt; 1</c>
-						<c>0101 &lt;&lt; 1</c>
-						<c>1010</c>
-						<c>10</c>
+						<c><c>5 &lt;&lt; 1</c></c>
+						<c><c>0101 &lt;&lt; 1</c></c>
+						<c><c>1010</c></c>
+						<c><c>10</c></c>
 					</r>
 					<r>
 						<c><c>&gt;&gt;</c></c>
 						<c>Signed right shift</c>
-						<c>5 &gt;&gt; 1</c>
-						<c>0101 &gt;&gt; 1</c>
-						<c>0010</c>
-						<c>2</c>
+						<c><c>5 &gt;&gt; 1</c></c>
+						<c><c>0101 &gt;&gt; 1</c></c>
+						<c><c>0010</c></c>
+						<c><c>2</c></c>
 					</r>
 					<r>
 						<c><c>&gt;&gt;&gt;</c></c>
 						<c>Zero fill right shift</c>
-						<c>5 &gt;&gt;&gt; 1</c>
-						<c>0101 &gt;&gt;&gt; 1</c>
-						<c>0010</c>
-						<c>2</c>
+						<c><c>5 &gt;&gt;&gt; 1</c></c>
+						<c><c>0101 &gt;&gt;&gt; 1</c></c>
+						<c><c>0010</c></c>
+						<c><c>2</c></c>
 					</r>
 				</t>
 			</s>
@@ -671,6 +686,9 @@
 				<h name="! (not)">
 					<p>In common case, <c>not</c> object is <c>false</c>. The chapters about the comparison and conditions will describe how this is used.</p>
 				</h>
+				<h name="!! (double not)">
+					<p>Double negation is used to cast any object to <c>Boolean</c> type.</p>
+				</h>
 			</s>
 		</s>
 		<s name="Arithmetic">
@@ -697,7 +715,7 @@
 						<c>50</c>
 					</r>
 				</t>
-				<p>If at least one of operators is a real number, the result will be a real number. If both operators are integers, the result will be an integer.</p>
+				<p>If at least one of the operators is a real number, the result will be a real number. If both operators are integers, the result will be an integer.</p>
 				<p>The <b>addition</b> operator (<c>+</c>) adds numbers.</p>
 				<c><![CDATA[
 					var a = 2;
@@ -759,70 +777,76 @@
 						<c>Example</c>
 					</h>
 					<r>
-						<c>22</c>
+						<c>21</c>
 						<c><c>()</c></c>
 						<c>Expression grouping</c>
 						<c><c>(3 + 4)</c></c>
 					</r>
 					<r>
-						<c>21</c>
+						<c>20</c>
 						<c><c>.</c></c>
 						<c>Member</c>
 						<c><c>person.name</c></c>
 					</r>
 					<r>
-						<c>21</c>
+						<c>20</c>
 						<c><c>[]</c></c>
 						<c>Member</c>
 						<c><c>person["name"]</c></c>
 					</r>
 					<r>
-						<c>21</c>
+						<c>20</c>
 						<c><c>?.</c></c>
 						<c>Member with void guard</c>
 						<c><c>person?.name</c></c>
 					</r>
 					<r>
-						<c>20</c>
+						<c>19</c>
 						<c><c>()</c></c>
 						<c>Function call</c>
 						<c><c>func()</c></c>
 					</r>
 					<r>
-						<c>20</c>
+						<c>19</c>
 						<c><c>new</c></c>
 						<c>Create</c>
 						<c><c>new StringBuilder()</c></c>
 					</r>
 					<r>
-						<c>19</c>
+						<c>18</c>
 						<c><c>++</c></c>
 						<c>Prefix increment</c>
 						<c><c>++x</c></c>
 					</r>
 					<r>
-						<c>19</c>
+						<c>18</c>
 						<c><c>--</c></c>
 						<c>Prefix decrement</c>
 						<c><c>--x</c></c>
 					</r>
 					<r>
-						<c>18</c>
+						<c>17</c>
 						<c><c>++</c></c>
 						<c>Postfix increment</c>
 						<c><c>x++</c></c>
 					</r>
 					<r>
-						<c>18</c>
+						<c>17</c>
 						<c><c>--</c></c>
 						<c>Postfix decrement</c>
 						<c><c>x--</c></c>
 					</r>
 					<r>
-						<c>17</c>
+						<c>16</c>
 						<c><c>!</c></c>
 						<c>Logical not</c>
 						<c><c>!x</c></c>
+					</r>
+					<r>
+						<c>16</c>
+						<c><c>!!</c></c>
+						<c>Logical double not</c>
+						<c><c>!!x</c></c>
 					</r>
 					<r>
 						<c>16</c>
