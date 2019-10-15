@@ -119,8 +119,8 @@ namespace g0at
             environment env(stream, uid, scope_nodes);
             stream << L"digraph parse_tree" << std::endl <<
                 L"{" << std::endl <<
-                L"  node [fontname=\"serif\", fontsize=11 shape=box style=rounded penwidth=0.5]" << std::endl << 
-                L"  edge [fontname=\"serif\", fontsize=11 penwidth=0.5]" << std::endl;
+                L"  node [fontname=\"sans-serif\", fontsize=11 shape=box style=rounded penwidth=0.7]" << std::endl << 
+                L"  edge [fontname=\"sans-serif\", fontsize=11 penwidth=0.7]" << std::endl;
             dbg_output dbg(env);
             obj->accept(&dbg);
             stream << L"}";

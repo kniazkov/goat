@@ -27,6 +27,7 @@ import "algorithm.goat";
 var ref = 0;
 var links = {};
 var anchors = {};
+var fig = 0;
 
 var parseSection = $(src, dst, level, prefix)
 {
@@ -121,6 +122,34 @@ var parseSection = $(src, dst, level, prefix)
                     break;
                 }
             }
+			case "pic":
+			{
+				if (child.data.length() == 1 && child.data[0].instanceof(String))
+				{
+                    var container = new Xml.Element("div");
+                    container.attrib.class = "pic";
+                    dst.data.push(container);
+					var pic = new Xml.Element("img");
+					pic.attrib.src = child.data[0];
+					container.data.push(pic);
+                    container.data.push(new Xml.Element("br"));
+                    var caption = new Xml.Element("p");
+                    caption.attrib.className = "para";
+                    fig++;
+                    if (child.attrib.title)
+                    {
+						caption.data.push(new Xml.Element("b", "Fig. " + fig + ". "));
+						caption.data.push(child.attrib.title);
+					}
+					else
+					{
+						caption.data.push(new Xml.Element("b", "Fig. " + fig));
+					}
+					container.data.push(caption);
+        
+				}
+				break;
+			}
             case "h":
             case "header":
             {
@@ -573,6 +602,7 @@ try
     addStyle(".cell { padding : 5pt; vertical-align: top; }");
     addStyle(".cell2 { border-left: 1px solid black; }");
     addStyle(".table .inline { border: none; }");
+    addStyle(".pic { text-align: center; }");
 
     var body = new Xml.Element("body");
     html.data.push(body);

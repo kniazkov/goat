@@ -119,8 +119,8 @@ namespace g0at
             std::wstringstream tmp;
             tmp << L"digraph abstract_syntax_tree" << std::endl <<
                 L"{" << std::endl <<
-                L"  node [fontname=\"serif\", fontsize=11 shape=box style=rounded penwidth=0.5]" << std::endl << 
-                L"  edge [fontname=\"serif\", fontsize=11 penwidth=0.5]" << std::endl;
+                L"  node [fontname=\"sans-serif\", fontsize=11 shape=box style=rounded penwidth=0.7]" << std::endl << 
+                L"  edge [fontname=\"sans-serif\", fontsize=11 penwidth=0.7]" << std::endl;
             visitor_data data(tmp, uid);
             dbg_output dbg(data);
             obj->accept(&dbg);

@@ -1,7 +1,7 @@
 digraph graphname
 {
-    node [fontname="sans-serif", fontsize=15 shape=box style=rounded penwidth=1];
-    edge [fontname="sans-serif", fontsize=15 penwidth=1];
+    node [fontname="sans-serif", fontsize=12 shape=box style=rounded penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=12 penwidth=0.7];
     A;
     B;
     C;

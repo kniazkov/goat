@@ -2869,7 +2869,7 @@
 					// now you have access to properties in the parent object:
 					print(child.x); // output: 1]]>
 				</c>
-				<p><pic>graph/inheritance.png</pic></p>
+				<pic title="Multiple inheritance">graph/inheritance.svg</pic>
 			</s>
 			<s name="Operator -&gt;">
 				<p>Operator <c>-&gt;</c> builds a new object from the <b>prototype</b> and <b>description:</b></p>
@@ -4802,8 +4802,23 @@
 					   reused:            889821 (90.1 %)]]>
 				</c>
 			</h>
+			<h name="--dump-abstract-syntax-tree">
+				<p>As a first step, the compiler parses the source code of the script into tokens and generates an abstract syntax tree (<url>https://en.wikipedia.org/wiki/Abstract_syntax_tree</url>). This option dumps abstract syntax tree of tokens to <c>&lt;program_name&gt;+.tokens.txt</c> file as a graph in DOT format (see <url>https://en.wikipedia.org/wiki/DOT_(graph_description_language)</url>). To visualize it, use appropriate tool, for example, graphwiz (<url>http://graphviz.org</url>).</p>
+				<p>Example. The script:</p>
+				<c>println(2 + 3 * 4);</c>
+				<p>Command line:</p>
+				<c><![CDATA[
+					goat.exe program.goat --dump-abstract-syntax-tree
+					dot -Tsvg program.goat.tokens.txt -o ast.svg]]>
+				</c>
+				<p>Result:</p>
+				<pic title="Abstract syntax tree">graph/abstract_syntax_tree.svg</pic>
+			</h>
+			<h name="--dump-parse-tree">
+				<p>This option dumps parse tree to <c>&lt;program_name&gt;+.ptree.txt</c> file as a graph in DOT format. Parse tree (<url>https://en.wikipedia.org/wiki/Parse_tree</url> is generated from an abstract syntax tree as a second compilation step.</p>
+			</h>
 			<h name="--dump-assembler-code">
-				<p>Write compiled bytecode to <c>&lt;program_name&gt;+.asm</c> file as list of assembler instructions for the virtual machine.</p>
+				<p>Write compiled bytecode to <c>&lt;program_name&gt;+.asm</c> file as list of assembler instructions for the virtual machine. Bytecode is generated from the parse tree as the last compilation step.</p>
 				<p>Example. The script:</p>
 				<c>println(2 + 3 * 4);</c>
 				<p>Command line:</p>
