@@ -88,6 +88,7 @@ namespace g0at
         std::wstring str_getc = L"getc";
         std::wstring str_split = L"split";
         std::wstring str_substr = L"substr";
+        std::wstring str_valueof = L"valueof";
 
         std::wstring str_Mode = L"Mode";
         std::wstring str_Origin = L"Origin";

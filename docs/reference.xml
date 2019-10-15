@@ -1222,7 +1222,7 @@
 				<p>The result in <c>x</c> will be <c>12</c>.</p>
 			</s>
 			<s name="Invocation">
-				<p>The <c>()</c> operator invokes the function.</p>.
+				<p>The <c>()</c> operator invokes the function.</p>
 				<p>To invoke a function without arguments, use empty operator:</p>
 				<c><![CDATA[
 					var doSomething = function()
@@ -1245,13 +1245,13 @@
 					
 					doSomething("test", 3.14, false);]]>
 				</c>
-				<p>An argument can be any expression - string, number, another function call etc.</p>
+				<p>An argument can be any expression - string, number, another function call, etc.</p>
 			</s>
 			<s name="Built-in functions">
 				<p>The Goat language has a lot of built-in functions (so-called built-in library). This library provides type definitions and functions for tasks such as string handling, mathematical computations, input/output processing and several other operating system services.</p>
 				<p>For example, the <c>print</c> function converts the first argument to a string and outputs it to a console:</p>
 				<c>print(2 + 3); // outputs: 5</c>
-				<p><d>Built-in functions are fully described in the appropriate chapter.</d></p>
+				<p>Built-in functions are fully described in the <link title="appropriate">Built-in functions</link> chapter.</p>
 			</s>
 		</s>
 		<s name="Objects">
@@ -1490,8 +1490,13 @@
 						<c>Tabulation</c>
 					</r>
 					<r>
-						<c><c>\"</c></c>
-						<c><c>"</c></c>
+						<c><c>\&apos;</c></c>
+						<c><c>&apos;</c></c>
+						<c>Apostrophe (single quote)</c>
+					</r>
+					<r>
+						<c><c>\&quot;</c></c>
+						<c><c>&quot;</c></c>
 						<c>Double quote</c>
 					</r>
 					<r>
@@ -1518,7 +1523,7 @@
 			</s>
 			<s name="String methods">
 				<m name="length" descr="Returns the length of a string."/>
-				<m name="subString" descr="Extracts a part of a string and returns the extracted part in a new string.">
+				<m name="substr" descr="Extracts a part of a string and returns the extracted part in a new string.">
 					<a name="start" type="Integer" descr="the starting index (position). 0 is the first symbol"/>
 					<a name="count" type="Integer" descr="optional; count of characters. If not specified, the substring begins with the character at the specified index and extends to the end of this string. If specified, anyway, the method returns not more symbols than it possible"/>
 					<e><![CDATA[
@@ -1528,13 +1533,21 @@
 					</e>
 				</m>
 				<m name="split" descr="Splits a string into an array of substrings using a separator.">
-					<a name="separator" type="Char" descr="a separator"/>
+					<a name="separator" type="Char | String" descr="a separator"/>
 					<e><![CDATA[
 						var s = "My name is James Bond";
 						var a = s.split(' '); // ["My","name","is","James","Bond"] ]]>
 					</e>
 				</m>
-				<m name="valueOf" descr="Converts any object to a string.">
+				<m name="encode">
+					<d>Encodes a string into an array of bytes. Returns instance of <c>ByteArray</c> object.</d>
+					<a name="encoding" type="String" descr="encoding; now only &quot;utf8&quot; is supported"/>
+					<e><![CDATA[
+						var s = "abcd 123 Тест";
+						var a = s.encode("utf8"); // 61 62 63 64 20 31 32 33 20 d0 a2 d0 b5 d1 81 d1 82]]>
+					</e>
+				</m>
+				<m name="valueof" descr="Converts any object to a string.">
 					<a name="object" type="any type" descr="an object"/>
 					<e><![CDATA[
 						var i = 256 * 256;
@@ -3833,7 +3846,7 @@
 		<p>The functionality of the inner part of the library is written in C++ language and is the minimum required set for solving most tasks. This functionality includes platform-dependent components, such as working with files. No additional modules are required to use the internal library, these classes and functions are always available.</p>
 		<p>The external library is written in Goat language. It is a set of files that contain separate classes for solving various tasks. To use this class from the library, you need to link the corresponding file using the <c>import</c> keyword.</p>
 		<s name="Internal (core) library">
-			<s name="Functions">
+			<s name="Functions" anchor="Built-in functions">
 				<s name="Input/output">
 					<m name="print" descr="Converts an object to a string and sends this string to standard output.">
 						<a name="object" type="any type" descr="an object"/>

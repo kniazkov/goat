@@ -524,6 +524,31 @@ namespace g0at
             }
         };
 
+        class object_string_valueof : public object_function_built_in
+        {
+        public:
+            object_string_valueof(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (arg_count > 0)
+                {
+                    if (mode == call_mode::as_method)
+                        thr->pop();
+                    variable arg = thr->peek();
+                    thr->pop(arg_count);
+                    variable result;
+                    result.set_object(thr->pool->create_object_string(arg.to_string()));
+                    thr->push(result);
+                    return;
+                }
+                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+            }
+        };
+
         object_string_proto::object_string_proto(object_pool *pool)
             : object(pool)
         {
@@ -535,6 +560,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_encode), new object_string_encode(pool));
             add_object(pool->get_static_string(resource::str_split), new object_string_split(pool));
             add_object(pool->get_static_string(resource::str_substr), new object_string_substr(pool));
+            add_object(pool->get_static_string(resource::str_valueof), new object_string_valueof(pool));
             add_object(pool->get_static_string(resource::str_oper_plus), pool->get_wrap_add_instance());
             add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
             add_object(pool->get_static_string(resource::str_oper_double_exclamation), pool->get_wrap_bool_instance());
