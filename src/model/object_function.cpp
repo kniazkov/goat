@@ -178,6 +178,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(L"call"), new object_function_call(pool));
             add_object(pool->get_static_string(L"apply"), new object_function_apply(pool));
+            lock();
         }
     };
 };

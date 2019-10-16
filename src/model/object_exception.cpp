@@ -74,6 +74,7 @@ namespace g0at
             add_object(pool->get_static_string(L"IllegalOperation"), pool->get_exception_illegal_operation_instance());
             add_object(pool->get_static_string(L"IllegalReference"), pool->get_exception_illegal_reference_instance());
             add_object(pool->get_static_string(L"IllegalType"), pool->get_exception_illegal_type_instance());
+            lock();
         }
 
         /*
@@ -131,6 +132,7 @@ namespace g0at
         void object_exception_illegal_reference::init(object_pool *pool)
         {
             add_object(pool->get_static_string(L"OperatorNotFound"), pool->get_exception_operator_not_found_proto_instance());
+            lock();
         }
 
         /*
@@ -150,6 +152,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(L"IsNotAFunction"), pool->get_exception_is_not_a_function_proto_instance());
             add_object(pool->get_static_string(L"IsNotAMethod"), pool->get_exception_is_not_a_method_proto_instance());
+            lock();
         }
 
         /*

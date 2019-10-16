@@ -241,6 +241,7 @@ namespace g0at
             add_object(pool->get_static_string(L"kill"), new object_runner_kill(pool));
             add_object(pool->get_static_string(L"suspend"), new object_runner_suspend(pool));
             add_object(pool->get_static_string(L"resume"), new object_runner_resume(pool));
+            lock();
         }
     };
 };

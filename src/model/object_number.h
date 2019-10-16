@@ -33,6 +33,7 @@ namespace g0at
         friend class object_pool;
         protected:
             object_number_proto(object_pool *pool);
+            void init(object_pool *pool);
         };
     };
 };

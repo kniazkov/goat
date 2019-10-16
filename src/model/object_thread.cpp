@@ -140,6 +140,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_run), new object_thread_run(pool));
             add_object(pool->get_static_string(resource::str_current), new current_thread(pool));
+            lock();
         }
     };
 };

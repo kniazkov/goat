@@ -33,6 +33,11 @@ namespace g0at
         {
         }
 
+        void object_null::init(object_pool *pool)
+        {
+            lock();
+        }
+
         object_null *object_null::to_object_null()
         {
             return this;

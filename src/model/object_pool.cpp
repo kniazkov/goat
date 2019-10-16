@@ -131,9 +131,12 @@ namespace g0at
             gp->init(this);
             auto void_object = new object_void(this);
             void_instance = void_object;
-            undefined_instance = new object_undefined(this);
-            null_instance = new object_null(this);
-            number_proto_instance = new object_number_proto(this);
+            auto undefined_object = new object_undefined(this);
+            undefined_instance = undefined_object;
+            auto null_object = new object_null(this);
+            null_instance = null_object;
+            auto number_proto = new object_number_proto(this);
+            number_proto_instance = number_proto;
             auto integer_proto = new object_integer_proto(this);
             integer_proto_instance = integer_proto;
             auto boolean_proto = new object_boolean_proto(this);
@@ -190,6 +193,7 @@ namespace g0at
             string_proto->init(this);
             function_proto->init(this);
             thread_proto->init(this);
+            number_proto->init(this);
             integer_proto->init(this);
             real_proto->init(this);
             boolean_proto->init(this);
@@ -199,6 +203,8 @@ namespace g0at
             array_proto->init(this);
             iterator_proto->init(this);
             void_object->init(this);
+            undefined_object->init(this);
+            null_object->init(this);
             exception_illegal_argument_instance = new object_exception_illegal_argument(this);
             exception_illegal_context_instance = new object_exception_illegal_context(this);
             exception_illegal_operation_instance = new object_exception_illegal_operation(this);

@@ -29,6 +29,7 @@ namespace g0at
         object_function_built_in::object_function_built_in(object_pool *pool)
             : object_function(pool)
         {
+            lock();
         }
     };
 };

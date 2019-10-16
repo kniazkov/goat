@@ -355,6 +355,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_length), new object_byte_array_length(pool));
             add_object(pool->get_static_string(resource::str_push), new object_byte_array_push(pool));
             add_object(pool->get_static_string(resource::str_decode), new object_byte_array_decode_utf8(pool));
+            lock();
         }
 
         void object_byte_array_proto::op_new(thread *thr, int arg_count)

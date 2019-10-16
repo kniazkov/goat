@@ -166,6 +166,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_length), new object_string_builder_length(pool));
             add_object(pool->get_static_string(resource::str_data), new object_string_builder_data(pool));
             add_object(pool->get_static_string(resource::str_oper_double_less), pool->get_wrap_shl_instance());
+            lock();
         }
 
         void object_string_builder_proto::op_new(thread *thr, int arg_count)

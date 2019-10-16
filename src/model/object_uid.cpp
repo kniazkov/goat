@@ -137,6 +137,7 @@ namespace g0at
 
         void object_uid_proto::init(object_pool *pool)
         {
+            lock();
         }
     };
 };

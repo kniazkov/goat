@@ -33,5 +33,10 @@ namespace g0at
             : object(pool)
         {
         }
+
+        void object_number_proto::init(object_pool *pool)
+        {
+            lock();
+        }
     };
 };

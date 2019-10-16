@@ -92,6 +92,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_double_exclamation), pool->get_wrap_bool_instance());
             add_object(pool->get_static_string(resource::str_oper_double_ampersand), pool->get_wrap_and_instance());
             add_object(pool->get_static_string(resource::str_oper_double_vertical_bar), pool->get_wrap_or_instance());
+            lock();
         }
 
         /*

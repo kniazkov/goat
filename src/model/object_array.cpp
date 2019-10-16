@@ -387,6 +387,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_length), new object_array_length(pool));
             add_object(pool->get_static_string(resource::str_push), new object_array_push(pool));
             add_object(pool->get_static_string(resource::str_oper_plus), new object_array_operator_plus(pool));
+            lock();
         }
     };
 };

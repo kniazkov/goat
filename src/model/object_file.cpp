@@ -309,11 +309,13 @@ namespace g0at
             mode->add_object(pool->get_static_string(resource::str_WRITE));
             mode->add_object(pool->get_static_string(resource::str_APPEND));
             mode->add_object(pool->get_static_string(resource::str_FULL));
+            mode->lock();
 
             object *origin = pool->create_generic_object();
             origin->add_object(pool->get_static_string(resource::str_BEGIN));
             origin->add_object(pool->get_static_string(resource::str_END));
             origin->add_object(pool->get_static_string(resource::str_CURRENT));
+            origin->lock();
 
             add_object(pool->get_static_string(resource::str_Mode), mode);
             add_object(pool->get_static_string(resource::str_Origin), origin);
@@ -323,6 +325,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_seek), new object_file_seek(pool));
             add_object(pool->get_static_string(resource::str_position), new object_file_position(pool));
             add_object(pool->get_static_string(resource::str_close), new object_file_close(pool));
+            lock();
         }
     };
 };

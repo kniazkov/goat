@@ -74,6 +74,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(L"valid"), new object_iterator_valid(pool));
             add_object(pool->get_static_string(L"next"), new object_iterator_next(pool));
+            lock();
         }
     };
 };

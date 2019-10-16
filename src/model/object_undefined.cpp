@@ -33,6 +33,11 @@ namespace g0at
         {
         }
 
+        void object_undefined::init(object_pool *pool)
+        {
+            lock();
+        }
+
         object_undefined *object_undefined::to_object_undefined()
         {
             return this;
