@@ -252,6 +252,14 @@ namespace g0at
             }
         };
 
+        struct wrap_protect
+        {
+            static void call(object *obj, thread *thr)
+            {
+                obj->op_protect(thr);
+            }
+        };
+
         template <typename W> class unary_operator_adapter : public object_function_built_in
         {
         public:

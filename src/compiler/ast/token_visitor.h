@@ -178,6 +178,8 @@ namespace g0at
         class parenthesized_expression;
         class keyword_debug;
         class statement_debug;
+        class protect;
+        class protection;
 
         class token_visitor
         {
@@ -336,6 +338,8 @@ namespace g0at
             virtual void visit(parenthesized_expression *ref);
             virtual void visit(keyword_debug *ref);
             virtual void visit(statement_debug *ref);
+            virtual void visit(protect *ref);
+            virtual void visit(protection *ref);
          };
     };
 };

@@ -118,6 +118,7 @@ namespace g0at
         class assignment_by_bitwise_xor;
         class ternary;
         class statement_debug;
+        class protection;
 
         class node : public lib::ref_counter
         {
@@ -211,6 +212,7 @@ namespace g0at
             virtual assignment_by_bitwise_xor *to_assignment_by_bitwise_xor();
             virtual ternary *to_ternary();
             virtual statement_debug *to_statement_debug();
+            virtual protection *to_protection();
             
             fragment get_fragment() { return frag; }
             lib::pointer<scope> get_scope() { return sk; }

@@ -104,6 +104,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/caret_assign.h"
 #include "compiler/ast/question_mark.h"
 #include "compiler/ast/keyword_debug.h"
+#include "compiler/ast/protect.h"
 
 namespace g0at
 {
@@ -191,6 +192,7 @@ namespace g0at
             case L'|':
             case L'^':
             case L'?':
+            case L'#':
                 return true;
             default:
                 return false;
@@ -512,6 +514,8 @@ namespace g0at
                 return new ast::caret_assign();
             if (oper == L"?")
                 return new ast::question_mark();
+            if (oper == L"#")
+                return new ast::protect();
             if (oper == L"$")
                 return new ast::keyword_function();
             if (oper == L"$$")

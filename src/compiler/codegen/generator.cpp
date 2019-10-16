@@ -97,6 +97,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/assignment_by_bitwise_xor.h"
 #include "compiler/pt/ternary.h"
 #include "compiler/pt/statement_debug.h"
+#include "compiler/pt/protection.h"
 
 #include "code/string.h"
 #include "code/load.h"
@@ -179,6 +180,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/swap.h"
 #include "code/frame.h"
 #include "code/debug.h"
+#include "code/protect.h"
 
 namespace g0at
 {
@@ -1067,6 +1069,13 @@ namespace g0at
         void generator::visit(pt::statement_debug *ref)
         {
             code->add_instruction(new _debug());
+        }
+
+        void generator::visit(pt::protection *ref)
+        {
+            ref->get_right()->accept(this);
+            code->add_instruction(new _clone(0));
+            code->add_instruction(new _protect());
         }
     };
 };

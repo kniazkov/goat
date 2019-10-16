@@ -876,5 +876,15 @@ namespace g0at
         {
             return nullptr;
         }
+
+        protect *token::to_protect()
+        {
+            return nullptr;
+        }
+
+        protection *token::to_protection()
+        {
+            return nullptr;
+        }
     }
 };

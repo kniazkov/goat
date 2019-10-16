@@ -91,6 +91,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/caret_assign.h"
 #include "compiler/ast/question_mark.h"
 #include "compiler/ast/keyword_debug.h"
+#include "compiler/ast/protect.h"
 
 namespace g0at
 {
@@ -455,6 +456,11 @@ namespace g0at
         void parser_data_filler::visit(ast::keyword_debug *ref)
         {
             data->debug_keywords.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::protect *ref)
+        {
+            data->opers_protect.add(ref);
         }
     };
 };

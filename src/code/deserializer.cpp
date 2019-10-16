@@ -110,6 +110,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "xor.h"
 #include "frame.h"
 #include "debug.h"
+#include "protect.h"
 
 namespace g0at
 {
@@ -717,6 +718,11 @@ namespace g0at
             dst->add_instruction(new _debug());
         }
 
+        void deserializer::c_protect(source *src, code *dst)
+        {
+            dst->add_instruction(new _protect());
+        }
+
         deserializer::deserializer()
         {
             cc[op::_nop]     = c_nop;
@@ -801,6 +807,7 @@ namespace g0at
             cc[op::_xor]     = c_xor;
             cc[op::_frame]   = c_frame;
             cc[op::_debug]   = c_debug;
+            cc[op::_protect] = c_protect;
         }
     };
 };

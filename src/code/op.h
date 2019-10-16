@@ -121,12 +121,13 @@ namespace g0at
             _leq,
             _great,
             _greq,
-            _inherit,
             _and,
             _or,
             _bitand,
             _bitor,
             _xor,
+            _inherit,
+            _protect,
 
             // multithreading
             _lock,

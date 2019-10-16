@@ -205,6 +205,11 @@ namespace g0at
             thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_caret));
         }
 
+        void handler::op_protect(variable *var, thread *thr)
+        {
+            thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_protect));
+        }
+
         void handler::m_clone(variable *var, thread *thr, int arg_count)
         {
             // base handler just returns the object itself, so, primitives are not cloneable

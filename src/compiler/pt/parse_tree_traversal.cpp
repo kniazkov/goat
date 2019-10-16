@@ -99,6 +99,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "assignment_by_bitwise_or.h"
 #include "assignment_by_bitwise_xor.h"
 #include "ternary.h"
+#include "protection.h"
 
 namespace g0at
 {
@@ -1047,6 +1048,16 @@ namespace g0at
         }
 
         void parse_tree_traversal::payload(statement_debug *ref)
+        {
+        }
+
+        void parse_tree_traversal::visit(protection *ref)
+        {
+            ref->get_right()->accept(this);
+            payload(ref);
+        }
+
+        void parse_tree_traversal::payload(protection *ref)
         {
         }
     };

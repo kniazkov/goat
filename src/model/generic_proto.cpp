@@ -384,6 +384,31 @@ namespace g0at
             }
         };
 
+        class generic_protect : public object_function_built_in
+        {
+        public:
+            generic_protect(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                thr->pop(arg_count);
+                variable result;
+                this_ptr->lock();
+                result.set_object(this_ptr);
+                thr->push(result);
+            }
+        };
+
         generic_proto::generic_proto(object_pool *pool)
             : object(pool, nullptr)
         {
@@ -402,6 +427,8 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_double_exclamation), new generic_bool(pool));
             add_object(pool->get_static_string(resource::str_oper_double_ampersand), new generic_and(pool));
             add_object(pool->get_static_string(resource::str_oper_double_vertical_bar), new generic_or(pool));
+            add_object(pool->get_static_string(resource::str_oper_protect), new generic_protect(pool));
+            lock();
         }
     };
 };

@@ -546,5 +546,10 @@ namespace g0at
         {
             stream << L"debug";
         }
+
+        void disasm::visit(_protect *ref)
+        {
+            stream << L"protect";
+        }
     };
 };

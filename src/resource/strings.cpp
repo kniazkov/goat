@@ -52,6 +52,7 @@ namespace g0at
         std::wstring str_oper_double_vertical_bar = L"||";
         std::wstring str_oper_caret = L"^";
         std::wstring str_oper_inherit = L"->";
+        std::wstring str_oper_protect = L"#";
 
         std::wstring empty_string = L"";
         std::wstring str_instanceof = L"instanceof";

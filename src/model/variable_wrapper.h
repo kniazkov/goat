@@ -69,6 +69,7 @@ namespace g0at
             void op_bitand(thread *thr) override;
             void op_bitor(thread *thr) override;
             void op_xor(thread *thr) override;
+            void op_protect(thread *thr) override;
 
         protected:
             variable var;

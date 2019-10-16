@@ -227,6 +227,11 @@ namespace g0at
                 var->data.ref->op_xor(thr);
             }
 
+            void op_protect(variable *var, thread *thr) override
+            {
+                var->data.ref->op_protect(thr);
+            }
+
             void m_clone(variable *var, thread *thr, int arg_count) override
             {
                 var->data.ref->m_clone(thr, arg_count);

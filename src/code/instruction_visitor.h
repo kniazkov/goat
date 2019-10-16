@@ -108,6 +108,7 @@ namespace g0at
         class _xor;
         class _frame;
         class _debug;
+        class _protect;
 
         class instruction_visitor
         {
@@ -196,6 +197,7 @@ namespace g0at
             virtual void visit(_xor *ref) = 0;
             virtual void visit(_frame *ref) = 0;
             virtual void visit(_debug *ref) = 0;
+            virtual void visit(_protect *ref) = 0;
         };
     };
 };

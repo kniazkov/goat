@@ -150,6 +150,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/assignment_by_bitwise_xor.h"
 #include "compiler/ast/ternary.h"
 #include "compiler/pt/ternary.h"
+#include "compiler/ast/protection.h"
+#include "compiler/pt/protection.h"
 
 namespace g0at
 {
@@ -675,6 +677,11 @@ namespace g0at
             ref->get_expression()->accept(&visitor);
             assert(visitor.has_expr());
             expr = visitor.get_expr();
+        }
+
+        void expression_builder::visit(ast::protection *ref)
+        {
+            expr = new pt::protection(ref->get_fragment(), build_expr_for_unary_prefix(ref));
         }
     };
 };

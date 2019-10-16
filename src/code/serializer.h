@@ -121,6 +121,7 @@ namespace g0at
             void visit(_xor *ref) override;
             void visit(_frame *ref) override;
             void visit(_debug *ref) override;
+            void visit(_protect *ref) override;
 
         protected:
             std::vector<uint8_t> &buff;

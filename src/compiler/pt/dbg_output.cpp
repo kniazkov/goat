@@ -103,6 +103,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "statement_break.h"
 #include "statement_continue.h"
 #include "statement_debug.h"
+#include "protection.h"
 
 namespace g0at
 {
@@ -1078,6 +1079,14 @@ namespace g0at
         void dbg_output::visit(statement_debug *ref)
         {
             print(ref, L"debug");
+        }
+
+        void dbg_output::visit(protection *ref)
+        {
+            print(ref, L"protection", L"#");
+            dbg_output right(env);
+            ref->get_right()->accept(&right);
+            link_child(right);
         }
     };
 };

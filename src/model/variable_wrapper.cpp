@@ -200,5 +200,10 @@ namespace g0at
         {
             var.op_xor(thr);
         }
+
+        void variable_wrapper::op_protect(thread *thr)
+        {
+            var.op_protect(thr);
+        }
     };
 };

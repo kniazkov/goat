@@ -110,6 +110,7 @@ namespace g0at
             wrap_bitand_instance = nullptr;
             wrap_bitor_instance = nullptr;
             wrap_xor_instance = nullptr;
+            wrap_protect_instance = nullptr;
 
             /*
                 "It's a kind of magic"
@@ -185,6 +186,7 @@ namespace g0at
             wrap_bitand_instance = new binary_operator_adapter<wrap_bitand>(this);
             wrap_bitor_instance = new binary_operator_adapter<wrap_bitor>(this);
             wrap_xor_instance = new binary_operator_adapter<wrap_xor>(this);
+            wrap_protect_instance = new unary_operator_adapter<wrap_protect>(this);
             string_proto->init(this);
             function_proto->init(this);
             thread_proto->init(this);

@@ -459,5 +459,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        protection *node::to_protection()
+        {
+            return nullptr;
+        }
     }
 };

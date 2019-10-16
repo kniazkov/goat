@@ -641,5 +641,13 @@ namespace g0at
         void token_visitor::visit(statement_debug *ref)
         {
         }
+
+        void token_visitor::visit(protect *ref)
+        {
+        }
+
+        void token_visitor::visit(protection *ref)
+        {
+        }
     }
 };

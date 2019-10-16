@@ -34,7 +34,7 @@ namespace g0at
     namespace model
     {
         object::object(object_pool *pool)
-            : marked(false), locked(false)
+            : marked(false), immutable(false)
         {
 #ifdef MODEL_DEBUG
             id = pool->get_next_id();
@@ -45,7 +45,7 @@ namespace g0at
         }
 
         object::object(object_pool *pool, object *proto)
-            : marked(false), locked(false)
+            : marked(false), immutable(false)
         {
 #ifdef MODEL_DEBUG
             id = pool->get_next_id();
@@ -56,7 +56,7 @@ namespace g0at
         }
 
         object::object(object_pool *pool, object *proto_0, object *proto_1)
-            : marked(false), locked(false)
+            : marked(false), immutable(false)
         {
             assert(proto_0 != nullptr);
             assert(proto_1 != nullptr);
@@ -286,7 +286,7 @@ namespace g0at
 
         bool object::add_object(object *key, variable &value)
         {
-            if (locked)
+            if (immutable)
                 return false;
 
             assert(key != nullptr);
@@ -296,7 +296,7 @@ namespace g0at
 
         bool object::add_object(object *key, object *value)
         {
-            if (locked)
+            if (immutable)
                 return false;
 
             assert(key != nullptr);
@@ -612,6 +612,12 @@ namespace g0at
         {
             if (!find_and_vcall(thr, 1, resource::str_oper_caret))
                 thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_caret));
+        }
+
+        void object::op_protect(thread *thr)
+        {
+            if (!find_and_vcall(thr, 0, resource::str_oper_protect))
+                thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_protect));
         }
 
         void object::m_clone(thread *thr, int arg_count)

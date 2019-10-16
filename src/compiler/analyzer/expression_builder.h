@@ -99,6 +99,7 @@ namespace g0at
             void visit(ast::assignment_by_bitwise_xor *ref) override;
             void visit(ast::ternary *ref) override;
             void visit(ast::parenthesized_expression *ref) override;
+            void visit(ast::protection *ref) override;
 
             bool has_expr() { return expr != nullptr; }
             lib::pointer<pt::expression> get_expr() { return expr; }

@@ -81,6 +81,7 @@ namespace g0at
             ast::token_2nd_list opers_caret;
             ast::token_2nd_list question_marks;
             ast::token_2nd_list debug_keywords;
+            ast::token_2nd_list opers_protect;
 
             std::vector<ast::function*> functions;
             std::vector<ast::function_call*> function_calls;

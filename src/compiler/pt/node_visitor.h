@@ -106,6 +106,7 @@ namespace g0at
         class assignment_by_bitwise_xor;
         class ternary;
         class statement_debug;
+        class protection;
 
         class node_visitor
         {
@@ -192,6 +193,7 @@ namespace g0at
             virtual void visit(assignment_by_bitwise_xor *ref);
             virtual void visit(ternary *ref);
             virtual void visit(statement_debug *ref);
+            virtual void visit(protection *ref);
         };
     };
 };

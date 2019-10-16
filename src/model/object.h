@@ -136,6 +136,7 @@ namespace g0at
             inline void op_bitand(thread *thr);
             inline void op_bitor(thread *thr);
             inline void op_xor(thread *thr);
+            inline void op_protect(thread *thr);
 
             inline void m_clone(thread *thr, int arg_count);
             inline void m_instance_of(thread *thr, int arg_count);
@@ -189,7 +190,7 @@ namespace g0at
             inline void mark();
             inline void unmark();
             inline void sweep(object_pool *pool);
-            void lock() { locked = true; }
+            void lock() { immutable = true; }
 
             virtual object_type get_type() const;
             virtual object_string *to_object_string();
@@ -263,6 +264,7 @@ namespace g0at
             virtual void op_bitand(thread *thr);
             virtual void op_bitor(thread *thr);
             virtual void op_xor(thread *thr);
+            virtual void op_protect(thread *thr);
 
             virtual void m_clone(thread *thr, int arg_count);
             virtual void m_instance_of(thread *thr, int arg_count);
@@ -281,7 +283,7 @@ namespace g0at
             int id;
 #endif
             bool marked;
-            bool locked;
+            bool immutable;
             std::map<object*, variable, object_comparator> objects;
             object *proto;
             lib::pointer<topology_descriptor> topology;
@@ -358,6 +360,7 @@ namespace g0at
             virtual void op_bitand(variable *var, thread *thr);
             virtual void op_bitor(variable *var, thread *thr);
             virtual void op_xor(variable *var, thread *thr);
+            virtual void op_protect(variable *var, thread *thr);
 
             virtual void m_clone(variable *var, thread *thr, int arg_count);
             virtual void m_instance_of(variable *var, thread *thr, int arg_count);
@@ -629,6 +632,11 @@ namespace g0at
             hndl->op_xor(this, thr);
         }
         
+        void variable::op_protect(thread *thr)
+        {
+            hndl->op_protect(this, thr);
+        }
+
         void variable::m_clone(thread *thr, int arg_count)
         {
             hndl->m_clone(this, thr, arg_count);

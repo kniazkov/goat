@@ -620,5 +620,10 @@ namespace g0at
         {
             push_opcode(op::_debug);
         }
+
+        void serializer::visit(_protect *ref)
+        {
+            push_opcode(op::_protect);
+        }
     };
 };

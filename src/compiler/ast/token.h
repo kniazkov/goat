@@ -199,6 +199,8 @@ namespace g0at
         class parenthesized_expression;
         class keyword_debug;
         class statement_debug;
+        class protect;
+        class protection;
 
         class token : public lib::ref_counter
         {
@@ -374,6 +376,8 @@ namespace g0at
             virtual parenthesized_expression *to_parenthesized_expression();
             virtual keyword_debug *to_keyword_debug();
             virtual statement_debug *to_statement_debug();
+            virtual protect *to_protect();
+            virtual protection *to_protection();
 
             fragment get_fragment() { return frag; }
 

@@ -102,6 +102,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "assignment_by_bitwise_xor.h"
 #include "ternary.h"
 #include "parenthesized_expression.h"
+#include "protection.h"
 
 namespace g0at
 {
@@ -1223,6 +1224,19 @@ namespace g0at
         void dbg_output::visit(statement_debug *ref)
         {
             print(L"debug");
+        }
+
+        void dbg_output::visit(protect *ref)
+        {
+            print(L"protect", L"#");
+        }
+
+        void dbg_output::visit(protection *ref)
+        {
+            print(L"protection", L"#");
+            dbg_output right(data);
+            ref->get_right()->accept(&right);
+            link_child(right);
         }
     };
 };

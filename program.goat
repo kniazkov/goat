@@ -1,1 +1,17 @@
-String.test = "something";
+try
+{
+    var obj = #
+    {
+        x : 7,
+        y : 11
+    };
+
+    println(obj.x);
+    println(obj.y);
+    obj.y = 13;
+}
+catch (e)
+{
+    if (e.instanceof(Exception.IllegalOperation))
+        println("ok.");
+}

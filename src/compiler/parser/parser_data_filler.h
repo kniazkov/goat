@@ -103,6 +103,7 @@ namespace g0at
             void visit(ast::caret_assign *ref) override;
             void visit(ast::question_mark *ref) override;
             void visit(ast::keyword_debug *ref) override;
+            void visit(ast::protect *ref) override;
 
         protected:
             parser_data *data;

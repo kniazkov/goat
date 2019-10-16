@@ -149,6 +149,7 @@ namespace g0at
             object *get_wrap_bitand_instance() { return wrap_bitand_instance; }
             object *get_wrap_bitor_instance() { return wrap_bitor_instance; }
             object *get_wrap_xor_instance() { return wrap_xor_instance; }
+            object *get_wrap_protect_instance() { return wrap_protect_instance; }
 
             generic_object *create_generic_object();
             context *create_context();
@@ -248,6 +249,7 @@ namespace g0at
             object *wrap_bitand_instance;
             object *wrap_bitor_instance;
             object *wrap_xor_instance;
+            object *wrap_protect_instance;
 
             object_cache static_strings;
         };

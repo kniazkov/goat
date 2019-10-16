@@ -142,6 +142,7 @@ namespace g0at
             void visit(statement_break *ref) override;
             void visit(statement_continue *ref) override;
             void visit(statement_debug *ref) override;
+            void visit(protection *ref) override;
 
         protected:
             dbg_output(environment &env);

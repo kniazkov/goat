@@ -54,6 +54,7 @@ namespace g0at
         extern std::wstring str_oper_double_vertical_bar;
         extern std::wstring str_oper_caret;
         extern std::wstring str_oper_inherit;
+        extern std::wstring str_oper_protect;
 
         extern std::wstring empty_string;
         extern std::wstring str_instanceof;
