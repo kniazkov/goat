@@ -98,6 +98,7 @@ namespace g0at
             {
                 objects.clear();
                 data.clear();
+                immutable = false;
             }
         }
         

@@ -79,14 +79,14 @@
 		<p><b>Important note. A significant part of this chapter is the redesigned tutorial from: <url>https://www.w3schools.com/js/default.asp</url>. Since the Goat language is the modified JavaScript language, so the description of the Goat language is the modified description of the  Javascript language. Any coincidences are NOT random.</b></p>
 		<s name="Hello world">
 			<p>Create a new file, say <c>hello_world.goat</c> (file extension does not matter) containing one line:</p>
-			<c>print("Hello, world!");</c>
+			<c>print(&quot;Hello, world!&quot;);</c>
 			<p>and then launch it:</p>
 			<c>goat.exe hello_world.goat</c>
 			<p>That's all. The interpreter will start the script and will print <c>Hello, world!</c> to the console.</p>
 		</s>
 		<s name="Internationalization and localization">
 			<p>It is possible to use any Unicode characters in string literals. The Goat interpreter parses source files in UTF-8  format. The output stream also encoded to UTF-8. The previous example, but contains nonlatin characters:</p>
-			<c>print("Привет, мир!");</c>
+			<c>print(&quot;Привет, мир!&quot;);</c>
 		</s>
 		<s name="Program and statements">
 			<s name="Program">
@@ -667,18 +667,18 @@
 						<c>Inherit</c>
 					</r>
 					<r>
-						<c><c>@</c></c>
-						<c>Lock</c>
+						<c><c>#</c></c>
+						<c>Write protect</c>
 					</r>
 				</t>
 			</s>
 			<s name="Common operators">
-				<p>Each object supports these operators: <c>-&gt;</c> (inherit), <c>@</c> (lock), <c>==</c> (equal), <c>!=</c> (not equal) and <c>!</c> (logical not).</p>
+				<p>Each object supports these operators: <c>-&gt;</c> (inherit), <c>#</c> (write protect), <c>==</c> (equal), <c>!=</c> (not equal) and <c>!</c> (logical not).</p>
 				<h name="-&gt; (inherit)">
 					<p>Each object can be a prototype for a new object. Below in this document, it will be explained what is prototyping.</p>
 				</h>
-				<h name="@ (lock)">
-					<p>Returns a locked object, that is, an object whose properties can not be changed.</p>
+				<h name="# (write protect)">
+					<p>Returns a write protected object, that is, an object whose properties can not be changed.</p>
 				</h>
 				<h name="== (equal) and != (not equal)">
 					<p>In common case, an object equals to another object, if these objects are the same object. For numbers, strings, other built-in types, an object is equal to another object if these objects have the same value, for example, <c>5 == 2 + 3</c>.</p>
@@ -874,9 +874,9 @@
 					</r>
 					<r>
 						<c>13</c>
-						<c><c>@</c></c>
-						<c>Lock</c>
-						<c><c>@ { }</c></c>
+						<c><c>#</c></c>
+						<c>Write protect</c>
+						<c><c># { }</c></c>
 					</r>
 					<r>
 						<c>12</c>
@@ -3451,7 +3451,7 @@
 				<p>Output:</p>
 				<c>{x:10,y:20,z:30}{x:10,y:100,z:30}</c>
 				<p><b>If possible, do not use <c>clone</c> method, inherit an object instead!</b> Cloning is a very expensive operation, due to the need to copy each field.</p>
-				<p>The <c>clone</c> method is implicitly called in some other operations. For example, operators <c>-&gt;</c> (inherit) and <c>@</c> (lock, see below) call this method. This method (however, like all the others) can be redefined. And then the operators will call the overridden method.</p>
+				<p>The <c>clone</c> method is implicitly called in some other operations. For example, operators <c>-&gt;</c> (inherit) and <c>#</c> (write protect, see below) call this method. This method (however, like all the others) can be redefined. And then the operators will call the overridden method.</p>
 				<p>For example, you can prevent cloning an object, and instead of a clone, return the object itself:</p>
 				<c><![CDATA[
 					var original = 
@@ -3692,12 +3692,12 @@
 				<c>return some?.object?.that?.might?.not?.exist || 0;</c>
 			</s>
 		</s>
-		<s name="Locking objects">
-			<p>Objects can be locked. After locking, nothing can change (or add) properties or methods of the object.</p>
-			<s name="Operator @">
-				<p>This is an unary operator. It clones an object passed as a parameter (to the right of the operator) and then blocks the result of cloning. The object returned by the operator cannot be changed:</p>
+		<s name="Objects write protection">
+			<p>Objects can be write protected. After protecting, nothing can change (or add) properties or methods of the object.</p>
+			<s name="Operator #">
+				<p>This is a unary operator. It clones an object passed as a parameter (to the right of the operator) and then write protect the result of cloning. The object returned by the operator cannot be changed:</p>
 				<c><![CDATA[
-					var obj = @ 
+					var obj = # 
 					{
 						x : 10,
 						y : 20
@@ -3706,7 +3706,7 @@
 					obj.z = 30; // illegal operation!
 					]]>
 				</c>
-				<p>The operator does not change the original object. Only its copy is locked:</p>
+				<p>The operator does not change the original object. Only its copy is protected:</p>
 				<c><![CDATA[
 					var A = 
 					{
@@ -3714,17 +3714,17 @@
 						y : 20
 					};
 					
-					var B = @A;
+					var B = #A;
 					
 					A.z = 30; // allowed
 					B.z = 30; // is not allowed
 					]]>
 				</c>
 			</s>
-			<s name="What happens when write to a locked object?">
-				<p>The interpreter will immediately throw an exception <c>Exception.CanNotWritePropertyOfLockedObject</c>:</p>
+			<s name="What happens when writing to a write protected object?">
+				<p>The interpreter will immediately throw an exception <c>Exception.IllegalOperation</c>:</p>
 				<c><![CDATA[
-					var A = @ 
+					var A = # 
 					{
 						x: 10,
 						y: 20
@@ -3736,37 +3736,28 @@
 					}
 					catch(e) 
 					{
-						if (e.instanceof(Exception.CanNotWritePropertyOfLockedObject))
-							print("exception!");
+						if (e.instanceof(Exception.IllegalOperation))
+							print("oops!");
 					}]]>
 				</c>
 			</s>
-			<s name="Why need to lock objects?">
-				<p>A classic example is the creation of enumerations. Suppose we have an object that contains only constants:</p>
+			<s name="Why is it necessary to protect objects from writing?">
+				<p>Obviously, to prevent changes that will lead to an error. A classic example is the creation of enumerations. The standard library contains many such enumerations. For example, file mode for i/o operations:</p>
 				<c><![CDATA[
-					var Colors = 
+					File.Mode = 
 					{
-						RED : "#FF0000",
-						GREEN : "#00FF00",
-						BLUE : "#0000FF"
+						READ : "READ",
+						WRITE : "WRITE",
+						APPEND : "APPEND",
+						FULL : "FULL"
 					};]]>
 				</c>
-				<p>Suppose that there is some function that takes the value of a constant as an argument:</p>
-				<c>setColor(Colors.RED);</c>
-				<p>And this will work, but nothing prevents changing the value of the constant:</p>
-				<c>Colors.RED = "#FF00FF"; // oops, now everything red will turn violet</c>
-				<p>To protect the object from accidental changes, you need to lock it. Just add <c>@</c>:</p>
-				<c><![CDATA[
-					var Colors = @ 
-					{
-						RED : "#FF0000",
-						GREEN : "#00FF00",
-						BLUE : "#0000FF"
-					};
-					
-					Colors.RED = "#FF00FF"; // exception! ]]>
-				</c>
-				<p>All objects of the standard library (classes, functions, enums) are locked.</p>
+				<p>This enumeration is used when opening a file:</p>
+				<c>var file = open(file_name, File.Mode.WRITE);</c>
+				<p>However, if it were possible, intentionally or accidentally, to change the values of this enumeration, for example, like this:</p>
+				<c>File.Mode.WRITE = &quot;READ&quot;;</c>
+				<p>...continued use of this enumeration would result in an error. Therefore, such an object must be immutable. To protect object, just add operator <c>#</c> before object declaration.</p>
+				<p>All objects of the standard library - classes, functions, enums, including built-in, i.e. Object, String, Integer, etc. - are write protected.</p>
 			</s>
 		</s>
 		<s name="Threads">
@@ -4544,7 +4535,7 @@
 				<p>The Goat language provides  several new operators:</p>
 				<l>
 					<i><c>-&gt;</c> that means inheritance;</i>
-					<i><c>@</c> for object locking (after locking, an object cannot be changed);</i>
+					<i><c>#</c> for write protecting (after that, an object cannot be changed);</i>
 					<i><c>?.</c>as null conditional operator.</i>
 				</l>
 			</s>

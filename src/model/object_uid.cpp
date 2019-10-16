@@ -44,6 +44,7 @@ namespace g0at
             if (pool->uids.destroy_or_cache(this, pool))
             {
                 objects.clear();
+                immutable = false;
             }
         }
         

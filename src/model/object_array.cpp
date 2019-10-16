@@ -88,6 +88,7 @@ namespace g0at
             {
                 objects.clear();
                 vector.clear();
+                immutable = false;
             }
         }
         

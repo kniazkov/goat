@@ -49,6 +49,7 @@ namespace g0at
             if (pool->real_numbers.destroy_or_cache(this, pool))
             {
                 objects.clear();
+                immutable = false;
             }
         }
 

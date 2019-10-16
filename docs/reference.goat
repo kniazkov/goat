@@ -634,7 +634,7 @@ try
     
     for (var link in links)
     {
-        if (links.contains(link, true))
+        if (links.contains(link))
         {
             var anchor = links[link];
             link.attrib.href = anchors[anchor];

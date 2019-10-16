@@ -50,6 +50,7 @@ namespace g0at
             if (pool->chars.destroy_or_cache(this, pool))
             {
                 objects.clear();
+                immutable = false;
             }
         }
 

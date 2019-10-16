@@ -41,6 +41,7 @@ namespace g0at
                 objects.clear();
                 proto = nullptr;
                 topology.reset();
+                immutable = false;
             }
         }
 

@@ -43,6 +43,7 @@ namespace g0at
             if (pool->integers.destroy_or_cache(this, pool))
             {
                 objects.clear();
+                immutable = false;
             }
         }
 

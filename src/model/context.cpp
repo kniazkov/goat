@@ -103,6 +103,7 @@ namespace g0at
                 objects.clear();
                 proto = nullptr;
                 topology.reset();
+                immutable = false;
                 prev = nullptr;
                 this_ptr = nullptr;
                 for (int i = 0; i < addresses_count; i++)
