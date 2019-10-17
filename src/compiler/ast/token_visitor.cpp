@@ -649,5 +649,9 @@ namespace g0at
         void token_visitor::visit(protection *ref)
         {
         }
+
+        void token_visitor::visit(question_with_dot *ref)
+        {
+        }
     }
 };

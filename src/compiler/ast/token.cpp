@@ -886,5 +886,10 @@ namespace g0at
         {
             return nullptr;
         }
+
+        question_with_dot *token::to_question_with_dot()
+        {
+            return nullptr;
+        }
     }
 };

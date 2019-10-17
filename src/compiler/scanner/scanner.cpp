@@ -105,6 +105,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/question_mark.h"
 #include "compiler/ast/keyword_debug.h"
 #include "compiler/ast/protect.h"
+#include "compiler/ast/question_with_dot.h"
 
 namespace g0at
 {
@@ -193,6 +194,7 @@ namespace g0at
             case L'^':
             case L'?':
             case L'#':
+            case L'.':
                 return true;
             default:
                 return false;
@@ -436,6 +438,10 @@ namespace g0at
                 c = src->next();
             } while(is_operator(c));
             std::wstring oper = wss.str();
+            if (oper == L".")
+                return new ast::dot();
+            if (oper == L"?.")
+                return new ast::question_with_dot();
             if (oper == L"+")
                 return new ast::plus();
             if (oper == L"-")
@@ -576,12 +582,6 @@ namespace g0at
         {
             src->next();
             return new ast::colon();
-        }
-
-        if (c == L'.')
-        {
-            src->next();
-            return new ast::dot();
         }
 
         if (c == L'\0')

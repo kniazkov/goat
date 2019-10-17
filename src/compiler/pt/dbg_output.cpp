@@ -504,7 +504,7 @@ namespace g0at
 
         void dbg_output::visit(property *ref)
         {
-            print(ref, L"property", ref->get_name());
+            print(ref, ref->guarded() ? L"guarded property" : L"property", ref->get_name());
             dbg_output child(env);
             ref->get_left()->accept(&child);
             link_child(child);

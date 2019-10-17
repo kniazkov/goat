@@ -92,6 +92,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/ast/question_mark.h"
 #include "compiler/ast/keyword_debug.h"
 #include "compiler/ast/protect.h"
+#include "compiler/ast/question_with_dot.h"
 
 namespace g0at
 {
@@ -461,6 +462,11 @@ namespace g0at
         void parser_data_filler::visit(ast::protect *ref)
         {
             data->opers_protect.add(ref);
+        }
+
+        void parser_data_filler::visit(ast::question_with_dot *ref)
+        {
+            data->dots.add(ref);
         }
     };
 };

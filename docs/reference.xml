@@ -4755,7 +4755,7 @@
 				<p>Say the script contains the line:</p>
 				<c>import &quot;xml.goat&quot;;</c>
 				<p>The interpreter first tried to open the file <c>c:\goat\lib\xml.goat</c>, and if it was not found, the file <c>c:\project\xml.goat</c>.</p>
-				<p>The current folder where the script was launched from has the highest priority; the search starts from it. If you need to include a file from a specific folder, specify the full path in the <c>include</c> directive:</p>
+				<p>The current folder where the script was launched from has the highest priority; the search starts from it. If you need to include a file from a specific folder, specify the full path in the <c>import</c> directive:</p>
 				<c>import &quot;project/xml.goat&quot;;</c>
 				<p>This option can be set as an environment variable <c>GOAT_LIBRARY_PATH</c>. Example, for Windows:</p>
 				<c><![CDATA[

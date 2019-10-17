@@ -20,31 +20,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#pragma once
-
-#include "expression.h"
-#include <string>
+#include "question_with_dot.h"
 
 namespace g0at
 {
-    namespace pt
+    namespace ast
     {
-        class property : public expression
+        void question_with_dot::accept(token_visitor *visitor)
         {
-        public:
-            property(fragment _frag, lib::pointer<expression> _left, std::wstring _right, bool _guard);
-            void accept(node_visitor *visitor) override;
-            property *to_property() override;
+            visitor->visit(this);
+        }
 
-            lib::pointer<expression> get_left() { return left; }
-            std::wstring get_right() { return right; }
-            std::wstring get_name() { return right; }
-            bool guarded() { return guard; }
-
-        protected:
-            lib::pointer<expression> left;
-            std::wstring right;
-            bool guard;
-        };
+        question_with_dot *question_with_dot::to_question_with_dot()
+        {
+            return this;
+        }
     };
 };

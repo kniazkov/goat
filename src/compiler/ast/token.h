@@ -201,6 +201,7 @@ namespace g0at
         class statement_debug;
         class protect;
         class protection;
+        class question_with_dot;
 
         class token : public lib::ref_counter
         {
@@ -378,6 +379,7 @@ namespace g0at
             virtual statement_debug *to_statement_debug();
             virtual protect *to_protect();
             virtual protection *to_protection();
+            virtual question_with_dot *to_question_with_dot();
 
             fragment get_fragment() { return frag; }
 

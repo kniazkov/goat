@@ -34,17 +34,19 @@ namespace g0at
         class property : public left_expression, public nonterminal
         {
         public:
-            property(lib::pointer<expression> _left, identifier *_right);
+            property(lib::pointer<expression> _left, identifier *_right, bool _guard);
             void accept(token_visitor *visitor) override;
             property *to_property() override;
 
             lib::pointer<expression> get_left() { return left; }
             std::wstring get_right() { return right; }
             std::wstring get_name() { return right; }
+            bool guarded() { return guard; }
 
         protected:
             lib::pointer<expression> left;
             std::wstring right;
+            bool guard;
         };
     };
 };

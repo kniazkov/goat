@@ -205,6 +205,7 @@ namespace g0at
             void visit(statement_debug *ref) override;
             void visit(protect *ref) override;
             void visit(protection *ref) override;
+            void visit(question_with_dot *ref) override;
 
         protected:
             dbg_output(visitor_data &_data);

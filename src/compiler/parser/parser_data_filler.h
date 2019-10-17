@@ -104,6 +104,7 @@ namespace g0at
             void visit(ast::question_mark *ref) override;
             void visit(ast::keyword_debug *ref) override;
             void visit(ast::protect *ref) override;
+            void visit(ast::question_with_dot *ref) override;
 
         protected:
             parser_data *data;

@@ -26,10 +26,11 @@ namespace g0at
 {
     namespace ast
     {
-        property::property(lib::pointer<expression> _left, identifier *_right)
+        property::property(lib::pointer<expression> _left, identifier *_right, bool _guard)
         {
             left = _left;
             right = _right->get_name();
+            guard = _guard;
             frag.begin = _left->get_fragment().begin;
             frag.end = _right->get_fragment().end;
         }

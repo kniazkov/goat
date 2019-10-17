@@ -38,6 +38,8 @@ namespace g0at
             void op_bool(thread *thr) override;
             void op_and(thread *thr) override;
             void op_or(thread *thr) override;
+            void op_eq(thread *thr) override;
+            void op_neq(thread *thr) override;
             void m_iterator(thread *thr, int arg_count) override;
 
         public:

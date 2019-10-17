@@ -180,6 +180,7 @@ namespace g0at
         class statement_debug;
         class protect;
         class protection;
+        class question_with_dot;
 
         class token_visitor
         {
@@ -340,6 +341,7 @@ namespace g0at
             virtual void visit(statement_debug *ref);
             virtual void visit(protect *ref);
             virtual void visit(protection *ref);
+            virtual void visit(question_with_dot *ref);
          };
     };
 };

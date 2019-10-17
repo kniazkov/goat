@@ -332,7 +332,7 @@ namespace g0at
             expression_builder left_visitor;
             ref->get_left()->accept(&left_visitor);
             assert(left_visitor.has_expr());
-            expr = new pt::property(ref->get_fragment(), left_visitor.get_expr(), ref->get_right());
+            expr = new pt::property(ref->get_fragment(), left_visitor.get_expr(), ref->get_right(), ref->guarded());
         }
 
         void expression_builder::visit(ast::value_true *ref)

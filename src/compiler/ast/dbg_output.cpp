@@ -432,7 +432,7 @@ namespace g0at
 
         void dbg_output::visit(property *ref)
         {
-            print(L"property", ref->get_name());
+            print(ref->guarded()? L"guarded property" : L"property", ref->get_name());
             dbg_output child(data);
             ref->get_left()->accept(&child);
             link_child(child);
@@ -1237,6 +1237,11 @@ namespace g0at
             dbg_output right(data);
             ref->get_right()->accept(&right);
             link_child(right);
+        }
+
+        void dbg_output::visit(question_with_dot *ref)
+        {
+            print(L"question with dot", L"?.");
         }
     };
 };

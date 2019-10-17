@@ -398,9 +398,30 @@ namespace g0at
 
         void generator::visit(pt::property *ref)
         {
-            ref->get_left()->accept(this);
-            int id = name_cache->get_id(ref->get_name());
-            code->add_instruction(new _read(id));
+            if (ref->guarded())
+            {
+                ref->get_left()->accept(this);
+                code->add_instruction(new _dup());
+                code->add_instruction(new _void());
+                code->add_instruction(new _swap());
+                code->add_instruction(new _eq());
+                code::_if *if_void = new code::_if(iid_unknown());
+                code->add_instruction(if_void);
+                int id = name_cache->get_id(ref->get_name());
+                code->add_instruction(new _read(id));
+                code::_jmp *jmp_end = new _jmp(iid_unknown());
+                code->add_instruction(jmp_end);
+                if_void->get_iid_ptr().set(code->get_current_iid());
+                code->add_instruction(new _pop());
+                code->add_instruction(new _undef());
+                jmp_end->get_iid_ptr().set(code->get_current_iid());
+            }
+            else
+            {
+                ref->get_left()->accept(this);
+                int id = name_cache->get_id(ref->get_name());
+                code->add_instruction(new _read(id));
+            }
         }
 
         void generator::visit(pt::value_true *ref)

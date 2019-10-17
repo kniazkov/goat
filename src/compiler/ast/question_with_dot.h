@@ -22,29 +22,17 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "expression.h"
-#include <string>
+#include "token.h"
 
 namespace g0at
 {
-    namespace pt
+    namespace ast
     {
-        class property : public expression
+        class question_with_dot : public token
         {
         public:
-            property(fragment _frag, lib::pointer<expression> _left, std::wstring _right, bool _guard);
-            void accept(node_visitor *visitor) override;
-            property *to_property() override;
-
-            lib::pointer<expression> get_left() { return left; }
-            std::wstring get_right() { return right; }
-            std::wstring get_name() { return right; }
-            bool guarded() { return guard; }
-
-        protected:
-            lib::pointer<expression> left;
-            std::wstring right;
-            bool guard;
+            void accept(token_visitor *visitor) override;
+            question_with_dot *to_question_with_dot() override;
         };
     };
 };

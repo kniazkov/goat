@@ -1,9 +1,23 @@
-try
+var test = $()
 {
-    File.Mode.WRITE = "READ";
-}
-catch (e)
-{
-    if (e.instanceof(Exception.IllegalOperation))
-        println("ok.");
-}
+    println(some || 0);
+    println(some?.object || 1);
+    println(some?.object?.that || 2);
+    println(some?.object?.that?.might || 3);
+    println(some?.object?.that?.might?.not || 4);
+    println(some?.object?.that?.might?.not?.exist || 5);
+};
+
+test();
+var some = { };
+test();
+some.object = { };
+test();
+some.object.that = { };
+test();
+some.object.that.might = { };
+test();
+some.object.that.might.not = { };
+test();
+some.object.that.might.not.exist = 13;
+test();

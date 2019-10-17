@@ -78,6 +78,38 @@ namespace g0at
             thr->pop();
         }
 
+        void object_undefined::op_eq(thread *thr)
+        {
+            thr->pop();
+            variable right = thr->pop();
+            bool ret_val = false;
+            object *obj = right.get_object();
+            if (obj)
+            {
+                if (obj->to_object_undefined() != nullptr || obj->to_object_void() != nullptr)
+                    ret_val = true;
+            }
+            variable result;
+            result.set_boolean(ret_val);            
+            thr->push(result);
+        }
+
+        void object_undefined::op_neq(thread *thr)
+        {
+            thr->pop();
+            variable right = thr->pop();
+            bool ret_val = true;
+            object *obj = right.get_object();
+            if (obj)
+            {
+                if (obj->to_object_undefined() != nullptr || obj->to_object_void() != nullptr)
+                    ret_val = false;
+            }
+            variable result;
+            result.set_boolean(ret_val);            
+            thr->push(result);
+        }
+
         void object_undefined::m_iterator(thread *thr, int arg_count)
         {
             thr->pop();
