@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_real.h"
 #include "object_string.h"
 #include "object_function_built_in.h"
+#include "object_exception.h"
 #include "thread.h"
 #include "resource/strings.h"
 #include "lib/functional.h"
@@ -296,7 +297,7 @@ namespace g0at
                 bool right_is_real = right.get_real(&right_value);
                 if (!right_is_real)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
                 variable result;

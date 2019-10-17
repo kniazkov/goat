@@ -35,11 +35,12 @@ namespace g0at
                 IllegalArgument
                 IllegalContext
                 IllegalOperation
-                IllegalReference
-                    OperatorNotFound
-                IllegalType
-                    IsNotAFunction
-                    IsNotAMethod
+                    DivisionByZero
+                    IllegalReference
+                    IllegalType
+                        IsNotAFunction
+                        IsNotAMethod
+                        OperatorNotFound
         */
 
         class object_exception : public object
@@ -61,10 +62,18 @@ namespace g0at
             void init(object_pool *pool);
         };
 
-        class object_exception_illegal_argument : public object_exception
+        class object_exception_illegal_argument_proto : public object
         {
         friend class object_pool;
         protected:
+            object_exception_illegal_argument_proto(object_pool *pool);
+            std::wstring to_string() const override;
+            void init(object_pool *pool);
+        };
+
+        class object_exception_illegal_argument : public object
+        {
+        public:
             object_exception_illegal_argument(object_pool *pool);
             std::wstring to_string() const override;
         };

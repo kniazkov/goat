@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_array.h"
 #include "object_byte_array.h"
 #include "operator_wrapper.h"
+#include "object_exception.h"
 #include "thread.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
@@ -231,7 +232,7 @@ namespace g0at
         {
             if (arg_count < 1)
             {
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 return;
             }
             variable index = thr->peek(1);
@@ -259,7 +260,7 @@ namespace g0at
         {
             if (arg_count < 1)
             {
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 return;
             }
             variable index = thr->peek(1);
@@ -396,7 +397,7 @@ namespace g0at
                         }
                     }
                 }
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 return false;
             }
         };
@@ -413,7 +414,7 @@ namespace g0at
             {
                 if (arg_count < 1)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return false;
                 }
 
@@ -468,7 +469,7 @@ namespace g0at
                     }
                 }
 
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 return false;
             }
         };
@@ -485,14 +486,14 @@ namespace g0at
             {
                 if (arg_count < 1)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return false;
                 }
 
                 int64_t begin;
                 if (!thr->peek(0).get_integer(&begin) || begin > INT32_MAX)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return false;
                 }
                 std::wstring value = this_ptr->get_data();
@@ -505,7 +506,7 @@ namespace g0at
                 {
                     if (!thr->peek(1).get_integer(&count) || count > INT32_MAX)
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                         return false;
                     }
                     if (count > size - begin) count = size - begin;
@@ -546,7 +547,7 @@ namespace g0at
                     thr->push(result);
                     return;
                 }
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
             }
         };
 

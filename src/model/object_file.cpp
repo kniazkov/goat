@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_string.h"
 #include "object_function_built_in.h"
 #include "object_byte_array.h"
+#include "object_exception.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
 #include "resource/strings.h"
@@ -112,14 +113,14 @@ namespace g0at
                 {
                     if (arg_count < 1)
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                         return false;
                     }
                     variable &count = thr->peek();
                     int64_t count_int64;
                     if (!count.get_integer(&count_int64) || count_int64 > INT32_MAX)
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                         return false;
                     }
                     if (count_int64 <= 0)
@@ -174,14 +175,14 @@ namespace g0at
                 {
                     if (arg_count < 1)
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                         return false;
                     }
                     variable &position = thr->peek(0);                    
                     int64_t position_int64;
                     if (!position.get_integer(&position_int64) || position_int64 < 0)
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                         return false;
                     }
                     bool has_origin; 
@@ -222,7 +223,7 @@ namespace g0at
                     }
                     if (!has_origin)
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                         return false;
                     }
                     int seek_result = std::fseek(stream, position_int64, origin);

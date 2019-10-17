@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object_function_built_in.h"
+#include "object_exception.h"
 
 namespace g0at
 {
@@ -277,7 +278,7 @@ namespace g0at
                 }
                 if (arg_count != 0)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
                 object *this_ptr = thr->peek().get_object();
@@ -302,7 +303,7 @@ namespace g0at
                 }
                 if (arg_count != 1)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
                 object *this_ptr = thr->peek().get_object();
@@ -336,7 +337,7 @@ namespace g0at
                 }
                 else
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 }
             }
         };

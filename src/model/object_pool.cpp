@@ -73,7 +73,7 @@ namespace g0at
             string_builder_proto_instance = nullptr;
             byte_array_proto_instance = nullptr;
             file_proto_instance = nullptr;
-            exception_illegal_argument_instance = nullptr;
+            exception_illegal_argument_proto_instance = nullptr;
             exception_illegal_context_instance = nullptr;
             exception_illegal_reference_instance = nullptr;
             exception_illegal_type_instance = nullptr;
@@ -205,7 +205,11 @@ namespace g0at
             void_object->init(this);
             undefined_object->init(this);
             null_object->init(this);
-            exception_illegal_argument_instance = new object_exception_illegal_argument(this);
+            string_builder_proto->init(this);
+            byte_array_proto->init(this);
+            file_proto->init(this);
+            auto exception_illegal_argument_proto = new object_exception_illegal_argument_proto(this);
+            exception_illegal_argument_proto_instance = exception_illegal_argument_proto;
             exception_illegal_context_instance = new object_exception_illegal_context(this);
             exception_illegal_operation_instance = new object_exception_illegal_operation(this);
             auto exception_illegal_reference = new object_exception_illegal_reference(this);
@@ -216,9 +220,7 @@ namespace g0at
             exception_is_not_a_function_proto_instance = new object_exception_is_not_a_function_proto(this);
             exception_is_not_a_method_proto_instance = new object_exception_is_not_a_method_proto(this);
             exception_proto->init(this);
-            string_builder_proto->init(this);
-            byte_array_proto->init(this);
-            file_proto->init(this);
+            exception_illegal_argument_proto->init(this);
             exception_illegal_reference->init(this);
             exception_illegal_type->init(this);
         }

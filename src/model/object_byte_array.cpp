@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_byte_array.h"
 #include "object_string.h"
 #include "object_function_built_in.h"
+#include "object_exception.h"
 #include "thread.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
@@ -132,7 +133,7 @@ namespace g0at
         {
             if (arg_count < 1)
             {
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 return;
             }
             variable index = thr->peek(1);
@@ -160,7 +161,7 @@ namespace g0at
         {
             if (arg_count < 1)
             {
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
             }
             else if (arg_count < 2)
             {
@@ -169,7 +170,7 @@ namespace g0at
                 uint8_t byte;
                 if (!value.get_byte(&byte))
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
                 vector.push_back(byte);
@@ -186,7 +187,7 @@ namespace g0at
                     uint8_t byte;
                     if (!value.get_byte(&byte))
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                         return;
                     }
                     thr->pop(arg_count);
@@ -207,7 +208,7 @@ namespace g0at
                         thr->push(value);
                         return;
                     }
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 }
                 else
                 {
@@ -294,7 +295,7 @@ namespace g0at
                     uint8_t byte;
                     if (!value.get_byte(&byte))
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                         return false;
                     }
                     this_ptr->add_byte(byte);
@@ -340,7 +341,7 @@ namespace g0at
                         }
                     }
                 }
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 return false;
             }
         };
@@ -367,7 +368,7 @@ namespace g0at
                 uint8_t byte;
                 if (!arg.get_byte(&byte))
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
                 obj->add_byte(byte);

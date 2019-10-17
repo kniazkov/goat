@@ -69,7 +69,7 @@ namespace g0at
 
         void object_exception_proto::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(L"IllegalArgument"), pool->get_exception_illegal_argument_instance());
+            add_object(pool->get_static_string(L"IllegalArgument"), pool->get_exception_illegal_argument_proto_instance());
             add_object(pool->get_static_string(L"IllegalContext"), pool->get_exception_illegal_context_instance());
             add_object(pool->get_static_string(L"IllegalOperation"), pool->get_exception_illegal_operation_instance());
             add_object(pool->get_static_string(L"IllegalReference"), pool->get_exception_illegal_reference_instance());
@@ -80,8 +80,23 @@ namespace g0at
         /*
             IllegalArgument
         */
+        object_exception_illegal_argument_proto::object_exception_illegal_argument_proto(object_pool *pool)
+            : object(pool, pool->get_exception_proto_instance())
+        {
+        }
+
+        std::wstring object_exception_illegal_argument_proto::to_string() const
+        {
+            return global::resource->illegal_argument();
+        }
+
+        void object_exception_illegal_argument_proto::init(object_pool *pool)
+        {
+            lock();
+        }
+
         object_exception_illegal_argument::object_exception_illegal_argument(object_pool *pool)
-            : object_exception(pool)
+            : object(pool, pool->get_exception_illegal_argument_proto_instance())
         {
         }
 
@@ -131,7 +146,6 @@ namespace g0at
 
         void object_exception_illegal_reference::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(L"OperatorNotFound"), pool->get_exception_operator_not_found_proto_instance());
             lock();
         }
 
@@ -152,6 +166,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(L"IsNotAFunction"), pool->get_exception_is_not_a_function_proto_instance());
             add_object(pool->get_static_string(L"IsNotAMethod"), pool->get_exception_is_not_a_method_proto_instance());
+            add_object(pool->get_static_string(L"OperatorNotFound"), pool->get_exception_operator_not_found_proto_instance());
             lock();
         }
 
@@ -159,13 +174,13 @@ namespace g0at
             OperatorNotFound
         */
         object_exception_operator_not_found_proto::object_exception_operator_not_found_proto(object_pool *pool)
-            : object(pool, pool->get_exception_illegal_reference_instance())
+            : object(pool, pool->get_exception_illegal_type_instance())
         {
         }
 
         std::wstring object_exception_operator_not_found_proto::to_string() const
         {
-            return global::resource->illegal_reference();
+            return global::resource->illegal_type();
         }
 
         object_exception_operator_not_found::object_exception_operator_not_found(object_pool *pool, std::wstring _oper)

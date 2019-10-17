@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_function_built_in.h"
 #include "object_string.h"
 #include "object_array.h"
+#include "object_exception.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -98,7 +99,7 @@ namespace g0at
                     this_ptr_func->call(thr, arg_count - 1, call_mode::as_method);
                     return;
                 }
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
             }
         };
 
@@ -151,7 +152,7 @@ namespace g0at
                     object_array *array_args = args ? args->to_object_array() : nullptr;
                     if (!array_args)
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                         return;
                     }
 
@@ -165,7 +166,7 @@ namespace g0at
                     this_ptr_func->call(thr, length, call_mode::as_method);
                     return;
                 }
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
             }
         };
 

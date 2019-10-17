@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_array.h"
 #include "object_string.h"
 #include "object_function_built_in.h"
+#include "object_exception.h"
 #include "thread.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
@@ -172,7 +173,7 @@ namespace g0at
         {
             if (arg_count < 1)
             {
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 return;
             }
             variable index = thr->peek(1);
@@ -196,7 +197,7 @@ namespace g0at
         {
             if (arg_count < 1)
             {
-                thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 return;
             }
             if (arg_count < 2)
@@ -233,7 +234,7 @@ namespace g0at
                         thr->push(value);
                         return;
                     }
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 }
                 else
                 {
@@ -341,7 +342,7 @@ namespace g0at
                 }
                 if (arg_count < 1)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
                 object *this_ptr = thr->pop().get_object();

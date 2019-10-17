@@ -110,7 +110,7 @@ namespace g0at
             object *get_byte_array_proto_instance() { return byte_array_proto_instance; }
             object *get_file_proto_instance() { return file_proto_instance; }
 
-            object *get_exception_illegal_argument_instance() { return exception_illegal_argument_instance; }
+            object *get_exception_illegal_argument_proto_instance() { return exception_illegal_argument_proto_instance; }
             object *get_exception_illegal_context_instance() { return exception_illegal_context_instance; }
             object *get_exception_illegal_operation_instance() { return exception_illegal_operation_instance; }
             object *get_exception_illegal_reference_instance() { return exception_illegal_reference_instance; }
@@ -210,7 +210,7 @@ namespace g0at
             object *byte_array_proto_instance;
             object *file_proto_instance;
 
-            object *exception_illegal_argument_instance;
+            object *exception_illegal_argument_proto_instance;
             object *exception_illegal_context_instance;
             object *exception_illegal_operation_instance;
             object *exception_illegal_reference_instance;

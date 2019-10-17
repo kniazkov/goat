@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "context_factory.h"
 #include "model/object_function_built_in.h"
+#include "model/object_exception.h"
 #include "global/global.h"
 #include <iostream>
 
@@ -68,7 +69,7 @@ namespace g0at
                             return;
                         }
                     }
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 }
             };
 

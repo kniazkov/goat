@@ -12,7 +12,7 @@ var test = $(a, b)
     }
     catch(err)
     {
-        if (err.instanceof(Exception.IllegalReference.OperatorNotFound))
+        if (err.instanceof(Exception.IllegalType.OperatorNotFound))
             println("fail but ok: " + a + " ** " + b);
         else
             println("exception: " + err);

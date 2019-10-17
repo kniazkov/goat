@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_pool.h"
 #include "object_string.h"
 #include "object_function_built_in.h"
+#include "object_exception.h"
 #include "lib/assert.h"
 #include "resource/strings.h"
 
@@ -72,7 +73,7 @@ namespace g0at
             {
                 if (arg_count < 1)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
                 if (mode != call_mode::as_method)
@@ -130,7 +131,7 @@ namespace g0at
             {
                 if (arg_count < 1)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
                 if (mode != call_mode::as_method)
@@ -162,7 +163,7 @@ namespace g0at
             {
                 if (arg_count < 2)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
                 if (mode != call_mode::as_method)
@@ -257,7 +258,7 @@ namespace g0at
             {
                 if (arg_count < 1)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
                 if (mode != call_mode::as_method)
@@ -274,7 +275,7 @@ namespace g0at
                     variable deep_search_arg = thr->peek(1);
                     if (!deep_search_arg.get_boolean(&deep_search))
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     }
                 }
                 thr->pop(arg_count);
@@ -343,7 +344,7 @@ namespace g0at
             {
                 if (arg_count < 1)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
                 if (mode != call_mode::as_method)
@@ -370,7 +371,7 @@ namespace g0at
             {
                 if (arg_count < 1)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
                 if (mode != call_mode::as_method)

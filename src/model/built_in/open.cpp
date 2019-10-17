@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "model/object_function_built_in.h"
 #include "model/object_string.h"
 #include "model/object_file.h"
+#include "model/object_exception.h"
 #include "resource/strings.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
@@ -129,7 +130,7 @@ namespace g0at
                             } // arg_fname_obj
                         } // access_mode != file_access_mode::invalid
                     } // arg_count > 0
-                    thr->raise_exception(thr->pool->get_exception_illegal_argument_instance());
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                 }
             };
 
