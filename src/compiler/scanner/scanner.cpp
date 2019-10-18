@@ -415,9 +415,12 @@ namespace g0at
             } while(is_digit(c));
             if (c != L'.')
                 return new ast::integer(int_val);
+            wchar_t c_1 = src->get_char(1);
+            if (is_letter(c_1)) // example: 1.instanceof()
+                return new ast::integer(int_val); 
             c = src->next();
-            //if (!is_digit(c))
-            //    return new ast::integer(int_val);
+            if (!is_digit(c))
+                return new ast::integer(int_val);
             int64_t fract_val = 0;
             int64_t divisor = 1;
             do

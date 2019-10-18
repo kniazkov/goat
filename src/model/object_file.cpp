@@ -328,5 +328,10 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_close), new object_file_close(pool));
             lock();
         }
+
+        void object_file_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->raise_exception(new object_exception_illegal_operation(thr->pool));
+        }
     };
 };

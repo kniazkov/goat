@@ -1,4 +1,50 @@
 println(new String("test"));
-println(new String(123));
+println(new String(7));
+println("");
+
+println(new Real(11));
+println(new Real(13.1));
+println(new Real());
+println(new Real(true));
+println(new Real(false));
+println(new Real('a'));
+println(new Real("6553.6"));
+println(new Real("6553,6"));
+println(new Real("  -6553.6     "));
+println(new Real(".1"));
+println(new Real(" 123 a "));
+println(new Real("abcde"));
+println("");
+
+println(new Number(11));
+println(new Number(13.1));
+println(new Number());
+println(new Number(true));
+println(new Number(false));
+println(new Number('a'));
+println(new Number(" 1234 "));
+println(new Number(" -1234 "));
+println(new Number("6553.6"));
+println(new Number("6553,6"));
+println(new Number("  -6553.6     "));
+println(new Number(".1"));
+println(new Number(" 123 a "));
+println(new Number("abcde"));
+println("");
+
+println(new Integer(11));
+println(new Integer(13.1));
+println(new Integer());
+println(new Integer(true));
+println(new Integer(false));
+println(new Integer('a'));
+println(new Integer(" 1234 "));
+println(new Integer(" -1234 "));
+println(new Integer("6553.6"));
+println(new Integer(" 123 a "));
+println(new Integer("abcde"));
+println("");
+
 println(new Void());
 println(new Undefined());
+println(new Null());

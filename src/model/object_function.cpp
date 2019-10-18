@@ -181,5 +181,10 @@ namespace g0at
             add_object(pool->get_static_string(L"apply"), new object_function_apply(pool));
             lock();
         }
+
+        void object_function_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->raise_exception(new object_exception_illegal_operation(thr->pool));
+        }
     };
 };

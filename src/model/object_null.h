@@ -35,17 +35,18 @@ namespace g0at
             object_null(object_pool *pool);
             void init(object_pool *pool);
             bool is_void() override;
+
+        public:
+            object_null *to_object_null() override;
+            std::wstring to_string() const override;
             void op_not(thread *thr) override;
             void op_bool(thread *thr) override;
             void op_and(thread *thr) override;
             void op_or(thread *thr) override;
             void op_eq(thread *thr) override;
             void op_neq(thread *thr) override;
+            void op_new(thread *thr, int arg_count) override;
             void m_iterator(thread *thr, int arg_count) override;
-
-        public:
-            object_null *to_object_null() override;
-            std::wstring to_string() const override;
         };
     };
 };

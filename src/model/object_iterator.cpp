@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_iterator.h"
 #include "object_string.h"
 #include "object_function_built_in.h"
+#include "object_exception.h"
 #include "global/global.h"
 
 namespace g0at
@@ -75,6 +76,11 @@ namespace g0at
             add_object(pool->get_static_string(L"valid"), new object_iterator_valid(pool));
             add_object(pool->get_static_string(L"next"), new object_iterator_next(pool));
             lock();
+        }
+
+        void object_iterator_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->raise_exception(new object_exception_illegal_operation(thr->pool));
         }
     };
 };

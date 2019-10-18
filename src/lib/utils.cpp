@@ -128,6 +128,133 @@ namespace g0at
             return result;
         }
 
+        bool wstring_to_double(std::wstring wstr, double *result)
+        {
+            size_t i = 0,
+                size = wstr.size();
+            
+            while(i < size && wstr[i] == L' ')
+                i++;
+
+            if (i == size)
+                return false;
+            
+            int64_t int_val = 0;
+            double sign = 1;
+
+            if (wstr[i] == '-')
+            {
+                sign = -1;
+                i++;
+                if (i == size)
+                    return false;
+            }
+
+            while(i < size && wstr[i] >= L'0' && wstr[i] <= L'9')
+            {
+                int_val = int_val * 10 + wstr[i] - L'0';
+                i++;
+            };
+
+            if (i == size)
+            {
+                *result = (double)int_val * sign;
+                return true;
+            }
+
+            if (wstr[i] == L'.' || wstr[i] == L',')
+            {
+                i++;
+                int64_t fract_val = 0;
+                int64_t divisor = 1;
+                while(i < size && wstr[i] >= L'0' && wstr[i] <= L'9')
+                {
+                    fract_val = fract_val * 10 + wstr[i] - L'0';
+                    divisor *= 10;
+                    i++;
+                }
+                *result = ((double)int_val + (double)fract_val / (double)divisor) * sign;
+            }
+
+            while(i < size)
+            {
+                if (wstr[i] != ' ')
+                    return false;
+                i++;
+            }
+
+            return true;
+        }
+
+        bool wstring_to_int64(std::wstring wstr, int64_t *result, int radix)
+        {
+            size_t i = 0,
+                size = wstr.size();
+            
+            while(i < size && wstr[i] == L' ')
+                i++;
+
+            if (i == size)
+                return false;
+            
+            int64_t value = 0;
+            int64_t sign = 1;
+
+            if (wstr[i] == '-')
+            {
+                sign = -1;
+                i++;
+                if (i == size)
+                    return false;
+            }
+
+            if (radix == 10)
+            {
+                while(i < size && wstr[i] >= L'0' && wstr[i] <= L'9')
+                {
+                    value = value * 10 + wstr[i] - L'0';
+                    i++;
+                }
+            }
+            else if (radix == 2)
+            {
+                while(i < size && (wstr[i] == L'0' || wstr[i] == L'1'))
+                {
+                    value = value * 2 + (wstr[i] == '0' ? 0 : 1);
+                    i++;
+                }
+            }
+            else if (radix == 16)
+            {
+                while(i < size &&
+                    ((wstr[i] >= L'0' && wstr[i] <= L'9') || (wstr[i] >= L'a' && wstr[i] <= L'f') || (wstr[i] >= L'A' && wstr[i] <= L'F'))) 
+                {
+                    if (wstr[i] <= L'9')
+                        value = value * 16 + wstr[i] - L'0';
+                    else if (wstr[i] <= L'a')
+                        value = value * 16 + wstr[i] - L'a' + 10;
+                    else
+                        value = value * 16 + wstr[i] - L'A' + 10;
+                    i++;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+            *result = value * sign;
+
+            while(i < size)
+            {
+                if (wstr[i] != ' ')
+                    return false;
+                i++;
+            }
+
+            return true;
+        }
+
         std::wstring escape_special_chars(std::wstring src)
         {
             return escape_special_chars(src.c_str(), src.length());

@@ -21,11 +21,62 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object_number.h"
+#include "object_string.h"
+#include "thread.h"
+#include "lib/utils.h"
 
 namespace g0at
 {
     namespace model
     {
+        static bool convert_to_number(variable &var, variable *result)
+        {
+            int64_t int_value;
+            if (var.get_integer(&int_value))
+            {
+                result->set_integer(int_value);
+                return true;
+            }
+            double real_value;
+            if (var.get_real(&real_value))
+            {
+                result->set_real(real_value);
+                return true;
+            }
+            bool boolean_value;
+            if (var.get_boolean(&boolean_value))
+            {
+                result->set_integer(boolean_value ? 1 : 0);
+                return true;
+            }
+            wchar_t char_value;
+            if (var.get_char(&char_value))
+            {
+                result->set_integer(char_value);
+                return true;
+            }
+            object *obj = var.get_object();
+            if (obj)
+            {
+                object_string *obj_string = obj->to_object_string();
+                if (obj_string)
+                {
+                    std::wstring string_value = obj_string->get_data();
+                    if (lib::wstring_to_int64(string_value, &int_value, 10))
+                    {
+                        result->set_integer(int_value);
+                        return true;
+                    }
+                    if (lib::wstring_to_double(string_value, &real_value))
+                    {
+                        result->set_real(real_value);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         /* 
             Prototype
         */
@@ -37,6 +88,25 @@ namespace g0at
         void object_number_proto::init(object_pool *pool)
         {
             lock();
+        }
+
+        void object_number_proto::op_new(thread *thr, int arg_count)
+        {
+            variable result;
+            if (arg_count > 0)
+            {
+                variable arg = thr->peek();
+                thr->pop(arg_count);
+                if (!convert_to_number(arg, &result))
+                {
+                    result.set_object(thr->pool->get_null_instance());
+                }
+            }
+            else
+            {
+                result.set_integer(0);
+            }
+            thr->push(result);
         }
     };
 };
