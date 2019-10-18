@@ -74,7 +74,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_IllegalContext), pool->get_exception_illegal_context_proto_instance());
             add_object(pool->get_static_string(resource::str_IllegalOperation), pool->get_exception_illegal_operation_proto_instance());
             add_object(pool->get_static_string(resource::str_IllegalReference), pool->get_exception_illegal_reference_proto_instance());
-            add_object(pool->get_static_string(L"IllegalType"), pool->get_exception_illegal_type_instance());
+            add_object(pool->get_static_string(resource::str_IllegalType), pool->get_exception_illegal_type_proto_instance());
             lock();
         }
 
@@ -151,6 +151,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_DivisionByZero), pool->get_exception_division_by_zero_proto_instance());
             add_object(pool->get_static_string(resource::str_IllegalReference), pool->get_exception_illegal_reference_proto_instance());
+            add_object(pool->get_static_string(resource::str_IllegalType), pool->get_exception_illegal_type_proto_instance());
             lock();
         }
 
@@ -223,17 +224,17 @@ namespace g0at
         /*
             IllegalType
         */
-        object_exception_illegal_type::object_exception_illegal_type(object_pool *pool)
-            : object_exception(pool)
+        object_exception_illegal_type_proto::object_exception_illegal_type_proto(object_pool *pool)
+            : object(pool, pool->get_exception_illegal_operation_proto_instance())
         {
         }
 
-        std::wstring object_exception_illegal_type::to_string() const
+        std::wstring object_exception_illegal_type_proto::to_string() const
         {
             return global::resource->illegal_type();
         }
 
-        void object_exception_illegal_type::init(object_pool *pool)
+        void object_exception_illegal_type_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(L"IsNotAFunction"), pool->get_exception_is_not_a_function_proto_instance());
             add_object(pool->get_static_string(L"IsNotAMethod"), pool->get_exception_is_not_a_method_proto_instance());
@@ -241,11 +242,21 @@ namespace g0at
             lock();
         }
 
+        object_exception_illegal_type::object_exception_illegal_type(object_pool *pool)
+            : object(pool, pool->get_exception_illegal_type_proto_instance())
+        {
+        }
+
+        std::wstring object_exception_illegal_type::to_string() const
+        {
+            return global::resource->illegal_reference();
+        }
+
         /*
             OperatorNotFound
         */
         object_exception_operator_not_found_proto::object_exception_operator_not_found_proto(object_pool *pool)
-            : object(pool, pool->get_exception_illegal_type_instance())
+            : object(pool, pool->get_exception_illegal_type_proto_instance())
         {
         }
 
@@ -268,7 +279,7 @@ namespace g0at
             IsNotAFunction
         */
         object_exception_is_not_a_function_proto::object_exception_is_not_a_function_proto(object_pool *pool)
-            : object(pool, pool->get_exception_illegal_type_instance())
+            : object(pool, pool->get_exception_illegal_type_proto_instance())
         {
         }
 
@@ -291,7 +302,7 @@ namespace g0at
             IsNotAMethod
         */
         object_exception_is_not_a_method_proto::object_exception_is_not_a_method_proto(object_pool *pool)
-            : object(pool, pool->get_exception_illegal_type_instance())
+            : object(pool, pool->get_exception_illegal_type_proto_instance())
         {
         }
 

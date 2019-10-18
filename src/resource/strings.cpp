@@ -99,6 +99,7 @@ namespace g0at
         std::wstring str_IllegalOperation = L"IllegalOperation";
         std::wstring str_DivisionByZero = L"DivisionByZero";
         std::wstring str_IllegalReference = L"IllegalReference";
+        std::wstring str_IllegalType = L"IllegalType";
 
         std::wstring str_READ = L"READ";
         std::wstring str_WRITE = L"WRITE";
