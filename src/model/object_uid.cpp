@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_uid.h"
 #include "object_function_built_in.h"
+#include "object_exception.h"
 #include "thread.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
@@ -139,6 +140,11 @@ namespace g0at
         void object_uid_proto::init(object_pool *pool)
         {
             lock();
+        }
+
+        void object_uid_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->raise_exception(new object_exception_illegal_operation(thr->pool));
         }
     };
 };

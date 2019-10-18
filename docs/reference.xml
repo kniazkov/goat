@@ -1551,7 +1551,7 @@
 					<a name="object" type="any type" descr="an object"/>
 					<e><![CDATA[
 						var i = 256 * 256;
-						var s = String.valueOf(i); // "65536" ]]>
+						var s = String.valueof(i); // "65536" ]]>
 					</e>
 					<n>This is the static method, i.e. meant to be relevant to all the instances of a class rather than to any specific instance.</n>
 				</m>
@@ -1620,11 +1620,11 @@
 				<c>var c = '\'';</c>
 			</s>
 			<s name="Char methods">
-				<m name="valueOf" descr="Static method. Converts object to a char.">
+				<m name="valueof" descr="Static method. Converts object to a char.">
 					<a name="object" type="any type" descr="an object"/>
 					<e><![CDATA[
 						var i = 65;
-						var c = Char.valueOf(i); // 'A' ]]>
+						var c = Char.valueof(i); // 'A' ]]>
 					</e>
 					<n>If the object is an integer, returns a Char containing the character associated with the specified character code. Else, if the object is a char, just returns this object. Else, if the object is not an integer and is not a char, returns <c>\0</c> (char with zero value).</n>
 				</m>
@@ -1984,7 +1984,7 @@
 				<c><![CDATA[
 					var s = "1024";
 					var i = 256 * 4;
-					if (String.valueOf(i) == s)
+					if (String.valueof(i) == s)
 					{
 						// do something
 					}]]>

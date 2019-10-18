@@ -226,6 +226,7 @@ namespace g0at
             bool add_object(object *key_value) { return add_object(key_value, key_value); }
             variable *find_object(object *key);
             variable *find_own_object(object *key);
+            object_function *find_own_method(object_string *key);
             void find_own_and_call_if_exists(thread *thr, int arg_count, object_string *key, call_mode mode);
             bool find_and_vcall(thread *thr, int arg_count, std::wstring name);
             void for_each_proto(std::function<void(object*)> callback);

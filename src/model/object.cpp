@@ -350,7 +350,7 @@ namespace g0at
             return nullptr;
         }
 
-        void object::find_own_and_call_if_exists(thread *thr, int arg_count, object_string *key, call_mode mode)
+        object_function *object::find_own_method(object_string *key)
         {
             variable *var = find_own_object(key);
             if (var)
@@ -361,9 +361,19 @@ namespace g0at
                     object_function *func = obj->to_object_function();
                     if (func)
                     {
-                        func->call(thr, arg_count, mode);
+                        return func;
                     }
                 }
+            }
+            return nullptr;
+        }
+
+        void object::find_own_and_call_if_exists(thread *thr, int arg_count, object_string *key, call_mode mode)
+        {
+            object_function *func = find_own_method(key);
+            if (func)
+            {
+                func->call(thr, arg_count, mode);
             }
         }
 
@@ -430,13 +440,21 @@ namespace g0at
         void object::op_new(thread *thr, int arg_count)
         {
             model::object *new_object = new model::object(thr->pool, this);
-
             model::variable var;
             var.set_object(new_object);
-            thr->push(var);
 
             model::object_string *key = thr->pool->get_static_string(resource::str_init);
-            find_own_and_call_if_exists(thr, arg_count, key, model::call_mode::as_constructor);
+            object_function *init_method = find_own_method(key);
+            if (nullptr == init_method)
+            {
+                thr->pop(arg_count);
+                thr->push(var);
+            }
+            else
+            {
+                thr->push(var);
+                init_method->call(thr, arg_count, model::call_mode::as_constructor);
+            }
             for_each_proto([thr, key](model::object *proto_proto_object)
             {
                 proto_proto_object->find_own_and_call_if_exists(thr, 0, key, model::call_mode::as_constructor);

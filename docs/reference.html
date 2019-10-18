@@ -3841,7 +3841,7 @@
             var i = 256 * 256;
             <br/>
             
-            var s = String.valueOf(i); // &quot;65536&quot; 
+            var s = String.valueof(i); // &quot;65536&quot; 
           </div>
           <div class="para">This is the static method, i.e. meant to be relevant to all the instances of a class rather than to any specific instance.</div>
         </div>
@@ -3987,7 +3987,7 @@
         <a name="ref_89"> </a>
         <div style="font-size: large;" class="header">4.15.3. Char methods</div>
         <div class="section">
-          <div class="header">valueOf ( object )</div>
+          <div class="header">valueof ( object )</div>
           <div class="para">Static method. Converts object to a char.</div>
           <div class="para">Parameter:</div>
           <ul>
@@ -3999,7 +3999,7 @@
             var i = 65;
             <br/>
             
-            var c = Char.valueOf(i); // &apos;A&apos; 
+            var c = Char.valueof(i); // &apos;A&apos; 
           </div>
           <div class="para">
             If the object is an integer, returns a Char containing the character associated with the specified character code. Else, if the object is a char, just returns this object. Else, if the object is not an integer and is not a char, returns 
@@ -4919,7 +4919,7 @@
             var i = 256 * 4;
             <br/>
             
-            if (String.valueOf(i) == s)
+            if (String.valueof(i) == s)
             <br/>
             
             {

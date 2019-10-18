@@ -244,5 +244,10 @@ namespace g0at
             add_object(pool->get_static_string(L"resume"), new object_runner_resume(pool));
             lock();
         }
+
+        void object_runner_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->raise_exception(new object_exception_illegal_operation(thr->pool));
+        }
     };
 };

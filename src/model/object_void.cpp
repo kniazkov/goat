@@ -88,6 +88,14 @@ namespace g0at
             thr->pop();
         }
 
+        void object_void::op_new(thread *thr, int arg_count)
+        {
+            thr->pop(arg_count);
+            variable result;
+            result.set_object(this);
+            thr->push(result);
+        }
+
         void object_void::m_iterator(thread *thr, int arg_count)
         {
             thr->pop();

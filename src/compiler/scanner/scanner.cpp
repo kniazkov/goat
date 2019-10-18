@@ -416,8 +416,8 @@ namespace g0at
             if (c != L'.')
                 return new ast::integer(int_val);
             c = src->next();
-            if (!is_digit(c))
-                return new ast::integer(int_val);
+            //if (!is_digit(c))
+            //    return new ast::integer(int_val);
             int64_t fract_val = 0;
             int64_t divisor = 1;
             do

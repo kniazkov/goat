@@ -518,7 +518,7 @@ namespace g0at
                 }
                 
                 if (count == 0)
-                    result->set_object(thr->pool->get_static_string(resource::empty_string));
+                    result->set_object(thr->pool->create_object_string(resource::empty_string));
                 else
                     result->set_object(thr->pool->create_object_string(value.substr((size_t)begin, (size_t)count)));
 
@@ -573,6 +573,22 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_double_ampersand), pool->get_wrap_and_instance());
             add_object(pool->get_static_string(resource::str_oper_double_vertical_bar), pool->get_wrap_or_instance());
             lock();
+        }
+
+        void object_string_proto::op_new(thread *thr, int arg_count)
+        {
+            variable result;
+            if (arg_count > 0)
+            {
+                variable arg = thr->peek();
+                thr->pop(arg_count);
+                result.set_object(thr->pool->create_object_string(arg.to_string()));
+            }
+            else
+            {
+                result.set_object(thr->pool->create_object_string(resource::empty_string));
+            }
+            thr->push(result);
         }
     };
 };

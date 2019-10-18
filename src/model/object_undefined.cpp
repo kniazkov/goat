@@ -115,6 +115,14 @@ namespace g0at
             thr->push(result);
         }
 
+        void object_undefined::op_new(thread *thr, int arg_count)
+        {
+            thr->pop(arg_count);
+            variable result;
+            result.set_object(this);
+            thr->push(result);
+        }
+
         void object_undefined::m_iterator(thread *thr, int arg_count)
         {
             thr->pop();
