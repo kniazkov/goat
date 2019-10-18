@@ -149,6 +149,7 @@ namespace g0at
 
         void object_exception_illegal_operation_proto::init(object_pool *pool)
         {
+            add_object(pool->get_static_string(resource::str_DivisionByZero), pool->get_exception_division_by_zero_proto_instance());
             lock();
         }
 
@@ -160,6 +161,34 @@ namespace g0at
         std::wstring object_exception_illegal_operation::to_string() const
         {
             return global::resource->illegal_operation();
+        }
+
+        /*
+            DivisionByZero
+        */
+        object_exception_division_by_zero_proto::object_exception_division_by_zero_proto(object_pool *pool)
+            : object(pool, pool->get_exception_illegal_operation_proto_instance())
+        {
+        }
+
+        std::wstring object_exception_division_by_zero_proto::to_string() const
+        {
+            return global::resource->division_by_zero();
+        }
+
+        void object_exception_division_by_zero_proto::init(object_pool *pool)
+        {
+            lock();
+        }
+
+        object_exception_division_by_zero::object_exception_division_by_zero(object_pool *pool)
+            : object(pool, pool->get_exception_division_by_zero_proto_instance())
+        {
+        }
+
+        std::wstring object_exception_division_by_zero::to_string() const
+        {
+            return global::resource->division_by_zero();
         }
 
         /*

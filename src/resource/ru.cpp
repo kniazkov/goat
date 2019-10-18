@@ -302,6 +302,11 @@ namespace g0at
                 return L"недопустимая операция";
             }
 
+            std::wstring division_by_zero() override
+            {
+                return L"деление на ноль";
+            }
+
             std::wstring illegal_reference() override
             {
                 return L"недопустимая ссылка";

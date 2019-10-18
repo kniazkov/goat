@@ -208,7 +208,23 @@ namespace g0at
 
             void op_div(variable *var, thread *thr)  override
             {
-                binary_math_operation<lib::func::div>(var, thr);
+                thr->pop();
+                variable right = thr->pop();
+                double right_value;
+                bool right_is_real = right.get_real(&right_value);
+                if (!right_is_real)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return;
+                }
+                if (right_value == 0)
+                {
+                    thr->raise_exception(new object_exception_division_by_zero(thr->pool));
+                    return;
+                }
+                variable result;
+                result.set_real(var->data.r / right_value);
+                thr->push(result);
             }
 
             void op_eq(variable *var, thread *thr)  override

@@ -110,6 +110,22 @@ namespace g0at
             std::wstring to_string() const override;
         };
 
+        class object_exception_division_by_zero_proto : public object
+        {
+        friend class object_pool;
+        protected:
+            object_exception_division_by_zero_proto(object_pool *pool);
+            std::wstring to_string() const override;
+            void init(object_pool *pool);
+        };
+
+        class object_exception_division_by_zero : public object
+        {
+        public:
+            object_exception_division_by_zero(object_pool *pool);
+            std::wstring to_string() const override;
+        };
+
         class object_exception_illegal_reference : public object_exception
         {
         friend class object_pool;

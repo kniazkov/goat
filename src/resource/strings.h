@@ -99,6 +99,7 @@ namespace g0at
         extern std::wstring str_IllegalArgument;
         extern std::wstring str_IllegalContext;
         extern std::wstring str_IllegalOperation;
+        extern std::wstring str_DivisionByZero;
 
         extern std::wstring str_READ;
         extern std::wstring str_WRITE;

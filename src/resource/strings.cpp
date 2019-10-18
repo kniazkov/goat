@@ -97,6 +97,7 @@ namespace g0at
         std::wstring str_IllegalArgument = L"IllegalArgument";
         std::wstring str_IllegalContext = L"IllegalContext";
         std::wstring str_IllegalOperation = L"IllegalOperation";
+        std::wstring str_DivisionByZero = L"DivisionByZero";
 
         std::wstring str_READ = L"READ";
         std::wstring str_WRITE = L"WRITE";
