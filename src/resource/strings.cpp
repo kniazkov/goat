@@ -93,6 +93,8 @@ namespace g0at
 
         std::wstring str_Mode = L"Mode";
         std::wstring str_Origin = L"Origin";
+        std::wstring str_IllegalArgument = L"IllegalArgument";
+        std::wstring str_IllegalContext = L"IllegalContext";
 
         std::wstring str_READ = L"READ";
         std::wstring str_WRITE = L"WRITE";

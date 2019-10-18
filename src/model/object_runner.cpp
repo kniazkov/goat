@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_runner.h"
 #include "object_function_built_in.h"
 #include "object_string.h"
+#include "object_exception.h"
 #include "lib/assert.h"
 #include <sstream>
 
@@ -54,7 +55,7 @@ namespace g0at
 
             if (mode != call_mode::as_method)
             {
-                thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                thr->raise_exception(new object_exception_illegal_context(thr->pool));
                 return;
             }
             object *this_ptr = thr->pop().get_object();
@@ -62,7 +63,7 @@ namespace g0at
             object_runner *runner = this_ptr->to_object_runner();
             if (!runner)
             {
-                thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                thr->raise_exception(new object_exception_illegal_context(thr->pool));
                 return;
             }
             thr->pop(arg_count);
@@ -82,7 +83,7 @@ namespace g0at
             {
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 object *this_ptr = thr->pop().get_object();
@@ -90,7 +91,7 @@ namespace g0at
                 object_runner *runner = this_ptr->to_object_runner();
                 if (!runner)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 thr->pop(arg_count);

@@ -85,7 +85,7 @@ namespace g0at
                 {
                     if (mode != call_mode::as_method)
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                        thr->raise_exception(new object_exception_illegal_context(thr->pool));
                         return;
                     }
                     object *this_ptr = thr->pop().get_object();
@@ -93,7 +93,7 @@ namespace g0at
                     object_function *this_ptr_func = this_ptr->to_object_function();
                     if (!this_ptr_func)
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                        thr->raise_exception(new object_exception_illegal_context(thr->pool));
                         return;
                     }
                     this_ptr_func->call(thr, arg_count - 1, call_mode::as_method);
@@ -135,7 +135,7 @@ namespace g0at
                 {
                     if (mode != call_mode::as_method)
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                        thr->raise_exception(new object_exception_illegal_context(thr->pool));
                         return;
                     }
                     object *this_ptr = thr->pop().get_object();
@@ -143,7 +143,7 @@ namespace g0at
                     object_function *this_ptr_func = this_ptr->to_object_function();
                     if (!this_ptr_func)
                     {
-                        thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                        thr->raise_exception(new object_exception_illegal_context(thr->pool));
                         return;
                     }
 

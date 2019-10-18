@@ -111,7 +111,7 @@ namespace g0at
             object *get_file_proto_instance() { return file_proto_instance; }
 
             object *get_exception_illegal_argument_proto_instance() { return exception_illegal_argument_proto_instance; }
-            object *get_exception_illegal_context_instance() { return exception_illegal_context_instance; }
+            object *get_exception_illegal_context_proto_instance() { return exception_illegal_context_proto_instance; }
             object *get_exception_illegal_operation_instance() { return exception_illegal_operation_instance; }
             object *get_exception_illegal_reference_instance() { return exception_illegal_reference_instance; }
             object *get_exception_illegal_type_instance() { return exception_illegal_type_instance; }
@@ -211,7 +211,7 @@ namespace g0at
             object *file_proto_instance;
 
             object *exception_illegal_argument_proto_instance;
-            object *exception_illegal_context_instance;
+            object *exception_illegal_context_proto_instance;
             object *exception_illegal_operation_instance;
             object *exception_illegal_reference_instance;
             object *exception_illegal_type_instance;

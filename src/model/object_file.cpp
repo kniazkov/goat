@@ -74,7 +74,7 @@ namespace g0at
             {
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 object *this_ptr = thr->pop().get_object();
@@ -82,7 +82,7 @@ namespace g0at
                 object_file *this_ptr_file = this_ptr->to_object_file();
                 if (!this_ptr_file)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 file_descriptor *descr = this_ptr_file->get_descriptor();

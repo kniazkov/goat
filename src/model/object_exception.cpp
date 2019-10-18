@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_exception.h"
 #include "object_string.h"
 #include "global/global.h"
+#include "resource/strings.h"
 
 namespace g0at
 {
@@ -69,8 +70,8 @@ namespace g0at
 
         void object_exception_proto::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(L"IllegalArgument"), pool->get_exception_illegal_argument_proto_instance());
-            add_object(pool->get_static_string(L"IllegalContext"), pool->get_exception_illegal_context_instance());
+            add_object(pool->get_static_string(resource::str_IllegalArgument), pool->get_exception_illegal_argument_proto_instance());
+            add_object(pool->get_static_string(resource::str_IllegalContext), pool->get_exception_illegal_context_proto_instance());
             add_object(pool->get_static_string(L"IllegalOperation"), pool->get_exception_illegal_operation_instance());
             add_object(pool->get_static_string(L"IllegalReference"), pool->get_exception_illegal_reference_instance());
             add_object(pool->get_static_string(L"IllegalType"), pool->get_exception_illegal_type_instance());
@@ -108,8 +109,23 @@ namespace g0at
         /*
             IllegalContext
         */
+        object_exception_illegal_context_proto::object_exception_illegal_context_proto(object_pool *pool)
+            : object(pool, pool->get_exception_proto_instance())
+        {
+        }
+
+        std::wstring object_exception_illegal_context_proto::to_string() const
+        {
+            return global::resource->illegal_context();
+        }
+
+        void object_exception_illegal_context_proto::init(object_pool *pool)
+        {
+            lock();
+        }
+
         object_exception_illegal_context::object_exception_illegal_context(object_pool *pool)
-            : object_exception(pool)
+            : object(pool, pool->get_exception_illegal_context_proto_instance())
         {
         }
 

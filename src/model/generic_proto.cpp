@@ -44,7 +44,7 @@ namespace g0at
             {
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 thr->pop(arg_count);
@@ -78,7 +78,7 @@ namespace g0at
                 }
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 object *this_ptr = thr->pop().get_object();
@@ -103,7 +103,7 @@ namespace g0at
             {
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 thr->pop(arg_count);
@@ -136,7 +136,7 @@ namespace g0at
                 }
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 object *this_ptr = thr->pop().get_object();
@@ -168,7 +168,7 @@ namespace g0at
                 }
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 object *this_ptr = thr->pop().get_object();
@@ -234,7 +234,7 @@ namespace g0at
             {
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 object *this_ptr = thr->pop().get_object();
@@ -263,7 +263,7 @@ namespace g0at
                 }
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 object *this_ptr = thr->pop().get_object();
@@ -298,7 +298,7 @@ namespace g0at
             {
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 thr->pop();
@@ -321,7 +321,7 @@ namespace g0at
             {
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 thr->pop();
@@ -349,7 +349,7 @@ namespace g0at
                 }
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 thr->pop();
@@ -376,7 +376,7 @@ namespace g0at
                 }
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 variable this_ptr = thr->pop();
@@ -397,7 +397,7 @@ namespace g0at
             {
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 object *this_ptr = thr->pop().get_object();

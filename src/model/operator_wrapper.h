@@ -273,7 +273,7 @@ namespace g0at
             {
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 if (arg_count != 0)
@@ -298,7 +298,7 @@ namespace g0at
             {
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 if (arg_count != 1)
@@ -323,7 +323,7 @@ namespace g0at
             {
                 if (mode != call_mode::as_method)
                 {
-                    thr->raise_exception(thr->pool->get_exception_illegal_context_instance());
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
                 object *this_ptr = thr->peek().get_object();

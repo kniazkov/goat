@@ -78,10 +78,18 @@ namespace g0at
             std::wstring to_string() const override;
         };
 
-        class object_exception_illegal_context : public object_exception
+        class object_exception_illegal_context_proto : public object
         {
         friend class object_pool;
         protected:
+            object_exception_illegal_context_proto(object_pool *pool);
+            std::wstring to_string() const override;
+            void init(object_pool *pool);
+        };
+
+        class object_exception_illegal_context : public object
+        {
+        public:
             object_exception_illegal_context(object_pool *pool);
             std::wstring to_string() const override;
         };
