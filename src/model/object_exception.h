@@ -126,12 +126,19 @@ namespace g0at
             std::wstring to_string() const override;
         };
 
-        class object_exception_illegal_reference : public object_exception
+        class object_exception_illegal_reference_proto : public object
         {
         friend class object_pool;
         protected:
-            object_exception_illegal_reference(object_pool *pool);
+            object_exception_illegal_reference_proto(object_pool *pool);
             void init(object_pool *pool);
+            std::wstring to_string() const override;
+        };
+
+        class object_exception_illegal_reference : public object
+        {
+        public:
+            object_exception_illegal_reference(object_pool *pool);
             std::wstring to_string() const override;
         };
 

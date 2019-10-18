@@ -43,6 +43,11 @@ namespace g0at
             lock();
         }
 
+        bool object_void::is_void()
+        {
+            return true;
+        }
+
         object_void *object_void::to_object_void()
         {
             return this;

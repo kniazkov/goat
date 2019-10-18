@@ -45,7 +45,11 @@ namespace g0at
             model::variable value = thr->peek().deref();
             if (!object->add_object(key, value))
             {
-                thr->raise_exception(new model::object_exception_illegal_operation(thr->pool));
+                thr->raise_exception(
+                    object->is_void() ?
+                    (model::object*)new model::object_exception_illegal_reference(thr->pool) :
+                    (model::object*)new model::object_exception_illegal_operation(thr->pool)
+                );
             }
         }
     };

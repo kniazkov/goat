@@ -34,6 +34,7 @@ namespace g0at
         protected:
             object_null(object_pool *pool);
             void init(object_pool *pool);
+            bool is_void() override;
             void op_not(thread *thr) override;
             void op_bool(thread *thr) override;
             void op_and(thread *thr) override;

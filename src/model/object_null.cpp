@@ -38,6 +38,11 @@ namespace g0at
             lock();
         }
 
+        bool object_null::is_void()
+        {
+            return true;
+        }
+
         object_null *object_null::to_object_null()
         {
             return this;

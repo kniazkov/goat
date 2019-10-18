@@ -38,6 +38,11 @@ namespace g0at
             lock();
         }
 
+        bool object_undefined::is_void()
+        {
+            return true;
+        }
+
         object_undefined *object_undefined::to_object_undefined()
         {
             return this;

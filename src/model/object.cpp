@@ -422,6 +422,11 @@ namespace g0at
             return false;
         }
 
+        bool object::is_void()
+        {
+            return false;
+        }
+
         void object::op_new(thread *thr, int arg_count)
         {
             model::object *new_object = new model::object(thr->pool, this);

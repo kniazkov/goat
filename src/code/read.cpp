@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "read.h"
 #include "model/object_string.h"
+#include "model/object_exception.h"
 
 namespace g0at
 {
@@ -40,17 +41,25 @@ namespace g0at
         void _read::exec(model::thread *thr)
         {
             model::object_string *key = thr->pool->get_static_string(id);
-            model::variable *ref = thr->pop().to_object(thr->pool)->find_object(key);
-            if(ref != nullptr)
+            model::object *object = thr->pop().to_object(thr->pool);
+            if (object->is_void())
             {
-                model::variable var;
-                var.set_reference(ref);
-                thr->push(var);
+                thr->raise_exception(new model::object_exception_illegal_reference(thr->pool));
             }
             else
             {
-                thr->push_undefined();
-            }
+                model::variable *ref = object->find_object(key);
+                if(ref != nullptr)
+                {
+                    model::variable var;
+                    var.set_reference(ref);
+                    thr->push(var);
+                }
+                else
+                {
+                    thr->push_undefined();
+                }
+            }            
         }
     };
 };

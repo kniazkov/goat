@@ -73,7 +73,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_IllegalArgument), pool->get_exception_illegal_argument_proto_instance());
             add_object(pool->get_static_string(resource::str_IllegalContext), pool->get_exception_illegal_context_proto_instance());
             add_object(pool->get_static_string(resource::str_IllegalOperation), pool->get_exception_illegal_operation_proto_instance());
-            add_object(pool->get_static_string(L"IllegalReference"), pool->get_exception_illegal_reference_instance());
+            add_object(pool->get_static_string(resource::str_IllegalReference), pool->get_exception_illegal_reference_proto_instance());
             add_object(pool->get_static_string(L"IllegalType"), pool->get_exception_illegal_type_instance());
             lock();
         }
@@ -150,6 +150,7 @@ namespace g0at
         void object_exception_illegal_operation_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(resource::str_DivisionByZero), pool->get_exception_division_by_zero_proto_instance());
+            add_object(pool->get_static_string(resource::str_IllegalReference), pool->get_exception_illegal_reference_proto_instance());
             lock();
         }
 
@@ -194,19 +195,29 @@ namespace g0at
         /*
             IllegalReference
         */
+        object_exception_illegal_reference_proto::object_exception_illegal_reference_proto(object_pool *pool)
+            : object(pool, pool->get_exception_illegal_operation_proto_instance())
+        {
+        }
+
+        std::wstring object_exception_illegal_reference_proto::to_string() const
+        {
+            return global::resource->illegal_reference();
+        }
+
+        void object_exception_illegal_reference_proto::init(object_pool *pool)
+        {
+            lock();
+        }
+
         object_exception_illegal_reference::object_exception_illegal_reference(object_pool *pool)
-            : object_exception(pool)
+            : object(pool, pool->get_exception_illegal_reference_proto_instance())
         {
         }
 
         std::wstring object_exception_illegal_reference::to_string() const
         {
             return global::resource->illegal_reference();
-        }
-
-        void object_exception_illegal_reference::init(object_pool *pool)
-        {
-            lock();
         }
 
         /*
