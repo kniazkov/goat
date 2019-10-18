@@ -100,6 +100,9 @@ namespace g0at
         std::wstring str_DivisionByZero = L"DivisionByZero";
         std::wstring str_IllegalReference = L"IllegalReference";
         std::wstring str_IllegalType = L"IllegalType";
+        std::wstring str_IsNotAFunction = L"IsNotAFunction";
+        std::wstring str_IsNotAMethod = L"IsNotAMethod";
+        std::wstring str_OperatorNotFound = L"OperatorNotFound";
 
         std::wstring str_READ = L"READ";
         std::wstring str_WRITE = L"WRITE";

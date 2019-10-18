@@ -164,6 +164,7 @@ namespace g0at
         protected:
             object_exception_operator_not_found_proto(object_pool *pool);
             std::wstring to_string() const override;
+            void init(object_pool *pool);
         };
 
         class object_exception_operator_not_found : public object
@@ -171,7 +172,6 @@ namespace g0at
         public:
             object_exception_operator_not_found(object_pool *pool, std::wstring _oper);
             std::wstring to_string() const override;
-        
         protected:
             std::wstring oper;
         };
@@ -182,6 +182,7 @@ namespace g0at
         protected:
             object_exception_is_not_a_function_proto(object_pool *pool);
             std::wstring to_string() const override;
+            void init(object_pool *pool);
         };
 
         class object_exception_is_not_a_function : public object
@@ -189,7 +190,6 @@ namespace g0at
         public:
             object_exception_is_not_a_function(object_pool *pool, std::wstring _name);
             std::wstring to_string() const override;
-        
         protected:
             std::wstring name;
         };
@@ -200,6 +200,7 @@ namespace g0at
         protected:
             object_exception_is_not_a_method_proto(object_pool *pool);
             std::wstring to_string() const override;
+            void init(object_pool *pool);
         };
 
         class object_exception_is_not_a_method : public object
@@ -207,7 +208,6 @@ namespace g0at
         public:
             object_exception_is_not_a_method(object_pool *pool, std::wstring _name);
             std::wstring to_string() const override;
-        
         protected:
             std::wstring name;
         };

@@ -236,9 +236,9 @@ namespace g0at
 
         void object_exception_illegal_type_proto::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(L"IsNotAFunction"), pool->get_exception_is_not_a_function_proto_instance());
-            add_object(pool->get_static_string(L"IsNotAMethod"), pool->get_exception_is_not_a_method_proto_instance());
-            add_object(pool->get_static_string(L"OperatorNotFound"), pool->get_exception_operator_not_found_proto_instance());
+            add_object(pool->get_static_string(resource::str_IsNotAFunction), pool->get_exception_is_not_a_function_proto_instance());
+            add_object(pool->get_static_string(resource::str_IsNotAMethod), pool->get_exception_is_not_a_method_proto_instance());
+            add_object(pool->get_static_string(resource::str_OperatorNotFound), pool->get_exception_operator_not_found_proto_instance());
             lock();
         }
 
@@ -265,6 +265,11 @@ namespace g0at
             return global::resource->illegal_type();
         }
 
+        void object_exception_operator_not_found_proto::init(object_pool *pool)
+        {
+            lock();
+        }
+
         object_exception_operator_not_found::object_exception_operator_not_found(object_pool *pool, std::wstring _oper)
             : object(pool, pool->get_exception_operator_not_found_proto_instance()), oper(_oper)
         {
@@ -288,6 +293,11 @@ namespace g0at
             return global::resource->illegal_type();
         }
 
+        void object_exception_is_not_a_function_proto::init(object_pool *pool)
+        {
+            lock();
+        }
+
         object_exception_is_not_a_function::object_exception_is_not_a_function(object_pool *pool, std::wstring _name)
             : object(pool, pool->get_exception_is_not_a_function_proto_instance()), name(_name)
         {
@@ -309,6 +319,11 @@ namespace g0at
         std::wstring object_exception_is_not_a_method_proto::to_string() const
         {
             return global::resource->illegal_type();
+        }
+
+        void object_exception_is_not_a_method_proto::init(object_pool *pool)
+        {
+            lock();
         }
 
         object_exception_is_not_a_method::object_exception_is_not_a_method(object_pool *pool, std::wstring _name)

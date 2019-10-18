@@ -102,6 +102,9 @@ namespace g0at
         extern std::wstring str_DivisionByZero;
         extern std::wstring str_IllegalReference;
         extern std::wstring str_IllegalType;
+        extern std::wstring str_IsNotAFunction;
+        extern std::wstring str_IsNotAMethod;
+        extern std::wstring str_OperatorNotFound;
 
         extern std::wstring str_READ;
         extern std::wstring str_WRITE;

@@ -222,9 +222,12 @@ namespace g0at
             exception_illegal_reference_proto_instance = exception_illegal_reference_proto;
             auto exception_illegal_type_proto = new object_exception_illegal_type_proto(this);
             exception_illegal_type_proto_instance = exception_illegal_type_proto; 
-            exception_operator_not_found_proto_instance = new object_exception_operator_not_found_proto(this);
-            exception_is_not_a_function_proto_instance = new object_exception_is_not_a_function_proto(this);
-            exception_is_not_a_method_proto_instance = new object_exception_is_not_a_method_proto(this);
+            auto exception_operator_not_found_proto = new object_exception_operator_not_found_proto(this);
+            exception_operator_not_found_proto_instance = exception_operator_not_found_proto;
+            auto exception_is_not_a_function_proto = new object_exception_is_not_a_function_proto(this);
+            exception_is_not_a_function_proto_instance = exception_is_not_a_function_proto;
+            auto exception_is_not_a_method_proto = new object_exception_is_not_a_method_proto(this);
+            exception_is_not_a_method_proto_instance = exception_is_not_a_method_proto;
             exception_proto->init(this);
             exception_illegal_argument_proto->init(this);
             exception_illegal_context_proto->init(this);
@@ -232,6 +235,9 @@ namespace g0at
             exception_division_by_zero_proto->init(this);
             exception_illegal_reference_proto->init(this);
             exception_illegal_type_proto->init(this);
+            exception_operator_not_found_proto->init(this);
+            exception_is_not_a_function_proto->init(this);
+            exception_is_not_a_method_proto->init(this);
         }
 
         void object_pool::add(object *item)
