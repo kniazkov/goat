@@ -92,11 +92,13 @@ namespace g0at
         extern std::wstring str_split;
         extern std::wstring str_substr;
         extern std::wstring str_valueof;
+        extern std::wstring str_exception;
 
         extern std::wstring str_Mode;
         extern std::wstring str_Origin;
         extern std::wstring str_IllegalArgument;
         extern std::wstring str_IllegalContext;
+        extern std::wstring str_IllegalOperation;
 
         extern std::wstring str_READ;
         extern std::wstring str_WRITE;

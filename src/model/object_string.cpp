@@ -268,7 +268,7 @@ namespace g0at
             if (index.get_integer(&int_index))
             {
                 // Strings are immutable
-                thr->raise_exception(thr->pool->get_exception_illegal_operation_instance());
+                thr->raise_exception(new object_exception_illegal_operation(thr->pool));
             }
             else
             {

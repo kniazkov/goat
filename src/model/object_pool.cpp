@@ -75,6 +75,7 @@ namespace g0at
             file_proto_instance = nullptr;
             exception_illegal_argument_proto_instance = nullptr;
             exception_illegal_context_proto_instance = nullptr;
+            exception_illegal_operation_proto_instance = nullptr;
             exception_illegal_reference_instance = nullptr;
             exception_illegal_type_instance = nullptr;
             exception_operator_not_found_proto_instance = nullptr;
@@ -212,7 +213,8 @@ namespace g0at
             exception_illegal_argument_proto_instance = exception_illegal_argument_proto;
             auto exception_illegal_context_proto = new object_exception_illegal_context_proto(this);
             exception_illegal_context_proto_instance = exception_illegal_context_proto;
-            exception_illegal_operation_instance = new object_exception_illegal_operation(this);
+            auto exception_illegal_operation_proto = new object_exception_illegal_operation_proto(this);
+            exception_illegal_operation_proto_instance = exception_illegal_operation_proto;
             auto exception_illegal_reference = new object_exception_illegal_reference(this);
             exception_illegal_reference_instance = exception_illegal_reference;
             auto exception_illegal_type = new object_exception_illegal_type(this);
@@ -223,6 +225,7 @@ namespace g0at
             exception_proto->init(this);
             exception_illegal_argument_proto->init(this);
             exception_illegal_context_proto->init(this);
+            exception_illegal_operation_proto->init(this);
             exception_illegal_reference->init(this);
             exception_illegal_type->init(this);
         }

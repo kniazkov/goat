@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "write.h"
 #include "model/object_string.h"
+#include "model/object_exception.h"
 
 namespace g0at
 {
@@ -44,7 +45,7 @@ namespace g0at
             model::variable value = thr->peek().deref();
             if (!object->add_object(key, value))
             {
-                thr->raise_exception(thr->pool->get_exception_illegal_operation_instance());
+                thr->raise_exception(new model::object_exception_illegal_operation(thr->pool));
             }
         }
     };
