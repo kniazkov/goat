@@ -96,6 +96,29 @@ namespace g0at
             lock();
         }
 
+
+        void object_boolean_proto::op_new(thread *thr, int arg_count)
+        {
+            if (arg_count > 1)
+            {
+                variable arg = thr->peek();
+                thr->pop(arg_count);
+                thr->push(arg);
+                arg.op_bool(thr);
+            }
+            else if (arg_count == 1)
+            {
+                variable arg = thr->peek();
+                arg.op_bool(thr);
+            }
+            else
+            {
+                variable result;
+                result.set_boolean(false);
+                thr->push(result);
+            }
+        }
+
         /*
             Primitive handler
         */

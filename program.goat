@@ -51,6 +51,14 @@ println(new Char("C"));
 println(new Char({}));
 println("");
 
+println(new Boolean(true));
+println(new Boolean(false));
+println(new Boolean(1));
+println(new Boolean(0));
+println(new Boolean("something"));
+println(new Boolean());
+println("");
+
 println(new Void());
 println(new Undefined());
 println(new Null());
