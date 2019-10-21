@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_boolean.h"
 #include "object_string.h"
 #include "object_function_built_in.h"
+#include "object_exception.h"
 #include "resource/strings.h"
 #include "lib/functional.h"
 #include "thread.h"
@@ -87,15 +88,46 @@ namespace g0at
         {
         }
 
+        class object_boolean_valueof : public object_function_built_in
+        {
+        public:
+            object_boolean_valueof(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode == call_mode::as_method)
+                    thr->pop();
+                if (arg_count > 1)
+                {
+                    variable arg = thr->peek();
+                    thr->pop(arg_count);
+                    thr->push(arg);
+                    arg.op_bool(thr);
+                }
+                else if (arg_count == 1)
+                {
+                    variable arg = thr->peek();
+                    arg.op_bool(thr);
+                }
+                else
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                }
+            }
+        };
+
         void object_boolean_proto::init(object_pool *pool)
         {
+            add_object(pool->get_static_string(resource::str_valueof), new object_boolean_valueof(pool));
             add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());
             add_object(pool->get_static_string(resource::str_oper_double_exclamation), pool->get_wrap_bool_instance());
             add_object(pool->get_static_string(resource::str_oper_double_ampersand), pool->get_wrap_and_instance());
             add_object(pool->get_static_string(resource::str_oper_double_vertical_bar), pool->get_wrap_or_instance());
             lock();
         }
-
 
         void object_boolean_proto::op_new(thread *thr, int arg_count)
         {

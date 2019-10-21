@@ -126,8 +126,37 @@ namespace g0at
         {
         }
 
+        class object_real_valueof : public object_function_built_in
+        {
+        public:
+            object_real_valueof(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (arg_count > 0)
+                {
+                    if (mode == call_mode::as_method)
+                        thr->pop();
+                    variable arg = thr->peek();
+                    thr->pop(arg_count);
+                    variable result;
+                    if (!convert_to_real(arg, &result))
+                    {
+                        result.set_object(thr->pool->get_null_instance());
+                    }
+                    thr->push(result);
+                    return;
+                }
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+            }
+        };
+
         void object_real_proto::init(object_pool *pool)
         {
+            add_object(pool->get_static_string(resource::str_valueof), new object_real_valueof(pool));
             add_object(pool->get_static_string(resource::str_oper_plus_plus), pool->get_wrap_inc_instance());
             add_object(pool->get_static_string(resource::str_oper_minus_minus), pool->get_wrap_dec_instance());
             add_object(pool->get_static_string(resource::str_oper_plus), pool->get_wrap_pos_add_instance());

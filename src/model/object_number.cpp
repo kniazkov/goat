@@ -22,8 +22,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_number.h"
 #include "object_string.h"
+#include "object_function_built_in.h"
+#include "object_exception.h"
 #include "thread.h"
 #include "lib/utils.h"
+#include "resource/strings.h"
 
 namespace g0at
 {
@@ -85,8 +88,37 @@ namespace g0at
         {
         }
 
+        class object_number_valueof : public object_function_built_in
+        {
+        public:
+            object_number_valueof(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (arg_count > 0)
+                {
+                    if (mode == call_mode::as_method)
+                        thr->pop();
+                    variable arg = thr->peek();
+                    thr->pop(arg_count);
+                    variable result;
+                    if (!convert_to_number(arg, &result))
+                    {
+                        result.set_object(thr->pool->get_null_instance());
+                    }
+                    thr->push(result);
+                    return;
+                }
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+            }
+        };
+
         void object_number_proto::init(object_pool *pool)
         {
+            add_object(pool->get_static_string(resource::str_valueof), new object_number_valueof(pool));
             lock();
         }
 

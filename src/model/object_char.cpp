@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_char.h"
 #include "object_string.h"
 #include "object_function_built_in.h"
+#include "object_exception.h"
 #include "lib/functional.h"
 #include "thread.h"
 #include "lib/assert.h"
@@ -127,8 +128,37 @@ namespace g0at
         {
         }
 
+        class object_char_valueof : public object_function_built_in
+        {
+        public:
+            object_char_valueof(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (arg_count > 0)
+                {
+                    if (mode == call_mode::as_method)
+                        thr->pop();
+                    variable arg = thr->peek();
+                    thr->pop(arg_count);
+                    variable result;
+                    if (!convert_to_char(arg, &result))
+                    {
+                        result.set_object(thr->pool->get_null_instance());
+                    }
+                    thr->push(result);
+                    return;
+                }
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+            }
+        };
+
         void object_char_proto::init(object_pool *pool)
         {
+            add_object(pool->get_static_string(resource::str_valueof), new object_char_valueof(pool));
             add_object(pool->get_static_string(resource::str_oper_plus_plus), pool->get_wrap_inc_instance());
             add_object(pool->get_static_string(resource::str_oper_minus_minus), pool->get_wrap_dec_instance());
             add_object(pool->get_static_string(resource::str_oper_exclamation), pool->get_wrap_not_instance());

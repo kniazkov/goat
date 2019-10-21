@@ -231,10 +231,10 @@ namespace g0at
                 {
                     if (wstr[i] <= L'9')
                         value = value * 16 + wstr[i] - L'0';
-                    else if (wstr[i] <= L'a')
-                        value = value * 16 + wstr[i] - L'a' + 10;
-                    else
+                    else if (wstr[i] <= L'F')
                         value = value * 16 + wstr[i] - L'A' + 10;
+                    else
+                        value = value * 16 + wstr[i] - L'a' + 10;
                     i++;
                 }
             }
