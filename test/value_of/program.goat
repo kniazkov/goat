@@ -1,0 +1,62 @@
+println(String.valueof("test"));
+println(String.valueof(7));
+println("");
+
+println(Real.valueof(11));
+println(Real.valueof(13.1));
+println(Real.valueof(true));
+println(Real.valueof(false));
+println(Real.valueof('a'));
+println(Real.valueof("6553.6"));
+println(Real.valueof("6553,6"));
+println(Real.valueof("  -6553.6     "));
+println(Real.valueof(".1"));
+println(Real.valueof(" 123 a "));
+println(Real.valueof("abcde"));
+println("");
+
+println(Number.valueof(11));
+println(Number.valueof(13.1));
+println(Number.valueof(true));
+println(Number.valueof(false));
+println(Number.valueof('a'));
+println(Number.valueof(" 1234 "));
+println(Number.valueof(" -1234 "));
+println(Number.valueof("6553.6"));
+println(Number.valueof("6553,6"));
+println(Number.valueof("  -6553.6     "));
+println(Number.valueof(".1"));
+println(Number.valueof(" 123 a "));
+println(Number.valueof("abcde"));
+println("");
+
+println(Integer.valueof(11));
+println(Integer.valueof(13.1));
+println(Integer.valueof(true));
+println(Integer.valueof(false));
+println(Integer.valueof('a'));
+println(Integer.valueof(" 1234 "));
+println(Integer.valueof(" -1234 "));
+println(Integer.valueof("6553.6"));
+println(Integer.valueof(" 123 a "));
+println(Integer.valueof("abcde"));
+println("");
+
+println(Integer.valueof(" 1234 ", 10));
+println(Integer.valueof(" -1234 ", 10));
+println(Integer.valueof("110", 2));
+println(Integer.valueof("fFfe", 16));
+println("");
+
+println(Char.valueof('a'));
+println(Char.valueof(98));
+println(Char.valueof("c"));
+println(Char.valueof(Integer.valueof('d')));
+println(Char.valueof({}));
+println("");
+
+println(Boolean.valueof(true));
+println(Boolean.valueof(false));
+println(Boolean.valueof(1));
+println(Boolean.valueof(0));
+println(Boolean.valueof("something"));
