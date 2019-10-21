@@ -60,6 +60,8 @@ namespace g0at
             std::wstring to_string() const override;
             std::wstring to_string_notation() const override;
             void init(object_pool *pool);
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
 
         class object_exception_illegal_argument_proto : public object
@@ -69,6 +71,8 @@ namespace g0at
             object_exception_illegal_argument_proto(object_pool *pool);
             std::wstring to_string() const override;
             void init(object_pool *pool);
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
 
         class object_exception_illegal_argument : public object
@@ -85,6 +89,8 @@ namespace g0at
             object_exception_illegal_context_proto(object_pool *pool);
             std::wstring to_string() const override;
             void init(object_pool *pool);
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
 
         class object_exception_illegal_context : public object
@@ -101,6 +107,8 @@ namespace g0at
             object_exception_illegal_operation_proto(object_pool *pool);
             std::wstring to_string() const override;
             void init(object_pool *pool);
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
 
         class object_exception_illegal_operation : public object
@@ -117,6 +125,8 @@ namespace g0at
             object_exception_division_by_zero_proto(object_pool *pool);
             std::wstring to_string() const override;
             void init(object_pool *pool);
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
 
         class object_exception_division_by_zero : public object
@@ -133,6 +143,8 @@ namespace g0at
             object_exception_illegal_reference_proto(object_pool *pool);
             void init(object_pool *pool);
             std::wstring to_string() const override;
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
 
         class object_exception_illegal_reference : public object
@@ -149,6 +161,8 @@ namespace g0at
             object_exception_illegal_type_proto(object_pool *pool);
             void init(object_pool *pool);
             std::wstring to_string() const override;
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
 
         class object_exception_illegal_type : public object
@@ -165,6 +179,8 @@ namespace g0at
             object_exception_operator_not_found_proto(object_pool *pool);
             std::wstring to_string() const override;
             void init(object_pool *pool);
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
 
         class object_exception_operator_not_found : public object
@@ -183,6 +199,8 @@ namespace g0at
             object_exception_is_not_a_function_proto(object_pool *pool);
             std::wstring to_string() const override;
             void init(object_pool *pool);
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
 
         class object_exception_is_not_a_function : public object
@@ -201,6 +219,8 @@ namespace g0at
             object_exception_is_not_a_method_proto(object_pool *pool);
             std::wstring to_string() const override;
             void init(object_pool *pool);
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
 
         class object_exception_is_not_a_method : public object

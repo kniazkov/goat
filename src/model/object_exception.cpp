@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_exception.h"
 #include "object_string.h"
+#include "thread.h"
 #include "global/global.h"
 #include "resource/strings.h"
 
@@ -78,6 +79,14 @@ namespace g0at
             lock();
         }
 
+        void object_exception_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->pop(arg_count);
+            variable result;
+            result.set_object(new object_exception(thr->pool));
+            thr->push(result);
+        }
+
         /*
             IllegalArgument
         */
@@ -94,6 +103,14 @@ namespace g0at
         void object_exception_illegal_argument_proto::init(object_pool *pool)
         {
             lock();
+        }
+
+        void object_exception_illegal_argument_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->pop(arg_count);
+            variable result;
+            result.set_object(new object_exception_illegal_argument(thr->pool));
+            thr->push(result);
         }
 
         object_exception_illegal_argument::object_exception_illegal_argument(object_pool *pool)
@@ -122,6 +139,14 @@ namespace g0at
         void object_exception_illegal_context_proto::init(object_pool *pool)
         {
             lock();
+        }
+
+        void object_exception_illegal_context_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->pop(arg_count);
+            variable result;
+            result.set_object(new object_exception_illegal_context(thr->pool));
+            thr->push(result);
         }
 
         object_exception_illegal_context::object_exception_illegal_context(object_pool *pool)
@@ -155,6 +180,14 @@ namespace g0at
             lock();
         }
 
+        void object_exception_illegal_operation_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->pop(arg_count);
+            variable result;
+            result.set_object(new object_exception_illegal_operation(thr->pool));
+            thr->push(result);
+        }
+
         object_exception_illegal_operation::object_exception_illegal_operation(object_pool *pool)
             : object(pool, pool->get_exception_illegal_operation_proto_instance())
         {
@@ -183,6 +216,14 @@ namespace g0at
             lock();
         }
 
+        void object_exception_division_by_zero_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->pop(arg_count);
+            variable result;
+            result.set_object(new object_exception_division_by_zero(thr->pool));
+            thr->push(result);
+        }
+
         object_exception_division_by_zero::object_exception_division_by_zero(object_pool *pool)
             : object(pool, pool->get_exception_division_by_zero_proto_instance())
         {
@@ -209,6 +250,14 @@ namespace g0at
         void object_exception_illegal_reference_proto::init(object_pool *pool)
         {
             lock();
+        }
+
+        void object_exception_illegal_reference_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->pop(arg_count);
+            variable result;
+            result.set_object(new object_exception_illegal_reference(thr->pool));
+            thr->push(result);
         }
 
         object_exception_illegal_reference::object_exception_illegal_reference(object_pool *pool)
@@ -242,6 +291,14 @@ namespace g0at
             lock();
         }
 
+        void object_exception_illegal_type_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->pop(arg_count);
+            variable result;
+            result.set_object(new object_exception_illegal_type(thr->pool));
+            thr->push(result);
+        }
+
         object_exception_illegal_type::object_exception_illegal_type(object_pool *pool)
             : object(pool, pool->get_exception_illegal_type_proto_instance())
         {
@@ -249,7 +306,7 @@ namespace g0at
 
         std::wstring object_exception_illegal_type::to_string() const
         {
-            return global::resource->illegal_reference();
+            return global::resource->illegal_type();
         }
 
         /*
@@ -268,6 +325,27 @@ namespace g0at
         void object_exception_operator_not_found_proto::init(object_pool *pool)
         {
             lock();
+        }
+
+        void object_exception_operator_not_found_proto::op_new(thread *thr, int arg_count)
+        {
+            if (arg_count > 0)
+            {
+                object *arg = thr->peek().get_object();
+                if (arg)
+                {
+                    object_string *arg_string = arg->to_object_string();
+                    if (arg_string)
+                    {
+                        thr->pop(arg_count);
+                        variable result;
+                        result.set_object(new object_exception_operator_not_found(thr->pool, arg_string->get_data()));
+                        thr->push(result);
+                        return;
+                    }
+                }
+            }
+            thr->raise_exception(new object_exception_illegal_argument(thr->pool));
         }
 
         object_exception_operator_not_found::object_exception_operator_not_found(object_pool *pool, std::wstring _oper)
@@ -298,6 +376,27 @@ namespace g0at
             lock();
         }
 
+        void object_exception_is_not_a_function_proto::op_new(thread *thr, int arg_count)
+        {
+            if (arg_count > 0)
+            {
+                object *arg = thr->peek().get_object();
+                if (arg)
+                {
+                    object_string *arg_string = arg->to_object_string();
+                    if (arg_string)
+                    {
+                        thr->pop(arg_count);
+                        variable result;
+                        result.set_object(new object_exception_is_not_a_function(thr->pool, arg_string->get_data()));
+                        thr->push(result);
+                        return;
+                    }
+                }
+            }
+            thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+        }
+
         object_exception_is_not_a_function::object_exception_is_not_a_function(object_pool *pool, std::wstring _name)
             : object(pool, pool->get_exception_is_not_a_function_proto_instance()), name(_name)
         {
@@ -324,6 +423,27 @@ namespace g0at
         void object_exception_is_not_a_method_proto::init(object_pool *pool)
         {
             lock();
+        }
+
+        void object_exception_is_not_a_method_proto::op_new(thread *thr, int arg_count)
+        {
+            if (arg_count > 0)
+            {
+                object *arg = thr->peek().get_object();
+                if (arg)
+                {
+                    object_string *arg_string = arg->to_object_string();
+                    if (arg_string)
+                    {
+                        thr->pop(arg_count);
+                        variable result;
+                        result.set_object(new object_exception_is_not_a_method(thr->pool, arg_string->get_data()));
+                        thr->push(result);
+                        return;
+                    }
+                }
+            }
+            thr->raise_exception(new object_exception_illegal_argument(thr->pool));
         }
 
         object_exception_is_not_a_method::object_exception_is_not_a_method(object_pool *pool, std::wstring _name)
