@@ -1,0 +1,79 @@
+[]
+[1,2,3]
+
+01 02 ff
+
+test
+7
+
+11
+13.1
+0
+1
+0
+97
+6553.6
+6553.6
+-6553.6
+0.1
+null
+null
+
+11
+13.1
+0
+1
+0
+97
+1234
+-1234
+6553.6
+6553.6
+-6553.6
+0.1
+null
+null
+
+11
+13
+0
+1
+0
+97
+1234
+-1234
+null
+null
+null
+
+A
+b
+C
+null
+
+true
+false
+true
+false
+true
+false
+
+void
+undefined
+null
+
+unknown exception
+illegal argument
+illegal context
+illegal operation
+division by zero
+illegal reference
+illegal reference
+illegal type
+illegal type
+operator '+' not found
+operator '+' not found
+func is not a function
+func is not a function
+method is not a method
+method is not a function

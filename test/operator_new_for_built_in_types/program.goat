@@ -1,0 +1,88 @@
+println(new Array());
+println(new Array(1, 2, 3));
+println("");
+
+println(new ByteArray(1, 2, 255));
+println("");
+
+println(new String("test"));
+println(new String(7));
+println("");
+
+println(new Real(11));
+println(new Real(13.1));
+println(new Real());
+println(new Real(true));
+println(new Real(false));
+println(new Real('a'));
+println(new Real("6553.6"));
+println(new Real("6553,6"));
+println(new Real("  -6553.6     "));
+println(new Real(".1"));
+println(new Real(" 123 a "));
+println(new Real("abcde"));
+println("");
+
+println(new Number(11));
+println(new Number(13.1));
+println(new Number());
+println(new Number(true));
+println(new Number(false));
+println(new Number('a'));
+println(new Number(" 1234 "));
+println(new Number(" -1234 "));
+println(new Number("6553.6"));
+println(new Number("6553,6"));
+println(new Number("  -6553.6     "));
+println(new Number(".1"));
+println(new Number(" 123 a "));
+println(new Number("abcde"));
+println("");
+
+println(new Integer(11));
+println(new Integer(13.1));
+println(new Integer());
+println(new Integer(true));
+println(new Integer(false));
+println(new Integer('a'));
+println(new Integer(" 1234 "));
+println(new Integer(" -1234 "));
+println(new Integer("6553.6"));
+println(new Integer(" 123 a "));
+println(new Integer("abcde"));
+println("");
+
+println(new Char('A'));
+println(new Char(98));
+println(new Char("C"));
+println(new Char({}));
+println("");
+
+println(new Boolean(true));
+println(new Boolean(false));
+println(new Boolean(1));
+println(new Boolean(0));
+println(new Boolean("something"));
+println(new Boolean());
+println("");
+
+println(new Void());
+println(new Undefined());
+println(new Null());
+println("");
+
+println(new Exception());
+println(new Exception.IllegalArgument());
+println(new Exception.IllegalContext());
+println(new Exception.IllegalOperation());
+println(new Exception.IllegalOperation.DivisionByZero());
+println(new Exception.IllegalReference());
+println(new Exception.IllegalOperation.IllegalReference());
+println(new Exception.IllegalType());
+println(new Exception.IllegalOperation.IllegalType());
+println(new Exception.IllegalType.OperatorNotFound("+"));
+println(new Exception.IllegalOperation.IllegalType.OperatorNotFound("+"));
+println(new Exception.IllegalType.IsNotAFunction("func"));
+println(new Exception.IllegalOperation.IllegalType.IsNotAFunction("func"));
+println(new Exception.IllegalType.IsNotAMethod("method"));
+println(new Exception.IllegalOperation.IllegalType.IsNotAFunction("method"));
