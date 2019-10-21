@@ -1,0 +1,6 @@
+println(0);
+println(0.0);
+println(0x0);
+println(0xfE);
+println(0b0);
+println(0b110);
