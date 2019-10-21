@@ -45,6 +45,12 @@ println(new Integer(" 123 a "));
 println(new Integer("abcde"));
 println("");
 
+println(new Char('A'));
+println(new Char(98));
+println(new Char("C"));
+println(new Char({}));
+println("");
+
 println(new Void());
 println(new Undefined());
 println(new Null());

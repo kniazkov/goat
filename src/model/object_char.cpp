@@ -34,6 +34,44 @@ namespace g0at
 {
     namespace model
     {
+        static bool convert_to_char(variable &var, variable *result)
+        {
+            wchar_t char_value;
+            if (var.get_char(&char_value))
+            {
+                result->set_char(char_value);
+                return true;
+            }
+            int64_t int_value;
+            if (var.get_integer(&int_value))
+            {
+                if (int_value >= 0 && int_value <= WCHAR_MAX)
+                {
+                    result->set_char((wchar_t)int_value);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            object *obj = var.get_object();
+            if (obj)
+            {
+                object_string *obj_string = obj->to_object_string();
+                if (obj_string)
+                {
+                    std::wstring string_value = obj_string->get_data();
+                    if (string_value.size() == 1)
+                    {
+                        result->set_char(string_value[0]);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         object_char::object_char(object_pool *pool, wchar_t value)
             : variable_wrapper(pool, pool->get_char_proto_instance())
         {
@@ -102,6 +140,25 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_double_ampersand), pool->get_wrap_and_instance());
             add_object(pool->get_static_string(resource::str_oper_double_vertical_bar), pool->get_wrap_or_instance());
             lock();
+        }
+
+        void object_char_proto::op_new(thread *thr, int arg_count)
+        {
+            variable result;
+            if (arg_count > 0)
+            {
+                variable arg = thr->peek();
+                thr->pop(arg_count);
+                if (!convert_to_char(arg, &result))
+                {
+                    result.set_object(thr->pool->get_null_instance());
+                }
+            }
+            else
+            {
+                result.set_integer(0);
+            }
+            thr->push(result);
         }
 
         /*
