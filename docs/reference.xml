@@ -1659,24 +1659,66 @@
 					<p>Integer numbers are written without decimal point:</p>
 					<c>var i = 3;</c>
 					<p>Also, Goat interprets numerical constants as hexadecimal if they are preceded by <c>0x</c>:</p>
-					<c>var i = 0xFF;</c>
+					<c><![CDATA[
+						var i = 0x12ab34; // lower case symbols
+						var j = 0x56CD78; // upper case symbols]]>
+					</c>
 					<p>and interprets numerical constants as binary if they are preceded by <c>0b</c>:</p>
 					<c>var i = 0b1011;</c>
 				</s>
 				<s name="Methods">
-					<m name="toString" descr="Converts an integer to a string.">
-						<a name="radix" type="Integer" descr="optional, radix, can be 2, 10 or 16"/>
+					<m name="string" descr="Converts integer to a string.">
+						<a name="radix" type="Integer" descr="optional, radix, one of: 2, 10 or 16, default 10"/>
 						<e><![CDATA[
 							var i = 254;
-							var s = i.toString(); // "254"
-							var h = "0x" + i.toString(16); // "0xFE"]]>
+							var s = i.string(); // "254"
+							var h = "0x" + i.string(16); // "0xfe"]]>
 						</e>
 					</m>
+					<m name="valueof" descr="Static method. Converts object to an integer.">
+						<a name="object" type="any type" descr="an object"/>
+						<a name="radix" type="Integer" descr="optional, radix, one of: 2, 10 or 16, default 10"/>
+						<e><![CDATA[
+							var s = "  fffe ";
+							var i = Integer.valueof(s, 16); // 65534 ]]>
+						</e>
+						<n>Attempts to convert a value to an integer, returns <c>null</c> if failed.</n>
+					</m>
+					<t>
+						<h>
+							<c width="200">Object type</c>
+							<c>Conversion result</c>
+						</h>
+						<r>
+							<c><c>Integer</c></c>
+							<c>Returns unchanged</c>
+						</r>
+						<r>
+							<c><c>Real</c></c>
+							<c>Returns the integer part of a real number</c>
+						</r>
+						<r>
+							<c><c>Boolean</c></c>
+							<c>Returns <c>1</c> if <c>true</c>, <c>0</c> if <c>false</c></c>
+						</r>
+						<r>
+							<c><c>Char</c></c>
+							<c>Returns the character code as a number</c>
+						</r>
+						<r>
+							<c><c>String</c></c>
+							<c>Attempts to recognize a string as a number. Ignores whitespace before and after. Returns <c>null</c> if failed</c>
+						</r>
+						<r>
+							<c>Other type</c>
+							<c><c>null</c></c>
+						</r>
+					</t>
 				</s>
 				<s name="Operators">
 					<p>The Integer type has more operators than the other types.</p>
 					<o name="+, +=, -, -=, *, *=, /, /=">
-						<d>Addition, subtraction, multiplication and division. Note that multiplication and division have a higher precedence than addition and subtraction, just as in algebra. If the second operand is a real number, then the result will also be a real number. If the second operand is an integer, the result will integer. Else if the second operand is not a number,  throws an <c>IllegalArgument</c> exception.</d>
+						<d>Addition, subtraction, multiplication and division. Note that multiplication and division have a higher precedence than addition and subtraction, just as in algebra. If the second operand is a real number, then the result will also be a real number. If the second operand is an integer, the result will integer. Else if the second operand is not a number, returns <c>false</c>.</d>
 						<e><![CDATA[
 							var a = 2;
 							var b = 3;
@@ -1691,7 +1733,7 @@
 						</e>
 					</o>
 					<o name="&lt;, &lt;=, &gt;, &gt;=">
-						<d>Comparison of two numbers (integer or real number). If the second parameter is not a number, throws an <c>IllegalArgument</c> exception.</d>
+						<d>Comparison of two numbers (integer or real number). If the second parameter is not a number, returns <c>false</c>.</d>
 						<e><![CDATA[
 							print(4 > 3); // outputs: false]]>
 						</e>
@@ -1711,7 +1753,7 @@
 							var x = 0b1011;
 							var n = ~x; // ...1110100 ]]>
 						</e>
-						<n>The integer consists of a large number of bits (<d>depending on the implementation, usually 64</d>), all these bits change their values. So in this example, all first bits became 1.</n>
+						<n>The Integer is 64-bit data type, all these bits change their values. So in this example, all first bits became 1.</n>
 					</o>
 					<o name="&lt;&lt;, &lt;&lt;=">
 						<d>Left shift, i.e.  bitwise operation that shifts all the bits of its operand. Shifts left by pushing zeros in from the right and let the leftmost bits fall off.</d>
@@ -1769,6 +1811,46 @@
 				<s name="Definition">
 					<p>Real numbers are written with the decimal point (dot):</p>
 					<c>var i = 3.14;</c>
+				</s>
+				<s name="Methods">
+					<m name="valueof" descr="Static method. Converts object to a real number.">
+						<a name="object" type="any type" descr="an object"/>
+						<e><![CDATA[
+							var s = "  65,535 ";
+							var r = Real.valueof(s); // 65.535 ]]>
+						</e>
+						<n>Attempts to convert a value to a real number, returns <c>null</c> if failed.</n>
+					</m>
+					<t>
+						<h>
+							<c width="200">Object type</c>
+							<c>Conversion result</c>
+						</h>
+						<r>
+							<c><c>Real</c></c>
+							<c>Returns unchanged</c>
+						</r>
+						<r>
+							<c><c>Integer</c></c>
+							<c>Returns the integer as a real number</c>
+						</r>
+						<r>
+							<c><c>Boolean</c></c>
+							<c>Returns <c>1.0</c> if <c>true</c>, <c>0.0</c> if <c>false</c></c>
+						</r>
+						<r>
+							<c><c>Char</c></c>
+							<c>Returns the character code as a number</c>
+						</r>
+						<r>
+							<c><c>String</c></c>
+							<c>Attempts to recognize a string as a real number. Ignores whitespace before and after. Recognizes a comma <c>,</c> as well as a dot <c>.</c> as a decimal separator. Returns <c>null</c> if failed</c>
+						</r>
+						<r>
+							<c>Other type</c>
+							<c><c>null</c></c>
+						</r>
+					</t>
 				</s>
 				<s name="Operators">
 					<p>Real type supports only these operators: <c>+</c>, <c>+=</c>, <c>-</c>, <c>-=</c>, <c>*</c>, <c>*=</c>, <c>/</c>, <c>/=</c>, <c>&lt;</c>, <c>&lt;=</c>, <c>&gt;</c>, <c>&gt;=</c>, <c>++</c>, <c>--</c>. Bitwise operators are not supported.</p>
