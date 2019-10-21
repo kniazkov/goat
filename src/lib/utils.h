@@ -64,6 +64,7 @@ namespace g0at
         std::wstring double_to_wstring(double value, int precision);
         bool wstring_to_double(std::wstring wstr, double *result);
         bool wstring_to_int64(std::wstring wstr, int64_t *result, int radix);
+        std::wstring int64_to_wstring(int64_t value, int radix);
         std::wstring escape_special_chars(std::wstring src);
         std::wstring escape_special_chars(const wchar_t *src, size_t len);
         std::wstring escape_html_entities(std::wstring src);

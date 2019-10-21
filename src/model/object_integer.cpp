@@ -169,9 +169,47 @@ namespace g0at
             }
         };
 
+        class object_integer_string : public object_function_built_in
+        {
+        public:
+            object_integer_string(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
+                    return;
+                }
+                int64_t value;
+                if (!thr->pop().get_integer(&value))
+                {
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
+                    return;
+                }
+                int64_t arg_radix = 10;
+                if (arg_count > 0)
+                {
+                    if (!thr->peek().get_integer(&arg_radix) || (arg_radix != 2 && arg_radix != 10 && arg_radix != 16))
+                    {
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                        return;
+                    }
+                }
+                thr->pop(arg_count);
+                variable result;
+                result.set_object(thr->pool->create_object_string(lib::int64_to_wstring(value, (int)arg_radix)));
+                thr->push(result);
+            }
+        };
+
         void object_integer_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(resource::str_valueof), new object_integer_valueof(pool));
+            add_object(pool->get_static_string(resource::str_string), new object_integer_string(pool));
             add_object(pool->get_static_string(resource::str_oper_plus_plus), pool->get_wrap_inc_instance());
             add_object(pool->get_static_string(resource::str_oper_minus_minus), pool->get_wrap_dec_instance());
             add_object(pool->get_static_string(resource::str_oper_tilde), pool->get_wrap_inv_instance());

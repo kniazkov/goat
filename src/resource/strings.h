@@ -93,6 +93,7 @@ namespace g0at
         extern std::wstring str_substr;
         extern std::wstring str_valueof;
         extern std::wstring str_exception;
+        extern std::wstring str_string;
 
         extern std::wstring str_Mode;
         extern std::wstring str_Origin;

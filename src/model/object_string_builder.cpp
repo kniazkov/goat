@@ -164,7 +164,9 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_add), new object_string_builder_add(pool));
             add_object(pool->get_static_string(resource::str_length), new object_string_builder_length(pool));
-            add_object(pool->get_static_string(resource::str_data), new object_string_builder_data(pool));
+            auto method_string = new object_string_builder_data(pool);
+            add_object(pool->get_static_string(resource::str_data), method_string);
+            add_object(pool->get_static_string(resource::str_string), method_string);
             add_object(pool->get_static_string(resource::str_oper_double_less), pool->get_wrap_shl_instance());
             lock();
         }

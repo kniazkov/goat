@@ -128,6 +128,54 @@ namespace g0at
             return result;
         }
 
+        std::wstring int64_to_wstring(int64_t value, int radix)
+        {
+            std::stringstream buff;
+            bool neg = false;
+            if (value < 0)
+            {
+                neg = true;
+                value = -value;
+            }
+            if (radix == 16)
+            {
+                do
+                {
+                    int64_t digit = value % 16; 
+                    char c = digit < 10 ? digit + '0' : digit - 10 + 'a';
+                    buff << c;
+                    value = value / 16;
+                } while(value != 0);
+            }
+            else if (radix == 2)
+            {
+                do
+                {
+                    char c = value % 2 + '0';
+                    buff << c;
+                    value = value / 2;
+                } while(value != 0);
+            }
+            else
+            {
+                do
+                {
+                    char c = value % 10 + '0';
+                    buff << c;
+                    value = value / 10;
+                } while(value != 0);
+            }
+            if (neg)
+            {
+                buff << '-';
+            }
+            std::string str = buff.str();
+            std::wstring result;
+            result.reserve(str.length());
+            result.assign(str.rbegin(), str.rend());
+            return result;
+        }
+
         bool wstring_to_double(std::wstring wstr, double *result)
         {
             size_t i = 0,
