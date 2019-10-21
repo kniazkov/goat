@@ -154,6 +154,33 @@ namespace g0at
         }
     };
 
+    class expected_a_hex_digit : public compilation_error
+    {
+    public:
+        expected_a_hex_digit(lib::pointer<position> pos)
+            : compilation_error(pos, global::resource->expected_a_hex_digit())
+        {
+        }
+    };
+
+    class expected_0_or_1 : public compilation_error
+    {
+    public:
+        expected_0_or_1(lib::pointer<position> pos)
+            : compilation_error(pos, global::resource->expected_0_or_1())
+        {
+        }
+    };
+
+    class identifier_starts_after_numeric_literal : public compilation_error
+    {
+    public:
+        identifier_starts_after_numeric_literal(lib::pointer<position> pos)
+            : compilation_error(pos, global::resource->identifier_starts_after_numeric_literal())
+        {
+        }
+    };
+
     scanner::scanner(source *_src)
         : src(_src)
     {
@@ -172,6 +199,16 @@ namespace g0at
     static inline bool is_digit(wchar_t c)
     {
         return c >= L'0' && c <= L'9';
+    }
+
+    static inline bool is_hex_digit(wchar_t c)
+    {
+        return (c >= L'0' && c <= L'9') || (c >= L'A' && c <= L'F') || (c >= L'a' && c <= L'f');
+    }
+
+    static inline bool is_binary_digit(wchar_t c)
+    {
+        return c == L'0' || c == L'1';
     }
 
     static bool is_operator(wchar_t c)
@@ -405,6 +442,46 @@ namespace g0at
             return new ast::character(str[0]);
         }
 
+        if (c == L'0')
+        {
+            wchar_t c_1 = src->get_char(1);
+            if (c_1 == 'x')
+            {
+                int64_t value = 0;
+                src->next();
+                c = src->next();
+                if (!is_hex_digit(c))
+                    throw expected_a_hex_digit(src->get_position());
+                do
+                {
+                    if (c <= L'9')
+                        value = value * 16 + c - L'0';
+                    else if (c <= L'F')
+                        value = value * 16 + c - L'A' + 10;
+                    else
+                        value = value * 16 + c - L'a' + 10;
+                    c = src->next();
+                } while (is_hex_digit(c));
+                return new ast::integer(value); 
+            }
+            if (c_1 == 'b')
+            {
+                int64_t value = 0;
+                src->next();
+                c = src->next();
+                if (!is_binary_digit(c))
+                    throw expected_0_or_1(src->get_position());
+                do
+                {
+                    value = value * 2 + c - L'0';
+                    c = src->next();
+                } while (is_binary_digit(c));
+                return new ast::integer(value); 
+            }
+            if (is_letter(c_1))
+                throw identifier_starts_after_numeric_literal(src->get_position());
+        }
+
         if (is_digit(c))
         {
             int64_t int_val = 0;
@@ -420,7 +497,11 @@ namespace g0at
                 return new ast::integer(int_val); 
             c = src->next();
             if (!is_digit(c))
+            {
+                if (is_letter(c))
+                    throw identifier_starts_after_numeric_literal(src->get_position());
                 return new ast::integer(int_val);
+            }
             int64_t fract_val = 0;
             int64_t divisor = 1;
             do
@@ -429,6 +510,8 @@ namespace g0at
                 divisor *= 10;
                 c = src->next();
             } while(is_digit(c));
+            if (is_letter(c))
+                throw identifier_starts_after_numeric_literal(src->get_position());
             return new ast::real((double)int_val + (double)fract_val / (double)divisor);
         }
 

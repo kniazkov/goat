@@ -54,6 +54,21 @@ namespace g0at
                 return L"no input file";
             }
 
+            std::wstring expected_a_hex_digit() override
+            {
+                return L"expected_a_hex_digit";
+            }
+
+            std::wstring expected_0_or_1() override
+            {
+                return L"expected '0' or '1'";
+            }
+
+            std::wstring identifier_starts_after_numeric_literal() override
+            {
+                return L"identifier starts immediately after numeric literal";
+            }
+
             std::wstring file_not_found(std::string file_name) override
             {
                 std::wstringstream wss;

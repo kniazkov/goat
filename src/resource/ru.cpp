@@ -54,6 +54,21 @@ namespace g0at
                 return L"не указан файл с исходным кодом";
             }
 
+            std::wstring expected_a_hex_digit() override
+            {
+                return L"здесь должна быть шестнадцатеричная цифра";
+            }
+
+            std::wstring expected_0_or_1() override
+            {
+                return L"здесь должен быть символ '0' или '1'";
+            }
+
+            std::wstring identifier_starts_after_numeric_literal() override
+            {
+                return L"идентификатор начинается сразу после числового литерала";
+            }
+
             std::wstring file_not_found(std::string file_name) override
             {
                 std::wstringstream wss;

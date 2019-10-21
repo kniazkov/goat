@@ -36,6 +36,9 @@ namespace g0at
 
             virtual std::wstring bad_utf8() = 0;
             virtual std::wstring unknown_character(wchar_t ch) = 0;
+            virtual std::wstring expected_a_hex_digit() = 0;
+            virtual std::wstring expected_0_or_1() = 0;
+            virtual std::wstring identifier_starts_after_numeric_literal() = 0;
             virtual std::wstring no_input_file() = 0;
             virtual std::wstring file_not_found(std::string file_name) = 0;
             virtual std::wstring missing_closing_quote() = 0;
