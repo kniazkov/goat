@@ -3962,7 +3962,16 @@
               <td class="cell cell2">
                 <code class="inline">&apos;</code>
               </td>
-              <td class="cell cell2">Single quote</td>
+              <td class="cell cell2">Apostrophe (single quote)</td>
+            </tr>
+            <tr>
+              <td class="cell">
+                <code class="inline">\&quot;</code>
+              </td>
+              <td class="cell cell2">
+                <code class="inline">&quot;</code>
+              </td>
+              <td class="cell cell2">Double quote</td>
             </tr>
             <tr>
               <td class="cell">
@@ -4002,9 +4011,9 @@
             var c = Char.valueof(i); // &apos;A&apos; 
           </div>
           <div class="para">
-            If the object is an integer, returns a Char containing the character associated with the specified character code. Else, if the object is a char, just returns this object. Else, if the object is not an integer and is not a char, returns 
-            <code class="inline">\0</code>
-            (char with zero value).
+            If the object is an integer, returns a Char containing the character associated with the specified character code. Else, if the object is a char, just returns this object. Else, if the object is a string and this string contains only one symbol, returns this symbol. In all other cases, returns 
+            <code class="inline">null</code>
+            .
           </div>
         </div>
         <a name="ref_90"> </a>
@@ -4034,19 +4043,14 @@
           <div class="para">
             Comparison of two 
             <code class="inline">Char</code>
-            objects. If the second parameter is not a char, throws an 
-            <code class="inline">IllegalArgument</code>
-            exception.
+            objects. If the second parameter is not a char, returns 
+            <code class="inline">false</code>
+            .
           </div>
           <div class="para">Example:</div>
           <div class="code">
             
-            print(&apos;A&apos; &gt; &apos;B&apos;); // outputs: false
-          </div>
-          <div class="para">
-            What is an 
-            <b>exception</b>
-            is described in the appropriate section.
+            print(&apos;A&apos; &lt; &apos;B&apos;); // outputs: true
           </div>
         </div>
       </div>

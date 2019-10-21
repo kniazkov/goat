@@ -1606,9 +1606,14 @@
 						<c>Tabulation</c>
 					</r>
 					<r>
-						<c><c>\'</c></c>
-						<c><c>'</c></c>
-						<c>Single quote</c>
+						<c><c>\&apos;</c></c>
+						<c><c>&apos;</c></c>
+						<c>Apostrophe (single quote)</c>
+					</r>
+					<r>
+						<c><c>\&quot;</c></c>
+						<c><c>&quot;</c></c>
+						<c>Double quote</c>
 					</r>
 					<r>
 						<c><c>\\</c></c>
@@ -1626,7 +1631,7 @@
 						var i = 65;
 						var c = Char.valueof(i); // 'A' ]]>
 					</e>
-					<n>If the object is an integer, returns a Char containing the character associated with the specified character code. Else, if the object is a char, just returns this object. Else, if the object is not an integer and is not a char, returns <c>\0</c> (char with zero value).</n>
+					<n>If the object is an integer, returns a Char containing the character associated with the specified character code. Else, if the object is a char, just returns this object. Else, if the object is a string and this string contains only one symbol, returns this symbol. In all other cases, returns <c>null</c>.</n>
 				</m>
 			</s>
 			<s name="Char operators">
@@ -1640,11 +1645,10 @@
 					</e>
 				</o>
 				<o name="&lt;, &lt;=, &gt;, &gt;=">
-					<d>Comparison of two <c>Char</c> objects. If the second parameter is not a char, throws an <c>IllegalArgument</c> exception.</d>
+					<d>Comparison of two <c>Char</c> objects. If the second parameter is not a char, returns <c>false</c>.</d>
 					<e><![CDATA[
-						print('A' > 'B'); // outputs: false]]>
+						print('A' < 'B'); // outputs: true]]>
 					</e>
-					<n>What is an <b>exception</b> is described in the appropriate section.</n>
 				</o>
 			</s>
 		</s>
