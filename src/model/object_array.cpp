@@ -391,5 +391,18 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_oper_plus), new object_array_operator_plus(pool));
             lock();
         }
+
+        void object_array_proto::op_new(thread *thr, int arg_count)
+        {
+            auto obj = thr->pool->create_object_array();
+            while(arg_count--)
+            {
+                variable arg = thr->pop();
+                obj->add_item(arg);
+            }
+            variable result;
+            result.set_object(obj);
+            thr->push(result);
+        }
     };
 };

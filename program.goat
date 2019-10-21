@@ -1,3 +1,10 @@
+println(new Array());
+println(new Array(1, 2, 3));
+println("");
+
+println(new ByteArray(1, 2, 255));
+println("");
+
 println(new String("test"));
 println(new String(7));
 println("");
@@ -62,6 +69,8 @@ println("");
 println(new Void());
 println(new Undefined());
 println(new Null());
+println("");
+
 println(new Exception());
 println(new Exception.IllegalArgument());
 println(new Exception.IllegalContext());

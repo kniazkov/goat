@@ -62,6 +62,8 @@ namespace g0at
         protected:
             object_array_proto(object_pool *pool);
             void init(object_pool *pool);
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
     };
 };
