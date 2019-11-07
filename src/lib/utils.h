@@ -77,5 +77,6 @@ namespace g0at
         std::string trim(std::string str);
         std::string get_line();
         bool ends_with(std::string const & value, std::string const & ending);
+        uint8_t generate_random_number();
     };
 };

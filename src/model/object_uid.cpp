@@ -28,7 +28,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/assert.h"
 #include "lib/functional.h"
 #include <sstream>
-#include <random>
 
 namespace g0at
 {
@@ -51,12 +50,9 @@ namespace g0at
         
         void object_uid::reinit()
         {
-            std::random_device rd;
-            std::mt19937 gen(rd()); 
-            std::uniform_int_distribution<> dis(0, 255);
             for (int i = 0 ; i < data.size; i++)
             {
-                data.values[i] = (uint8_t)dis(gen);
+                data.values[i] = lib::generate_random_number();
             }
         }
 

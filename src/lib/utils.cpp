@@ -29,6 +29,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <fstream>
 #include <streambuf>
 #include <iostream>
+#include <random>
+
 
 /*
 
@@ -495,6 +497,15 @@ namespace g0at
         {
             if (ending.size() > value.size()) return false;
             return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+        }
+
+        std::random_device random_device;
+        std::mt19937 random_generator(random_device()); 
+        std::uniform_int_distribution<> random_distrubution(0, 255);
+
+        uint8_t generate_random_number()
+        {
+            return (uint8_t)random_distrubution(random_generator);
         }
     };
 };
