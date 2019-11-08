@@ -86,15 +86,19 @@ namespace g0at
                 neg = true;
                 value = -value;
             }
-            int64_t factor = 1;
+            long long int  factor = 1;
             if (precision > 7) precision = 7;
             for (int i = 0; i < precision; i++)
             {
                 factor *= 10;
             }
-            int64_t ip = (long int)value;
-            double dfp = value * factor - ip * factor;
-            int64_t fp = (long int)dfp;
+            long long int ip = (long long int )value;
+            long long int vf = (long long int )(value * factor);
+            long long int vf1 = (long long int )(value * (factor * 10));
+            if (vf1 % 10 >= 5)
+                vf++;
+            long long int ipf = ip * factor;
+            long long int fp = vf - ipf;
             if (fp > 0)
             {
                 bool flag = false;
