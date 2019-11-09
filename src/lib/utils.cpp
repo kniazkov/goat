@@ -95,7 +95,8 @@ namespace g0at
             long long int ip = (long long int )value;
             long long int vf = (long long int )(value * factor);
             long long int vf1 = (long long int )(value * (factor * 10));
-            if (vf1 % 10 >= 5)
+            long long int vf2 = vf1 / 10;
+            if (vf2 == vf && vf1 % 10 >= 5)
                 vf++;
             long long int ipf = ip * factor;
             long long int fp = vf - ipf;
