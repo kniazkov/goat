@@ -5007,6 +5007,13 @@
 				<c>goat.exe --bin program.goat.bin</c>
 				<p>Since the compilation procedure was performed earlier, loading prepared bytecode is faster. This will reduce the overall program execution time.</p>
 			</h>
+			<h name="--stdin">
+				<p>Reads the original text of the program from standard input instead of a file. This option allows, for example, to execute short programs directly from the command line:</p>
+				<c><![CDATA[
+					C:\>echo for (var i in range(10)) print(i); | goat.exe --stdin
+					0123456789]]>
+				</c>
+			</h>
 			<h name="--gc">
 				<p>One of the four modes of garbage collection.</p>
 				<l>
