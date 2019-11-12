@@ -139,7 +139,43 @@ namespace g0at
                 gct = vm::gc_type::disabled;
         }
 
-        if (opt.prog_name == nullptr)
+        if (opt.from_stdin)
+        {
+            source_manager listing;
+            model::name_cache name_cache;
+            std::stringstream stream;
+            int ch = getchar();
+            while(ch != EOF)
+            {
+                stream << (char)ch;
+                ch = getchar();
+            }
+            std::string program = lib::trim(stream.str());
+            if (program == "")
+                return 0;
+            source *src = listing.create_source_from_string(global::char_encoder->decode(program));
+            try
+            {
+                scanner scan(src);
+                auto tok_root = parser::parser::parse(&scan, false, "stdin", opt.lib_path, nullptr);
+                auto node_root = analyzer::analyzer::analyze(tok_root);
+                tok_root.reset();
+                auto code = codegen::generator::generate(&name_cache, node_root, true);
+                node_root.reset();
+                env = new vm::environment(gct, code->get_identifiers_list(), false, true, &listing);
+                vm::vm vm(code);
+                ret_val = vm.run(env.get());
+                return ret_val;
+            }
+            catch (compilation_error &c_err)
+            {
+                int pos = c_err.get_position()->get_absolute_position();
+                std::wstring frag = listing.get_fragment_by_absolute_position(pos);
+                std::cerr << global::char_encoder->encode(frag) << std::endl << c_err.what() << std::endl;
+                return -1;
+            }
+        }
+        else if (opt.prog_name == nullptr)
         {
             source_manager listing;
             model::name_cache name_cache;

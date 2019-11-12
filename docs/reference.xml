@@ -2717,7 +2717,7 @@
 		</s>
 		<s name="Debugging">
 			<s name="Interactive mode">
-				<p>Goat has two basic modes: script and interactive. The normal mode is the mode where the script files are run in the Goat interpreter. Interactive mode is a command line shell that gives immediate feedback for each statement while running in shared memory. As new lines are fed into the interpreter, each new line is executed.</p>
+				<p>Goat has two basic modes: script and interactive. The script mode is the mode where the script files are run in the Goat interpreter. Interactive mode is a command line shell that gives immediate feedback for each statement while running in shared memory. As new lines are fed into the interpreter, each new line is executed.</p>
 				<p>To start interactive mode, launch the Goat interpreter without script file (in common cases without any parameters):</p>
 				<c>goat.exe</c>
 				<p>Will open a console:</p>
@@ -2779,6 +2779,14 @@
 				<c>quit</c>
 			</s>
 			<s name="Step-by-step debugging" anchor="Step-by-step debugging">
+				<s name="The '--debug' command line parameter">
+					<p>If to add this parameter to the command line, the interpreter will be started in step-by-step mode. The program will be compiled, but will not be run. Will open a console instead:</p>
+					<c>goat.exe program.goat --debug</c>
+					<c><![CDATA[
+						goat.exe program.goat --debug
+						?]]>
+					</c>
+				</s>
 				<s name="The 'debug' keyword">
 					<p><d>The <c>debug</c> keyword stops the execution of Goat, and switch the interpreter to step-by-step mode. If no debugging is available, the <c>debug</c> statement has no effect.</d></p>
 					<c><![CDATA[

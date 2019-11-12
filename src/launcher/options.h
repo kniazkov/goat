@@ -47,6 +47,7 @@ namespace g0at
         std::vector<std::string> lib_path;
         bool debug;
         bool run;
+        bool from_stdin;
 
     protected:
         void parse_lib_path(const char *pathes);
