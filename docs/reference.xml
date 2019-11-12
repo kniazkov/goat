@@ -2093,16 +2093,25 @@
 				<p>If the variable <c>age</c> is a value below 18, the value of the variable voteable will be <c>"Too young"</c>, otherwise the value of voteable will be <c>"Old enough"</c>.</p>
 			</s>
 			<s name="Comparing different types">
-				<p>Comparing data of different types may give unexpected results. As a rule, the operators <c>==</c> and <c>!=</c> check that the types of the two variables match, otherwise will be returned false. For example, you can compare numbers but you can not compare a number and a string. If you need to compare, just explicit convert an operand to another type to match the second operand:</p>
+				<p>Comparing data of different types may give unexpected results. As a rule, the operators <c>==</c> and <c>!=</c> check that the types of the two variables match, otherwise will be returned default value (<c>false</c> in case of <c>==</c>). For example, you can compare numbers but you can not compare a number and a string. If you need to compare, just explicit convert an operand to another type to match the second operand:</p>
 				<c><![CDATA[
-					var s = "1024";
-					var i = 256 * 4;
+					var s = "1024";    // String
+					var i = 256 * 4;   // Integer
 					if (String.valueof(i) == s)
 					{
 						// do something
 					}]]>
 				</c>
 				<p>There is one exclusion. You can compare integer numbers and real numbers although they are different types. An integer operand will be converted to a real before comparison.</p>
+				<p>If you really not sure that operands have the same type, but you extremely need to compare it, cast both operands to the same type:</p>
+				<c><![CDATA[
+					var s = "1024";
+					var i = 256 * 4;
+					if (Real.valueof(i) == Real.valueOf(s)) // convert both to Real
+					{
+						// do something
+					}]]>
+				</c>
 			</s>
 		</s>
 		<s name="Conditions" anchor="Conditions">
@@ -2124,13 +2133,13 @@
 						block of code to be executed if the condition is true
 					}]]>
 				</c>
-				<p>Example (outputs <c>"Good day"</c>):</p>
+				<p>Example (outputs <c>"Okay"</c>):</p>
 				<c><![CDATA[
-					var hour = 12;
+					var testscore = 70;
 					//...
-					if (hour < 18)
+					if (testscore > 60)
 					{
-						print("Good day");
+						print("Okay");
 					}]]>
 				</c>
 				<p>Note that <c>if</c> is in lowercase letters. Uppercase letters (<c>If</c> or <c>IF</c>) will generate a Goat error.</p>
@@ -2147,17 +2156,17 @@
 						block of code to be executed if the condition is false
 					}]]>
 				</c>
-				<p>Example (outputs <c>"Good evening"</c>):</p>
+				<p>Example (outputs <c>"Excellent result"</c>):</p>
 				<c><![CDATA[
-					var hour = 12;
+					var testscore = 95;
 					//...
-					if (hour < 18)
+					if (testscore < 90)
 					{
-						print("Good day");
+						print("Okay");
 					}
 					else
 					{
-						print("Good evening");
+						print("Excellent result");
 					}]]>
 				</c>
 			</s>
@@ -2179,19 +2188,45 @@
 				</c>
 				<p>Example:</p>
 				<c><![CDATA[
-					if (hour < 10)
+					if (testscore < 50)
 					{
-						print("Good morning");
+						print("Bad result");
 					}
-					else if (hour < 18)
+					else if (testscore < 90)
 					{
-						print("Good day");
+						print("Okay");
 					}
 					else
 					{
-						print("Good evening");
+						print("Excellent result");
 					}]]>
 				</c>
+			</s>
+			<s name="Single statements instead of blocks">
+				<p>If a block contains only one statement, you can use this statement without parentheses. The previous example, but with single statements instead of blocks:</p>
+				<c><![CDATA[
+					if (testscore < 50)
+						print("Bad result");
+					else if (testscore < 90)
+						print("Okay");
+					else
+						print("Excellent result");]]>
+				</c>
+				<p>It's a little shorter, isn't it? You can even write the whole 'if' statement to one line:</p>
+				<c>if (obj == null) return;</c>
+				<p>It's the same to:</p>
+				<c><![CDATA[
+					if (obj == null)
+						return;]]>
+				</c>
+				<p>Or</p>
+				<c><![CDATA[
+					if (obj == null)
+					{
+						return;
+					}]]>
+				</c>
+				<p>Of course, the same rules apply to other constructions described below.</p>
 			</s>
 		</s>
 		<s name="Switch statement">
