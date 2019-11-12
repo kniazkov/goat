@@ -5665,7 +5665,7 @@
             <code class="inline">default</code>
             keyword specifies the code to run if there is no case match.
           </div>
-          <div class="para">Example. This function converts weekday (as a number between 0 and 6) to a string, but if weekday is neither Saturday (6) nor Sunday (0), returns a default message:</div>
+          <div class="para">Example. This function converts weekday (as a number between 0 and 6) to a string, but if a weekday is neither Saturday (6) nor Sunday (0), returns a default message:</div>
           <div class="code">
             
             var weekday = function(number)
@@ -5715,7 +5715,7 @@
             
             }; 
           </div>
-          <div class="para">The default case (if exists) should be the last case in a switch block.</div>
+          <div class="para">The default case (if exists) does not necessarily have to be the last one. However, it will always be executed only if all other conditions have not been executed. This block is recommended to be the last block for good visibility.</div>
         </div>
         <a name="ref_126"> </a>
         <div style="font-size: large;" class="header">4.21.4. Common code blocks</div>

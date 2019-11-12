@@ -2289,7 +2289,7 @@
 			</s>
 			<s name="The 'default' keyword">
 				<p>The <c>default</c> keyword specifies the code to run if there is no case match.</p>
-				<p>Example. This function converts weekday (as a number between 0 and 6) to a string, but if weekday is neither Saturday (6) nor Sunday (0), returns a default message:</p>
+				<p>Example. This function converts weekday (as a number between 0 and 6) to a string, but if a weekday is neither Saturday (6) nor Sunday (0), returns a default message:</p>
 				<c><![CDATA[
 					var weekday = function(number)
 					{
@@ -2308,7 +2308,7 @@
 						return day;
 					}; ]]>
 				</c>
-				<p>The default case (if exists) should be the last case in a switch block.</p>
+				<p>The default case (if exists) does not necessarily have to be the last one. However, it will always be executed only if all other conditions have not been executed. This block is recommended to be the last block for good visibility.</p>
 			</s>
 			<s name="Common code blocks">
 				<p>Sometimes you will want different switch cases to use the same code:</p>
