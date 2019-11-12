@@ -5789,7 +5789,7 @@
       <div class="section">
         <ul class="content">
           <li>
-            <a href="#ref_128">What is loops</a>
+            <a href="#ref_128">What are loops</a>
           </li>
           <li>
             <a href="#ref_129">Different kinds of loops</a>
@@ -5814,7 +5814,7 @@
           </li>
         </ul>
         <a name="ref_128"> </a>
-        <div style="font-size: large;" class="header">4.22.1. What is loops</div>
+        <div style="font-size: large;" class="header">4.22.1. What are loops</div>
         <div class="section">
           <div class="para">Loops can execute a block of code a number of times.</div>
           <div class="para">Loops are handy, if you want to run the same code over and over again, each time with a different value. Often this is the case when working with arrays.</div>
@@ -5855,7 +5855,7 @@
             {
             <br/>
             &nbsp;&nbsp;
-            print(herd[i] + &quot;\n&quot;);
+            println(herd[i]);
             <br/>
             
             }
@@ -5872,7 +5872,7 @@
             </li>
             <li>
               <code class="inline">for..in</code>
-              - loops through the properties of an object;
+              - loops through the properties of an object or through all items of an array;
             </li>
             <li>
               <code class="inline">while</code>
@@ -6026,7 +6026,7 @@
               <code class="inline">break</code>
               or a 
               <code class="inline">return</code>
-              inside the loop. Otherwise the loop will never end.
+              inside the loop. Otherwise, the loop will never end.
             </div>
           </div>
           <a name="ref_133"> </a>
@@ -6079,7 +6079,10 @@
             {
             <br/>
             &nbsp;&nbsp;
-            print(x + &quot;: &quot; + person[x] + &quot;\n&quot;);
+            if (person.contains(x))
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            println(x + &quot;: &quot; + person[x]);
             <br/>
             
             }
@@ -6093,10 +6096,10 @@
             age: 33
             <br/>
             
-            genger: male
+            gender: male
           </div>
           <div class="para">
-            Note that objects store unordered pairs 
+            Some notes. First, objects store unordered pairs 
             <code class="inline">key:value</code>
             . The order of traversal of object properties may not match with the order of the properties at object creation. In the example above, the output can be:
           </div>
@@ -6108,7 +6111,76 @@
             name: Ivan
             <br/>
             
-            genger: male
+            gender: male
+          </div>
+          <div class="para">
+            Second, you must have noticed that this is an additional 
+            <code class="inline">contains</code>
+            method call. Why? In fact, any object contains references to additional auxiliary methods, so without calling 
+            <code class="inline">contains</code>
+            method, the output will be similar to something like:
+          </div>
+          <div class="code">
+            
+            gender: male
+            <br/>
+            
+            age: 33
+            <br/>
+            
+            name: Ivan
+            <br/>
+            
+            clone: function
+            <br/>
+            
+            instanceof: function
+            <br/>
+            
+            flat: function
+            <br/>
+            
+            get: function
+            <br/>
+            
+            set: function
+            <br/>
+            
+            iterator: function
+            <br/>
+            
+            ...
+          </div>
+          <div class="para">
+            The 
+            <code class="inline">contains</code>
+            method returns 
+            <code class="inline">true</code>
+            if object itself contains property with given name. So, we can exclude all auxiliary properties (methods and fields).
+          </div>
+          <div class="para">
+            The Goat 
+            <code class="inline">for..in</code>
+            statement can also loop through all items of an array:
+          </div>
+          <div class="code">
+            
+            var herd = [&quot;Dirty&quot;, &quot;Stinky&quot;, &quot;Crazy&quot;, &quot;Nasty&quot;, &quot;Dumb&quot;, &quot;Dumber&quot;];
+            <br/>
+            
+            var goat;
+            <br/>
+            
+            for (goat in herd)
+            <br/>
+            
+            {
+            <br/>
+            &nbsp;&nbsp;
+            println(goat);
+            <br/>
+            
+            }
           </div>
         </div>
         <a name="ref_135"> </a>

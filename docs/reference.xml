@@ -2337,7 +2337,7 @@
 			</s>
 		</s>
 		<s name="Loops">
-			<s name="What is loops">
+			<s name="What are loops">
 				<p>Loops can execute a block of code a number of times.</p>
 				<p>Loops are handy, if you want to run the same code over and over again, each time with a different value. Often this is the case when working with arrays.</p>
 				<p>For example, we have an array:</p>
@@ -2356,7 +2356,7 @@
 					var i, l = herd.length();
 					for (i = 0; i < l; i++)
 					{
-						print(herd[i] + "\n");
+						println(herd[i]);
 					}]]>
 				</c>
 			</s>
@@ -2364,7 +2364,7 @@
 				<p>Goat supports different kinds of loops:</p>
 				<l>
 					<i><c>for</c> - loops through a block of code a number of times;</i>
-					<i><c>for..in</c> - loops through the properties of an object;</i>
+					<i><c>for..in</c> - loops through the properties of an object or through all items of an array;</i>
 					<i><c>while</c> - loops through a block of code while a specified condition is true;</i>
 					<i><c>do..while</c> - also loops through a block of code while a specified condition is true.</i>
 				</l>
@@ -2412,7 +2412,7 @@
 				</s>
 				<s name="Statement 2">
 					<p>Often statement 2 is used to evaluate the condition of the initial variable. This is not always the case, Goat doesn't care. Statement 2 is also optional. If statement 2 returns <c>true</c>, the loop will start over again, if it returns <c>false</c>, the loop will end.</p>
-					<p>If you omit statement 2, you must provide a <c>break</c> or a <c>return</c> inside the loop. Otherwise the loop will never end.</p>
+					<p>If you omit statement 2, you must provide a <c>break</c> or a <c>return</c> inside the loop. Otherwise, the loop will never end.</p>
 				</s>
 				<s name="Statement 3">
 					<p>Often statement 3 increments the value of the initial variable. This is not always the case, Goat doesn't care, and statement 3 is optional. Statement 3 can do anything like negative increment (<c>i--</c>), positive increment (<c>i = i + 15</c>), or anything else. Statement 3 can also be omitted (like when you increment your values inside the loop):</p>
@@ -2432,20 +2432,44 @@
 					var x;
 					for (x in person)
 					{
-						print(x + ": " + person[x] + "\n");
+						if (person.contains(x))
+							println(x + ": " + person[x]);
 					}]]>
 				</c>
 				<p>Output:</p>
 				<c><![CDATA[
 					name: Ivan
 					age: 33
-					genger: male]]>
+					gender: male]]>
 				</c>
-				<p>Note that objects store unordered pairs <c>key:value</c>. The order of traversal of object properties may not match with the order of the properties at object creation. In the example above, the output can be:</p>
+				<p>Some notes. First, objects store unordered pairs <c>key:value</c>. The order of traversal of object properties may not match with the order of the properties at object creation. In the example above, the output can be:</p>
 				<c><![CDATA[
 					age: 33
 					name: Ivan
-					genger: male]]>
+					gender: male]]>
+				</c>
+				<p>Second, you must have noticed that this is an additional <c>contains</c> method call. Why? In fact, any object contains references to additional auxiliary methods, so without calling <c>contains</c> method, the output will be similar to something like:</p>
+				<c><![CDATA[
+					gender: male
+					age: 33
+					name: Ivan
+					clone: function
+					instanceof: function
+					flat: function
+					get: function
+					set: function
+					iterator: function
+					...]]>
+				</c>
+				<p>The <c>contains</c> method returns <c>true</c> if object itself contains property with given name. So, we can exclude all auxiliary properties (methods and fields).</p>
+				<p>The Goat <c>for..in</c> statement can also loop through all items of an array:</p>
+				<c><![CDATA[
+					var herd = ["Dirty", "Stinky", "Crazy", "Nasty", "Dumb", "Dumber"];
+					var goat;
+					for (goat in herd)
+					{
+						println(goat);
+					}]]>
 				</c>
 			</s>
 			<s name="The 'while' loop">
