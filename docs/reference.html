@@ -6809,9 +6809,9 @@
             <code class="inline">B</code>
             uses (imports) library 
             <code class="inline">A</code>
-            also. So, library 
+            too. So, library 
             <code class="inline">A</code>
-            will be imported only once, for all project.
+            will be imported only once, for the whole project.
           </div>
           <div class="para">Where the interpreter finds files to import? </div>
           <ul>
@@ -6854,7 +6854,7 @@
         <a name="ref_149"> </a>
         <div style="font-size: large;" class="header">4.25.1. Interactive mode</div>
         <div class="section">
-          <div class="para">Goat has two basic modes: script and interactive. The normal mode is the mode where the scripted and finished files are run in the Goat interpreter. Interactive mode is a command line shell which gives immediate feedback for each statement while running previously fed statements in active memory. As new lines are fed into the interpreter, the fed program is evaluated both in part and in whole.</div>
+          <div class="para">Goat has two basic modes: script and interactive. The normal mode is the mode where the script files are run in the Goat interpreter. Interactive mode is a command line shell that gives immediate feedback for each statement while running in shared memory. As new lines are fed into the interpreter, each new line is executed.</div>
           <div class="para">To start interactive mode, launch the Goat interpreter without script file (in common cases without any parameters):</div>
           <div class="code">
             
@@ -6863,18 +6863,21 @@
           <div class="para">Will open a console:</div>
           <div class="code">
             
-            ?
+            Ok.
+            <br/>
+            
+            &gt;
           </div>
           <div class="para">Enter any correct statement and press Enter:</div>
           <div class="code">
             
-            ? var i = 0;
+            &gt; var i = 0;
             <br/>
             
             
             <br/>
             
-            ?
+            &gt;
           </div>
           <div class="para">
             In the example above, the interpreter will create a variable 
@@ -6883,29 +6886,29 @@
           </div>
           <div class="code">
             
-            ? print(i);
+            &gt; print(i);
             <br/>
             
             0
             <br/>
             
-            ?
+            &gt;
           </div>
           <div class="para">You can use any statements you want:</div>
           <div class="code">
             
-            ? for (var k = 0; k &lt; 10; k++) print(k);
+            &gt; for (var k = 0; k &lt; 10; k++) print(k);
             <br/>
             
             0123456789
             <br/>
             
-            ?
+            &gt;
           </div>
           <div class="para">If statement takes more than one line, add a backslash to go a new line:</div>
           <div class="code">
             
-            ? for (var k = 0; k &lt; 10; k++) \
+            &gt; for (var k = 0; k &lt; 10; k++) \
             <br/>
             
             { \
@@ -6923,39 +6926,63 @@
             012456789
             <br/>
             
-            ?
+            &gt;
           </div>
           <div class="para">The values of all variables are saved:</div>
           <div class="code">
             
-            ? var obj = {};
+            &gt; var obj = {};
             <br/>
             
             
             <br/>
             
-            ? obj.field = 1;
+            &gt; obj.field = 1;
             <br/>
             
             
             <br/>
             
-            ? print(obj);
+            &gt; print(obj);
             <br/>
             
             {field:1};
             <br/>
             
-            ?
+            &gt;
+          </div>
+          <div class="para">To print the value of an expression, add a question mark before the expression:</div>
+          <div class="code">
+            
+            &gt; ? 2 + 3
+            <br/>
+            
+            5
+            <br/>
+            
+            &gt;
+          </div>
+          <div class="para">Any expressions are applicable:</div>
+          <div class="code">
+            
+            &gt; ? &quot;test&quot;.instanceof(String)
+            <br/>
+            
+            true
+            <br/>
+            
+            &gt;
           </div>
           <div class="para">
             The special statement 
-            <code class="inline">exit</code>
-            exits interactive mode.
+            <code class="inline">quit</code>
+            (or 
+            <code class="inline">q</code>
+            ) exits interactive mode.
           </div>
           <div class="code">
             
-            exit
+            quit
           </div>
         </div>
         <a name="ref_150"> </a>

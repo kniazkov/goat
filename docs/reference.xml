@@ -2702,7 +2702,7 @@
 				// now, you can use functions from XML library:
 				var root = Xml.parse("<root></root>");]]>
 			</c>
-			<p>No file will be imported twice. For example, your program uses library <c>A</c> and library <c>B</c>. But library <c>B</c> uses (imports) library <c>A</c> also. So, library <c>A</c> will be imported only once, for all project.</p>
+			<p>No file will be imported twice. For example, your program uses library <c>A</c> and library <c>B</c>. But library <c>B</c> uses (imports) library <c>A</c> too. So, library <c>A</c> will be imported only once, for the whole project.</p>
 			<p>Where the interpreter finds files to import? </p>
 			<l>
 				<i>first, in the current folder, where was started Goat script;</i>
@@ -2717,51 +2717,66 @@
 		</s>
 		<s name="Debugging">
 			<s name="Interactive mode">
-				<p>Goat has two basic modes: script and interactive. The normal mode is the mode where the scripted and finished files are run in the Goat interpreter. Interactive mode is a command line shell which gives immediate feedback for each statement while running previously fed statements in active memory. As new lines are fed into the interpreter, the fed program is evaluated both in part and in whole.</p>
+				<p>Goat has two basic modes: script and interactive. The normal mode is the mode where the script files are run in the Goat interpreter. Interactive mode is a command line shell that gives immediate feedback for each statement while running in shared memory. As new lines are fed into the interpreter, each new line is executed.</p>
 				<p>To start interactive mode, launch the Goat interpreter without script file (in common cases without any parameters):</p>
 				<c>goat.exe</c>
 				<p>Will open a console:</p>
-				<c>?</c>
+				<c><![CDATA[
+					Ok.
+					>]]>
+				</c>
 				<p>Enter any correct statement and press Enter:</p>
 				<c><![CDATA[
-					? var i = 0;
+					> var i = 0;
 					
-					?]]>
+					>]]>
 				</c>
 				<p>In the example above, the interpreter will create a variable <c>i</c> and wait for the new statement to be entered. So, now you can print the value of the variable:</p>
 				<c><![CDATA[
-					? print(i);
+					> print(i);
 					0
-					?]]>
+					>]]>
 				</c>
 				<p>You can use any statements you want:</p>
 				<c><![CDATA[
-					? for (var k = 0; k < 10; k++) print(k);
+					> for (var k = 0; k < 10; k++) print(k);
 					0123456789
-					?]]>
+					>]]>
 				</c>
 				<p>If statement takes more than one line, add a backslash to go a new line:</p>
 				<c><![CDATA[
-					? for (var k = 0; k < 10; k++) \
+					> for (var k = 0; k < 10; k++) \
 					{ \
 						if (k == 3) continue; \
 						print(k); \
 					}
 					012456789
-					?]]>
+					>]]>
 				</c>
 				<p>The values of all variables are saved:</p>
 				<c><![CDATA[
-					? var obj = {};
+					> var obj = {};
 					
-					? obj.field = 1;
+					> obj.field = 1;
 					
-					? print(obj);
+					> print(obj);
 					{field:1};
-					?]]>
+					>]]>
 				</c>
-				<p>The special statement <c>exit</c> exits interactive mode.</p>
-				<c>exit</c>
+				<p>To print the value of an expression, add a question mark before the expression:</p>
+				<c><![CDATA[
+					> ? 2 + 3
+					5
+					>]]>
+				</c>
+				<p>Any expressions are applicable:</p>
+				<c><![CDATA[
+					> ? "test".instanceof(String)
+					true
+					>]]>
+				</c>
+				<p>The special statement <c>quit</c> (or <c>q</c>) exits interactive mode.</p>
+				<c>quit</c>
 			</s>
 			<s name="Step-by-step debugging" anchor="Step-by-step debugging">
 				<s name="The 'debug' keyword">
