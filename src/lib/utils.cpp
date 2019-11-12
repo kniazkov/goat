@@ -463,6 +463,10 @@ namespace g0at
             return stream.str();
         }
 
+        inline static bool is_space(char c) {
+            return c == ' ' || c == '\t' || c == '\n' || c == '\r';
+        }
+
         std::string trim(std::string str)
         {
             size_t size = str.size();
@@ -472,7 +476,7 @@ namespace g0at
             size_t begin = 0;
             while(begin < size)
             {
-                if (str[begin] != ' ')
+                if (!is_space(str[begin]))
                     break;
                 begin++;
             }
@@ -483,7 +487,7 @@ namespace g0at
             size_t end = size - 1;
             while(end > begin)
             {
-                if (str[end] != ' ')
+                if (!is_space(str[end]))
                     break;
                 end--;
             }
