@@ -6523,7 +6523,7 @@
             throw &quot;Oops!&quot;; // throw a string
           </div>
           <div class="para">
-            The thrown object passes as parameter of the 
+            The thrown object passes as a parameter of the 
             <code class="inline">catch</code>
             statement.
           </div>
@@ -6553,7 +6553,7 @@
             
             <br/>
             &nbsp;&nbsp;
-            return value -273.15;
+            return value - 273.15;
             <br/>
             
             };
@@ -6656,36 +6656,31 @@
             </tr>
             <tr>
               <td class="cell">
-                <code class="inline">NameIsNotDefined</code>
+                <code class="inline">Exception</code>
               </td>
-              <td class="cell cell2">
-                Attempt to call a function with an undefined name. For example, 
-                <code class="inline">Print</code>
-                (first capital letter) instead of 
-                <code class="inline">print</code>
-              </td>
+              <td class="cell cell2">Common type for all exceptions</td>
             </tr>
             <tr>
               <td class="cell">
-                <code class="inline">IsNotAFunction</code>
+                <code class="inline">Exception.IllegalArgument</code>
               </td>
-              <td class="cell cell2">
-                Attempt to call a function: name is defined, but it is not a function.
-                <code class="inline">var f = 0; f();</code>
-              </td>
+              <td class="cell cell2">Illegal argument of a function or an operator</td>
             </tr>
             <tr>
               <td class="cell">
-                <code class="inline">OperatorIsNotDefined</code>
+                <code class="inline">Exception.IllegalContext</code>
               </td>
-              <td class="cell cell2">
-                Attempt to use an operator that is not applicable to this data type. For example, you can not multiply strings: 
-                <code class="inline">&quot;hello&quot; * &quot;world&quot;</code>
-              </td>
+              <td class="cell cell2">Incorrect execution context, usually this occurs if you try to apply the methods of one object to another object</td>
             </tr>
             <tr>
               <td class="cell">
-                <code class="inline">DivisionByZero</code>
+                <code class="inline">Exception.IllegalOperation</code>
+              </td>
+              <td class="cell cell2">This operation cannot be executed</td>
+            </tr>
+            <tr>
+              <td class="cell">
+                <code class="inline">Exception.IllegalOperation.DivisionByZero</code>
               </td>
               <td class="cell cell2">
                 Division by zero, 
@@ -6694,27 +6689,42 @@
             </tr>
             <tr>
               <td class="cell">
-                <code class="inline">IncorrectIndex</code>
+                <code class="inline">Exception.IllegalReference</code>
               </td>
               <td class="cell cell2">
-                Index of an array is not an integer, 
-                <code class="inline">var a = [0, 13, 666]; print(a[&quot;0&quot;]);</code>
+                Attempt to write or read a non-existent object (
+                <code class="inline">undefined</code>
+                or 
+                <code class="inline">null</code>
+                )
               </td>
             </tr>
             <tr>
               <td class="cell">
-                <code class="inline">OutOfBounds</code>
+                <code class="inline">Exception.IllegalType</code>
               </td>
-              <td class="cell cell2">
-                Index of an array is too big , 
-                <code class="inline">var a = [0, 13, 666]; print(a[10]);</code>
-              </td>
+              <td class="cell cell2">Object has a type that was not expected</td>
             </tr>
             <tr>
               <td class="cell">
-                <code class="inline">IllegalArgument</code>
+                <code class="inline">Exception.IllegalType.IsNotAFunction</code>
               </td>
-              <td class="cell cell2">Wrong argument of a function or an operator</td>
+              <td class="cell cell2">Attempt to call an object as a function (but it is not a function)</td>
+            </tr>
+            <tr>
+              <td class="cell">
+                <code class="inline">Exception.IllegalType.IsNotAMethod</code>
+              </td>
+              <td class="cell cell2">Attempt to call an object as a method (but it is not a method)</td>
+            </tr>
+            <tr>
+              <td class="cell">
+                <code class="inline">Exception.IllegalType.OperatorNotFound</code>
+              </td>
+              <td class="cell cell2">
+                This operator does not apply to the object, 
+                <code class="inline">print(&quot;abc&quot; - &quot;def&quot;);</code>
+              </td>
             </tr>
           </table>
           <div class="para">
@@ -6742,13 +6752,13 @@
             {
             <br/>
             &nbsp;&nbsp;
-            if (err.instanceof(Exception.OutOfBounds))
+            if (err.instanceof(Exception.IllegalOperation))
             <br/>
             &nbsp;&nbsp;
             {
             <br/>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            // do domething if out of bounds
+            // do domething if operation is illegal
             <br/>
             &nbsp;&nbsp;
             }

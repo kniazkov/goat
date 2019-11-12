@@ -2583,7 +2583,7 @@
 				<p>The <c>throw</c> statement allows you to create a custom error.</p>
 				<p>Technically you can <b>throw an exception</b> (throw an error). The exception can be any object:</p>
 				<c>throw "Oops!"; // throw a string</c>
-				<p>The thrown object passes as parameter of the <c>catch</c> statement.</p>
+				<p>The thrown object passes as a parameter of the <c>catch</c> statement.</p>
 				<p>If you use <c>throw</c> together with <c>try</c> and <c>catch</c>, you can control program flow and generate custom error messages.</p>
 				<c><![CDATA[
 					var kelvin2Celsius = function(value)
@@ -2591,7 +2591,7 @@
 						if (value < 0)
 							throw "Wrong parameter: " + value;
 						
-						return value -273.15;
+						return value - 273.15;
 					};
 					
 					try 
@@ -2637,32 +2637,44 @@
 						<c>Situation</c>
 					</h>
 					<r>
-						<c><c>NameIsNotDefined</c></c>
-						<c>Attempt to call a function with an undefined name. For example, <c>Print</c> (first capital letter) instead of <c>print</c></c>
+						<c><c>Exception</c></c>
+						<c>Common type for all exceptions</c>
 					</r>
 					<r>
-						<c><c>IsNotAFunction</c></c>
-						<c>Attempt to call a function: name is defined, but it is not a function.<c>var f = 0; f();</c></c>
+						<c><c>Exception.IllegalArgument</c></c>
+						<c>Illegal argument of a function or an operator</c>
 					</r>
 					<r>
-						<c><c>OperatorIsNotDefined</c></c>
-						<c>Attempt to use an operator that is not applicable to this data type. For example, you can not multiply strings: <c>"hello" * "world"</c></c>
+						<c><c>Exception.IllegalContext</c></c>
+						<c>Incorrect execution context, usually this occurs if you try to apply the methods of one object to another object</c>
 					</r>
 					<r>
-						<c><c>DivisionByZero</c></c>
+						<c><c>Exception.IllegalOperation</c></c>
+						<c>This operation cannot be executed</c>
+					</r>
+					<r>
+						<c><c>Exception.IllegalOperation.DivisionByZero</c></c>
 						<c>Division by zero, <c>print(1 / 0);</c></c>
 					</r>
 					<r>
-						<c><c>IncorrectIndex</c></c>
-						<c>Index of an array is not an integer, <c>var a = [0, 13, 666]; print(a["0"]);</c></c>
+						<c><c>Exception.IllegalReference</c></c>
+						<c>Attempt to write or read a non-existent object (<c>undefined</c> or <c>null</c>)</c>
 					</r>
 					<r>
-						<c><c>OutOfBounds</c></c>
-						<c>Index of an array is too big , <c>var a = [0, 13, 666]; print(a[10]);</c></c>
+						<c><c>Exception.IllegalType</c></c>
+						<c>Object has a type that was not expected</c>
 					</r>
 					<r>
-						<c><c>IllegalArgument</c></c>
-						<c>Wrong argument of a function or an operator</c>
+						<c><c>Exception.IllegalType.IsNotAFunction</c></c>
+						<c>Attempt to call an object as a function (but it is not a function)</c>
+					</r>
+					<r>
+						<c><c>Exception.IllegalType.IsNotAMethod</c></c>
+						<c>Attempt to call an object as a method (but it is not a method)</c>
+					</r>
+					<r>
+						<c><c>Exception.IllegalType.OperatorNotFound</c></c>
+						<c>This operator does not apply to the object, <c>print("abc" - "def");</c></c>
 					</r>
 				</t>
 				<p>Each object (include error objects) has the <c>instanceof</c> method. You can use this method to determine the type of exception:</p>
@@ -2673,9 +2685,9 @@
 					}
 					catch(err)
 					{
-						if (err.instanceof(Exception.OutOfBounds))
+						if (err.instanceof(Exception.IllegalOperation))
 						{
-							// do domething if out of bounds
+							// do domething if operation is illegal
 						}
 					}]]>
 				</c>
