@@ -1899,15 +1899,42 @@
 					<a name="object" type="any type" descr="an item"/>
 				</m>
 			</s>
+			<s name="Array operators">
+				<o name="+">
+					<d>If the second operand is array, returns a new array that is a concatenation of two operands, i.e. contains all items from the left operand and then all items from the right operand. Otherwise, if the second operand is not an array (so it is another object), returns a new array contains all items from the left operand plus one additional item (right operand).</d>
+					<e><![CDATA[
+						var a = [1,2,3];
+						var b = [4,5];
+						var x = a + b; // [1,2,3,4,5]
+						var y = x + 6; // [1,2,3,4,5,6] ]]>
+					</e>
+				</o>
+			</s>
 			<s name="Looping array elements">
 				<p>The best way to loop through an array, is using a <c>for</c> loop:</p>
 				<c><![CDATA[
 					var fruits = ["Banana", "Orange", "Apple", "Mango"];
-					var i, l = fruits.length();
-					for (i = 0; i < l; i++)
+					var i, count = fruits.length();
+					for (i = 0; i < count; i++)
 					{
-						print(fruits[i] + "\n");
-					}]]>
+						println(fruits[i]);
+					} ]]>
+				</c>
+				<p>Output:</p>
+				<c><![CDATA[
+					Banana
+					Orange
+					Apple
+					Mango ]]>
+				</c>
+				<p>The same result with <c>for..in</c> loop:</p>
+				<c><![CDATA[
+					var fruits = ["Banana", "Orange", "Apple", "Mango"];
+					var fruit;
+					for (fruit in fruits)
+					{
+						println(fruit);
+					} ]]>
 				</c>
 			</s>
 		</s>
@@ -1918,7 +1945,7 @@
 				<l>
 					<i><b>Yes</b> or <b>No</b></i>
 					<i><b>On</b> or <b>Off</b></i>
-					<i><b>True</b> or <b>False</b></i>
+					<i><b>Light Side</b> or <b>Dark Side</b></i>
 				</l>
 				<p>For this, The Goat programming language has a <c>Boolean</c> data type. It can only take the values <c>true</c> or <c>false</c>.</p>
 				<c><![CDATA[
@@ -1927,8 +1954,8 @@
 				</c>
 			</s>
 			<s name="Comparisons and conditions">
-				<p>The chapter "Comparisons" gives a full overview of comparison operators.</p>
-				<p>The chapter "Conditions" gives a full overview of conditional statements.</p>
+				<p>The chapter <link>Comparisons</link> gives a full overview of comparison operators.</p>
+				<p>The chapter <link>Conditions</link> gives a full overview of conditional statements.</p>
 				<p>Here are some examples:</p>
 				<t>
 					<h>
@@ -1955,7 +1982,7 @@
 				<p>The Boolean value of an expression is the basis for all Goat comparisons and conditions.</p>
 			</s>
 		</s>
-		<s name="Comparison and logical operators">
+		<s name="Comparison and logical operators" anchor="Comparisons">
 			<p>Comparison and logical operators are used to test for <c>true</c> or <c>false</c>.</p>
 			<s name="Comparison operators">
 				<p>Comparison operators are used in logical statements to determine equality or difference between variables or values.</p>
@@ -2078,7 +2105,7 @@
 				<p>There is one exclusion. You can compare integer numbers and real numbers although they are different types. An integer operand will be converted to a real before comparison.</p>
 			</s>
 		</s>
-		<s name="Conditions">
+		<s name="Conditions" anchor="Conditions">
 			<s name="Conditional statements">
 				<p>Conditional statements are used to perform different actions based on different conditions.</p>
 				<p>Very often when you write code, you want to perform different actions for different decisions. You can use conditional statements in your code to do this. In Goat we have the following conditional statements:</p>
