@@ -1,4 +1,6 @@
-println(13249.string());
-println(13249.string(2));
-println(13249.string(10));
-println(13249.string(16));
+var i;
+for (i = 0; i < 10; i++)
+{
+    var j = i * i;
+    println(j);
+}

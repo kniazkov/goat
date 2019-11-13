@@ -6993,10 +6993,10 @@
               <a href="#ref_151">The &apos;--debug&apos; command line parameter</a>
             </li>
             <li>
-              <a href="#ref_152">The &apos;debug&apos; keyword</a>
+              <a href="#ref_152">Commands in debugging mode</a>
             </li>
             <li>
-              <a href="#ref_153">Step-by-step dialog</a>
+              <a href="#ref_153">The &apos;debug&apos; keyword</a>
             </li>
           </ul>
           <a name="ref_151"> </a>
@@ -7005,27 +7005,183 @@
             <div class="para">If to add this parameter to the command line, the interpreter will be started in step-by-step mode. The program will be compiled, but will not be run. Will open a console instead:</div>
             <div class="code">
               
-              goat.exe program.goat --debug
-            </div>
-            <div class="code">
-              
-              goat.exe program.goat --debug
+              C:\&gt;goat.exe program.goat --debug
               <br/>
               
               ?
             </div>
           </div>
           <a name="ref_152"> </a>
-          <div style="font-size: medium;" class="header">4.25.2.2. The &apos;debug&apos; keyword</div>
+          <div style="font-size: medium;" class="header">4.25.2.2. Commands in debugging mode</div>
+          <div class="section">
+            <div class="para">The interpreter is waiting for the command to be entered after the question mark. A command is one letter and possibly some auxiliary parameters, for example:</div>
+            <div class="code">
+              
+              ? b program.goat : 1
+              <br/>
+              
+              setting breakpoint at program.goat, 1
+              <br/>
+              
+              ?
+            </div>
+            <div class="para">After the question mark in square brackets, the default command can be displayed. It will be executed if do not enter any command (that is, just press Enter). Most of all cases, this is the previous command:</div>
+            <div class="code">
+              
+              ? [c]
+            </div>
+            <div class="para">Additional information can be displayed before prompt, such as the current line being executed.</div>
+            <div class="code">
+              
+              40 -&gt; program.goat, 4.5
+              <br/>
+              
+              var j = i * i
+              <br/>
+              
+              ? [n] 
+            </div>
+            <div class="para">Where,</div>
+            <div class="code">
+              
+              ticks -&gt; filename, position
+              <br/>
+              
+              statement
+              <br/>
+              
+              ? [cmd] 
+            </div>
+            <ul>
+              <li>
+                <code class="inline">ticks</code>
+                - count of ticks (instructions) executed by the Goat virtual machine;
+              </li>
+              <li>
+                <code class="inline">filename</code>
+                - current file name;
+              </li>
+              <li>
+                <code class="inline">position</code>
+                - current position (line and symbol in this line);
+              </li>
+              <li>
+                <code class="inline">statement</code>
+                - statement that will be executed;
+              </li>
+              <li>
+                <code class="inline">cmd</code>
+                - default command.
+              </li>
+            </ul>
+            <div class="para">Here is list of commands:</div>
+            <table class="table">
+              <tr>
+                <td class="cellHeader">Command</td>
+                <td class="cellHeader cell2">Mnemonic</td>
+                <td class="cellHeader cell2">Example</td>
+                <td class="cellHeader cell2">Description</td>
+              </tr>
+              <tr>
+                <td class="cell">
+                  <code class="inline">b filename : line</code>
+                </td>
+                <td class="cell cell2">breakpoint</td>
+                <td class="cell cell2">
+                  <code class="inline">b program.goat : 10</code>
+                </td>
+                <td class="cell cell2">
+                  Inserts a 
+                  <b>breakpoint</b>
+                  . The program will stop on position, specified by this command
+                </td>
+              </tr>
+              <tr>
+                <td class="cell">
+                  <code class="inline">r</code>
+                </td>
+                <td class="cell cell2">run</td>
+                <td class="cell cell2"/>
+                <td class="cell cell2">
+                  <b>Runs</b>
+                  the program. This command can be done only once in a debugging session
+                </td>
+              </tr>
+              <tr>
+                <td class="cell">
+                  <code class="inline">c</code>
+                </td>
+                <td class="cell cell2">continue</td>
+                <td class="cell cell2"/>
+                <td class="cell cell2">
+                  <b>Continue</b>
+                  executing of the program. This command can be entered only if the program is was run
+                </td>
+              </tr>
+              <tr>
+                <td class="cell">
+                  <code class="inline">n</code>
+                </td>
+                <td class="cell cell2">next</td>
+                <td class="cell cell2"/>
+                <td class="cell cell2">
+                  Execute the 
+                  <b>next</b>
+                  statement and then stop (wait for next command)
+                </td>
+              </tr>
+              <tr>
+                <td class="cell">
+                  <code class="inline">e</code>
+                </td>
+                <td class="cell cell2">enter</td>
+                <td class="cell cell2"/>
+                <td class="cell cell2">
+                  Execute the next statement, but, if it is a function call, 
+                  <b>enter</b>
+                  to function and then stop on the first statement
+                </td>
+              </tr>
+              <tr>
+                <td class="cell">
+                  <code class="inline">l</code>
+                </td>
+                <td class="cell cell2">leave</td>
+                <td class="cell cell2"/>
+                <td class="cell cell2">
+                  <b>Leave</b>
+                  current function, i.e. execute all statements, and stop on the next statement after the function call
+                </td>
+              </tr>
+              <tr>
+                <td class="cell">
+                  <code class="inline">p variable</code>
+                </td>
+                <td class="cell cell2">print</td>
+                <td class="cell cell2">
+                  <code class="inline">p obj.value</code>
+                </td>
+                <td class="cell cell2">
+                  <b>Prints</b>
+                  the value of the variable
+                </td>
+              </tr>
+            </table>
+          </div>
+          <a name="ref_153"> </a>
+          <div style="font-size: medium;" class="header">4.25.2.3. The &apos;debug&apos; keyword</div>
           <div class="section">
             <div class="para">
-              <span class="draft">
-                The 
-                <code class="inline">debug</code>
-                keyword stops the execution of Goat, and switch the interpreter to step-by-step mode. If no debugging is available, the 
-                <code class="inline">debug</code>
-                statement has no effect.
-              </span>
+              The 
+              <code class="inline">debug</code>
+              keyword stops the execution of Goat, and switch the interpreter to step-by-step mode. It like breakpoint, but in program source code. In other words, it is &quot;constant breakpoint&quot;. If no debugging is available, the 
+              <code class="inline">debug</code>
+              statement has no effect.
+            </div>
+            <div class="para">
+              Example, 
+              <code class="inline">square_numbers.goat</code>
+              :
             </div>
             <div class="code">
               
@@ -7044,7 +7200,7 @@
               j = i * i;
               <br/>
               &nbsp;&nbsp;
-              print(&quot;&quot; + j + &quot;\n&quot;);
+              println(j);
               <br/>
               
               }
@@ -7056,7 +7212,7 @@
             </div>
             <div class="code">
               
-              goat.exe program.goat --debug
+              goat.exe square_numbers.goat --debug
             </div>
             <div class="para">
               The program will start and then stop on 
@@ -7065,123 +7221,10 @@
             </div>
             <div class="code">
               
-              &gt; program.goat, 3.7: debug;
+              &gt; square_numbers.goat, 3.4: debug;
               <br/>
               
-              [step] ?
-            </div>
-          </div>
-          <a name="ref_153"> </a>
-          <div style="font-size: medium;" class="header">4.25.2.3. Step-by-step dialog</div>
-          <div class="section">
-            <div class="para">After stop (and each step) the interpreter outputs step-by-step dialog and wait for a command:</div>
-            <div class="code">
-              
-              &gt; program.goat, 4.9: j = i * i;
-              <br/>
-              
-              [step] ?
-            </div>
-            <div class="para">In the example above, the individual elements of the dialog have the following meanings:</div>
-            <table class="table">
-              <tr>
-                <td class="cellHeader">Element</td>
-                <td class="cellHeader cell2">Description</td>
-              </tr>
-              <tr>
-                <td class="cell">
-                  <code class="inline">program.goat</code>
-                </td>
-                <td class="cell cell2">Filename of the current script</td>
-              </tr>
-              <tr>
-                <td class="cell">
-                  <code class="inline">4.9</code>
-                </td>
-                <td class="cell cell2">Current line (4) and symbol in line (9)</td>
-              </tr>
-              <tr>
-                <td class="cell">
-                  <code class="inline">j = i * i;</code>
-                </td>
-                <td class="cell cell2">The expression that will now be executed</td>
-              </tr>
-              <tr>
-                <td class="cell">
-                  <code class="inline">[step]</code>
-                </td>
-                <td class="cell cell2">Command by default</td>
-              </tr>
-              <tr>
-                <td class="cell">
-                  <code class="inline">?</code>
-                </td>
-                <td class="cell cell2">Prompt to enter a command</td>
-              </tr>
-            </table>
-            <div class="para">You can enter the following commands:</div>
-            <table class="table">
-              <tr>
-                <td class="cellHeader">Short command</td>
-                <td class="cellHeader cell2">Full command</td>
-                <td class="cellHeader cell2">Description</td>
-              </tr>
-              <tr>
-                <td class="cell">
-                  <code class="inline">c</code>
-                </td>
-                <td class="cell cell2">
-                  <code class="inline">continue</code>
-                </td>
-                <td class="cell cell2">
-                  Continue until the next stop on 
-                  <code class="inline">debug</code>
-                  statement.
-                </td>
-              </tr>
-              <tr>
-                <td class="cell">
-                  <code class="inline">s</code>
-                </td>
-                <td class="cell cell2">
-                  <code class="inline">step</code>
-                </td>
-                <td class="cell cell2">Next step (over). If this step is a function call, then the function is executed entirely.</td>
-              </tr>
-              <tr>
-                <td class="cell">
-                  <code class="inline">i</code>
-                </td>
-                <td class="cell cell2">
-                  <code class="inline">into</code>
-                </td>
-                <td class="cell cell2">Next step (into). If the next step is a function call, the interpreter &quot;enters inside&quot; the function and then stops at the first statement of the function.</td>
-              </tr>
-              <tr>
-                <td class="cell">
-                  <code class="inline">o</code>
-                </td>
-                <td class="cell cell2">
-                  <code class="inline">out</code>
-                </td>
-                <td class="cell cell2">Next step (out). The interpreter executes the current function to the end and stops at the first statement after calling this function.</td>
-              </tr>
-              <tr>
-                <td class="cell"/>
-                <td class="cell cell2">
-                  <code class="inline">$var_name</code>
-                </td>
-                <td class="cell cell2">
-                  Prints the contents of a variable 
-                  <code class="inline">var_name</code>
-                  .
-                </td>
-              </tr>
-            </table>
-            <div class="para">
-              If you press 
-              <code class="inline">Enter</code>
-              without entering any command, the default command (in square brackets) will be executed. Typically, the default command is the last command executed.
+              [c] ?
             </div>
           </div>
         </div>

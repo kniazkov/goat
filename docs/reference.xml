@@ -2781,98 +2781,110 @@
 			<s name="Step-by-step debugging" anchor="Step-by-step debugging">
 				<s name="The '--debug' command line parameter">
 					<p>If to add this parameter to the command line, the interpreter will be started in step-by-step mode. The program will be compiled, but will not be run. Will open a console instead:</p>
-					<c>goat.exe program.goat --debug</c>
 					<c><![CDATA[
-						goat.exe program.goat --debug
+						C:\>goat.exe program.goat --debug
 						?]]>
 					</c>
 				</s>
+				<s name="Commands in debugging mode">
+					<p>The interpreter is waiting for the command to be entered after the question mark. A command is one letter and possibly some auxiliary parameters, for example:</p>
+					<c><![CDATA[
+						? b program.goat : 1
+						setting breakpoint at program.goat, 1
+						?]]>
+					</c>
+					<p>After the question mark in square brackets, the default command can be displayed. It will be executed if do not enter any command (that is, just press Enter). Most of all cases, this is the previous command:</p>
+					<c>? [c]</c>
+					<p>Additional information can be displayed before prompt, such as the current line being executed.</p>
+					<c><![CDATA[
+						40 -> program.goat, 4.5
+						var j = i * i
+						? [n] ]]>
+					</c>
+					<p>Where,</p>
+					<c><![CDATA[
+						ticks -> filename, position
+						statement
+						? [cmd] ]]>
+					</c>
+					<l>
+						<i><c>ticks</c> - count of ticks (instructions) executed by the Goat virtual machine;</i>
+						<i><c>filename</c> - current file name;</i>
+						<i><c>position</c> - current position (line and symbol in this line);</i>
+						<i><c>statement</c> - statement that will be executed;</i>
+						<i><c>cmd</c> - default command.</i>
+					</l>
+					<p>Here is list of commands:</p>
+					<t>
+						<h>
+							<c>Command</c>
+							<c>Mnemonic</c>
+							<c>Example</c>
+							<c>Description</c>
+						</h>
+						<r>
+							<c><c>b filename : line</c></c>
+							<c>breakpoint</c>
+							<c><c>b program.goat : 10</c></c>
+							<c>Inserts a <b>breakpoint</b>. The program will stop on position, specified by this command</c>
+						</r>
+						<r>
+							<c><c>r</c></c>
+							<c>run</c>
+							<c></c>
+							<c><b>Runs</b> the program. This command can be done only once in a debugging session</c>
+						</r>
+						<r>
+							<c><c>c</c></c>
+							<c>continue</c>
+							<c></c>
+							<c><b>Continue</b> executing of the program. This command can be entered only if the program is was run</c>
+						</r>
+						<r>
+							<c><c>n</c></c>
+							<c>next</c>
+							<c></c>
+							<c>Execute the <b>next</b> statement and then stop (wait for next command)</c>
+						</r>
+						<r>
+							<c><c>e</c></c>
+							<c>enter</c>
+							<c></c>
+							<c>Execute the next statement, but, if it is a function call, <b>enter</b> to function and then stop on the first statement</c>
+						</r>
+						<r>
+							<c><c>l</c></c>
+							<c>leave</c>
+							<c></c>
+							<c><b>Leave</b> current function, i.e. execute all statements, and stop on the next statement after the function call</c>
+						</r>
+						<r>
+							<c><c>p variable</c></c>
+							<c>print</c>
+							<c><c>p obj.value</c></c>
+							<c><b>Prints</b> the value of the variable</c>
+						</r>
+					</t>
+				</s>
 				<s name="The 'debug' keyword">
-					<p><d>The <c>debug</c> keyword stops the execution of Goat, and switch the interpreter to step-by-step mode. If no debugging is available, the <c>debug</c> statement has no effect.</d></p>
+					<p>The <c>debug</c> keyword stops the execution of Goat, and switch the interpreter to step-by-step mode. It like breakpoint, but in program source code. In other words, it is &quot;constant breakpoint&quot;. If no debugging is available, the <c>debug</c> statement has no effect.</p>
+					<p>Example, <c>square_numbers.goat</c>:</p>
 					<c><![CDATA[
 						var i, j;
 						for (i = 0; i < 10; i++)
 						{
 							debug;
 							j = i * i;
-							print("" + j + "\n");
+							println(j);
 						}]]>
 					</c>
 					<p>Then launch the interpreter with <c>--debug</c> option:</p>
-					<c>goat.exe program.goat --debug</c>
+					<c>goat.exe square_numbers.goat --debug</c>
 					<p>The program will start and then stop on <c>debug</c> keyword:</p>
 					<c><![CDATA[
-						> program.goat, 3.7: debug;
-						[step] ?]]>
+						> square_numbers.goat, 3.4: debug;
+						[c] ?]]>
 					</c>
-				</s>
-				<s name="Step-by-step dialog">
-					<p>After stop (and each step) the interpreter outputs step-by-step dialog and wait for a command:</p>
-					<c><![CDATA[
-						> program.goat, 4.9: j = i * i;
-						[step] ?]]>
-					</c>
-					<p>In the example above, the individual elements of the dialog have the following meanings:</p>
-					<t>
-						<h>
-							<c>Element</c>
-							<c>Description</c>
-						</h>
-						<r>
-							<c><c>program.goat</c></c>
-							<c>Filename of the current script</c>
-						</r>
-						<r>
-							<c><c>4.9</c></c>
-							<c>Current line (4) and symbol in line (9)</c>
-						</r>
-						<r>
-							<c><c>j = i * i;</c></c>
-							<c>The expression that will now be executed</c>
-						</r>
-						<r>
-							<c><c>[step]</c></c>
-							<c>Command by default</c>
-						</r>
-						<r>
-							<c><c>?</c></c>
-							<c>Prompt to enter a command</c>
-						</r>
-					</t>
-					<p>You can enter the following commands:</p>
-					<t>
-						<h>
-							<c>Short command</c>
-							<c>Full command</c>
-							<c>Description</c>
-						</h>
-						<r>
-							<c><c>c</c></c>
-							<c><c>continue</c></c>
-							<c>Continue until the next stop on <c>debug</c> statement.</c>
-						</r>
-						<r>
-							<c><c>s</c></c>
-							<c><c>step</c></c>
-							<c>Next step (over). If this step is a function call, then the function is executed entirely.</c>
-						</r>
-						<r>
-							<c><c>i</c></c>
-							<c><c>into</c></c>
-							<c>Next step (into). If the next step is a function call, the interpreter "enters inside" the function and then stops at the first statement of the function.</c>
-						</r>
-						<r>
-							<c><c>o</c></c>
-							<c><c>out</c></c>
-							<c>Next step (out). The interpreter executes the current function to the end and stops at the first statement after calling this function.</c>
-						</r>
-						<r>
-							<c/>
-							<c><c>$var_name</c></c>
-							<c>Prints the contents of a variable <c>var_name</c>.</c>
-						</r>
-					</t>
-					<p>If you press <c>Enter</c> without entering any command, the default command (in square brackets) will be executed. Typically, the default command is the last command executed.</p>
 				</s>
 			</s>
 		</s>
