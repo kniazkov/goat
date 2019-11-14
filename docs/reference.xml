@@ -2897,9 +2897,9 @@
 				<p>Objects are containers for pairs <c>key:value</c>:</p>
 				<c>var person = { firstName : "Scott", lastName : "Cameron", age : 45 };</c>
 				<p>The <c>key:value</c> pairs (in Goat objects) are called <b>properties.</b></p>
-				<p>Values can be any objects: strings, numbers etc. What about keys? In the example above, keys are identifiers (such as names of variables).In common cases, using identifiers as keys is enough: it is convenient. You always can to add a new property using the dot operator <c>.</c>:</p>
+				<p>Values can be any objects: strings, numbers etc. What about keys? In the example above, keys are identifiers (such as names of variables).In common cases, using identifiers as keys is enough: it is convenient. You always can add a new property using the dot operator <c>.</c>:</p>
 				<c>person.profession = "Programmer";</c>
-				<p>But, keys can be not only identifiers. You can use any object as a key. For example, integers:</p>
+				<p>But, keys can be not only identifiers. <b>You can use any object as a key.</b> For example, integers:</p>
 				<c>person[3] = "value";</c>
 				<p>...or booleans:</p>
 				<c>person[true] = false;</c>
@@ -2919,6 +2919,7 @@
 				</c>
 				<p>So, objects are containers for pairs <c>key:value</c>, where the key can be an identifier or any object, and the value can be any object. However, the Goat program works a little faster if you use identifiers as keys, so this is the preferred method.</p>
 			</s>
+			<!--
 			<s name="Each object has some predefined methods">
 				<p>Goat adds these methods to each object.</p>
 				<m name="instanceof" descr="Returns whether an object is derived from another object or not.">
@@ -2943,6 +2944,7 @@
 				</m>
 				<m name="flat" descr="Returns a flat object, that is, an object that contains all the properties of the source object, as well as all properties of all prototypes of the source object. What is a prototype, will be described a little later."/>
 			</s>
+			-->
 			<s name="Everything is an object">
 				<p>All data (strings, numbers, booleans) represented as objects. These are "special" objects that have special behavior. But beyond this, these objects do everything the same as other, "ordinary" objects.</p>
 				<p>For example, you can add a property for a string:</p>
@@ -2950,6 +2952,7 @@
 					var str = "hello!";
 					str.somePropertyName = 123;]]>
 				</c>
+				<!--
 				<p>...or add some method to an integer:</p>
 				<c><![CDATA[
 					var n = 123;
@@ -2966,13 +2969,14 @@
 					var num = 10;
 					print(num.instanceof(Boolean)); // ounput: false]]>
 				</c>
+				-->
 			</s>
 		</s>
 		<s name="Methods">
 			<s name="Difference between method and function">
 				<p>A <b>method</b> in object-oriented programming is a function associated with an object.</p>
-				<p>In other words, functions work only with parameters, but methods also "see" all the properties (fields and other methods) of own object and can modify these.</p>
-				<p>Example. Declare an object <c>obj</c> that contains one field <c>x</c> and one method <c>getX</c>. The method can access the field:</p>
+				<p>In other words, functions work only with parameters, but methods also "see" all the properties (fields and other methods) of their own object and can modify these.</p>
+				<p>Example. Declare an object <c>obj</c> that contains one field <c>x</c> and one method <c>getX</c>. The method has access to the field:</p>
 				<c><![CDATA[
 					var obj = 
 					{
@@ -2985,6 +2989,14 @@
 					};
 					
 					var n = obj.getX(); // 10]]>
+				</c>
+				<p>A method call is differs from a function call by writing a point after an associated object whose method is called:</p>
+				<c><![CDATA[
+					// function call:
+					ret_val = function_name(arg_1, arg_2, arg_3);
+					
+					// method call:
+					ret_val = object.method_name(arg_1, arg_2, arg_3);]]>
 				</c>
 			</s>
 			<s name="Search order">
