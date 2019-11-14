@@ -7811,9 +7811,17 @@
           </div>
           <div class="para">
             <b>Inheritance</b>
-            is when an object is based on another object using the same implementation.
+            is when an object is based on another object.
           </div>
-          <div class="para">How does it work? When accessing an object (method call or field reading), the Goat programming language first looks for this property in the object itself. If Goat does not find it, tries to look for this property in the prototype object. If still not found, then Goat is searching in a prototype of the prototype, and so on.</div>
+          <div class="para">How does it work? When accessing an object (method call or field reading), the Goat programming language first looks for this property in the object itself. If Goat does not find it, it tries to look for this property in the prototype object. If still not found, then Goat is searching in a prototype of the prototype, and so on. Consider an example of simple inheritance:</div>
+          <div class="pic">
+            <img src="graph/simple_inheritance.svg"/>
+            <br/>
+            <p className="para">
+              <b>Fig. 1. </b>
+              Simple inheritance
+            </p>
+          </div>
           <div class="code">
             
             // declare an object:
@@ -7837,15 +7845,75 @@
             // now you have access to properties in the parent object:
             <br/>
             
-            print(child.x); // output: 1
+            println(child.x); // output: 1
           </div>
+          <div class="para">
+            Here, the 
+            <code class="inline">child</code>
+            is the heir to the 
+            <code class="inline">parent</code>
+            . Access of any parent&apos;s property by name has no different from that of the child&apos;s property. And it can be said that a child has the same properties as a parent. However, the child itself does not copy these properties, it only refers to them.
+          </div>
+          <div class="para">Inheritance nesting is not limited, any object can have a prototype, and a prototype can have its pro-prototype, and so on:</div>
           <div class="pic">
-            <img src="graph/inheritance.svg"/>
+            <img src="graph/simple_inheritance_nesting.svg"/>
             <br/>
             <p className="para">
-              <b>Fig. 1. </b>
-              Multiple inheritance
+              <b>Fig. 2. </b>
+              Inheritance nesting
             </p>
+          </div>
+          <div class="code">
+            
+            // declare an object:
+            <br/>
+            
+            var grandpa = { a: 1, b: 2 };
+            <br/>
+            
+            
+            <br/>
+            
+            // inherit another object:
+            <br/>
+            
+            var dad = grandpa -&gt; { x: 3 }; 
+            <br/>
+            
+            
+            <br/>
+            
+            // inherit from heir:
+            <br/>
+            
+            var son = dad -&gt; { y: 4, z: 5 }; 
+            <br/>
+            
+            
+            <br/>
+            
+            // now you have access to properties of the pro-prototype:
+            <br/>
+            
+            println(son.a); // output: 1
+            <br/>
+            
+            
+            <br/>
+            
+            // and to properties of the prototype:
+            <br/>
+            
+            println(son.x); // output: 3
+            <br/>
+            
+            
+            <br/>
+            
+            // as well as to object&apos;s own properties:
+            <br/>
+            
+            println(son.z); // output: 5
           </div>
         </div>
         <a name="ref_164"> </a>
@@ -13282,7 +13350,7 @@
             <img src="graph/abstract_syntax_tree.svg"/>
             <br/>
             <p className="para">
-              <b>Fig. 2. </b>
+              <b>Fig. 3. </b>
               Abstract syntax tree
             </p>
           </div>

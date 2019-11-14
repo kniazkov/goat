@@ -3125,8 +3125,9 @@
 			<s name="Prototype and inheritance">
 				<p>Goat is prototype-oriented language. What is "prototype" means?</p>
 				<p>A <b>prototype</b> is an object from which other objects <b>inherit</b> properties and methods. Any object can be a prototype for another object.</p>
-				<p><b>Inheritance</b> is when an object is based on another object using the same implementation.</p>
-				<p>How does it work? When accessing an object (method call or field reading), the Goat programming language first looks for this property in the object itself. If Goat does not find it, tries to look for this property in the prototype object. If still not found, then Goat is searching in a prototype of the prototype, and so on.</p>
+				<p><b>Inheritance</b> is when an object is based on another object.</p>
+				<p>How does it work? When accessing an object (method call or field reading), the Goat programming language first looks for this property in the object itself. If Goat does not find it, it tries to look for this property in the prototype object. If still not found, then Goat is searching in a prototype of the prototype, and so on. Consider an example of simple inheritance:</p>
+				<pic title="Simple inheritance">graph/simple_inheritance.svg</pic>
 				<c><![CDATA[
 					// declare an object:
 					var parent = { x: 1 };
@@ -3135,9 +3136,30 @@
 					var child = parent -> { y: 2, z: 3 }; 
 					
 					// now you have access to properties in the parent object:
-					print(child.x); // output: 1]]>
+					println(child.x); // output: 1]]>
 				</c>
-				<pic title="Multiple inheritance">graph/inheritance.svg</pic>
+				<p>Here, the <c>child</c> is the heir to the <c>parent</c>. Access of any parent's property by name has no different from that of the child's property. And it can be said that a child has the same properties as a parent. However, the child itself does not copy these properties, it only refers to them.</p>
+				<p>Inheritance nesting is not limited, any object can have a prototype, and a prototype can have its pro-prototype, and so on:</p>
+				<pic title="Inheritance nesting">graph/simple_inheritance_nesting.svg</pic>
+				<c><![CDATA[
+					// declare an object:
+					var grandpa = { a: 1, b: 2 };
+					
+					// inherit another object:
+					var dad = grandpa -> { x: 3 }; 
+					
+					// inherit from heir:
+					var son = dad -> { y: 4, z: 5 }; 
+
+					// now you have access to properties of the pro-prototype:
+					println(son.a); // output: 1
+
+					// and to properties of the prototype:
+					println(son.x); // output: 3
+
+					// as well as to object's own properties:
+					println(son.z); // output: 5]]>
+				</c>
 			</s>
 			<s name="Operator -&gt;">
 				<p>Operator <c>-&gt;</c> builds a new object from the <b>prototype</b> and <b>description:</b></p>

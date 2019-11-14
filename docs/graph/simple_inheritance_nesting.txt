@@ -1,0 +1,21 @@
+digraph graphname
+{
+    node [fontname="sans-serif", fontsize=12 shape=box style=rounded penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=12 penwidth=0.7];
+    grandpa;
+    a [label="a: 1" shape=circle];
+    b [label="b: 2" shape=circle];
+    dad;
+    x [label="x: 3" shape=circle];
+    son;
+    y [label="y: 4" shape=circle];
+    z [label="z: 5" shape=circle];
+
+	grandpa -> a;
+	grandpa -> b;
+	dad -> x;
+	dad -> grandpa;
+	son -> y;
+	son -> z;
+	son -> dad;
+}
