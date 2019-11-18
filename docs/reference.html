@@ -7768,7 +7768,7 @@
             <a href="#ref_164">Operator -&gt;</a>
           </li>
           <li>
-            <a href="#ref_165">Prototype сhain</a>
+            <a href="#ref_165">Order of searching in a prototype chain</a>
           </li>
           <li>
             <a href="#ref_166">Changing the prototype</a>
@@ -7934,7 +7934,7 @@
           <div class="para">
             A 
             <b>prototype</b>
-            is any object from which properties (fields and methods) will be used if properties with such names are not found in the child object.
+            is an object from which properties (fields and methods) will be used if properties with such names are not found in the child object.
           </div>
           <div class="para">
             A 
@@ -7988,7 +7988,7 @@
           </div>
         </div>
         <a name="ref_165"> </a>
-        <div style="font-size: large;" class="header">5.3.3. Prototype сhain</div>
+        <div style="font-size: large;" class="header">5.3.3. Order of searching in a prototype chain</div>
         <div class="section">
           <div class="para">
             If you created a new object using an operator 
@@ -8020,7 +8020,7 @@
             
             var C = B -&gt; { z: 3 }; // &apos;C&apos; contains &apos;x&apos;, &apos;y&apos; and &apos;z&apos; 
           </div>
-          <div class="para">The Goat programming language looks for the property by its name along the whole prototype chain, from last to first prototype. For example,</div>
+          <div class="para">The Goat programming language looks for the property by its name along the whole prototype chain, from the last to the first prototype. For example,</div>
           <div class="code">
             
             print(C.x);
@@ -8065,7 +8065,7 @@
         <a name="ref_166"> </a>
         <div style="font-size: large;" class="header">5.3.4. Changing the prototype</div>
         <div class="section">
-          <div class="para">You can not change the prototype of the object. Instead, you can change properties of the prototype itself. In this case, these properties will immediately change in all children:</div>
+          <div class="para">You can not change the prototype of the object. Instead, you can change some properties of the prototype itself. In this case, these properties will immediately change in all children:</div>
           <div class="code">
             
             // declare an object:
