@@ -8137,7 +8137,10 @@
             // declare the class:
             <br/>
             
-            var Vector = { 
+            var Vector =
+            <br/>
+            
+            { 
             <br/>
             &nbsp;&nbsp;
             x : 0,
@@ -8222,9 +8225,9 @@
               <code class="inline">x</code>
               and 
               <code class="inline">y</code>
-              variables  do not belong to the new object, but to the prototype. In the new example, the variables are created each time the object is created by the 
+              variables are not owned by the new object, but by the prototype. In the new example, the variables are created each time the object is created by the 
               <code class="inline">new</code>
-              operator, and these variables belong to the object.
+              operator, and these variables are owned by the object.
             </div>
             <div class="para">Where can this be useful? This is necessary in cases where each object must have its own independent data set.</div>
             <div class="para">Let&apos;s consider another example. Say there is some &quot;Dictionary&quot; class that stores values in an associative array:</div>
@@ -8300,16 +8303,21 @@
               
               {&quot;red&quot;:&quot;rouge&quot;,&quot;green&quot;:&quot;vert&quot;,&quot;blue&quot;:&quot;bleu&quot;,&quot;black&quot;:&quot;noir&quot;}
             </div>
+            <div class="para">But should be:</div>
+            <div class="code">
+              
+              {&quot;red&quot;:&quot;rouge&quot;,&quot;green&quot;:&quot;vert&quot;}
+            </div>
             <div class="para">
               The resulting object contains data from both the first and second dictionary. Why? Because the 
               <code class="inline">d.data</code>
-              object  does not belong to 
+              object is not owned by 
               <code class="inline">d1</code>
-              object, but belongs to its prototype, that is, both objects 
+              object but owned by its prototype, that is, both objects 
               <code class="inline">d1</code>
               and 
               <code class="inline">d2</code>
-              have access to it. But this is wrong. Each dictionary instance must have its own object for data storage. You can create this object in the constructor:
+              have access to it. But this is wrong. Each dictionary instance must have its own object for data storage. To solve the issue, you can create this object in the constructor:
             </div>
             <div class="code">
               
@@ -8679,7 +8687,7 @@
               
               {x:7,y:2,z:3}
             </div>
-            <div class="para">You see? Each subsequent constructor in the chain complements the object initialization. During this, of course, the results of the work of the previous constructor can be changed.</div>
+            <div class="para">You see? Each subsequent constructor in the chain complements the object&apos;s initialization. During this, of course, the results of the work of the previous constructor can be changed.</div>
           </div>
           <a name="ref_171"> </a>
           <div style="font-size: medium;" class="header">5.3.5.4. Passing parameters to the constructors chain</div>
@@ -8758,13 +8766,13 @@
               
               {x:10,y:20,z:30}
             </div>
-            <div class="para">All remaining constructors in the chain are called without parameters.</div>
+            <div class="para">All others (not first) constructors in the chain are called without parameters.</div>
           </div>
         </div>
         <a name="ref_172"> </a>
         <div style="font-size: large;" class="header">5.3.6. Overriding</div>
         <div class="section">
-          <div class="para">You can override properties (fields and methods) in children objects.</div>
+          <div class="para">You can override properties (fields and methods) in children&apos;s objects.</div>
           <div class="para">Method overriding, in Goat programming language, is a language feature that allows a subobject to provide a specific implementation of a method that is already provided by one of its prototypes. The implementation in the subobject overrides (replaces) the implementation in the prototype by providing a method that has the same name as the method in the prototype. The version of a method that is executed will be determined by the object that is used to invoke it.</div>
           <div class="code">
             
@@ -9091,7 +9099,7 @@
             X: 500, Y: 1000
           </div>
           <div class="para">
-            In the example above, the class &quot;Vector&quot; is described. A vector is a complex data structure. Vectors can be added, a vector can be multiplied by a number. Therefore, for this structure, two operators are defined: 
+            In the example above, the class &quot;Vector&quot; is described. A vector is a complex data structure. Vectors can be summed, a vector can be multiplied by a number. Therefore, for this structure, two operators are defined: 
             <code class="inline">+</code>
             and 
             <code class="inline">*</code>
@@ -9159,6 +9167,9 @@
             , 
             <code class="inline">*=</code>
             , etc.) can be overloaded also.
+          </div>
+          <div class="para">
+            <b>Operators overloading is a powerful tool that greatly simplifies code writing and improves code readability.</b>
           </div>
         </div>
         <a name="ref_174"> </a>

@@ -3233,7 +3233,8 @@
 				<p>The <c>new</c> operator creates a new object from the prototype and then calls a special method - constructor to initialize the object.</p>
 				<c><![CDATA[
 					// declare the class:
-					var Vector = { 
+					var Vector =
+					{ 
 						x : 0,
 						y : 0
 					};
@@ -3262,7 +3263,7 @@
 					</c>
 					<p>Output:</p>
 					<c>{x:0,y:0}</c>
-					<p>Note that in the first example (without the constructor), the <c>x</c> and <c>y</c> variables  do not belong to the new object, but to the prototype. In the new example, the variables are created each time the object is created by the <c>new</c> operator, and these variables belong to the object.</p>
+					<p>Note that in the first example (without the constructor), the <c>x</c> and <c>y</c> variables are not owned by the new object, but by the prototype. In the new example, the variables are created each time the object is created by the <c>new</c> operator, and these variables are owned by the object.</p>
 					<p>Where can this be useful? This is necessary in cases where each object must have its own independent data set.</p>
 					<p>Let's consider another example. Say there is some "Dictionary" class that stores values in an associative array:</p>
 					<c><![CDATA[
@@ -3291,7 +3292,9 @@
 					</c>
 					<p>Will this work? No. The output is:</p>
 					<c>{"red":"rouge","green":"vert","blue":"bleu","black":"noir"}</c>
-					<p>The resulting object contains data from both the first and second dictionary. Why? Because the <c>d.data</c> object  does not belong to <c>d1</c> object, but belongs to its prototype, that is, both objects <c>d1</c> and <c>d2</c> have access to it. But this is wrong. Each dictionary instance must have its own object for data storage. You can create this object in the constructor:</p>
+					<p>But should be:</p>
+					<c>{"red":"rouge","green":"vert"}</c>
+					<p>The resulting object contains data from both the first and second dictionary. Why? Because the <c>d.data</c> object is not owned by <c>d1</c> object but owned by its prototype, that is, both objects <c>d1</c> and <c>d2</c> have access to it. But this is wrong. Each dictionary instance must have its own object for data storage. To solve the issue, you can create this object in the constructor:</p>
 					<c><![CDATA[
 						var Dictionary = 
 						{ 
@@ -3420,7 +3423,7 @@
 						{x:1,y:2}
 						{x:7,y:2,z:3}]]>
 					</c>
-					<p>You see? Each subsequent constructor in the chain complements the object initialization. During this, of course, the results of the work of the previous constructor can be changed.</p>
+					<p>You see? Each subsequent constructor in the chain complements the object's initialization. During this, of course, the results of the work of the previous constructor can be changed.</p>
 				</s>
 				<s name="Passing parameters to the constructors chain">
 					<p>When passing parameters through the <c>new</c> operator, all parameters are passed only to the first constructor:</p>
@@ -3449,11 +3452,11 @@
 					</c>
 					<p>Output:</p>
 					<c>{x:10,y:20,z:30}</c>
-					<p>All remaining constructors in the chain are called without parameters.</p>
+					<p>All others (not first) constructors in the chain are called without parameters.</p>
 				</s>
 			</s>
 			<s name="Overriding">
-				<p>You can override properties (fields and methods) in children objects.</p>
+				<p>You can override properties (fields and methods) in children's objects.</p>
 				<p>Method overriding, in Goat programming language, is a language feature that allows a subobject to provide a specific implementation of a method that is already provided by one of its prototypes. The implementation in the subobject overrides (replaces) the implementation in the prototype by providing a method that has the same name as the method in the prototype. The version of a method that is executed will be determined by the object that is used to invoke it.</p>
 				<c><![CDATA[
 					// the object with the method which will be overridden:
@@ -3577,10 +3580,11 @@
 					X: 300, Y: 600
 					X: 500, Y: 1000]]>
 				</c>
-				<p>In the example above, the class "Vector" is described. A vector is a complex data structure. Vectors can be added, a vector can be multiplied by a number. Therefore, for this structure, two operators are defined: <c>+</c> and <c>*</c>. Each operator returns a new vector as the result of an operation of addition or multiplication.</p>
+				<p>In the example above, the class "Vector" is described. A vector is a complex data structure. Vectors can be summed, a vector can be multiplied by a number. Therefore, for this structure, two operators are defined: <c>+</c> and <c>*</c>. Each operator returns a new vector as the result of an operation of addition or multiplication.</p>
 				<p>How it works. When the interpreter processes a binary operator, it finds the corresponding method at the <b>left</b> operand and calls this method, passing the <b>right</b> operand as the parameter. The result of the operation is the return value of the method. In the case of a unary operator, the method is called without parameters.</p>
 				<p>Unary operators: <c>++</c>, <c>--</c>, <c>!</c>, <c>~</c>, <c>+</c>, <c>-</c>, and binary operators <c>+</c>, <c>-</c>, <c>*</c>, <c>/</c>, <c>%</c>, <c>&lt;&lt;</c>, <c>&gt;&gt;</c>, <c>&gt;&gt;&gt;</c>, <c>&amp;</c>, <c>^</c>, <c>|</c>, <c>&lt;</c>, <c>&lt;=</c>, <c>&gt;</c>, <c>&gt;=</c>, <c>&amp;&amp;</c>, <c>||</c> can be overloaded.</p>
 				<p>Operators "Assign by" (<c>+=</c>, <c>*=</c>, etc.) can be overloaded also.</p>
+				<p><b>Operators overloading is a powerful tool that greatly simplifies code writing and improves code readability.</b></p>
 			</s>
 			<s name="Multiple inheritance">
 				<p>Objects in the Goat programming language can have more than one prototype. In this case, the resulting object will contain all the properties and methods of all parents:</p>
