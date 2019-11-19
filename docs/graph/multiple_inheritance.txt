@@ -1,0 +1,26 @@
+digraph graphname
+{
+    node [fontname="sans-serif", fontsize=12 shape=box style=rounded penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=12 penwidth=0.7];
+    
+    device [label="Device"];
+    animal [label="Animal"];
+    can_walk [label="Can walk"];
+    can_fly [label="Can fly"];
+    airplane [label="Airplane"];
+    terminator [label="Terminator"];
+    bat  [label="Bat"];
+    cow  [label="Cow"];
+    
+    airplane -> device;
+    airplane -> can_fly;
+    
+    terminator -> device;
+    terminator -> can_walk;
+    
+    bat -> animal;
+    bat -> can_fly;
+    
+    cow -> animal;
+    cow -> can_walk;
+}

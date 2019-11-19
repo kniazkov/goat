@@ -3587,6 +3587,7 @@
 			</s>
 			<s name="Multiple inheritance">
 				<p>Objects in the Goat programming language can have more than one prototype. In this case, the resulting object will contain all the properties and methods of all parents:</p>
+                <pic title="Multiple inheritance">graph/multiple_inheritance.svg</pic>
 				<c><![CDATA[
 					var Animal = 
 					{
