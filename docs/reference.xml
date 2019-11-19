@@ -1108,8 +1108,7 @@
 				var length = 16; // Integer
 				var price = 11.99; // Real
 				var name = "Ivan"; // String
-				var obj = {name: "Ivan", age: 33}; // Object
-				x %= 10; // 7 ]]>
+				var obj = {name: "Ivan", age: 33}; // Object ]]>
 			</c>
 			<s name="Concept">
 				<p>In programming, data types is an important concept. To be able to operate on variables, it is important to know something about the type.</p>

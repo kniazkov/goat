@@ -573,6 +573,15 @@ try
     var head = new Xml.Element("head");
     html.data.push(head);
 
+    var charset = new Xml.Element("meta");
+    charset.attrib.charset = "utf-8";
+    head.data.push(charset);
+
+    var viewport = new Xml.Element("meta");
+    viewport.attrib.name = "viewport";
+    viewport.attrib.content = "width=device-width, initial-scale=1";
+    head.data.push(viewport);
+
     var title = new Xml.Element("title", "The Goat Programming Language Reference");
     head.data.push(title);
     
