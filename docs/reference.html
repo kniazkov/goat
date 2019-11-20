@@ -7784,7 +7784,7 @@
             <a href="#ref_174">Multiple inheritance</a>
           </li>
           <li>
-            <a href="#ref_181">The &apos;instanceof&apos; method</a>
+            <a href="#ref_181">The main object</a>
           </li>
           <li>
             <a href="#ref_182">The &apos;clone&apos; method</a>
@@ -9795,133 +9795,151 @@
           </div>
         </div>
         <a name="ref_181"> </a>
-        <div style="font-size: large;" class="header">5.3.9. The &apos;instanceof&apos; method</div>
+        <div style="font-size: large;" class="header">5.3.9. The main object</div>
         <div class="section">
-          <div class="para">The method checks whether there is an object passed as an argument in the prototype chain. This is a way to determine if an object is instantiated from a specific prototype.</div>
           <div class="para">
-            Each object has the 
-            <code class="inline">instanceof</code>
-            method.
+            All objects in the Goat programming language are derived from the base prototype, named 
+            <code class="inline">Object</code>
+            . This prototype has some predefined useful methods, so, any Goat object has access to these methods. Consider all these methods below.
           </div>
-          <div class="para">Consider this code:</div>
-          <div class="code">
-            
-            var A = { };
-            <br/>
-            
-            var B = A -&gt; { };
-            <br/>
-            
-            var C = A -&gt; { };
-            <br/>
-            
-            
-            <br/>
-            
-            var X = new A();
-            <br/>
-            
-            var Y = new B();
-            <br/>
-            
-            var Z = new C();
+          <div style="font-size: medium;" class="header">5.3.9.1. The &apos;instanceof&apos; method</div>
+          <div class="section">
+            <div class="para">The method checks whether there is an object passed as an argument in the prototype chain. This is a way to determine if an object is instantiated from a specific prototype.</div>
+            <div class="para">Consider this code:</div>
+            <div class="code">
+              
+              var A = { };
+              <br/>
+              
+              var B = A -&gt; { };
+              <br/>
+              
+              var C = A -&gt; { };
+              <br/>
+              
+              
+              <br/>
+              
+              var X = new A();
+              <br/>
+              
+              var Y = new B();
+              <br/>
+              
+              var Z = new C();
+            </div>
+            <div class="para">Here,</div>
+            <ul>
+              <li>
+                <code class="inline">X.instanceof(A)</code>
+                returns 
+                <code class="inline">true</code>
+                because object 
+                <code class="inline">A</code>
+                is a prototype of object 
+                <code class="inline">X</code>
+                ;
+              </li>
+              <li>
+                but 
+                <code class="inline">X.instanceof(B)</code>
+                and 
+                <code class="inline">X.instanceof(C)</code>
+                returns 
+                <code class="inline">false</code>
+                because objects 
+                <code class="inline">B</code>
+                and 
+                <code class="inline">C</code>
+                are not prototypes of object 
+                <code class="inline">X</code>
+                ;
+              </li>
+              <li>
+                <code class="inline">Y.instanceof(B)</code>
+                returns 
+                <code class="inline">true</code>
+                because object 
+                <code class="inline">B</code>
+                is a prototype of object 
+                <code class="inline">Y</code>
+                ;
+              </li>
+              <li>
+                <code class="inline">Y.instanceof(A)</code>
+                returns 
+                <code class="inline">true</code>
+                because object 
+                <code class="inline">A</code>
+                is a prototype of object 
+                <code class="inline">B</code>
+                and object 
+                <code class="inline">B</code>
+                is a prototype of object 
+                <code class="inline">Y</code>
+                ;
+              </li>
+              <li>
+                <code class="inline">Y.instanceof(C)</code>
+                returns 
+                <code class="inline">false</code>
+                because object 
+                <code class="inline">C</code>
+                is not a prototype of object 
+                <code class="inline">Y</code>
+                ;
+              </li>
+              <li>
+                <code class="inline">Z.instanceof(C)</code>
+                returns 
+                <code class="inline">true</code>
+                because object 
+                <code class="inline">C</code>
+                is a prototype of object 
+                <code class="inline">Z</code>
+                ;
+              </li>
+              <li>
+                <code class="inline">Z.instanceof(A)</code>
+                returns 
+                <code class="inline">true</code>
+                because object 
+                <code class="inline">A</code>
+                is a prototype of object 
+                <code class="inline">C</code>
+                and object 
+                <code class="inline">C</code>
+                is a prototype of object 
+                <code class="inline">Z</code>
+                ;
+              </li>
+              <li>
+                <code class="inline">Z.instanceof(B)</code>
+                returns 
+                <code class="inline">false</code>
+                because object 
+                <code class="inline">B</code>
+                is not a prototype of object 
+                <code class="inline">Z</code>
+                .
+              </li>
+            </ul>
+            <div class="para">
+              Obviously, an 
+              <code class="inline">instanceof(Object)</code>
+              call for 
+              <b>any</b>
+              object will return 
+              <code class="inline">true</code>
+              , because any object derived from 
+              <code class="inline">Object</code>
+              :
+            </div>
+            <div class="code">
+              
+              undefined.instanceof(Object) // even that&apos;s true
+            </div>
           </div>
-          <div class="para">So,</div>
-          <ul>
-            <li>
-              <code class="inline">X.instanceof(A)</code>
-              returns 
-              <code class="inline">true</code>
-              because object 
-              <code class="inline">A</code>
-              is a prototype of object 
-              <code class="inline">X</code>
-              ;
-            </li>
-            <li>
-              but 
-              <code class="inline">X.instanceof(B)</code>
-              and 
-              <code class="inline">X.instanceof(C)</code>
-              returns 
-              <code class="inline">false</code>
-              because objects 
-              <code class="inline">B</code>
-              and 
-              <code class="inline">C</code>
-              are not prototypes of object 
-              <code class="inline">X</code>
-              ;
-            </li>
-            <li>
-              <code class="inline">Y.instanceof(B)</code>
-              returns 
-              <code class="inline">true</code>
-              because object 
-              <code class="inline">B</code>
-              is a prototype of object 
-              <code class="inline">Y</code>
-              ;
-            </li>
-            <li>
-              <code class="inline">Y.instanceof(A)</code>
-              returns 
-              <code class="inline">true</code>
-              because object 
-              <code class="inline">A</code>
-              is a prototype of object 
-              <code class="inline">B</code>
-              and object 
-              <code class="inline">B</code>
-              is a prototype of object 
-              <code class="inline">Y</code>
-              ;
-            </li>
-            <li>
-              <code class="inline">Y.instanceof(C)</code>
-              returns 
-              <code class="inline">false</code>
-              because object 
-              <code class="inline">C</code>
-              is not prototypes of object 
-              <code class="inline">Y</code>
-              ;
-            </li>
-            <li>
-              <code class="inline">Z.instanceof(C)</code>
-              returns 
-              <code class="inline">true</code>
-              because object 
-              <code class="inline">C</code>
-              is a prototype of object 
-              <code class="inline">Z</code>
-              ;
-            </li>
-            <li>
-              <code class="inline">Z.instanceof(A)</code>
-              returns 
-              <code class="inline">true</code>
-              because object 
-              <code class="inline">A</code>
-              is a prototype of object 
-              <code class="inline">C</code>
-              and object 
-              <code class="inline">C</code>
-              is a prototype of object 
-              <code class="inline">Z</code>
-              ;
-            </li>
-            <li>
-              <code class="inline">Z.instanceof(B)</code>
-              returns 
-              <code class="inline">false</code>
-              because object 
-              <code class="inline">B</code>
-              is not prototype of object 
-              <code class="inline">Z</code>
-              .
-            </li>
-          </ul>
         </div>
         <a name="ref_182"> </a>
         <div style="font-size: large;" class="header">5.3.10. The &apos;clone&apos; method</div>
@@ -12701,7 +12719,7 @@
           <div class="header">Goat</div>
           <div class="para">
             <div class="para">
-              There are no primitive types. All data represented as objects. Each object except 
+              There are no primitive types. All data represented as objects. Each object include 
               <code class="inline">undefined</code>
               has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: 
               <code class="inline">Char</code>

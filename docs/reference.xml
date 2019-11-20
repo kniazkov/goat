@@ -3790,31 +3790,35 @@
                     <p>As discussed earlier, the calling order determined by topological sorting, starting from the deepest (right) prototype. For this case, the sorted prototype chain is: <c>F, E, B, D, C, A,</c> so initialization methods are called in the reversed order.</p>
                 </s>
 			</s>
-			<s name="The 'instanceof' method">
-				<p>The method checks whether there is an object passed as an argument in the prototype chain. This is a way to determine if an object is instantiated from a specific prototype.</p>
-				<p>Each object has the <c>instanceof</c> method.</p>
-				<p>Consider this code:</p>
-				<c><![CDATA[
-					var A = { };
-					var B = A -> { };
-					var C = A -> { };
+            <s name="The main object">
+                <p>All objects in the Goat programming language are derived from the base prototype, named <c>Object</c>. This prototype has some predefined useful methods, so, any Goat object has access to these methods. Consider all these methods below.</p>
+                <s name="The 'instanceof' method">
+                    <p>The method checks whether there is an object passed as an argument in the prototype chain. This is a way to determine if an object is instantiated from a specific prototype.</p>
+                    <p>Consider this code:</p>
+                    <c><![CDATA[
+                        var A = { };
+                        var B = A -> { };
+                        var C = A -> { };
 
-					var X = new A();
-					var Y = new B();
-					var Z = new C();]]>
-				</c>
-				<p>So,</p>
-				<l>
-					<i><c>X.instanceof(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>X</c>;</i>
-					<i>but <c>X.instanceof(B)</c> and <c>X.instanceof(C)</c> returns <c>false</c> because objects <c>B</c> and <c>C</c> are not prototypes of object <c>X</c>;</i>
-					<i><c>Y.instanceof(B)</c> returns <c>true</c> because object <c>B</c> is a prototype of object <c>Y</c>;</i>
-					<i><c>Y.instanceof(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>B</c> and object <c>B</c> is a prototype of object <c>Y</c>;</i>
-					<i><c>Y.instanceof(C)</c> returns <c>false</c> because object <c>C</c> is not prototypes of object <c>Y</c>;</i>
-					<i><c>Z.instanceof(C)</c> returns <c>true</c> because object <c>C</c> is a prototype of object <c>Z</c>;</i>
-					<i><c>Z.instanceof(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>C</c> and object <c>C</c> is a prototype of object <c>Z</c>;</i>
-					<i><c>Z.instanceof(B)</c> returns <c>false</c> because object <c>B</c> is not prototype of object <c>Z</c>.</i>
-				</l>
-			</s>
+                        var X = new A();
+                        var Y = new B();
+                        var Z = new C();]]>
+                    </c>
+                    <p>Here,</p>
+                    <l>
+                        <i><c>X.instanceof(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>X</c>;</i>
+                        <i>but <c>X.instanceof(B)</c> and <c>X.instanceof(C)</c> returns <c>false</c> because objects <c>B</c> and <c>C</c> are not prototypes of object <c>X</c>;</i>
+                        <i><c>Y.instanceof(B)</c> returns <c>true</c> because object <c>B</c> is a prototype of object <c>Y</c>;</i>
+                        <i><c>Y.instanceof(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>B</c> and object <c>B</c> is a prototype of object <c>Y</c>;</i>
+                        <i><c>Y.instanceof(C)</c> returns <c>false</c> because object <c>C</c> is not a prototype of object <c>Y</c>;</i>
+                        <i><c>Z.instanceof(C)</c> returns <c>true</c> because object <c>C</c> is a prototype of object <c>Z</c>;</i>
+                        <i><c>Z.instanceof(A)</c> returns <c>true</c> because object <c>A</c> is a prototype of object <c>C</c> and object <c>C</c> is a prototype of object <c>Z</c>;</i>
+                        <i><c>Z.instanceof(B)</c> returns <c>false</c> because object <c>B</c> is not a prototype of object <c>Z</c>.</i>
+                    </l>
+                    <p>Obviously, an <c>instanceof(Object)</c> call for <b>any</b> object will return <c>true</c>, because any object derived from <c>Object</c>:</p>
+                    <c>undefined.instanceof(Object) // even that's true</c>
+                </s>
+            </s>
 			<s name="The 'clone' method">
 				<p>Returns a clone of the object, that is, a new object in which all properties are the same as in the source object.</p>
 				<p>Each object has the <c>clone</c> method.</p>
@@ -4839,7 +4843,7 @@
 					A primitive data type is data that is not an object and has no methods. There are 6 primitive data types: string, number, boolean, null, undefined, symbol. All primitives are immutable.
 				</h>
 				<h name="Goat">
-					<p>There are no primitive types. All data represented as objects. Each object except <c>undefined</c> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: <c>Char</c>, <c>String</c>, <c>Integer</c>, <c>Real</c>, <c>Boolean</c>, <c>Void</c>, <c>Undefined</c> and <c>Null</c>.</p>
+					<p>There are no primitive types. All data represented as objects. Each object include <c>undefined</c> has some methods. There are some predefined objects which are prototypes for primitive data, such as numbers or strings: <c>Char</c>, <c>String</c>, <c>Integer</c>, <c>Real</c>, <c>Boolean</c>, <c>Void</c>, <c>Undefined</c> and <c>Null</c>.</p>
 					<p>This programming language clearly distinguishes between strings (the prototype is <c>String</c>) and individual characters (the prototype is <c>Char</c>), as well as integers (<c>Integer</c>) and floating-point numbers (<c>Real</c>). These types have a different set of methods and operators, but if necessary, a type can be converted to another:</p>
 					<c><![CDATA[
 						var c = 'a'; // prototype of c is Char
