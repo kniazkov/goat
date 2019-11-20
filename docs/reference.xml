@@ -3586,80 +3586,209 @@
 				<p><b>Operators overloading is a powerful tool that greatly simplifies code writing and improves code readability.</b></p>
 			</s>
 			<s name="Multiple inheritance">
-				<p>Objects in the Goat programming language can have more than one prototype. In this case, the resulting object will contain all the properties and methods of all parents:</p>
-                <pic title="Multiple inheritance">graph/multiple_inheritance.svg</pic>
-				<c><![CDATA[
-					var Animal = 
-					{
-						eat : $() 
-						{
-							print("'eat' method is called\n");
-						}
-					};
+                <s name="Definition">
+                    <p>Multiple inheritance is a feature of some object-oriented, including prototype-oriented  programming languages in which an object or class can inherit characteristics and features from more than one parent object or parent class.</p>
+                    <p>In the example below, the "Brick" object is the "Building Material", but it is made from the "Clay" object. Clay plates and clay mugs are also made from "Clay", and consequently they inherit all clay properties, but they cannot be used as building material (I hope).</p>
+                    <pic title="Multiple inheritance">graph/multiple_inheritance.svg</pic>
+                    <p>Objects in the Goat programming language can have more than one prototype. In this case, the resulting object will contain all the properties and methods of all parents. Consider another example:</p>
+                    <pic title="Multiple inheritance (another example)">graph/multiple_inheritance_2.svg</pic>
+                    <c><![CDATA[
+                        var mom = { a: 1 };
 
-					var Mammal = Animal -> 
-					{
-						drinkMilk : $()
-						{
-							print("'drinkMilk' method is called\n");
-						}
-					};
+                        var dad = { b: 2, c: 3 }; 
 
-					var WingedAnimal = Animal -> 
-					{
-						flap : $() 
-						{
-							print("'flap' method is called\n");
-						}
-					};
+                        var son = [mom, dad] -> { d: 4, e: 5 }; 
 
-					// A bat is a winged mammal
-					var Bat = [Mammal, WingedAnimal] -> 
-					{
-					};
+                        println(son.a); // output: 1
+                        println(son.b); // output: 2
+                        println(son.e); // output: 5]]>
+                    </c>
+                    <p>If the array is specified as a parameter to the <c>-&gt;</c>operator, the resulting object will be formed from all objects in that array.</p>
+                </s>
+                <s name="Diamond inheritance">
+                    <p>Let's look at one more example: </p>
+                    <c><![CDATA[
+                        var Animal = 
+                        {
+                            eat : $() 
+                            {
+                                println("'eat' method is called");
+                            }
+                        };
 
-					var bat = new Bat();
-					bat.flap();
-					bat.drinkMilk();
-					bat.eat();]]>
-				</c>
-				<p>Output:</p>
-				<c><![CDATA[
-					'flap' method is called
-					'drinkMilk' method is called
-					'eat' method is called]]>
-				</c>
-				<p>There is one problem that is called the "diamond problem". Consider this structure of inheritance:</p>
-				<c><![CDATA[
-					var A = 
-					{
-						alpha : 1
-					};
+                        var Mammal = Animal -> 
+                        {
+                            drinkMilk : $()
+                            {
+                                println("'drinkMilk' method is called");
+                            }
+                        };
 
-					var B = A -> 
-					{
-						beta : 2
-					};
+                        var WingedAnimal = Animal -> 
+                        {
+                            flap : $() 
+                            {
+                                println("'flap' method is called");
+                            }
+                        };
 
-					var C = A -> 
-					{
-						beta : 3
-					};
+                        // A bat is a winged mammal
+                        var Bat = [Mammal, WingedAnimal] -> 
+                        {
+                        };
 
-					var D = [B, C] -> 
-					{
-						gamma : 4
-					};
+                        var bat = new Bat();
+                        bat.flap();
+                        bat.drinkMilk();
+                        bat.eat();]]>
+                    </c>
+                    <p>Output:</p>
+                    <c><![CDATA[
+                        'flap' method is called
+                        'drinkMilk' method is called
+                        'eat' method is called]]>
+                    </c>
+                    <p>The graph for it:</p>
+                    <pic title="Diamond inheritance">graph/diamond_inheritance.svg</pic>
+                    <p>Here, the links between the four objects form a rhomb (a "diamond"), and this situation is called "diamond inheritance". This situation is not a bug, on the contrary, it happens everywhere. However, there may be a problem, which is called...</p>
+                </s>
+                <s name="The diamond problem">
+                    <p>Let's add a method <c>getOffspring()</c> to two classes:</p>
+                    <c><![CDATA[
+                        var Animal = 
+                        {
+                            eat : $() 
+                            {
+                                println("'eat' method is called");
+                            }
+                        };
 
-					var d = new D();
+                        var Mammal = Animal -> 
+                        {
+                            drinkMilk : $()
+                            {
+                                println("'drinkMilk' method is called");
+                            },
 
-					print(d.alpha);
-					print(d.beta);
-					print(d.gamma);]]>
-				</c>
-				<p>The <c>D</c> objects inherits from <c>B</c> and <c>D</c>. But both <c>B</c> and <c>C</c> objects have the <c>beta</c> property, in <c>B</c> object the property equals 2, in <c>C</c> object property equals 3. So, what is the value of the <c>d.beta</c> property? 2 or 3? The correct answer is 2.</p>
-				<p>The interpreter uses depth search. If he did not find a property in the object, it first explores the properties of the first (left) prototype, and then all the prototypes of this prototype (<c>D-&gt;B-&gt;A</c>). And only then the next chain of prototypes is explored (<c>D-&gt;C-&gt;A</c>).</p>
-				<p><b>Be careful with multiple inheritance.</b> Sometimes this type of inheritance is very useful, but misuse can lead to errors.</p>
+                            getOffspring : $()
+                            {
+                                println("a new pet was born");
+                            }
+                        };
+
+                        var WingedAnimal = Animal -> 
+                        {
+                            flap : $() 
+                            {
+                                println("'flap' method is called");
+                            },
+
+                            getOffspring : $()
+                            {
+                                println("we successfully laid an egg");
+                            }
+                        };
+
+                        // A bat is a winged mammal
+                        var Bat = [Mammal, WingedAnimal] -> 
+                        {
+                        };
+
+                        var bat = new Bat();
+                        bat.getOffstring();]]>
+                    </c>
+                    <p>The new graph for this structure is:</p>
+                    <pic title="Diamond problem">graph/diamond_problem.svg</pic>
+                    <p>Specifically, now we have two different methods with the same name (<c>getOffspring</c>) in the <c>Bat</c> object prototypes. The problem is: which one of these methods will be called if you call it from the object? The answer is: it depends on the order of search, which is determined by the results of the topological sorting of the prototypes graph.</p>
+                </s>
+                <s name="Topological sorting">
+                    <p>The topological sorting of a graph is sorting in which all nodes of the graph are arranged in a linear order in which the node positioned not after all its ancestors. Consider some graph:</p>
+                    <pic title="A graph">graph/topological_sorting_1.svg</pic>
+                    <p>Result of topological sorting for this graph:</p>
+                    <pic title="Topological sorting result">graph/topological_sorting_2.svg</pic>
+                    <p>Thus, after topological sorting, <b>all nodes</b> (in our case, prototypes) <b>form a linear list, from left to right,</b> and:</p>
+                    <l>
+                        <i><b>Each prototype is always on the right of all its children;</b></i> 
+                        <i>In multiple inheritance, <b>the first prototype is to the left of the next one,</b> so the order of prototypes is important.</i>
+                    </l>
+                </s>
+                <s name="Dealing with the diamond problem">
+                    <p><b>The Goat programming language determines the order of prototypes traversal as a result of the topological sorting of prototypes graph.</b> This defines behavior in two cases:</p>
+                    <l>
+                        <i>Property searching: the sorted list of prototypes is viewed <b>from left to right,</b> and the search ends as soon as the property is found;</i>
+                        <i>Calling <c>init</c> methods when creating an object: the sorted list of prototypes is viewed <b>from right to left,</b> and each prototype is searched for an <c>init</c> method.</i>
+                    </l>
+                    <pic title="Solving diamond problem">graph/solving_diamond_problem.svg</pic>
+                    <p>So, for the example above, calling the <c>getOffspring()</c> method from the <c>Bat</c> object will found this method in the <c>Mammal</c> object, because the <c>Mammal</c> object is to the left of the <c>WindedAnimal</c> object in the prototype list:</p>
+                    <c><![CDATA[
+                        var bat = new Bat();
+                        bat.getOffstring(); //output: "a new pet was born"]]>
+                    </c>
+                </s>
+                <s name="Constructor chain for the multiple inheritance">
+                    <p>Now, based on the previous chapter, consider the example that contains constructor chain for the multiple inheritance with the diamond problem:</p>
+                    <c><![CDATA[
+                        var A =
+                        {
+                            init : $()
+                            {
+                                println('A');
+                            }
+                        };
+
+                        var B  = A ->
+                        {
+                            init : $()
+                            {
+                                println('B');
+                            }
+                        };
+
+                        var C = A ->
+                        {
+                            init : $()
+                            {
+                                println('C');
+                            }
+                        };
+
+                        var D = C ->
+                        {
+                            init : $()
+                            {
+                                println('D');
+                            }
+                        };
+
+                        var E = [B, D] ->
+                        {
+                            init : $()
+                            {
+                                println('E');
+                            }
+                        };
+
+                        var F = E ->
+                        {
+                            init : $()
+                            {
+                                println('F');
+                            }
+                        };
+
+                        var obj = new F();]]>
+                    </c>
+                    <p>Output:</p>
+                    <c><![CDATA[
+                        A
+                        C
+                        D
+                        B
+                        E
+                        F]]>
+                    </c>
+                    <p>As discussed earlier, the calling order determined by topological sorting, starting from the deepest (right) prototype. For this case, the sorted prototype chain is: <c>F, E, B, D, C, A,</c> so initialization methods are called in the reversed order.</p>
+                </s>
 			</s>
 			<s name="The 'instanceof' method">
 				<p>The method checks whether there is an object passed as an argument in the prototype chain. This is a way to determine if an object is instantiated from a specific prototype.</p>

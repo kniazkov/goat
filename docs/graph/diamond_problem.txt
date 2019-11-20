@@ -1,0 +1,24 @@
+digraph graphname
+{
+    node [fontname="sans-serif", fontsize=12 shape=box style=rounded penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=12 penwidth=0.7];
+    Animal;
+    eat [label="eat()" shape=oval];
+    Mammal ;
+    drinkMilk [label="drinkMilk()" shape=oval];
+    WingedAnimal;
+    flap  [label="flap()" shape=oval];
+    Bat;
+    getOffspring1 [label="getOffspring()" shape=oval color=red];
+    getOffspring2 [label="getOffspring()" shape=oval color=red];
+    
+    Animal -> eat;
+    Mammal -> drinkMilk;
+    Mammal -> getOffspring1;
+    Mammal -> Animal;
+    WingedAnimal -> flap;
+    WingedAnimal -> getOffspring2;
+    WingedAnimal -> Animal;
+    Bat -> Mammal;
+    Bat -> WingedAnimal;    
+}

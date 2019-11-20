@@ -1,0 +1,20 @@
+digraph graphname
+{
+    node [fontname="sans-serif", fontsize=12 shape=box style=rounded penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=12 penwidth=0.7];
+    Animal;
+    eat [label="eat()" shape=oval];
+    Mammal ;
+    drinkMilk [label="drinkMilk()" shape=oval];
+    WingedAnimal;
+    flap  [label="flap()" shape=oval];
+    Bat;
+    
+    Animal -> eat;
+    Mammal -> drinkMilk;
+    Mammal -> Animal [color=blue];
+    WingedAnimal -> flap;
+    WingedAnimal -> Animal [color=blue];
+    Bat -> Mammal [color=blue];
+    Bat -> WingedAnimal [color=blue];    
+}

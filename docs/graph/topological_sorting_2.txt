@@ -1,0 +1,19 @@
+digraph graphname
+{
+    rankdir=LR;
+    node [fontname="sans-serif", fontsize=12 shape=circle penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=12 penwidth=0.7];
+
+    A;
+    B;
+    C;
+    D;
+    E;
+    F;
+    
+    F -> E;
+    E -> B;
+    B -> D;
+    D -> C;
+    C -> A;
+}

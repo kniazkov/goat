@@ -613,7 +613,7 @@ try
     addStyle(".cell { padding : 5pt; vertical-align: top; }");
     addStyle(".cell2 { border-left: 1px solid black; }");
     addStyle(".table .inline { border: none; }");
-    addStyle(".pic { text-align: center; }");
+    addStyle(".pic { text-align: center; padding-top: 10pt; }");
 
     var body = new Xml.Element("body");
     html.data.push(body);
