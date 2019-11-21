@@ -4050,6 +4050,74 @@
                          0 0 0 0 0]]>
                     </c>
                 </s>
+                <s name="The 'contains' method">
+                    <p>The method checks whether the object contains a property with the specified name.</p>
+                    <c><![CDATA[
+                        var obj = {value: 0};
+                        println(obj.contains("value"); // true
+                        println(obj.contains("abc"); // false]]>
+                    </c>
+                    <p>The second parameter of the method (it is optional) determines whether the property should be searched not only in the object but also in its prototypes:</p>
+                    <c><![CDATA[
+                        var proto = {value: 0};
+                        var obj = proto -> { };
+                        println(obj.contains("value"); // false
+                        println(obj.contains("value", true); // true]]>
+                    </c>
+                    <p>This function has two main applications. First one - excluding unnecessary properties when enumerating all properties:</p>
+                    <c><![CDATA[
+                        var obj = {x: 10, y: 20, z: 30 };
+                        for (var prop in obj)
+                        {
+                            if (obj.contains(prop))
+                                println(prop + ": " + obj[prop]);
+                        }]]>
+                    </c>
+                    <p>Output:</p>
+                    <c><![CDATA[
+                        x: 10
+                        y: 20
+                        z: 30]]>
+                    </c>
+                    <p>Without using this method, the <c>for..in</c> statement enumerates all properties, including inherited, including even inherited from the <c>Object</c> prototype, and output will be like:</p>
+                    <c><![CDATA[
+                        z: 30
+                        y: 20
+                        x: 10
+                        clone: function
+                        instanceof: function
+                        flat: function
+                        get: function
+                        set: function
+                        iterator: function
+                        contains: function
+                        !: function
+                        !!: function
+                        &&: function
+                        ||: function
+                        #: function]]>
+                    </c>
+                    <p>The second application is to determine the presence of a property with the <c>undefined</c> value. For example, if you read an unknown object property, the <c>[ ]</c> operator returns the <c>undefined</c> value:</p>
+                    <c><![CDATA[
+                        var obj = {};
+                        println(obj["abc"]); // "undefined"]]>
+                    </c>
+                    <p>Suppose we added a property with the <c>undefined</c> value:</p>
+                    <c><![CDATA[
+                        var obj = {};
+                        obj.abc = undefined;
+                        println(obj["abc"]); // "undefined"]]>
+                    </c>
+                    <p>The result has not changed (obviously). However, the object now contains a property, i.e. the fact that this property was once added or changed to <c>undefined</c>. If this fact is important for your algorithm, you can use the <c>contains</c> method:</p>
+                    <c><![CDATA[
+                        var obj = {};
+                        obj.abc = undefined;
+                        println(obj.contains("abc")); // "true"]]>
+                    </c>
+                </s>
+                <s name="The 'iterator' method">
+                    <p>Returns an instance of an iterator object. Iterators are used to enumerate values in a sequence. See the <link>Iterators</link> chapter for more info.</p>
+                </s>
             </s>
 			<s name="Prototypes of built-in types">
 				<p>Each object of built-in type (string, integer etc) has own built-in prototype:</p>
@@ -4281,6 +4349,9 @@
 				<p>All objects of the standard library - classes, functions, enums, including built-in, i.e. Object, String, Integer, etc. - are write protected.</p>
 			</s>
 		</s>
+        <s name="Iterators" anchor="Iterators">
+            <p>The chapter about iterators</p>
+        </s>
 		<s name="Threads">
 			<p>The Goat programming language supports threads. A thread of execution is the smallest sequence of programmed instructions that  managed independently by a scheduler. In other words, thread is the ability to execute two or more sections of code at the same time.</p>
 			<p>Each running program contains at least one thread. Goat does not separate the "main" and "non-main" threads - each thread can initiate a new thread, and each thread can stop execution of another thread (if it has a pointer to this). The program ends only when all threads are completed.</p>
