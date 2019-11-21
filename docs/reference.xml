@@ -3818,48 +3818,68 @@
                     <p>Obviously, an <c>instanceof(Object)</c> call for <b>any</b> object will return <c>true</c>, because any object derived from <c>Object</c>:</p>
                     <c>undefined.instanceof(Object) // even that's true</c>
                 </s>
+                <s name="The 'clone' method">
+                    <p>Returns a clone of the object, that is, a new object in which all properties are the same as in the source object.</p>
+                    <p>The method creates a new object and then copies all the properties and methods from the original object to the new one. Now, if you change the copy, the original object will unchanged:</p>
+                    <c><![CDATA[
+                        var original = 
+                        {
+                            x : 10,
+                            y : 20,
+                            z : 30
+                        };
+
+                        var copy = original.clone();
+
+                        copy.y = 40;
+
+                        print(original);
+                        print(copy);]]>
+                    </c>
+                    <p>Output:</p>
+                    <c>{&quot;x&quot;:10,&quot;y&quot;:20,&quot;z&quot;:30}{&quot;x&quot;:10,&quot;y&quot;:40,&quot;z&quot;:30}</c>
+                    <p><b>If possible, do not use <c>clone</c> method, inherit an object instead!</b> Cloning is an expensive operation, due to the need to copy each field.</p>
+                    <p>However, note that this method clones only object, i.e. copies (does not clone) each property. It is not "deep cloning". That means that properties of properties will point to the same objects. Consider an example:</p>
+                    <c><![CDATA[
+                        var data =
+                        {
+                            x : 10,
+                            y : 20,
+                            z : 30
+                        };
+                    
+                        var original = 
+                        {
+                            obj : data
+                        };
+
+                        var copy = original.clone();
+
+                        copy.obj.y = 40;
+
+                        print(original.obj.y); // 40]]>
+                    </c>
+                    <p>In this example, after cloning, the following object graph will be constructed:</p>
+                    <pic title="Cloning">graph\cloning.svg</pic>
+                    <p>The <c>clone</c> method is implicitly called in some other operations. For example, operators <c>-&gt;</c> (inherit) and <c>#</c> (write protect, see below) call this method. This method (however, like all the others) can be redefined. And then the operators will call the overridden method.</p>
+                    <p>For example, you can prevent cloning an object, and instead of a clone, return the object itself:</p>
+                    <c><![CDATA[
+                        var original = 
+                        {
+                            x : 10,
+                            y : 20,
+                            z : 30,
+                            
+                            clone : $() 
+                            {
+                                return this;
+                            }
+                        };
+
+                        var copy = original.clone(); // copy is the same object as the original ]]>
+                    </c>
+                </s>
             </s>
-			<s name="The 'clone' method">
-				<p>Returns a clone of the object, that is, a new object in which all properties are the same as in the source object.</p>
-				<p>Each object has the <c>clone</c> method.</p>
-				<p>The method creates a new object and then copies all the properties and methods from the original object to the new one. Now, if you change the copy, the original object will remain unchanged:</p>
-				<c><![CDATA[
-					var original = 
-					{
-						x : 10,
-						y : 20,
-						z : 30
-					};
-
-					var copy = original.clone();
-
-					copy.y = 100;
-
-					print(original);
-					print(copy);]]>
-				</c>
-				<p>Output:</p>
-				<c>{x:10,y:20,z:30}{x:10,y:100,z:30}</c>
-				<p><b>If possible, do not use <c>clone</c> method, inherit an object instead!</b> Cloning is a very expensive operation, due to the need to copy each field.</p>
-				<p>The <c>clone</c> method is implicitly called in some other operations. For example, operators <c>-&gt;</c> (inherit) and <c>#</c> (write protect, see below) call this method. This method (however, like all the others) can be redefined. And then the operators will call the overridden method.</p>
-				<p>For example, you can prevent cloning an object, and instead of a clone, return the object itself:</p>
-				<c><![CDATA[
-					var original = 
-					{
-						x : 10,
-						y : 20,
-						z : 30,
-						
-						clone : $() 
-						{
-							return this;
-						}
-					};
-
-					var copy = original.clone(); // copy is the same object as the original ]]>
-				</c>
-				
-			</s>
 			<s name="The 'flat' method">
 				<p>Returns a flat object, that is, an object that contains all the properties of the source object, as well as all properties of all prototypes of the source object.</p>
 				<p>Each object has the <c>flat</c> method.</p>

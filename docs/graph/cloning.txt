@@ -1,0 +1,19 @@
+digraph graphname
+{
+    node [fontname="sans-serif", fontsize=12 shape=box style=rounded penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=12 penwidth=0.7];
+    data;
+    original;
+    copy;
+    obj [shape=circle];
+    x [label="x: 1" shape=circle];
+    y [label="y: 2" shape=circle];
+    z [label="z: 3" shape=circle];
+
+    original -> obj;
+    copy -> obj;
+    obj -> data;
+	data -> x;
+	data -> y;
+	data -> z;
+}
