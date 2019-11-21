@@ -2,13 +2,16 @@ var obj =
 {
     get : $(index)
     {
-        if (index == 0)
-            return "zero";
-        if (index == 1)
-            return "one";
-        if (index == 2)
-            return "two";
-        return "other"
+        switch(index)
+        {
+            case 0:
+                return "zero";
+            case 1:
+                return "one";
+            case 2:
+                return "two";
+        }
+        return "other";
     }
 };
 

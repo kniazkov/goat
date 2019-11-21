@@ -1372,21 +1372,21 @@
 				<p>Then, let's assign this variable to another variable:</p>
 				<c>var b = a;</c>
 				<p>Okay. Now, we try to look what the second variable contains:</p>
-				<c>print(b); // output: {name:"Ivan",age:33}</c>
+				<c>print(b); // output: &quot;{&quot;name&quot;:&quot;Ivan&quot;,&quot;age&quot;:33}&quot;</c>
 				<p>Right, it contains the same that contains the first variable. Now, we change one property of the second variable:</p>
 				<c>b.name = "John";</c>
 				<p>Now let's look at the result:</p>
-				<c>print(b); // output: {name:"John",age:33}</c>
+				<c>print(b); // output: &quot;{&quot;name&quot;:&quot;John&quot;,&quot;age&quot;:33}&quot;</c>
 				<p>And now let's see what the first variable contains:</p>
-				<c>print(a); // output: {name:"John",age:33}</c>
+				<c>print(a); // output: &quot;{&quot;name&quot;:&quot;John&quot;,&quot;age&quot;:33}&quot;</c>
 				<p>Thus, we changed the property of the second variable, but the first one also changed. Why? The Goat programming language does not store whole objects in variables. <b>The Goat programming language stores in the variables only references to objects, but not the objects themselves.</b> If you copy one variable to another, only the reference is copied.</p>
 				<p>What can you do if you need to make a real copy of the object? Use special method <c>clone</c>:</p>	
 				<c><![CDATA[
 					var a = { name: "Ivan", age: 33 };
 					var b = a.clone();
 					b.name = "Jonh";
-					print(b); // output: {name:"John",age:33}
-					print(a); // output: {name:"Ivan",age:33}]]>
+					print(b); // output: "{"name":"John","age":33}"
+					print(a); // output: "{"name":"Ivan","age":33}"]]>
 				</c>
 			</s>
 		</s>
@@ -2908,13 +2908,13 @@
 				<c><![CDATA[
 					person["weight"] = 80;
 					//...
-					print(person.weight); // output: 80]]>
+					print(person.weight); // output: "80"]]>
 				</c>
 				<p>And vice versa, any property declared using an identifier, can be accessed using a string:</p>
 				<c><![CDATA[
 					person.weight = 80;
 					//...
-					print(person["weight"]); // output: 80]]>
+					print(person["weight"]); // output: "80"]]>
 				</c>
 				<p>So, objects are containers for pairs <c>key:value</c>, where the key can be an identifier or any object, and the value can be any object. However, the Goat program works a little faster if you use identifiers as keys, so this is the preferred method.</p>
 			</s>
@@ -3135,7 +3135,7 @@
 					var child = parent -> { y: 2, z: 3 }; 
 					
 					// now you have access to properties in the parent object:
-					println(child.x); // output: 1]]>
+					println(child.x); // output: "1"]]>
 				</c>
 				<p>Here, the <c>child</c> is the heir to the <c>parent</c>. Access of any parent's property by name has no different from that of the child's property. And it can be said that a child has the same properties as a parent. However, the child itself does not copy these properties, it only refers to them.</p>
 				<p>Inheritance nesting is not limited, any object can have a prototype, and a prototype can have its pro-prototype, and so on:</p>
@@ -3151,13 +3151,13 @@
 					var son = dad -> { y: 4, z: 5 }; 
 
 					// now you have access to properties of the pro-prototype:
-					println(son.a); // output: 1
+					println(son.a); // output: "1"
 
 					// and to properties of the prototype:
-					println(son.x); // output: 3
+					println(son.x); // output: "3"
 
 					// as well as to object's own properties:
-					println(son.z); // output: 5]]>
+					println(son.z); // output: "5"]]>
 				</c>
 			</s>
 			<s name="Operator -&gt;">
@@ -3219,13 +3219,13 @@
 					var B = A -> { y: 2, z: 3 }; 
 					
 					// read the value of 'x' property (of the child object):
-					print(B.x); // output: 1
+					print(B.x); // output: "1"
 					
 					// change the value of 'x' property (in the parent object):
 					A.x = 777;
 					
 					// read the value of 'x' property again:
-					print(B.x); // output: 777]]>
+					print(B.x); // output: "777"]]>
 				</c>
 			</s>
 			<s name="The 'new' operator">
@@ -3599,9 +3599,9 @@
 
                         var son = [mom, dad] -> { d: 4, e: 5 }; 
 
-                        println(son.a); // output: 1
-                        println(son.b); // output: 2
-                        println(son.e); // output: 5]]>
+                        println(son.a); // output: "1"
+                        println(son.b); // output: "2"
+                        println(son.e); // output: "5"]]>
                     </c>
                     <p>If the array is specified as a parameter to the <c>-&gt;</c>operator, the resulting object will be formed from all objects in that array.</p>
                 </s>
@@ -3939,6 +3939,116 @@
                     </c>
                     <p>Output:</p>
                     <c>{&quot;x&quot;:15,&quot;y&quot;:20,&quot;z&quot;:30}</c>
+                </s>
+                <s name="The 'get' and 'set' methods">
+                    <p>The <c>get</c> method returns the value of a property, for example:</p>
+                    <c><![CDATA[
+                        var obj = 
+                        {
+                            value : 7
+                        };
+
+
+                        var x = obj.get("value");
+                        print(x); // output: "7"]]>
+                    </c>
+                    <p>It is the same as:</p>
+                    <c>var x = obj[&quot;value&quot;];</c>
+                    <p>The <c>set</c> method sets (changes) the value of a property:</p>
+                    <c><![CDATA[
+                        var obj = 
+                        {
+                            value : 7
+                        };
+
+                        obj.set("value", 11);
+                        print(obj); // output: "{"value":11}"]]>
+                    </c>
+                    <p>It is the same as:</p>
+                    <c>obj[&quot;value&quot;] = 11;</c>
+                    <p>What's the point? <b>By overriding the <c>get</c> and <c>set</c> methods, you can change the operator <c>[ ]</c> behavior,</b> because using the operator <c>[ ]</c>:</p>
+                    <l>
+                        <i>for reading, implicitly calls the <c>get</c> method;</i>
+                        <i>for writing, implicitly calls <c>set</c> method.</i>
+                    </l>
+                    <p>In fact, as a rule, the 'get' method returns the value of a property. But for some types it is redefined, for example, for arrays, it returns an item of an array, for strings, it returns a character. </p>
+                    <p>So, you able to create own collection.</p>
+                    <p>Example 1. Redefining a getter :</p>
+                    <c><![CDATA[
+                        var obj =
+                        {
+                            get : $(index)
+                            {
+                                switch(index)
+                                {
+                                    case 0:
+                                        return "zero";
+                                    case 1:
+                                        return "one";
+                                    case 2:
+                                        return "two";
+                                }
+                                return "other";
+                            }
+                        };
+
+                        var i;
+                        for (i = 0; i < 5; ++i)
+                        {
+                            println(obj[i]);
+                        }]]>
+                    </c>
+                    <p>Output:</p>
+                    <c><![CDATA[
+                        zero
+                        one
+                        two
+                        other
+                        other]]>
+                    </c>
+                    <p>Example 2. Multidimensional array (matrix) implementation. In this case, the <c>get</c> method has two arguments and the <c>set</c> method has three:</p>
+                    <c><![CDATA[
+                        var Matrix =
+                        {
+                            init : $(w, h)
+                            {
+                                this.w = w;
+                                this.h = h;
+                                this.data = [];
+                                for (var i = 0; i < w * h; i++)
+                                    data.push(0);
+
+                            },
+                            
+                            get : $(x, y)
+                            {
+                                return data[y * w + x];
+                            },
+                            
+                            set : $(x, y, value)
+                            {
+                                data[y * w + x] = value;
+                            },
+                        };
+
+                        var m = new Matrix(5, 5);
+                        m[1, 2] = 7;
+                        m[3, 3] = 5;
+                        for (var y = 0; y < m.h; y++)
+                        {
+                            for (var x = 0; x < m.w; x++)
+                                print(" " + m[x, y]);
+                            print('\n');
+                        }]]>
+                    </c>
+                    <p>Output:</p>
+                    <c><![CDATA[
+                         0 0 0 0 0
+                         0 0 0 0 0
+                         0 7 0 0 0
+                         0 0 0 5 0
+                         0 0 0 0 0]]>
+                    </c>
                 </s>
             </s>
 			<s name="Prototypes of built-in types">

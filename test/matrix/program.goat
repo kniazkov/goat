@@ -1,0 +1,31 @@
+var Matrix =
+{
+    init : $(w, h) {
+        this.w = w;
+        this.h = h;
+        this.data = [];
+        for (var i = 0; i < w * h; i++)
+            data.push(0);
+
+    },
+    
+    get : $(x, y)
+    {
+        return data[y * w + x];
+    },
+    
+    set : $(x, y, value)
+    {
+        data[y * w + x] = value;
+    },
+};
+
+var m = new Matrix(5, 5);
+m[1, 2] = 7;
+m[3, 3] = 5;
+for (var y = 0; y < m.h; y++)
+{
+    for (var x = 0; x < m.w; x++)
+        print(" " + m[x, y]);
+    print('\n');
+}
