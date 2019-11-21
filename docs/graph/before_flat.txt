@@ -1,0 +1,17 @@
+digraph graphname
+{
+    node [fontname="sans-serif", fontsize=12 shape=box style=rounded penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=12 penwidth=0.7];
+    A;
+    x [label="x: 10" shape=circle];
+    B;
+    y [label="y: 20" shape=circle];
+    C;
+    z [label="z: 30" shape=circle];
+
+    A -> x;
+    B -> A;
+    B -> y;
+    C -> B;
+    C -> z;
+}

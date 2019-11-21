@@ -7787,9 +7787,6 @@
             <a href="#ref_181">The main object</a>
           </li>
           <li>
-            <a href="#ref_184">The &apos;flat&apos; method</a>
-          </li>
-          <li>
             <a href="#ref_185">Prototypes of built-in types</a>
           </li>
         </ul>
@@ -9801,6 +9798,9 @@
             <li>
               <a href="#ref_183">The &apos;clone&apos; method</a>
             </li>
+            <li>
+              <a href="#ref_184">The &apos;flat&apos; method</a>
+            </li>
           </ul>
           <div class="para">
             All objects in the Goat programming language are derived from the base prototype, named 
@@ -10117,164 +10117,179 @@
               var copy = original.clone(); // copy is the same object as the original 
             </div>
           </div>
-        </div>
-        <a name="ref_184"> </a>
-        <div style="font-size: large;" class="header">5.3.10. The &apos;flat&apos; method</div>
-        <div class="section">
-          <div class="para">Returns a flat object, that is, an object that contains all the properties of the source object, as well as all properties of all prototypes of the source object.</div>
-          <div class="para">
-            Each object has the 
-            <code class="inline">flat</code>
-            method.
-          </div>
-          <div class="para">The method creates a new object and then copies all the properties and methods from the original object and from all prototypes of the original object. Thus, a new object has no prototypes but has all data from the original object:</div>
-          <div class="code">
-            
-            var A = 
-            <br/>
-            
-            {
-            <br/>
-            &nbsp;&nbsp;
-            x : 10
-            <br/>
-            
-            };
-            <br/>
-            
-            
-            <br/>
-            
-            var B = A -&gt; 
-            <br/>
-            
-            {
-            <br/>
-            &nbsp;&nbsp;
-            y : 20
-            <br/>
-            
-            };
-            <br/>
-            
-            
-            <br/>
-            
-            var C = B-&gt; 
-            <br/>
-            
-            {
-            <br/>
-            &nbsp;&nbsp;
-            z : 30
-            <br/>
-            
-            };
-            <br/>
-            
-            
-            <br/>
-            
-            var F = C.flat();
-            <br/>
-            
-            
-            <br/>
-            
-            print(F);
-          </div>
-          <div class="para">Output:</div>
-          <div class="code">
-            
-            {x:10,y:20,z:30}
-          </div>
-          <div class="para">The new object is, as it were, &quot;flat&quot;, the same as if it were declared thus:</div>
-          <div class="code">
-            
-            var F = 
-            <br/>
-            
-            {
-            <br/>
-            &nbsp;&nbsp;
-            x : 10,
-            <br/>
-            &nbsp;&nbsp;
-            y : 20,
-            <br/>
-            &nbsp;&nbsp;
-            z : 30
-            <br/>
-            
-            };
-          </div>
-          <div class="para">Note that the copying is done starting from the very &quot;deep&quot; prototype. Thus, if somewhere in the chain of prototypes some property was redefined, then the &quot;flat&quot; object will contain an overridden property:</div>
-          <div class="code">
-            
-            var A = 
-            <br/>
-            
-            {
-            <br/>
-            &nbsp;&nbsp;
-            x : 10
-            <br/>
-            
-            };
-            <br/>
-            
-            
-            <br/>
-            
-            var B = A -&gt; 
-            <br/>
-            
-            {
-            <br/>
-            &nbsp;&nbsp;
-            x : 15, // overrided
-            <br/>
-            &nbsp;&nbsp;
-            y : 20
-            <br/>
-            
-            };
-            <br/>
-            
-            
-            <br/>
-            
-            var C = B-&gt; 
-            <br/>
-            
-            {
-            <br/>
-            &nbsp;&nbsp;
-            z : 30
-            <br/>
-            
-            };
-            <br/>
-            
-            
-            <br/>
-            
-            var F = C.flat();
-            <br/>
-            
-            
-            <br/>
-            
-            print(F);
-          </div>
-          <div class="para">Output:</div>
-          <div class="code">
-            
-            {x:15,y:20,z:30}
+          <a name="ref_184"> </a>
+          <div style="font-size: medium;" class="header">5.3.9.3. The &apos;flat&apos; method</div>
+          <div class="section">
+            <div class="para">Returns a flat object, that is, an object that contains all the properties of the source object, as well as all properties of all prototypes of the source object.</div>
+            <div class="para">
+              The method creates a new object and then copies all the properties and methods from the original object and from all prototypes of the original object. Thus, a new object has no prototypes (that is, the prototype will be 
+              <code class="inline">Object</code>
+              ) but has all data from the original object:
+            </div>
+            <div class="code">
+              
+              var A = 
+              <br/>
+              
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              x : 10
+              <br/>
+              
+              };
+              <br/>
+              
+              
+              <br/>
+              
+              var B = A -&gt; 
+              <br/>
+              
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              y : 20
+              <br/>
+              
+              };
+              <br/>
+              
+              
+              <br/>
+              
+              var C = B-&gt; 
+              <br/>
+              
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              z : 30
+              <br/>
+              
+              };
+              <br/>
+              
+              
+              <br/>
+              
+              var F = C.flat();
+              <br/>
+              
+              
+              <br/>
+              
+              print(F);
+            </div>
+            <div class="para">Output:</div>
+            <div class="code">
+              
+              {&quot;x&quot;:10,&quot;y&quot;:20,&quot;z&quot;:30}
+            </div>
+            <div class="para">The new object is, as it were, &quot;flat&quot;, the same as if it were declared thus:</div>
+            <div class="code">
+              
+              var F = 
+              <br/>
+              
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              x : 10,
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              y : 20,
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              z : 30
+              <br/>
+              
+              };
+            </div>
+            <div class="pic">
+              <img src="graph\before_flat.svg"/>
+              <br/>
+              <p className="para">
+                <b>Fig. 11. </b>
+                Original object before calling the &apos;flat&apos; method
+              </p>
+            </div>
+            <div class="pic">
+              <img src="graph\after_flat.svg"/>
+              <br/>
+              <p className="para">
+                <b>Fig. 12. </b>
+                The result of calling the &apos;flat&apos; method
+              </p>
+            </div>
+            <div class="para">Note that the copying is done starting from the most &quot;deepest&quot; prototype. Thus, if somewhere in the chain of prototypes some property was redefined, then the &quot;flat&quot; object will contain an overridden property:</div>
+            <div class="code">
+              
+              var A = 
+              <br/>
+              
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              x : 10
+              <br/>
+              
+              };
+              <br/>
+              
+              
+              <br/>
+              
+              var B = A -&gt; 
+              <br/>
+              
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              x : 15, // overrided
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              y : 20
+              <br/>
+              
+              };
+              <br/>
+              
+              
+              <br/>
+              
+              var C = B-&gt; 
+              <br/>
+              
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              z : 30
+              <br/>
+              
+              };
+              <br/>
+              
+              
+              <br/>
+              
+              var F = C.flat();
+              <br/>
+              
+              
+              <br/>
+              
+              print(F);
+            </div>
+            <div class="para">Output:</div>
+            <div class="code">
+              
+              {&quot;x&quot;:15,&quot;y&quot;:20,&quot;z&quot;:30}
+            </div>
           </div>
         </div>
         <a name="ref_185"> </a>
-        <div style="font-size: large;" class="header">5.3.11. Prototypes of built-in types</div>
+        <div style="font-size: large;" class="header">5.3.10. Prototypes of built-in types</div>
         <div class="section">
           <div class="para">Each object of built-in type (string, integer etc) has own built-in prototype:</div>
           <ul>
@@ -13839,7 +13854,7 @@
             <img src="graph/abstract_syntax_tree.svg"/>
             <br/>
             <p className="para">
-              <b>Fig. 11. </b>
+              <b>Fig. 13. </b>
               Abstract syntax tree
             </p>
           </div>
