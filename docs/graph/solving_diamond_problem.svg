@@ -26,7 +26,7 @@
 </g>
 <!-- Mammal -->
 <g id="node3" class="node"><title>Mammal</title>
-<path fill="none" stroke="blue" stroke-width="0.7" d="M187.553,-180C187.553,-180 149.553,-180 149.553,-180 143.553,-180 137.553,-174 137.553,-168 137.553,-168 137.553,-156 137.553,-156 137.553,-150 143.553,-144 149.553,-144 149.553,-144 187.553,-144 187.553,-144 193.553,-144 199.553,-150 199.553,-156 199.553,-156 199.553,-168 199.553,-168 199.553,-174 193.553,-180 187.553,-180"/>
+<path fill="none" stroke="navy" stroke-width="0.7" stroke-dasharray="5,2" d="M187.553,-180C187.553,-180 149.553,-180 149.553,-180 143.553,-180 137.553,-174 137.553,-168 137.553,-168 137.553,-156 137.553,-156 137.553,-150 143.553,-144 149.553,-144 149.553,-144 187.553,-144 187.553,-144 193.553,-144 199.553,-150 199.553,-156 199.553,-156 199.553,-168 199.553,-168 199.553,-174 193.553,-180 187.553,-180"/>
 <text text-anchor="middle" x="168.553" y="-158.9" font-family="sans-serif" font-size="12.00">Mammal</text>
 </g>
 <!-- Mammal&#45;&gt;Animal -->
@@ -46,13 +46,13 @@
 </g>
 <!-- getOffspring1 -->
 <g id="node8" class="node"><title>getOffspring1</title>
-<ellipse fill="none" stroke="blue" stroke-width="0.7" cx="165.553" cy="-90" rx="56.7683" ry="18"/>
+<ellipse fill="none" stroke="navy" stroke-width="0.7" stroke-dasharray="5,2" cx="165.553" cy="-90" rx="56.7683" ry="18"/>
 <text text-anchor="middle" x="165.553" y="-86.9" font-family="sans-serif" font-size="12.00">getOffspring()</text>
 </g>
 <!-- Mammal&#45;&gt;getOffspring1 -->
 <g id="edge3" class="edge"><title>Mammal&#45;&gt;getOffspring1</title>
-<path fill="none" stroke="blue" stroke-width="0.7" d="M167.812,-143.697C167.481,-135.983 167.084,-126.712 166.715,-118.112"/>
-<polygon fill="blue" stroke="blue" stroke-width="0.7" points="170.212,-117.945 166.286,-108.104 163.218,-118.245 170.212,-117.945"/>
+<path fill="none" stroke="navy" stroke-width="0.7" stroke-dasharray="5,2" d="M167.812,-143.697C167.481,-135.983 167.084,-126.712 166.715,-118.112"/>
+<polygon fill="navy" stroke="navy" stroke-width="0.7" points="170.212,-117.945 166.286,-108.104 163.218,-118.245 170.212,-117.945"/>
 </g>
 <!-- WingedAnimal -->
 <g id="node5" class="node"><title>WingedAnimal</title>
@@ -86,13 +86,13 @@
 </g>
 <!-- Bat -->
 <g id="node7" class="node"><title>Bat</title>
-<path fill="none" stroke="blue" stroke-width="0.7" d="M232.553,-252C232.553,-252 202.553,-252 202.553,-252 196.553,-252 190.553,-246 190.553,-240 190.553,-240 190.553,-228 190.553,-228 190.553,-222 196.553,-216 202.553,-216 202.553,-216 232.553,-216 232.553,-216 238.553,-216 244.553,-222 244.553,-228 244.553,-228 244.553,-240 244.553,-240 244.553,-246 238.553,-252 232.553,-252"/>
+<path fill="none" stroke="navy" stroke-width="0.7" stroke-dasharray="5,2" d="M232.553,-252C232.553,-252 202.553,-252 202.553,-252 196.553,-252 190.553,-246 190.553,-240 190.553,-240 190.553,-228 190.553,-228 190.553,-222 196.553,-216 202.553,-216 202.553,-216 232.553,-216 232.553,-216 238.553,-216 244.553,-222 244.553,-228 244.553,-228 244.553,-240 244.553,-240 244.553,-246 238.553,-252 232.553,-252"/>
 <text text-anchor="middle" x="217.553" y="-230.9" font-family="sans-serif" font-size="12.00">Bat</text>
 </g>
 <!-- Bat&#45;&gt;Mammal -->
 <g id="edge8" class="edge"><title>Bat&#45;&gt;Mammal</title>
-<path fill="none" stroke="blue" stroke-width="0.7" d="M205.441,-215.697C199.685,-207.474 192.692,-197.483 186.348,-188.421"/>
-<polygon fill="blue" stroke="blue" stroke-width="0.7" points="189.128,-186.29 180.526,-180.104 183.394,-190.304 189.128,-186.29"/>
+<path fill="none" stroke="navy" stroke-width="0.7" stroke-dasharray="5,2" d="M205.441,-215.697C199.685,-207.474 192.692,-197.483 186.348,-188.421"/>
+<polygon fill="navy" stroke="navy" stroke-width="0.7" points="189.128,-186.29 180.526,-180.104 183.394,-190.304 189.128,-186.29"/>
 </g>
 <!-- Bat&#45;&gt;WingedAnimal -->
 <g id="edge9" class="edge"><title>Bat&#45;&gt;WingedAnimal</title>

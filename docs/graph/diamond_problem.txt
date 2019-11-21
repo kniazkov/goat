@@ -9,8 +9,8 @@ digraph graphname
     WingedAnimal;
     flap  [label="flap()" shape=oval];
     Bat;
-    getOffspring1 [label="getOffspring()" shape=oval color=red];
-    getOffspring2 [label="getOffspring()" shape=oval color=red];
+    getOffspring1 [label="getOffspring()" shape=oval color=red style=dashed];
+    getOffspring2 [label="getOffspring()" shape=oval color=red style=dashed];
     
     Animal -> eat;
     Mammal -> drinkMilk;

@@ -12,9 +12,9 @@ digraph graphname
     
     Animal -> eat;
     Mammal -> drinkMilk;
-    Mammal -> Animal [color=blue];
+    Mammal -> Animal [color=navy style=dashed];
     WingedAnimal -> flap;
-    WingedAnimal -> Animal [color=blue];
-    Bat -> Mammal [color=blue];
-    Bat -> WingedAnimal [color=blue];    
+    WingedAnimal -> Animal [color=navy style=dashed];
+    Bat -> Mammal [color=navy style=dashed];
+    Bat -> WingedAnimal [color=navy style=dashed];    
 }

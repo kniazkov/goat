@@ -31,8 +31,8 @@
 </g>
 <!-- Mammal&#45;&gt;Animal -->
 <g id="edge3" class="edge"><title>Mammal&#45;&gt;Animal</title>
-<path fill="none" stroke="blue" stroke-width="0.7" d="M93.6433,-143.697C100.477,-135.305 108.81,-125.07 116.309,-115.861"/>
-<polygon fill="blue" stroke="blue" stroke-width="0.7" points="119.025,-118.069 122.626,-108.104 113.597,-113.649 119.025,-118.069"/>
+<path fill="none" stroke="navy" stroke-width="0.7" stroke-dasharray="5,2" d="M93.6433,-143.697C100.477,-135.305 108.81,-125.07 116.309,-115.861"/>
+<polygon fill="navy" stroke="navy" stroke-width="0.7" points="119.025,-118.069 122.626,-108.104 113.597,-113.649 119.025,-118.069"/>
 </g>
 <!-- drinkMilk -->
 <g id="node4" class="node"><title>drinkMilk</title>
@@ -51,8 +51,8 @@
 </g>
 <!-- WingedAnimal&#45;&gt;Animal -->
 <g id="edge5" class="edge"><title>WingedAnimal&#45;&gt;Animal</title>
-<path fill="none" stroke="blue" stroke-width="0.7" d="M165.913,-143.697C161.426,-135.644 155.995,-125.894 151.029,-116.982"/>
-<polygon fill="blue" stroke="blue" stroke-width="0.7" points="154.008,-115.137 146.083,-108.104 147.893,-118.544 154.008,-115.137"/>
+<path fill="none" stroke="navy" stroke-width="0.7" stroke-dasharray="5,2" d="M165.913,-143.697C161.426,-135.644 155.995,-125.894 151.029,-116.982"/>
+<polygon fill="navy" stroke="navy" stroke-width="0.7" points="154.008,-115.137 146.083,-108.104 147.893,-118.544 154.008,-115.137"/>
 </g>
 <!-- flap -->
 <g id="node6" class="node"><title>flap</title>
@@ -71,13 +71,13 @@
 </g>
 <!-- Bat&#45;&gt;Mammal -->
 <g id="edge6" class="edge"><title>Bat&#45;&gt;Mammal</title>
-<path fill="none" stroke="blue" stroke-width="0.7" d="M115.688,-215.697C110.05,-207.474 103.199,-197.483 96.9848,-188.421"/>
-<polygon fill="blue" stroke="blue" stroke-width="0.7" points="99.824,-186.372 91.2821,-180.104 94.0509,-190.331 99.824,-186.372"/>
+<path fill="none" stroke="navy" stroke-width="0.7" stroke-dasharray="5,2" d="M115.688,-215.697C110.05,-207.474 103.199,-197.483 96.9848,-188.421"/>
+<polygon fill="navy" stroke="navy" stroke-width="0.7" points="99.824,-186.372 91.2821,-180.104 94.0509,-190.331 99.824,-186.372"/>
 </g>
 <!-- Bat&#45;&gt;WingedAnimal -->
 <g id="edge7" class="edge"><title>Bat&#45;&gt;WingedAnimal</title>
-<path fill="none" stroke="blue" stroke-width="0.7" d="M139.419,-215.697C145.057,-207.474 151.908,-197.483 158.122,-188.421"/>
-<polygon fill="blue" stroke="blue" stroke-width="0.7" points="161.056,-190.331 163.825,-180.104 155.283,-186.372 161.056,-190.331"/>
+<path fill="none" stroke="navy" stroke-width="0.7" stroke-dasharray="5,2" d="M139.419,-215.697C145.057,-207.474 151.908,-197.483 158.122,-188.421"/>
+<polygon fill="navy" stroke="navy" stroke-width="0.7" points="161.056,-190.331 163.825,-180.104 155.283,-186.372 161.056,-190.331"/>
 </g>
 </g>
 </svg>

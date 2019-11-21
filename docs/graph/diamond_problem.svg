@@ -46,7 +46,7 @@
 </g>
 <!-- getOffspring1 -->
 <g id="node8" class="node"><title>getOffspring1</title>
-<ellipse fill="none" stroke="red" stroke-width="0.7" cx="165.553" cy="-90" rx="56.7683" ry="18"/>
+<ellipse fill="none" stroke="red" stroke-width="0.7" stroke-dasharray="5,2" cx="165.553" cy="-90" rx="56.7683" ry="18"/>
 <text text-anchor="middle" x="165.553" y="-86.9" font-family="sans-serif" font-size="12.00">getOffspring()</text>
 </g>
 <!-- Mammal&#45;&gt;getOffspring1 -->
@@ -76,7 +76,7 @@
 </g>
 <!-- getOffspring2 -->
 <g id="node9" class="node"><title>getOffspring2</title>
-<ellipse fill="none" stroke="red" stroke-width="0.7" cx="442.553" cy="-90" rx="56.7683" ry="18"/>
+<ellipse fill="none" stroke="red" stroke-width="0.7" stroke-dasharray="5,2" cx="442.553" cy="-90" rx="56.7683" ry="18"/>
 <text text-anchor="middle" x="442.553" y="-86.9" font-family="sans-serif" font-size="12.00">getOffspring()</text>
 </g>
 <!-- WingedAnimal&#45;&gt;getOffspring2 -->
