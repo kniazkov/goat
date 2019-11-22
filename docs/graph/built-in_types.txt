@@ -1,0 +1,29 @@
+digraph graphname
+{
+    rankdir=RL;
+    node [fontname="sans-serif", fontsize=12 shape=box style=rounded penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=12 penwidth=0.7];
+    
+    Object;
+    
+    String -> Object;
+    Char -> Object;
+    Integer -> Number;
+    Real -> Number;
+    Boolean -> Object;
+    Array -> Object;
+    Null -> Void;
+    Undefined -> Void;
+    Number -> Object;
+    Void -> Object;
+    Exception -> Object;
+    IllegalArgument -> Exception;
+    IttegalContext -> Exception;
+    IllegalOperation -> Exception;
+    DivisionByZero -> IllegalOperation;
+    IllegalReference -> IllegalOperation;
+    IllegalType -> IllegalOperation;
+    IsNotAFunction -> IllegalType;
+    IsNotAMethod -> IllegalType;
+    OperatorNotFound -> IllegalType;
+}

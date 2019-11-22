@@ -10779,7 +10779,7 @@
         <a name="ref_188"> </a>
         <div style="font-size: large;" class="header">5.3.10. Prototypes of built-in types</div>
         <div class="section">
-          <div class="para">Each object of built-in type (string, integer etc) has own built-in prototype:</div>
+          <div class="para">Each object of built-in type (string, integer, etc) has own built-in prototype:</div>
           <ul>
             <li>
               <code class="inline">String</code>
@@ -10839,7 +10839,7 @@
           <div class="para">
             Each prototype has, respectively, its properties, methods, and operators. For example, strings have a predefined 
             <code class="inline">+</code>
-            operator, which allows to concatenate strings.
+            operator, which concatenating strings.
           </div>
           <div class="para">Using a prototype, you can check whether the object is the right data type. Here is an example of a function, at the beginning of which it is checked whether the argument is an integer:</div>
           <div class="code">
@@ -10863,6 +10863,19 @@
             <br/>
             
             };
+          </div>
+          <div class="para">
+            This is a graph that shows the relations between built-in prototypes. Here is not all, but most of built-in objects inherit the 
+            <code class="inline">Object</code>
+            :
+          </div>
+          <div class="pic">
+            <img src="graph\built-in_types.svg"/>
+            <br/>
+            <p className="para">
+              <b>Fig. 13. </b>
+              Built-in types
+            </p>
           </div>
         </div>
       </div>
@@ -14347,7 +14360,7 @@
             <img src="graph/abstract_syntax_tree.svg"/>
             <br/>
             <p className="para">
-              <b>Fig. 13. </b>
+              <b>Fig. 14. </b>
               Abstract syntax tree
             </p>
           </div>

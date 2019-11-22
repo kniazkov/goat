@@ -4120,7 +4120,7 @@
                 </s>
             </s>
 			<s name="Prototypes of built-in types">
-				<p>Each object of built-in type (string, integer etc) has own built-in prototype:</p>
+				<p>Each object of built-in type (string, integer, etc) has own built-in prototype:</p>
 				<l>
 					<i><c>String</c> is the prototype for strings. Every time you define a string, for example, <c>var s = "hello, world"</c> you create a new object that has the <c>String</c> prototype;</i>
 					<i><c>Integer</c> is the prototype for integers;</i>
@@ -4132,7 +4132,7 @@
 					<i>functions are also objects! Each time you declare a function, for example, <c>var f=$(){ }</c> an object is created, the prototype of which is <c>Function</c>.</i>
 				</l>
 				<p>Other prototypes of built-in classes are: <c>Thread</c>, <c>Exception</c>, <c>File</c>, <c>StringBuilder</c>, <c>ByteArray</c>.</p>
-				<p>Each prototype has, respectively, its properties, methods, and operators. For example, strings have a predefined <c>+</c> operator, which allows to concatenate strings.</p>
+				<p>Each prototype has, respectively, its properties, methods, and operators. For example, strings have a predefined <c>+</c> operator, which concatenating strings.</p>
 				<p>Using a prototype, you can check whether the object is the right data type. Here is an example of a function, at the beginning of which it is checked whether the argument is an integer:</p>
 				<c><![CDATA[
 					var f = $(value) 
@@ -4143,6 +4143,8 @@
 						}
 					};]]>
 				</c>
+                <p>This is a graph that shows the relations between built-in prototypes. Here is not all, but most of built-in objects inherit the <c>Object</c>:</p>
+                <pic title="Built-in types">graph\built-in_types.svg</pic>
 			</s>
 		</s>
 		<s name="All about nothing">
