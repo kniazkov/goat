@@ -4174,16 +4174,9 @@
 					var obj = { x: 10, y: 20 };
 					print(obj.z); // output: "undefined"]]>
 				</c>
-				<p>Is <c>undefined</c> an object? Yes. This is an object, and it even has its own prototype: <c>Undefined</c>. But you can not do anything with this object. You cannot change properties of <c>undefined</c>, you can not call methods. All you can is compare this object to <c>undefined</c>:</p>
+				<p>Is <c>undefined</c> an object? Yes. This is an object, and it even has its own prototype: <c>Undefined</c>. But you can not do anything with this object. You cannot change the properties of <c>undefined</c>, you can not call methods (except derived from the <c>Object</c>, say, <c>instanceof</c>). All you can is compare this object to <c>undefined</c>:</p>
 				<c><![CDATA[
-					if (obj == undedined) 
-					{
-						//...
-					}]]>
-				</c>
-				<p>Or:</p>
-				<c><![CDATA[
-					if (defined(obj)) 
+					if (obj == undefined) 
 					{
 						//...
 					}]]>
@@ -4209,21 +4202,14 @@
 					{
 						//...
 					}
-					
-					var n = null;
-					
-					if (defined(n)) // true!
-					{
-						// ...
-					}
 					]]>
 				</c>
-				<p>Is <c>null</c> an object? Yes. This is an object, like <c>undefined</c>, and it has its own prototype: <c>Null</c>. You can not add prototypes to <c>null</c>, but you can call methods, for example:</p>
+				<p>Is <c>null</c> an object? Yes. This is an object, like <c>undefined</c>, and it has its own prototype: <c>Null</c>. You can not add prototypes to <c>null</c>, but you can call methods, derived from the <c>Object</c>:</p>
 				<c>print(null.instanceof(Null)); // "true"</c>
 			</s>
 			<s name="void">
 				<p>The third data type, which combines the two previous ones.</p>
-				<p>The <c>void</c> object has prototype <c>Void</c>", and both <c>Undefined</c> and <c>Null</c> inheriths from <c>Void</c>. So, in other words, <b><c>undefined</c> is <c>void</c> and <c>null</c> is <c>void</c>.</b> This is used if you need to check with one operation whether the object is <c>null</c> or <c>undefined</c>:</p>
+				<p>The <c>void</c> object has prototype <c>Void</c>", and both <c>Undefined</c> and <c>Null</c> inherits from <c>Void</c>. So, in other words, <b><c>undefined</c> is <c>void</c> and <c>null</c> is <c>void</c>.</b> This is used if you need to check with one operation whether the object is <c>null</c> or <c>undefined</c>:</p>
 				<c><![CDATA[
 					var f = $(value) 
 					{
@@ -4249,7 +4235,7 @@
 				</c>
 			</s>
 			<s name="Operator ?. (void guard)">
-				<p>You can not read a property from <c>undefined</c> or <c>null</c>. If you try to read a property (or call a method) from <c>undefined</c>, this will throw an exception <c>Exception.CanNotReadPropertyOfUndefined</c>. If you try to read a property from <c>null</c>, then <c>null</c> contains no properties (except standard methods and operators). Thus, sometimes it is necessary to check whether a variable (most often an argument of a method) is a void. This avoids unintended consequences like exceptions. For example:</p>
+				<p>You can not read a property from <c>undefined</c> or <c>null</c>. If you try to read a property from <c>void</c>, this will throw an exception <c>Exception.IllegalReference</c>. Thus, sometimes it is necessary to check whether a variable (most often an argument of a method) is a void. This avoids unintended consequences like exceptions. For example:</p>
 				<c><![CDATA[
 					// safe 'exist' field reading from 'some.object.that.might.not.exist': 
 					if (some != void) 

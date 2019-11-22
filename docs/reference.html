@@ -11023,29 +11023,19 @@
             <code class="inline">undefined</code>
             an object? Yes. This is an object, and it even has its own prototype: 
             <code class="inline">Undefined</code>
-            . But you can not do anything with this object. You cannot change properties of 
+            . But you can not do anything with this object. You cannot change the properties of 
             <code class="inline">undefined</code>
-            , you can not call methods. All you can is compare this object to 
+            , you can not call methods (except derived from the 
+            <code class="inline">Object</code>
+            , say, 
+            <code class="inline">instanceof</code>
+            ). All you can is compare this object to 
             <code class="inline">undefined</code>
             :
           </div>
           <div class="code">
             
-            if (obj == undedined) 
-            <br/>
-            
-            {
-            <br/>
-            &nbsp;&nbsp;
-            //...
-            <br/>
-            
-            }
-          </div>
-          <div class="para">Or:</div>
-          <div class="code">
-            
-            if (defined(obj)) 
+            if (obj == undefined) 
             <br/>
             
             {
@@ -11121,27 +11111,6 @@
             <br/>
             
             
-            <br/>
-            
-            var n = null;
-            <br/>
-            
-            
-            <br/>
-            
-            if (defined(n)) // true!
-            <br/>
-            
-            {
-            <br/>
-            &nbsp;&nbsp;
-            // ...
-            <br/>
-            
-            }
-            <br/>
-            
-            
           </div>
           <div class="para">
             Is 
@@ -11152,7 +11121,9 @@
             <code class="inline">Null</code>
             . You can not add prototypes to 
             <code class="inline">null</code>
-            , but you can call methods, for example:
+            , but you can call methods, derived from the 
+            <code class="inline">Object</code>
+            :
           </div>
           <div class="code">
             
@@ -11172,7 +11143,7 @@
             <code class="inline">Undefined</code>
             and 
             <code class="inline">Null</code>
-            inheriths from 
+            inherits from 
             <code class="inline">Void</code>
             . So, in other words, 
             <b>
@@ -11257,15 +11228,11 @@
             <code class="inline">undefined</code>
             or 
             <code class="inline">null</code>
-            . If you try to read a property (or call a method) from 
-            <code class="inline">undefined</code>
-            , this will throw an exception 
-            <code class="inline">Exception.CanNotReadPropertyOfUndefined</code>
             . If you try to read a property from 
-            <code class="inline">null</code>
-            , then 
-            <code class="inline">null</code>
-            contains no properties (except standard methods and operators). Thus, sometimes it is necessary to check whether a variable (most often an argument of a method) is a void. This avoids unintended consequences like exceptions. For example:
+            <code class="inline">void</code>
+            , this will throw an exception 
+            <code class="inline">Exception.IllegalReference</code>
+            . Thus, sometimes it is necessary to check whether a variable (most often an argument of a method) is a void. This avoids unintended consequences like exceptions. For example:
           </div>
           <div class="code">
             
