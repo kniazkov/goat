@@ -1,0 +1,19 @@
+digraph graphname
+{
+    //rankdir=RL;
+    node [fontname="sans-serif", fontsize=10 shape=oval penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=10 penwidth=0.7];
+    
+    Object;
+    
+    Exception -> Object;
+    IllegalArgument -> Exception;
+    IllegalContext -> Exception;
+    IllegalOperation -> Exception;
+    DivisionByZero -> IllegalOperation;
+    IllegalReference -> IllegalOperation;
+    IllegalType -> IllegalOperation;
+    IsNotAFunction -> IllegalType;
+    IsNotAMethod -> IllegalType;
+    OperatorNotFound -> IllegalType;
+}

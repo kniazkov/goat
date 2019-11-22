@@ -1,8 +1,8 @@
 digraph graphname
 {
-    rankdir=RL;
-    node [fontname="sans-serif", fontsize=12 shape=box style=rounded penwidth=0.7];
-    edge [fontname="sans-serif", fontsize=12 penwidth=0.7];
+    //rankdir=RL;
+    node [fontname="sans-serif", fontsize=10 shape=oval penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=10 penwidth=0.7];
     
     Object;
     
@@ -17,13 +17,4 @@ digraph graphname
     Number -> Object;
     Void -> Object;
     Exception -> Object;
-    IllegalArgument -> Exception;
-    IttegalContext -> Exception;
-    IllegalOperation -> Exception;
-    DivisionByZero -> IllegalOperation;
-    IllegalReference -> IllegalOperation;
-    IllegalType -> IllegalOperation;
-    IsNotAFunction -> IllegalType;
-    IsNotAMethod -> IllegalType;
-    OperatorNotFound -> IllegalType;
 }

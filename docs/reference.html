@@ -10874,8 +10874,87 @@
             <br/>
             <p className="para">
               <b>Fig. 13. </b>
-              Built-in types
+              Inheritance of some built-in types 
             </p>
+          </div>
+          <div class="para">
+            Some of these prototypes have their heirs, say, the 
+            <code class="inline">Exception</code>
+            object:
+          </div>
+          <div class="pic">
+            <img src="graph\built-in_exception.svg"/>
+            <br/>
+            <p className="para">
+              <b>Fig. 14. </b>
+              Inheritance of exceptions
+            </p>
+          </div>
+          <div class="para">
+            You can create a built-in object using the 
+            <code class="inline">new</code>
+            operator, just like any other object:
+          </div>
+          <div class="code">
+            
+            var b = new StringBuilder();
+          </div>
+          <div class="para">
+            However, the 
+            <code class="inline">new</code>
+            operator works also for &quot;primitive&quot; objects, like integers and strings:
+          </div>
+          <div class="code">
+            
+            var s = new String(&quot;hello&quot;);
+          </div>
+          <div class="para">It is the same as:</div>
+          <div class="code">
+            
+            var s = &quot;hello!&quot;;
+          </div>
+          <div class="para">
+            What&apos;s the point? First, it is done for compatibility (all objects work same, as much as possible), and second, the 
+            <code class="inline">new</code>
+            operator tries to convert the argument to its &quot;own&quot; type, and it can be used to convert types:
+          </div>
+          <div class="code">
+            
+            var i = new Integer(&quot;1024&quot;); // 1024
+          </div>
+          <div class="para">
+            If the conversion fails, returns an object by default (0 for 
+            <code class="inline">Integer</code>
+            , 
+            <code class="inline">Real</code>
+            and 
+            <code class="inline">Number</code>
+            ), an empty string for 
+            <code class="inline">String</code>
+            , 
+            <code class="inline">false</code>
+            for 
+            <code class="inline">Boolean</code>
+            ), contrary with 
+            <code class="inline">valueof</code>
+            &apos; method (it returns 
+            <code class="inline">null</code>
+            ).
+          </div>
+          <div class="para">
+            Note, you can&apos;t call the 
+            <code class="inline">new</code>
+            operator for some abstract prototypes (such 
+            <code class="inline">Iterator</code>
+            or 
+            <code class="inline">File</code>
+            ), this will throw an 
+            <code class="inline">IlegalOperation</code>
+            exception. To create an object of such type, you should call the appropriate method (in these cases 
+            <code class="inline">iterator()</code>
+            and 
+            <code class="inline">open()</code>
+            ).
           </div>
         </div>
       </div>
@@ -14360,7 +14439,7 @@
             <img src="graph/abstract_syntax_tree.svg"/>
             <br/>
             <p className="para">
-              <b>Fig. 14. </b>
+              <b>Fig. 15. </b>
               Abstract syntax tree
             </p>
           </div>

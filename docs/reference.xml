@@ -4144,7 +4144,19 @@
 					};]]>
 				</c>
                 <p>This is a graph that shows the relations between built-in prototypes. Here is not all, but most of built-in objects inherit the <c>Object</c>:</p>
-                <pic title="Built-in types">graph\built-in_types.svg</pic>
+                <pic title="Inheritance of some built-in types ">graph\built-in_types.svg</pic>
+                <p>Some of these prototypes have their heirs, say, the <c>Exception</c> object:</p>
+                <pic title="Inheritance of exceptions">graph\built-in_exception.svg</pic>
+                <p>You can create a built-in object using the <c>new</c> operator, just like any other object:</p>
+                <c>var b = new StringBuilder();</c>
+                <p>However, the <c>new</c> operator works also for "primitive" objects, like integers and strings:</p>
+                <c>var s = new String(&quot;hello&quot;);</c>
+                <p>It is the same as:</p>
+                <c>var s = &quot;hello!&quot;;</c>
+                <p>What's the point? First, it is done for compatibility (all objects work same, as much as possible), and second, the <c>new</c> operator tries to convert the argument to its "own" type, and it can be used to convert types:</p>
+                <c>var i = new Integer(&quot;1024&quot;); // 1024</c>
+                <p>If the conversion fails, returns an object by default (0 for <c>Integer</c>, <c>Real</c> and <c>Number</c>), an empty string for <c>String</c>, <c>false</c> for <c>Boolean</c>), contrary with <c>valueof</c>' method (it returns <c>null</c>).</p>
+                <p>Note, you can't call the <c>new</c> operator for some abstract prototypes (such <c>Iterator</c> or <c>File</c>), this will throw an <c>IlegalOperation</c> exception. To create an object of such type, you should call the appropriate method (in these cases <c>iterator()</c> and <c>open()</c>).</p>
 			</s>
 		</s>
 		<s name="All about nothing">
