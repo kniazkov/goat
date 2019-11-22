@@ -1,0 +1,34 @@
+// Iterator
+var SquareIterator =
+{
+    init : $()
+    {
+        this.value = -1;
+    },
+    
+    valid : $()
+    {
+        return value < 10;
+    },
+    
+    next : $()
+    {
+        value++;
+        return value * value;
+    }
+};
+
+// Generator
+var SquareNumbers =
+{
+    iterator : $()
+    {
+        return new SquareIterator();
+    }
+};
+
+// Loop
+for (var num in SquareNumbers)
+{
+    println(num);
+}

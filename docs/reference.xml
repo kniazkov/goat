@@ -4350,7 +4350,146 @@
 			</s>
 		</s>
         <s name="Iterators" anchor="Iterators">
-            <p>The chapter about iterators</p>
+            <p>An iterator is a special type that allows getting (enumerate) some objects in sequence, one after another. Based on iterators, some algorithms and language structures are work.</p>
+            <s name="The 'Iterator' object">
+                <p>The <c>Iterator</c> object is abstract, it means, it contains some stub methods that must be overridden in derived objects. It defines two methods:</p>
+				<m name="valid" descr="Returns true if the iterator is valid, i.e. can return the next object."></m>
+				<m name="next" descr="Returns the next object.">
+                    <e><![CDATA[
+                        var iter = collection.iterator();
+                        while (iter.valid())
+                        {
+                            var obj = iter.next();
+                            // do something with the object
+                        }]]>
+                    </e>
+                </m>
+            </s>
+            <s name="The 'iterator' method">
+                <p>The instance of the <c>Iterator</c> object returns by the <c>iterator</c> method. This method is defined in the <c>Object</c>, so, each object inherits it and can override it. The default implementation returns an iterator that enumerates names of all properties:</p>
+                <c><![CDATA[
+                    var obj =
+                    {
+                        x : 7,
+                        y : 11,
+                        z : "test"
+                    };
+
+                    var iter = obj.iterator();
+
+                    while(iter.valid())
+                    {
+                        var key = iter.next();
+                        if (obj.contains(key))
+                            println("" + key + " = " + obj[key]);
+                    }]]>
+                </c>
+                <p>Output:</p>
+                <c><![CDATA[
+                    x = 7
+                    y = 11
+                    z = test]]>
+                </c>
+                <p>This behavior is redefined for some objects. For example, for strings, the <c>iterator</c> method returns an iterator that enumerates all characters of this string:</p>
+                <c><![CDATA[
+                    var s = "test";
+                    var i = s.iterator();
+
+                    while(i.valid())
+                    {
+                        println(i.next());
+                    }]]>
+                </c>
+                <p>Output:</p>
+                <c><![CDATA[
+                    t
+                    e
+                    s
+                    t]]>
+                </c>
+            </s>
+            <s name="The 'for..in' loop">
+                <p>In fact, this statement implicitly calls the <c>iterator</c> method from an object and then does the <c>while</c> loop, calling the <c>valid</c> and the <c>next</c> methods from a returned iterator.</p>
+                <p>The previous example can be rewritten as:</p>
+                <c><![CDATA[
+                    var obj =
+                    {
+                        x : 7,
+                        y : 11,
+                        z : "test"
+                    };
+
+                    for (var key in obj)
+                    {
+                        if (obj.contains(key))
+                            println("" + key + " = " + obj[key]);
+                    }]]>
+                </c>
+                <p>So, any object can be transformed into an enumerable collection or generator, all you need is to define your own iterator and override the <c>iterator</c> method.</p>
+            </s>
+            <s name="Generators">
+                <p>A generator is an iterator that does not enumerate items of a collection (object, array, etc) but generates values itself.</p>
+                <p>The built-in <c>range</c> method is a generator: it returns values from some range:</p>
+                <c><![CDATA[
+                    for (var v in range(10))
+                    {
+                        print(v);
+                    }]]>
+                </c>
+                <p>Output:</p>
+                <c>0123456789</c>
+                <p>As an example of a custom generator, let's write a generator that returns squares of numbers from 0 to 10:</p>
+                <c><![CDATA[
+                    // Iterator
+                    var SquareIterator =
+                    {
+                        init : $()
+                        {
+                            this.value = -1;
+                        },
+                        
+                        valid : $()
+                        {
+                            return value < 10;
+                        },
+                        
+                        next : $()
+                        {
+                            value++;
+                            return value * value;
+                        }
+                    };
+
+                    // Generator
+                    var SquareNumbers =
+                    {
+                        iterator : $()
+                        {
+                            return new SquareIterator();
+                        }
+                    };
+
+                    // Loop
+                    for (var num in SquareNumbers)
+                    {
+                        println(num);
+                    }]]>
+                </c>
+                <p>Output:</p>
+                <c><![CDATA[
+                    0
+                    1
+                    4
+                    9
+                    16
+                    25
+                    36
+                    49
+                    64
+                    81
+                    100]]>
+                </c>
+            </s>
         </s>
 		<s name="Threads">
 			<p>The Goat programming language supports threads. A thread of execution is the smallest sequence of programmed instructions that  managed independently by a scheduler. In other words, thread is the ability to execute two or more sections of code at the same time.</p>
