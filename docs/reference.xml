@@ -4492,12 +4492,20 @@
             </s>
         </s>
 		<s name="Threads">
-			<p>The Goat programming language supports threads. A thread of execution is the smallest sequence of programmed instructions that  managed independently by a scheduler. In other words, thread is the ability to execute two or more sections of code at the same time.</p>
-			<p>Each running program contains at least one thread. Goat does not separate the "main" and "non-main" threads - each thread can initiate a new thread, and each thread can stop execution of another thread (if it has a pointer to this). The program ends only when all threads are completed.</p>
+			<p>The Goat programming language supports threads. A thread of execution is the sequence of programmed instructions that managed independently by a scheduler. In other words, threads are the ability to execute two or more sections of code at the same time.</p>
+            <p>Each running program contains at least one thread. Goat does not separate the "main" and "non-main" threads - each thread can initiate a new thread, and each thread can stop the execution of another thread (if it has a reference to this). The program ends only when all threads are completed.</p>
 			<s name="Threads declaration">
 				<p>Threads are declared in the same way as functions, but the <c>thread</c> keyword is used instead of the <c>function</c> keyword:</p>
 				<c><![CDATA[
 					var a = thread() 
+					{
+						for (var i = 0; i < 10; i++)
+							print('A');
+					};]]>
+				</c>
+                <p>The <c>thread</c> keyword can be changed to two dollar signs <c>$$</c> (for shortness):</p>
+				<c><![CDATA[
+					var a = $$() 
 					{
 						for (var i = 0; i < 10; i++)
 							print('A');
@@ -4517,7 +4525,19 @@
 				</c>
 				<p>Output:</p>
 				<c>AAAAAAAAAA</c>
-				<p>You can not re-run a thread that is already in progress.</p>
+				<p>You can re-run a thread that is already in progress. The second instance of a thread will be created and started.</p>
+				<c><![CDATA[
+					var a = thread() 
+					{
+						for (var i = 0; i < 10; i++)
+							print('A');
+					};
+					
+					a.run();
+                    a.run();]]>
+				</c>
+				<p>Output:</p>
+				<c>AAAAAAAAAAAAAAAAAAAA</c>
 				<p>You can run two, three, as many threads as you need, and they will run at the same time:</p>
 				<c><![CDATA[
 					var a = thread() 
@@ -4541,24 +4561,166 @@
 				<c>AABBBAAAABABBAABABAB</c>
 				<p>It is guaranteed that every thread will be executed from beginning to end.</p>
 			</s>
-			<s name="Stopping">
-				<p>The running thread can be stopped by the <c>stop()</c> method:</p>
-				<c><![CDATA[
-					var b = thread() 
-					{
-						// this thread will never end if it does not stop!
-						while(true)
-							print('B');
-					};
+			<s name="The 'Runner' object">
+				<p>The 'run' method returns an instance of the 'Runner' object, which has the set of methods to started thread control.</p>
+				<m name="kill">
+                    <d>Kills the thread (without resuming ability) and removes it from the thread list. Returns <c>true</c> if the thread was killed.</d>
+                    <e><![CDATA[
+                        var b = thread() 
+                        {
+                            // this thread will never end if anybody does not stop it!
+                            while(true)
+                                print('B');
+                        };
 
-					b.run();
-					for (var i = 0; i < 10; i++)
-						print('A');
-					b.stop();]]>
-				</c>
-				<p>The output is something like this:</p>
-				<c>BBABBABBABBBABBABBABBBABBABBABBBABB</c>
+                        var r = b.run();
+                        for (var i = 0; i < 10; i++)
+                            print('A');
+                        r.kill();]]>
+                    </e>
+                    <n>The output is something like this: <c>BBABBABBABBBABBABBABBBABBABBABBBABB</c>. Obviously, this approach allows controlling some "infinite" processes, such as services, listeners, etc.</n>
+                </m>
+				<m name="alive">
+                    <d>Returns <c>true</c> if the thread is alive (not finished yet or not killed).</d>
+                    <e><![CDATA[
+                        var b = thread() 
+                        {
+                            for (var i = 0; i < 10; i++)
+                                print('B');
+                        };
+
+                        var r = b.run();
+                        while(r.alive())
+                            print('A');]]>
+                    </e>
+                </m>
+				<m name="suspend">
+                    <d>Suspends the thread, returns <c>true</c> if the thread is suspended.</d>
+                </m>
+				<m name="resume">
+                    <d>Resumes the suspended thread, returns <c>true</c> if the thread is resumed.</d>
+                    <e><![CDATA[
+                        var t = thread() 
+                        {
+                            // infinite thread
+                            while(true)
+                                print('#');
+                        };
+
+                        // run the thread
+                        var r = t.run();
+
+                        // print "AAAAA", result should be like "#A##A##A##A##A"
+                        for (var i = 0; i < 5; i++)
+                            print('A');
+                            
+                        // suspend the thread then print "BBBBB"
+                        r.suspend();
+                        for (var i = 0; i < 5; i++)
+                            print('B');
+
+                        // resume then print 'CCCCC'
+                        r.resume();
+                        for (var i = 0; i < 5; i++)
+                            print('C');
+
+                        // kill the thread
+                        r.kill();
+
+                        // Output: "#A##A##A##A##A##BBBBB##C##C##C##C##C##"]]>
+                    </e>
+                </m>
+				<m name="join">
+                    <d>Joins the thread, i.e. suspends the current thread while the joined thread is alive.</d>
+                    <e><![CDATA[
+                        var t = thread() 
+                        {
+                            for (var i = 0; i < 5; i++)
+                                print('A');
+                        };
+
+                        var r = t.run();
+                        r.join();
+                        for (var i = 0; i < 5; i++)
+                            print('B');
+                            
+                        // Output: "AAAAABBBBB"]]>
+                    </e>
+                </m>
+				<m name="id">
+                    <d>Returns numeric identifier of the thread.</d>
+                </m>
 			</s>
+            <s name="Getting a reference to the current thread">
+                <p>For some cases is needed to get an instance of the <c>Runner</c> object for the current thread. The static <c>Thread.current</c> method returns it. Example (prints the current thread Id):</p>
+                <c><![CDATA[
+                    var r = Thread.current();
+                    println(r.id());]]>
+                </c>
+            </s>
+            <s name="Synchronization">
+                <p>Two or more threads can access the same data. Simultaneous reading or writing can lead to an incorrect result: if one thread reads an object and the other thread writes it (i.e. adds or changes properties), in some cases the first thread may read incorrect data (if at the time of reading some data has changed, and some are not). Obviously, in order to preserve the consistency of the data, during the access to such a shared object, concurrent threads must be blocked - until one reads, the other can not write; until one writes, the other cannot read.</p>
+                <p>The Goat programming language provides some tools for synchronization.</p>
+                <s name="Critical section">
+                    <p>This is the simplest primitive of synchronization. Inside the critical section, the interpreter does not switch threads.</p>
+                    <p>A critical section is a block of code after the <c>lock</c> keyword:</p>
+                    <c><![CDATA[
+                        lock
+                        {
+                            // some code here...
+                        }]]>
+                    </c>
+                    <p>Critical sections should be made very short, it is recommended to do it only for reading/writing one-two-three variables, as a long suspend of other threads can negatively affect the execution of the script. However, is the fastest way of synchronization.</p>
+                    <p>Example: writing a variable from 7 threads simultaneously:</p>
+                    <c><![CDATA[
+                        var x = 0;
+
+                        var t = thread()
+                        {
+                            var i;
+                            for (i = 0; i < 100; ++i)
+                            {
+                                lock
+                                {
+                                    ++x;
+                                }
+                            }
+                        };
+
+                        var r1 = t.run();
+                        var r2 = t.run();
+                        var r3 = t.run();
+                        var r4 = t.run();
+                        var r5 = t.run();
+                        var r6 = t.run();
+                        var r7 = t.run();
+                        r1.join();
+                        r2.join();
+                        r3.join();
+                        r4.join();
+                        r5.join();
+                        r6.join();
+                        r7.join();
+                        println(x); // output: "700"]]>
+                    </c>
+                    <p>What happens if we wouldn't use a critical section here? The increment <c>++x</c> is not an atomic operation, it takes three steps:</p>
+                    <l>
+                        <i>Loading value of a variable (or a property);</i>
+                        <i>Increment;</i>
+                        <i>Storing a new value to a variable.</i>
+                    </l>
+                    <p>Let's say the initial value of variable 0 and two threads increment it.</p>
+                    <l>
+                        <i>The first thread loads the value of the variable (0).</i>
+                        <i>The second thread loads the value of the variable (0, because the first thread did not change it yet).</i>
+                        <i>The first thread increments the value (1).</i>
+                        <i>The second thread increments the value (1, because it "does not know" that the first thread did something - the threads are independent).</i>
+                        <i>The first thread stores the value to the variable (1).</i>
+                        <i>The second thread stores the value to the variable (rewrites 1 to 1, but should be 2 - error).</i>
+                    </l>
+                    <p>This example does not take into account the fact that threads do not necessarily execute their instructions strictly by one. In fact, the first thread can execute any number of instructions before passing control to another thread. But in any case, <b>unsynchronized access to shared resources can lead to serious errors</b> that hard to detect and fix.</p>
+                </s>
+            </s>
 		</s>
 	</s>
 	

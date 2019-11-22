@@ -44,10 +44,10 @@
         <a href="#ref_154">Advanced programming</a>
       </li>
       <li>
-        <a href="#ref_207">Standard library</a>
+        <a href="#ref_209">Standard library</a>
       </li>
       <li>
-        <a href="#ref_249">Appendix</a>
+        <a href="#ref_251">Appendix</a>
       </li>
     </ul>
     <a name="ref_0"> </a>
@@ -137,7 +137,7 @@
         </div>
         <div class="para">
           Here is a short list of interpreter options. All options are described in the 
-          <a href="#ref_263">Appendix</a>
+          <a href="#ref_265">Appendix</a>
           section.
         </div>
         <div class="header">--lib</div>
@@ -3081,7 +3081,7 @@
           </div>
           <div class="para">
             Built-in functions are fully described in the 
-            <a href="#ref_209">appropriate</a>
+            <a href="#ref_211">appropriate</a>
             chapter.
           </div>
         </div>
@@ -11934,11 +11934,17 @@
             <a href="#ref_205">Starting</a>
           </li>
           <li>
-            <a href="#ref_206">Stopping</a>
+            <a href="#ref_206">The &apos;Runner&apos; object</a>
+          </li>
+          <li>
+            <a href="#ref_207">Getting a reference to the current thread</a>
+          </li>
+          <li>
+            <a href="#ref_208">Synchronization</a>
           </li>
         </ul>
-        <div class="para">The Goat programming language supports threads. A thread of execution is the smallest sequence of programmed instructions that  managed independently by a scheduler. In other words, thread is the ability to execute two or more sections of code at the same time.</div>
-        <div class="para">Each running program contains at least one thread. Goat does not separate the &quot;main&quot; and &quot;non-main&quot; threads - each thread can initiate a new thread, and each thread can stop execution of another thread (if it has a pointer to this). The program ends only when all threads are completed.</div>
+        <div class="para">The Goat programming language supports threads. A thread of execution is the sequence of programmed instructions that managed independently by a scheduler. In other words, threads are the ability to execute two or more sections of code at the same time.</div>
+        <div class="para">Each running program contains at least one thread. Goat does not separate the &quot;main&quot; and &quot;non-main&quot; threads - each thread can initiate a new thread, and each thread can stop the execution of another thread (if it has a reference to this). The program ends only when all threads are completed.</div>
         <a name="ref_204"> </a>
         <div style="font-size: large;" class="header">5.7.1. Threads declaration</div>
         <div class="section">
@@ -11952,6 +11958,29 @@
           <div class="code">
             
             var a = thread() 
+            <br/>
+            
+            {
+            <br/>
+            &nbsp;&nbsp;
+            for (var i = 0; i &lt; 10; i++)
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            print(&apos;A&apos;);
+            <br/>
+            
+            };
+          </div>
+          <div class="para">
+            The 
+            <code class="inline">thread</code>
+            keyword can be changed to two dollar signs 
+            <code class="inline">$$</code>
+            (for shortness):
+          </div>
+          <div class="code">
+            
+            var a = $$() 
             <br/>
             
             {
@@ -12001,7 +12030,37 @@
             
             AAAAAAAAAA
           </div>
-          <div class="para">You can not re-run a thread that is already in progress.</div>
+          <div class="para">You can re-run a thread that is already in progress. The second instance of a thread will be created and started.</div>
+          <div class="code">
+            
+            var a = thread() 
+            <br/>
+            
+            {
+            <br/>
+            &nbsp;&nbsp;
+            for (var i = 0; i &lt; 10; i++)
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            print(&apos;A&apos;);
+            <br/>
+            
+            };
+            <br/>
+            
+            
+            <br/>
+            
+            a.run();
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            a.run();
+          </div>
+          <div class="para">Output:</div>
+          <div class="code">
+            
+            AAAAAAAAAAAAAAAAAAAA
+          </div>
           <div class="para">You can run two, three, as many threads as you need, and they will run at the same time:</div>
           <div class="code">
             
@@ -12059,13 +12118,16 @@
           <div class="para">It is guaranteed that every thread will be executed from beginning to end.</div>
         </div>
         <a name="ref_206"> </a>
-        <div style="font-size: large;" class="header">5.7.3. Stopping</div>
+        <div style="font-size: large;" class="header">5.7.3. The &apos;Runner&apos; object</div>
         <div class="section">
+          <div class="para">The &apos;run&apos; method returns an instance of the &apos;Runner&apos; object, which has the set of methods to started thread control.</div>
+          <div class="header">kill (  )</div>
           <div class="para">
-            The running thread can be stopped by the 
-            <code class="inline">stop()</code>
-            method:
+            Kills the thread (without resuming ability) and removes it from the thread list. Returns 
+            <code class="inline">true</code>
+            if the thread was killed.
           </div>
+          <div class="para">Example:</div>
           <div class="code">
             
             var b = thread() 
@@ -12073,13 +12135,13 @@
             
             {
             <br/>
-            &nbsp;&nbsp;
-            // this thread will never end if it does not stop!
-            <br/>
-            &nbsp;&nbsp;
-            while(true)
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            // this thread will never end if anybody does not stop it!
             <br/>
             &nbsp;&nbsp;&nbsp;&nbsp;
+            while(true)
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             print(&apos;B&apos;);
             <br/>
             
@@ -12089,34 +12151,369 @@
             
             <br/>
             
-            b.run();
+            var r = b.run();
             <br/>
             
             for (var i = 0; i &lt; 10; i++)
             <br/>
-            &nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
             print(&apos;A&apos;);
             <br/>
             
-            b.stop();
+            r.kill();
           </div>
-          <div class="para">The output is something like this:</div>
+          <div class="para">
+            The output is something like this: 
+            <code class="inline">BBABBABBABBBABBABBABBBABBABBABBBABB</code>
+            . Obviously, this approach allows controlling some &quot;infinite&quot; processes, such as services, listeners, etc.
+          </div>
+          <div class="header">alive (  )</div>
+          <div class="para">
+            Returns 
+            <code class="inline">true</code>
+            if the thread is alive (not finished yet or not killed).
+          </div>
+          <div class="para">Example:</div>
           <div class="code">
             
-            BBABBABBABBBABBABBABBBABBABBABBBABB
+            var b = thread() 
+            <br/>
+            
+            {
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            for (var i = 0; i &lt; 10; i++)
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            print(&apos;B&apos;);
+            <br/>
+            
+            };
+            <br/>
+            
+            
+            <br/>
+            
+            var r = b.run();
+            <br/>
+            
+            while(r.alive())
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            print(&apos;A&apos;);
+          </div>
+          <div class="header">suspend (  )</div>
+          <div class="para">
+            Suspends the thread, returns 
+            <code class="inline">true</code>
+            if the thread is suspended.
+          </div>
+          <div class="header">resume (  )</div>
+          <div class="para">
+            Resumes the suspended thread, returns 
+            <code class="inline">true</code>
+            if the thread is resumed.
+          </div>
+          <div class="para">Example:</div>
+          <div class="code">
+            
+            var t = thread() 
+            <br/>
+            
+            {
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            // infinite thread
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            while(true)
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            print(&apos;#&apos;);
+            <br/>
+            
+            };
+            <br/>
+            
+            
+            <br/>
+            
+            // run the thread
+            <br/>
+            
+            var r = t.run();
+            <br/>
+            
+            
+            <br/>
+            
+            // print &quot;AAAAA&quot;, result should be like &quot;#A##A##A##A##A&quot;
+            <br/>
+            
+            for (var i = 0; i &lt; 5; i++)
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            print(&apos;A&apos;);
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            
+            <br/>
+            
+            // suspend the thread then print &quot;BBBBB&quot;
+            <br/>
+            
+            r.suspend();
+            <br/>
+            
+            for (var i = 0; i &lt; 5; i++)
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            print(&apos;B&apos;);
+            <br/>
+            
+            
+            <br/>
+            
+            // resume then print &apos;CCCCC&apos;
+            <br/>
+            
+            r.resume();
+            <br/>
+            
+            for (var i = 0; i &lt; 5; i++)
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            print(&apos;C&apos;);
+            <br/>
+            
+            
+            <br/>
+            
+            // kill the thread
+            <br/>
+            
+            r.kill();
+            <br/>
+            
+            
+            <br/>
+            
+            // Output: &quot;#A##A##A##A##A##BBBBB##C##C##C##C##C##&quot;
+          </div>
+          <div class="header">join (  )</div>
+          <div class="para">Joins the thread, i.e. suspends the current thread while the joined thread is alive.</div>
+          <div class="para">Example:</div>
+          <div class="code">
+            
+            var t = thread() 
+            <br/>
+            
+            {
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            for (var i = 0; i &lt; 5; i++)
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            print(&apos;A&apos;);
+            <br/>
+            
+            };
+            <br/>
+            
+            
+            <br/>
+            
+            var r = t.run();
+            <br/>
+            
+            r.join();
+            <br/>
+            
+            for (var i = 0; i &lt; 5; i++)
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            print(&apos;B&apos;);
+            <br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            
+            <br/>
+            
+            // Output: &quot;AAAAABBBBB&quot;
+          </div>
+          <div class="header">id (  )</div>
+          <div class="para">Returns numeric identifier of the thread.</div>
+        </div>
+        <a name="ref_207"> </a>
+        <div style="font-size: large;" class="header">5.7.4. Getting a reference to the current thread</div>
+        <div class="section">
+          <div class="para">
+            For some cases is needed to get an instance of the 
+            <code class="inline">Runner</code>
+            object for the current thread. The static 
+            <code class="inline">Thread.current</code>
+            method returns it. Example (prints the current thread Id):
+          </div>
+          <div class="code">
+            
+            var r = Thread.current();
+            <br/>
+            
+            println(r.id());
+          </div>
+        </div>
+        <a name="ref_208"> </a>
+        <div style="font-size: large;" class="header">5.7.5. Synchronization</div>
+        <div class="section">
+          <div class="para">Two or more threads can access the same data. Simultaneous reading or writing can lead to an incorrect result: if one thread reads an object and the other thread writes it (i.e. adds or changes properties), in some cases the first thread may read incorrect data (if at the time of reading some data has changed, and some are not). Obviously, in order to preserve the consistency of the data, during the access to such a shared object, concurrent threads must be blocked - until one reads, the other can not write; until one writes, the other cannot read.</div>
+          <div class="para">The Goat programming language provides some tools for synchronization.</div>
+          <div style="font-size: medium;" class="header">5.7.5.1. Critical section</div>
+          <div class="section">
+            <div class="para">This is the simplest primitive of synchronization. Inside the critical section, the interpreter does not switch threads.</div>
+            <div class="para">
+              A critical section is a block of code after the 
+              <code class="inline">lock</code>
+              keyword:
+            </div>
+            <div class="code">
+              
+              lock
+              <br/>
+              
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              // some code here...
+              <br/>
+              
+              }
+            </div>
+            <div class="para">Critical sections should be made very short, it is recommended to do it only for reading/writing one-two-three variables, as a long suspend of other threads can negatively affect the execution of the script. However, is the fastest way of synchronization.</div>
+            <div class="para">Example: writing a variable from 7 threads simultaneously:</div>
+            <div class="code">
+              
+              var x = 0;
+              <br/>
+              
+              
+              <br/>
+              
+              var t = thread()
+              <br/>
+              
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              var i;
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              for (i = 0; i &lt; 100; ++i)
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              lock
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              ++x;
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              }
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              }
+              <br/>
+              
+              };
+              <br/>
+              
+              
+              <br/>
+              
+              var r1 = t.run();
+              <br/>
+              
+              var r2 = t.run();
+              <br/>
+              
+              var r3 = t.run();
+              <br/>
+              
+              var r4 = t.run();
+              <br/>
+              
+              var r5 = t.run();
+              <br/>
+              
+              var r6 = t.run();
+              <br/>
+              
+              var r7 = t.run();
+              <br/>
+              
+              r1.join();
+              <br/>
+              
+              r2.join();
+              <br/>
+              
+              r3.join();
+              <br/>
+              
+              r4.join();
+              <br/>
+              
+              r5.join();
+              <br/>
+              
+              r6.join();
+              <br/>
+              
+              r7.join();
+              <br/>
+              
+              println(x); // output: &quot;700&quot;
+            </div>
+            <div class="para">
+              What happens if we wouldn&apos;t use a critical section here? The increment 
+              <code class="inline">++x</code>
+              is not an atomic operation, it takes three steps:
+            </div>
+            <ul>
+              <li>Loading value of a variable (or a property);</li>
+              <li>Increment;</li>
+              <li>Storing a new value to a variable.</li>
+            </ul>
+            <div class="para">Let&apos;s say the initial value of variable 0 and two threads increment it.</div>
+            <ul>
+              <li>The first thread loads the value of the variable (0).</li>
+              <li>The second thread loads the value of the variable (0, because the first thread did not change it yet).</li>
+              <li>The first thread increments the value (1).</li>
+              <li>The second thread increments the value (1, because it &quot;does not know&quot; that the first thread did something - the threads are independent).</li>
+              <li>The first thread stores the value to the variable (1).</li>
+              <li>The second thread stores the value to the variable (rewrites 1 to 1, but should be 2 - error).</li>
+            </ul>
+            <div class="para">
+              This example does not take into account the fact that threads do not necessarily execute their instructions strictly by one. In fact, the first thread can execute any number of instructions before passing control to another thread. But in any case, 
+              <b>unsynchronized access to shared resources can lead to serious errors</b>
+              that hard to detect and fix.
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <a name="ref_207"> </a>
+    <a name="ref_209"> </a>
     <div style="font-size: xx-large;" class="header">6. Standard library</div>
     <div class="section">
       <ul class="content">
         <li>
-          <a href="#ref_208">Internal (core) library</a>
+          <a href="#ref_210">Internal (core) library</a>
         </li>
         <li>
-          <a href="#ref_221">External library</a>
+          <a href="#ref_223">External library</a>
         </li>
       </ul>
       <div class="para">The standard library contains functions and classes for solving common tasks.</div>
@@ -12132,29 +12529,29 @@
         <code class="inline">import</code>
         keyword.
       </div>
-      <a name="ref_208"> </a>
+      <a name="ref_210"> </a>
       <div style="font-size: x-large;" class="header">6.1. Internal (core) library</div>
       <div class="section">
         <ul class="content">
           <li>
-            <a href="#ref_209">Functions</a>
+            <a href="#ref_211">Functions</a>
           </li>
           <li>
-            <a href="#ref_212">Classes</a>
+            <a href="#ref_214">Classes</a>
           </li>
         </ul>
-        <a name="ref_209"> </a>
+        <a name="ref_211"> </a>
         <div style="font-size: large;" class="header">6.1.1. Functions</div>
         <div class="section">
           <ul class="content">
             <li>
-              <a href="#ref_210">Input/output</a>
+              <a href="#ref_212">Input/output</a>
             </li>
             <li>
-              <a href="#ref_211">Other</a>
+              <a href="#ref_213">Other</a>
             </li>
           </ul>
-          <a name="ref_210"> </a>
+          <a name="ref_212"> </a>
           <div style="font-size: medium;" class="header">6.1.1.1. Input/output</div>
           <div class="section">
             <div class="header">print ( object )</div>
@@ -12241,7 +12638,7 @@
             </div>
             <div class="para">See description of &apos;File&apos; class for more details.</div>
           </div>
-          <a name="ref_211"> </a>
+          <a name="ref_213"> </a>
           <div style="font-size: medium;" class="header">6.1.1.2. Other</div>
           <div class="section">
             <div class="header">defined ( object )</div>
@@ -12345,28 +12742,28 @@
             <div class="para">The example shows a simple implementation of delay and countdown using the &apos;clock&apos; function. The function returns the time span value between the begin of the &apos;system epoch&apos; (it depends from the platform) and the current time point. In itself, this value is useless, as a rule, the difference between the two clock values is used.</div>
           </div>
         </div>
-        <a name="ref_212"> </a>
+        <a name="ref_214"> </a>
         <div style="font-size: large;" class="header">6.1.2. Classes</div>
         <div class="section">
           <ul class="content">
             <li>
-              <a href="#ref_213">Input/output</a>
+              <a href="#ref_215">Input/output</a>
             </li>
             <li>
-              <a href="#ref_216">Sequences</a>
+              <a href="#ref_218">Sequences</a>
             </li>
           </ul>
-          <a name="ref_213"> </a>
+          <a name="ref_215"> </a>
           <div style="font-size: medium;" class="header">6.1.2.1. Input/output</div>
           <div class="section">
             <div style="font-size: medium;" class="header">File</div>
             <div class="section">
               <ul class="content">
                 <li>
-                  <a href="#ref_214">Methods</a>
+                  <a href="#ref_216">Methods</a>
                 </li>
                 <li>
-                  <a href="#ref_215">Fields</a>
+                  <a href="#ref_217">Fields</a>
                 </li>
               </ul>
               <div class="para">The class for file reading/writing.</div>
@@ -12387,7 +12784,7 @@
                 <code class="inline">seek</code>
                 methods.
               </div>
-              <a name="ref_214"> </a>
+              <a name="ref_216"> </a>
               <div style="font-size: medium;" class="header">Methods</div>
               <div class="section">
                 <div class="header">read ( count )</div>
@@ -12476,7 +12873,7 @@
                   var data = f.read(len); // read the whole file
                 </div>
               </div>
-              <a name="ref_215"> </a>
+              <a name="ref_217"> </a>
               <div style="font-size: medium;" class="header">Fields</div>
               <div class="section">
                 <div class="header">File.Mode</div>
@@ -12551,18 +12948,18 @@
               </div>
             </div>
           </div>
-          <a name="ref_216"> </a>
+          <a name="ref_218"> </a>
           <div style="font-size: medium;" class="header">6.1.2.2. Sequences</div>
           <div class="section">
             <ul class="content">
               <li>
-                <a href="#ref_217">ByteArray</a>
+                <a href="#ref_219">ByteArray</a>
               </li>
               <li>
-                <a href="#ref_218">StringBuilder</a>
+                <a href="#ref_220">StringBuilder</a>
               </li>
             </ul>
-            <a name="ref_217"> </a>
+            <a name="ref_219"> </a>
             <div style="font-size: medium;" class="header">ByteArray</div>
             <div class="section">
               <div class="para">The class for storing an array of bytes.</div>
@@ -12617,15 +13014,15 @@
                 </div>
               </div>
             </div>
-            <a name="ref_218"> </a>
+            <a name="ref_220"> </a>
             <div style="font-size: medium;" class="header">StringBuilder</div>
             <div class="section">
               <ul class="content">
                 <li>
-                  <a href="#ref_219">Methods</a>
+                  <a href="#ref_221">Methods</a>
                 </li>
                 <li>
-                  <a href="#ref_220">Operators</a>
+                  <a href="#ref_222">Operators</a>
                 </li>
               </ul>
               <div class="para">The class for strings constructing.</div>
@@ -12706,7 +13103,7 @@
               </div>
               <div class="para">Much better.</div>
               <div class="para">StringBuilder has an array to hold characters. This array grows when new items (characters, strings, etc) added. This class does not create a new string for each addition. Thus, the construction of a long string takes much less time and memory.</div>
-              <a name="ref_219"> </a>
+              <a name="ref_221"> </a>
               <div style="font-size: medium;" class="header">Methods</div>
               <div class="section">
                 <div class="header">append ( object, count )</div>
@@ -12756,7 +13153,7 @@
                   var s = b.toString(); // contains &quot;hello, world&quot;
                 </div>
               </div>
-              <a name="ref_220"> </a>
+              <a name="ref_222"> </a>
               <div style="font-size: medium;" class="header">Operators</div>
               <div class="section">
                 <div class="header">Operator &lt;&lt;</div>
@@ -12782,42 +13179,42 @@
           </div>
         </div>
       </div>
-      <a name="ref_221"> </a>
+      <a name="ref_223"> </a>
       <div style="font-size: x-large;" class="header">6.2. External library</div>
       <div class="section">
         <ul class="content">
           <li>
-            <a href="#ref_222">Containers</a>
+            <a href="#ref_224">Containers</a>
           </li>
           <li>
-            <a href="#ref_229">Timer</a>
+            <a href="#ref_231">Timer</a>
           </li>
           <li>
-            <a href="#ref_242">XML</a>
+            <a href="#ref_244">XML</a>
           </li>
         </ul>
-        <a name="ref_222"> </a>
+        <a name="ref_224"> </a>
         <div style="font-size: large;" class="header">6.2.1. Containers</div>
         <div class="section">
           <ul class="content">
             <li>
-              <a href="#ref_223">Stack</a>
+              <a href="#ref_225">Stack</a>
             </li>
             <li>
-              <a href="#ref_226">Iterator</a>
+              <a href="#ref_228">Iterator</a>
             </li>
           </ul>
           <div class="para">Containers are used to store data. A container is a grouping of some variable number of data items (possibly zero) that have some shared significance to the problem being solved and need to be operated upon together in some fashion.</div>
           <div class="para">Examples of containers include list, stack, queue, etc.</div>
-          <a name="ref_223"> </a>
+          <a name="ref_225"> </a>
           <div style="font-size: medium;" class="header">6.2.1.1. Stack</div>
           <div class="section">
             <ul class="content">
               <li>
-                <a href="#ref_224">Methods</a>
+                <a href="#ref_226">Methods</a>
               </li>
               <li>
-                <a href="#ref_225">Example</a>
+                <a href="#ref_227">Example</a>
               </li>
             </ul>
             <div class="para">
@@ -12828,7 +13225,7 @@
               , which removes the most recently added element that was not yet removed.
             </div>
             <div class="para">Elements can be taken from the stack in the reverse order to how they were put there. Another name of the stack structure - LIFO (&quot;last in, first out&quot;). Additionally, a peek operation may give access to the top without modifying the stack.</div>
-            <a name="ref_224"> </a>
+            <a name="ref_226"> </a>
             <div style="font-size: medium;" class="header">Methods</div>
             <div class="section">
               <div class="header">empty (  )</div>
@@ -12862,7 +13259,7 @@
               <div class="header">iterator (  )</div>
               <div class="para">Returns an iterator pointing to the beginning of the stack.</div>
             </div>
-            <a name="ref_225"> </a>
+            <a name="ref_227"> </a>
             <div style="font-size: medium;" class="header">Example</div>
             <div class="section">
               <div class="para">Code:</div>
@@ -12913,15 +13310,15 @@
               </div>
             </div>
           </div>
-          <a name="ref_226"> </a>
+          <a name="ref_228"> </a>
           <div style="font-size: medium;" class="header">6.2.1.2. Iterator</div>
           <div class="section">
             <ul class="content">
               <li>
-                <a href="#ref_227">Methods</a>
+                <a href="#ref_229">Methods</a>
               </li>
               <li>
-                <a href="#ref_228">Example</a>
+                <a href="#ref_230">Example</a>
               </li>
             </ul>
             <div class="para">
@@ -12933,7 +13330,7 @@
               <code class="inline">next()</code>
               method to move to next item. Each container implements its iterator, which has the above methods. Thus, regardless of the container (stack, list, etc.), we have a universal way to traverse a container and get/modify data.
             </div>
-            <a name="ref_227"> </a>
+            <a name="ref_229"> </a>
             <div style="font-size: medium;" class="header">Methods</div>
             <div class="section">
               <div class="header">valid (  )</div>
@@ -12967,7 +13364,7 @@
               <div class="header">iterator (  )</div>
               <div class="para">Returns an iterator pointing to the beginning of the stack.</div>
             </div>
-            <a name="ref_228"> </a>
+            <a name="ref_230"> </a>
             <div style="font-size: medium;" class="header">Example</div>
             <div class="section">
               <div class="para">Code:</div>
@@ -13019,15 +13416,15 @@
             </div>
           </div>
         </div>
-        <a name="ref_229"> </a>
+        <a name="ref_231"> </a>
         <div style="font-size: large;" class="header">6.2.2. Timer</div>
         <div class="section">
           <ul class="content">
             <li>
-              <a href="#ref_230">Classes</a>
+              <a href="#ref_232">Classes</a>
             </li>
             <li>
-              <a href="#ref_241">Methods</a>
+              <a href="#ref_243">Methods</a>
             </li>
           </ul>
           <div class="para">
@@ -13041,43 +13438,43 @@
             <code class="inline">Timer</code>
             class has several auxiliary classes for determining time intervals.
           </div>
-          <a name="ref_230"> </a>
+          <a name="ref_232"> </a>
           <div style="font-size: medium;" class="header">6.2.2.1. Classes</div>
           <div class="section">
             <ul class="content">
               <li>
-                <a href="#ref_231">Timer.Duration</a>
+                <a href="#ref_233">Timer.Duration</a>
               </li>
               <li>
-                <a href="#ref_232">Timer.Nanoseconds</a>
+                <a href="#ref_234">Timer.Nanoseconds</a>
               </li>
               <li>
-                <a href="#ref_233">Timer.Microseconds</a>
+                <a href="#ref_235">Timer.Microseconds</a>
               </li>
               <li>
-                <a href="#ref_234">Timer.Milliseconds</a>
+                <a href="#ref_236">Timer.Milliseconds</a>
               </li>
               <li>
-                <a href="#ref_235">Timer.Seconds</a>
+                <a href="#ref_237">Timer.Seconds</a>
               </li>
               <li>
-                <a href="#ref_236">Timer.Minutes</a>
+                <a href="#ref_238">Timer.Minutes</a>
               </li>
               <li>
-                <a href="#ref_237">Timer.Hours</a>
+                <a href="#ref_239">Timer.Hours</a>
               </li>
               <li>
-                <a href="#ref_238">Timer.Interval</a>
+                <a href="#ref_240">Timer.Interval</a>
               </li>
             </ul>
-            <a name="ref_231"> </a>
+            <a name="ref_233"> </a>
             <div style="font-size: medium;" class="header">Timer.Duration</div>
             <div class="section">
               <div class="para">Base class for determining time intervals. Has a method:</div>
               <div class="header">getNanoseconds (  )</div>
               <div class="para">Returns the time interval, converted to nanoseconds.</div>
             </div>
-            <a name="ref_232"> </a>
+            <a name="ref_234"> </a>
             <div style="font-size: medium;" class="header">Timer.Nanoseconds</div>
             <div class="section">
               <div class="para">
@@ -13099,7 +13496,7 @@
                 
               </div>
             </div>
-            <a name="ref_233"> </a>
+            <a name="ref_235"> </a>
             <div style="font-size: medium;" class="header">Timer.Microseconds</div>
             <div class="section">
               <div class="para">
@@ -13108,7 +13505,7 @@
                 , determine the time interval in microseconds.
               </div>
             </div>
-            <a name="ref_234"> </a>
+            <a name="ref_236"> </a>
             <div style="font-size: medium;" class="header">Timer.Milliseconds</div>
             <div class="section">
               <div class="para">
@@ -13117,7 +13514,7 @@
                 , determine the time interval in milliseconds.
               </div>
             </div>
-            <a name="ref_235"> </a>
+            <a name="ref_237"> </a>
             <div style="font-size: medium;" class="header">Timer.Seconds</div>
             <div class="section">
               <div class="para">
@@ -13126,7 +13523,7 @@
                 , determine the time interval in seconds.
               </div>
             </div>
-            <a name="ref_236"> </a>
+            <a name="ref_238"> </a>
             <div style="font-size: medium;" class="header">Timer.Minutes</div>
             <div class="section">
               <div class="para">
@@ -13135,7 +13532,7 @@
                 , determine the time interval in minutes.
               </div>
             </div>
-            <a name="ref_237"> </a>
+            <a name="ref_239"> </a>
             <div style="font-size: medium;" class="header">Timer.Hours</div>
             <div class="section">
               <div class="para">
@@ -13144,15 +13541,15 @@
                 , determine the time interval in hours.
               </div>
             </div>
-            <a name="ref_238"> </a>
+            <a name="ref_240"> </a>
             <div style="font-size: medium;" class="header">Timer.Interval</div>
             <div class="section">
               <ul class="content">
                 <li>
-                  <a href="#ref_239">Methods</a>
+                  <a href="#ref_241">Methods</a>
                 </li>
                 <li>
-                  <a href="#ref_240">Fields</a>
+                  <a href="#ref_242">Fields</a>
                 </li>
               </ul>
               <div class="para">
@@ -13160,13 +13557,13 @@
                 <code class="inline">setInterval()</code>
                 method.
               </div>
-              <a name="ref_239"> </a>
+              <a name="ref_241"> </a>
               <div style="font-size: medium;" class="header">Methods</div>
               <div class="section">
                 <div class="header">stop (  )</div>
                 <div class="para">Stops a periodic function call.</div>
               </div>
-              <a name="ref_240"> </a>
+              <a name="ref_242"> </a>
               <div style="font-size: medium;" class="header">Fields</div>
               <div class="section">
                 <div class="header">ticks</div>
@@ -13181,7 +13578,7 @@
               </div>
             </div>
           </div>
-          <a name="ref_241"> </a>
+          <a name="ref_243"> </a>
           <div style="font-size: medium;" class="header">6.2.2.2. Methods</div>
           <div class="section">
             <div class="para">The ability to measure small (up to nanosecond) time intervals always depends on the particular platform on which the interpreter runs.</div>
@@ -13290,15 +13687,15 @@
             </div>
           </div>
         </div>
-        <a name="ref_242"> </a>
+        <a name="ref_244"> </a>
         <div style="font-size: large;" class="header">6.2.3. XML</div>
         <div class="section">
           <ul class="content">
             <li>
-              <a href="#ref_243">Classes</a>
+              <a href="#ref_245">Classes</a>
             </li>
             <li>
-              <a href="#ref_248">Methods</a>
+              <a href="#ref_250">Methods</a>
             </li>
           </ul>
           <div class="para">
@@ -13307,30 +13704,30 @@
             .
           </div>
           <div class="para">The parser takes a string that contains the source document. If you need to parse the file, you must first read and decode it using other methods. The document is recognized as a whole, the output is a tree of XML elements. If the document contains an error, the parser throws an appropriate exception.</div>
-          <a name="ref_243"> </a>
+          <a name="ref_245"> </a>
           <div style="font-size: medium;" class="header">6.2.3.1. Classes</div>
           <div class="section">
             <ul class="content">
               <li>
-                <a href="#ref_244">XML.Element</a>
+                <a href="#ref_246">XML.Element</a>
               </li>
               <li>
-                <a href="#ref_247">XML.Error</a>
+                <a href="#ref_249">XML.Error</a>
               </li>
             </ul>
-            <a name="ref_244"> </a>
+            <a name="ref_246"> </a>
             <div style="font-size: medium;" class="header">XML.Element</div>
             <div class="section">
               <ul class="content">
                 <li>
-                  <a href="#ref_245">Fields</a>
+                  <a href="#ref_247">Fields</a>
                 </li>
                 <li>
-                  <a href="#ref_246">Methods</a>
+                  <a href="#ref_248">Methods</a>
                 </li>
               </ul>
               <div class="para">The class that contains the data of one XML element. An XML element can contain attributes and child elements, thus, each element is the root of the element tree. The XML parser returns one root element that contains all document as a tree of elements.</div>
-              <a name="ref_245"> </a>
+              <a name="ref_247"> </a>
               <div style="font-size: medium;" class="header">Fields</div>
               <div class="section">
                 <div class="header">tag</div>
@@ -13393,7 +13790,7 @@
                   </ul>
                 </div>
               </div>
-              <a name="ref_246"> </a>
+              <a name="ref_248"> </a>
               <div style="font-size: medium;" class="header">Methods</div>
               <div class="section">
                 <div class="header">toString ( indent )</div>
@@ -13508,7 +13905,7 @@
                 </div>
               </div>
             </div>
-            <a name="ref_247"> </a>
+            <a name="ref_249"> </a>
             <div style="font-size: medium;" class="header">XML.Error</div>
             <div class="section">
               <div class="para">The class contains a description of the error that occurred in the case of parsing a non-valid document.</div>
@@ -13557,7 +13954,7 @@
               </div>
             </div>
           </div>
-          <a name="ref_248"> </a>
+          <a name="ref_250"> </a>
           <div style="font-size: medium;" class="header">6.2.3.2. Methods</div>
           <div class="section">
             <div class="header">parse ( str )</div>
@@ -13588,56 +13985,56 @@
         </div>
       </div>
     </div>
-    <a name="ref_249"> </a>
+    <a name="ref_251"> </a>
     <div style="font-size: xx-large;" class="header">7. Appendix</div>
     <div class="section">
       <ul class="content">
         <li>
-          <a href="#ref_250">In comparison with JavaScript</a>
+          <a href="#ref_252">In comparison with JavaScript</a>
         </li>
         <li>
-          <a href="#ref_263">Command line options and environment variables</a>
+          <a href="#ref_265">Command line options and environment variables</a>
         </li>
       </ul>
-      <a name="ref_250"> </a>
+      <a name="ref_252"> </a>
       <div style="font-size: x-large;" class="header">7.1. In comparison with JavaScript</div>
       <div class="section">
         <ul class="content">
           <li>
-            <a href="#ref_251">Identifiers</a>
+            <a href="#ref_253">Identifiers</a>
           </li>
           <li>
-            <a href="#ref_252">Keywords</a>
+            <a href="#ref_254">Keywords</a>
           </li>
           <li>
-            <a href="#ref_253">Primitive types</a>
+            <a href="#ref_255">Primitive types</a>
           </li>
           <li>
-            <a href="#ref_254">Scope</a>
+            <a href="#ref_256">Scope</a>
           </li>
           <li>
-            <a href="#ref_255">The &apos;this&apos; keyword</a>
+            <a href="#ref_257">The &apos;this&apos; keyword</a>
           </li>
           <li>
-            <a href="#ref_256">Operators</a>
+            <a href="#ref_258">Operators</a>
           </li>
           <li>
-            <a href="#ref_257">Operators overloading</a>
+            <a href="#ref_259">Operators overloading</a>
           </li>
           <li>
-            <a href="#ref_258">Multithreading</a>
+            <a href="#ref_260">Multithreading</a>
           </li>
           <li>
-            <a href="#ref_259">The &apos;new&apos; keyword and constructors</a>
+            <a href="#ref_261">The &apos;new&apos; keyword and constructors</a>
           </li>
           <li>
-            <a href="#ref_260">Inheritance</a>
+            <a href="#ref_262">Inheritance</a>
           </li>
           <li>
-            <a href="#ref_261">Multiple inheritance</a>
+            <a href="#ref_263">Multiple inheritance</a>
           </li>
           <li>
-            <a href="#ref_262">Syntactic sugar</a>
+            <a href="#ref_264">Syntactic sugar</a>
           </li>
         </ul>
         <div class="para">The Goat programming language based in general on JavaScript syntax, but it has some differences.</div>
@@ -13649,7 +14046,7 @@
           <li>You can create an object from more than one prototype.</li>
         </ul>
         <div class="para">Some samples are below.</div>
-        <a name="ref_251"> </a>
+        <a name="ref_253"> </a>
         <div style="font-size: large;" class="header">7.1.1. Identifiers</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -13685,7 +14082,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_252"> </a>
+        <a name="ref_254"> </a>
         <div style="font-size: large;" class="header">7.1.2. Keywords</div>
         <div class="section">
           <div class="para">The Goat programming language reserves several additional keywords:</div>
@@ -13723,7 +14120,7 @@
             </tr>
           </table>
         </div>
-        <a name="ref_253"> </a>
+        <a name="ref_255"> </a>
         <div style="font-size: large;" class="header">7.1.3. Primitive types</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -13781,7 +14178,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_254"> </a>
+        <a name="ref_256"> </a>
         <div style="font-size: large;" class="header">7.1.4. Scope</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -13862,7 +14259,7 @@
             <div class="para">But, if you re-declare a Goat variable in the same block, it will lose old value.</div>
           </div>
         </div>
-        <a name="ref_255"> </a>
+        <a name="ref_257"> </a>
         <div style="font-size: large;" class="header">7.1.5. The &apos;this&apos; keyword</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -13951,7 +14348,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_256"> </a>
+        <a name="ref_258"> </a>
         <div style="font-size: large;" class="header">7.1.6. Operators</div>
         <div class="section">
           <div class="para">
@@ -13998,7 +14395,7 @@
             </li>
           </ul>
         </div>
-        <a name="ref_257"> </a>
+        <a name="ref_259"> </a>
         <div style="font-size: large;" class="header">7.1.7. Operators overloading</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -14095,7 +14492,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_258"> </a>
+        <a name="ref_260"> </a>
         <div style="font-size: large;" class="header">7.1.8. Multithreading</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -14178,7 +14575,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_259"> </a>
+        <a name="ref_261"> </a>
         <div style="font-size: large;" class="header">7.1.9. The &apos;new&apos; keyword and constructors</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -14287,7 +14684,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_260"> </a>
+        <a name="ref_262"> </a>
         <div style="font-size: large;" class="header">7.1.10. Inheritance</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -14427,7 +14824,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_261"> </a>
+        <a name="ref_263"> </a>
         <div style="font-size: large;" class="header">7.1.11. Multiple inheritance</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -14483,7 +14880,7 @@
             <div class="para">The prototype traversal order for multiple inheritance is determined by the topological sorting of the prototype tree.</div>
           </div>
         </div>
-        <a name="ref_262"> </a>
+        <a name="ref_264"> </a>
         <div style="font-size: large;" class="header">7.1.12. Syntactic sugar</div>
         <div class="section">
           <div style="font-size: medium;" class="header">7.1.12.1. Null conditional operator</div>
@@ -14513,7 +14910,7 @@
           </div>
         </div>
       </div>
-      <a name="ref_263"> </a>
+      <a name="ref_265"> </a>
       <div style="font-size: x-large;" class="header">7.2. Command line options and environment variables</div>
       <div class="section">
         <div class="para">Here is the full list of command line options.</div>
