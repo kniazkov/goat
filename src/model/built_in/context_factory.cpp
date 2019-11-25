@@ -62,6 +62,7 @@ namespace g0at
 
                 ctx->add_object(pool->get_static_string(L"print"), create_function_print());
                 ctx->add_object(pool->get_static_string(L"println"), create_function_println());
+                ctx->add_object(pool->get_static_string(L"getc"), create_function_getc());
                 ctx->add_object(pool->get_static_string(L"exit"), create_function_exit());
                 ctx->add_object(pool->get_static_string(L"abs"), create_function_abs());
                 ctx->add_object(pool->get_static_string(L"sqrt"), create_function_sqrt());

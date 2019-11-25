@@ -40,6 +40,7 @@ namespace g0at
             protected:
                 object *create_function_print();
                 object *create_function_println();
+                object *create_function_getc();
                 object *create_function_exit();
                 object *create_function_abs();
                 object *create_function_sqrt();
