@@ -22,8 +22,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "context_factory.h"
 #include "model/object_function_built_in.h"
+#include "model/object_string.h"
 #include "global/global.h"
 #include <cstdio>
+#include <sstream>
+#include <string>
 
 namespace g0at
 {
@@ -31,10 +34,10 @@ namespace g0at
     {
         namespace built_in
         {
-            class getc : public object_function_built_in
+            class gets : public object_function_built_in
             {
             public:
-                getc(object_pool *_pool)
+                gets(object_pool *_pool)
                     : object_function_built_in(_pool)
                 {
                 }
@@ -44,19 +47,22 @@ namespace g0at
                     if (mode == call_mode::as_method)
                         thr->pop();
                     thr->pop(arg_count);
+                    std::wstringstream wss;
                     int ch = std::getchar();
+                    while (ch != EOF && ch != '\n') {
+                        if (ch != '\r')
+                            wss << (wchar_t)ch;
+                        ch = std::getchar();
+                    }
                     variable result;
-                    if (ch == EOF)
-                        result.set_object(thr->pool->get_null_instance());
-                    else
-                        result.set_char((wchar_t)ch);
+                    result.set_object(thr->pool->create_object_string(wss.str()));
                     thr->push(result);
                 }
             };
 
-            object *context_factory::create_function_getc()
+            object *context_factory::create_function_gets()
             {
-                return new getc(pool);
+                return new gets(pool);
             }
         };
     };
