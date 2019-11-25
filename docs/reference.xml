@@ -1,7 +1,7 @@
 <goat>
     <v value="0.5 &quot;Overdrive&quot;"/>
     <s name="Introduction">
-        <p><b>Goat</b> is a high-level, dynamic, weakly typed, prototype-based, multi-paradigm, and interpreted programming language, based on JavaScript syntax. It supports the basic functionality of JavaScript, but in addition, it adds support for multithreading, multiple inheritance, operator overloading (like in C ++), has simplified syntax, and so on.</p>
+        <p><b>Goat</b> is a high-level, dynamic, weakly typed, prototype-based, multi-paradigm, and interpreted programming language, based mostly on JavaScript syntax. It supports the basic functionality of JavaScript, but besides, it adds support for multithreading, multiple inheritance, operator overloading (like in C ++), has simplified and expanded syntax and data model, and so on.</p>
         <p>Why "Goat"? I was bitten by a goat. Indeed. This is how it was: really, it’s very difficult to come up with a good language name. The name should be short and memorable, for example, "Go" (but "Go" is occupied). So, one spring morning I was lying in a hammock, programming on a laptop and eating an apple. It was a wonderful day, beautiful weather, birds were singing, and then suddenly <url title="my goat">this_one.jpg</url> bit me. "Oh, you sweet little prankster", I thought (no no, actually I said another thing). I dropped my laptop and at this time the goat stole my apple. Then I thought perhaps the name "Goat" is not bad too. So I renamed the project folder to this name and since then it has not changed.</p>
     </s>
     
