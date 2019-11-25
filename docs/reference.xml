@@ -4842,7 +4842,7 @@
         <p>The standard library contains functions and classes for solving common tasks.</p>
         <p>All the functionality of the standard library is divided into two parts: <b>internal</b> (as part of the interpreter core) and <b>external.</b></p>
         <p>The functionality of the inner part of the library is written in C++ language and is the minimum required set for solving most tasks. This functionality includes platform-dependent components, such as working with files. No additional modules are required to use the internal library, these classes and functions are always available.</p>
-        <p>The external library is written in Goat language. It is a set of files that contain separate classes for solving various tasks. To use this class from the library, you need to link the corresponding file using the <c>import</c> keyword.</p>
+        <p>The external library is written in the Goat language. It is a set of files that contain separate classes for solving various tasks. To use this class from the library, you need to link the corresponding file using the <c>import</c> keyword.</p>
         <s name="Internal (core) library">
             <s name="Functions" anchor="Built-in functions">
                 <s name="Input/output">
@@ -4854,6 +4854,12 @@
                             print(0.01);
                             print(false);
                             print(null);]]>
+                        </e>
+                    </m>
+                    <m name="println" descr="Converts an object to a string and sends this string to standard output with a newline at the end.">
+                        <a name="object" type="any type" descr="an object"/>
+                        <e><![CDATA[
+                            println("Hello");]]>
                         </e>
                     </m>
                     <m name="getc" descr="Reads one character from the standard input. Returns null if no characters (end-of-file is reached).">
@@ -4887,21 +4893,6 @@
                     </m>
                 </s>
                 <s name="Other">
-                    <m name="defined">
-                        <d>Returns <c>true</c> if the object is defined (i.e. not equals <c>undefined</c>), and <c>false</c> otherwise.</d>
-                        <a name="object" type="any type" descr="an object"/>
-                        <e><![CDATA[
-                            var func = $(param) 
-                            {
-                                if (!defined(param))
-                                {
-                                    return;
-                                }
-                                
-                                //...
-                            };]]>
-                        </e>
-                    </m>
                     <m name="clock" descr="Returns current system time in nanoseconds.">
                         <e><![CDATA[
                             var wait = $(time)

@@ -12835,7 +12835,7 @@
       </div>
       <div class="para">The functionality of the inner part of the library is written in C++ language and is the minimum required set for solving most tasks. This functionality includes platform-dependent components, such as working with files. No additional modules are required to use the internal library, these classes and functions are always available.</div>
       <div class="para">
-        The external library is written in Goat language. It is a set of files that contain separate classes for solving various tasks. To use this class from the library, you need to link the corresponding file using the 
+        The external library is written in the Goat language. It is a set of files that contain separate classes for solving various tasks. To use this class from the library, you need to link the corresponding file using the 
         <code class="inline">import</code>
         keyword.
       </div>
@@ -12886,6 +12886,17 @@
               <br/>
               
               print(null);
+            </div>
+            <div class="header">println ( object )</div>
+            <div class="para">Converts an object to a string and sends this string to standard output with a newline at the end.</div>
+            <div class="para">Parameter:</div>
+            <ul>
+              <li>object (any type): an object</li>
+            </ul>
+            <div class="para">Example:</div>
+            <div class="code">
+              
+              println(&quot;Hello&quot;);
             </div>
             <div class="header">getc (  )</div>
             <div class="para">Reads one character from the standard input. Returns null if no characters (end-of-file is reached).</div>
@@ -12951,49 +12962,6 @@
           <a name="ref_215"> </a>
           <div style="font-size: medium;" class="header">6.1.1.2. Other</div>
           <div class="section">
-            <div class="header">defined ( object )</div>
-            <div class="para">
-              Returns 
-              <code class="inline">true</code>
-              if the object is defined (i.e. not equals 
-              <code class="inline">undefined</code>
-              ), and 
-              <code class="inline">false</code>
-              otherwise.
-            </div>
-            <div class="para">Parameter:</div>
-            <ul>
-              <li>object (any type): an object</li>
-            </ul>
-            <div class="para">Example:</div>
-            <div class="code">
-              
-              var func = $(param) 
-              <br/>
-              
-              {
-              <br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              if (!defined(param))
-              <br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              {
-              <br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              return;
-              <br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              }
-              <br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              
-              <br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              //...
-              <br/>
-              
-              };
-            </div>
             <div class="header">clock (  )</div>
             <div class="para">Returns current system time in nanoseconds.</div>
             <div class="para">Example:</div>
