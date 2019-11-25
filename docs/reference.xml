@@ -3119,6 +3119,99 @@
 					};]]>
 				</c>
 			</s>
+            <s name="Changing the context">
+                <p>Summing up the above, it can be said that the function differs from the method only by the process of calling. Any method can be "transformed" to a function:</p>
+				<c><![CDATA[
+                    // an object that contains a method:
+                    var obj = 
+                    {
+                        doSomething : $()
+                        {
+                            println("hello!");
+                        }
+                    };
+                    
+                    var func = obj.doSomething; // copying the property pointed to the method to a variable
+                    func(); // function call, prints: "hello!" ]]>
+				</c>
+                <p>However, in this case, the context is changed: the reference to <c>this</c> became <c>undefined</c>:</p>
+				<c><![CDATA[
+                    // an object that contains a method and a value:
+                    var obj = 
+                    {
+                        value : 3,
+                        
+                        doSomething : $()
+                        {
+                            println(this?.value);
+                        }
+                    };
+                    
+                    // do call as a method 
+                    obj.doSomething();
+                    
+                    // do call as a function 
+                    var func = obj.doSomething;
+                    func(); ]]>
+				</c>
+                <p>Output:</p>
+				<c><![CDATA[
+                    3
+                    undefined ]]>
+				</c>
+                <p>In some cases, when the context is not important, a method is named a "static method". In other cases, calling a method as a function will throw an <c>IllegalContext</c> exception.</p>
+                <p>If needed, we can change the context of a method called, i.e. replace <c>this</c> to &quot;another <c>this</c>&quot;. There are two methods: <c>call</c> and <c>apply</c>.</p>
+                <m name="call">
+                    <d>Calls a function with a given <c>this</c> value and arguments provided individually.</d>
+                    <a name="thisArg" type="any type" descr="A new context"/>
+                    <a name="arg1" type="any type" descr="First argument"/>
+                    <a name="arg2, ..." type="any type" descr="other arguments"/>
+                    <e><![CDATA[
+                        // an object that contains a method and a value:
+                        var obj = 
+                        {
+                            value : 3,
+                            
+                            doSomething : $(x, y)
+                            {
+                                println(this?.value);
+                                println(x);
+                                println(y);
+                            }
+                        };
+                        
+                        // do call as a method 
+                        obj.doSomething(7, "test");
+                        
+                        // do call as a method with another context
+                        var context =
+                        {
+                            value : 555
+                        };
+                        
+                        var func = obj.doSomething;
+                        func.call(context, 7, "test"); ]]> 
+                    </e>
+                </m>
+                <p>Output:</p>
+				<c><![CDATA[
+                    3
+                    7
+                    test
+                    555
+                    7
+                    test]]>
+				</c>
+                <m name="apply">
+                    <d>Calls a function with a given <c>this</c> value and arguments provided as an array.</d>
+                    <a name="thisArg" type="any type" descr="A new context"/>
+                    <a name="argsArray" type="Array" descr="An array object, specifying the arguments"/>
+                    <e><![CDATA[
+                        // the previous example, but the 'apply' method is used:
+                        func.apply(context, [7, "test"]); ]]> 
+                    </e>
+                </m>
+            </s>
 		</s>
 		<s name="Prototypes">
 			<s name="Prototype and inheritance">
@@ -4560,6 +4653,16 @@
 				<p>Note: there is no guarantee of the order of execution of threads. The result may well be:</p>
 				<c>AABBBAAAABABBAABABAB</c>
 				<p>It is guaranteed that every thread will be executed from beginning to end.</p>
+                <p>The <c>Thread</c> prototype is derived from the <c>Function</c>. So, all function features are applicable for the threads. Say, you can run thread as function (if you need it, though not likely):</p>
+				<c><![CDATA[
+                    var t = thread()
+                    {
+                        for (var i = 0; i < 10; i++)
+                            print(i);
+                    };
+
+                    t();]]>
+				</c>
 			</s>
 			<s name="The 'Runner' object">
 				<p>The 'run' method returns an instance of the 'Runner' object, which has the set of methods to started thread control.</p>
@@ -4656,6 +4759,17 @@
                 <c><![CDATA[
                     var r = Thread.current();
                     println(r.id());]]>
+                </c>
+            </s>
+            <s name="Passing parameters to a thread">
+                <p>All parameters of the <c>run</c> method are passed to the thread as if it were a simple function call:</p>
+                <c><![CDATA[
+                    var t = thread(count)
+                    {
+                        for (var i = 0; i < count; i++)
+                            print(i);
+                    };
+                    t.run(10); // output: "0123456789" ]]>
                 </c>
             </s>
             <s name="Synchronization">
