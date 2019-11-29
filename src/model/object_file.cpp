@@ -170,6 +170,27 @@ namespace g0at
             }
         };
 
+        class object_file_flush : public object_file_method
+        {
+        public:
+            object_file_flush(object_pool *_pool)
+                : object_file_method(_pool)
+            {
+            }
+            
+            bool payload(thread *thr, int arg_count, file_descriptor *descr, FILE *stream, variable *result) override
+            {
+                if (stream && (descr->mode == file_access_mode::write ||
+                    descr->mode == file_access_mode::append || descr->mode == file_access_mode::full))
+                {
+                    int flush_result = fflush(stream);
+                    result->set_boolean(flush_result == 0);
+                    return true;
+                }
+                assert(false);
+            }
+        };
+
         class object_file_close : public object_file_method
         {
         public:
@@ -354,6 +375,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_eof), new object_file_eof(pool));
             add_object(pool->get_static_string(resource::str_read), new object_file_read(pool));
             add_object(pool->get_static_string(resource::str_write), new object_file_write(pool));
+            add_object(pool->get_static_string(resource::str_flush), new object_file_flush(pool));
             add_object(pool->get_static_string(resource::str_getc), new object_file_getc(pool));
             add_object(pool->get_static_string(resource::str_seek), new object_file_seek(pool));
             add_object(pool->get_static_string(resource::str_position), new object_file_position(pool));

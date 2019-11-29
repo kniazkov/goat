@@ -81,6 +81,7 @@ namespace g0at
         std::wstring str_file = L"file";
         std::wstring str_read = L"read";
         std::wstring str_write = L"write";
+        std::wstring str_flush = L"flush";
         std::wstring str_append = L"append";
         std::wstring str_close = L"close";
         std::wstring str_seek = L"seek";
