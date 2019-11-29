@@ -107,6 +107,8 @@ namespace g0at
                                                 break;
                                             case file_access_mode::full:
                                                 stream = std::fopen(file_name_ascii.c_str(), "r+");
+                                                if (!stream) // does not exist - create new
+                                                    stream = std::fopen(file_name_ascii.c_str(), "w+");
                                                 break;
                                             default:
                                                 assert(false);
