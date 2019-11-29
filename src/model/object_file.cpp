@@ -98,7 +98,6 @@ namespace g0at
             virtual bool payload(thread *thr, int arg_count, file_descriptor *descr, FILE *stream, variable *result) = 0;
         };
 
-
         class object_file_read : public object_file_method
         {
         public:
@@ -134,6 +133,38 @@ namespace g0at
                     result->set_object(new object_byte_array(thr->pool, buff, actually_read));
                     delete[] buff;
                     return true;
+                }
+                assert(false);
+            }
+        };
+
+        class object_file_write : public object_file_method
+        {
+        public:
+            object_file_write(object_pool *_pool)
+                : object_file_method(_pool)
+            {
+            }
+            
+            bool payload(thread *thr, int arg_count, file_descriptor *descr, FILE *stream, variable *result) override
+            {
+                if (stream && (descr->mode == file_access_mode::write ||
+                    descr->mode == file_access_mode::append || descr->mode == file_access_mode::full))
+                {
+                    if (arg_count > 0)
+                    {
+                        object *data = thr->peek().get_object();
+                        if (data) {
+                            object_byte_array *byte_array = data->to_object_byte_array();
+                            if (byte_array) {
+                                size_t actually_written = std::fwrite(byte_array->get_data(), 1, byte_array->get_length(), stream);
+                                result->set_integer(actually_written);
+                                return true;
+                            }
+                        }
+                    }
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
                 }
                 assert(false);
             }
@@ -322,6 +353,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_Origin), origin);
             add_object(pool->get_static_string(resource::str_eof), new object_file_eof(pool));
             add_object(pool->get_static_string(resource::str_read), new object_file_read(pool));
+            add_object(pool->get_static_string(resource::str_write), new object_file_write(pool));
             add_object(pool->get_static_string(resource::str_getc), new object_file_getc(pool));
             add_object(pool->get_static_string(resource::str_seek), new object_file_seek(pool));
             add_object(pool->get_static_string(resource::str_position), new object_file_position(pool));
