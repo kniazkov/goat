@@ -4884,13 +4884,21 @@
                     </m>
                     <m name="open" descr="Opens a file.">
                         <a name="fname" type="String" descr="file name"/>
-                        <a name="mode" type="File.Mode" descr="mode, one of: File.Mode.READ, File.Mode.WRITE or File.Mode.APPEND"/>
+                        <a name="mode" type="File.Mode" descr="mode, see below"/>
                         <e><![CDATA[
                             var file = open("reference.xml", File.Mode.READ);
                             var data = file.read(256); // read first 256 bytes]]>
                         </e>
-                        <n>See description of 'File' class for more details.</n>
+                        <n>Returns an instance of <c>File</c>, or <c>null</c> if the file can not be opened. For all modes that allow writing, in case if file not exists, the new one is created.</n>
                     </m>
+                    <p>Available file modes are:</p>
+                    <l>
+                        <i><c>File.Mode.READ</c>, allows only to read a file, writing operations are blocked;</i>
+                        <i><c>File.Mode.WRITE</c>, only write operations;</i>
+                        <i><c>File.Mode.APPEND</c>, only write operations, new data will be added to the end of the existing file;</i>
+                        <i><c>File.Mode.FULL</c>, both reading and writing.</i>
+                    </l>
+                    <p>See description of <link>File</link> class for more details.</p>
                 </s>
                 <s name="Other">
                     <m name="clock" descr="Returns current system time in nanoseconds.">
@@ -4919,18 +4927,44 @@
             </s>
             <s name="Classes">
                 <s name="Input/output">
-                    <s name="File">
+                    <s name="File" anchor="File">
                         <p>The class for file reading/writing.</p>
                         <p>Files are opened by the <c>open</c> function (see above). The <c>open</c> function returns an object of <c>File</c> type, or <c>null</c> if the file could not be found or could not be open. The <c>File</c> class contains methods for reading/writing and some predefined fields, used in <c>open</c> and <c>seek</c> methods.</p>
                         <s name="Methods">
                             <m name="read">
-                                <d>Reads a file and returns a <c>ByteArray</c> object with data.</d>
+                                <d>Reads a file and returns a <c>ByteArray</c> object with data (see also: <link>ByteArray</link>).</d>
                                 <a name="count" type="Integer" descr="number of bytes to read"/>
                                 <e><![CDATA[
                                     var f = open("data.txt", File.Mode.READ);
                                     var a = f.read(1024); // read first 1024 bytes ]]>
                                 </e>
-                                <n>If the number of bytes exceeds the file size, the method will return as many bytes as it could read. The position indicator of the file is advanced by the total amount of bytes read.</n>
+                                <n>If the number of bytes exceeds the file size, the method will return as many bytes as it could read. The position indicator of the file is advanced by the total amount of bytes read. The method throws the <c>Exception.IllegalOperation</c> exception if the file can not be read (opened for writing or closed).</n>
+                            </m>
+                            <m name="getc">
+                                <d>Reads one byte from the file and returns it (as <c>Integer</c>), or <c>null</c> if reading unsuccessful.</d>
+                                <e><![CDATA[
+                                    var f = open("data.txt", File.Mode.READ);
+                                    var byte = f.getc(); // read the first byte ]]>
+                                </e>
+                            </m>
+                            <m name="write">
+                                <d>Writes data to the file, to the current position. Returns number of bytes that was actually written.</d>
+                                <a name="data" type="ByteArray" descr="data for writing"/>
+                                <e><![CDATA[
+                                    var f = open("data.txt", File.Mode.WRITE);
+                                    var t = "This string will be written to the file.";
+                                    f.write(t.encode("utf8"));]]>
+                                </e>
+                                <n>The position indicator of the file is shifted and points after the last written byte. The method throws the <c>Exception.IllegalOperation</c> exception if the file can not be written (opened for reading or closed).</n>
+                            </m>
+                            <m name="flush">
+                                <d>Flushes all data from the write buffer to disc, i.e. physically write data.</d>
+                                <e><![CDATA[
+                                    var f = open("data.txt", File.Mode.WRITE);
+                                    var t = "This string will be immediately written to the file.";
+                                    f.write(t.encode("utf8"));
+                                    f.flush();]]>
+                                </e>
                             </m>
                             <m name="eof">
                                 <d>Checks whether the end of file indicator associated with file is set, returning <c>true</c> if it is.</d>
@@ -4964,6 +4998,16 @@
                                     var data = f.read(len); // read the whole file]]>
                                 </e>
                             </m>
+                            <m name="close">
+                                <d>Closes the file. All data flushes to the disc and the file descriptor is cleared. After closing, the file cannot be reading or writing.</d>
+                                <e><![CDATA[
+                                    var f = open("data.txt", File.Mode.WRITE);
+                                    var t = "This string will be written to the file.";
+                                    f.write(t.encode("utf8"));
+                                    f.close();]]>
+                                </e>
+                                <n>This is an optional operation. All files are closes anyway: when you lose the last reference to the <c>File</c> instance, the garbage collector cleans it; if not - the file will be closed at the end of the script execution. But each opened file takes some resources, and if you want to save memory, close the file manually if it is not needed more.</n>.
+                            </m>
                         </s>
                         <s name="Fields">
                             <h name="File.Mode">
@@ -4973,14 +5017,15 @@
                                     {
                                         READ : ?,
                                         WRITE : ?,
-                                        APPEND : ?
+                                        APPEND : ?,
+                                        FULL : ?
                                     };]]>
                                 </c>
                                 <p>Usage:</p>
                                 <c>var f = open("data.txt", File.Mode.READ);</c>
-                                <p>The question mark <c>?</c> means that in fact a constant is assigned a value (this is usually a number), but it depends on the implementation. Never use a value (magic number) instead of a constant!</p>
+                                <p>The question mark <c>?</c> means that in fact a constant is assigned a value (this is usually a string), but it depends on the implementation. Never use a value (&quot;magic string&quot; or &quot;magic number&quot;) instead of a constant!</p>
                                 <p>Very bad example, please do not repeat it:</p>
-                                <c>var f = open("data.txt", 0); // yes, it works now... but can fail later</c>
+                                <c>var f = open(&quot;data.txt&quot;, &quot;READ&quot;); // yes, it works now... but can fail later</c>
                             </h>
                             <h name="File.Origin">
                                 <p>The object contains constants for origin, is used as an argument for <c>File.seek</c> method.</p>
@@ -4997,7 +5042,7 @@
                     </s>
                 </s>
                 <s name="Sequences">
-                    <s name="ByteArray">
+                    <s name="ByteArray" anchor="ByteArray">
                         <p>The class for storing an array of bytes.</p>
                         <p>The Goat interpreter does not have separated type for bytes representing. Integer type is used for this purpose. However, each Integer object takes much more memory than 1 byte. If you need to store an array of bytes, do not create an array of integers, use <b>ByteArray</b> class instead.</p>
                         <p>ByteArray class is used in files read/write operations.</p>
