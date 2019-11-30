@@ -134,7 +134,11 @@ namespace g0at
                     delete[] buff;
                     return true;
                 }
-                assert(false);
+                else
+                {
+                    thr->raise_exception(new object_exception_illegal_operation(thr->pool));
+                    return false;
+                }
             }
         };
 
@@ -164,9 +168,12 @@ namespace g0at
                         }
                     }
                     thr->raise_exception(new object_exception_illegal_argument(thr->pool));
-                    return false;
                 }
-                assert(false);
+                else
+                {
+                    thr->raise_exception(new object_exception_illegal_operation(thr->pool));
+                }
+                return false;
             }
         };
 
@@ -187,7 +194,11 @@ namespace g0at
                     result->set_boolean(flush_result == 0);
                     return true;
                 }
-                assert(false);
+                else
+                {
+                    thr->raise_exception(new object_exception_illegal_operation(thr->pool));
+                    return false;
+                }
             }
         };
 
