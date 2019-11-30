@@ -5044,7 +5044,7 @@
                 <s name="Sequences">
                     <s name="ByteArray" anchor="ByteArray">
                         <p>The class for storing an array of bytes.</p>
-                        <p>The Goat interpreter does not have separated type for bytes representing. Integer type is used for this purpose. However, each Integer object takes much more memory than 1 byte. If you need to store an array of bytes, do not create an array of integers, use <b>ByteArray</b> class instead.</p>
+                        <p>The Goat interpreter does not have a separated type for bytes representing. The <c>Integer</c> type is used for this purpose. However, each <c>Integer</c> object takes much more memory than 1 byte. If you need to store an array of bytes, do not create an array of integers, use <c>ByteArray</c> class instead.</p>
                         <p>ByteArray class is used in files read/write operations.</p>
                         <s name="Methods">
                             <m name="length" descr="Returns length of the byte array."/>
@@ -5056,8 +5056,9 @@
                                     a.push(0); ]]>
                                 </e>
                             </m>
-                            <m name="decodeUTF8">
-                                <d>Decodes the byte array as UTF-8 encoded text and returns a string.</d>
+                            <m name="decode">
+                                <d>Decodes the byte array as text and returns a string.</d>
+                                <a name="encoding" type="String" descr="encoding; now only &quot;utf8&quot; is supported"/>
                                 <e><![CDATA[
                                     // open the file and decode it as UTF-8
                                     var file = open("data.txt", File.Mode.READ);
@@ -5065,9 +5066,21 @@
                                     var len = file.position(); // take the length of the file
                                     file.seek(0, File.Origin.BEGIN); // now, go to begin
                                     var raw = file.read(len); // read the whole file
-                                    var text = raw.decodeUTF8(); // decode]]>
+                                    var text = raw.decode("utf8"); // decode]]>
                                 </e>
                             </m>
+                        </s>
+                        <s name="Operators">
+                            <o name="[ ]" descr="Access to a separate byte by index.">
+                                <e><![CDATA[
+                                    var a = new ByteArray();
+                                    a.push(0); 
+                                    a.push(7);
+                                    a.push(11);
+                                    
+                                    print(a[1]); // 7]]>
+                                </e>
+                            </o>
                         </s>
                     </s>
                     <s name="StringBuilder">
