@@ -4926,7 +4926,7 @@
                 </s>
             </s>
             <s name="Classes">
-                <s name="Input/output">
+                <s name="Input/output" numbered="true">
                     <s name="File" anchor="File">
                         <p>The class for file reading/writing.</p>
                         <p>Files are opened by the <c>open</c> function (see above). The <c>open</c> function returns an object of <c>File</c> type, or <c>null</c> if the file could not be found or could not be open. The <c>File</c> class contains methods for reading/writing and some predefined fields, used in <c>open</c> and <c>seek</c> methods.</p>
@@ -5041,7 +5041,7 @@
                         </s>
                     </s>
                 </s>
-                <s name="Sequences">
+                <s name="Sequences" numbered="yes">
                     <s name="ByteArray" anchor="ByteArray">
                         <p>The class for storing an array of bytes.</p>
                         <p>The Goat interpreter does not have a separated type for bytes representing. The <c>Integer</c> type is used for this purpose. However, each <c>Integer</c> object takes much more memory than 1 byte. If you need to store an array of bytes, do not create an array of integers, use <c>ByteArray</c> class instead.</p>

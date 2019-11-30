@@ -32,6 +32,7 @@ var fig = 0;
 var parseSection = $(src, dst, level, prefix)
 {
     var length = src.data.length();
+    var numbered = src.attrib.numbered || false;
     var i;
     
     var subsections = 0;
@@ -90,7 +91,7 @@ var parseSection = $(src, dst, level, prefix)
                 }
                 subsection++;
                 var prefix2 = prefix + subsection + '.';
-                var header = new Xml.Element("div", level < 4 ? prefix2 + ' ' + child.attrib.name : child.attrib.name);
+                var header = new Xml.Element("div", (level < 4 || numbered) ? prefix2 + ' ' + child.attrib.name : child.attrib.name);
                 header.attrib.class = "header";
                 header.attrib.style = "font-size: " + levelToFontSize(level) + ';';
                 dst.data.push(header);
