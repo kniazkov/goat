@@ -13667,7 +13667,7 @@
                 -&gt; &quot;X=10, Y=20, Z=30&quot;
               </div>
               <div class="para">
-                So, five strings will be constructed. What about thousands of strings? Say you have an array and you need to make a string. A lot of time, a lot of memory! Or, you can use 
+                So, five strings will be constructed. What about thousands of strings? Say you have an array and you need to make a string from it. A lot of time, a lot of memory! Or, you can use 
                 <b>StringBuilder.</b>
               </div>
               <div class="code">
@@ -13697,12 +13697,11 @@
               <a name="ref_227"> </a>
               <div style="font-size: medium;" class="header">Methods</div>
               <div class="section">
-                <div class="header">append ( object, count )</div>
-                <div class="para">Appends string representation of object to the sequence.</div>
-                <div class="para">Parameters:</div>
+                <div class="header">add ( object )</div>
+                <div class="para">Appends string representation of an object to the sequence.</div>
+                <div class="para">Parameter:</div>
                 <ul>
                   <li>object (any type): an object</li>
-                  <li>count (Integer): optional, the number of times the object will be added</li>
                 </ul>
                 <div class="para">Example:</div>
                 <div class="code">
@@ -13719,12 +13718,10 @@
                   b.append(123);
                   <br/>
                   
-                  b.append(&apos;*&apos;, 5);
-                  <br/>
-                  
-                  print(b); // output: &quot;test#123*****&quot;
+                  print(b); // output: &quot;test#123
                 </div>
-                <div class="header">toString (  )</div>
+                <div class="para">If there are multiple arguments, each argument is converted to a string and added to the sequence.</div>
+                <div class="header">string (  )</div>
                 <div class="para">Returns a string representing the data in this sequence.</div>
                 <div class="para">Example:</div>
                 <div class="code">
@@ -13741,8 +13738,16 @@
                   b.append(&quot;world&quot;);
                   <br/>
                   
-                  var s = b.toString(); // contains &quot;hello, world&quot;
+                  var s = b.string(); // contains &quot;hello, world&quot;
                 </div>
+                <div class="header">data (  )</div>
+                <div class="para">
+                  Synonym for the 
+                  <code class="inline">string</code>
+                  method.
+                </div>
+                <div class="header">length (  )</div>
+                <div class="para">Returns the length of the sequence.</div>
               </div>
               <a name="ref_228"> </a>
               <div style="font-size: medium;" class="header">Operators</div>
@@ -13772,9 +13777,13 @@
         <a name="ref_229"> </a>
         <div style="font-size: large;" class="header">6.1.3. Constants</div>
         <div class="section">
-          <div style="font-size: medium;" class="header">6.1.3.1. PI</div>
-          <div class="section">
+          <div class="header">PI</div>
+          <div class="para">
             <div class="para">The π (pi) constant (3.14159...)</div>
+            <div class="code">
+              
+              print(PI);
+            </div>
           </div>
         </div>
       </div>

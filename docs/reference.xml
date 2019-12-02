@@ -5163,7 +5163,7 @@
                             ... + c.z
                             -> "X=10, Y=20, Z=30"]]>
                         </c>
-                        <p>So, five strings will be constructed. What about thousands of strings? Say you have an array and you need to make a string. A lot of time, a lot of memory! Or, you can use <b>StringBuilder.</b></p>
+                        <p>So, five strings will be constructed. What about thousands of strings? Say you have an array and you need to make a string from it. A lot of time, a lot of memory! Or, you can use <b>StringBuilder.</b></p>
                         <c><![CDATA[
                             // some coordinates:
                             var c = { x: 10, y: 20, z: 30};
@@ -5176,27 +5176,30 @@
                         <p>Much better.</p>
                         <p>StringBuilder has an array to hold characters. This array grows when new items (characters, strings, etc) added. This class does not create a new string for each addition. Thus, the construction of a long string takes much less time and memory.</p>
                         <s name="Methods">
-                            <m name="append" descr="Appends string representation of object to the sequence.">
+                            <m name="add" descr="Appends string representation of an object to the sequence.">
                                 <a name="object" type="any type" descr="an object"/>
-                                <a name="count" type="Integer" descr="optional, the number of times the object will be added"/>
                                 <e><![CDATA[
                                     var b = new StringBuilder();
                                     b.append("test");
                                     b.append('#');
                                     b.append(123);
-                                    b.append('*', 5);
-                                    print(b); // output: "test#123*****"]]>
+                                    print(b); // output: "test#123]]>
                                 </e>
+                                <n>If there are multiple arguments, each argument is converted to a string and added to the sequence.</n>
                             </m>
-                            <m name="toString" descr="Returns a string representing the data in this sequence.">
+                            <m name="string" descr="Returns a string representing the data in this sequence.">
                                 <e><![CDATA[
                                     var b = new StringBuilder();
                                     b.append("hello");
                                     b.append(", ");
                                     b.append("world");
-                                    var s = b.toString(); // contains "hello, world"]]>
+                                    var s = b.string(); // contains "hello, world"]]>
                                 </e>
                             </m>
+                            <m name="data">
+                                <d>Synonym for the <c>string</c> method.</d>
+                            </m>
+                            <m name="length" descr="Returns the length of the sequence."/>
                         </s>
                         <s name="Operators">
                             <o name="&lt;&lt;" descr="Appends string representation of object to the sequence.">
@@ -5212,9 +5215,10 @@
                 </s>
             </s>
             <s name="Constants">
-                <s name="PI">
+                <h name="PI">
                     <p>The π (pi) constant (3.14159...)</p>
-                </s>
+                    <c>print(PI);</c>
+                </h>
             </s>
         </s>
         <s name="External library">
