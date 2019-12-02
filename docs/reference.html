@@ -12992,6 +12992,31 @@
           <a name="ref_215"> </a>
           <div style="font-size: medium;" class="header">6.1.1.2. Other</div>
           <div class="section">
+            <div class="header">exit ( value )</div>
+            <div class="para">Terminates the current thread and passes a value to a handler</div>
+            <div class="para">Parameter:</div>
+            <ul>
+              <li>value (Integer): a value (optional)</li>
+            </ul>
+            <div class="para">Example:</div>
+            <div class="code">
+              
+              if (error)
+              <br/>
+              
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              exit(-1);
+              <br/>
+              
+              }
+            </div>
+            <div class="para">
+              If the thread was alone, terminates the execution of the script. In this case, the returned value is written to 
+              <code class="inline">ERRORLEVEL</code>
+              and can be analyzed by the calling script. 
+            </div>
             <div class="header">clock (  )</div>
             <div class="para">Returns current system time in nanoseconds.</div>
             <div class="para">Example:</div>
@@ -13043,11 +13068,55 @@
               <br/>
               
               }
-              <br/>
-              
-              
             </div>
             <div class="para">The example shows a simple implementation of delay and countdown using the &apos;clock&apos; function. The function returns the time span value between the begin of the &apos;system epoch&apos; (it depends from the platform) and the current time point. In itself, this value is useless, as a rule, the difference between the two clock values is used.</div>
+            <div class="header">range ( begin | count, end, step )</div>
+            <div class="para">Returns a collection representing a range of integer numbers.</div>
+            <div class="para">Parameters:</div>
+            <ul>
+              <li>begin | count (Integer): A starting value of a range (if ending value is defined), or count of items of the range (starting from 0)</li>
+              <li>end (undefined): An ending value (optional, range does not include this value)</li>
+              <li>step (undefined): A step, i.e. increment of the next item (optional, default 1)</li>
+            </ul>
+            <div class="para">Example:</div>
+            <div class="code">
+              
+              for (var i in range(5)) print(i);           // 01234
+              <br/>
+              
+              for (var i in range(5, 10)) print(i);       // 56789
+              <br/>
+              
+              for (var i in range(0, 10, 3)) print(i);    // 0369
+              <br/>
+              
+              for (var i in range(9, 0, -2)) print(i);....// 97531
+            </div>
+            <div class="para">
+              If 
+              <code class="inline">step &gt; 0</code>
+              but 
+              <code class="inline">end &lt; begin</code>
+              , and vice-versa, the function returns an empty collection (contains 0 values).
+            </div>
+            <div class="header">uid (  )</div>
+            <div class="para">
+              Returns an instance of 
+              <code class="inline">UId</code>
+              class, which is a unique object (contains a 128-bit value that never repeats).
+            </div>
+            <div class="para">Example:</div>
+            <div class="code">
+              
+              print(uid()); // an output something like &quot;8fb959ea0198df83&quot; but unique each time
+            </div>
+            <div class="para">
+              The likelihood of collision (matching of 
+              <code class="inline">UId</code>
+              with other identifiers generated at other times) is 
+              <b>very</b>
+              low. A unique identifier can be used as a key in some data types.
+            </div>
           </div>
         </div>
         <a name="ref_216"> </a>

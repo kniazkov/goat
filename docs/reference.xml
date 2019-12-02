@@ -4901,6 +4901,16 @@
                     <p>See description of <link>File</link> class for more details.</p>
                 </s>
                 <s name="Other">
+                    <m name="exit" descr="Terminates the current thread and passes a value to a handler">
+                        <a name="value" type="Integer" descr="a value (optional)"/>
+                        <e><![CDATA[
+                            if (error)
+                            {
+                                exit(-1);
+                            }]]>
+                        </e>
+                        <n>If the thread was alone, terminates the execution of the script. In this case, the returned value is written to <c>ERRORLEVEL</c> and can be analyzed by the calling script. </n>
+                    </m>
                     <m name="clock" descr="Returns current system time in nanoseconds.">
                         <e><![CDATA[
                             var wait = $(time)
@@ -4918,10 +4928,26 @@
                             {
                                 print("" + i + "\n");
                                 wait(1);
-                            }
-                            ]]>
+                            }]]>
                         </e>
                         <n>The example shows a simple implementation of delay and countdown using the 'clock' function. The function returns the time span value between the begin of the 'system epoch' (it depends from the platform) and the current time point. In itself, this value is useless, as a rule, the difference between the two clock values is used.</n>
+                    </m>
+                    <m name="range" descr="Returns a collection representing a range of integer numbers.">
+                        <a name="begin | count" type="Integer" descr="A starting value of a range (if ending value is defined), or count of items of the range (starting from 0)"/>
+                        <a name="end" descr="An ending value (optional, range does not include this value)"/>
+                        <a name="step" descr="A step, i.e. increment of the next item (optional, default 1)"/>
+                        <e><![CDATA[
+                            for (var i in range(5)) print(i);           // 01234
+                            for (var i in range(5, 10)) print(i);       // 56789
+                            for (var i in range(0, 10, 3)) print(i);    // 0369
+                            for (var i in range(9, 0, -2)) print(i);....// 97531]]>
+                        </e>
+                        <n>If <c>step &gt; 0</c> but <c>end &lt; begin</c>, and vice-versa, the function returns an empty collection (contains 0 values).</n>
+                    </m>
+                    <m name="uid">
+                        <d>Returns an instance of <c>UId</c> class, which is a unique object (contains a 128-bit value that never repeats).</d>
+                        <e>print(uid()); // an output something like &quot;8fb959ea0198df83&quot; but unique each time</e>
+                        <n>The likelihood of collision (matching of <c>UId</c> with other identifiers generated at other times) is <b>very</b> low. A unique identifier can be used as a key in some data types.</n>
                     </m>
                 </s>
             </s>
