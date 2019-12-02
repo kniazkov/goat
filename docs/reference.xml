@@ -5222,218 +5222,44 @@
             </s>
         </s>
         <s name="External library">
-            <s name="Containers">
-                <p>Containers are used to store data. A container is a grouping of some variable number of data items (possibly zero) that have some shared significance to the problem being solved and need to be operated upon together in some fashion.</p>
-                <p>Examples of containers include list, stack, queue, etc.</p>
-                <s name="Stack">
-                    <p>A stack is a data type that serves as a container of elements, with two principal operations: <b>push</b>, which adds an element to the container, and <b>pop</b>, which removes the most recently added element that was not yet removed.</p>
-                    <p>Elements can be taken from the stack in the reverse order to how they were put there. Another name of the stack structure - LIFO ("last in, first out"). Additionally, a peek operation may give access to the top without modifying the stack.</p>
-                    <s name="Methods">
-                        <m name="empty">
-                            <d>Returns <c>true</c> if the stack is empty and <c>false</c> otherwise.</d>
-                        </m>
-                        <m name="push" descr="Adds an element to the stack.">
-                            <a name="object" type="any type" descr="an object"/>
-                        </m>
-                        <m name="pop" descr="Removes the most recently added element and returns it.">
-                            <n>If the stack is empty, throws <c>Stack.StackIsEmpty</c> exception.</n>
-                        </m>
-                        <m name="peek" descr="Returns the top element without modifying the stack.">
-                            <n>If the stack is empty, throws <c>Stack.StackIsEmpty</c> exception.</n>
-                        </m>
-                        <m name="iterator" descr="Returns an iterator pointing to the beginning of the stack."/>
-                    </s>
-                    <s name="Example">
-                        <p>Code:</p>
-                        <c><![CDATA[
-                            import "stack.goat";
-
-                            var s = new Stack();
-
-                            for (var i = 0; i < 5; i++)
-                                s.push(i);
-
-                            while(!s.empty())
-                                print("" + s.pop() + "\n");]]>
-                        </c>
-                        <p>Output:</p>
-                        <c><![CDATA[
-                            4
-                            3
-                            2
-                            1
-                            0]]>
-                        </c>
-                    </s>
-                </s>
-                <s name="Iterator">
-                    <p>An iterator is an object that enables to traverse a container. Each container inherits <c>Iterable</c> object which has <c>iterator()</c> method. This method returns an iterator object which points to the first item of the container (or points to nothing if the container is empty). An iterator object has methods for reading/writing data and also has <c>next()</c> method to move to next item. Each container implements its iterator, which has the above methods. Thus, regardless of the container (stack, list, etc.), we have a universal way to traverse a container and get/modify data.</p>
-                    <s name="Methods">
-                        <m name="valid">
-                            <d>Returns <c>true</c> if the iterators is valid (i.e. points to an item of the container) and <c>false</c> otherwise.</d>
-                        </m>
-                        <m name="next" descr="Moves to the next container element."/>
-                        <m name="read" descr="Returns value of the current item.">
-                            <n>If the iterator is not valid, throws <c>Exception.InvalidOperation</c> exception.</n>
-                        </m>
-                        <m name="write" descr="Write (replace) value of the current item.">
-                            <a name="val" type="any type" descr="a value"/>
-                            <n>If the iterator is not valid, throws <c>Exception.InvalidOperation</c> exception.</n>
-                        </m>
-                        <m name="iterator" descr="Returns an iterator pointing to the beginning of the stack."/>
-                    </s>
-                    <s name="Example">
-                        <p>Code:</p>
-                        <c><![CDATA[
-                            import "stack.goat";
-
-                            var s = new Stack();
-
-                            for (var v = 0; v < 5; v++)
-                                s.push(v);
-
-                            for (var i = s.iterator(); i.valid(); i.next())
-                                print("" + i.read() + "\n");]]>
-                        </c>
-                        <p>Output:</p>
-                        <c><![CDATA[
-                            4
-                            3
-                            2
-                            1
-                            0]]>
-                        </c>
-                    </s>
-                </s>
-            </s>
-            <s name="Timer">
-                <p>The <b>Timer</b> class measures time intervals. At the end of the interval, a function (callback) is called. The <c>setTimer()</c> method calls a function once; the <c>setInterval()</c> method calls periodically. Also, the <c>Timer</c> class has several auxiliary classes for determining time intervals.</p>
-                <s name="Classes">
-                    <s name="Timer.Duration">
-                        <p>Base class for determining time intervals. Has a method:</p>
-                        <m name="getNanoseconds" descr="Returns the time interval, converted to nanoseconds."/>
-                    </s>
-                    <s name="Timer.Nanoseconds">
-                        <p>Derived from <c>Timer.Duration</c>, determine the time interval in nanoseconds.</p>
-                        <c><![CDATA[
-                            import "timer.goat"
-                            
-                            var d = new Timer.Nanoseconds(50); // determine 50 nanoseconds
-                            ]]>
-                        </c>
-                    </s>
-                    <s name="Timer.Microseconds">
-                        <p>Derived from <c>Timer.Duration</c>, determine the time interval in microseconds.</p>
-                    </s>
-                    <s name="Timer.Milliseconds">
-                        <p>Derived from <c>Timer.Duration</c>, determine the time interval in milliseconds.</p>
-                    </s>
-                    <s name="Timer.Seconds">
-                        <p>Derived from <c>Timer.Duration</c>, determine the time interval in seconds.</p>
-                    </s>
-                    <s name="Timer.Minutes">
-                        <p>Derived from <c>Timer.Duration</c>, determine the time interval in minutes.</p>
-                    </s>
-                    <s name="Timer.Hours">
-                        <p>Derived from <c>Timer.Duration</c>, determine the time interval in hours.</p>
-                    </s>
-                    <s name="Timer.Interval">
-                        <p>An object returned from <c>setInterval()</c> method.</p>
-                        <s name="Methods">
-                            <m name="stop" descr="Stops a periodic function call."/>
-                        </s>
-                        <s name="Fields">
-                            <h name="ticks">
-                                <p>Integer. The number of triggered calls, that is, how many times the function was called.</p>
-                            </h>
-                            <h name="skipped">
-                                <p>Integer. The number of skips.</p>
-                                <p>If the setInterval() method does not have time to process the previous function call until the next call, the next call of the function is skipped.</p>
-                            </h>
-                        </s>
-                    </s>
-                </s>
-                <s name="Methods">
-                    <p>The ability to measure small (up to nanosecond) time intervals always depends on the particular platform on which the interpreter runs.</p>
-                    <m name="setTimer" descr="Calls the function (callback) once after a determined time has elapsed.">
-                        <a name="callback" type="Function" descr="a function"/>
-                        <a name="duration" type="Timer.Duration" descr="a duration (Timer.Seconds, Timer.Milliseconds etc.)"/>
-                        <n>The function is called in a separate thread. It runs concurrently with the main thread of the program. May need to synchronize (mutexes, etc.) when accessing some data.</n>
-                        <e><![CDATA[
-                            import "timer.goat";
-
-                            print("begin... ");
-
-                            Timer.setTimer($()
-                            {
-                                print("done!");
-                            }, new Timer.Seconds(5));]]>
-                        </e>
-                    </m>
-                    <m name="setInterval" descr="Calls the function (callback) periodically.">
-                        <a name="callback" type="Function" descr="a function"/>
-                        <a name="interval" type="Timer.Duration" descr="an interval (Timer.Seconds, Timer.Milliseconds etc.)"/>
-                        <n>The function is called in a separate thread. The <c>setInterval()</c> method tries to call a function (callback) at regular intervals. Namely, <b>the moments of the beginning of a function call</b> are located approximately at regular intervals. If the <c>setInterval()</c> method does not have time to process the previous function call until the next call, the next call of the function is skipped. </n>
-                        <e><![CDATA[
-                            import "timer.goat";
-
-                            print("begin...\n");
-
-                            var c = 0;
-                            var i = Timer.setInterval($()
-                            {
-                                print("" + c + "\n");
-                                c++;
-                            }, new Timer.Seconds(1));
-
-                            while(c < 10)
-                            {
-                                // wait for 10 seconds
-                            }
-
-                            i.stop();]]>
-                        </e>
-                    </m>
-                </s>
-            </s>
-            <s name="XML">
-                <p>Simple XML parser. For more info about XML format, please visit <url>https://en.wikipedia.org/wiki/XML</url>.</p>
+            <s name="Xml">
+                <p>Simple XML parser. For more info about the XML format, please visit <url>https://en.wikipedia.org/wiki/XML</url>.</p>
                 <p>The parser takes a string that contains the source document. If you need to parse the file, you must first read and decode it using other methods. The document is recognized as a whole, the output is a tree of XML elements. If the document contains an error, the parser throws an appropriate exception.</p>
                 <s name="Classes">
-                    <s name="XML.Element">
-                        <p>The class that contains the data of one XML element. An XML element can contain attributes and child elements, thus, each element is the root of the element tree. The XML parser returns one root element that contains all document as a tree of elements.</p>
+                    <s name="Xml.Element">
+                        <p>The class that contains the data of one XML element. An XML element can contain attributes and child elements, thus, each element is the root of the element tree. The XML parser returns one root element that contains the whole document as a tree of elements.</p>
                         <s name="Fields">
                             <h name="tag">
                                 <p>String. The element's tag. For example, after parsing the element:</p>
                                 <c><![CDATA[
                                     <root>...</root>]]>
                                 </c>
-                                <p>the <c>tag</c> field will be contain the value "root".</p>
+                                <p>the <c>tag</c> field will contain the value "root".</p>
                             </h>
                             <h name="attrib">
                                 <p>Object, contains attributes. For example, after parsing the element:</p>
                                 <c><![CDATA[
                                     <rectangle width="300" height="200">...</rectangle>]]>
                                 </c>
-                                <p>the <c>attrib</c> field will be contain the object <c>{width:300,height:200}</c>.</p>
+                                <p>the <c>attrib</c> field will contain the object <c>{width:300,height:200}</c>.</p>
                                 <p>If the element does not have attributes, this field will contain an empty object.</p>
                             </h>
-                            <h name="content">
-                                <p>An array containing child elements. A child element can be a string or an <c>XML.Element</c> type. For example, after parsing the element:</p>
+                            <h name="data">
+                                <p>A child element, or an array containing child elements, or <c>null</c>. A child element can be a string or an <c>Xml.Element</c> type. For example, after parsing the element:</p>
                                 <c><![CDATA[
                                     <list><elem_1>...</elem_1>Some text between elements<elem_2>...</elem_2></list>]]>
                                 </c>
-                                <p>the <c>content</c> field will be contain the array:</p>
+                                <p>the <c>data</c> field will be contain the array:</p>
                                 <l>
-                                    <i>item 0: <c>XML.Element</c> containing "elem_1" tag and child elements;</i>
+                                    <i>item 0: <c>Xml.Element</c> containing "elem_1" tag and child elements;</i>
                                     <i>item 1: string "Some text between elements";</i>
-                                    <i>item 2: <c>XML.Element</c> containing "elem_2" tag and child elements.</i>
+                                    <i>item 2: <c>Xml.Element</c> containing "elem_2" tag and child elements.</i>
                                 </l>
                             </h>
                         </s>
                         <s name="Methods">
                             <m name="toString" descr="Converts XML tree to a string.">
-                                <a name="indent" type="String" descr="If specified, this indentation will be added before each child element, for better readability of the document. If not specified, a compact document will be generated without indentation."/>
+                                <a name="indent" type="String" descr="if specified, this indentation will be added before each child element, for better readability of the document. If not specified, a compact document will be generated without indentation."/>
                             </m>
                             <p>For example, let's сreate a simple XML tree:</p>
                             <c><![CDATA[
@@ -5449,7 +5275,7 @@
                             <c><![CDATA[
                                 import "xml.goat";
 
-                                var root = XML.parse("<root><first>Data of the first element</first><second/><third><child>Data of the child element</child></third></root>");]]>
+                                var root = Xml.parse("<root><first>Data of the first element</first><second/><third><child>Data of the child element</child></third></root>");]]>
                             </c>
                             <p>Now convert the tree back into a string without indentation:</p>
                             <c>print(root.toString());</c>
@@ -5458,7 +5284,7 @@
                                 <root><first>Data of the first element</first><second/><third><child>Data of the child element</child></third></root>]]>
                             </c>
                             <p>Сonvert the tree to a string again, but indented into two spaces:</p>
-                            <c>print(root.toString("  "));</c>
+                            <c>print(root.toString(&quot;  &quot;));</c>
                             <p>Output is:</p>
                             <c><![CDATA[
                                 <root>
@@ -5470,7 +5296,7 @@
                                 </root>]]>
                             </c>
                             <p>Indentation can be not only spaces but also any other characters. Now let's try an indent, consisting of a vertical line and space (<c>| </c>):</p>
-                            <c>print(root.toString("| "));</c>
+                            <c>print(root.toString(&quot;| &quot;));</c>
                             <p>Output is:</p>
                             <c><![CDATA[
                                 <root>
@@ -5481,29 +5307,38 @@
                                 | </third>
                                 </root>]]>
                             </c>
+                            <m name="findByTag" descr="Returns an array contains children with the specified tag(s).">
+                                <a name="tag" type="String | Array" descr="A tag or an array of tags"/>
+                                <n>If no children found, returns an empty array.</n>
+                            </m>
+                            <m name="findFirstByTag">
+                                <d>Returns the first child with the specified tag, or <c>null</c> if child not found.</d>
+                                <a name="tag" type="String | Array" descr="A tag or an array of tags"/>
+                            </m>
                         </s>
                     </s>
-                    <s name="XML.Error">
+                    <s name="Xml.Error">
                         <p>The class contains a description of the error that occurred in the case of parsing a non-valid document.</p>
                         <p>Consists of two fields:</p>
                         <h name="type">
                             <p>Error type, string. The parser usually selects the type of error from the predefined set of strings:</p>
                             <c><![CDATA[
-                                XML.Error.INVALID_TOKEN : "invalid token",
-                                XML.Error.EXPECTED_TAG_NAME : "expected tag name",
-                                XML.Error.UNEXPECTED_END : "unexpected end",
-                                XML.Error.END_TAG_MISMATCH : "end tag does not match the start tag",
-                                XML.Error.UNCLOSED_END_TAG : "end element was missing the character \'>\'",
-                                XML.Error.MISSING_EQUALS : "missing \'=\' sign between attribute and attribute value",
-                                XML.Error.MISSING_STRING : "a string literal was expected",
-                                XML.Error.DUPLICATE_ATTRIBUTE : "duplicate attribute",
-                                XML.Error.UNKNOWN_ENTITY : "unknown entity",
-                                XML.Error.INVALID_CHARACTER : "invalid character",
-                                XML.Error.EXPECTED_CDATA_SEQUENCE : "expected <![CDATA[ sequence"]]>
+                                Xml.Error.INVALID_TOKEN : "invalid token",
+                                Xml.Error.EXPECTED_TAG_NAME : "expected tag name",
+                                Xml.Error.UNEXPECTED_END : "unexpected end",
+                                Xml.Error.END_TAG_MISMATCH : "end tag does not match the start tag",
+                                Xml.Error.UNCLOSED_END_TAG : "end element was missing the character \'>\'",
+                                Xml.Error.MISSING_EQUALS : "missing \'=\' sign between attribute and attribute value",
+                                Xml.Error.MISSING_STRING : "a string literal was expected",
+                                Xml.Error.DUPLICATE_ATTRIBUTE : "duplicate attribute",
+                                Xml.Error.UNKNOWN_ENTITY : "unknown entity",
+                                Xml.Error.INVALID_CHARACTER : "invalid character",
+                                Xml.Error.EXPECTED_CDATA_SEQUENCE : "expected <![CDATA[ sequence",
+                                Xml.Error.INVALID_SEQUENCE: "invalid sequence"]]>
                             </c>
                         </h>
                         <h name="index">
-                            <p>Integer, the character number (index) in the source line on which the error occurred.</p>
+                            <p>Integer, the number (index) of character on which the error occurred in the source string.</p>
                         </h>
                     </s>
                 </s>
@@ -5513,9 +5348,9 @@
                         <e><![CDATA[
                             import "xml.goat";
 
-                            var root = XML.parse("<root><item>Data of the item</item></root>");]]>
+                            var root = Xml.parse("<root><item>Data of the item</item></root>");]]>
                         </e>
-                        <n>If XML document is not valid, throws <c>XML.Error</c> exception. If valid, returns <c>XML.Element</c> object contains root element.</n>
+                        <n>If XML document is not valid, throws <c>Xml.Error</c> exception. If valid, returns <c>Xml.Element</c> object contains root element.</n>
                     </m>
                 </s>
             </s>
