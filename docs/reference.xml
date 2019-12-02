@@ -4900,6 +4900,37 @@
                     </l>
                     <p>See description of <link>File</link> class for more details.</p>
                 </s>
+                <s name="Mathematical">
+                    <m name="abs" descr="Computes absolute value.">
+                        <a name="arg" type="Integer | Real" descr="a value"/>
+                        <e>var x = abs(-123); // 123</e>
+                        <n>The returned value has the same type as the argument.</n>
+                    </m>
+                    <m name="atan2" descr="Returns arc tangent from 2 arguments, expressed in radians.">
+                        <a name="y" type="Real" descr="y-coordinate"/>
+                        <a name="x" type="Real" descr="x-coordinate"/>
+                        <e>var x = atan2(1, 1); // 0.7853982 radians, i.e. 45 degrees</e>
+                    </m>
+                    <m name="cbrt" descr="Returns the cubic root of arg.">
+                        <a name="arg" type="Real" descr="a value"/>
+                        <e>var x = cbrt(27); // 3</e>
+                    </m>
+                    <m name="round" descr="Returns the rounded (integer) value of arg.">
+                        <a name="arg" type="Real" descr="a value"/>
+                        <e><![CDATA[
+                            var x = round(2.8); // 3
+                            var y = round(-2.1); // -2]]></e>
+                        <n>Return type is <c>Integer</c>.</n>
+                    </m>
+                    <m name="sin" descr="Returns the sine of an angle of arg radians.">
+                        <a name="arg" type="Real" descr="a value"/>
+                        <e>var x = sin(PI/2); // 1</e>
+                    </m>
+                    <m name="sqrt" descr="Returns the square root of arg.">
+                        <a name="arg" type="Real" descr="a value"/>
+                        <e>var x = sqrt(64); // 8</e>
+                    </m>
+                </s>
                 <s name="Other">
                     <m name="exit" descr="Terminates the current thread and passes a value to a handler">
                         <a name="value" type="Integer" descr="a value (optional)"/>
@@ -5178,6 +5209,11 @@
                             </o>
                         </s>
                     </s>
+                </s>
+            </s>
+            <s name="Constants">
+                <s name="PI">
+                    <p>The π (pi) constant (3.14159...)</p>
                 </s>
             </s>
         </s>
