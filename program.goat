@@ -7,3 +7,4 @@ list.push(3);
 
 println(list.size());
 println(list.toArray());
+println(list.get(2));

@@ -20,6 +20,10 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+var IndexOutOfBounds = Exception ->
+{
+};
+
 var Collection =
 {
     size : $()
@@ -41,6 +45,21 @@ var Collection =
                 return null;
             }
         };
+    },
+
+    get : $(index)
+    {
+        if (index < 0 || index >= this.size())
+            throw new IndexOutOfBounds();
+
+        var item;
+        for (item in this)
+        {
+            if (index == 0)
+                break;
+            index--;
+        }
+        return item;
     },
 
     toArray : $()
