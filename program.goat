@@ -1,29 +1,9 @@
-import "atomic.goat";
-
-// Create an atomic object and init this with integer
-var a = new Atomic(0);
-a.set(50000);
-
-// The thread that increments atomic value
-var t = $$()
+var obj =
 {
-    for (var k = 0; k < 1000; k++)
+    lock : $()
     {
-        a.add(-2);
+        lock println("it works.");
     }
 };
 
-// Now run 10 such threads 
-var rr = [];
-for (var k = 0; k < 10; k++)
-{
-    rr.push(t.run());
-}
-
-// Join each thread (wait until all them finish)
-for (var r in rr)
-{
-    r.join();
-}
-
-println(a.get()); // output: "30000"
+obj.lock();

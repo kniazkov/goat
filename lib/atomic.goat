@@ -29,10 +29,7 @@ var Atomic =
 
     set : $(value)
     {
-        lock
-        {
-            this.value = value;
-        }
+        lock this.value = value;
     },
 
     get : $()
@@ -42,25 +39,16 @@ var Atomic =
 
     inc : $()
     {
-        lock
-        {
-            ++value;
-        }
+        lock ++value;
     },
 
     dec : $()
     {
-        lock
-        {
-            --value;
-        }
+        lock --value;
     },
 
     add : $(summand)
     {
-        lock
-        {
-            value = value + summand;
-        }
+        lock value = value + summand;
     }
 };

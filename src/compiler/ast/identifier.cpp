@@ -31,6 +31,12 @@ namespace g0at
         {
         }
 
+        identifier::identifier(fragment _frag, std::wstring _name)
+            : name(_name)
+        {
+            frag = _frag;
+        }
+
         void identifier::accept(token_visitor *visitor)
         {
             visitor->visit(this);

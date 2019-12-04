@@ -33,6 +33,7 @@ namespace g0at
         {
         public:
             identifier(std::wstring _name);
+            identifier(fragment _frag, std::wstring _name);
             void accept(token_visitor *visitor) override;
             identifier *to_identifier() override;
 

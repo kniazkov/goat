@@ -67,6 +67,7 @@ namespace g0at
             lib::pointer<pattern> create_pattern_ternary();
             lib::pointer<pattern> create_pattern_parenthesized_expression();
             lib::pointer<pattern> create_pattern_statement_debug();
+            lib::pointer<pattern> create_pattern_method_lock();
 
             parser_data *data;
         };
