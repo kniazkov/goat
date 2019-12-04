@@ -2,14 +2,14 @@ import "atomic.goat";
 
 // Create an atomic object and init this with integer
 var a = new Atomic(0);
-a.set(10000);
+a.set(50000);
 
 // The thread that increments atomic value
 var t = $$()
 {
     for (var k = 0; k < 1000; k++)
     {
-        a.inc();
+        a.dec();
     }
 };
 
@@ -26,4 +26,4 @@ for (var r in rr)
     r.join();
 }
 
-println(a.get()); // output: "20000"
+println(a.get()); // output: "40000"

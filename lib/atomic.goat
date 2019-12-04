@@ -44,7 +44,15 @@ var Atomic =
     {
         lock
         {
-            value++;
+            ++value;
+        }
+    },
+
+    dec : $()
+    {
+        lock
+        {
+            --value;
         }
     }
 };

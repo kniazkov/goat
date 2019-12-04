@@ -5273,6 +5273,9 @@
                         <m name="inc">
                             <d>Increments the current value of the atomic object, i.e. performs the <c>++</c> operator. This method works only for objects that supported increment: <c>Integer</c>, <c>Real</c>, <c>Char</c> and objects that redefined <c>++</c>.</d>
                         </m>
+                        <m name="dec">
+                            <d>Decrements the current value of the atomic object, i.e. performs the <c>--</c> operator.</d>
+                        </m>
                     </s>
                 </s>
             </s>
