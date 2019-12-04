@@ -5276,6 +5276,10 @@
                         <m name="dec">
                             <d>Decrements the current value of the atomic object, i.e. performs the <c>--</c> operator.</d>
                         </m>
+                        <m name="add">
+                            <d>Adds another value to the value of the atomic object, i.e. performs the <c>+</c> operator.</d>
+                            <a name="summand" type="any object" descr="a value to add"/>
+                        </m>
                     </s>
                 </s>
             </s>

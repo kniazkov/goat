@@ -9,7 +9,7 @@ var t = $$()
 {
     for (var k = 0; k < 1000; k++)
     {
-        a.dec();
+        a.add(-2);
     }
 };
 
@@ -26,4 +26,4 @@ for (var r in rr)
     r.join();
 }
 
-println(a.get()); // output: "40000"
+println(a.get()); // output: "30000"

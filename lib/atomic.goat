@@ -54,5 +54,13 @@ var Atomic =
         {
             --value;
         }
+    },
+
+    add : $(summand)
+    {
+        lock
+        {
+            value = value + summand;
+        }
     }
 };
