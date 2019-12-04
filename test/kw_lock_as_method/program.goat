@@ -1,0 +1,9 @@
+var obj =
+{
+    lock : $()
+    {
+        lock println("it works.");
+    }
+};
+
+obj.lock();
