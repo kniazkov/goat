@@ -133,6 +133,7 @@ namespace g0at
                 if (first == current)
                 {
                     // all threads are paused
+                    assert(false);
                     return nullptr;
                 }
                 previous = current;

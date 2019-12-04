@@ -1,22 +1,25 @@
 import "mutex.goat";
 
 var v = 0;
+var v1 = 0;
 var m = new Mutex();
 
 // The thread that increments value
 var t = $$()
 {
-    for (var k = 0; k < 1000; k++)
+    for (var k = 0; k < 100; k++)
     {
-        m.lock();
+        while (false == m.tryLock())
+            ;
         ++v;
         m.unlock();
+        ++v1;
     }
 };
 
 // Now run 10 such threads 
 var rr = [];
-for (var k = 0; k < 0; k++) // set this
+for (var j = 0; j < 0; j++) // set this
 {
     rr.push(t.run());
 }
@@ -28,3 +31,4 @@ for (var r in rr)
 }
 
 println(v); // output: "10000"
+println(v1);
