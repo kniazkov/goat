@@ -4751,7 +4751,7 @@
                     </e>
                 </m>
                 <m name="id">
-                    <d>Returns numeric identifier of the thread.</d>
+                    <d>Returns numeric identifier of the thread (≥0).</d>
                 </m>
             </s>
             <s name="Getting a reference to the current thread">

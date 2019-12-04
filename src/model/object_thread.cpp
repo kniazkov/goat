@@ -126,8 +126,10 @@ namespace g0at
                 if (mode == call_mode::as_method)
                     thr->pop();
                 thr->pop(arg_count);
+                if (!thr->runner)
+                    thr->runner = new object_runner(thr->pool, thr->get_id());
                 variable result;
-                result.set_object(new object_runner(thr->pool, thr->get_id()));
+                result.set_object(thr->runner);
                 thr->push(result);
             }
         };

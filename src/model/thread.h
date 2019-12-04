@@ -190,6 +190,7 @@ namespace g0at
             variable *ret;
             variable except;
             std::vector<thread*> joined;
+            object *runner;
             int lock;
             int debug_level;
             thread_debug_state debug_state;
