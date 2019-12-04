@@ -4784,6 +4784,8 @@
                             // some code here...
                         }]]>
                     </c>
+                    <p>The <c>lock</c> keyword can be used as a method name. A critical section is defined as the <c>lock</c> keyword and any statement after it. It doesn't have to be a block statement:</p>
+                    <c>lock ++value;</c>
                     <p>Critical sections should be made very short, it is recommended to do it only for reading/writing one-two-three variables, as a long suspend of other threads can negatively affect the execution of the script. However, is the fastest way of synchronization.</p>
                     <p>Example: writing a variable from 7 threads simultaneously:</p>
                     <c><![CDATA[

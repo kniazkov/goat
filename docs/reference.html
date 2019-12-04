@@ -12697,6 +12697,17 @@
               
               }
             </div>
+            <div class="para">
+              The 
+              <code class="inline">lock</code>
+              keyword can be used as a method name. A critical section is defined as the 
+              <code class="inline">lock</code>
+              keyword and any statement after it. It doesn&apos;t have to be a block statement:
+            </div>
+            <div class="code">
+              
+              lock ++value;
+            </div>
             <div class="para">Critical sections should be made very short, it is recommended to do it only for reading/writing one-two-three variables, as a long suspend of other threads can negatively affect the execution of the script. However, is the fastest way of synchronization.</div>
             <div class="para">Example: writing a variable from 7 threads simultaneously:</div>
             <div class="code">
