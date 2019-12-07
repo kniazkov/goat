@@ -186,7 +186,7 @@ namespace g0at
 {
     namespace codegen
     {
-        using namespace code;
+	code::iid_t iid_unknown = code::iid_unknown();
 
         generator::generator(model::name_cache *_name_cache, bool _debug)
             : name_cache(_name_cache), debug(_debug)
@@ -215,7 +215,7 @@ namespace g0at
             if (debug)
             {
                 auto frag = node->get_fragment();
-                code->add_instruction(new _frame(frag.begin->get_absolute_position(), frag.end->get_absolute_position()));
+                code->add_instruction(new code::_frame(frag.begin->get_absolute_position(), frag.end->get_absolute_position()));
             }
         }
 
@@ -230,25 +230,25 @@ namespace g0at
 
             if (ref->is_root_function())
             {
-                code->add_instruction(new _end());
+                code->add_instruction(new code::_end());
             }
             else
             {
                 if ((code_size > 0 && ref->get_stmt(code_size - 1)->to_statement_return() == nullptr) || code_size == 0)
-                    code->add_instruction(new _ret());
+                    code->add_instruction(new code::_ret());
             }
         }
 
         void generator::visit(pt::static_string *ref)
         {
             int id = name_cache->get_id(ref->get_text());
-            code->add_instruction(new _string(id));
+            code->add_instruction(new code::_string(id));
         }
 
         void generator::visit(pt::variable *ref)
         {
             int id = name_cache->get_id(ref->get_name());
-            code->add_instruction(new _load(id));
+            code->add_instruction(new code::_load(id));
         }
 
         void generator::visit(pt::function_call *ref)
@@ -259,54 +259,54 @@ namespace g0at
                 ref->get_arg(i)->accept(this);
             }
             ref->get_func_object()->accept(this);
-            code->add_instruction(new _call(args_count));
+            code->add_instruction(new code::_call(args_count));
         }
 
         void generator::visit(pt::statement_expression *ref)
         {
             add_frame(ref);
             ref->get_expression()->accept(this);
-            code->add_instruction(new _pop());
+            code->add_instruction(new code::_pop());
         }
 
         void generator::visit(pt::addition *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _add());
+            code->add_instruction(new code::_add());
         }
 
         void generator::visit(pt::integer *ref)
         {
-            code->add_instruction(new _integer(ref->get_value()));
+            code->add_instruction(new code::_integer(ref->get_value()));
         }
 
         void generator::visit(pt::subtraction *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _sub());
+            code->add_instruction(new code::_sub());
         }
 
         void generator::visit(pt::negation *ref)
         {
             ref->get_right()->accept(this);
-            code->add_instruction(new _neg());
+            code->add_instruction(new code::_neg());
         }
 
         void generator::visit(pt::value_void *ref)
         {
-            code->add_instruction(new _void());
+            code->add_instruction(new code::_void());
         }
 
         void generator::visit(pt::value_undefined *ref)
         {
-            code->add_instruction(new _undef());
+            code->add_instruction(new code::_undef());
         }
 
         void generator::visit(pt::value_null *ref)
         {
-            code->add_instruction(new _null());
+            code->add_instruction(new code::_null());
         }
 
         void generator::visit(pt::declare_variable *ref)
@@ -318,9 +318,9 @@ namespace g0at
                 if (info.init_val)
                     info.init_val->accept(this);
                 else
-                    code->add_instruction(new _undef());
+                    code->add_instruction(new code::_undef());
                 int id = name_cache->get_id(info.name);
-                code->add_instruction(new _var(id));
+                code->add_instruction(new code::_var(id));
             }
         }
 
@@ -332,20 +332,20 @@ namespace g0at
 
         void generator::visit(pt::real *ref)
         {
-            code->add_instruction(new _real(ref->get_value()));
+            code->add_instruction(new code::_real(ref->get_value()));
         }
 
         void generator::visit(pt::declare_function *ref)
         {
             pt::function *func = ref->get_func().get();
-            
+
             if (func->get_type() == pt::function_type::function)
             {
-                _func *instr = new _func(iid_unknown());
+                code::_func *instr = new code::_func(iid_unknown);
                 code->add_instruction(instr);
                 deferred_node def;
                 def.iid_ptr = instr->get_first_iid_ptr();
-                def.node = func;            
+                def.node = func;
                 queue.push_front(def);
                 for (int i = 0, count = func->get_args_count(); i < count; i++)
                 {
@@ -355,11 +355,11 @@ namespace g0at
             }
             else if (func->get_type() == pt::function_type::thread)
             {
-                _thread *instr = new _thread(iid_unknown());
+                code::_thread *instr = new code::_thread(iid_unknown);
                 code->add_instruction(instr);
                 deferred_node def;
                 def.iid_ptr = instr->get_first_iid_ptr();
-                def.node = func;            
+                def.node = func;
                 queue.push_front(def);
                 for (int i = 0, count = func->get_args_count(); i < count; i++)
                 {
@@ -376,11 +376,11 @@ namespace g0at
             if (expr)
             {
                 expr->accept(this);
-                code->add_instruction(new _retv());
+                code->add_instruction(new code::_retv());
             }
             else
             {
-                code->add_instruction(new _ret());
+                code->add_instruction(new code::_ret());
             }
         }
 
@@ -393,7 +393,7 @@ namespace g0at
                 item.second->accept(this);
                 item.first->accept(this);
             }
-            code->add_instruction(new _object(count));
+            code->add_instruction(new code::_object(count));
         }
 
         void generator::visit(pt::property *ref)
@@ -401,68 +401,68 @@ namespace g0at
             if (ref->guarded())
             {
                 ref->get_left()->accept(this);
-                code->add_instruction(new _dup());
-                code->add_instruction(new _void());
-                code->add_instruction(new _swap());
-                code->add_instruction(new _eq());
-                code::_if *if_void = new code::_if(iid_unknown());
+                code->add_instruction(new code::_dup());
+                code->add_instruction(new code::_void());
+                code->add_instruction(new code::_swap());
+                code->add_instruction(new code::_eq());
+                code::_if *if_void = new code::_if(iid_unknown);
                 code->add_instruction(if_void);
                 int id = name_cache->get_id(ref->get_name());
-                code->add_instruction(new _read(id));
-                code::_jmp *jmp_end = new _jmp(iid_unknown());
+                code->add_instruction(new code::_read(id));
+                code::_jmp *jmp_end = new code::_jmp(iid_unknown);
                 code->add_instruction(jmp_end);
                 if_void->get_iid_ptr().set(code->get_current_iid());
-                code->add_instruction(new _pop());
-                code->add_instruction(new _undef());
+                code->add_instruction(new code::_pop());
+                code->add_instruction(new code::_undef());
                 jmp_end->get_iid_ptr().set(code->get_current_iid());
             }
             else
             {
                 ref->get_left()->accept(this);
                 int id = name_cache->get_id(ref->get_name());
-                code->add_instruction(new _read(id));
+                code->add_instruction(new code::_read(id));
             }
         }
 
         void generator::visit(pt::value_true *ref)
         {
-            code->add_instruction(new _true());
+            code->add_instruction(new code::_true());
         }
 
         void generator::visit(pt::value_false *ref)
         {
-            code->add_instruction(new _false());
+            code->add_instruction(new code::_false());
         }
 
         void generator::visit(pt::is_equal_to *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _eq());
+            code->add_instruction(new code::_eq());
         }
 
         void generator::visit(pt::is_not_equal_to *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _neq());
+            code->add_instruction(new code::_neq());
         }
 
         void generator::visit(pt::statement_while *ref)
         {
             add_frame(ref);
-            _sector *cycle = new _sector(iid_unknown(), iid_unknown());
+            code::_sector *cycle = new code::_sector(iid_unknown, iid_unknown);
             code->add_instruction(cycle);
-            iid_t iid_begin = code->get_current_iid();
+            code::iid_t iid_begin = code->get_current_iid();
             ref->get_expression()->accept(this);
-            code->add_instruction(new _bool());
-            _ifnot *if_not = new _ifnot(iid_unknown());
+            code->add_instruction(new code::_bool());
+            code::_ifnot *if_not = new code::_ifnot(iid_unknown);
             code->add_instruction(if_not);
             cycle->get_begin_ptr().set(code->get_current_iid());
             ref->get_statement()->accept(this);
-            code->add_instruction(new _jmp(iid_begin));
+            code->add_instruction(new code::_jmp(iid_begin));
             if_not->get_iid_ptr().set(code->get_current_iid());
-            code->add_instruction(new _leave());
+            code->add_instruction(new code::_leave());
             cycle->get_end_ptr().set(code->get_current_iid());
         }
 
@@ -476,31 +476,31 @@ namespace g0at
             ref->get_left()->accept(this);
             std::wstring name = ref->get_name();
             if (name == L"clone")
-                code->add_instruction(new _clone(args_count));
+                code->add_instruction(new code::_clone(args_count));
             else if (name == L"instanceof")
-                code->add_instruction(new _insof(args_count));
+                code->add_instruction(new code::_insof(args_count));
             else if (name == L"flat")
-                code->add_instruction(new _flat(args_count));
+                code->add_instruction(new code::_flat(args_count));
             else if (name == L"get")
-                code->add_instruction(new _get(args_count));
+                code->add_instruction(new code::_get(args_count));
             else if (name == L"set")
-                code->add_instruction(new _set(args_count));
+                code->add_instruction(new code::_set(args_count));
             else if (name == L"iterator")
-                code->add_instruction(new _iter(args_count));
+                code->add_instruction(new code::_iter(args_count));
             else if (name == L"valid")
-                code->add_instruction(new _valid(args_count));
+                code->add_instruction(new code::_valid(args_count));
             else if (name == L"next")
-                code->add_instruction(new _next(args_count));
+                code->add_instruction(new code::_next(args_count));
             else
             {
                 int id = name_cache->get_id(name);
-                code->add_instruction(new _vcall(id, args_count));
+                code->add_instruction(new code::_vcall(id, args_count));
             }
         }
 
         void generator::visit(pt::this_ptr *ref)
         {
-            code->add_instruction(new _this());
+            code->add_instruction(new code::_this());
         }
 
         void generator::visit(pt::node_array *ref)
@@ -511,7 +511,7 @@ namespace g0at
                 auto item = ref->get_object(i);
                 item->accept(this);
             }
-            code->add_instruction(new _array(count));
+            code->add_instruction(new code::_array(count));
         }
 
         void generator::visit(pt::statement_block *ref)
@@ -521,7 +521,7 @@ namespace g0at
 
             if (has_variables)
             {
-                code->add_instruction(new _enter());
+                code->add_instruction(new code::_enter());
             }
             for (int i = 0; i < code_size; i++)
             {
@@ -529,7 +529,7 @@ namespace g0at
             }
             if (has_variables)
             {
-                code->add_instruction(new _leave());
+                code->add_instruction(new code::_leave());
             }
         }
 
@@ -537,15 +537,15 @@ namespace g0at
         {
             add_frame(ref);
             ref->get_expression()->accept(this);
-            code->add_instruction(new _bool());
-            _ifnot *ifnot = new _ifnot(iid_unknown());
+            code->add_instruction(new code::_bool());
+            code::_ifnot *ifnot = new code::_ifnot(iid_unknown);
             code->add_instruction(ifnot);
             ref->get_stmt_if()->accept(this);
-            iid_ptr_t iid_ptr_end;
+            code::iid_ptr_t iid_ptr_end;
             auto stmt_else = ref->get_stmt_else();
             if (stmt_else)
             {
-                _jmp *jmp = new _jmp(iid_unknown());
+                code::_jmp *jmp = new code::_jmp(iid_unknown);
                 iid_ptr_end = jmp->get_iid_ptr();
                 code->add_instruction(jmp);
             }
@@ -564,11 +564,11 @@ namespace g0at
             if (expr)
             {
                 expr->accept(this);
-                code->add_instruction(new _throw());
+                code->add_instruction(new code::_throw());
             }
             else
             {
-                code->add_instruction(new _rethrow());
+                code->add_instruction(new code::_rethrow());
             }
         }
 
@@ -577,79 +577,79 @@ namespace g0at
             auto stmt_catch = ref->get_stmt_catch();
             auto stmt_finally = ref->get_stmt_finally();
 
-            iid_ptr_t iid_finally_ptr;
+            code::iid_ptr_t iid_finally_ptr;
 
             if (stmt_finally)
             {
-                _finally *instr_finally = new _finally(iid_unknown());
+                code::_finally *instr_finally = new code::_finally(iid_unknown);
                 iid_finally_ptr = instr_finally->get_iid_ptr();
                 code->add_instruction(instr_finally);
             }
 
             if (stmt_catch)
             {
-                _try *instr_try = new _try(iid_unknown());
-                iid_ptr_t iid_catch_ptr = instr_try->get_iid_ptr();
+                code::_try *instr_try = new code::_try(iid_unknown);
+                code::iid_ptr_t iid_catch_ptr = instr_try->get_iid_ptr();
                 code->add_instruction(instr_try);
                 ref->get_stmt_try()->accept(this);
-                _jmp *jmp_end = new _jmp(iid_unknown());
-                iid_ptr_t iid_end_ptr = jmp_end->get_iid_ptr();
+                code::_jmp *jmp_end = new code::_jmp(iid_unknown);
+                code::iid_ptr_t iid_end_ptr = jmp_end->get_iid_ptr();
                 code->add_instruction(jmp_end);
                 iid_catch_ptr.set(code->get_current_iid());
                 if (ref->has_var())
                 {
                     int id = name_cache->get_id(ref->get_var_name());
-                    code->add_instruction(new _catch(id));
+                    code->add_instruction(new code::_catch(id));
                 }
                 stmt_catch->accept(this);
                 iid_end_ptr.set(code->get_current_iid());
             }
             else
             {
-                code->add_instruction(new _enter());
+                code->add_instruction(new code::_enter());
                 ref->get_stmt_try()->accept(this);
             }
-            code->add_instruction(new _leave());
+            code->add_instruction(new code::_leave());
 
             if (stmt_finally)
             {
                 iid_finally_ptr.set(code->get_current_iid());
                 stmt_finally->accept(this);
-                code->add_instruction(new _leave());
+                code->add_instruction(new code::_leave());
             }
         }
 
         void generator::visit(pt::inheritance *ref)
         {
             ref->get_right()->accept(this);
-            code->add_instruction(new _clone(0));
+            code->add_instruction(new code::_clone(0));
             ref->get_left()->accept(this);
-            code->add_instruction(new _inherit());
+            code->add_instruction(new code::_inherit());
         }
 
         void generator::visit(pt::character *ref)
         {
-            code->add_instruction(new _char(ref->get_value()));
+            code->add_instruction(new code::_char(ref->get_value()));
         }
 
         void generator::visit(pt::statement_for *ref)
         {
             add_frame(ref);
-            _sector *cycle = new _sector(iid_unknown(), iid_unknown());
+            code::_sector *cycle = new code::_sector(iid_unknown, iid_unknown);
             code->add_instruction(cycle);
             auto stmt_init = ref->get_stmt_init();
             if (stmt_init)
             {
                 stmt_init->accept(this);
             }
-            iid_t iid_begin = code->get_current_iid();
-            _ifnot *if_not = nullptr;
+            code::iid_t iid_begin = code->get_current_iid();
+            code::_ifnot *if_not = nullptr;
             auto condition = ref->get_condition();
             if (condition)
             {
                 condition->accept(this);
-                code->add_instruction(new _bool());
-                if_not = new _ifnot(iid_unknown());
+                code->add_instruction(new code::_bool());
+                if_not = new code::_ifnot(iid_unknown);
                 code->add_instruction(if_not);
             }
             ref->get_body()->accept(this);
@@ -659,12 +659,12 @@ namespace g0at
             {
                 increment->accept(this);
             }
-            code->add_instruction(new _jmp(iid_begin));
+            code->add_instruction(new code::_jmp(iid_begin));
             if (condition)
             {
                 if_not->get_iid_ptr().set(code->get_current_iid());
             }
-            code->add_instruction(new _leave());
+            code->add_instruction(new code::_leave());
             cycle->get_end_ptr().set(code->get_current_iid());
         }
 
@@ -672,13 +672,13 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _less());
+            code->add_instruction(new code::_less());
         }
 
         void generator::visit(pt::statement_empty *ref)
         {
 #if 0
-            code->add_instruction(new _nop());
+            code->add_instruction(new code::_nop());
 #endif
         }
 
@@ -690,21 +690,21 @@ namespace g0at
                 ref->get_arg(i)->accept(this);
             }
             ref->get_proto()->accept(this);
-            code->add_instruction(new _new(args_count));
+            code->add_instruction(new code::_new(args_count));
         }
 
         void generator::visit(pt::prefix_increment *ref)
         {
             ref->get_right()->accept(this);
-            code->add_instruction(new _inc());
+            code->add_instruction(new code::_inc());
             ref->get_right()->accept(lgen.get());
         }
 
         void generator::visit(pt::statement_lock *ref)
         {
-            code->add_instruction(new _lock());
+            code->add_instruction(new code::_lock());
             ref->get_statement()->accept(this);
-            code->add_instruction(new _unlock());
+            code->add_instruction(new code::_unlock());
         }
 
         void generator::visit(pt::index_access *ref)
@@ -715,83 +715,83 @@ namespace g0at
                 ref->get_arg(i)->accept(this);
             }
             ref->get_object()->accept(this);
-            code->add_instruction(new _get(args_count));
+            code->add_instruction(new code::_get(args_count));
         }
 
         void generator::visit(pt::statement_for_in *ref)
         {
             add_frame(ref);
-            _sector *cycle = new _sector(iid_unknown(), iid_unknown());
+            code::_sector *cycle = new code::_sector(iid_unknown, iid_unknown);
             code->add_instruction(cycle);
             int name_id = name_cache->get_id(ref->get_name());
             if (ref->is_declared())
             {
-                code->add_instruction(new _undef());
-                code->add_instruction(new _var(name_id));
+                code->add_instruction(new code::_undef());
+                code->add_instruction(new code::_var(name_id));
             }
             ref->get_expression()->accept(this);
-            code->add_instruction(new _iter(0));
-            iid_t iid_begin = code->get_current_iid();
+            code->add_instruction(new code::_iter(0));
+            code::iid_t iid_begin = code->get_current_iid();
             cycle->get_begin_ptr().set(iid_begin);
-            code->add_instruction(new _dup());
-            code->add_instruction(new _valid(0));
-            _ifnot *if_not = new _ifnot(iid_unknown());
+            code->add_instruction(new code::_dup());
+            code->add_instruction(new code::_valid(0));
+            code::_ifnot *if_not = new code::_ifnot(iid_unknown);
             code->add_instruction(if_not);
-            code->add_instruction(new _dup());
-            code->add_instruction(new _next(0));
-            code->add_instruction(new _store(name_id));
-            code->add_instruction(new _pop());
+            code->add_instruction(new code::_dup());
+            code->add_instruction(new code::_next(0));
+            code->add_instruction(new code::_store(name_id));
+            code->add_instruction(new code::_pop());
             ref->get_body()->accept(this);
-            code->add_instruction(new _jmp(iid_begin));
+            code->add_instruction(new code::_jmp(iid_begin));
             if_not->get_iid_ptr().set(code->get_current_iid());
-            code->add_instruction(new _leave());
+            code->add_instruction(new code::_leave());
             cycle->get_end_ptr().set(code->get_current_iid());
         }
 
         void generator::visit(pt::statement_do_while *ref)
         {
-            _sector *cycle = new _sector(iid_unknown(), iid_unknown());
+            code::_sector *cycle = new code::_sector(iid_unknown, iid_unknown);
             code->add_instruction(cycle);
-            iid_t iid_begin = code->get_current_iid();
+            code::iid_t iid_begin = code->get_current_iid();
             cycle->get_begin_ptr().set(iid_begin);
             ref->get_statement()->accept(this);
             ref->get_expression()->accept(this);
-            code->add_instruction(new _bool());
-            code->add_instruction(new _if(iid_begin));
-            code->add_instruction(new _leave());
+            code->add_instruction(new code::_bool());
+            code->add_instruction(new code::_if(iid_begin));
+            code->add_instruction(new code::_leave());
             cycle->get_end_ptr().set(code->get_current_iid());
         }
 
         void generator::visit(pt::statement_break *ref)
         {
-            code->add_instruction(new _break());
+            code->add_instruction(new code::_break());
         }
 
         void generator::visit(pt::statement_continue *ref)
         {
-            code->add_instruction(new _cont());
+            code->add_instruction(new code::_cont());
         }
 
         void generator::visit(pt::statement_switch *ref)
         {
             add_frame(ref);
-            _sector *sector = new _sector(iid_unknown(), iid_unknown());
+            code::_sector *sector = new code::_sector(iid_unknown, iid_unknown);
             code->add_instruction(sector);
             ref->get_expression()->accept(this);
             int i;
             int blocks_count = ref->get_count();
-            iid_ptr_t *pointers = new iid_ptr_t[blocks_count];
+            code::iid_ptr_t *pointers = new code::iid_ptr_t[blocks_count];
             for (i = 0; i < blocks_count; i++)
             {
                 auto block = ref->get_block(i);
-                code->add_instruction(new _dup());
+                code->add_instruction(new code::_dup());
                 block->get_expression()->accept(this);
-                code->add_instruction(new _eq);
-                code::_if *jmp_if = new _if(iid_unknown());
+                code->add_instruction(new code::_eq);
+                code::_if *jmp_if = new code::_if(iid_unknown);
                 pointers[i] = jmp_if->get_iid_ptr();
                 code->add_instruction(jmp_if);
             }
-            code::_jmp *jmp_if_no_matches = new _jmp(iid_unknown());
+            code::_jmp *jmp_if_no_matches = new code::_jmp(iid_unknown);
             code->add_instruction(jmp_if_no_matches);
             for (int i = 0; i < blocks_count; i++)
             {
@@ -813,7 +813,7 @@ namespace g0at
                     block->get_statement(j)->accept(this);
                 }
             }
-            code->add_instruction(new _leave());
+            code->add_instruction(new code::_leave());
             sector->get_begin_ptr().set(code->get_current_iid());
             sector->get_end_ptr().set(code->get_current_iid());
             delete[] pointers;
@@ -822,166 +822,166 @@ namespace g0at
         void generator::visit(pt::suffix_increment *ref)
         {
             ref->get_left()->accept(this);
-            code->add_instruction(new _dup());
-            code->add_instruction(new _inc());
+            code->add_instruction(new code::_dup());
+            code->add_instruction(new code::_inc());
             ref->get_left()->accept(lgen.get());
-            code->add_instruction(new _pop());
+            code->add_instruction(new code::_pop());
         }
 
         void generator::visit(pt::prefix_decrement *ref)
         {
             ref->get_right()->accept(this);
-            code->add_instruction(new _dec());
+            code->add_instruction(new code::_dec());
             ref->get_right()->accept(lgen.get());
         }
 
         void generator::visit(pt::suffix_decrement *ref)
         {
             ref->get_left()->accept(this);
-            code->add_instruction(new _dup());
-            code->add_instruction(new _dec());
+            code->add_instruction(new code::_dup());
+            code->add_instruction(new code::_dec());
             ref->get_left()->accept(lgen.get());
-            code->add_instruction(new _pop());
+            code->add_instruction(new code::_pop());
         }
 
         void generator::visit(pt::multiplication *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _mul());
+            code->add_instruction(new code::_mul());
         }
 
         void generator::visit(pt::exponentiation *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _exp());
+            code->add_instruction(new code::_exp());
         }
 
         void generator::visit(pt::division *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _div());
+            code->add_instruction(new code::_div());
         }
 
         void generator::visit(pt::remainder *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _mod());
+            code->add_instruction(new code::_mod());
         }
 
         void generator::visit(pt::unary_plus *ref)
         {
             ref->get_right()->accept(this);
-            code->add_instruction(new _pos());
+            code->add_instruction(new code::_pos());
         }
 
         void generator::visit(pt::logical_not *ref)
         {
             ref->get_right()->accept(this);
-            code->add_instruction(new _not());
+            code->add_instruction(new code::_not());
         }
 
         void generator::visit(pt::bitwise_not *ref)
         {
             ref->get_right()->accept(this);
-            code->add_instruction(new _inv());
+            code->add_instruction(new code::_inv());
         }
 
         void generator::visit(pt::operator_bool *ref)
         {
             ref->get_right()->accept(this);
-            code->add_instruction(new _bool());
+            code->add_instruction(new code::_bool());
         }
 
         void generator::visit(pt::left_shift *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _shl());
+            code->add_instruction(new code::_shl());
         }
 
         void generator::visit(pt::signed_right_shift *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _shr());
+            code->add_instruction(new code::_shr());
         }
 
         void generator::visit(pt::zero_fill_right_shift *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _shrz());
+            code->add_instruction(new code::_shrz());
         }
 
         void generator::visit(pt::is_less_than_or_equal_to *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _leq());
+            code->add_instruction(new code::_leq());
         }
 
         void generator::visit(pt::is_greater_than *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _great());
+            code->add_instruction(new code::_great());
         }
 
         void generator::visit(pt::is_greater_than_or_equal_to *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _greq());
+            code->add_instruction(new code::_greq());
         }
 
         void generator::visit(pt::bitwise_and *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _bitand());
+            code->add_instruction(new code::_bitand());
         }
 
         void generator::visit(pt::bitwise_or *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _bitor());
+            code->add_instruction(new code::_bitor());
         }
 
         void generator::visit(pt::bitwise_xor *ref)
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _xor());
+            code->add_instruction(new code::_xor());
         }
 
         void generator::visit(pt::logical_and *ref)
         {
             ref->get_left()->accept(this);
-            code->add_instruction(new _dup());
-            code->add_instruction(new _bool());
-            code::_ifnot *if_false = new _ifnot(iid_unknown());
+            code->add_instruction(new code::_dup());
+            code->add_instruction(new code::_bool());
+            code::_ifnot *if_false = new code::_ifnot(iid_unknown);
             code->add_instruction(if_false);
             ref->get_right()->accept(this);
-            code->add_instruction(new _swap());
-            code->add_instruction(new _and());
+            code->add_instruction(new code::_swap());
+            code->add_instruction(new code::_and());
             if_false->get_iid_ptr().set(code->get_current_iid());
         }
 
         void generator::visit(pt::logical_or *ref)
         {
             ref->get_left()->accept(this);
-            code->add_instruction(new _dup());
-            code->add_instruction(new _bool());
-            code::_if *if_true = new code::_if(iid_unknown());
+            code->add_instruction(new code::_dup());
+            code->add_instruction(new code::_bool());
+            code::_if *if_true = new code::_if(iid_unknown);
             code->add_instruction(if_true);
             ref->get_right()->accept(this);
-            code->add_instruction(new _swap());
-            code->add_instruction(new _or());
+            code->add_instruction(new code::_swap());
+            code->add_instruction(new code::_or());
             if_true->get_iid_ptr().set(code->get_current_iid());
         }
 
@@ -989,7 +989,7 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _add());
+            code->add_instruction(new code::_add());
             ref->get_left()->accept(lgen.get());
         }
 
@@ -997,7 +997,7 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _sub());
+            code->add_instruction(new code::_sub());
             ref->get_left()->accept(lgen.get());
         }
 
@@ -1005,7 +1005,7 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _mul());
+            code->add_instruction(new code::_mul());
             ref->get_left()->accept(lgen.get());
         }
 
@@ -1013,7 +1013,7 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _div());
+            code->add_instruction(new code::_div());
             ref->get_left()->accept(lgen.get());
         }
 
@@ -1021,7 +1021,7 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _mod());
+            code->add_instruction(new code::_mod());
             ref->get_left()->accept(lgen.get());
         }
 
@@ -1029,7 +1029,7 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _shl());
+            code->add_instruction(new code::_shl());
             ref->get_left()->accept(lgen.get());
         }
 
@@ -1037,7 +1037,7 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _shr());
+            code->add_instruction(new code::_shr());
             ref->get_left()->accept(lgen.get());
         }
 
@@ -1045,7 +1045,7 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _shrz());
+            code->add_instruction(new code::_shrz());
             ref->get_left()->accept(lgen.get());
         }
 
@@ -1053,7 +1053,7 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _bitand());
+            code->add_instruction(new code::_bitand());
             ref->get_left()->accept(lgen.get());
         }
 
@@ -1061,7 +1061,7 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _bitor());
+            code->add_instruction(new code::_bitor());
             ref->get_left()->accept(lgen.get());
         }
 
@@ -1069,7 +1069,7 @@ namespace g0at
         {
             ref->get_right()->accept(this);
             ref->get_left()->accept(this);
-            code->add_instruction(new _xor());
+            code->add_instruction(new code::_xor());
             ref->get_left()->accept(lgen.get());
         }
 
@@ -1077,10 +1077,10 @@ namespace g0at
         {
             ref->get_condition()->accept(this);
             code->add_instruction(new code::_bool());
-            code::_if *if_true = new code::_if(iid_unknown());
+            code::_if *if_true = new code::_if(iid_unknown);
             code->add_instruction(if_true);
             ref->get_expr_false()->accept(this);
-            code::_jmp *jmp_end = new code::_jmp(iid_unknown());            
+            code::_jmp *jmp_end = new code::_jmp(iid_unknown);
             code->add_instruction(jmp_end);
             if_true->get_iid_ptr().set(code->get_current_iid());
             ref->get_expr_true()->accept(this);
@@ -1089,14 +1089,14 @@ namespace g0at
 
         void generator::visit(pt::statement_debug *ref)
         {
-            code->add_instruction(new _debug());
+            code->add_instruction(new code::_debug());
         }
 
         void generator::visit(pt::protection *ref)
         {
             ref->get_right()->accept(this);
-            code->add_instruction(new _clone(0));
-            code->add_instruction(new _protect());
+            code->add_instruction(new code::_clone(0));
+            code->add_instruction(new code::_protect());
         }
     };
 };
