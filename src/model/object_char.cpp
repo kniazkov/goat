@@ -135,7 +135,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (arg_count > 0)
@@ -219,7 +219,7 @@ namespace g0at
 
             object *to_object(variable *var, object_pool *pool) override
             {
-                object *obj = pool->create_object_char(var->data.b);
+                object *obj = pool->create_object_char(var->data.c);
                 var->set_object(obj);
                 return obj;
             }
