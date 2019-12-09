@@ -268,7 +268,7 @@ namespace g0at
                 : object_function_built_in(pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (mode != call_mode::as_method)
@@ -281,7 +281,7 @@ namespace g0at
                     thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
-                object *this_ptr = thr->peek().get_object();
+                object *this_ptr = thr->peek().to_object(thr->pool);
                 W::call(this_ptr, thr);
             }
         };
@@ -293,7 +293,7 @@ namespace g0at
                 : object_function_built_in(pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (mode != call_mode::as_method)
@@ -306,7 +306,7 @@ namespace g0at
                     thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return;
                 }
-                object *this_ptr = thr->peek().get_object();
+                object *this_ptr = thr->peek().to_object(thr->pool);
                 W::call(this_ptr, thr);
             }
         };
@@ -318,7 +318,7 @@ namespace g0at
                 : object_function_built_in(pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (mode != call_mode::as_method)
@@ -326,7 +326,7 @@ namespace g0at
                     thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
-                object *this_ptr = thr->peek().get_object();
+                object *this_ptr = thr->peek().to_object(thr->pool);
                 if (arg_count == 0)
                 {
                     W0::call(this_ptr, thr);

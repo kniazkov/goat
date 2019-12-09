@@ -95,9 +95,13 @@ namespace g0at
             for (wchar_t w : wstr)
             {
                 n = encode_utf8_char(w, tmp);
-                assert(n > 0);
-                for (i = 0; i < n; i++)
-                    ss << tmp[i];
+                if (n > 0)
+                {
+                    for (i = 0; i < n; i++)
+                        ss << tmp[i];
+                }
+                else
+                    ss << '?';
             }
             return ss.str();
         }
