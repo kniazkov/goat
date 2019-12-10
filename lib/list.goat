@@ -200,6 +200,24 @@ var List = Collection ->
         return item.element;;
     },
 
+    remove : $(item)
+    {
+        if (!item.instanceof(ListItem))
+            throw new Exception.IllegalArgument();
+
+        if (item.previous != null)
+            item.previous.next = item.next;
+        else
+            first = item.next;
+
+        if (item.next != null)
+            item.next.previous = item.previous;
+        else
+            last = item.previous;
+
+        count--;
+    },
+
     peekf : $()
     {
         return first?.element;
