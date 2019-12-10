@@ -1,0 +1,17 @@
+import "list.goat";
+
+var list = new List();
+for (var i = 0; i < 5; i++)
+    list.push(i);
+
+println(list.toArray());
+list.remove(list.find(2));
+println(list.toArray());
+list.remove(list.find(0));
+println(list.toArray());
+list.remove(list.find(4));
+println(list.toArray());
+list.remove(list.find(1));
+println(list.toArray());
+list.remove(list.find(3));
+println(list.toArray());
