@@ -119,6 +119,7 @@ namespace g0at
             object *get_exception_operator_not_found_proto_instance() { return exception_operator_not_found_proto_instance; }
             object *get_exception_is_not_a_function_proto_instance() { return exception_is_not_a_function_proto_instance; }
             object *get_exception_is_not_a_method_proto_instance() { return exception_is_not_a_method_proto_instance; }
+            object *get_exception_undeclared_variable_proto_instance() { return exception_undeclared_variable_proto_instance; }
 
             object *get_wrap_add_instance() { return wrap_add_instance; }
             object *get_wrap_sub_instance() { return wrap_sub_instance; }
@@ -220,6 +221,7 @@ namespace g0at
             object *exception_operator_not_found_proto_instance;
             object *exception_is_not_a_function_proto_instance;
             object *exception_is_not_a_method_proto_instance;
+            object *exception_undeclared_variable_proto_instance;
             
             object *wrap_add_instance;
             object *wrap_sub_instance;

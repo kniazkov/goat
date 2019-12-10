@@ -7,13 +7,15 @@ digraph graphname
     Object;
     
     Exception -> Object;
-    IllegalArgument -> Exception;
-    IllegalContext -> Exception;
     IllegalOperation -> Exception;
+    IllegalContext -> Exception;
+    IllegalArgument -> Exception;
     DivisionByZero -> IllegalOperation;
+    UndeclaredVariable -> IllegalOperation;
     IllegalReference -> IllegalOperation;
     IllegalType -> IllegalOperation;
     IsNotAFunction -> IllegalType;
     IsNotAMethod -> IllegalType;
     OperatorNotFound -> IllegalType;
+    {rank = same; UndeclaredVariable; IsNotAFunction; IsNotAMethod; OperatorNotFound;}
 }

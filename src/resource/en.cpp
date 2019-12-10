@@ -341,12 +341,23 @@ namespace g0at
 
             std::wstring is_not_a_function(std::wstring name) override
             {
-                return name + L" is not a function";
+                std::wstringstream wss;
+                wss << L'\'' << name << L"' is not a function";
+                return wss.str();
             }
 
             std::wstring is_not_a_method(std::wstring name) override
             {
-                return name + L" is not a method";
+                std::wstringstream wss;
+                wss << L'\'' << name << L"' is not a method";
+                return wss.str();
+            }
+
+            std::wstring undeclared_variable(std::wstring name) override
+            {
+                std::wstringstream wss;
+                wss << L"undeclared variable: '" << name << L'\'';
+                return wss.str();
             }
 
 

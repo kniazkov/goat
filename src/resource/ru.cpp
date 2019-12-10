@@ -342,16 +342,24 @@ namespace g0at
             std::wstring is_not_a_function(std::wstring name) override
             {
                 std::wstringstream wss;
-                wss << L"объект " << name << L" не может быть вызван как функция";
+                wss << L"объект '" << name << L"' не может быть вызван как функция";
                 return wss.str();
              }
 
             std::wstring is_not_a_method(std::wstring name) override
             {
                 std::wstringstream wss;
-                wss << L"объект " << name << L" не может быть вызван как метод";
+                wss << L"объект '" << name << L"' не может быть вызван как метод";
                 return wss.str();
             }
+
+            std::wstring undeclared_variable(std::wstring name) override
+            {
+                std::wstringstream wss;
+                wss << L"необъявленная переменная: '" << name << L'\'';
+                return wss.str();
+            }
+
 
 
             std::wstring setting_breakpoint_at(std::wstring position)

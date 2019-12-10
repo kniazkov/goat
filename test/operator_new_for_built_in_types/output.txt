@@ -73,7 +73,7 @@ illegal type
 illegal type
 operator '+' not found
 operator '+' not found
-func is not a function
-func is not a function
-method is not a method
-method is not a function
+'func' is not a function
+'func' is not a function
+'method' is not a method
+'method' is not a function

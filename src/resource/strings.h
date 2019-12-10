@@ -108,6 +108,7 @@ namespace g0at
         extern std::wstring str_IsNotAFunction;
         extern std::wstring str_IsNotAMethod;
         extern std::wstring str_OperatorNotFound;
+        extern std::wstring str_UndeclaredVariable;
 
         extern std::wstring str_READ;
         extern std::wstring str_WRITE;

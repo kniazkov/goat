@@ -106,6 +106,7 @@ namespace g0at
         std::wstring str_IsNotAFunction = L"IsNotAFunction";
         std::wstring str_IsNotAMethod = L"IsNotAMethod";
         std::wstring str_OperatorNotFound = L"OperatorNotFound";
+        std::wstring str_UndeclaredVariable = L"UndeclaredVariable";
 
         std::wstring str_READ = L"READ";
         std::wstring str_WRITE = L"WRITE";

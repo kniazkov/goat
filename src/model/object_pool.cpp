@@ -82,6 +82,7 @@ namespace g0at
             exception_operator_not_found_proto_instance = nullptr;
             exception_is_not_a_function_proto_instance = nullptr;
             exception_is_not_a_method_proto_instance = nullptr;
+            exception_undeclared_variable_proto_instance = nullptr;
             wrap_add_instance = nullptr;
             wrap_sub_instance = nullptr;
             wrap_pos_instance = nullptr;
@@ -228,6 +229,8 @@ namespace g0at
             exception_is_not_a_function_proto_instance = exception_is_not_a_function_proto;
             auto exception_is_not_a_method_proto = new object_exception_is_not_a_method_proto(this);
             exception_is_not_a_method_proto_instance = exception_is_not_a_method_proto;
+            auto exception_undeclared_variable_proto = new object_exception_undeclared_variable_proto(this);
+            exception_undeclared_variable_proto_instance = exception_undeclared_variable_proto;
             exception_proto->init(this);
             exception_illegal_argument_proto->init(this);
             exception_illegal_context_proto->init(this);
@@ -238,6 +241,7 @@ namespace g0at
             exception_operator_not_found_proto->init(this);
             exception_is_not_a_function_proto->init(this);
             exception_is_not_a_method_proto->init(this);
+            exception_undeclared_variable_proto->init(this);
         }
 
         void object_pool::add(object *item)

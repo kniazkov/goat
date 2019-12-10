@@ -95,6 +95,7 @@ namespace g0at
             virtual std::wstring operator_not_found(std::wstring oper) = 0;
             virtual std::wstring is_not_a_function(std::wstring name) = 0;
             virtual std::wstring is_not_a_method(std::wstring name) = 0;
+            virtual std::wstring undeclared_variable(std::wstring name) = 0;
 
             virtual std::wstring setting_breakpoint_at(std::wstring position) = 0;
             virtual std::wstring can_not_set_breakpoint() = 0;

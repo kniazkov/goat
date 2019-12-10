@@ -177,6 +177,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_DivisionByZero), pool->get_exception_division_by_zero_proto_instance());
             add_object(pool->get_static_string(resource::str_IllegalReference), pool->get_exception_illegal_reference_proto_instance());
             add_object(pool->get_static_string(resource::str_IllegalType), pool->get_exception_illegal_type_proto_instance());
+            add_object(pool->get_static_string(resource::str_UndeclaredVariable), pool->get_exception_undeclared_variable_proto_instance());
             lock();
         }
 
@@ -454,6 +455,55 @@ namespace g0at
         std::wstring object_exception_is_not_a_method::to_string() const
         {
             return global::resource->is_not_a_method(name);
+        }
+
+        /*
+            UndeclaredVariable
+        */
+        object_exception_undeclared_variable_proto::object_exception_undeclared_variable_proto(object_pool *pool)
+            : object(pool, pool->get_exception_illegal_operation_proto_instance())
+        {
+        }
+
+        std::wstring object_exception_undeclared_variable_proto::to_string() const
+        {
+            return global::resource->illegal_operation();
+        }
+
+        void object_exception_undeclared_variable_proto::init(object_pool *pool)
+        {
+            lock();
+        }
+
+        void object_exception_undeclared_variable_proto::op_new(thread *thr, int arg_count)
+        {
+            if (arg_count > 0)
+            {
+                object *arg = thr->peek().get_object();
+                if (arg)
+                {
+                    object_string *arg_string = arg->to_object_string();
+                    if (arg_string)
+                    {
+                        thr->pop(arg_count);
+                        variable result;
+                        result.set_object(new object_exception_undeclared_variable(thr->pool, arg_string->get_data()));
+                        thr->push(result);
+                        return;
+                    }
+                }
+            }
+            thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+        }
+
+        object_exception_undeclared_variable::object_exception_undeclared_variable(object_pool *pool, std::wstring _name)
+            : object(pool, pool->get_exception_undeclared_variable_proto_instance()), name(_name)
+        {
+        }
+
+        std::wstring object_exception_undeclared_variable::to_string() const
+        {
+            return global::resource->undeclared_variable(name);
         }
     };
 };

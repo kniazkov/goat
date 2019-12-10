@@ -2656,6 +2656,10 @@
                         <c>Division by zero, <c>print(1 / 0);</c></c>
                     </r>
                     <r>
+                        <c><c>Exception.IllegalOperation.UndeclaredVariable</c></c>
+                        <c>Attempt to assign a value to an undeclared variable</c>
+                    </r>
+                    <r>
                         <c><c>Exception.IllegalReference</c></c>
                         <c>Attempt to write or read a non-existent object (<c>undefined</c> or <c>null</c>)</c>
                     </r>

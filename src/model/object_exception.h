@@ -41,6 +41,7 @@ namespace g0at
                         IsNotAFunction
                         IsNotAMethod
                         OperatorNotFound
+                    UndeclaredVariable
         */
 
         class object_exception : public object
@@ -227,6 +228,26 @@ namespace g0at
         {
         public:
             object_exception_is_not_a_method(object_pool *pool, std::wstring _name);
+            std::wstring to_string() const override;
+        protected:
+            std::wstring name;
+        };
+
+        class object_exception_undeclared_variable_proto : public object
+        {
+        friend class object_pool;
+        protected:
+            object_exception_undeclared_variable_proto(object_pool *pool);
+            void init(object_pool *pool);
+            std::wstring to_string() const override;
+        public:
+            void op_new(thread *thr, int arg_count) override;
+        };
+
+        class object_exception_undeclared_variable : public object
+        {
+        public:
+            object_exception_undeclared_variable(object_pool *pool, std::wstring _name);
             std::wstring to_string() const override;
         protected:
             std::wstring name;
