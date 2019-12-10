@@ -1,0 +1,10 @@
+import "list.goat";
+
+var list = new List();
+for (var i = 0; i < 10; i++)
+    list.push(i);
+
+list.insertAfter('#', list.find(5));
+list.insertAfter('$', null);
+list.insertAfter('@', list.find(9));
+println(list.toArray());
