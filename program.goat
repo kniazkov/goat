@@ -4,8 +4,7 @@ var list = new List();
 for (var i = 0; i < 10; i++)
     list.push(i);
 
-list.insertBefore('#', list.find(5));
-list.insertBefore('$', null);
-list.insertBefore('@', list.find(0));
+list.insertAfter('#', list.find(5));
+list.insertAfter('$', null);
+list.insertAfter('@', list.find(9));
 println(list.toArray());
-

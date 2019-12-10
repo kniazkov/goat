@@ -140,6 +140,28 @@ var List = Collection ->
         return item;
     },
 
+    insertAfter : $(element, after)
+    {
+        if (!after)
+            return this.addFirst(element);
+
+        if (!after.instanceof(ListItem))
+            throw new Exception.IllegalArgument();
+
+        var item = new ListItem();
+        item.element = element;
+        item.next = after.next;
+        item.previous = after;
+
+        if (after.next != null)
+            after.next.previous = item;
+        else
+            last = item;
+        after.next = item;
+        count++;
+        return item;
+    },
+
     popf : $()
     {
         return this.removeFirst();
