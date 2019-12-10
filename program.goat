@@ -1,8 +1,11 @@
 import "list.goat";
 
 var list = new List();
-println(list.empty());
-list.push(0);
-println(list.empty());
-list.pop();
-println(list.empty());
+for (var i = 0; i < 10; i++)
+    list.push(i);
+
+list.insertBefore('#', list.find(5));
+list.insertBefore('$', null);
+list.insertBefore('@', list.find(0));
+println(list.toArray());
+

@@ -45,16 +45,21 @@ var List = Collection ->
         return count == 0;
     },
 
-    contains : $(element)
+    find : $(element)
     {
         var item = first;
         while(item)
         {
             if (element == item.element)
-                return true;
+                return item;
             item = item.next;
         }
-        return false;
+        return null;
+    },
+
+    contains : $(element)
+    {
+	return !!this.find(element);
     },
 
     indexOf : $(element)
@@ -113,6 +118,28 @@ var List = Collection ->
         return item;
     },
 
+    insertBefore : $(element, before)
+    {
+        if (!before)
+            return this.addLast(element);
+
+        if (!before.instanceof(ListItem))
+            throw new Exception.IllegalArgument();
+
+        var item = new ListItem();
+        item.element = element;
+        item.previous = before.previous;
+        item.next = before;
+
+        if (before.previous != null)
+            before.previous.next = item;
+        else
+            first = item;
+        before.previos = item;
+        count++;
+        return item;
+    },
+
     popf : $()
     {
         return this.removeFirst();
@@ -166,7 +193,7 @@ var List = Collection ->
         return last?.element;
     },
 
-    getFirst : $()
+    getLast : $()
     {
         return last?.element;
     },
