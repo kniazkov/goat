@@ -146,6 +146,26 @@ var List = Collection ->
         return item.element;;
     },
 
+    peekf : $()
+    {
+        return first?.element;
+    },
+
+    getFirst : $()
+    {
+        return first?.element;
+    },
+
+    peek : $()
+    {
+        return last?.element;
+    },
+
+    getFirst : $()
+    {
+        return last?.element;
+    },
+
     iterator : $()
     {
         return new _Iterator(this, first);
