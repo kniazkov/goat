@@ -40,6 +40,11 @@ var List = Collection ->
         return count;
     },
 
+    empty : $()
+    {
+        return count == 0;
+    },
+
     contains : $(element)
     {
         var item = first;
