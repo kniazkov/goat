@@ -1,0 +1,10 @@
+try
+{
+    abc = "test";
+}
+catch(e)
+{
+    if (e.instanceof(Exception.IllegalOperation.UndeclaredVariable))
+        println("it works.");
+    println("> " + e);
+}
