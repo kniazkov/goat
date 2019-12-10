@@ -1,0 +1,12 @@
+import "list.goat";
+
+var list = new List();
+for (var i = 0; i < 5; i++)
+    list.push(i);
+
+var list2 = new List(list);
+println(list2.toArray());
+
+var list3 = new List(['a', true, null]);
+println(list3.toArray());
+
