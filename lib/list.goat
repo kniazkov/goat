@@ -36,42 +36,42 @@ var List = Collection ->
         return count;
     },
 
-    pushf : $(item)
+    pushf : $(element)
     {
-        this.addFirst(item);
+        this.addFirst(element);
     },
 
-    addFirst : $(item)
+    addFirst : $(element)
     {
-        item[this] =
+	var item =
         {
-            list : this,
+            element : element,
             previous : null,
             next : first
         };
         if (first != null)
-            first[this].previous = item;
+            first.previous = item;
         else
             last = item;
         first = item;
         count++;
     },
 
-    push : $(item)
+    push : $(element)
     {
-        this.addLast(item);
+        this.addLast(element);
     },
 
-    addLast : $(item)
+    addLast : $(element)
     {
-        item[this] =
+        var item =
         {
-            list : this,
+            element : element,
             previous : last,
             next : null
         };
         if (last != null)
-            last[this].next = item;
+            last.next = item;
         else
             first = item;
         last = item;
@@ -90,12 +90,11 @@ var List = Collection ->
         count--;
         var item = first;
         if (count != 0)
-            item[this].next[this].previous = null;
+            item.next.previous = null;
         else
             last = null;
-        first = item[this].next;
-        item[this].next = null;
-        return item;
+        first = item.next;
+        return item.element;
     },
 
     pop : $()
@@ -110,12 +109,11 @@ var List = Collection ->
         count--;
         var item = last;
         if (count != 0)
-            item[this].previous[this].next = null;
+            item.previous.next = null;
         else
             first = null;
-        last = item[this].previous;
-        item[this].previous = null;
-        return item;
+        last = item.previous;
+        return item.element;;
     },
 
     iterator : $()
@@ -140,9 +138,9 @@ var List = Collection ->
         {
             if (item == null)
                 return undefined;
-            var value = item;
-            item = item[list].next;
-            return value;
+            var element = item.element;
+            item = item.next;
+            return element;
         }
     }
 };
