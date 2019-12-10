@@ -22,8 +22,12 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 import "collection.goat";
 
+var ListItem =
+# {
+};
+
 var List = Collection ->
-{
+# {
     init : $()
     {
         this.first = null;
@@ -64,44 +68,44 @@ var List = Collection ->
 
     pushf : $(element)
     {
-        this.addFirst(element);
+        return this.addFirst(element);
     },
 
     addFirst : $(element)
     {
-	var item =
-        {
-            element : element,
-            previous : null,
-            next : first
-        };
+	var item = new ListItem();
+        item.element = element;
+        item.previous = null;
+        item.next = first;
+
         if (first != null)
             first.previous = item;
         else
             last = item;
         first = item;
         count++;
+        return item;
     },
 
     push : $(element)
     {
-        this.addLast(element);
+        return this.addLast(element);
     },
 
     addLast : $(element)
     {
-        var item =
-        {
-            element : element,
-            previous : last,
-            next : null
-        };
+        var item = new ListItem();
+        item.element = element;
+        item.previous = last;
+        item.next = null;
+        
         if (last != null)
             last.next = item;
         else
             first = item;
         last = item;
         count++;
+        return item;
     },
 
     popf : $()
