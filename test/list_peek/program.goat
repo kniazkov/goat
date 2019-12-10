@@ -1,0 +1,13 @@
+import "list.goat";
+
+var list = new List();
+println(list.peekf());
+println(list.peek());
+list.push(0);
+list.push(true);
+list.push("test");
+list.push(null);
+println(list.peekf());
+println(list.peekf());
+println(list.peek());
+println(list.peek());
