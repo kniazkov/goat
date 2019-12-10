@@ -48,6 +48,20 @@ var List = Collection ->
         return false;
     },
 
+    indexOf : $(element)
+    {
+        var index = 0;
+        var item = first;
+        while(item)
+        {
+            if (element == item.element)
+                return index;
+            item = item.next;
+            ++index;
+        }
+        return -1;
+    },
+
     pushf : $(element)
     {
         this.addFirst(element);
