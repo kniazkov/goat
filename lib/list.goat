@@ -26,7 +26,6 @@ var List = Collection ->
 {
     init : $()
     {
-        this.id = uid();
         this.first = null;
         this.last = null;
         this.count = 0;
@@ -37,78 +36,98 @@ var List = Collection ->
         return count;
     },
 
-    push : $(item)
-    {
-        item[id] =
-        {
-            list : this,
-            previous : last,
-            next : null
-        };
-        if (last != null)
-            last[id].next = item;
-        else
-            first = item;
-        last = item;
-        count++;
-    },
-
     pushf : $(item)
     {
-        item[id] =
+        this.addFirst(item);
+    },
+
+    addFirst : $(item)
+    {
+        item[this] =
         {
             list : this,
             previous : null,
             next : first
         };
         if (first != null)
-            first[id].previous = item;
+            first[this].previous = item;
         else
             last = item;
         first = item;
         count++;
     },
 
-    pop : $()
+    push : $(item)
     {
-        if (last == null)
-            return undefined;
-        count--;
-        var item = last;
-        if (count != 0)
-            item[id].previous[id].next = null;
+        this.addLast(item);
+    },
+
+    addLast : $(item)
+    {
+        item[this] =
+        {
+            list : this,
+            previous : last,
+            next : null
+        };
+        if (last != null)
+            last[this].next = item;
         else
-            first = null;
-        last = item[id].previous;
-        item[id].previous = null;
-        return item;
+            first = item;
+        last = item;
+        count++;
     },
 
     popf : $()
+    {
+        return this.removeFirst();
+    },
+
+    removeFirst : $()
     {
         if (first == null)
             return undefined;
         count--;
         var item = first;
         if (count != 0)
-            item[id].next[id].previous = null;
+            item[this].next[this].previous = null;
         else
             last = null;
-        first = item[id].next;
-        item[id].next = null;
+        first = item[this].next;
+        item[this].next = null;
+        return item;
+    },
+
+    pop : $()
+    {
+        return this.removeLast();
+    },
+
+    removeLast : $()
+    {
+        if (last == null)
+            return undefined;
+        count--;
+        var item = last;
+        if (count != 0)
+            item[this].previous[this].next = null;
+        else
+            first = null;
+        last = item[this].previous;
+        item[this].previous = null;
         return item;
     },
 
     iterator : $()
     {
-        return new _Iterator(id, first);
+        return new _Iterator(this, first);
     },
 
     _Iterator : Iterator ->
     {
-        init : $(id, item)
+        init : $(list, item)
         {
-            this.id = id;
+            this.list = list;
             this.item = item;
         },
 
@@ -122,7 +141,7 @@ var List = Collection ->
             if (item == null)
                 return undefined;
             var value = item;
-            item = item[id].next;
+            item = item[list].next;
             return value;
         }
     }
