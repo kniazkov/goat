@@ -213,7 +213,7 @@ namespace g0at
                 if (index.get_integer(&int_index))
                 {
                     thr->pop();
-                    variable value = thr->peek(arg_count - 1);
+                    variable value = thr->peek(arg_count - 1).deref();
                     thr->pop(arg_count);
                     if (int_index >= 0 && int_index < INT32_MAX)
                     {
