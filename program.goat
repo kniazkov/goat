@@ -1,10 +1,8 @@
-try
-{
-    abc = "test";
-}
-catch(e)
-{
-    if (e.instanceof(Exception.IllegalOperation.UndeclaredVariable))
-        println("it works.");
-    println("> " + e);
-}
+import "list.goat";
+
+var list = new List();
+list.push(0);
+list.push(true);
+list.push("test");
+list.push(null);
+println(list.indexOf("test"));

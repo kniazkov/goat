@@ -57,6 +57,18 @@ var Collection =
         return false;
     },
 
+    indexOf : $(element)
+    {
+        var index = 0;
+        for (var item in this)
+        {
+            if (element == item)
+                return index;
+            ++index;
+        }
+        return -1;        
+    },
+
     get : $(index)
     {
         if (index < 0 || index >= this.size())

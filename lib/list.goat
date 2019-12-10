@@ -36,6 +36,18 @@ var List = Collection ->
         return count;
     },
 
+    contains : $(element)
+    {
+        var item = first;
+        while(item)
+        {
+            if (element == item.element)
+                return true;
+            item = item.next;
+        }
+        return false;
+    },
+
     pushf : $(element)
     {
         this.addFirst(element);
