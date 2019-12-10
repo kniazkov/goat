@@ -1,0 +1,8 @@
+import "list.goat";
+
+var list = new List();
+list.push(0);
+list.push(1);
+list.push(2);
+println(list.contains(1));
+println(list.contains(4));
