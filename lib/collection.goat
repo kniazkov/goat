@@ -47,6 +47,16 @@ var Collection =
         };
     },
 
+    contains : $(element)
+    {
+        for (var item in this)
+        {
+            if (element == item)
+                return true;
+        }
+        return false;
+    },
+
     get : $(index)
     {
         if (index < 0 || index >= this.size())

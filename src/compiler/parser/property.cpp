@@ -79,10 +79,10 @@ namespace g0at
                     if (!ident)
                         throw expected_an_identifier_after_dot(tok->get_fragment().end);
                     lib::pointer<ast::expression> prop = new ast::property(left, ident, guard);
-                    left->remove();
                     left->remove_2nd();
-                    tok->remove();
+                    left->remove();
                     tok->remove_2nd();
+                    tok->remove();
                     index_access->set_expression(prop);
                 }
                 else
