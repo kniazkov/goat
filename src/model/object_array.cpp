@@ -243,6 +243,20 @@ namespace g0at
             }
         }
 
+        void object_array::m_clone(thread *thr, int arg_count)
+        {
+            thr->pop();
+            thr->pop(arg_count);
+            auto obj = thr->pool->create_object_array();
+            for (auto item : vector)
+            {
+                obj->add_item(item);
+            }
+            variable result;
+            result.set_object(obj);
+            thr->push(result);
+        }
+
         void object_array::m_iterator(thread *thr, int arg_count)
         {
             thr->pop();
@@ -406,3 +420,4 @@ namespace g0at
         }
     };
 };
+

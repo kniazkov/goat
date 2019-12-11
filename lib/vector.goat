@@ -1,0 +1,150 @@
+/*
+
+Copyright (C) 17..19 Ivan Kniazkov
+
+This file is part of standard library for programming language
+codenamed "Goat" ("Goat standard library").
+
+Goat standard library is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat standard library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+import "collection.goat";
+
+var Vector = Collection ->
+# {
+    init : $(data)
+    {
+        if (data.instanceof(Collection))
+        {
+             this.data = [];
+             for (var element in data)
+                 this.data.push(element);
+             this.length = this.data.length();
+        }
+        else if (data.instanceof(Array))
+        {
+             this.data = data.clone();
+             this.length = this.data.length();
+        }
+        else
+        {
+             this.data = [];
+             this.length = 0;
+        }
+    },
+
+    size : $()
+    {
+        return length;
+    },
+
+    empty : $()
+    {
+        return length == 0;
+    },
+
+    contains : $(element)
+    {
+    },
+
+    indexOf : $(element)
+    {
+    },
+
+    pushf : $(element)
+    {
+        return this.addFirst(element);
+    },
+
+    addFirst : $(element)
+    {
+    },
+
+    push : $(element)
+    {
+        return this.addLast(element);
+    },
+
+    addLast : $(element)
+    {
+    },
+
+    popf : $()
+    {
+        return this.removeFirst();
+    },
+
+    removeFirst : $()
+    {
+    },
+
+    pop : $()
+    {
+        return this.removeLast();
+    },
+
+    removeLast : $()
+    {
+    },
+
+    remove : $(index)
+    {
+    },
+
+    peekf : $()
+    {
+    },
+
+    getFirst : $()
+    {
+    },
+
+    peek : $()
+    {
+    },
+
+    getLast : $()
+    {
+    },
+
+    iterator : $()
+    {
+        return new _Iterator(data, length);
+    },
+
+    _Iterator : Iterator ->
+    {
+        init : $(data, length)
+        {
+            this.data = data;
+            this.index = 0;
+            this.maxIndex = length;
+        },
+
+        valid : $()
+        {
+            return index < maxIndex;
+        },
+
+        next : $()
+        {
+            if (index >= maxIndex)
+                return undefined;
+            var element = data[index];
+            ++index;
+            return element;
+        }
+    }
+};
