@@ -21,11 +21,11 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 var IndexOutOfBounds = Exception ->
-{
+# {
 };
 
 var Collection =
-{
+# {
     size : $()
     {
         return 0;
@@ -101,7 +101,7 @@ var Collection =
 };
 
 var MutableCollection = Collection ->
-{
+# {
     clear : $()
     {
         return false;

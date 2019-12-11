@@ -62,10 +62,17 @@ var Vector = Collection ->
 
     contains : $(element)
     {
+        return this.indexOf(element) >= 0;
     },
 
     indexOf : $(element)
     {
+        for (var i = 0; i < length; i++)
+        {
+            if (element == data[i])
+                return i;
+        }
+        return -1;
     },
 
     pushf : $(element)
