@@ -114,6 +114,7 @@ var Vector = Collection ->
 
     removeLast : $()
     {
+        return length > 0 ? data[--length] : undefined;
     },
 
     remove : $(index)
