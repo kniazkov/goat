@@ -1,0 +1,11 @@
+import "vector.goat";
+
+var vec = new Vector();
+vec.push('a');
+vec.push("test");
+vec.push(true);
+
+while(!vec.empty())
+{
+    println(vec.pop());
+}
