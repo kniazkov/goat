@@ -7,5 +7,5 @@ vec.push(true);
 
 while(!vec.empty())
 {
-    println(vec.pop());
+    println(vec.popf());
 }

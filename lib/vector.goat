@@ -100,11 +100,12 @@ var Vector = Collection ->
 
     popf : $()
     {
-        return this.removeFirst();
+        return this.remove(0);
     },
 
     removeFirst : $()
     {
+        return this.remove(0);
     },
 
     pop : $()
@@ -119,6 +120,17 @@ var Vector = Collection ->
 
     remove : $(index)
     {
+        if (!index.instanceof(Integer))
+            throw new Exception.IllegalArgument();
+
+        if (index < 0 || index >= length)
+            return undefined;
+
+        var element = data[index];
+        for (var k = index + 1; k < length; k++)
+            data[k - 1] = data[k];
+        --length;
+        return element;
     },
 
     peekf : $()
