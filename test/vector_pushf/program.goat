@@ -1,0 +1,22 @@
+import "vector.goat";
+
+var vec;
+
+vec = new Vector();
+vec.pushf(1);
+vec.pushf(2);
+vec.pushf(3);
+println(vec.toArray());
+
+vec = new Vector([1,2,3]);
+vec.pushf(4);
+vec.pushf(5);
+vec.pushf(6);
+println(vec.toArray());
+
+vec = new Vector([1,2,3]);
+vec.clear();
+vec.pushf(1);
+vec.pushf(2);
+vec.pushf(3);
+println(vec.toArray());
