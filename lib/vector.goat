@@ -55,6 +55,11 @@ var Vector = Collection ->
         return length == 0;
     },
 
+    clear : $()
+    {
+        length = 0;
+    },
+
     contains : $(element)
     {
     },
@@ -74,11 +79,12 @@ var Vector = Collection ->
 
     push : $(element)
     {
-        return this.addLast(element);
+        data[length++] = element;
     },
 
     addLast : $(element)
     {
+        data[length++] = element;
     },
 
     popf : $()

@@ -22,7 +22,7 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 import "collection.goat";
 
-var List = Collection ->
+var List = MutableCollection ->
 # {
     init : $(data)
     {
@@ -47,6 +47,13 @@ var List = Collection ->
     empty : $()
     {
         return count == 0;
+    },
+
+    clear : $()
+    {
+        first = null;
+        last = null;
+        count = 0;
     },
 
     find : $(element)
