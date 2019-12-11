@@ -1,0 +1,15 @@
+import "list.goat";
+import "vector.goat";
+
+var list = new List();
+for (var i = 0; i < 5; i++)
+    list.push(i);
+
+var vec = new Vector(list);
+println(vec.toArray());
+
+var data = ['a', 'b', 'c'];
+var vec2 = new Vector(data);
+data[1] = '#';
+println(data);
+println(vec2.toArray());
