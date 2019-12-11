@@ -1,0 +1,10 @@
+import "vector.goat";
+
+var vec = new Vector();
+vec.push('a');
+vec.push("test");
+vec.push(true);
+println(vec.indexOf("test"));
+println(vec.indexOf("value"));
+println(vec.contains("test"));
+println(vec.contains("value"));
