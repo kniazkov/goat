@@ -75,6 +75,10 @@ var Vector = Collection ->
 
     addFirst : $(element)
     {
+        for(var i = length - 1; i >= 0; i--)
+            data[i + 1] = data[i];
+        data[0] = element;
+        ++length;
     },
 
     push : $(element)
