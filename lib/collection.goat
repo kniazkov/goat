@@ -110,6 +110,11 @@ var MutableCollection = Collection ->
     add : $(element)
     {
         return false;
+    },
+
+    delete : $(element)
+    {
+        return false;
     }
 };
 

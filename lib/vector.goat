@@ -139,6 +139,17 @@ var Vector = MutableCollection ->
         return element;
     },
 
+    delete : $(element)
+    {
+        var index = this.indexOf(element);
+        if (index >= 0)
+        {
+            this.remove(index);
+            return true;
+        }
+        return false;
+    },
+
     peekf : $()
     {
         return length > 0 ? data[0] : undefined;

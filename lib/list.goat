@@ -235,6 +235,17 @@ var List = MutableCollection ->
         count--;
     },
 
+    delete : $(element)
+    {
+        var item = this.find(element);
+        if (item)
+        {
+            this.remove(item);
+            return true;
+        }
+        return false;
+    },
+
     peekf : $()
     {
         return first?.element;
