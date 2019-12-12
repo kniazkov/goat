@@ -1,0 +1,11 @@
+import "stack.goat";
+
+var s = new Stack();
+s.push(1);
+s.push(2);
+s.push(3);
+
+println(s.toArray());
+
+while(!s.empty())
+    println(s.pop());
