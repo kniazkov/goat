@@ -153,6 +153,23 @@ var Vector = Collection ->
         return data[length - 1];
     },
 
+    get : $(index)
+    {
+        if (index < 0 || index >= length)
+            throw new IndexOutOfBounds();
+
+        return data[index];
+    },
+
+    set : $(index, value)
+    {
+        if (index < 0 || index >= length)
+            throw new IndexOutOfBounds();
+
+        data[index] = value;
+        return value;
+    },
+
     iterator : $()
     {
         return new _Iterator(data, length);
