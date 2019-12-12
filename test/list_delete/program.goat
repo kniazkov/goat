@@ -1,0 +1,13 @@
+import "list.goat";
+
+var f = $(c, e)
+{
+    if (c.instanceof(MutableCollection))
+        c.delete(e); 
+};
+
+var l = new List([0,1,2,3,4,5]);
+f(l, 0);
+f(l, 2);
+f(l, 5);
+println(l.toArray());
