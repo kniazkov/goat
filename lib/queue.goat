@@ -1,0 +1,178 @@
+/*
+
+Copyright (C) 17..19 Ivan Kniazkov
+
+This file is part of standard library for programming language
+codenamed "Goat" ("Goat standard library").
+
+Goat standard library is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat standard library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+import "collection.goat";
+
+var Queue = MutableCollection ->
+# {
+    init : $(data)
+    {
+        this.head = null;
+        this.tail = null;
+        this.count = 0;
+        
+        if (data.instanceof(Collection) || data.instanceof(Array))
+        {
+            for (var element in data)
+                this.push(element);
+        }
+    },
+
+    size : $()
+    {
+        return count;
+    },
+
+    empty : $()
+    {
+        return count == 0;
+    },
+
+    clear : $()
+    {
+        head = null;
+        tail = null;
+        count = 0;
+    },
+
+    contains : $(element)
+    {
+        var item = head;
+        while (item != null)
+        {
+            if (element == item.element)
+                return true;
+            item = item.next;
+        }
+        return false;
+    },
+
+    indexOf : $(element)
+    {
+        var item = head;
+        var index = 0;
+        while (item != null)
+        {
+            if (element == item.element)
+                return index;
+            item = item.next;
+            ++index;
+        }
+        return -1;
+    },
+
+    add : $(element)
+    {
+        this.push(element);
+        return true;
+    },
+
+    push : $(element)
+    {
+        var item =
+        {
+            element : element,
+            next : null
+        };
+        if (tail != null)
+            tail.next = item;
+        else
+            head = item;
+        tail = item;
+        ++count;
+    },
+
+    pop : $()
+    {
+        if (!head)
+            return undefined;
+
+        var element = head.element;
+        head = head.next;
+        if (head == null)
+            tail = null;
+        --count;
+        return element;
+    },
+
+    delete : $(element)
+    {
+        var item = head;
+        var previous = null;
+        
+        while(item != null)
+        {
+            if (element == item.element)
+            {
+                if (previous != null)
+                {
+                    previous.next = item.next;
+                    if (item.next == null)
+                        tail = previous;
+                }
+                else
+                {
+                    head = item.next;
+                    if (head == null)
+                        tail = null;
+                }
+                return true;
+            }
+            previous = item;
+            item = item.next;
+        }
+
+        return false;
+    },
+
+    peek : $()
+    {
+        return head?.element;
+    },
+
+    iterator : $()
+    {
+        return new _Iterator(head);
+    },
+
+    _Iterator : Iterator ->
+    {
+        init : $(item)
+        {
+            this.item = item;
+        },
+
+        valid : $()
+        {
+            return item != null;
+        },
+
+        next : $()
+        {
+            if (item == null)
+                return undefined;
+            var element = item.element;
+            item = item.next;
+            return element;
+        }
+    }
+};

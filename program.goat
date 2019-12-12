@@ -1,8 +1,14 @@
-import "stack.goat";
+import "queue.goat";
 
-var s = new Stack([1,2,3,4,5]);
-println(s.delete(5));
-println(s.delete(1));
-println(s.delete(3));
-println(s.delete(9));
-println(s.toArray());
+var q = new Queue();
+
+println(q.empty());
+
+q.push(1);
+q.push(2);
+q.push(3);
+
+println(q.size());
+println(q.toArray());
+while (!q.empty())
+    println(q.pop());
