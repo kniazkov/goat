@@ -119,6 +119,7 @@ var Stack = MutableCollection ->
                     previous.next = item.next;
                 else
                     top = item.next;
+                --count;
                 return true;
             }
             previous = item;

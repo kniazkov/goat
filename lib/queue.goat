@@ -135,6 +135,7 @@ var Queue = MutableCollection ->
                     if (head == null)
                         tail = null;
                 }
+                --count;
                 return true;
             }
             previous = item;
