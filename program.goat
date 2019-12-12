@@ -1,12 +1,12 @@
-import "queue.goat";
+import "map.goat";
 
-var q = new Queue([0,1,2,3,4,5]);
+var m = new Map();
 
-println(q.delete(0));
-println(q.delete(3));
-println(q.delete(5));
-println(q.delete(6));
-println(q.peek());
-while (!q.empty())
-    println(q.pop());
-println(q.peek());
+m["one"] = 1;
+m["two"] = 2;
+m["three"] = 3;
+
+println(m.size());
+println(m["one"]);
+println(m["two"]);
+println(m["three"]);

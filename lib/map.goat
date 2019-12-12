@@ -64,12 +64,22 @@ var Map = MutableCollection ->
 
     set : $(key, value)
     {
-
+        var item = data[key];
+        if (item)
+        {
+            item.element = value;
+        }
+        else
+        {
+	    data[key] = { element: value };
+	    count++;
+	}
     },
 
     get : $(key)
     {
-
+	var item = data[key];
+	return item?.element;
     },
 
     delete : $(element)
