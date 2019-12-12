@@ -1,0 +1,12 @@
+import "map.goat";
+
+var m = new Map();
+
+m["one"] = 1;
+m["two"] = 2;
+m["three"] = 3;
+
+println(m.size());
+println(m["one"]);
+println(m["two"]);
+println(m["three"]);
