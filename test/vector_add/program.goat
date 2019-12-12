@@ -1,0 +1,13 @@
+import "vector.goat";
+
+var f = $(c, e)
+{
+    if (c.instanceof(MutableCollection))
+        c.add(e); 
+};
+
+var v = new Vector();
+f(v, 1);
+f(v, 2);
+f(v, 3);
+println(v.toArray());
