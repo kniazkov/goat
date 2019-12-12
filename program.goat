@@ -1,13 +1,11 @@
-import "vector.goat";
+import "stack.goat";
 
-var f = $(c, e)
-{
-    if (c.instanceof(MutableCollection))
-        c.delete(e); 
-};
+var s = new Stack();
+s.push(1);
+s.push(2);
+s.push(3);
 
-var v = new Vector([0,1,2,3,4,5]);
-f(v, 0);
-f(v, 2);
-f(v, 5);
-println(v.toArray());
+println(s.toArray());
+
+while(!s.empty())
+    println(s.pop());

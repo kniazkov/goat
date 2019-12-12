@@ -70,7 +70,7 @@ var List = MutableCollection ->
 
     contains : $(element)
     {
-	return !!this.find(element);
+        return !!this.find(element);
     },
 
     indexOf : $(element)
@@ -94,7 +94,7 @@ var List = MutableCollection ->
 
     addFirst : $(element)
     {
-	var item = new ListItem();
+        var item = new ListItem();
         item.element = element;
         item.previous = null;
         item.next = first;
@@ -268,14 +268,13 @@ var List = MutableCollection ->
 
     iterator : $()
     {
-        return new _Iterator(this, first);
+        return new _Iterator(first);
     },
 
     _Iterator : Iterator ->
     {
-        init : $(list, item)
+        init : $(item)
         {
-            this.list = list;
             this.item = item;
         },
 
