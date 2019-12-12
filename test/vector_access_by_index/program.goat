@@ -1,0 +1,27 @@
+import "vector.goat";
+
+var vec = new Vector([0,1,2,3,4,5]);
+
+println(vec[0]);
+println(vec[1]);
+println(vec[5]);
+try
+{
+   println(vec[6]);
+}
+catch(e)
+{
+    println("catch 1.");
+}
+
+vec[0] = '#';
+vec[5] = '$';
+try
+{
+   vec[6] = "test";
+}
+catch(e)
+{
+    println("catch 2.");
+}
+println(vec.toArray());
