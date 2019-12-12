@@ -108,6 +108,12 @@ var List = MutableCollection ->
         return item;
     },
 
+    add : $(element)
+    {
+        this.addLast(element);
+        return true;
+    },
+
     push : $(element)
     {
         return this.addLast(element);

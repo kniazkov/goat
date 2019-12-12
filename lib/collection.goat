@@ -105,5 +105,11 @@ var MutableCollection = Collection ->
     clear : $()
     {
         return false;
+    },
+
+    add : $(element)
+    {
+        return false;
     }
 };
+

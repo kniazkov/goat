@@ -22,7 +22,7 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 import "collection.goat";
 
-var Vector = Collection ->
+var Vector = MutableCollection ->
 # {
     init : $(data)
     {
@@ -86,6 +86,12 @@ var Vector = Collection ->
             data[i + 1] = data[i];
         data[0] = element;
         ++length;
+    },
+
+    add : $(element)
+    {
+        data[length++] = element;
+        return true;
     },
 
     push : $(element)
