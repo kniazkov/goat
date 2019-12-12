@@ -1,8 +1,9 @@
 import "vector.goat";
 
 var vec = new Vector([0,1,2,3,4,5]);
-vec.remove(vec.indexOf(0));
-vec.remove(vec.indexOf(3));
-vec.remove(vec.indexOf(5));
-println(vec.toArray());
+println(vec.peek());
+println(vec.peekf());
+vec.clear();
+println(vec.peek());
+println(vec.peekf());
 

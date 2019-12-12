@@ -135,18 +135,22 @@ var Vector = Collection ->
 
     peekf : $()
     {
+        return length > 0 ? data[0] : undefined;
     },
 
     getFirst : $()
     {
+        return length > 0 ? data[0] : undefined;
     },
 
     peek : $()
     {
+        return data[length - 1];
     },
 
     getLast : $()
     {
+        return data[length - 1];
     },
 
     iterator : $()
