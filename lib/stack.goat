@@ -75,7 +75,7 @@ var Stack = MutableCollection ->
             item = item.next;
             ++index;
         }
-        return false;
+        return -1;
     },
 
     add : $(element)
