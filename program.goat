@@ -18,3 +18,5 @@ m.delete("six");
 println(m.size());
 for (var k in m)
     println(k);
+
+println(m.toArray());

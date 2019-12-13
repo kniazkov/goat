@@ -96,12 +96,18 @@ var Map = MutableCollection ->
 
     iterator : $()
     {
+        var keys = this.toArray();
+        return keys.iterator();
+    },
+
+    toArray : $()
+    {
         var result = [];
         for(var key in data.keys())
         {
             if (data[key])
                 result.push(key);
         }
-        return result.iterator();
+        return result;
     }
 };
