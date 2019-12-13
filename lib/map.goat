@@ -97,14 +97,17 @@ var Map = MutableCollection ->
         init : $(data)
         {
             this.data = data;
+            this.iter = data.iterator();
         },
 
         valid : $()
         {
+            return iter.valid();
         },
 
         next : $()
         {
+            return iter.next();
         }
     }
 };
