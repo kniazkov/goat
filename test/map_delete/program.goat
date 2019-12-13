@@ -1,0 +1,20 @@
+import "map.goat";
+
+var m = new Map();
+
+m["one"] = 1;
+m["two"] = 2;
+m["three"] = 3;
+m["four"] = 4;
+m["five"] = 5;
+
+println(m.size());
+for (var k in m)
+    println(k);
+
+m.delete("four");
+m.delete("six");
+
+println(m.size());
+for (var k in m)
+    println(k);
