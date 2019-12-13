@@ -35,7 +35,7 @@ namespace g0at
         protected:
             object_array(object_pool *pool);
             void reinit();
-            
+
         public:
             void kill(object_pool *pool) override;
             object_array *to_object_array() override;

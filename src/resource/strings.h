@@ -62,6 +62,7 @@ namespace g0at
         extern std::wstring str_get;
         extern std::wstring str_set;
         extern std::wstring str_iterator;
+        extern std::wstring str_keys;
         extern std::wstring str_next;
         extern std::wstring str_valid;
         extern std::wstring str_clone;

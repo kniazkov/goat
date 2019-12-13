@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_string.h"
 #include "object_function_built_in.h"
 #include "object_exception.h"
+#include "object_array.h"
 #include "lib/assert.h"
 #include "resource/strings.h"
 
@@ -39,7 +40,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (mode != call_mode::as_method)
@@ -68,7 +69,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (arg_count < 1)
@@ -98,7 +99,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (mode != call_mode::as_method)
@@ -126,7 +127,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (arg_count < 1)
@@ -147,7 +148,7 @@ namespace g0at
                 if (found)
                     thr->push(*found);
                 else
-                    thr->push_undefined();                
+                    thr->push_undefined();
             }
         };
 
@@ -158,7 +159,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (arg_count < 2)
@@ -229,7 +230,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (mode != call_mode::as_method)
@@ -246,6 +247,57 @@ namespace g0at
             }
         };
 
+        class generic_keys : public object_function_built_in
+        {
+        public:
+            generic_keys(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                bool deep_search = false;
+                if (arg_count > 0)
+                {
+                    variable deep_search_arg = thr->peek();
+                    if (!deep_search_arg.get_boolean(&deep_search))
+                    {
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    }
+                }
+                thr->pop(arg_count);
+                variable result;
+                std::vector<object *> keys;
+                object_array *ret_array = thr->pool->create_object_array();
+                result.set_object(ret_array);
+                if (!deep_search)
+                {
+                    keys = this_ptr->get_keys();
+                }
+                else
+                {
+                    object *tmp = thr->pool->create_generic_object();
+                    this_ptr->flat(tmp);
+                    keys = tmp->get_keys();
+                }
+                for (object *key : keys)
+                {
+                    variable var;
+                    var.set_object(key);
+                    ret_array->add_item(var);
+                }
+                thr->push(result);
+            }
+        };
+
         class generic_contains : public object_function_built_in
         {
         public:
@@ -253,7 +305,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (arg_count < 1)
@@ -293,7 +345,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (mode != call_mode::as_method)
@@ -316,7 +368,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (mode != call_mode::as_method)
@@ -339,7 +391,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (arg_count < 1)
@@ -366,7 +418,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (arg_count < 1)
@@ -392,7 +444,7 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
+
             void call(thread *thr, int arg_count, call_mode mode) override
             {
                 if (mode != call_mode::as_method)
@@ -423,6 +475,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_get), new generic_getter(pool));
             add_object(pool->get_static_string(resource::str_set), new generic_setter(pool));
             add_object(pool->get_static_string(resource::str_iterator), new generic_iterator(pool));
+            add_object(pool->get_static_string(resource::str_keys), new generic_keys(pool));
             add_object(pool->get_static_string(resource::str_contains), new generic_contains(pool));
             add_object(pool->get_static_string(resource::str_oper_exclamation), new generic_not(pool));
             add_object(pool->get_static_string(resource::str_oper_double_exclamation), new generic_bool(pool));

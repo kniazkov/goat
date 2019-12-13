@@ -60,6 +60,7 @@ namespace g0at
         std::wstring str_get = L"get";
         std::wstring str_set = L"set";
         std::wstring str_iterator = L"iterator";
+        std::wstring str_keys = L"keys";
         std::wstring str_next = L"next";
         std::wstring str_valid = L"valid";
         std::wstring str_clone = L"clone";
