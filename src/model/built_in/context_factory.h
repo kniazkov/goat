@@ -48,6 +48,8 @@ namespace g0at
                 object *create_function_cbrt();
                 object *create_function_round();
                 object *create_function_sin();
+                object *create_function_cos();
+                object *create_function_tan();
                 object *create_function_atan2();
                 object *create_function_clock();
                 object *create_function_range();
