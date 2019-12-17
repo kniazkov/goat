@@ -1,0 +1,30 @@
+import "set.goat";
+
+var s = new Set();
+
+s.add("dirty");
+s.add("dumb");
+s.add("stinky");
+s.add("dirty");
+
+println(s.size());
+var iter = s.iterator();
+while(iter.valid())
+{
+    println(iter.next());
+}
+
+println(s.contains("dirty"));
+println(s.contains("dumber"));
+println(s["dirty"]);
+println(s["dumber"]);
+
+s.delete("dumb");
+s.delete("dumber");
+
+println(s.size());
+iter = s.iterator();
+while(iter.valid())
+{
+    println(iter.next());
+}

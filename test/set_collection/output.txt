@@ -1,0 +1,11 @@
+3
+dirty
+dumb
+stinky
+true
+false
+true
+false
+2
+dirty
+stinky
