@@ -22,7 +22,7 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 import "collection.goat";
 
-var Map = MutableCollection ->
+var Map = [AssociativeCollection, MutableCollection] ->
 # {
     init : $(data)
     {
@@ -49,11 +49,6 @@ var Map = MutableCollection ->
     contains : $(element)
     {
         return !!data[element];
-    },
-
-    indexOf : $(element)
-    {
-        return -1;
     },
 
     add : $(key, value)

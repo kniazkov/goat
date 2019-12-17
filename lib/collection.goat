@@ -20,10 +20,6 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-var IndexOutOfBounds = Exception ->
-# {
-};
-
 var Collection =
 # {
     size : $()
@@ -62,33 +58,6 @@ var Collection =
         return false;
     },
 
-    indexOf : $(element)
-    {
-        var index = 0;
-        for (var item in this)
-        {
-            if (element == item)
-                return index;
-            ++index;
-        }
-        return -1;        
-    },
-
-    get : $(index)
-    {
-        if (index < 0 || index >= this.size())
-            throw new IndexOutOfBounds();
-
-        var item;
-        for (item in this)
-        {
-            if (index == 0)
-                break;
-            index--;
-        }
-        return item;
-    },
-
     toArray : $()
     {
         var result = [];
@@ -118,3 +87,44 @@ var MutableCollection = Collection ->
     }
 };
 
+var IndexOutOfBounds = Exception ->
+# {
+};
+
+var IndexedCollection = Collection ->
+# {
+    indexOf : $(element)
+    {
+        var index = 0;
+        for (var item in this)
+        {
+            if (element == item)
+                return index;
+            ++index;
+        }
+        return -1;        
+    },
+
+    get : $(index)
+    {
+        if (index < 0 || index >= this.size())
+            throw new IndexOutOfBounds();
+
+        var item;
+        for (item in this)
+        {
+            if (index == 0)
+                break;
+            index--;
+        }
+        return item;
+    }
+};
+
+var AssociativeCollection = Collection ->
+# {
+    get : $(key)
+    {
+        return undefined;
+    }
+};
