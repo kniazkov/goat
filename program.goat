@@ -1,18 +1,30 @@
-import "map.goat";
+import "set.goat";
 
-var m = new Map();
+var s = new Set();
 
-m["one"] = 1;
-m["two"] = 2;
-m["three"] = 3;
-m["four"] = 4;
-m["five"] = 5;
+s.add("dirty");
+s.add("dumb");
+s.add("stinky");
+s.add("dirty");
 
-m.delete("four");
-m.delete("six");
+println(s.size());
+var iter = s.iterator();
+while(iter.valid())
+{
+    println(iter.next());
+}
 
-println(m.toArray());
-println(m.contains("one"));
-println(m.contains("four"));
-println(m.contains("six"));
+println(s.contains("dirty"));
+println(s.contains("dumber"));
+println(s["dirty"]);
+println(s["dumber"]);
 
+s.delete("dumb");
+s.delete("dumber");
+
+println(s.size());
+iter = s.iterator();
+while(iter.valid())
+{
+    println(iter.next());
+}
