@@ -49,6 +49,11 @@ namespace g0at
 {
     namespace model
     {
+        void object_pool_typed_base::destroy_object(object *obj)
+        {
+            delete obj;
+        }
+
         object_pool::object_pool(std::vector<std::wstring> &identifiers_list)
         {
             id = 0;

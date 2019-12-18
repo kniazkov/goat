@@ -45,7 +45,13 @@ namespace g0at
         class object_char;
         class object_uid;
 
-        template <int Factor, int Count> class object_pool_typed
+	class object_pool_typed_base
+	{
+	protected:
+	    static void destroy_object(object *obj);
+	};
+
+        template <int Factor, int Count> class object_pool_typed : public object_pool_typed_base
         {
         public:
             object_pool_typed()
@@ -264,7 +270,7 @@ namespace g0at
             alive--;
             if (next_object_should_be_destroyed())
             {
-                delete obj;
+                destroy_object(obj);
                 return false;
             }
             else
