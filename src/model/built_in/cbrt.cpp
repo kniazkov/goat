@@ -21,9 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "context_factory.h"
-#include "model/object_function_built_in.h"
-#include "model/object_exception.h"
-#include "global/global.h"
+#include "real_to_real_built_in.h"
 #include <cmath>
 
 namespace g0at
@@ -32,32 +30,17 @@ namespace g0at
     {
         namespace built_in
         {
-            class cbrt : public object_function_built_in
+            class cbrt : public real_to_real_built_in
             {
             public:
                 cbrt(object_pool *_pool)
-                    : object_function_built_in(_pool)
+                    : real_to_real_built_in(_pool)
                 {
                 }
-                
-                void call(thread *thr, int arg_count, call_mode mode) override
+
+                double payload(double value) override
                 {
-                    if (arg_count > 0)
-                    {
-                        if (mode == call_mode::as_method)
-                            thr->pop();
-                        variable arg = thr->peek();
-                        thr->pop(arg_count);
-                        double real_val;
-                        if (arg.get_real(&real_val))
-                        {
-                            variable tmp;
-                            tmp.set_real(std::cbrt(real_val));
-                            thr->push(tmp);
-                            return;
-                        }
-                    }
-                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return std::cbrt(value);
                 }
             };
 
