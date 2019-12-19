@@ -77,6 +77,7 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"range"), create_function_range());
                 ctx->add_object(pool->get_static_string(L"uid"), create_function_uid());
                 ctx->add_object(pool->get_static_string(L"open"), create_function_open());
+                ctx->add_object(pool->get_static_string(L"exec"), create_function_exec());
 
                 model::variable tmp;
                 tmp.set_real(std::atan((double)1.0) * 4);

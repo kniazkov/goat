@@ -36,7 +36,7 @@ namespace g0at
             public:
                 context_factory(object_pool *_pool);
                 context *create_context();
-            
+
             protected:
                 object *create_function_print();
                 object *create_function_println();
@@ -55,6 +55,7 @@ namespace g0at
                 object *create_function_range();
                 object *create_function_uid();
                 object *create_function_open();
+                object *create_function_exec();
 
                 object_pool *pool;
             };
