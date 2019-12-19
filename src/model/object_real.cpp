@@ -224,12 +224,12 @@ namespace g0at
                 return obj;
             }
 
-            bool get_integer(variable *var, int64_t *pval)
+            bool get_integer(variable *var, int64_t *pval) override
             {
                 return false;
             }
 
-            bool get_real(variable *var, double *pval)
+            bool get_real(variable *var, double *pval) override
             {
                 *pval = var->data.r;
                 return true;

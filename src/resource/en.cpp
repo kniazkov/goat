@@ -261,22 +261,22 @@ namespace g0at
                 return L"expected a 'while' keyword";
             }
 
-            std::wstring expected_a_switch_body()
+            std::wstring expected_a_switch_body() override
             {
                 return L"expected a body of the 'switch' statement";
             }
 
-            std::wstring expected_case_or_default_keyword()
+            std::wstring expected_case_or_default_keyword() override
             {
                 return L"expected one of: 'case' or 'default' keyword";
             }
 
-            std::wstring can_have_only_one_default_block()
+            std::wstring can_have_only_one_default_block() override
             {
                 return L"a 'switch' statement can have only one 'default' block";
             }
 
-            std::wstring expected_a_file_name()
+            std::wstring expected_a_file_name() override
             {
                 return L"expected a file name";
             }
@@ -362,38 +362,38 @@ namespace g0at
 
 
 
-            std::wstring setting_breakpoint_at(std::wstring position)
+            std::wstring setting_breakpoint_at(std::wstring position) override
             {
                 std::wstringstream wss;
                 wss << L"setting breakpoint at " << position;
                 return wss.str();
             }
 
-            std::wstring can_not_set_breakpoint()
+            std::wstring can_not_set_breakpoint() override
             {
                 return L"can not set breakpoint: source not found";
             }
 
-            std::wstring syntax_error()
+            std::wstring syntax_error() override
             {
                 return L"syntax error";
             }
 
-            std::wstring breakpoint_is_hit(std::wstring position)
+            std::wstring breakpoint_is_hit(std::wstring position) override
             {
                 std::wstringstream wss;
                 wss << position << L", breakpoint is hit";
                 return wss.str();
             }
 
-            std::wstring program_terminated_with_exit_code(int code)
+            std::wstring program_terminated_with_exit_code(int code) override
             {
                 std::wstringstream wss;
                 wss << L"program terminated with exit code " << code;
                 return wss.str();
             }
 
-            std::wstring illegal_reference_variable_is_not_defined(std::wstring name)
+            std::wstring illegal_reference_variable_is_not_defined(std::wstring name) override
             {
                 std::wstringstream wss;
                 wss << L"illegal reference: variable '" << name << "' is not defined";

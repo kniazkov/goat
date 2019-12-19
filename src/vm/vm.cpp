@@ -110,7 +110,7 @@ namespace g0at
                         while (true)
                         {
                             std::cout << "? ";
-                            
+
                             switch (thr->debug_state)
                             {
                                 case model::thread_debug_state::do_not_stop:
@@ -124,6 +124,8 @@ namespace g0at
                                     break;
                                 case model::thread_debug_state::step_out:
                                     std::cout << "[l] ";    // leave
+                                    break;
+                                default:
                                     break;
                             }
 
@@ -229,6 +231,8 @@ namespace g0at
                                 break;
                             case model::thread_debug_state::step_out:
                                 thr->debug_level--;
+                                break;
+                            default:
                                 break;
                         }
                     }

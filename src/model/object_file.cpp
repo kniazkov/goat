@@ -209,13 +209,13 @@ namespace g0at
                 : object_file_method(_pool)
             {
             }
-            
+
             bool payload(thread *thr, int arg_count, file_descriptor *descr, FILE *stream, variable *result) override
             {
                 if (stream)
                 {
                     std::fclose(stream);
-                    descr->mode == file_access_mode::closed;
+                    descr->mode = file_access_mode::closed;
                     descr->sysctl = nullptr;
                 }
                 result->set_object(thr->pool->get_undefined_instance());

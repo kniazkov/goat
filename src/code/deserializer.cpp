@@ -250,12 +250,12 @@ namespace g0at
                     tmp[i] = src->pop();
                 }
                 std::wstring result = lib::decode_utf8(tmp);
-                delete tmp;
+                delete[] tmp;
                 return result;
             }
             else
             {
-                return L"";                
+                return L"";
             }
         }
 

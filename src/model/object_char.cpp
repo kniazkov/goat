@@ -224,7 +224,7 @@ namespace g0at
                 return obj;
             }
 
-            bool get_char(variable *var, wchar_t *pval)
+            bool get_char(variable *var, wchar_t *pval) override
             {
                 *pval = var->data.c;
                 return true;

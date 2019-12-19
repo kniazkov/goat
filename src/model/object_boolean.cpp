@@ -181,7 +181,7 @@ namespace g0at
                 return obj;
             }
 
-            bool get_boolean(variable *var, bool *pval)
+            bool get_boolean(variable *var, bool *pval) override
             {
                 *pval = var->data.b;
                 return true;

@@ -18,9 +18,9 @@
 
 cmake_minimum_required(VERSION 2.6)
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-  add_compile_options(-std=c++11 -O3)
+  add_compile_options(-std=c++11 -O3 -Werror)
 else()
-  add_compile_options(-std=c++11 -g)
+  add_compile_options(-std=c++11 -g -Werror)
 endif()
 project(f_ck)
 set (SOURCE main.cpp)

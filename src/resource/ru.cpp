@@ -261,22 +261,22 @@ namespace g0at
                 return L"ожидается ключевое слово 'while'";
             }
 
-            std::wstring expected_a_switch_body()
+            std::wstring expected_a_switch_body() override
             {
                 return L"ожидается тело конструкции 'switch'";
             }
 
-            std::wstring expected_case_or_default_keyword()
+            std::wstring expected_case_or_default_keyword() override
             {
                 return L"первый токен должен быть ключевым словом 'case' или 'default'";
             }
 
-            std::wstring can_have_only_one_default_block()
+            std::wstring can_have_only_one_default_block() override
             {
                 return L"конструкция 'switch' может иметь только один 'default' блок";
             }
 
-            std::wstring expected_a_file_name()
+            std::wstring expected_a_file_name() override
             {
                 return L"ожидается имя файла (в кавычках)";
             }
@@ -305,7 +305,7 @@ namespace g0at
             std::wstring illegal_argument() override
             {
                 return L"недопустимый аргумент";
-            }        
+            }
 
             std::wstring illegal_context() override
             {
@@ -362,38 +362,38 @@ namespace g0at
 
 
 
-            std::wstring setting_breakpoint_at(std::wstring position)
+            std::wstring setting_breakpoint_at(std::wstring position) override
             {
                 std::wstringstream wss;
                 wss << L"создана точка останова: " << position;
                 return wss.str();
             }
 
-            std::wstring can_not_set_breakpoint()
+            std::wstring can_not_set_breakpoint() override
             {
                 return L"невозможно создать точку останова: исходный код не найден";
             }
 
-            std::wstring syntax_error()
+            std::wstring syntax_error() override
             {
                 return L"синтаксическая ошибка";
             }
 
-            std::wstring breakpoint_is_hit(std::wstring position)
+            std::wstring breakpoint_is_hit(std::wstring position) override
             {
                 std::wstringstream wss;
                 wss << position << L", останов";
                 return wss.str();
             }
 
-            std::wstring program_terminated_with_exit_code(int code)
+            std::wstring program_terminated_with_exit_code(int code) override
             {
                 std::wstringstream wss;
                 wss << L"программа завершена с кодом " << code;
                 return wss.str();
             }
 
-            std::wstring illegal_reference_variable_is_not_defined(std::wstring name)
+            std::wstring illegal_reference_variable_is_not_defined(std::wstring name) override
             {
                 std::wstringstream wss;
                 wss << L"недопустимая ссылка: переменная '" << name << "' не определена";
