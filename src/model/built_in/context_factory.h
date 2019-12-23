@@ -50,7 +50,14 @@ namespace g0at
                 object *create_function_sin();
                 object *create_function_cos();
                 object *create_function_tan();
+                object *create_function_asin();
+                object *create_function_acos();
+                object *create_function_atan();
                 object *create_function_atan2();
+                object *create_function_log();
+                object *create_function_log2();
+                object *create_function_log10();
+                object *create_function_exp();
                 object *create_function_clock();
                 object *create_function_range();
                 object *create_function_uid();

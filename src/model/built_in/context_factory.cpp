@@ -72,7 +72,14 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"sin"), create_function_sin());
                 ctx->add_object(pool->get_static_string(L"cos"), create_function_cos());
                 ctx->add_object(pool->get_static_string(L"tan"), create_function_tan());
+                ctx->add_object(pool->get_static_string(L"asin"), create_function_asin());
+                ctx->add_object(pool->get_static_string(L"acos"), create_function_acos());
+                ctx->add_object(pool->get_static_string(L"atan"), create_function_atan());
                 ctx->add_object(pool->get_static_string(L"atan2"), create_function_atan2());
+                ctx->add_object(pool->get_static_string(L"log"), create_function_log());
+                ctx->add_object(pool->get_static_string(L"log2"), create_function_log2());
+                ctx->add_object(pool->get_static_string(L"log10"), create_function_log10());
+                ctx->add_object(pool->get_static_string(L"exp"), create_function_exp());
                 ctx->add_object(pool->get_static_string(L"clock"), create_function_clock());
                 ctx->add_object(pool->get_static_string(L"range"), create_function_range());
                 ctx->add_object(pool->get_static_string(L"uid"), create_function_uid());
