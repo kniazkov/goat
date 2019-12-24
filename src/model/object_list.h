@@ -36,6 +36,7 @@ namespace g0at
             void add(object *item);
             void remove(object *item);
             object *remove();
+            object *remove_first();
             void destroy_all();
 
             object *first;

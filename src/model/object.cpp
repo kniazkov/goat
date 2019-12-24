@@ -34,7 +34,7 @@ namespace g0at
     namespace model
     {
         object::object(object_pool *pool)
-            : marked(false), immutable(false)
+            : marked(-1), immutable(false)
         {
 #ifdef MODEL_DEBUG
             id = pool->get_next_id();
@@ -45,7 +45,7 @@ namespace g0at
         }
 
         object::object(object_pool *pool, object *proto)
-            : marked(false), immutable(false)
+            : marked(-1), immutable(false)
         {
 #ifdef MODEL_DEBUG
             id = pool->get_next_id();
@@ -56,7 +56,7 @@ namespace g0at
         }
 
         object::object(object_pool *pool, object *proto_0, object *proto_1)
-            : marked(false), immutable(false)
+            : marked(-1), immutable(false)
         {
             assert(proto_0 != nullptr);
             assert(proto_1 != nullptr);
@@ -75,6 +75,49 @@ namespace g0at
 
         object::~object()
         {
+        }
+
+        void object::put_off(object_pool *pool)
+        {
+            if (marked < 1)
+            {
+                marked = 1;
+
+                pool->population.remove(this);
+                pool->gc_deferred.add(this);
+            }
+        }
+
+        void object::mark_parallel(object_pool *pool)
+        {
+            if (marked != 2)
+            {
+                if (marked < 1)
+                    pool->population.remove(this);
+                else
+                    pool->gc_deferred.remove(this);
+
+                marked = 2;
+                pool->gc_processed.add(this);
+
+                for (auto pair : objects)
+                {
+                    pair.first->put_off(pool);
+                    pair.second.put_off(pool);
+                }
+
+                if (proto)
+                {
+                    proto->put_off(pool);
+                }
+                else if (topology)
+                {
+                    for (int i = 0, size = topology->proto.size(); i < size; i++)
+                        topology->proto[i]->put_off(pool);
+                }
+
+                trace();
+            }
         }
 
         void object::kill(object_pool *pool)

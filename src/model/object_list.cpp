@@ -83,6 +83,22 @@ namespace g0at
             return item;
         }
 
+        object * object_list::remove_first()
+        {
+            object *item = first;
+            if (item)
+            {
+                if (item->next)
+                    item->next->prev = nullptr;
+                else
+                    last = nullptr;
+
+                first = item->next;
+                count--;
+            }
+            return item;
+        }
+
         void object_list::destroy_all()
         {
             object *obj = first;

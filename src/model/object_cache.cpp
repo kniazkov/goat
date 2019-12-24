@@ -92,5 +92,13 @@ namespace g0at
                 obj->mark();
             }
         }
+
+        void object_cache::mark_all_parallel(object_pool *pool)
+        {
+            for (auto obj: objects)
+            {
+                obj->mark_parallel(pool);
+            }
+        }
     };
 };

@@ -144,6 +144,16 @@ namespace g0at
                 }
             }
 
+            void mark_all_parallel(object_pool *pool)
+            {
+                item *it = top;
+                while(it)
+                {
+                    it->var.mark_parallel(pool);
+                    it = it->next;
+                }
+            }
+
         protected:
             struct item
             {

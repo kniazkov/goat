@@ -42,6 +42,7 @@ namespace g0at
             object_string *get_object(int id);
             std::vector<std::wstring> get_strings_list();
             void mark_all();
+            void mark_all_parallel(object_pool *pool);
 
             int get_size() { return (int)objects.size(); }
 

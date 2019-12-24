@@ -49,6 +49,7 @@ namespace g0at
 	{
 	protected:
 	    static void destroy_object(object *obj);
+        static void reuse_object(object *obj);
 	};
 
         template <int Factor, int Count> class object_pool_typed : public object_pool_typed_base
@@ -174,12 +175,15 @@ namespace g0at
             object_uid *create_object_uid();
 
             void mark_all_static_strings() { static_strings.mark_all(); }
+            void mark_all_static_strings_parallel() { static_strings.mark_all_parallel(this); }
             object_string *get_static_string(std::wstring name) { return static_strings.get_object(name, this); }
             object_string *get_static_string(int id) { return static_strings.get_object(id); }
             std::vector<std::wstring> get_strings_list() { return static_strings.get_strings_list(); }
             void merge_strings_list(std::vector<std::wstring> &identifiers_list) { static_strings.merge(identifiers_list, this); }
 
             object_list population;
+            object_list gc_deferred;
+            object_list gc_processed;
             object_pool_typed<4, 256> generic_objects;
             object_pool_typed<8, 4096> contexts;
             object_pool_typed<2, 128> strings;
@@ -287,6 +291,7 @@ namespace g0at
             if (dead.count > 0)
             {
                 object *obj = dead.remove();
+                reuse_object(obj);
                 pool->population.add(obj);
                 pool->get_report().reinit_count++;
                 lib::it_is_a_not_cached_block(obj);

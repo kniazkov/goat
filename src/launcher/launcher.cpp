@@ -133,7 +133,11 @@ namespace g0at
         vm::gc_type gct = vm::gc_type::serial;
         if (opt.gc_type_str)
         {
-            if (0 == strcmp(opt.gc_type_str, "debug"))
+            if (0 == strcmp(opt.gc_type_str, "serial"))
+                gct = vm::gc_type::serial;
+            else if (0 == strcmp(opt.gc_type_str, "parallel"))
+                gct = vm::gc_type::parallel;
+            else if (0 == strcmp(opt.gc_type_str, "debug"))
                 gct = vm::gc_type::debug;
             else if (0 == strcmp(opt.gc_type_str, "disabled"))
                 gct = vm::gc_type::disabled;

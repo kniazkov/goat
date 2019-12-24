@@ -61,6 +61,22 @@ namespace g0at
             data.mark_all();
         }        
 
+        void thread::mark_all_parallel()
+        {
+            if (ret)
+                ret->mark_parallel(pool);
+
+            except.mark_parallel(pool);
+
+            if (ctx)
+                ctx->mark_parallel(pool);
+
+            if (runner)
+                runner->mark_parallel(pool);
+
+            data.mark_all_parallel(pool);
+        }        
+
         void thread::raise_exception(variable &var)
         {
             flow = thread_flow::direct;

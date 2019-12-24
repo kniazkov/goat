@@ -54,6 +54,11 @@ namespace g0at
             delete obj;
         }
 
+        void object_pool_typed_base::reuse_object(object *obj)
+        {
+            obj->unmark(true);
+        }
+
         object_pool::object_pool(std::vector<std::wstring> &identifiers_list)
         {
             id = 0;
@@ -258,6 +263,8 @@ namespace g0at
         void object_pool::destroy_all()
         {
             population.destroy_all();
+            gc_deferred.destroy_all();
+            gc_processed.destroy_all();
             generic_objects.dead.destroy_all();
             contexts.dead.destroy_all();
             strings.dead.destroy_all();

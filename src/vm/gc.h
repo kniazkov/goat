@@ -32,11 +32,13 @@ namespace g0at
     {
         enum class gc_type
         {
+            parallel,
             serial,
             debug,
             disabled
         };
 
+        lib::gc * create_grabage_collector_parallel(process *proc);
         lib::gc * create_grabage_collector_serial(process *proc);
         lib::gc * create_grabage_collector_debug(process *proc);
         lib::gc * create_grabage_collector_disabled();
@@ -45,6 +47,8 @@ namespace g0at
         {
             switch(type)
             {
+                case gc_type::parallel:
+                    return create_grabage_collector_parallel(proc);
                 case gc_type::serial:
                     return create_grabage_collector_serial(proc);
                 case gc_type::debug:

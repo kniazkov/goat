@@ -102,6 +102,8 @@ namespace g0at
 
             inline object *get_object();
             inline void mark();
+            inline void mark_parallel(object_pool *pool);
+            inline void put_off(object_pool *pool);
             inline bool get_integer(int64_t *pval);
             inline bool get_real(double *pval);
             inline bool get_boolean(bool *pval);
@@ -188,7 +190,9 @@ namespace g0at
             virtual void kill(object_pool *pool);
             virtual void trace();
             inline void mark();
-            inline void unmark();
+            void put_off(object_pool *pool);
+            void mark_parallel(object_pool *pool);
+            inline void unmark(bool flag);
             inline void sweep(object_pool *pool);
             void lock() { immutable = true; }
 
@@ -284,7 +288,7 @@ namespace g0at
 #ifdef MODEL_DEBUG
             int id;
 #endif
-            bool marked;
+            int marked;
             bool immutable;
             std::map<object*, variable, object_comparator> objects;
             object *proto;
@@ -452,6 +456,24 @@ namespace g0at
             if (obj)
             {
                 obj->mark();
+            }
+        }
+
+        void variable::mark_parallel(object_pool *pool)
+        {
+            object *obj = hndl->get_object(this);
+            if (obj)
+            {
+                obj->mark_parallel(pool);
+            }
+        }
+
+        void variable::put_off(object_pool *pool)
+        {
+            object *obj = hndl->get_object(this);
+            if (obj)
+            {
+                obj->put_off(pool);
             }
         }
 
@@ -674,9 +696,9 @@ namespace g0at
         */
         void object::mark()
         {
-            if (!marked)
+            if (marked < 1)
             {
-                marked = true;
+                marked = 1;
 
                 for (auto pair : objects)
                 {
@@ -699,14 +721,14 @@ namespace g0at
             }
         }
 
-        void object::unmark()
+        void object::unmark(bool flag)
         {
-            marked = false;
+            marked = flag ? -1 : 0;
         }
 
         void object::sweep(object_pool *pool)
         {
-            if (!marked)
+            if (marked == 0)
             {
 #if 0
                 std::wcout << L"killed: " << id << L", " << to_string() << std::endl;
@@ -715,7 +737,7 @@ namespace g0at
             }
             else
             {
-                unmark();
+                unmark(false);
             }
         }
     };

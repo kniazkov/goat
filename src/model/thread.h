@@ -130,6 +130,7 @@ namespace g0at
              */
             void raise_exception(variable &var);
             void mark_all();
+            void mark_all_parallel();
 
             thread_list *get_thread_list() { return list; }
             thread_id get_id() { return tid; }
