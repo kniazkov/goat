@@ -24,26 +24,25 @@ var Mutex =
 # {
     init : $()
     {
-        this.runner = null;
+        this.locker = null;
         this.count = 0;
     },
 
     tryLock : $() {
         var result = false;
-        var current = Thread.current();
+        var ct = Thread.current();
         lock
         {
-            if (current == runner)
+            if (ct == locker)
             {
                 ++count;
                 result = true;
             }
             else
             {
-                if (runner == null)
+                if (locker == null)
                 {
-                    //println("Locked by " + current.id());                    
-                    runner = current;
+                    locker = ct;
                     count = 1;
                     result = true;
                 }
@@ -54,19 +53,21 @@ var Mutex =
 
     lock : $()
     {
+        while (!this.tryLock())
+        {
+        }
     },
 
     unlock : $()
     {
-        if (Thread.current() == runner)
+        if (Thread.current() == locker)
         {
             lock
             {
                 --count;
                 if (!count)
                 {
-                    //println("Unlocked by " + runner.id());                    
-                    runner = null;
+                    locker = null;
                 }
             }
             return true;
