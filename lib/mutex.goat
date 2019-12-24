@@ -20,12 +20,15 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+import "queue.goat";
+
 var Mutex =
 # {
     init : $()
     {
         this.locker = null;
         this.count = 0;
+        this.queue = new Queue();
     },
 
     tryLock : $() {
@@ -55,6 +58,12 @@ var Mutex =
     {
         while (!this.tryLock())
         {
+            var ct = Thread.current();
+            lock
+            {
+                queue.push(ct);
+            }
+            ct.suspend();
         }
     },
 
@@ -68,6 +77,11 @@ var Mutex =
                 if (!count)
                 {
                     locker = null;
+                    if (!queue.empty())
+                    {
+                        var pending = queue.pop();
+                        pending.resume();
+                    }
                 }
             }
             return true;
