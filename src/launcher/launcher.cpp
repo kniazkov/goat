@@ -130,7 +130,7 @@ namespace g0at
         lib::pointer<vm::environment> env;
         int ret_val = 0;
 
-        vm::gc_type gct = vm::gc_type::serial;
+        vm::gc_type gct = vm::gc_type::parallel;
         if (opt.gc_type_str)
         {
             if (0 == strcmp(opt.gc_type_str, "serial"))

@@ -32,8 +32,11 @@ namespace g0at
         {
         public:
             gc_parallel(process *_proc)
-                : count(0), stage(0), proc(_proc)
             {
+                count = 0;
+                stage = 0;
+                proc = _proc;
+                prev_used_memory_size = lib::get_used_memory_size();
             }
 
             void collect_garbage() override
@@ -74,11 +77,18 @@ namespace g0at
                         proc->pool->population.add(obj);
                     }
                     stage = 0;
+                    prev_used_memory_size = lib::get_used_memory_size() - lib::get_cached_memory_size();
                 }
             }
 
             void collect_garbage_if_necessary() override
             {
+                if ( stage == 0 && lib::get_used_memory_size() - lib::get_cached_memory_size() - prev_used_memory_size < threshold )
+                {
+                    // keep calm
+                    return;
+                }
+
                 collect_garbage();
             }
 
@@ -93,6 +103,8 @@ namespace g0at
             int count;
             int stage;
             process *proc;
+            size_t prev_used_memory_size;
+            const size_t threshold = 1024 * sizeof(model::context) * 2;
         };
 
         lib::gc * create_grabage_collector_parallel(process *proc)
