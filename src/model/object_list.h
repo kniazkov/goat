@@ -32,6 +32,7 @@ namespace g0at
         {
         public:
             object_list();
+            void swap(object_list &other); 
             void add(object *item);
             void remove(object *item);
             object *remove();

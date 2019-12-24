@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_list.h"
 #include "object.h"
+#include <algorithm>
 
 namespace g0at
 {
@@ -30,6 +31,13 @@ namespace g0at
         object_list::object_list()
             : first(nullptr), last(nullptr), count(0)
         {
+        }
+
+        void object_list::swap(object_list &other)
+        {
+            std::swap(first, other.first);
+            std::swap(last, other.last);
+            std::swap(count, other.count);
         }
 
         void object_list::add(object *item)
