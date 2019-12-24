@@ -1,7 +1,14 @@
-var k = 1;
-for (var i = 0; i <= 10; i++)
+var f = $(s)
 {
-    k = k * 10;
-    var x = log10(k);
-    println("" + k + " " + x);
+    return s + "";
+};
+
+var t = " ";
+
+for (var i = 0; i < 1000000; i++)
+{
+    t = f(t);
 }
+
+println("done.");
+

@@ -208,14 +208,14 @@ namespace g0at
                 uint64_t reused_objects, double reused_percent) override
             {
                 std::wstringstream wss;
-                wss << L"Memory usage report:  " << std::endl <<
-                    L"   heap size, bytes:     " << heap_size << std::endl <<
-                    L"   peak usage, bytes:    " << max_size << std::endl <<
-                    L"   gc algorithm:         '" << gc_algorithm << L'\'' << std::endl <<
-                    L"   count of gc launches: " << gc_count_launches << std::endl <<
-                    L"   total objects:        " << total_objects << std::endl <<
-                    L"      actually created:  " << created_objects << std::endl <<
-                    L"      reused:            " << reused_objects << L" (" << lib::double_to_wstring(reused_percent, 1) << L" %)";
+                wss << L"MEMORY USAGE REPORT" << std::endl << std::endl <<
+                    L"heap size, bytes:       " << heap_size << std::endl <<
+                    L"peak usage, bytes:      " << max_size << std::endl <<
+                    L"gc algorithm:           '" << gc_algorithm << L'\'' << std::endl <<
+                    L"count of gc launches:   " << gc_count_launches << std::endl <<
+                    L"total objects:          " << total_objects << std::endl <<
+                    L"- actually created:     " << created_objects << std::endl <<
+                    L"- reused:               " << reused_objects << L" (" << lib::double_to_wstring(reused_percent, 1) << L" %)";
                 return wss.str();
             }
 

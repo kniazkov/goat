@@ -208,14 +208,14 @@ namespace g0at
                 uint64_t reused_objects, double reused_percent) override
             {
                 std::wstringstream wss;
-                wss << L"Отчет о расходовании памяти:  " << std::endl <<
-                    L"   размер кучи, байт:            " << heap_size << std::endl <<
-                    L"   пиковое значение, байт:       " << max_size << std::endl <<
-                    L"   алгоритм сборщика мусора:     '" << gc_algorithm << L'\'' << std::endl <<
-                    L"   число итераций сборки мусора: " << gc_count_launches << std::endl <<
-                    L"   всего объектов:               " << total_objects << std::endl <<
-                    L"      реально созданных:         " << created_objects << std::endl <<
-                    L"      повторно использованных:   " << reused_objects << L" (" << lib::double_to_wstring(reused_percent, 1) << L" %)";
+                wss << L"ИСПОЛЬЗОВАНИЕ ПАМЯТИ" << std::endl <<  std::endl <<
+                    L"размер кучи, байт:             " << heap_size << std::endl <<
+                    L"пиковое значение, байт:        " << max_size << std::endl <<
+                    L"алгоритм сборщика мусора:      '" << gc_algorithm << L'\'' << std::endl <<
+                    L"число итераций сборки мусора:  " << gc_count_launches << std::endl <<
+                    L"всего объектов:                " << total_objects << std::endl <<
+                    L"- реально созданных:           " << created_objects << std::endl <<
+                    L"- повторно использованных:     " << reused_objects << L" (" << lib::double_to_wstring(reused_percent, 1) << L" %)";
                 return wss.str();
             }
 
