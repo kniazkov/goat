@@ -78,5 +78,6 @@ namespace g0at
         std::string get_line();
         bool ends_with(std::string const & value, std::string const & ending);
         uint8_t generate_random_number();
+        int64_t get_time_ns();
     };
 };

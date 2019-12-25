@@ -22,7 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "context_factory.h"
 #include "model/object_function_built_in.h"
-#include <chrono>
+#include "lib/utils.h"
 
 namespace g0at
 {
@@ -44,9 +44,7 @@ namespace g0at
                         thr->pop();
                     thr->pop(arg_count);
                     variable tmp;
-                    auto t = std::chrono::high_resolution_clock::now().time_since_epoch();
-                    auto tn = std::chrono::duration_cast<std::chrono::nanoseconds>(t);
-                    tmp.set_integer(tn.count());
+                    tmp.set_integer(lib::get_time_ns());
                     thr->push(tmp);
                     return;
                 }

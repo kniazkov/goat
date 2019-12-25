@@ -30,6 +30,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <streambuf>
 #include <iostream>
 #include <random>
+#include <chrono>
 
 
 /*
@@ -515,6 +516,13 @@ namespace g0at
         uint8_t generate_random_number()
         {
             return (uint8_t)random_distrubution(random_generator);
+        }
+
+        int64_t get_time_ns()
+        {
+            auto t = std::chrono::high_resolution_clock::now().time_since_epoch();
+            auto tn = std::chrono::duration_cast<std::chrono::nanoseconds>(t);
+            return (int64_t)tn.count();
         }
     };
 };
