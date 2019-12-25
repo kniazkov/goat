@@ -24,7 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "lib/pointer.h"
 #include "lib/gc.h"
-#include "process.h"
+#include "model/process.h"
 
 namespace g0at
 {
@@ -38,12 +38,12 @@ namespace g0at
             disabled
         };
 
-        lib::gc * create_grabage_collector_parallel(process *proc);
-        lib::gc * create_grabage_collector_serial(process *proc);
-        lib::gc * create_grabage_collector_debug(process *proc);
+        lib::gc * create_grabage_collector_parallel(model::process *proc);
+        lib::gc * create_grabage_collector_serial(model::process *proc);
+        lib::gc * create_grabage_collector_debug(model::process *proc);
         lib::gc * create_grabage_collector_disabled();
 
-        static inline lib::gc * create_garbage_collector(gc_type type, process *proc)
+        static inline lib::gc * create_garbage_collector(gc_type type, model::process *proc)
         {
             switch(type)
             {

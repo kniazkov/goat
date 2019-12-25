@@ -35,10 +35,6 @@ namespace g0at
             process(object_pool *_pool);
             ~process();
 
-            thread_list *get_active_threads() { return active_threads; }
-            thread_list *get_suspended_threads() { return suspended_threads; }
-
-        protected:
             object_pool *pool;
             thread_list *active_threads;
             thread_list *suspended_threads;

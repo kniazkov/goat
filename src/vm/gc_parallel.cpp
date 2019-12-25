@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "gc.h"
 #include "lib/new.h"
 #include "model/context.h"
+#include "model/thread.h"
 
 namespace g0at
 {
@@ -31,7 +32,7 @@ namespace g0at
         class gc_parallel : public lib::gc
         {
         public:
-            gc_parallel(process *_proc)
+            gc_parallel(model::process *_proc)
             {
                 count = 0;
                 stage = 0;
@@ -44,13 +45,26 @@ namespace g0at
                 if (stage == 0) {
                     count++;
                     proc->pool->mark_all_static_strings_parallel();
-                    model::thread *thr_start = proc->threads->get_current_thread();
+                    model::thread *thr_start = proc->active_threads->get_current_thread();
                     model::thread *thr = thr_start;
-                    do
+                    if (thr)
                     {
-                        thr->mark_all_parallel();
-                        thr = thr->next;
-                    } while(thr != thr_start);
+                        do
+                        {
+                            thr->mark_all_parallel();
+                            thr = thr->next;
+                        } while(thr != thr_start);
+                    }
+                    thr_start = proc->suspended_threads->get_current_thread();
+                    thr = thr_start;
+                    if (thr)
+                    {
+                        do
+                        {
+                            thr->mark_all_parallel();
+                            thr = thr->next;
+                        } while(thr != thr_start);
+                    }
                     stage++;
                     return;
                 }
@@ -102,12 +116,12 @@ namespace g0at
 
             int count;
             int stage;
-            process *proc;
+            model::process *proc;
             size_t prev_used_memory_size;
             const size_t threshold = 1024 * sizeof(model::context) * 2;
         };
 
-        lib::gc * create_grabage_collector_parallel(process *proc)
+        lib::gc * create_grabage_collector_parallel(model::process *proc)
         {
             return new gc_parallel(proc);
         }

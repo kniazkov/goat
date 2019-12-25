@@ -34,10 +34,7 @@ namespace g0at
         {
             pool = new model::object_pool(_identifiers_list);
             ctx = model::built_in::context_factory(pool).create_context();
-            tlist = new model::thread_list(pool);
-            proc = new process();
-            proc->pool = pool;
-            proc->threads = tlist;
+            proc = new model::process(pool);
             gc = create_garbage_collector(_gc_type, proc);
             lib::set_garbage_collector(gc);
         }
@@ -48,7 +45,6 @@ namespace g0at
             lib::set_garbage_collector(nullptr);
             delete gc;
             delete proc;
-            delete tlist;
             delete pool;
         }
     };

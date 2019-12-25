@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "gc.h"
 #include "lib/new.h"
 #include "model/context.h"
+#include "model/thread.h"
 
 namespace g0at
 {
@@ -31,7 +32,7 @@ namespace g0at
         class gc_serial : public lib::gc
         {
         public:
-            gc_serial(process *_proc)
+            gc_serial(model::process *_proc)
             {
                 count = 0;
                 proc = _proc;
@@ -44,13 +45,26 @@ namespace g0at
 
                 // mark
                 proc->pool->mark_all_static_strings();
-                model::thread *thr_start = proc->threads->get_current_thread();
+                model::thread *thr_start = proc->active_threads->get_current_thread();
                 model::thread *thr = thr_start;
-                do
+                if (thr)
                 {
-                    thr->mark_all();
-                    thr = thr->next;
-                } while(thr != thr_start);
+                    do
+                    {
+                        thr->mark_all();
+                        thr = thr->next;
+                    } while(thr != thr_start);
+                }
+                thr_start = proc->suspended_threads->get_current_thread();
+                thr = thr_start;
+                if (thr)
+                {
+                    do
+                    {
+                        thr->mark_all();
+                        thr = thr->next;
+                    } while(thr != thr_start);
+                }
 
                 // sweep
                 model::object *obj = proc->pool->population.first;
@@ -84,12 +98,12 @@ namespace g0at
             }
 
             int count;
-            process *proc;
+            model::process *proc;
             size_t prev_used_memory_size;
             const size_t threshold = 1024 * sizeof(model::context) * 2;
         };
 
-        lib::gc * create_grabage_collector_serial(process *proc)
+        lib::gc * create_grabage_collector_serial(model::process *proc)
         {
             return new gc_serial(proc);
         }

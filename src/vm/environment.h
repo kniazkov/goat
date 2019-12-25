@@ -23,7 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "gc.h"
-#include "process.h"
+#include "model/process.h"
 #include "lib/ref_counter.h"
 #include "model/object_pool.h"
 #include "model/context.h"
@@ -42,9 +42,9 @@ namespace g0at
             ~environment();
 
             gc_type get_gc_type() { return gct; }
-            model::object_pool *get_pool() { return pool; } ;
-            model::context *get_context() { return ctx; } ;
-            model::thread_list *get_thread_list() { return tlist; }
+            model::object_pool *get_pool() { return pool; }
+            model::context *get_context() { return ctx; }
+            model::thread_list *get_thread_list() { return proc->active_threads; }
             lib::gc *get_gc() { return gc; }
             bool debug_mode() { return debug; }
             bool run_mode() { return run; }
@@ -54,8 +54,7 @@ namespace g0at
             gc_type gct;
             model::object_pool *pool;
             model::context *ctx;
-            model::thread_list *tlist;
-            process *proc;
+            model::process *proc;
             lib::gc *gc;
             bool debug;
             bool run;
