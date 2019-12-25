@@ -28,6 +28,7 @@ namespace g0at
     {
         class object_pool;
         class thread_list;
+        class thread_list_ext;
 
         class process
         {
@@ -36,7 +37,7 @@ namespace g0at
             ~process();
 
             object_pool *pool;
-            thread_list *active_threads;
+            thread_list_ext *active_threads;
             thread_list *suspended_threads;
 
         private:

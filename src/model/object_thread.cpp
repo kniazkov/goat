@@ -25,6 +25,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_string.h"
 #include "object_runner.h"
 #include "object_exception.h"
+#include "process.h"
+#include "thread.h"
 #include "lib/assert.h"
 #include "resource/strings.h"
 
@@ -98,7 +100,7 @@ namespace g0at
                     thr->pop(arg_count - decl_arg_count);
                 }
 
-                thread *new_thr = thr->get_thread_list()->create_thread(ctx, nullptr);
+                thread *new_thr = thr->get_process()->active_threads->create_thread(ctx, nullptr);
                 new_thr->state = thread_state::ok;
                 new_thr->iid = obj_thread->get_first_iid();
                 

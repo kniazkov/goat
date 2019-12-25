@@ -44,7 +44,7 @@ namespace g0at
             gc_type get_gc_type() { return gct; }
             model::object_pool *get_pool() { return pool; }
             model::context *get_context() { return ctx; }
-            model::thread_list *get_thread_list() { return proc->active_threads; }
+            model::thread_list_ext *get_active_threads_list() { return proc->active_threads; }
             lib::gc *get_gc() { return gc; }
             bool debug_mode() { return debug; }
             bool run_mode() { return run; }

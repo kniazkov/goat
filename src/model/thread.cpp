@@ -37,8 +37,8 @@ namespace g0at
             }
         };
 
-        thread::thread(thread_list *_list, thread_id _tid, context *_ctx, object_pool *_pool, variable *_ret)
-            : list(_list), tid(_tid), next(nullptr), state(thread_state::pause),
+        thread::thread(process *_proc, thread_id _tid, context *_ctx, object_pool *_pool, variable *_ret)
+            : proc(_proc), tid(_tid), next(nullptr), state(thread_state::pause),
               flow(thread_flow::direct), ctx(_ctx), pool(_pool), ret(_ret), runner(nullptr), lock(0),
               debug_level(0), debug_state(thread_debug_state::do_not_stop)
         {
@@ -108,16 +108,25 @@ namespace g0at
             }
         }
 
-        thread_list::thread_list(object_pool *_pool)
-            : pool(_pool), current(nullptr), last_tid(-1)
+        thread_list::thread_list(process *_proc)
+            : proc(_proc), current(nullptr)
         {
         }
 
-        thread * thread_list::create_thread(context *_ctx, variable *_ret)
+        thread_list::~thread_list()
+        {
+        }
+
+        thread_list_ext::thread_list_ext(process *_proc, object_pool *_pool)
+            : thread_list(_proc), pool(_pool), last_tid(-1)
+        {
+        }
+
+        thread * thread_list_ext::create_thread(context *_ctx, variable *_ret)
         {
             last_tid = thread_id(last_tid.as_int64() + 1);
             thread_id tid = last_tid;
-            thread *new_thr = new thread(this, tid, _ctx, pool, _ret);
+            thread *new_thr = new thread(proc, tid, _ctx, pool, _ret);
             if (current)
             {
                 new_thr->next = current->next;
@@ -132,7 +141,7 @@ namespace g0at
             return new_thr;
         }
 
-        thread * thread_list::switch_thread()
+        thread * thread_list_ext::switch_thread()
         {
             assert(current != nullptr);
 

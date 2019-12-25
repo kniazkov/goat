@@ -33,6 +33,7 @@ namespace g0at
 {
     namespace model
     {
+        class process;
         class thread_list;
 
         /**
@@ -116,8 +117,9 @@ namespace g0at
         class thread
         {
             friend class thread_list;
+            friend class thread_list_ext;
         protected:
-            thread(thread_list *_list, thread_id _tid, context *_ctx, object_pool *_pool, variable *_ret);
+            thread(process *_proc, thread_id _tid, context *_ctx, object_pool *_pool, variable *_ret);
 
         public:
             /**
@@ -132,7 +134,7 @@ namespace g0at
             void mark_all();
             void mark_all_parallel();
 
-            thread_list *get_thread_list() { return list; }
+            process *get_process() { return proc; }
             thread_id get_id() { return tid; }
             variable *push(variable var) { return data.push(var); }
             variable pop() { return data.pop(); }
@@ -201,17 +203,17 @@ namespace g0at
             void operator=(const thread &) { }
 
             stack data;
-            thread_list *list;
+            process *proc;
             thread_id tid;
         };
 
         class thread_list
         {
         public:
-            thread_list(object_pool *_pool);
-            thread *create_thread(context *_ctx, variable *_ret);
-            thread *switch_thread();
+            thread_list(process *_proc);
+            virtual ~thread_list();
 
+            process *get_process() { return proc; }
             thread *get_current_thread() { return current; }
             thread *get_thread_by_tid(thread_id tid)
             {
@@ -223,9 +225,23 @@ namespace g0at
             thread_list(const thread_list &) { }
             void operator=(const thread_list &) { }
 
-            object_pool *pool;
+            process *proc;
             std::map<thread_id, thread*> thread_by_tid;
             thread *current;
+        };
+
+        class thread_list_ext : public thread_list
+        {
+        public:
+            thread_list_ext(process *_proc, object_pool *_pool);
+            thread *create_thread(context *_ctx, variable *_ret);
+            thread *switch_thread();
+
+        protected:
+            thread_list_ext(const thread_list_ext &) : thread_list(nullptr) { }
+            void operator=(const thread_list_ext &) { }
+
+            object_pool *pool;
             thread_id last_tid;
         };
     };

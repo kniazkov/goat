@@ -24,6 +24,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_function_built_in.h"
 #include "object_string.h"
 #include "object_exception.h"
+#include "process.h"
+#include "thread.h"
 #include "lib/assert.h"
 #include <sstream>
 
@@ -50,25 +52,6 @@ namespace g0at
             Prototype
         */
 
-       /*
-          TODO: move this code to separated method
-
-            if (mode != call_mode::as_method)
-            {
-                thr->raise_exception(new object_exception_illegal_context(thr->pool));
-                return;
-            }
-            object *this_ptr = thr->pop().get_object();
-            assert(this_ptr != nullptr);
-            object_runner *runner = this_ptr->to_object_runner();
-            if (!runner)
-            {
-                thr->raise_exception(new object_exception_illegal_context(thr->pool));
-                return;
-            }
-            thr->pop(arg_count);
-        */
-
         class object_runner_method : public object_function_built_in
         {
         public:
@@ -77,7 +60,7 @@ namespace g0at
             {
             }
             
-            virtual variable payload(thread *this_thr, thread *other_thr) = 0;
+            virtual variable payload(thread *this_thr, thread *other_thr, bool is_active) = 0;
 
             void call(thread *thr, int arg_count, call_mode mode) override
             {
@@ -96,9 +79,14 @@ namespace g0at
                 }
                 thr->pop(arg_count);
                 thread_id tid = runner->get_thread_id();
-                thread *thr_by_tid = thr->get_thread_list()->get_thread_by_tid(tid);
-                variable var = payload(thr, thr_by_tid);
-                thr->push(var);
+                process *proc = thr->get_process();
+                thread *thr_by_tid = proc->active_threads->get_thread_by_tid(tid);
+                variable result;
+                if (thr_by_tid)
+                    result = payload(thr, thr_by_tid, true);
+                else
+                    result = payload(thr, proc->suspended_threads->get_thread_by_tid(tid), false);
+                thr->push(result);
             }
         };
 
@@ -110,7 +98,7 @@ namespace g0at
             {
             }
             
-            variable payload(thread *this_thr, thread *other_thr)
+            variable payload(thread *this_thr, thread *other_thr, bool is_active)
             {
                 variable var;
                 if (other_thr)
@@ -129,7 +117,7 @@ namespace g0at
             {
             }
             
-            variable payload(thread *this_thr, thread *other_thr)
+            variable payload(thread *this_thr, thread *other_thr, bool is_active)
             {
                 variable var;
                 if (other_thr)
@@ -148,7 +136,7 @@ namespace g0at
             {
             }
             
-            variable payload(thread *this_thr, thread *other_thr)
+            variable payload(thread *this_thr, thread *other_thr, bool is_active)
             {
                 variable var;
                 if (other_thr && other_thr != this_thr)
@@ -171,7 +159,7 @@ namespace g0at
             {
             }
             
-            variable payload(thread *this_thr, thread *other_thr)
+            variable payload(thread *this_thr, thread *other_thr, bool is_active)
             {
                 variable var;
                 if (other_thr && other_thr->state != thread_state::zombie)
@@ -193,7 +181,7 @@ namespace g0at
             {
             }
             
-            variable payload(thread *this_thr, thread *other_thr)
+            variable payload(thread *this_thr, thread *other_thr, bool is_active)
             {
                 variable var;
                 if (other_thr && other_thr->state == thread_state::ok)
@@ -215,10 +203,10 @@ namespace g0at
             {
             }
             
-            variable payload(thread *this_thr, thread *other_thr)
+            variable payload(thread *this_thr, thread *other_thr, bool is_active)
             {
                 variable var;
-                if (other_thr && other_thr->state == thread_state::pause)
+                if (other_thr && other_thr->state == thread_state::pause )
                 {
                     var.set_boolean(true);
                     other_thr->state = thread_state::ok;

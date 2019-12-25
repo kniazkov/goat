@@ -30,8 +30,8 @@ namespace g0at
         process::process(object_pool *_pool)
         {
             pool = _pool;
-            active_threads = new thread_list(pool);
-            suspended_threads = new thread_list(pool);
+            active_threads = new thread_list_ext(this, pool);
+            suspended_threads = new thread_list(this);
         }
 
         process::~process()

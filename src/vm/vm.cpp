@@ -42,7 +42,7 @@ namespace g0at
         int vm::run(environment *env)
         {
             model::variable ret;
-            model::thread *thr = env->get_thread_list()->create_thread(env->get_context(), &ret);
+            model::thread *thr = env->get_active_threads_list()->create_thread(env->get_context(), &ret);
             ret.set_object(env->get_pool()->get_undefined_instance());
             thr->iid = code::iid_t(0);
             thr->next = thr;
@@ -56,7 +56,7 @@ namespace g0at
                     auto instr = code->get_instruction(iid);
                     instr->exec(thr);
                     env->get_gc()->collect_garbage_if_necessary();
-                    thr = env->get_thread_list()->switch_thread();
+                    thr = env->get_active_threads_list()->switch_thread();
                 }
             }
             else
@@ -242,7 +242,7 @@ namespace g0at
                         thr->peek().to_object(env->get_pool());
                     }
                     env->get_gc()->collect_garbage_if_necessary();
-                    thr = env->get_thread_list()->switch_thread();
+                    thr = env->get_active_threads_list()->switch_thread();
                     ticks++;
                 }
             }
