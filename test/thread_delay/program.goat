@@ -1,0 +1,36 @@
+var t1 = $$()
+{
+    println(5);
+};
+
+var t2 = $$()
+{
+    println(4);
+};
+
+var t3 = $$()
+{
+    println(3);
+};
+
+var t4 = $$()
+{
+    println(2);
+};
+
+var t5 = $$()
+{
+    println(1);
+};
+
+var t6 = $$()
+{
+    println(0);
+};
+
+t1.delay(100000000);
+t2.delay(200000000);
+t3.delay(300000000);
+t4.delay(400000000);
+t5.delay(500000000);
+t6.delay(600000000);
