@@ -42,7 +42,8 @@ namespace g0at
         int vm::run(environment *env)
         {
             model::variable ret;
-            model::thread *thr = env->get_active_threads_list()->create_thread(env->get_context(), &ret);
+            model::process *proc = env->get_process();
+            model::thread *thr = proc->active_threads->create_thread(env->get_context(), &ret);
             ret.set_object(env->get_pool()->get_undefined_instance());
             thr->iid = code::iid_t(0);
             thr->next = thr;
@@ -50,14 +51,19 @@ namespace g0at
             bool stop = false;
             if (!env->debug_mode())
             {
-                while(thr != nullptr)
+                while(!stop)
                 {
-                    code::iid_t iid = thr->iid;
-                    ++thr->iid;
-                    auto instr = code->get_instruction(iid);
-                    instr->exec(thr);
-                    env->get_gc()->collect_garbage_if_necessary();
-                    thr = env->get_active_threads_list()->switch_thread(&stop);
+                    model::thread *thrd = proc->active_threads->process_delayed_threads();
+                    if (thr == nullptr) thr = thrd;
+                    if (thr != nullptr)
+                    {
+                        code::iid_t iid = thr->iid;
+                        ++thr->iid;
+                        auto instr = code->get_instruction(iid);
+                        instr->exec(thr);
+                        env->get_gc()->collect_garbage_if_necessary();
+                        thr = proc->active_threads->switch_thread(&stop);
+                    }
                 }
             }
             else
@@ -94,8 +100,12 @@ namespace g0at
                     }
                 }
                 long int ticks = 0;
-                while(thr != nullptr)
+                while(!stop)
                 {
+                    model::thread *thrd = proc->active_threads->process_delayed_threads();
+                    if (thr == nullptr) thr = thrd;
+                    if (thr == nullptr)
+                        continue;
                     code::iid_t iid = thr->iid;
                     ++thr->iid;
                     auto instr = code->get_instruction(iid);
@@ -243,7 +253,7 @@ namespace g0at
                         thr->peek().to_object(env->get_pool());
                     }
                     env->get_gc()->collect_garbage_if_necessary();
-                    thr = env->get_active_threads_list()->switch_thread(&stop);
+                    thr = proc->active_threads->switch_thread(&stop);
                     ticks++;
                 }
             }

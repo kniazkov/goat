@@ -66,6 +66,7 @@ namespace g0at
         std::wstring str_clone = L"clone";
         std::wstring str_length = L"length";
         std::wstring str_run = L"run";
+        std::wstring str_delay = L"delay";
         std::wstring str_current = L"current";
         std::wstring str_contains = L"contains";
         std::wstring str_void = L"void";

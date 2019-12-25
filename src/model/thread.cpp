@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "thread.h"
 #include "lib/assert.h"
 #include "lib/exception.h"
+#include "lib/utils.h"
 #include "process.h"
 
 namespace g0at
@@ -194,6 +195,18 @@ namespace g0at
             return new_thr;
         }
 
+        thread * thread_list_ext::create_delayed_thread(context *_ctx, int64_t delay)
+        {
+            last_tid = thread_id(last_tid.as_int64() + 1);
+            thread_id tid = last_tid;
+            thread *new_thr = new thread(proc, tid, _ctx, pool, nullptr);
+            aux_list->add_thread(new_thr);
+            new_thr->is_active = false;
+            thread_by_tid[tid] = new_thr;
+            delayed_threads[delay] = tid;
+            return new_thr;
+        }
+
         thread * thread_list_ext::switch_thread(bool *stop)
         {
             if (current == nullptr) // no active threads
@@ -237,6 +250,23 @@ namespace g0at
                 }
             }
             return nullptr;
+        }
+
+        thread * thread_list_ext::process_delayed_threads()
+        {
+            if (delayed_threads.empty())
+                return nullptr;
+            
+            int64_t time = lib::get_time_ns();
+            auto pair = delayed_threads.begin();
+            if (pair->first > time)
+                return nullptr;
+
+            thread *delayed = get_thread_by_tid(pair->second);
+            delayed_threads.erase(pair);
+            if (delayed != nullptr)
+                delayed->resume();
+            return delayed;
         }
     };
 };

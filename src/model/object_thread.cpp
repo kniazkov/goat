@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "process.h"
 #include "thread.h"
 #include "lib/assert.h"
+#include "lib/utils.h"
 #include "resource/strings.h"
 
 namespace g0at
@@ -111,6 +112,61 @@ namespace g0at
         };
 
         /**
+         * @brief Built-in method 'defer()' for threads
+         * 
+         * The 'delay()' method runs a Goat thread after a time and returns instance of Runner.
+         */
+        class object_thread_delay : public object_function_built_in
+        {
+        public:
+            object_thread_delay(object_pool *_pool)
+                : object_function_built_in(_pool)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode != call_mode::as_method)
+                {
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
+                    return;
+                }
+                object *this_ptr = thr->pop().get_object();
+                assert(this_ptr != nullptr);
+                object_thread *obj_thread = this_ptr->to_object_thread();
+                if (!obj_thread)
+                {
+                    thr->raise_exception(new object_exception_illegal_context(thr->pool));
+                    return;
+                }
+                context *ctx = thr->pool->create_context(obj_thread->get_proto_ctx(), thr->ctx);
+                if (arg_count < 0)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return;
+                }
+                variable arg_delay = thr->peek(0);
+                int64_t delay;
+                if (!arg_delay.get_integer(&delay))
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return;
+                }
+                if (delay < 0)
+                    delay = 0;
+
+                thr->pop(arg_count);
+
+                thread *new_thr = thr->get_process()->active_threads->create_delayed_thread(ctx, delay + lib::get_time_ns());
+                new_thr->iid = obj_thread->get_first_iid();
+                
+                variable runner;
+                runner.set_object(new object_runner(thr->pool, new_thr->get_id()));
+                thr->push(runner);
+            }
+        };
+
+        /**
          * @brief Built-in method 'current()' for threads
          * 
          * The 'current()' method returns current thread
@@ -144,6 +200,7 @@ namespace g0at
         void object_thread_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(resource::str_run), new object_thread_run(pool));
+            add_object(pool->get_static_string(resource::str_delay), new object_thread_delay(pool));
             add_object(pool->get_static_string(resource::str_current), new current_thread(pool));
             lock();
         }

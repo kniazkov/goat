@@ -1,32 +1,36 @@
-import "mutex.goat";
-
-var x = 0;
-var m = new Mutex();
-var k = 0;
-
-var t = thread()
+var t1 = $$()
 {
-    var i;
-    for (i = 0; i < 10000; ++i)
-    {
-        m.lock();
-        ++x;
-        m.unlock();
-    }
+    println(5);
 };
 
-var r1 = t.run();
-var r2 = t.run();
-var r3 = t.run();
-var r4 = t.run();
-var r5 = t.run();
-var r6 = t.run();
-var r7 = t.run();
-r1.join();
-r2.join();
-r3.join();
-r4.join();
-r5.join();
-r6.join();
-r7.join();
-println(x);
+var t2 = $$()
+{
+    println(4);
+};
+
+var t3 = $$()
+{
+    println(3);
+};
+
+var t4 = $$()
+{
+    println(2);
+};
+
+var t5 = $$()
+{
+    println(1);
+};
+
+var t6 = $$()
+{
+    println(0);
+};
+
+t1.delay(100000000);
+t2.delay(200000000);
+t3.delay(300000000);
+t4.delay(400000000);
+t5.delay(500000000);
+t6.delay(600000000);

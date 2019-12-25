@@ -237,7 +237,9 @@ namespace g0at
         public:
             thread_list_ext(process *_proc, thread_list *_aux_list, object_pool *_pool);
             thread *create_thread(context *_ctx, variable *_ret);
+            thread *create_delayed_thread(context *_ctx, int64_t delay);
             thread *switch_thread(bool *stop);
+            thread *process_delayed_threads();
 
             thread *get_thread_by_tid(thread_id tid)
             {
@@ -252,6 +254,7 @@ namespace g0at
             object_pool *pool;
             thread_list *aux_list;
             std::map<thread_id, thread*> thread_by_tid;
+            std::map<int64_t, thread_id> delayed_threads;
             thread_id last_tid;
         };
     };
