@@ -85,6 +85,7 @@ namespace g0at
 
                     proc->suspended_threads->remove_thread(this);
                     proc->active_threads->add_thread(this);
+                    is_active = true;
                 }
             }
         }
@@ -96,6 +97,7 @@ namespace g0at
 
                     proc->suspended_threads->remove_thread(this);
                     proc->active_threads->add_thread(this);
+                    is_active = true;
                 }
             }
         }
