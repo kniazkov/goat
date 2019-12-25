@@ -133,6 +133,8 @@ namespace g0at
             void raise_exception(variable &var);
             void mark_all();
             void mark_all_parallel();
+            void resume();
+            void kill();
 
             process *get_process() { return proc; }
             thread_id get_id() { return tid; }
@@ -184,7 +186,9 @@ namespace g0at
                 ctx = ctx->prev;
             }
 
+            thread *prev;
             thread *next;
+            bool is_active;
             code::iid_t iid;
             thread_state state;
             thread_flow flow;
@@ -192,7 +196,7 @@ namespace g0at
             object_pool *pool;
             variable *ret;
             variable except;
-            std::vector<thread*> joined;
+            std::vector<thread_id> joined;
             object *runner;
             int lock;
             int debug_level;
@@ -209,12 +213,32 @@ namespace g0at
 
         class thread_list
         {
+            friend class thread_list_ext;
         public:
             thread_list(process *_proc);
             virtual ~thread_list();
+            void add_thread(thread* new_thr);
+            void remove_current_thread();
+            void remove_thread(thread *thr);
 
             process *get_process() { return proc; }
             thread *get_current_thread() { return current; }
+            
+        protected:
+            thread_list(const thread_list &) { }
+            void operator=(const thread_list &) { }
+
+            process *proc;
+            thread *current;
+        };
+
+        class thread_list_ext : public thread_list
+        {
+        public:
+            thread_list_ext(process *_proc, thread_list *_aux_list, object_pool *_pool);
+            thread *create_thread(context *_ctx, variable *_ret);
+            thread *switch_thread(bool *stop);
+
             thread *get_thread_by_tid(thread_id tid)
             {
                 auto iter = thread_by_tid.find(tid);
@@ -222,26 +246,12 @@ namespace g0at
             }
 
         protected:
-            thread_list(const thread_list &) { }
-            void operator=(const thread_list &) { }
-
-            process *proc;
-            std::map<thread_id, thread*> thread_by_tid;
-            thread *current;
-        };
-
-        class thread_list_ext : public thread_list
-        {
-        public:
-            thread_list_ext(process *_proc, object_pool *_pool);
-            thread *create_thread(context *_ctx, variable *_ret);
-            thread *switch_thread();
-
-        protected:
             thread_list_ext(const thread_list_ext &) : thread_list(nullptr) { }
             void operator=(const thread_list_ext &) { }
 
             object_pool *pool;
+            thread_list *aux_list;
+            std::map<thread_id, thread*> thread_by_tid;
             thread_id last_tid;
         };
     };

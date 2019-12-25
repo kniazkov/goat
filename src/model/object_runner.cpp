@@ -60,7 +60,7 @@ namespace g0at
             {
             }
             
-            virtual variable payload(thread *this_thr, thread *other_thr, bool is_active) = 0;
+            virtual variable payload(thread *this_thr, thread *other_thr) = 0;
 
             void call(thread *thr, int arg_count, call_mode mode) override
             {
@@ -81,11 +81,7 @@ namespace g0at
                 thread_id tid = runner->get_thread_id();
                 process *proc = thr->get_process();
                 thread *thr_by_tid = proc->active_threads->get_thread_by_tid(tid);
-                variable result;
-                if (thr_by_tid)
-                    result = payload(thr, thr_by_tid, true);
-                else
-                    result = payload(thr, proc->suspended_threads->get_thread_by_tid(tid), false);
+                variable result = payload(thr, thr_by_tid);
                 thr->push(result);
             }
         };
@@ -98,7 +94,7 @@ namespace g0at
             {
             }
             
-            variable payload(thread *this_thr, thread *other_thr, bool is_active)
+            variable payload(thread *this_thr, thread *other_thr)
             {
                 variable var;
                 if (other_thr)
@@ -117,7 +113,7 @@ namespace g0at
             {
             }
             
-            variable payload(thread *this_thr, thread *other_thr, bool is_active)
+            variable payload(thread *this_thr, thread *other_thr)
             {
                 variable var;
                 if (other_thr)
@@ -136,13 +132,13 @@ namespace g0at
             {
             }
             
-            variable payload(thread *this_thr, thread *other_thr, bool is_active)
+            variable payload(thread *this_thr, thread *other_thr)
             {
                 variable var;
                 if (other_thr && other_thr != this_thr)
                 {
                     var.set_boolean(true);
-                    other_thr->joined.push_back(this_thr);
+                    other_thr->joined.push_back(this_thr->get_id());
                     this_thr->state = thread_state::pause;
                 }
                 else
@@ -159,13 +155,13 @@ namespace g0at
             {
             }
             
-            variable payload(thread *this_thr, thread *other_thr, bool is_active)
+            variable payload(thread *this_thr, thread *other_thr)
             {
                 variable var;
                 if (other_thr && other_thr->state != thread_state::zombie)
                 {
                     var.set_boolean(true);
-                    other_thr->state = thread_state::zombie;
+                    other_thr->kill();
                 }
                 else
                     var.set_boolean(false);
@@ -181,7 +177,7 @@ namespace g0at
             {
             }
             
-            variable payload(thread *this_thr, thread *other_thr, bool is_active)
+            variable payload(thread *this_thr, thread *other_thr)
             {
                 variable var;
                 if (other_thr && other_thr->state == thread_state::ok)
@@ -203,13 +199,13 @@ namespace g0at
             {
             }
             
-            variable payload(thread *this_thr, thread *other_thr, bool is_active)
+            variable payload(thread *this_thr, thread *other_thr)
             {
                 variable var;
                 if (other_thr && other_thr->state == thread_state::pause )
                 {
                     var.set_boolean(true);
-                    other_thr->state = thread_state::ok;
+                    other_thr->resume();
                 }
                 else
                     var.set_boolean(false);

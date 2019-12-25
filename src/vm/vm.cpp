@@ -47,6 +47,7 @@ namespace g0at
             thr->iid = code::iid_t(0);
             thr->next = thr;
             thr->state = model::thread_state::ok;
+            bool stop = false;
             if (!env->debug_mode())
             {
                 while(thr != nullptr)
@@ -56,7 +57,7 @@ namespace g0at
                     auto instr = code->get_instruction(iid);
                     instr->exec(thr);
                     env->get_gc()->collect_garbage_if_necessary();
-                    thr = env->get_active_threads_list()->switch_thread();
+                    thr = env->get_active_threads_list()->switch_thread(&stop);
                 }
             }
             else
@@ -242,7 +243,7 @@ namespace g0at
                         thr->peek().to_object(env->get_pool());
                     }
                     env->get_gc()->collect_garbage_if_necessary();
-                    thr = env->get_active_threads_list()->switch_thread();
+                    thr = env->get_active_threads_list()->switch_thread(&stop);
                     ticks++;
                 }
             }
