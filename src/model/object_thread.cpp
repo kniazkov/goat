@@ -84,6 +84,7 @@ namespace g0at
                     return;
                 }
                 context *ctx = thr->pool->create_context(obj_thread->get_proto_ctx(), thr->ctx);
+                ctx->address_type = context_address_type::stop;
                 int decl_arg_count = obj_thread->get_arg_names_count();
                 for (int i = 0; i < decl_arg_count; i++)
                 {
@@ -112,7 +113,7 @@ namespace g0at
         };
 
         /**
-         * @brief Built-in method 'defer()' for threads
+         * @brief Built-in method 'delay()' for threads
          * 
          * The 'delay()' method runs a Goat thread after a time and returns instance of Runner.
          */
@@ -140,6 +141,7 @@ namespace g0at
                     return;
                 }
                 context *ctx = thr->pool->create_context(obj_thread->get_proto_ctx(), thr->ctx);
+                ctx->address_type = context_address_type::stop;
                 if (arg_count < 0)
                 {
                     thr->raise_exception(new object_exception_illegal_argument(thr->pool));

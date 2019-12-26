@@ -2,5 +2,7 @@ import "timer.goat";
 
 Timer.setTimer($$()
 {
-    println("ok");
-}, new Timer.Seconds(2));
+    println("time has passed");
+}, new Timer.Seconds(1));
+
+println("the timer has been set");

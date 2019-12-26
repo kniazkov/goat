@@ -35,7 +35,8 @@ namespace g0at
             ret_address,
             catch_address,
             fin_address,
-            sector
+            sector,
+            stop
         };
 
         class context : public object
