@@ -97,13 +97,16 @@ namespace g0at
             virtual std::wstring is_not_a_method(std::wstring name) = 0;
             virtual std::wstring undeclared_variable(std::wstring name) = 0;
 
+            virtual std::wstring vm_fault() = 0;
+            virtual std::wstring stack_is_empty() = 0;
+
             virtual std::wstring setting_breakpoint_at(std::wstring position) = 0;
             virtual std::wstring can_not_set_breakpoint() = 0;
             virtual std::wstring syntax_error() = 0;
             virtual std::wstring breakpoint_is_hit(std::wstring position) = 0;
             virtual std::wstring program_terminated_with_exit_code(int code) = 0;
             virtual std::wstring illegal_reference_variable_is_not_defined(std::wstring name) = 0;
-            
+
         protected:
             static resource *get_intance_en();
             static resource *get_intance_ru();

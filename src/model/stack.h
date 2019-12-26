@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "object.h"
+#include "vm/vm_exception.h"
 
 namespace g0at
 {
@@ -74,18 +75,22 @@ namespace g0at
 
             variable pop()
             {
+                if (!top)
+                    throw vm::stack_is_empty();
                 item *it = top;
                 variable var = top->var;
                 top = top->next;
                 delete_or_cache_item(it);
                 used_count--;
-                return var;              
+                return var;
             }
 
             void pop(int n)
             {
                 while (n > 0)
                 {
+                    if (!top)
+                        throw vm::stack_is_empty();
                     item *it = top;
                     top = top->next;
                     delete_or_cache_item(it);

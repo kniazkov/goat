@@ -362,6 +362,18 @@ namespace g0at
 
 
 
+            std::wstring vm_fault() override
+            {
+                return L"VM fault";
+            }
+
+            std::wstring stack_is_empty() override
+            {
+                return L"stack is empty";
+            }
+
+
+
             std::wstring setting_breakpoint_at(std::wstring position) override
             {
                 std::wstringstream wss;

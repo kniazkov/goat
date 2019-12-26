@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "vm.h"
+#include "vm_exception.h"
 #include "debug_mode_info.h"
 #include "model/object.h"
 #include "model/object_string.h"

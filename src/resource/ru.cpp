@@ -362,6 +362,18 @@ namespace g0at
 
 
 
+            std::wstring vm_fault() override
+            {
+                return L"сбой виртуальной машины";
+            }
+
+            std::wstring stack_is_empty() override
+            {
+                return L"пустой стек";
+            }
+
+
+
             std::wstring setting_breakpoint_at(std::wstring position) override
             {
                 std::wstringstream wss;
