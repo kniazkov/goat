@@ -1,0 +1,2 @@
+the timer has been set
+time has passed: 1 sec.
