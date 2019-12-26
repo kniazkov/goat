@@ -7,7 +7,7 @@ var k = 0;
 var t = thread()
 {
     var i;
-    for (i = 0; i < 10000; ++i)
+    for (i = 0; i < 1000; ++i)
     {
         m.lock();
         ++x;
