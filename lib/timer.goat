@@ -47,6 +47,19 @@ var Timer = $()
         }
     };
 
+    Timer.Milliseconds = Timer.Duration ->
+    {
+        init : $(value)
+        {
+            this.value = value;
+        },
+
+        getNanoseconds : $()
+        {
+            return value * 1000000;
+        }
+    };
+
     Timer.setTimer = $(callback, duration)
     {
         var time = duration.getNanoseconds();
@@ -54,10 +67,7 @@ var Timer = $()
             callback.delay(time);
         else
         {
-            var thr = $$()
-            {
-                callback();
-            };
+            var thr = $$() { callback(); };
             thr.delay(time);
         }
     };
