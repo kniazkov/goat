@@ -50,6 +50,11 @@ namespace g0at
                 return value < iid.value;
             }
 
+            bool operator==(const iid_t &iid) const
+            {
+                return value == iid.value;
+            }
+
             iid_t operator++()
             {
                 ++value;
@@ -61,6 +66,11 @@ namespace g0at
                 iid_t old(*this);
                 ++value;
                 return old;
+            }
+
+            iid_t operator-(int offset)
+            {
+                return iid_t(value - offset);
             }
 
             int as_int() { return value; }

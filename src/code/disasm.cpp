@@ -98,6 +98,29 @@ namespace g0at
             return tmp.str();
         }
 
+        std::wstring disasm::to_string(lib::pointer<code> _code, iid_t first, iid_t last)
+        {
+            std::wstringstream tmp;
+            auto i_list = _code->get_identifiers_list();
+            disasm da(tmp, i_list);
+            iid_t max_iid = _code->get_current_iid();
+            for (iid_t j = first; j < last && j < max_iid; ++j)
+            {
+                if (j.as_int() < 0)
+                    continue;
+                if (j == first || j.as_int() > 0)
+                {
+                    tmp << L"\n";
+                    if (j.as_int() % 5 == 0)
+                        tmp << L"  " << j.as_int();
+                    }
+                tmp << L"\t";
+                _code->get_instruction(j)->accept(&da);
+            }
+            tmp << "\n";
+            return tmp.str();
+        }
+
         void disasm::visit(_nop *ref)
         {
             stream << L"nop";

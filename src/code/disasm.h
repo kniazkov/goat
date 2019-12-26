@@ -38,6 +38,7 @@ namespace g0at
         public:
             disasm(std::wstringstream &_stream, std::vector<std::wstring> &_identifiers);
             static std::wstring to_string(lib::pointer<code> _code, bool _print_data_segment);
+            static std::wstring to_string(lib::pointer<code> _code, iid_t first, iid_t last);
             void visit(_nop *ref) override;
             void visit(_string *ref) override;
             void visit(_load *ref) override;

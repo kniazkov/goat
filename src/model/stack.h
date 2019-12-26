@@ -20,8 +20,9 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+#pragma once
+
 #include "object.h"
-#include "vm/vm_exception.h"
 
 namespace g0at
 {
@@ -73,10 +74,12 @@ namespace g0at
                 return &it->var;
             }
 
+            void stack_is_empty();
+
             variable pop()
             {
                 if (!top)
-                    throw vm::stack_is_empty();
+                    stack_is_empty();
                 item *it = top;
                 variable var = top->var;
                 top = top->next;
@@ -90,7 +93,7 @@ namespace g0at
                 while (n > 0)
                 {
                     if (!top)
-                        throw vm::stack_is_empty();
+                        stack_is_empty();
                     item *it = top;
                     top = top->next;
                     delete_or_cache_item(it);
