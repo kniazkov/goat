@@ -22,8 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define MODEL_DEBUG
-
+#include "settings.h"
 #include "object_pool.h"
 #include "lib/pointer.h"
 #include "lib/ref_counter.h"
