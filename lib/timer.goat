@@ -38,15 +38,47 @@ var Timer = $()
                 var thr = $$() { callback(); };
                 runner = thr.delay(time);
             }
-            return new Timer.runner();
         },
 
-        init : $(runner)
+        setInterval : $(callback, period)
         {
-            this.runner = runner;
+            if (!callback.instanceof(Function) || !period.instanceof(Timer.Duration))
+                throw new Exception.IllegalArgument();
+
+            var delta = period.getNanoseconds();
+            var moment = clock() + delta;
+            var interval = new Timer.Interval();
+            var thr = $$()
+            {
+                interval.count++;
+                callback();
+                if (interval.next)
+                {
+                    moment += delta;
+                    interval.runner = thr.delay(moment - clock());
+                }
+            };
+            interval.runner = thr.delay(delta);
+            return interval;
         }
     };
 
+    Timer.Interval =
+    {
+        init : $()
+        {
+            this.count = 0;
+            this.next = true;
+            this.runner = null;
+        },
+
+        stop : $()
+        {
+            next = false;
+            if (runner)
+                runner.kill();
+        }
+    };
 
     Timer.Duration =
     {

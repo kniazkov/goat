@@ -1,11 +1,19 @@
 import "timer.goat";
+import "atomic.goat";
 
-var c = clock();
+var x = new Atomic(0);
 
-Timer.setTimer($()
+var i = Timer.setInterval($()
 {
-    var c1 = clock() - c;
-    println("time has passed " + c1);
-}, new Timer.Microseconds(1000));
+    x.inc();
+    println(x.get());
+}, new Timer.Milliseconds(100));
 
 println("the timer has been set");
+println(i);
+
+while(x.get() < 10)
+{
+}
+
+i.stop();
