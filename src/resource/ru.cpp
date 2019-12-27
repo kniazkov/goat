@@ -373,9 +373,9 @@ namespace g0at
             }
 
 #ifdef GC_DEBUG
-            std::wstring use_of_a_dead_object() override
+            std::wstring use_of_a_dead_object(std::wstring data) override
             {
-                return L"попытка обратиться к мёртвому объекту";
+                return std::wstring(L"попытка обратиться к мёртвому объекту: ") + data;
             }
 #endif
 

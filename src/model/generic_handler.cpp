@@ -27,7 +27,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef GC_DEBUG
 #include "vm/vm_exception.h"
-#define check(var) if (var->data.obj->is_died()) throw vm::use_of_a_dead_object()
+#define check(var) if (var->data.obj->is_died()) throw vm::use_of_a_dead_object(var->data.obj->to_string())
 #else
 #define check(var)
 #endif

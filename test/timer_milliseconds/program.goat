@@ -6,7 +6,7 @@ Timer.setTimer($()
 {
     var c1 = round((clock() - c) / 1000000.0);
     println("time has passed");
-    println(c1 >= 50 && c1 <= 55);
+    println(c1 >= 50 && c1 <= 100);
 }, new Timer.Milliseconds(50));
 
 println("the timer has been set");

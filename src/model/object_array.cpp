@@ -127,6 +127,14 @@ namespace g0at
             }
         }
 
+        void object_array::trace_parallel(object_pool *pool) 
+        {
+            for (variable &item : vector)
+            {
+                item.mark_parallel(pool);
+            }
+        }
+
         void object_array::op_inherit(thread *thr)
         {
             thr->pop();

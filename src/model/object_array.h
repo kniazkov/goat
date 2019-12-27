@@ -43,6 +43,7 @@ namespace g0at
             object_array *to_object_array() override;
             std::wstring to_string() const override;
             void trace() override;
+            void trace_parallel(object_pool *pool) override;
 
             void op_inherit(thread *thr) override;
             void op_add(thread *thr) override;

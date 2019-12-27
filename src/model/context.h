@@ -56,6 +56,7 @@ namespace g0at
             void kill(object_pool *pool) override;
 #endif            
             void trace() override;
+            void trace_parallel(object_pool *pool) override;
             static const int addresses_count = 2; 
 
             context *prev;

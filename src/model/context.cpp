@@ -124,5 +124,14 @@ namespace g0at
             if (ret)
                 ret->mark();
         }
+
+        void context::trace_parallel(object_pool *pool)
+        {
+            if (prev)
+                prev->mark_parallel(pool);
+
+            if (ret)
+                ret->mark_parallel(pool);
+        }
     };
 };

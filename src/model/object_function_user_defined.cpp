@@ -96,5 +96,14 @@ namespace g0at
                 arg->mark();
             }
         }
+
+        void object_function_user_defined::trace_parallel(object_pool *pool)
+        {
+            proto_ctx->mark_parallel(pool);
+            for (object *arg : arg_names)
+            {
+                arg->mark_parallel(pool);
+            }
+        }
     };
 };

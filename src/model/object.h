@@ -187,6 +187,7 @@ namespace g0at
 #endif
             virtual void kill(object_pool *pool);
             virtual void trace();
+            virtual void trace_parallel(object_pool *pool);
             inline void mark();
             void put_off(object_pool *pool);
             void mark_parallel(object_pool *pool);

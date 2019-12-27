@@ -51,8 +51,8 @@ namespace g0at
         class use_of_a_dead_object : public vm_exception
         {
         public:
-            use_of_a_dead_object()
-                : vm_exception(global::resource->use_of_a_dead_object())
+            use_of_a_dead_object(std::wstring data)
+                : vm_exception(global::resource->use_of_a_dead_object(data))
             {
             }
         };

@@ -125,7 +125,7 @@ namespace g0at
                         topology->proto[i]->put_off(pool);
                 }
 
-                trace();
+                trace_parallel(pool);
             }
         }
 
@@ -141,6 +141,10 @@ namespace g0at
         }
 
         void object::trace()
+        {
+        }
+
+        void object::trace_parallel(object_pool *pool)
         {
         }
 

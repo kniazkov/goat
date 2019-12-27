@@ -101,7 +101,7 @@ namespace g0at
             virtual std::wstring vm_fault() = 0;
             virtual std::wstring stack_is_empty() = 0;
 #ifdef GC_DEBUG
-            virtual std::wstring use_of_a_dead_object() = 0;
+            virtual std::wstring use_of_a_dead_object(std::wstring data) = 0;
 #endif
 
             virtual std::wstring setting_breakpoint_at(std::wstring position) = 0;
