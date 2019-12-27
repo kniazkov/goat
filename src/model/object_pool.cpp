@@ -263,6 +263,9 @@ namespace g0at
         void object_pool::destroy_all()
         {
             population.destroy_all();
+#ifdef GC_DEBUG
+            died.destroy_all();
+#endif
             gc_deferred.destroy_all();
             gc_processed.destroy_all();
             generic_objects.dead.destroy_all();

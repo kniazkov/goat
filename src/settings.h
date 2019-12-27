@@ -23,3 +23,5 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #define MODEL_DEBUG
+// #define GC_DEBUG
+// #define GC_DEFAULT_PARALLEL

@@ -81,7 +81,9 @@ namespace g0at
             void reinit();
             
         public:
+#ifndef GC_DEBUG
             void kill(object_pool *pool) override;
+#endif            
             object_type get_type() const override;
             object_uid *to_object_uid() override;
             bool less(const object *obj) const override;

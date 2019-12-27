@@ -82,6 +82,7 @@ namespace g0at
             var.set_real(value);
         }
 
+#ifndef GC_DEBUG
         void object_real::kill(object_pool *pool)
         {
             if (pool->real_numbers.destroy_or_cache(this, pool))
@@ -90,6 +91,7 @@ namespace g0at
                 immutable = false;
             }
         }
+#endif
 
         object_type object_real::get_type() const
         {

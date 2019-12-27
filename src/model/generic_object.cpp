@@ -34,6 +34,7 @@ namespace g0at
         {
         }
 
+#ifndef GC_DEBUG
         void generic_object::kill(object_pool *pool)
         {
             if (pool->generic_objects.destroy_or_cache(this, pool))
@@ -44,6 +45,7 @@ namespace g0at
                 immutable = false;
             }
         }
+#endif
 
         void generic_object::reinit(object_pool *pool)
         {

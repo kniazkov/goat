@@ -20,6 +20,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+#include "settings.h"
 #include "launcher.h"
 #include "lib/ref_counter.h"
 #include "lib/exception.h"
@@ -130,7 +131,11 @@ namespace g0at
         lib::pointer<vm::environment> env;
         int ret_val = 0;
 
+#ifdef GC_DEFAULT_PARALLEL
         vm::gc_type gct = vm::gc_type::parallel;
+#else
+        vm::gc_type gct = vm::gc_type::serial;
+#endif
         if (opt.gc_type_str)
         {
             if (0 == strcmp(opt.gc_type_str, "serial"))

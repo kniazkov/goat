@@ -42,6 +42,9 @@ namespace g0at
             pool->add(this);
             proto = pool->get_generic_proto_instance();
             topology = nullptr;
+#ifdef GC_DEBUG
+            died = false;
+#endif
         }
 
         object::object(object_pool *pool, object *proto)
@@ -53,6 +56,9 @@ namespace g0at
             pool->add(this);
             this->proto = proto;
             topology = nullptr;
+#ifdef GC_DEBUG
+            died = false;
+#endif
         }
 
         object::object(object_pool *pool, object *proto_0, object *proto_1)
@@ -71,6 +77,9 @@ namespace g0at
             topology->proto[0] = proto_0;
             topology->proto[1] = proto_1;
             topology->build();
+#ifdef GC_DEBUG
+            died = false;
+#endif
         }
 
         object::~object()
@@ -123,7 +132,12 @@ namespace g0at
         void object::kill(object_pool *pool)
         {
             pool->population.remove(this);
+#ifndef GC_DEBUG
             delete this;
+#else
+            died = true;
+            pool->died.add(this);
+#endif
         }
 
         void object::trace()

@@ -93,6 +93,7 @@ namespace g0at
         {
         }
 
+#ifndef GC_DEBUG
         void object_string::kill(object_pool *pool)
         {
             if (pool->strings.destroy_or_cache(this, pool))
@@ -102,6 +103,7 @@ namespace g0at
                 immutable = false;
             }
         }
+#endif
         
         void object_string::reinit(std::wstring _data)
         {

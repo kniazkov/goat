@@ -44,6 +44,7 @@ namespace g0at
             var.set_boolean(value);
         }
 
+#ifndef GC_DEBUG
         void object_boolean::kill(object_pool *pool)
         {
             if (pool->booleans.destroy_or_cache(this, pool))
@@ -52,6 +53,7 @@ namespace g0at
                 immutable = false;
             }
         }
+#endif
 
         object_type object_boolean::get_type() const
         {

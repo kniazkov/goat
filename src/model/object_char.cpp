@@ -84,6 +84,7 @@ namespace g0at
             var.set_char(value);
         }
 
+#ifndef GC_DEBUG
         void object_char::kill(object_pool *pool)
         {
             if (pool->chars.destroy_or_cache(this, pool))
@@ -92,6 +93,7 @@ namespace g0at
                 immutable = false;
             }
         }
+#endif
 
         object_type object_char::get_type() const
         {

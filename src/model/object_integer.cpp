@@ -83,6 +83,7 @@ namespace g0at
             var.set_integer(value);
         }
 
+#ifndef GC_DEBUG
         void object_integer::kill(object_pool *pool)
         {
             if (pool->integers.destroy_or_cache(this, pool))
@@ -91,6 +92,7 @@ namespace g0at
                 immutable = false;
             }
         }
+#endif
 
         void object_integer::reinit(int64_t value)
         {

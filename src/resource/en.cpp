@@ -372,7 +372,12 @@ namespace g0at
                 return L"stack is empty";
             }
 
-
+#ifdef GC_DEBUG
+            std::wstring use_of_a_dead_object() override
+            {
+                return L"use of a dead object";
+            }
+#endif
 
             std::wstring setting_breakpoint_at(std::wstring position) override
             {

@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "settings.h"
 #include "object_list.h"
 #include "object_cache.h"
 #include "lib/new.h"
@@ -182,6 +183,9 @@ namespace g0at
             void merge_strings_list(std::vector<std::wstring> &identifiers_list) { static_strings.merge(identifiers_list, this); }
 
             object_list population;
+#ifdef GC_DEBUG
+            object_list died;
+#endif
             object_list gc_deferred;
             object_list gc_processed;
             object_pool_typed<4, 256> generic_objects;

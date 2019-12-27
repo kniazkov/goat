@@ -372,6 +372,13 @@ namespace g0at
                 return L"пустой стек";
             }
 
+#ifdef GC_DEBUG
+            std::wstring use_of_a_dead_object() override
+            {
+                return L"попытка обратиться к мёртвому объекту";
+            }
+#endif
+
 
 
             std::wstring setting_breakpoint_at(std::wstring position) override

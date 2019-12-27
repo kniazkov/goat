@@ -39,6 +39,7 @@ namespace g0at
             reinit();
         }
 
+#ifndef GC_DEBUG
         void object_uid::kill(object_pool *pool)
         {
             if (pool->uids.destroy_or_cache(this, pool))
@@ -47,7 +48,8 @@ namespace g0at
                 immutable = false;
             }
         }
-        
+#endif
+
         void object_uid::reinit()
         {
             for (int i = 0 ; i < data.size; i++)

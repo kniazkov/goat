@@ -22,8 +22,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "settings.h"
 #include "lib/exception.h"
-
 
 namespace g0at
 {
@@ -46,5 +46,16 @@ namespace g0at
             {
             }
         };
+
+#ifdef GC_DEBUG
+        class use_of_a_dead_object : public vm_exception
+        {
+        public:
+            use_of_a_dead_object()
+                : vm_exception(global::resource->use_of_a_dead_object())
+            {
+            }
+        };
+#endif
     };
 };

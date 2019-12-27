@@ -98,7 +98,6 @@ namespace g0at
             inline std::wstring to_string() const;
             inline std::wstring to_string_notation() const;
             inline object *to_object(object_pool *pool);
-
             inline object *get_object();
             inline void mark();
             inline void mark_parallel(object_pool *pool);
@@ -194,6 +193,9 @@ namespace g0at
             inline void unmark(bool flag);
             inline void sweep(object_pool *pool);
             void lock() { immutable = true; }
+#ifdef GC_DEBUG
+            bool is_died() { return died; }
+#endif
 
             virtual object_type get_type() const;
             virtual object_string *to_object_string();
@@ -289,6 +291,9 @@ namespace g0at
 #endif
             int marked;
             bool immutable;
+#ifdef GC_DEBUG
+            bool died;
+#endif
             std::map<object*, variable, object_comparator> objects;
             object *proto;
             lib::pointer<topology_descriptor> topology;
@@ -298,7 +303,9 @@ namespace g0at
         {
         friend class object_pool;
         public:
+#ifndef GC_DEBUG
             void kill(object_pool *pool) override;
+#endif            
         protected:
             generic_object(object_pool *pool);
             void reinit(object_pool *pool);

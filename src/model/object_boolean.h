@@ -36,7 +36,9 @@ namespace g0at
             void reinit(bool value);
 
         public:
+#ifndef GC_DEBUG
             void kill(object_pool *pool) override;
+#endif            
             object_type get_type() const override;
             object_boolean *to_object_boolean() override;
             bool less(const object *obj) const override;

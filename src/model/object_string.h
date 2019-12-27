@@ -38,7 +38,9 @@ namespace g0at
             void reinit(std::wstring _data, int _ids);
             
         public:
+#ifndef GC_DEBUG
             void kill(object_pool *pool) override;
+#endif            
             object_type get_type() const override;
             object_string *to_object_string() override;
             bool less(const object *obj) const override;

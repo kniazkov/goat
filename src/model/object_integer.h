@@ -36,7 +36,9 @@ namespace g0at
             void reinit(int64_t value);
 
         public:
+#ifndef GC_DEBUG
             void kill(object_pool *pool) override;
+#endif            
             object_type get_type() const override;
             object_integer *to_object_integer() override;
             bool less(const object *obj) const override;

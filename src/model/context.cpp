@@ -96,6 +96,7 @@ namespace g0at
             debug_level = parent->debug_level;
         }
 
+#ifndef GC_DEBUG
         void context::kill(object_pool *pool)
         {
             if (pool->contexts.destroy_or_cache(this, pool))
@@ -113,6 +114,7 @@ namespace g0at
                 debug_level = -1;
             }
         }
+#endif
 
         void context::trace()
         {

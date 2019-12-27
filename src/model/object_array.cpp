@@ -83,6 +83,7 @@ namespace g0at
         {
         }
 
+#ifndef GC_DEBUG
         void object_array::kill(object_pool *pool)
         {
             if (pool->arrays.destroy_or_cache(this, pool))
@@ -92,7 +93,8 @@ namespace g0at
                 immutable = false;
             }
         }
-        
+#endif
+
         void object_array::reinit()
         {
             assert(vector.empty());

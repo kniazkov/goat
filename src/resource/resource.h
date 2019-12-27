@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "settings.h"
 #include <string>
 
 namespace g0at
@@ -99,6 +100,9 @@ namespace g0at
 
             virtual std::wstring vm_fault() = 0;
             virtual std::wstring stack_is_empty() = 0;
+#ifdef GC_DEBUG
+            virtual std::wstring use_of_a_dead_object() = 0;
+#endif
 
             virtual std::wstring setting_breakpoint_at(std::wstring position) = 0;
             virtual std::wstring can_not_set_breakpoint() = 0;

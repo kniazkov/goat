@@ -37,7 +37,9 @@ namespace g0at
             void reinit();
 
         public:
+#ifndef GC_DEBUG
             void kill(object_pool *pool) override;
+#endif            
             object_array *to_object_array() override;
             std::wstring to_string() const override;
             void trace() override;

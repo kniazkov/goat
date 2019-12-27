@@ -36,7 +36,9 @@ namespace g0at
             void reinit(wchar_t value);
 
         public:
+#ifndef GC_DEBUG
             void kill(object_pool *pool) override;
+#endif            
             object_type get_type() const override;
             object_char *to_object_char() override;
             bool less(const object *obj) const override;

@@ -52,7 +52,9 @@ namespace g0at
             void reinit(context *proto, context *parent);
             void reinit(object *this_ptr, context *proto, context *parent);
         public:
+#ifndef GC_DEBUG
             void kill(object_pool *pool) override;
+#endif            
             void trace() override;
             static const int addresses_count = 2; 
 
