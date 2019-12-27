@@ -23,8 +23,30 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 var Timer = $()
 {
     var Timer =
-    {    
+    {
+        setTimer : $(callback, duration)
+        {
+            if (!callback.instanceof(Function) || !duration.instanceof(Timer.Duration))
+                throw new Exception.IllegalArgument();
+
+            var time = duration.getNanoseconds();
+            var runner;
+            if (callback.instanceof(Thread))
+                runner = callback.delay(time);
+            else
+            {
+                var thr = $$() { callback(); };
+                runner = thr.delay(time);
+            }
+            return new Timer.runner();
+        },
+
+        init : $(runner)
+        {
+            this.runner = runner;
+        }
     };
+
 
     Timer.Duration =
     {
@@ -60,15 +82,29 @@ var Timer = $()
         }
     };
 
-    Timer.setTimer = $(callback, duration)
+    Timer.Microseconds = Timer.Duration ->
     {
-        var time = duration.getNanoseconds();
-        if (callback.instanceof(Thread))
-            callback.delay(time);
-        else
+        init : $(value)
         {
-            var thr = $$() { callback(); };
-            thr.delay(time);
+            this.value = value;
+        },
+
+        getNanoseconds : $()
+        {
+            return value * 1000;
+        }
+    };
+
+    Timer.Nanoseconds = Timer.Duration ->
+    {
+        init : $(value)
+        {
+            this.value = value;
+        },
+
+        getNanoseconds : $()
+        {
+            return value;
         }
     };
     

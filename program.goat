@@ -1,17 +1,11 @@
-var a = [];
+import "timer.goat";
 
-var i;
-for (i = 0; i < 1000000; i++)
+var c = clock();
+
+Timer.setTimer($()
 {
-    a.push({value: i});
-}
+    var c1 = clock() - c;
+    println("time has passed " + c1);
+}, new Timer.Microseconds(1000));
 
-println("ok.");
-
-var j = 0;
-for (i = 0; i < a.length(); i++)
-{
-    j += a[i].value;
-}
-
-println(j);
+println("the timer has been set");
