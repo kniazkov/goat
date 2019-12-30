@@ -1,0 +1,19 @@
+import "timer.goat";
+import "atomic.goat";
+
+var x = new Atomic(0);
+
+var i = Timer.setInterval($()
+{
+    x.inc();
+    println(x.get());
+}, new Timer.Milliseconds(100));
+
+println("start");
+
+while(x.get() < 10)
+{
+}
+
+i.stop();
+println("stop");
