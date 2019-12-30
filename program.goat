@@ -1,3 +1,22 @@
+var t = $$()
+{
+    for (var i = 0; i < 10; i++)
+        println(i);
+    if (i == 5)
+    {
+        var r = Thread.current();
+        r.kill();
+    }    
+};
+
+var r = t.run();
+while (r.works())
+{
+}
+println("done");
+
+/*
+
 import "timer.goat";
 import "atomic.goat";
 
@@ -17,3 +36,5 @@ while(x.get() < 10)
 }
 
 i.stop();
+
+*/
