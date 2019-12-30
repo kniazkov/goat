@@ -50,6 +50,7 @@ var Timer = $()
             var delta = period.getNanoseconds();
             var moment = clock() + delta;
             var interval = new Timer.Interval();
+            var skips = 1;
             var thr = $$()
             {
                 interval.count++;
@@ -57,8 +58,27 @@ var Timer = $()
                 interval.mutex.lock();
                 if (interval.next)
                 {
-                    moment += delta;
-                    interval.runner = thr.delay(moment - clock());
+                    var delay;
+                    var integral = 0;
+                    while (true)
+                    {
+                        moment += delta;
+                        delay = moment - clock();
+                        if (delay > 0)
+                        {
+                            interval.skipped += skips - 1;
+                            break;
+                        }
+                        integral -= delay;
+                        if (integral > delta * 8) // interval too short
+                        {
+                            delta *= 2;
+                            skips *= 2;
+                            integral = 0;
+                        }
+                        interval.skipped += skips;
+                    }
+                    interval.runner = thr.delay(delay);
                 }
                 interval.mutex.unlock();
             };
@@ -71,8 +91,9 @@ var Timer = $()
     {
         init : $()
         {
-            this.mutex = new Mutex();
             this.count = 0;
+            this.skipped = 0;
+            this.mutex = new Mutex();
             this.next = true;
             this.runner = null;
         },

@@ -1,16 +1,16 @@
 import "timer.goat";
 
 var x = 0;
-
+var t = clock();
 println("start");
 var i = Timer.setInterval($()
 {
     x++;
-    println(x);
-    if (x == 10)
+    //println(x);
+    if (x == 1000)
     {
         i.stop();
-        println("stop");
+        t = clock() - t;
+        println("stop, time = " + (t / 1000000) + " ms, count = " + i.count  + ", skipped = " + i.skipped);
     }
-}, new Timer.Milliseconds(100));
-
+}, new Timer.Milliseconds(1));
