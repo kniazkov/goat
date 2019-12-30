@@ -1,19 +1,19 @@
-var t = $$()
-{
-    for (var i = 0; i < 10; i++)
-    {
-        println(i);
-        if (i == 5)
-        {
-            var r = Thread.current();
-            r.suspend();
-        }
-    }
-};
+import "timer.goat";
+import "atomic.goat";
 
-var r = t.run();
-while (r.works())
+var x = new Atomic(0);
+
+var i = Timer.setInterval($()
+{
+    x.inc();
+    println(x.get());
+}, new Timer.Milliseconds(100));
+
+println("start");
+
+while(x.get() < 10)
 {
 }
-r.kill();
-println("done");
+
+i.stop();
+println("stop");

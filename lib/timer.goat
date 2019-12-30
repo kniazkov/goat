@@ -20,6 +20,8 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+import "mutex.goat";
+
 var Timer = $()
 {
     var Timer =
@@ -52,11 +54,13 @@ var Timer = $()
             {
                 interval.count++;
                 callback();
+                interval.mutex.lock();
                 if (interval.next)
                 {
                     moment += delta;
                     interval.runner = thr.delay(moment - clock());
                 }
+                interval.mutex.unlock();
             };
             interval.runner = thr.delay(delta);
             return interval;
@@ -67,6 +71,7 @@ var Timer = $()
     {
         init : $()
         {
+            this.mutex = new Mutex();
             this.count = 0;
             this.next = true;
             this.runner = null;
@@ -74,9 +79,11 @@ var Timer = $()
 
         stop : $()
         {
+            mutex.lock();
             next = false;
             if (runner && !runner.works())
                 runner.kill();
+            mutex.unlock();
         }
     };
 
