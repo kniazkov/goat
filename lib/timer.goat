@@ -88,7 +88,7 @@ var Timer = $()
     };
 
     Timer.Interval =
-    {
+    # {
         init : $()
         {
             this.count = 0;
@@ -109,7 +109,7 @@ var Timer = $()
     };
 
     Timer.Duration =
-    {
+    # {
         getNanoseconds : $()
         {
             return 0;
@@ -117,7 +117,7 @@ var Timer = $()
     };
 
     Timer.Seconds = Timer.Duration ->
-    {
+    # {
         init : $(value)
         {
             this.value = value;
@@ -130,7 +130,7 @@ var Timer = $()
     };
 
     Timer.Milliseconds = Timer.Duration ->
-    {
+    # {
         init : $(value)
         {
             this.value = value;
@@ -143,7 +143,7 @@ var Timer = $()
     };
 
     Timer.Microseconds = Timer.Duration ->
-    {
+    # {
         init : $(value)
         {
             this.value = value;
@@ -156,7 +156,7 @@ var Timer = $()
     };
 
     Timer.Nanoseconds = Timer.Duration ->
-    {
+    # {
         init : $(value)
         {
             this.value = value;
