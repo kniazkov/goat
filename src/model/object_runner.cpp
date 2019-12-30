@@ -48,7 +48,7 @@ namespace g0at
             return L"runner";
         }
 
-        /* 
+        /*
             Prototype
         */
 
@@ -59,8 +59,8 @@ namespace g0at
                 : object_function_built_in(_pool)
             {
             }
-            
-            virtual variable payload(thread *this_thr, thread *other_thr) = 0;
+
+            virtual void payload(thread *this_thr, thread *other_thr, variable *var) = 0;
 
             void call(thread *thr, int arg_count, call_mode mode) override
             {
@@ -81,7 +81,8 @@ namespace g0at
                 thread_id tid = runner->get_thread_id();
                 process *proc = thr->get_process();
                 thread *thr_by_tid = proc->active_threads->get_thread_by_tid(tid);
-                variable result = payload(thr, thr_by_tid);
+                variable result;
+                payload(thr, thr_by_tid, &result);
                 thr->push(result);
             }
         };
@@ -93,15 +94,13 @@ namespace g0at
                 : object_runner_method(_pool)
             {
             }
-            
-            variable payload(thread *this_thr, thread *other_thr)
+
+            void payload(thread *this_thr, thread *other_thr, variable *var)
             {
-                variable var;
                 if (other_thr)
-                    var.set_integer(other_thr->get_id().as_int64());
+                    var->set_integer(other_thr->get_id().as_int64());
                 else
-                    var.set_object(this_thr->pool->get_null_instance());
-                return var;
+                    var->set_object(this_thr->pool->get_null_instance());
             }
         };
 
@@ -112,15 +111,30 @@ namespace g0at
                 : object_runner_method(_pool)
             {
             }
-            
-            variable payload(thread *this_thr, thread *other_thr)
+
+            void payload(thread *this_thr, thread *other_thr, variable *var)
             {
-                variable var;
                 if (other_thr)
-                    var.set_boolean(other_thr->state != thread_state::zombie);
+                    var->set_boolean(other_thr->state != thread_state::zombie);
                 else
-                    var.set_boolean(false);
-                return var;
+                    var->set_boolean(false);
+            }
+        };
+
+        class object_runner_works : public object_runner_method
+        {
+        public:
+            object_runner_works(object_pool *_pool)
+                : object_runner_method(_pool)
+            {
+            }
+
+            void payload(thread *this_thr, thread *other_thr, variable *var)
+            {
+                if (other_thr)
+                    var->set_boolean(other_thr->state == thread_state::ok);
+                else
+                    var->set_boolean(false);
             }
         };
 
@@ -131,19 +145,17 @@ namespace g0at
                 : object_runner_method(_pool)
             {
             }
-            
-            variable payload(thread *this_thr, thread *other_thr)
+
+            void payload(thread *this_thr, thread *other_thr, variable *var)
             {
-                variable var;
                 if (other_thr && other_thr != this_thr)
                 {
-                    var.set_boolean(true);
+                    var->set_boolean(true);
                     other_thr->joined.push_back(this_thr->get_id());
                     this_thr->state = thread_state::pause;
                 }
                 else
-                    var.set_boolean(false);
-                return var;
+                    var->set_boolean(false);
             }
         };
 
@@ -154,18 +166,16 @@ namespace g0at
                 : object_runner_method(_pool)
             {
             }
-            
-            variable payload(thread *this_thr, thread *other_thr)
+
+            void payload(thread *this_thr, thread *other_thr, variable *var)
             {
-                variable var;
                 if (other_thr && other_thr->state != thread_state::zombie)
                 {
-                    var.set_boolean(true);
+                    var->set_boolean(true);
                     other_thr->kill();
                 }
                 else
-                    var.set_boolean(false);
-                return var;
+                    var->set_boolean(false);
             }
         };
 
@@ -176,18 +186,16 @@ namespace g0at
                 : object_runner_method(_pool)
             {
             }
-            
-            variable payload(thread *this_thr, thread *other_thr)
+
+            void payload(thread *this_thr, thread *other_thr, variable *var)
             {
-                variable var;
                 if (other_thr && other_thr->state == thread_state::ok)
                 {
-                    var.set_boolean(true);
+                    var->set_boolean(true);
                     other_thr->state = thread_state::pause;
                 }
                 else
-                    var.set_boolean(false);
-                return var;
+                    var->set_boolean(false);
             }
         };
 
@@ -198,18 +206,16 @@ namespace g0at
                 : object_runner_method(_pool)
             {
             }
-            
-            variable payload(thread *this_thr, thread *other_thr)
+
+            void payload(thread *this_thr, thread *other_thr, variable *var)
             {
-                variable var;
                 if (other_thr && other_thr->state == thread_state::pause )
                 {
-                    var.set_boolean(true);
+                    var->set_boolean(true);
                     other_thr->resume();
                 }
                 else
-                    var.set_boolean(false);
-                return var;
+                    var->set_boolean(false);
             }
         };
 
@@ -222,6 +228,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(L"id"), new object_runner_get_id(pool));
             add_object(pool->get_static_string(L"alive"), new object_runner_alive(pool));
+            add_object(pool->get_static_string(L"works"), new object_runner_works(pool));
             add_object(pool->get_static_string(L"join"), new object_runner_join(pool));
             add_object(pool->get_static_string(L"kill"), new object_runner_kill(pool));
             add_object(pool->get_static_string(L"suspend"), new object_runner_suspend(pool));

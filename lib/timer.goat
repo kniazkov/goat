@@ -75,7 +75,7 @@ var Timer = $()
         stop : $()
         {
             next = false;
-            if (runner)
+            if (runner && !runner.works())
                 runner.kill();
         }
     };
