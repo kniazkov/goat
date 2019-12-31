@@ -49,10 +49,10 @@ namespace g0at
             void m_set(thread *thr, int arg_count) override;
             void m_clone(thread *thr, int arg_count) override;
 
-            void add_item(variable &item) { vector.push_back(item); }
+            void add_item(variable item) { vector.push_back(item); }
             int get_length() const override;
             variable get_item(int idx) const override;
-            variable &get_item(int idx) override;
+            variable get_item(int idx) override;
 
         protected:
             std::vector<variable> vector;

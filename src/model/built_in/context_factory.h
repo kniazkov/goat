@@ -35,7 +35,7 @@ namespace g0at
             {
             public:
                 context_factory(object_pool *_pool);
-                context *create_context();
+                context *create_context(std::vector<char*> *args);
 
             protected:
                 object *create_function_print();

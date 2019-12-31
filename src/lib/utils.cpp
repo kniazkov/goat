@@ -433,6 +433,25 @@ namespace g0at
             return dst;
         }
 
+        std::wstring string_to_wstring(std::string str)
+        {
+            std::wstring wstr(str.begin(), str.end());
+            return wstr;
+        }
+
+        std::wstring string_to_wstring(const char *str)
+        {
+            std::wstringstream wss;
+            if (str)
+                while(*str)
+                {
+                    wchar_t wch = (wchar_t)*str;
+                    wss << wch;
+                    str++;
+                }
+            return wss.str();
+        }
+
         std::string normalize_file_path(std::string path)
         {
 #ifdef _WIN32

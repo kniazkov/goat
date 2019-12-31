@@ -114,6 +114,10 @@ namespace g0at
                 else if (0 == std::strcmp(arg + 2, "stdin"))
                 {
                     opt.from_stdin = true;
+                    if (opt.prog_name != nullptr) {
+                        opt.args.insert(opt.args.begin(), opt.prog_name);
+                        opt.prog_name = nullptr;
+                    }
                 }
                 else if (0 == std::strcmp(arg + 2, "dump-memory-usage-report"))
                 {
@@ -145,7 +149,7 @@ namespace g0at
             }
             else
             {
-                if (opt.prog_name == nullptr)
+                if (opt.prog_name == nullptr && !opt.from_stdin)
                     opt.prog_name = arg;
                 else
                     opt.args.push_back(arg);

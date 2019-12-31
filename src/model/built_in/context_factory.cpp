@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "context_factory.h"
 #include "model/object_string.h"
+#include "model/object_program_arguments.h"
 #include <cmath>
 
 namespace g0at
@@ -35,7 +36,7 @@ namespace g0at
             {
             }
 
-            context *context_factory::create_context()
+            context *context_factory::create_context(std::vector<char*> *args)
             {
                 context *ctx = pool->create_context();
 
@@ -90,6 +91,9 @@ namespace g0at
                 model::variable tmp;
                 tmp.set_real(std::atan((double)1.0) * 4);
                 ctx->add_object(pool->get_static_string(L"PI"), tmp);
+
+                tmp.set_object(new object_program_arguments(pool, args));
+                ctx->add_object(pool->get_static_string(L"parg"), tmp);
 
                 return pool->create_context(ctx);
             }

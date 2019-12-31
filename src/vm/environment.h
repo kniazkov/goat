@@ -38,7 +38,7 @@ namespace g0at
         {
         public:
             environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list,
-                bool _debug, bool _run, source_manager *_listing);
+                bool _debug, bool _run, source_manager *_listing, std::vector<char*> *args);
             ~environment();
 
             gc_type get_gc_type() { return gct; }

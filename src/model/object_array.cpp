@@ -28,7 +28,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/utils.h"
 #include "lib/assert.h"
 #include "resource/strings.h"
-#include <sstream>
 
 namespace g0at
 {
@@ -93,7 +92,7 @@ namespace g0at
             return result;
         }
 
-        variable &object_array::get_item(int idx)
+        variable object_array::get_item(int idx)
         {
             assert (idx >= 0 && idx < vector.size());
             return vector[idx];

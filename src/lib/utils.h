@@ -73,6 +73,8 @@ namespace g0at
         void dump_file(const char *file_name, const char *postfix, std::wstring data);
         bool file_exists(const char *file_name);
         std::string wstring_to_ascii_string(std::wstring src, bool *okay);
+        std::wstring string_to_wstring(std::string str);
+        std::wstring string_to_wstring(const char *str);
         std::string normalize_file_path(std::string path);
         std::string trim(std::string str);
         std::string get_line();
