@@ -1,0 +1,26 @@
+import "io.goat";
+
+if (parg.length() != 2)
+{
+    println("syntax: goat copy.goat <source> <destination>");
+    exit(-1);
+}
+
+var data = load(parg[0]);
+if (!data)
+{
+    println("could not open '" + parg[0] + '\'');
+    exit(-1);
+}
+
+var dst = open(parg[1], File.Mode.WRITE);
+if (!dst)
+{
+    println("could not open '" + parg[1] + "' for writing");
+    exit(-1);
+}
+
+var len1 = data.length();
+var len2 = dst.write(data);
+println("Read " + len1 + " bytes, " + len2 + " bytes written.");
+dst.close();
