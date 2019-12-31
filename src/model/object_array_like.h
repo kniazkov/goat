@@ -22,47 +22,33 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "object_array_like.h"
-#include <vector>
+#include "object.h"
 
 namespace g0at
 {
     namespace model
     {
-        class object_array : public object_array_like
+        class object_array_like : public object
         {
-        friend class object_pool;
-        protected:
-            object_array(object_pool *pool);
-            void reinit();
-
         public:
-#ifndef GC_DEBUG
-            void kill(object_pool *pool) override;
-#endif            
-            object_array *to_object_array() override;
-            void trace() override;
-            void trace_parallel(object_pool *pool) override;
+            object_array_like(object_pool *pool, object *proto);
+            object_array_like *to_object_array_like() override;
+            std::wstring to_string() const override;
 
-            void op_inherit(thread *thr) override;
-            void op_add(thread *thr) override;
+            void m_get(thread *thr, int arg_count) override;
             void m_set(thread *thr, int arg_count) override;
-            void m_clone(thread *thr, int arg_count) override;
+            void m_iterator(thread *thr, int arg_count) override;
 
-            void add_item(variable &item) { vector.push_back(item); }
-            int get_length() const override;
-            variable get_item(int idx) const override;
-            variable &get_item(int idx) override;
-
-        protected:
-            std::vector<variable> vector;
+            virtual int get_length() const = 0;
+            virtual variable get_item(int idx) const = 0;
+            virtual variable& get_item(int idx) = 0;
         };
 
-        class object_array_proto : public object
+        class object_array_like_proto : public object
         {
         friend class object_pool;
         protected:
-            object_array_proto(object_pool *pool);
+            object_array_like_proto(object_pool *pool);
             void init(object_pool *pool);
         public:
             void op_new(thread *thr, int arg_count) override;

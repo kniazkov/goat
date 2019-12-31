@@ -33,6 +33,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_thread.h"
 #include "object_boolean.h"
 #include "object_real.h"
+#include "object_array_like.h"
 #include "object_array.h"
 #include "object_exception.h"
 #include "object_char.h"
@@ -75,6 +76,7 @@ namespace g0at
             runner_proto_instance = nullptr;
             boolean_proto_instance = nullptr;
             real_proto_instance = nullptr;
+            array_like_proto_instance = nullptr;
             array_proto_instance = nullptr;
             char_proto_instance = nullptr;
             uid_proto_instance = nullptr;
@@ -156,6 +158,8 @@ namespace g0at
             boolean_proto_instance = boolean_proto;
             auto real_proto = new object_real_proto(this);
             real_proto_instance = real_proto;
+            auto array_like_proto = new object_array_like_proto(this);
+            array_like_proto_instance = array_like_proto;
             auto array_proto = new object_array_proto(this);
             array_proto_instance = array_proto;
             auto char_proto = new object_char_proto(this);
@@ -213,6 +217,7 @@ namespace g0at
             char_proto->init(this);
             uid_proto->init(this);
             runner_proto->init(this);
+            array_like_proto->init(this);
             array_proto->init(this);
             iterator_proto->init(this);
             void_object->init(this);

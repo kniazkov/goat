@@ -50,6 +50,7 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"Function"), pool->get_function_proto_instance());
                 ctx->add_object(pool->get_static_string(L"Boolean"), pool->get_boolean_proto_instance());
                 ctx->add_object(pool->get_static_string(L"Real"), pool->get_real_proto_instance());
+                ctx->add_object(pool->get_static_string(L"ArrayLike"), pool->get_array_like_proto_instance());
                 ctx->add_object(pool->get_static_string(L"Array"), pool->get_array_proto_instance());
                 ctx->add_object(pool->get_static_string(L"Exception"), pool->get_exception_proto_instance());
                 ctx->add_object(pool->get_static_string(L"Thread"), pool->get_thread_proto_instance());

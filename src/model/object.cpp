@@ -198,6 +198,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_array_like *object::to_object_array_like()
+        {
+            return nullptr;
+        }
+
         object_array *object::to_object_array()
         {
             return nullptr;

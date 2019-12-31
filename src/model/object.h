@@ -48,6 +48,7 @@ namespace g0at
         class object_undefined;
         class object_null;
         class object_boolean;
+        class object_array_like;
         class object_array;
         class object_exception;
         class object_char;
@@ -208,6 +209,7 @@ namespace g0at
             virtual object_undefined *to_object_undefined();
             virtual object_null *to_object_null();
             virtual object_boolean *to_object_boolean();
+            virtual object_array_like *to_object_array_like();
             virtual object_array *to_object_array();
             virtual object_exception *to_object_exception();
             virtual object_char *to_object_char();

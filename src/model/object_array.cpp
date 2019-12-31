@@ -35,51 +35,10 @@ namespace g0at
     namespace model
     {
         /*
-            Iterator
-        */
-        class object_array_iterator : public object
-        {
-        public:
-            object_array_iterator(object_pool *pool, object_array *_parent)
-                : object(pool, pool->get_iterator_proto_instance()), parent(_parent), index(-1)
-            {
-            }
-
-            void trace() override
-            {
-                parent->mark();
-            }
-
-            void m_valid(thread *thr, int arg_count) override
-            {
-                thr->pop();
-                thr->pop(arg_count);
-                variable tmp;
-                tmp.set_boolean(index + 1 < parent->get_length());
-                thr->push(tmp);
-            }
-
-            void m_next(thread *thr, int arg_count) override
-            {
-                thr->pop();
-                thr->pop(arg_count);
-                index++;
-                if (index < parent->get_length())
-                    thr->push(parent->get_item(index));
-                else
-                    thr->push_undefined();
-            }
-
-        protected:
-            object_array *parent;
-            int index;
-        };
-
-        /*
             Array
         */
         object_array::object_array(object_pool *pool)
-            : object(pool, pool->get_array_proto_instance())
+            : object_array_like(pool, pool->get_array_proto_instance())
         {
         }
 
@@ -105,20 +64,6 @@ namespace g0at
             return this;
         }
 
-        std::wstring object_array::to_string() const
-        {
-            std::wstringstream wss;
-            wss << L'[';
-            for (int i = 0, size = (int)vector.size(); i < size; i++)
-            {
-                if (i)
-                    wss << L',';
-                wss << vector[i].to_string_notation();
-            }
-            wss << L']';
-            return wss.str();
-        }
-
         void object_array::trace() 
         {
             for (variable &item : vector)
@@ -133,6 +78,25 @@ namespace g0at
             {
                 item.mark_parallel(pool);
             }
+        }
+
+        int object_array::get_length() const
+        {
+            return (int)vector.size();
+        }
+
+        variable object_array::get_item(int idx) const
+        {
+            variable result;
+            assert (idx >= 0 && idx < vector.size());
+            result = vector[idx];
+            return result;
+        }
+
+        variable &object_array::get_item(int idx)
+        {
+            assert (idx >= 0 && idx < vector.size());
+            return vector[idx];
         }
 
         void object_array::op_inherit(thread *thr)
@@ -177,30 +141,6 @@ namespace g0at
                 result->vector.push_back(right);
             } while (false);
             thr->push(var);
-        }
-
-        void object_array::m_get(thread *thr, int arg_count)
-        {
-            if (arg_count < 1)
-            {
-                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
-                return;
-            }
-            variable index = thr->peek(1);
-            int64_t int_index;
-            if (index.get_integer(&int_index))
-            {
-                thr->pop();
-                thr->pop(arg_count);
-                if (int_index >= 0 && int_index < (int64_t)vector.size())
-                    thr->push(vector[(size_t)int_index]);
-                else
-                    thr->push_undefined();                
-            }
-            else
-            {
-                thr->pool->get_array_proto_instance()->m_get(thr, arg_count);
-            }
         }
 
         void object_array::m_set(thread *thr, int arg_count)
@@ -267,15 +207,6 @@ namespace g0at
             thr->push(result);
         }
 
-        void object_array::m_iterator(thread *thr, int arg_count)
-        {
-            thr->pop();
-            thr->pop(arg_count);
-            variable tmp;
-            tmp.set_object(new object_array_iterator(thr->pool, this));
-            thr->push(tmp);
-        }
-
         /*
             Prototype
         */
@@ -312,21 +243,6 @@ namespace g0at
             }
 
             virtual bool payload(object_array *this_ptr, thread *thr, int arg_count, variable *result) = 0;
-        };
-
-        class object_array_length : public object_array_method
-        {
-        public:
-            object_array_length(object_pool *_pool)
-                : object_array_method(_pool)
-            {
-            }
-            
-            bool payload(object_array *this_ptr, thread *thr, int arg_count, variable *result) override
-            {
-                result->set_integer(this_ptr->get_length());
-                return true;
-            }
         };
 
         class object_array_push : public object_array_method
@@ -404,13 +320,12 @@ namespace g0at
         };
 
         object_array_proto::object_array_proto(object_pool *pool)
-            : object(pool)
+            : object(pool, pool->get_array_like_proto_instance())
         {
         }
 
         void object_array_proto::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(resource::str_length), new object_array_length(pool));
             add_object(pool->get_static_string(resource::str_push), new object_array_push(pool));
             add_object(pool->get_static_string(resource::str_oper_plus), new object_array_operator_plus(pool));
             lock();
