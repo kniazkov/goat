@@ -1,4 +1,4 @@
-# Copyright (C) 17-19 Ivan Kniazkov
+# Copyright (C) 2017-2020 Ivan Kniazkov
 
 # This file is part of interpreter of programming language
 # codenamed "Goat" ("Goat interpreter").
