@@ -4902,6 +4902,17 @@
                         <e>var x = abs(-123); // 123</e>
                         <n>The returned value has the same type as the argument.</n>
                     </m>
+                    <m name="acos" descr="Returns the arc cosine of arg, expressed in radians.">
+                        <a name="arg" type="Real" descr="a value"/>
+                        <e>var x = acos(-1); // 3.1415927...</e>
+                    </m>
+                    <m name="asin" descr="Returns the arc sine of arg, expressed in radians.">
+                        <a name="arg" type="Real" descr="a value"/>
+                        <e>var x = asin(1); // 1.5707963...</e>
+                    </m>
+                    <m name="atan" descr="Returns the arc tangent of arg, expressed in radians.">
+                        <a name="arg" type="Real" descr="a value"/>
+                    </m>
                     <m name="atan2" descr="Returns arc tangent from 2 arguments, expressed in radians.">
                         <a name="y" type="Real" descr="y-coordinate"/>
                         <a name="x" type="Real" descr="x-coordinate"/>
@@ -4910,6 +4921,27 @@
                     <m name="cbrt" descr="Returns the cubic root of arg.">
                         <a name="arg" type="Real" descr="a value"/>
                         <e>var x = cbrt(27); // 3</e>
+                    </m>
+                    <m name="cos" descr="Returns the cosine of an angle of arg radians.">
+                        <a name="arg" type="Real" descr="a value"/>
+                        <e>var x = cos(60.0 * PI / 180.0); // 0.5</e>
+                    </m>
+                    <m name="exp" descr="Computes exponential function.">
+                        <a name="arg" type="Real" descr="value of the exponent"/>
+                        <e>var x = exp(5); // 148.413159</e>
+                    </m>
+                    <m name="log">
+                        <d>Computes natural logarithm (reverse operation to <c>exp</c>).</d>
+                        <a name="arg" type="Real" descr="value whose logarithm is calculated"/>
+                        <e>var x = log(exp(5)); // 5</e>
+                    </m>
+                    <m name="log2" descr="Computes binary logarithm.">
+                        <a name="arg" type="Real" descr="value whose logarithm is calculated"/>
+                        <e>var x = log2(1024); // 10</e>
+                    </m>
+                    <m name="log10" descr="Computes common (base-10) logarithm.">
+                        <a name="arg" type="Real" descr="value whose logarithm is calculated"/>
+                        <e>var x = log2(1000); // 3</e>
                     </m>
                     <m name="round" descr="Returns the rounded (integer) value of arg.">
                         <a name="arg" type="Real" descr="a value"/>
@@ -4925,6 +4957,9 @@
                     <m name="sqrt" descr="Returns the square root of arg.">
                         <a name="arg" type="Real" descr="a value"/>
                         <e>var x = sqrt(64); // 8</e>
+                    </m>
+                    <m name="tan" descr="Returns the tangent of an angle of arg radians.">
+                        <a name="arg" type="Real" descr="a value"/>
                     </m>
                 </s>
                 <s name="Other">
