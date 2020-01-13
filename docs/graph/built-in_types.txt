@@ -11,7 +11,8 @@ digraph graphname
     Integer -> Number;
     Real -> Number;
     Boolean -> Object;
-    Array -> Object;
+    ArrayLike -> Object;
+    Array -> ArrayLike;
     Null -> Void;
     Undefined -> Void;
     Number -> Object;

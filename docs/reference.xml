@@ -2922,32 +2922,6 @@
                 </c>
                 <p>So, objects are containers for pairs <c>key:value</c>, where the key can be an identifier or any object, and the value can be any object. However, the Goat program works a little faster if you use identifiers as keys, so this is the preferred method.</p>
             </s>
-            <!--
-            <s name="Each object has some predefined methods">
-                <p>Goat adds these methods to each object.</p>
-                <m name="instanceof" descr="Returns whether an object is derived from another object or not.">
-                    <a name="object" type="any type" descr="the prototype"/>
-                    <e><![CDATA[
-                        var isInteger = $(obj)
-                        {
-                            return obj.instanceof(Integer);
-                        };]]>
-                    </e>
-                    <n>The method is used to determine the type (more correctly, the prototype) of the object. What is a prototype, will be described a little later.</n>
-                </m>
-                <m name="clone" descr="Returns a clone of the object, that is, a new object in which all properties are the same as in the source object.">
-                    <e><![CDATA[
-                        var a = { name: "Ivan", age: 33 };
-                        var b = a.clone();
-                        b.name = "Jonh";
-                        print(b); // output: {name:"John",age:33}
-                        print(a); // output: {name:"Ivan",age:33} ]]>
-                    </e>
-                    <n>This is required if you need to get a real copy of the object, then change it and leave the original object unchanged.</n>
-                </m>
-                <m name="flat" descr="Returns a flat object, that is, an object that contains all the properties of the source object, as well as all properties of all prototypes of the source object. What is a prototype, will be described a little later."/>
-            </s>
-            -->
             <s name="Everything is an object">
                 <p>All data (strings, numbers, booleans) represented as objects. These are "special" objects that have special behavior. But beyond this, these objects do everything the same as other, "ordinary" objects.</p>
                 <p>For example, you can add a property for a string:</p>
@@ -2955,24 +2929,6 @@
                     var str = "hello!";
                     str.somePropertyName = 123;]]>
                 </c>
-                <!--
-                <p>...or add some method to an integer:</p>
-                <c><![CDATA[
-                    var n = 123;
-                    n.increment = $()
-                    {
-                        return this + 1;
-                    }; ]]>
-                </c>
-                <p>As each object has some predefined methods, strings, booleans, integers, and others also have all these methods:</p>
-                <c><![CDATA[
-                    var str = "hello!";
-                    print(str.instanceof(String)); // output: true
-                    
-                    var num = 10;
-                    print(num.instanceof(Boolean)); // ounput: false]]>
-                </c>
-                -->
             </s>
         </s>
         <s name="Methods">
@@ -4216,7 +4172,7 @@
                     <p>Returns an instance of an iterator object. Iterators are used to enumerate values in a sequence. See the <link>Iterators</link> chapter for more info.</p>
                 </s>
             </s>
-            <s name="Prototypes of built-in types">
+            <s name="Prototypes of built-in types" anchor="Prototypes of built-in types">
                 <p>Each object of built-in type (string, integer, etc) has own built-in prototype:</p>
                 <l>
                     <i><c>String</c> is the prototype for strings. Every time you define a string, for example, <c>var s = "hello, world"</c> you create a new object that has the <c>String</c> prototype;</i>
@@ -4841,6 +4797,40 @@
                     <p>This example does not take into account the fact that threads do not necessarily execute their instructions strictly by one. In fact, the first thread can execute any number of instructions before passing control to another thread. But in any case, <b>unsynchronized access to shared resources can lead to serious errors</b> that hard to detect and fix.</p>
                 </s>
             </s>
+        </s>
+        <s name="Command line arguments">
+            <p>As previously described, all arguments started with two hyphens are internal parameters of the interpreter; the first argument which is not an option is the name of the script file. All next arguments are sent to the script and can be read from the special pseudo-array named <b>parg</b>.</p>
+            <p>The <c>parg</c> object is always created by the interpreter when the script starts. It contains zero or more <c>String</c> objects.</p>
+            <p>Example. The script that reads file specified as the first argument and makes a copy (write another file) with the name specified as the second argument. </p>
+            <c><![CDATA[
+                import "io.goat";
+
+                if (parg.length() != 2)
+                {
+                    println("syntax: goat copy.goat <source> <destination>");
+                    exit(-1);
+                }
+
+                var data = load(parg[0]);
+                if (!data)
+                {
+                    println("could not open '" + parg[0] + '\'');
+                    exit(-1);
+                }
+
+                var dst = open(parg[1], File.Mode.WRITE);
+                if (!dst)
+                {
+                    println("could not open '" + parg[1] + "' for writing");
+                    exit(-1);
+                }
+
+                var len1 = data.length();
+                var len2 = dst.write(data);
+                println("Read " + len1 + " bytes, " + len2 + " bytes written.");
+                dst.close();]]>
+            </c>
+            <p>Note that the <c>parg</c> object is pseudo-array. It inherited from <c>ArrayLike</c> prototype (see <link>Prototypes of built-in types</link> chapter). This object like a read-only array: you can read length of this and get an item by index, but can not modify it.</p>
         </s>
     </s>
     
