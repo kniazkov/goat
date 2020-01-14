@@ -4657,6 +4657,9 @@
                             print('A');]]>
                     </e>
                 </m>
+                <m name="works">
+                    <d>Returns <c>true</c> if the thread works now (alive and not suspended).</d>
+                </m>
                 <m name="suspend">
                     <d>Suspends the thread, returns <c>true</c> if the thread is suspended.</d>
                 </m>
@@ -5310,6 +5313,56 @@
                         <m name="add">
                             <d>Adds another value to the value of the atomic object, i.e. performs the <c>+</c> operator.</d>
                             <a name="summand" type="any object" descr="a value to add"/>
+                        </m>
+                    </s>
+                </s>
+                <s name="Mutex">
+                    <p>Mutex is primitive of synchronization. Like critical sections, it locks executing a code block by two threads at the same time. However, there is a difference: <b>in critical section, the interpreter does not switch threads</b> (it can be painful for some applications), <b>mutex in contrary only suspends concurrent threads but other threads continue to execute.</b> Suspended threads placed to queue and resume one by one as soon as thread that locks mutex released it.</p>
+                    <p>Mutex is a complex wrapper around of critical section, it takes more resources, but anyway it is preferable construction if a critical block of code has more than several instructions.</p>
+                    <p>Example:</p>
+                    <c><![CDATA[
+                        import "mutex.goat";
+
+                        var x = 0;
+                        var m = new Mutex();
+                        var k = 0;
+
+                        var t = thread()
+                        {
+                            var i;
+                            for (i = 0; i < 1000; ++i)
+                            {
+                                m.lock();
+                                ++x;
+                                m.unlock();
+                            }
+                        };
+
+                        var r1 = t.run();
+                        var r2 = t.run();
+                        var r3 = t.run();
+                        var r4 = t.run();
+                        var r5 = t.run();
+                        var r6 = t.run();
+                        var r7 = t.run();
+                        r1.join();
+                        r2.join();
+                        r3.join();
+                        r4.join();
+                        r5.join();
+                        r6.join();
+                        r7.join();
+                        println(x);]]>
+                    </c>
+                    <s name="Methods">
+                        <m name="tryLock">
+                            <d>Tries to lock the mutex, returns <c>false</c> if the mutex is already locked by another thread, <c>true</c> if the mutex was locked.</d>
+                        </m>
+                        <m name="lock">
+                            <d>Tries to lock the mutex. If the mutex is not locked, the method locks it and continues executing. If the mutex already locked by the current thread, the method increases the count of locks and continues executing. If the mutex already locked but by another thread, the method suspends the current thread and places it to the queue.</d>
+                        </m>
+                        <m name="unlock">
+                            <d>Unlocks the mutex. The mutex can be unlocked only by the thread which locked it. If the mutex queue contains suspended threads, the method resumes the first thread taken from this queue.</d>
                         </m>
                     </s>
                 </s>
