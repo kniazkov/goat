@@ -5256,6 +5256,19 @@
             </s>
         </s>
         <s name="External library">
+            <s name="Algorithms">
+                <p>These are common functions that can be applied to various structures of data. All algorithms are defined in the <c>lib\algorithm.goat</c> file.</p>
+                <m name="indexOf">
+                    <d>Returns index of the element of array (or array-like object, it should support index access). If the element is not found, the method returns -1.</d>
+                    <a name="array" type="ArrayLike | String" descr="an array or array-like object"/>
+                    <a name="searchElement" type="any type" descr="an element"/>
+                    <e><![CDATA[
+                        import "algorithm.goat";
+                        var a = [0,"test",true];
+                        print(indexOf(a, "test"); // 1]]>
+                    </e>
+                </m>
+            </s>
             <s name="Input/output">
                 <s name="Methods">
                     <p>All metods are defined in the <c>lib\io.goat</c> file.</p>
