@@ -1,0 +1,22 @@
+digraph graphname
+{
+    node [fontname="sans-serif", fontsize=10 shape=oval penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=10 penwidth=0.7];
+    
+    Collection -> Object;
+    MutableCollection -> Collection;
+    IndexedCollection -> Collection;
+    AssociativeCollection -> Collection;
+    List -> IndexedCollection;
+    List -> MutableCollection;
+    Map -> AssociativeCollection;
+    Map -> MutableCollection;
+    Queue -> MutableCollection;
+    Queue -> IndexedCollection;
+    Set -> MutableCollection;
+    Set -> AssociativeCollection;
+    Stack -> MutableCollection;
+    Stack -> IndexedCollection;
+    Vector -> MutableCollection;
+    Vector -> IndexedCollection;
+}

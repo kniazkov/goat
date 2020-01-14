@@ -22,7 +22,7 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 import "collection.goat";
 
-var Stack = MutableCollection ->
+var Stack = [IndexedCollection, MutableCollection] ->
 # {
     init : $(data)
     {

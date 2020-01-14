@@ -5281,6 +5281,10 @@
                     </m>
                 </s>
             </s>
+            <s name="Collections">
+                <p>Collections are used to store data. Each collection saves data in some special order. Basic prototypes (see diagram) contain methods common to each collection.</p>
+                <pic title="Collections">graph/collections.svg</pic>
+            </s>
             <s name="Multithreading">
                 <s name="Atomic">
                     <p>Atomic types are types that encapsulate a value whose access is guaranteed to not cause data races and can be used to synchronize memory accesses among different threads. The <c>Atomic</c> class is a wrapper, the value of that can be changed safely in a multi-thread script. </p>
