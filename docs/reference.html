@@ -47,7 +47,7 @@
         <a href="#ref_212">Standard library</a>
       </li>
       <li>
-        <a href="#ref_245">Appendix</a>
+        <a href="#ref_249">Appendix</a>
       </li>
     </ul>
     <a name="ref_0"> </a>
@@ -137,7 +137,7 @@
         </div>
         <div class="para">
           Here is a short list of interpreter options. All options are described in the 
-          <a href="#ref_259">Appendix</a>
+          <a href="#ref_263">Appendix</a>
           section.
         </div>
         <div class="header">--lib</div>
@@ -14025,10 +14025,10 @@
             <a href="#ref_234">Collections</a>
           </li>
           <li>
-            <a href="#ref_235">Multithreading</a>
+            <a href="#ref_239">Multithreading</a>
           </li>
           <li>
-            <a href="#ref_238">Data formats</a>
+            <a href="#ref_242">Data formats</a>
           </li>
         </ul>
         <a name="ref_232"> </a>
@@ -14089,7 +14089,21 @@
         <a name="ref_234"> </a>
         <div style="font-size: large;" class="header">6.2.3. Collections</div>
         <div class="section">
-          <div class="para">Collections are used to store data. Each collection saves data in some special order. Basic prototypes (see diagram) contain methods common to each collection.</div>
+          <ul class="content">
+            <li>
+              <a href="#ref_235">Collection</a>
+            </li>
+            <li>
+              <a href="#ref_236">IndexedCollection</a>
+            </li>
+            <li>
+              <a href="#ref_237">AssociativeCollection</a>
+            </li>
+            <li>
+              <a href="#ref_238">MutableCollection</a>
+            </li>
+          </ul>
+          <div class="para">Collections are used to store data. Each collection saves data in some special order. Base prototypes (see diagram) contain methods common to each collection.</div>
           <div class="pic">
             <img src="graph/collections.svg"/>
             <br/>
@@ -14098,19 +14112,145 @@
               Collections
             </p>
           </div>
+          <a name="ref_235"> </a>
+          <div style="font-size: medium;" class="header">6.2.3.1. Collection</div>
+          <div class="section">
+            <div class="para">
+              The base class for all collections. It defined in the 
+              <code class="inline">lib\collection.goat</code>
+              file. Each collection should provide at least these methods:
+            </div>
+            <div class="header">size (  ): O(1)</div>
+            <div class="para">Returns size of the collection, i.e. count of elements.</div>
+            <div class="header">empty (  ): O(1)</div>
+            <div class="para">
+              Returns 
+              <code class="inline">true</code>
+              if the collection is empty.
+            </div>
+            <div class="header">iterator (  ): O(1)</div>
+            <div class="para">Creates an iterator to enumerate all elements.</div>
+            <div class="header">contains ( element )</div>
+            <div class="para">
+              Returns 
+              <code class="inline">true</code>
+              if the collection contains the element.
+            </div>
+            <div class="para">Parameter:</div>
+            <ul>
+              <li>element (any type): an element</li>
+            </ul>
+            <div class="para">
+              Complexity: 
+              Depends on implementation.
+            </div>
+            <div class="header">toArray (  ): O(n)</div>
+            <div class="para">Returns an array contains all elements of the collection.</div>
+          </div>
+          <a name="ref_236"> </a>
+          <div style="font-size: medium;" class="header">6.2.3.2. IndexedCollection</div>
+          <div class="section">
+            <div class="para">
+              The base class for a collection, elements of which can be accessed by integer index. It defines, in additional to the 
+              <code class="inline">Collection</code>
+              class, these methods:
+            </div>
+            <div class="header">indexOf ( element ): O(n)</div>
+            <div class="para">Returns index of the element of the collection. If the element is not found, the method returns -1.</div>
+            <div class="para">Parameter:</div>
+            <ul>
+              <li>element (any type): an element</li>
+            </ul>
+            <div class="header">get ( index )</div>
+            <div class="para">
+              Returns element by index or throws 
+              <code class="inline">IndexOutOfBounds</code>
+              exception if the index out of bounds.
+            </div>
+            <div class="para">Parameter:</div>
+            <ul>
+              <li>index (Integer): an index</li>
+            </ul>
+            <div class="para">
+              Complexity: 
+              Depends on implementation.
+            </div>
+          </div>
+          <a name="ref_237"> </a>
+          <div style="font-size: medium;" class="header">6.2.3.3. AssociativeCollection</div>
+          <div class="section">
+            <div class="para">
+              The base class for a collection, elements of which can be accessed by key. Any object can be a key. The class defines, in additional to the 
+              <code class="inline">Collection</code>
+              class, these methods:
+            </div>
+            <div class="header">get ( key )</div>
+            <div class="para">
+              Returns element by key or 
+              <code class="inline">undefined</code>
+              if the key is not found.
+            </div>
+            <div class="para">Parameter:</div>
+            <ul>
+              <li>key (Any object): a key</li>
+            </ul>
+            <div class="para">
+              Complexity: 
+              Depends on implementation.
+            </div>
+          </div>
+          <a name="ref_238"> </a>
+          <div style="font-size: medium;" class="header">6.2.3.4. MutableCollection</div>
+          <div class="section">
+            <div class="para">The base class for a collection that can be modified (elements can be added or removed).</div>
+            <div class="header">clear (  ): O(1)</div>
+            <div class="para">
+              Removes all elements from the collection. Returns 
+              <code class="inline">true</code>
+              if the operation was successful.
+            </div>
+            <div class="header">add ( element )</div>
+            <div class="para">
+              Adds the element to the collection. Returns 
+              <code class="inline">true</code>
+              if the operation was successful.
+            </div>
+            <div class="para">Parameter:</div>
+            <ul>
+              <li>element (any type): an element</li>
+            </ul>
+            <div class="para">
+              Complexity: 
+              Depends on implementation.
+            </div>
+            <div class="header">delete ( element )</div>
+            <div class="para">
+              Removes the element from the collection. Returns 
+              <code class="inline">true</code>
+              if the operation was successful.
+            </div>
+            <div class="para">Parameter:</div>
+            <ul>
+              <li>element (any type): an element</li>
+            </ul>
+            <div class="para">
+              Complexity: 
+              Depends on implementation.
+            </div>
+          </div>
         </div>
-        <a name="ref_235"> </a>
+        <a name="ref_239"> </a>
         <div style="font-size: large;" class="header">6.2.4. Multithreading</div>
         <div class="section">
           <ul class="content">
             <li>
-              <a href="#ref_236">Atomic</a>
+              <a href="#ref_240">Atomic</a>
             </li>
             <li>
-              <a href="#ref_237">Mutex</a>
+              <a href="#ref_241">Mutex</a>
             </li>
           </ul>
-          <a name="ref_236"> </a>
+          <a name="ref_240"> </a>
           <div style="font-size: medium;" class="header">6.2.4.1. Atomic</div>
           <div class="section">
             <div class="para">
@@ -14268,7 +14408,7 @@
               </ul>
             </div>
           </div>
-          <a name="ref_237"> </a>
+          <a name="ref_241"> </a>
           <div style="font-size: medium;" class="header">6.2.4.2. Mutex</div>
           <div class="section">
             <div class="para">
@@ -14394,17 +14534,17 @@
             </div>
           </div>
         </div>
-        <a name="ref_238"> </a>
+        <a name="ref_242"> </a>
         <div style="font-size: large;" class="header">6.2.5. Data formats</div>
         <div class="section">
           <div style="font-size: medium;" class="header">6.2.5.1. Xml</div>
           <div class="section">
             <ul class="content">
               <li>
-                <a href="#ref_239">Classes</a>
+                <a href="#ref_243">Classes</a>
               </li>
               <li>
-                <a href="#ref_244">Methods</a>
+                <a href="#ref_248">Methods</a>
               </li>
             </ul>
             <div class="para">
@@ -14413,30 +14553,30 @@
               .
             </div>
             <div class="para">The parser takes a string that contains the source document. If you need to parse the file, you must first read and decode it using other methods. The document is recognized as a whole, the output is a tree of XML elements. If the document contains an error, the parser throws an appropriate exception.</div>
-            <a name="ref_239"> </a>
+            <a name="ref_243"> </a>
             <div style="font-size: medium;" class="header">Classes</div>
             <div class="section">
               <ul class="content">
                 <li>
-                  <a href="#ref_240">Xml.Element</a>
+                  <a href="#ref_244">Xml.Element</a>
                 </li>
                 <li>
-                  <a href="#ref_243">Xml.Error</a>
+                  <a href="#ref_247">Xml.Error</a>
                 </li>
               </ul>
-              <a name="ref_240"> </a>
+              <a name="ref_244"> </a>
               <div style="font-size: medium;" class="header">Xml.Element</div>
               <div class="section">
                 <ul class="content">
                   <li>
-                    <a href="#ref_241">Fields</a>
+                    <a href="#ref_245">Fields</a>
                   </li>
                   <li>
-                    <a href="#ref_242">Methods</a>
+                    <a href="#ref_246">Methods</a>
                   </li>
                 </ul>
                 <div class="para">The class that contains the data of one XML element. An XML element can contain attributes and child elements, thus, each element is the root of the element tree. The XML parser returns one root element that contains the whole document as a tree of elements.</div>
-                <a name="ref_241"> </a>
+                <a name="ref_245"> </a>
                 <div style="font-size: medium;" class="header">Fields</div>
                 <div class="section">
                   <div class="header">tag</div>
@@ -14501,7 +14641,7 @@
                     </ul>
                   </div>
                 </div>
-                <a name="ref_242"> </a>
+                <a name="ref_246"> </a>
                 <div style="font-size: medium;" class="header">Methods</div>
                 <div class="section">
                   <div class="header">toString ( indent )</div>
@@ -14633,7 +14773,7 @@
                   </ul>
                 </div>
               </div>
-              <a name="ref_243"> </a>
+              <a name="ref_247"> </a>
               <div style="font-size: medium;" class="header">Xml.Error</div>
               <div class="section">
                 <div class="para">The class contains a description of the error that occurred in the case of parsing a non-valid document.</div>
@@ -14685,7 +14825,7 @@
                 </div>
               </div>
             </div>
-            <a name="ref_244"> </a>
+            <a name="ref_248"> </a>
             <div style="font-size: medium;" class="header">Methods</div>
             <div class="section">
               <div class="header">parse ( str )</div>
@@ -14717,56 +14857,56 @@
         </div>
       </div>
     </div>
-    <a name="ref_245"> </a>
+    <a name="ref_249"> </a>
     <div style="font-size: xx-large;" class="header">7. Appendix</div>
     <div class="section">
       <ul class="content">
         <li>
-          <a href="#ref_246">In comparison with JavaScript</a>
+          <a href="#ref_250">In comparison with JavaScript</a>
         </li>
         <li>
-          <a href="#ref_259">Command line options and environment variables</a>
+          <a href="#ref_263">Command line options and environment variables</a>
         </li>
       </ul>
-      <a name="ref_246"> </a>
+      <a name="ref_250"> </a>
       <div style="font-size: x-large;" class="header">7.1. In comparison with JavaScript</div>
       <div class="section">
         <ul class="content">
           <li>
-            <a href="#ref_247">Identifiers</a>
+            <a href="#ref_251">Identifiers</a>
           </li>
           <li>
-            <a href="#ref_248">Keywords</a>
+            <a href="#ref_252">Keywords</a>
           </li>
           <li>
-            <a href="#ref_249">Primitive types</a>
+            <a href="#ref_253">Primitive types</a>
           </li>
           <li>
-            <a href="#ref_250">Scope</a>
+            <a href="#ref_254">Scope</a>
           </li>
           <li>
-            <a href="#ref_251">The &apos;this&apos; keyword</a>
+            <a href="#ref_255">The &apos;this&apos; keyword</a>
           </li>
           <li>
-            <a href="#ref_252">Operators</a>
+            <a href="#ref_256">Operators</a>
           </li>
           <li>
-            <a href="#ref_253">Operators overloading</a>
+            <a href="#ref_257">Operators overloading</a>
           </li>
           <li>
-            <a href="#ref_254">Multithreading</a>
+            <a href="#ref_258">Multithreading</a>
           </li>
           <li>
-            <a href="#ref_255">The &apos;new&apos; keyword and constructors</a>
+            <a href="#ref_259">The &apos;new&apos; keyword and constructors</a>
           </li>
           <li>
-            <a href="#ref_256">Inheritance</a>
+            <a href="#ref_260">Inheritance</a>
           </li>
           <li>
-            <a href="#ref_257">Multiple inheritance</a>
+            <a href="#ref_261">Multiple inheritance</a>
           </li>
           <li>
-            <a href="#ref_258">Syntactic sugar</a>
+            <a href="#ref_262">Syntactic sugar</a>
           </li>
         </ul>
         <div class="para">The Goat programming language based in general on JavaScript syntax, but it has some differences.</div>
@@ -14778,7 +14918,7 @@
           <li>You can create an object from more than one prototype.</li>
         </ul>
         <div class="para">Some samples are below.</div>
-        <a name="ref_247"> </a>
+        <a name="ref_251"> </a>
         <div style="font-size: large;" class="header">7.1.1. Identifiers</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -14814,7 +14954,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_248"> </a>
+        <a name="ref_252"> </a>
         <div style="font-size: large;" class="header">7.1.2. Keywords</div>
         <div class="section">
           <div class="para">The Goat programming language reserves several additional keywords:</div>
@@ -14852,7 +14992,7 @@
             </tr>
           </table>
         </div>
-        <a name="ref_249"> </a>
+        <a name="ref_253"> </a>
         <div style="font-size: large;" class="header">7.1.3. Primitive types</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -14910,7 +15050,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_250"> </a>
+        <a name="ref_254"> </a>
         <div style="font-size: large;" class="header">7.1.4. Scope</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -14991,7 +15131,7 @@
             <div class="para">But, if you re-declare a Goat variable in the same block, it will lose old value.</div>
           </div>
         </div>
-        <a name="ref_251"> </a>
+        <a name="ref_255"> </a>
         <div style="font-size: large;" class="header">7.1.5. The &apos;this&apos; keyword</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -15080,7 +15220,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_252"> </a>
+        <a name="ref_256"> </a>
         <div style="font-size: large;" class="header">7.1.6. Operators</div>
         <div class="section">
           <div class="para">
@@ -15127,7 +15267,7 @@
             </li>
           </ul>
         </div>
-        <a name="ref_253"> </a>
+        <a name="ref_257"> </a>
         <div style="font-size: large;" class="header">7.1.7. Operators overloading</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -15224,7 +15364,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_254"> </a>
+        <a name="ref_258"> </a>
         <div style="font-size: large;" class="header">7.1.8. Multithreading</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -15307,7 +15447,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_255"> </a>
+        <a name="ref_259"> </a>
         <div style="font-size: large;" class="header">7.1.9. The &apos;new&apos; keyword and constructors</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -15416,7 +15556,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_256"> </a>
+        <a name="ref_260"> </a>
         <div style="font-size: large;" class="header">7.1.10. Inheritance</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -15556,7 +15696,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_257"> </a>
+        <a name="ref_261"> </a>
         <div style="font-size: large;" class="header">7.1.11. Multiple inheritance</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -15612,7 +15752,7 @@
             <div class="para">The prototype traversal order for multiple inheritance is determined by the topological sorting of the prototype tree.</div>
           </div>
         </div>
-        <a name="ref_258"> </a>
+        <a name="ref_262"> </a>
         <div style="font-size: large;" class="header">7.1.12. Syntactic sugar</div>
         <div class="section">
           <div style="font-size: medium;" class="header">7.1.12.1. Null conditional operator</div>
@@ -15642,7 +15782,7 @@
           </div>
         </div>
       </div>
-      <a name="ref_259"> </a>
+      <a name="ref_263"> </a>
       <div style="font-size: x-large;" class="header">7.2. Command line options and environment variables</div>
       <div class="section">
         <div class="para">Here is the full list of command line options.</div>

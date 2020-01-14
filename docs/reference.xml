@@ -5282,8 +5282,60 @@
                 </s>
             </s>
             <s name="Collections">
-                <p>Collections are used to store data. Each collection saves data in some special order. Basic prototypes (see diagram) contain methods common to each collection.</p>
+                <p>Collections are used to store data. Each collection saves data in some special order. Base prototypes (see diagram) contain methods common to each collection.</p>
                 <pic title="Collections">graph/collections.svg</pic>
+                <s name="Collection">
+                    <p>The base class for all collections. It defined in the <c>lib\collection.goat</c> file. Each collection should provide at least these methods:</p>
+                    <m name="size" descr="Returns size of the collection, i.e. count of elements." complex="O(1)"/>
+                    <m name="empty" complex="O(1)">
+                        <d>Returns <c>true</c> if the collection is empty.</d>
+                    </m>
+                    <m name="iterator" descr="Creates an iterator to enumerate all elements." complex="O(1)"/>
+                    <m name="contains">
+                        <d>Returns <c>true</c> if the collection contains the element.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                        <x>Depends on implementation.</x>
+                    </m>
+                    <m name="toArray" complex="O(n)">
+                        <d>Returns an array contains all elements of the collection.</d>
+                    </m>
+                </s>
+                <s name="IndexedCollection">
+                    <p>The base class for a collection, elements of which can be accessed by integer index. It defines, in additional to the <c>Collection</c> class, these methods:</p>
+                    <m name="indexOf" complex="O(n)">
+                        <d>Returns index of the element of the collection. If the element is not found, the method returns -1.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="get">
+                        <d>Returns element by index or throws <c>IndexOutOfBounds</c> exception if the index out of bounds.</d>
+                        <a name="index" type="Integer" descr="an index"/>
+                        <x>Depends on implementation.</x>
+                    </m>
+                </s>
+                <s name="AssociativeCollection">
+                    <p>The base class for a collection, elements of which can be accessed by key. Any object can be a key. The class defines, in additional to the <c>Collection</c> class, these methods:</p>
+                    <m name="get">
+                        <d>Returns element by key or <c>undefined</c> if the key is not found.</d>
+                        <a name="key" type="Any object" descr="a key"/>
+                        <x>Depends on implementation.</x>
+                    </m>
+                </s>
+                <s name="MutableCollection">
+                    <p>The base class for a collection that can be modified (elements can be added or removed).</p>
+                    <m name="clear" complex="O(1)">
+                        <d>Removes all elements from the collection. Returns <c>true</c> if the operation was successful.</d>
+                    </m>
+                    <m name="add">
+                        <d>Adds the element to the collection. Returns <c>true</c> if the operation was successful.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                        <x>Depends on implementation.</x>
+                    </m>
+                    <m name="delete">
+                        <d>Removes the element from the collection. Returns <c>true</c> if the operation was successful.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                        <x>Depends on implementation.</x>
+                    </m>
+                </s>
             </s>
             <s name="Multithreading">
                 <s name="Atomic">

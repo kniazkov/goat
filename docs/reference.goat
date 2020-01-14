@@ -184,6 +184,7 @@ var parseSection = $(src, dst, level, prefix)
             case "method":
             {
                 var hasDescr = false;
+                var hasCompl = false;
                 var title = new Xml.Element("div");
                 title.attrib.class = "header";        
                 dst.data.push(title);
@@ -224,6 +225,11 @@ var parseSection = $(src, dst, level, prefix)
                     title.data.push(args.length() > 1 ? "Parameters:" : "Parameter:");
                 }
                 b << " )";
+                if (child.attrib.complex)
+                {
+                    hasCompl = true;
+                    b << ": " << child.attrib.complex;
+                }
                 title.data.push(b.data());
                 var example = child.findFirstByTag(["example", "e"]);
                 if (example != null && example.data.length() == 1 && example.data[0].instanceof(String))
@@ -235,6 +241,18 @@ var parseSection = $(src, dst, level, prefix)
                     code.attrib.class = "code";
                     dst.data.push(code);
                     parseCode(example.data[0], code);
+                }
+                if (!hasCompl)
+                {
+                    var complex2 = child.findFirstByTag(["complexity", "x"]);
+                    if (complex2 != null)
+                    {
+                        var block = new Xml.Element("div");
+                        block.attrib.class = "para";
+                        dst.data.push(block);
+                        block.data.push("Complexity: ");
+                        parseParagraph(complex2, block);
+                    }
                 }
                 var note = child.findFirstByTag(["note", "n"]);
                 if (note != null)
