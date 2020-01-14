@@ -5256,6 +5256,18 @@
             </s>
         </s>
         <s name="External library">
+            <s name="Input/output">
+                <s name="Methods">
+                    <p>All metods are defined in the <c>lib\io.goat</c> file.</p>
+                    <m name="load">
+                        <d>Loads the whole file and returns a <c>ByteArray</c> object contains data, or <c>null</c> if the file can not be loaded.</d>
+                        <e><![CDATA[
+                            import "io.goat";
+                            var data = load("data.txt");]]>
+                        </e>
+                    </m>
+                </s>
+            </s>
             <s name="Multithreading">
                 <s name="Atomic">
                     <p>Atomic types are types that encapsulate a value whose access is guaranteed to not cause data races and can be used to synchronize memory accesses among different threads. The <c>Atomic</c> class is a wrapper, the value of that can be changed safely in a multi-thread script. </p>
