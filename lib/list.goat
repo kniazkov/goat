@@ -54,6 +54,7 @@ var List = [IndexedCollection, MutableCollection] ->
         first = null;
         last = null;
         count = 0;
+        return true;
     },
 
     find : $(element)
