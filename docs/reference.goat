@@ -111,6 +111,15 @@ var parseSection = $(src, dst, level, prefix)
                 parseParagraph(child, container);
                 break;
             }
+            case "u":
+            case "underline":
+            {
+                var container = new Xml.Element("div");
+                container.attrib.class = "para u2";
+                dst.data.push(container);
+                parseParagraph(child, container);
+                break;
+            }
             case "c":
             case "code":
             {
@@ -186,7 +195,7 @@ var parseSection = $(src, dst, level, prefix)
                 var hasDescr = false;
                 var hasCompl = false;
                 var title = new Xml.Element("div");
-                title.attrib.class = "header";        
+                title.attrib.class = "header";
                 dst.data.push(title);
                 if (child.attrib.descr)
                 {
@@ -211,7 +220,7 @@ var parseSection = $(src, dst, level, prefix)
                 if (child.findFirstByTag(["args", "a"]) != null)
                 {
                     var title = new Xml.Element("div");
-                    title.attrib.class = "para";
+                    title.attrib.class = "para u2";
                     dst.data.push(title);
                     var block = new Xml.Element("ul");
                     dst.data.push(block);
@@ -228,14 +237,14 @@ var parseSection = $(src, dst, level, prefix)
                 if (child.attrib.complex)
                 {
                     hasCompl = true;
-                    b << ": " << child.attrib.complex;
+                    b << " → " << child.attrib.complex;
                 }
                 title.data.push(b.data());
                 var example = child.findFirstByTag(["example", "e"]);
                 if (example != null && example.data.length() == 1 && example.data[0].instanceof(String))
                 {
                     var title = new Xml.Element("div", "Example:");
-                    title.attrib.class = "para";
+                    title.attrib.class = "para u2";
                     dst.data.push(title);
                     var code = new Xml.Element("div");
                     code.attrib.class = "code";
@@ -250,7 +259,9 @@ var parseSection = $(src, dst, level, prefix)
                         var block = new Xml.Element("div");
                         block.attrib.class = "para";
                         dst.data.push(block);
-                        block.data.push("Complexity: ");
+                        var title = new Xml.Element("span", "Complexity:");
+                        title.attrib.class = "u2";
+                        block.data.push(title);
                         parseParagraph(complex2, block);
                     }
                 }
@@ -269,7 +280,7 @@ var parseSection = $(src, dst, level, prefix)
             {
                 var hasDescr = false;
                 var title = new Xml.Element("div", (indexOf(child.attrib.name, ',') != -1 ? "Operators " : "Operator ") + child.attrib.name);
-                title.attrib.class = "header";        
+                title.attrib.class = "header";
                 dst.data.push(title);
                 if (child.attrib.descr)
                 {
@@ -293,7 +304,7 @@ var parseSection = $(src, dst, level, prefix)
                 if (example != null && example.data.length() == 1 && example.data[0].instanceof(String))
                 {
                     var title = new Xml.Element("div", "Example:");
-                    title.attrib.class = "para";
+                    title.attrib.class = "para u2";
                     dst.data.push(title);
                     var code = new Xml.Element("div");
                     code.attrib.class = "code";
@@ -624,6 +635,7 @@ try
     addStyle(".section { padding-left: 10pt; }");
     addStyle(".header { font-weight: bold; padding-top: 15pt; }");
     addStyle(".para { padding-top: 10pt; }");
+    addStyle(".u2 { text-decoration: underline; }");
     addStyle(".code { font-family: 'Anonymous Pro', monospace; padding-top: 10pt; }");
     addStyle(".inline { font-family: 'Anonymous Pro', monospace; border: 1px solid lightgray; padding: 0pt 2pt; }");
     addStyle(".draft { text-decoration: line-through; }");

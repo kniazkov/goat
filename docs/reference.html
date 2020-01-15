@@ -10,6 +10,7 @@
       .section { padding-left: 10pt; }
       .header { font-weight: bold; padding-top: 15pt; }
       .para { padding-top: 10pt; }
+      .u2 { text-decoration: underline; }
       .code { font-family: 'Anonymous Pro', monospace; padding-top: 10pt; }
       .inline { font-family: 'Anonymous Pro', monospace; border: 1px solid lightgray; padding: 0pt 2pt; }
       .draft { text-decoration: line-through; }
@@ -214,7 +215,7 @@
             <a href="#ref_150">Step-by-step debugging</a>
             section.
           </div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             goat.exe program.goat --debug
@@ -223,7 +224,7 @@
         <div class="header">--compile</div>
         <div class="para">
           <div class="para">Compile the script into bytecode, but do not execute it.</div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             goat.exe program.goat --compile
@@ -237,7 +238,7 @@
         <div class="header">--bin</div>
         <div class="para">
           <div class="para">Run a previously compiled script.</div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             goat.exe --bin program.goat.bin
@@ -3779,12 +3780,12 @@
           <div class="para">Returns the length of a string.</div>
           <div class="header">substr ( start, count )</div>
           <div class="para">Extracts a part of a string and returns the extracted part in a new string.</div>
-          <div class="para">Parameters:</div>
+          <div class="para u2">Parameters:</div>
           <ul>
             <li>start (Integer): the starting index (position). 0 is the first symbol</li>
             <li>count (Integer): optional; count of characters. If not specified, the substring begins with the character at the specified index and extends to the end of this string. If specified, anyway, the method returns not more symbols than it possible</li>
           </ul>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var a = &quot;This is an example.&quot;;
@@ -3797,11 +3798,11 @@
           </div>
           <div class="header">split ( separator )</div>
           <div class="para">Splits a string into an array of substrings using a separator.</div>
-          <div class="para">Parameter:</div>
+          <div class="para u2">Parameter:</div>
           <ul>
             <li>separator (Char | String): a separator</li>
           </ul>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var s = &quot;My name is James Bond&quot;;
@@ -3815,11 +3816,11 @@
             <code class="inline">ByteArray</code>
             object.
           </div>
-          <div class="para">Parameter:</div>
+          <div class="para u2">Parameter:</div>
           <ul>
             <li>encoding (String): encoding; now only &quot;utf8&quot; is supported</li>
           </ul>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var s = &quot;abcd 123 Тест&quot;;
@@ -3829,11 +3830,11 @@
           </div>
           <div class="header">valueof ( object )</div>
           <div class="para">Converts any object to a string.</div>
-          <div class="para">Parameter:</div>
+          <div class="para u2">Parameter:</div>
           <ul>
             <li>object (any type): an object</li>
           </ul>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var i = 256 * 256;
@@ -3859,7 +3860,7 @@
           </div>
           <div class="header">Operators +, +=</div>
           <div class="para">Converts the second operand to a string and then concatenates strings.</div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var s0 = &quot;hello&quot; + &quot;, &quot; + &quot;world!&quot;; // &quot;hello, world!&quot;;
@@ -3884,7 +3885,7 @@
             <code class="inline">false</code>
             .
           </div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             print(&quot;hello&quot; &amp;gt;= &quot;hell&quot;); // outputs: true 
@@ -3996,11 +3997,11 @@
         <div class="section">
           <div class="header">valueof ( object )</div>
           <div class="para">Static method. Converts object to a char.</div>
-          <div class="para">Parameter:</div>
+          <div class="para u2">Parameter:</div>
           <ul>
             <li>object (any type): an object</li>
           </ul>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var i = 65;
@@ -4023,7 +4024,7 @@
             <code class="inline">Char</code>
             variable (or a field) by 1.
           </div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var c = &apos;A&apos;; // &apos;A&apos;;
@@ -4045,7 +4046,7 @@
             <code class="inline">false</code>
             .
           </div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             print(&apos;A&apos; &lt; &apos;B&apos;); // outputs: true
@@ -4113,11 +4114,11 @@
           <div class="section">
             <div class="header">string ( radix )</div>
             <div class="para">Converts integer to a string.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>radix (Integer): optional, radix, one of: 2, 10 or 16, default 10</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var i = 254;
@@ -4130,12 +4131,12 @@
             </div>
             <div class="header">valueof ( object, radix )</div>
             <div class="para">Static method. Converts object to an integer.</div>
-            <div class="para">Parameters:</div>
+            <div class="para u2">Parameters:</div>
             <ul>
               <li>object (any type): an object</li>
               <li>radix (Integer): optional, radix, one of: 2, 10 or 16, default 10</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var s = &quot;  fffe &quot;;
@@ -4214,7 +4215,7 @@
               <code class="inline">false</code>
               .
             </div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var a = 2;
@@ -4230,7 +4231,7 @@
             </div>
             <div class="header">Operators %, %=</div>
             <div class="para">Modulo (remainder). Returns the remainder of an integer divided by an integer.</div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = 17 % 10 // 7
@@ -4241,7 +4242,7 @@
               <code class="inline">false</code>
               .
             </div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               print(4 &gt; 3); // outputs: false
@@ -4252,7 +4253,7 @@
               <code class="inline">Integer</code>
               variable (or a field) by 1.
             </div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = 1; // 1;
@@ -4272,7 +4273,7 @@
               <b>not</b>
               , or complement, is a unary operation that performs logical negation on each bit, forming the ones complement of the given binary value. Bits that are 0 become 1, and those that are 1 become 0:
             </div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = 0b1011;
@@ -4283,7 +4284,7 @@
             <div class="para">The Integer is 64-bit data type, all these bits change their values. So in this example, all first bits became 1.</div>
             <div class="header">Operators &lt;&lt;, &lt;&lt;=</div>
             <div class="para">Left shift, i.e.  bitwise operation that shifts all the bits of its operand. Shifts left by pushing zeros in from the right and let the leftmost bits fall off.</div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = 0b1011;
@@ -4307,7 +4308,7 @@
             </div>
             <div class="header">Operators &gt;&gt;, &gt;&gt;=</div>
             <div class="para">Signed right shift, shifts right by pushing copies of the leftmost bit in from the left, and let the rightmost bits fall off.</div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = -5 // ...111011;
@@ -4317,7 +4318,7 @@
             </div>
             <div class="header">Operators &gt;&gt;&gt;, &gt;&gt;&gt;=</div>
             <div class="para">Unsigned (zero fill) right shift, one or more zero bits are pushed in from the left, and the rightmost bits fall off.</div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = 5 // 101;
@@ -4331,7 +4332,7 @@
               <b>and</b>
               returns 1 only if both bits are 1.
             </div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = 5 // 101;
@@ -4348,7 +4349,7 @@
               <b>or</b>
               returns 1 if one of the bits are 1.
             </div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = 5 // 101;
@@ -4367,7 +4368,7 @@
               <b>or</b>
               ) returns 1 if the bits are different.
             </div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = 5 // 101;
@@ -4408,11 +4409,11 @@
           <div class="section">
             <div class="header">valueof ( object )</div>
             <div class="para">Static method. Converts object to a real number.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>object (any type): an object</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var s = &quot;  65,535 &quot;;
@@ -4651,7 +4652,7 @@
           <div class="para">Returns the length (count of items) of an array.</div>
           <div class="header">push ( object )</div>
           <div class="para">Adds a new item to the end of an array.</div>
-          <div class="para">Parameter:</div>
+          <div class="para u2">Parameter:</div>
           <ul>
             <li>object (any type): an item</li>
           </ul>
@@ -4661,7 +4662,7 @@
         <div class="section">
           <div class="header">Operator +</div>
           <div class="para">If the second operand is array, returns a new array that is a concatenation of two operands, i.e. contains all items from the left operand and then all items from the right operand. Otherwise, if the second operand is not an array (so it is another object), returns a new array contains all items from the left operand plus one additional item (right operand).</div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var a = [1,2,3];
@@ -5405,7 +5406,7 @@
             
             }
           </div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             if (testscore &lt; 50)
@@ -6457,7 +6458,7 @@
             
             }
           </div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             try 
@@ -7896,13 +7897,13 @@
             <code class="inline">this</code>
             value and arguments provided individually.
           </div>
-          <div class="para">Parameters:</div>
+          <div class="para u2">Parameters:</div>
           <ul>
             <li>thisArg (any type): A new context</li>
             <li>arg1 (any type): First argument</li>
             <li>arg2, ... (any type): other arguments</li>
           </ul>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             // an object that contains a method and a value:
@@ -8002,12 +8003,12 @@
             <code class="inline">this</code>
             value and arguments provided as an array.
           </div>
-          <div class="para">Parameters:</div>
+          <div class="para u2">Parameters:</div>
           <ul>
             <li>thisArg (any type): A new context</li>
             <li>argsArray (Array): An array object, specifying the arguments</li>
           </ul>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             // the previous example, but the &apos;apply&apos; method is used:
@@ -8197,7 +8198,7 @@
             <b>extends</b>
             the prototype, and as a result, a new object is created that contains both its own properties and the properties of all its parents.
           </div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             // declare an object:
@@ -11824,7 +11825,7 @@
           <div class="para">Returns true if the iterator is valid, i.e. can return the next object.</div>
           <div class="header">next (  )</div>
           <div class="para">Returns the next object.</div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var iter = collection.iterator();
@@ -12418,7 +12419,7 @@
             <code class="inline">true</code>
             if the thread was killed.
           </div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var b = thread() 
@@ -12464,7 +12465,7 @@
             <code class="inline">true</code>
             if the thread is alive (not finished yet or not killed).
           </div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var b = thread() 
@@ -12511,7 +12512,7 @@
             <code class="inline">true</code>
             if the thread is resumed.
           </div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var t = thread() 
@@ -12599,7 +12600,7 @@
           </div>
           <div class="header">join (  )</div>
           <div class="para">Joins the thread, i.e. suspends the current thread while the joined thread is alive.</div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             var t = thread() 
@@ -13003,11 +13004,11 @@
           <div class="section">
             <div class="header">print ( object )</div>
             <div class="para">Converts an object to a string and sends this string to standard output.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>object (any type): an object</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               print(&quot;Hello&quot;);
@@ -13026,18 +13027,18 @@
             </div>
             <div class="header">println ( object )</div>
             <div class="para">Converts an object to a string and sends this string to standard output with a newline at the end.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>object (any type): an object</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               println(&quot;Hello&quot;);
             </div>
             <div class="header">getc (  )</div>
             <div class="para">Reads one character from the standard input. Returns null if no characters (end-of-file is reached).</div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               while(true) 
@@ -13062,7 +13063,7 @@
             </div>
             <div class="header">gets (  )</div>
             <div class="para">Reads characters from the standard input and stores them as a string until a newline character or the end-of-file is reached.</div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               while(true) 
@@ -13081,12 +13082,12 @@
             </div>
             <div class="header">open ( fname, mode )</div>
             <div class="para">Opens a file.</div>
-            <div class="para">Parameters:</div>
+            <div class="para u2">Parameters:</div>
             <ul>
               <li>fname (String): file name</li>
               <li>mode (File.Mode): mode, see below</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var file = open(&quot;reference.xml&quot;, File.Mode.READ);
@@ -13131,11 +13132,11 @@
           <div class="section">
             <div class="header">abs ( arg )</div>
             <div class="para">Computes absolute value.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Integer | Real): a value</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = abs(-123); // 123
@@ -13143,73 +13144,73 @@
             <div class="para">The returned value has the same type as the argument.</div>
             <div class="header">acos ( arg )</div>
             <div class="para">Returns the arc cosine of arg, expressed in radians.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): a value</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = acos(-1); // 3.1415927...
             </div>
             <div class="header">asin ( arg )</div>
             <div class="para">Returns the arc sine of arg, expressed in radians.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): a value</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = asin(1); // 1.5707963...
             </div>
             <div class="header">atan ( arg )</div>
             <div class="para">Returns the arc tangent of arg, expressed in radians.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): a value</li>
             </ul>
             <div class="header">atan2 ( y, x )</div>
             <div class="para">Returns arc tangent from 2 arguments, expressed in radians.</div>
-            <div class="para">Parameters:</div>
+            <div class="para u2">Parameters:</div>
             <ul>
               <li>y (Real): y-coordinate</li>
               <li>x (Real): x-coordinate</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = atan2(1, 1); // 0.7853982 radians, i.e. 45 degrees
             </div>
             <div class="header">cbrt ( arg )</div>
             <div class="para">Returns the cubic root of arg.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): a value</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = cbrt(27); // 3
             </div>
             <div class="header">cos ( arg )</div>
             <div class="para">Returns the cosine of an angle of arg radians.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): a value</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = cos(60.0 * PI / 180.0); // 0.5
             </div>
             <div class="header">exp ( arg )</div>
             <div class="para">Computes exponential function.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): value of the exponent</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = exp(5); // 148.413159
@@ -13220,44 +13221,44 @@
               <code class="inline">exp</code>
               ).
             </div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): value whose logarithm is calculated</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = log(exp(5)); // 5
             </div>
             <div class="header">log2 ( arg )</div>
             <div class="para">Computes binary logarithm.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): value whose logarithm is calculated</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = log2(1024); // 10
             </div>
             <div class="header">log10 ( arg )</div>
             <div class="para">Computes common (base-10) logarithm.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): value whose logarithm is calculated</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = log2(1000); // 3
             </div>
             <div class="header">round ( arg )</div>
             <div class="para">Returns the rounded (integer) value of arg.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): a value</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = round(2.8); // 3
@@ -13272,29 +13273,29 @@
             </div>
             <div class="header">sin ( arg )</div>
             <div class="para">Returns the sine of an angle of arg radians.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): a value</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = sin(PI/2); // 1
             </div>
             <div class="header">sqrt ( arg )</div>
             <div class="para">Returns the square root of arg.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): a value</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var x = sqrt(64); // 8
             </div>
             <div class="header">tan ( arg )</div>
             <div class="para">Returns the tangent of an angle of arg radians.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>arg (Real): a value</li>
             </ul>
@@ -13304,11 +13305,11 @@
           <div class="section">
             <div class="header">exit ( value )</div>
             <div class="para">Terminates the current thread and passes a value to a handler</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>value (Integer): a value (optional)</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               if (error)
@@ -13329,7 +13330,7 @@
             </div>
             <div class="header">clock (  )</div>
             <div class="para">Returns current system time in nanoseconds.</div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               var wait = $(time)
@@ -13382,13 +13383,13 @@
             <div class="para">The example shows a simple implementation of delay and countdown using the &apos;clock&apos; function. The function returns the time span value between the begin of the &apos;system epoch&apos; (it depends from the platform) and the current time point. In itself, this value is useless, as a rule, the difference between the two clock values is used.</div>
             <div class="header">range ( begin | count, end, step )</div>
             <div class="para">Returns a collection representing a range of integer numbers.</div>
-            <div class="para">Parameters:</div>
+            <div class="para u2">Parameters:</div>
             <ul>
               <li>begin | count (Integer): A starting value of a range (if ending value is defined), or count of items of the range (starting from 0)</li>
               <li>end (undefined): An ending value (optional, range does not include this value)</li>
               <li>step (undefined): A step, i.e. increment of the next item (optional, default 1)</li>
             </ul>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               for (var i in range(5)) print(i);           // 01234
@@ -13415,7 +13416,7 @@
               <code class="inline">UId</code>
               class, which is a unique object (contains a 128-bit value that never repeats).
             </div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               print(uid()); // an output something like &quot;8fb959ea0198df83&quot; but unique each time
@@ -13483,11 +13484,11 @@
                   <a href="#ref_224">ByteArray</a>
                   ).
                 </div>
-                <div class="para">Parameter:</div>
+                <div class="para u2">Parameter:</div>
                 <ul>
                   <li>count (Integer): number of bytes to read</li>
                 </ul>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var f = open(&quot;data.txt&quot;, File.Mode.READ);
@@ -13508,7 +13509,7 @@
                   <code class="inline">null</code>
                   if reading unsuccessful.
                 </div>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var f = open(&quot;data.txt&quot;, File.Mode.READ);
@@ -13518,11 +13519,11 @@
                 </div>
                 <div class="header">write ( data )</div>
                 <div class="para">Writes data to the file, to the current position. Returns number of bytes that was actually written.</div>
-                <div class="para">Parameter:</div>
+                <div class="para u2">Parameter:</div>
                 <ul>
                   <li>data (ByteArray): data for writing</li>
                 </ul>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var f = open(&quot;data.txt&quot;, File.Mode.WRITE);
@@ -13540,7 +13541,7 @@
                 </div>
                 <div class="header">flush (  )</div>
                 <div class="para">Flushes all data from the write buffer to disc, i.e. physically write data.</div>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var f = open(&quot;data.txt&quot;, File.Mode.WRITE);
@@ -13560,7 +13561,7 @@
                   <code class="inline">true</code>
                   if it is.
                 </div>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var f = open(&quot;data.txt&quot;, File.Mode.READ);
@@ -13585,7 +13586,7 @@
                 </div>
                 <div class="header">position (  )</div>
                 <div class="para">Returns the current value of the position indicator of the file.</div>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var f = open(&quot;data.txt&quot;, File.Mode.READ);
@@ -13598,12 +13599,12 @@
                 </div>
                 <div class="header">seek ( offset, origin )</div>
                 <div class="para">Sets the position indicator associated with the file to a new position.</div>
-                <div class="para">Parameters:</div>
+                <div class="para u2">Parameters:</div>
                 <ul>
                   <li>offset (Integer): number of bytes to offset from origin</li>
                   <li>origin (File.Origin): origin, one of: File.Origin.BEGIN, File.Origin.END or File.Origin.CURRENT</li>
                 </ul>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var f = open(&quot;data.txt&quot;, File.Mode.READ);
@@ -13622,7 +13623,7 @@
                 </div>
                 <div class="header">close (  )</div>
                 <div class="para">Closes the file. All data flushes to the disc and the file descriptor is cleared. After closing, the file cannot be reading or writing.</div>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var f = open(&quot;data.txt&quot;, File.Mode.WRITE);
@@ -13760,11 +13761,11 @@
                 <div class="para">Returns length of the byte array.</div>
                 <div class="header">push ( byte )</div>
                 <div class="para">Appends a byte to the byte array.</div>
-                <div class="para">Parameter:</div>
+                <div class="para u2">Parameter:</div>
                 <ul>
                   <li>byte (Integer): byte, valid values [0...255]</li>
                 </ul>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var a = new ByteArray();
@@ -13774,11 +13775,11 @@
                 </div>
                 <div class="header">decode ( encoding )</div>
                 <div class="para">Decodes the byte array as text and returns a string.</div>
-                <div class="para">Parameter:</div>
+                <div class="para u2">Parameter:</div>
                 <ul>
                   <li>encoding (String): encoding; now only &quot;utf8&quot; is supported</li>
                 </ul>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   // open the file and decode it as UTF-8
@@ -13807,7 +13808,7 @@
               <div class="section">
                 <div class="header">Operator [ ]</div>
                 <div class="para">Access to a separate byte by index.</div>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var a = new ByteArray();
@@ -13923,11 +13924,11 @@
               <div class="section">
                 <div class="header">add ( object )</div>
                 <div class="para">Appends string representation of an object to the sequence.</div>
-                <div class="para">Parameter:</div>
+                <div class="para u2">Parameter:</div>
                 <ul>
                   <li>object (any type): an object</li>
                 </ul>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var b = new StringBuilder();
@@ -13947,7 +13948,7 @@
                 <div class="para">If there are multiple arguments, each argument is converted to a string and added to the sequence.</div>
                 <div class="header">string (  )</div>
                 <div class="para">Returns a string representing the data in this sequence.</div>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var b = new StringBuilder();
@@ -13978,7 +13979,7 @@
               <div class="section">
                 <div class="header">Operator &lt;&lt;</div>
                 <div class="para">Appends string representation of object to the sequence.</div>
-                <div class="para">Example:</div>
+                <div class="para u2">Example:</div>
                 <div class="code">
                   
                   var b = new StringBuilder();
@@ -14041,12 +14042,12 @@
           </div>
           <div class="header">indexOf ( array, searchElement )</div>
           <div class="para">Returns index of the element of array (or array-like object, it should support index access). If the element is not found, the method returns -1.</div>
-          <div class="para">Parameters:</div>
+          <div class="para u2">Parameters:</div>
           <ul>
             <li>array (ArrayLike | String): an array or array-like object</li>
             <li>searchElement (any type): an element</li>
           </ul>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             import &quot;algorithm.goat&quot;;
@@ -14076,7 +14077,7 @@
               <code class="inline">null</code>
               if the file can not be loaded.
             </div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               import &quot;io.goat&quot;;
@@ -14120,15 +14121,15 @@
               <code class="inline">lib\collection.goat</code>
               file. Each collection should provide at least these methods:
             </div>
-            <div class="header">size (  ): O(1)</div>
+            <div class="header">size (  ) → O(1)</div>
             <div class="para">Returns size of the collection, i.e. count of elements.</div>
-            <div class="header">empty (  ): O(1)</div>
+            <div class="header">empty (  ) → O(1)</div>
             <div class="para">
               Returns 
               <code class="inline">true</code>
               if the collection is empty.
             </div>
-            <div class="header">iterator (  ): O(1)</div>
+            <div class="header">iterator (  ) → O(1)</div>
             <div class="para">Creates an iterator to enumerate all elements.</div>
             <div class="header">contains ( element )</div>
             <div class="para">
@@ -14136,15 +14137,15 @@
               <code class="inline">true</code>
               if the collection contains the element.
             </div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>element (any type): an element</li>
             </ul>
             <div class="para">
-              Complexity: 
+              <span class="u2">Complexity:</span>
               Depends on implementation.
             </div>
-            <div class="header">toArray (  ): O(n)</div>
+            <div class="header">toArray (  ) → O(n)</div>
             <div class="para">Returns an array contains all elements of the collection.</div>
           </div>
           <a name="ref_236"> </a>
@@ -14155,9 +14156,9 @@
               <code class="inline">Collection</code>
               class, these methods:
             </div>
-            <div class="header">indexOf ( element ): O(n)</div>
+            <div class="header">indexOf ( element ) → O(n)</div>
             <div class="para">Returns index of the element of the collection. If the element is not found, the method returns -1.</div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>element (any type): an element</li>
             </ul>
@@ -14167,12 +14168,12 @@
               <code class="inline">IndexOutOfBounds</code>
               exception if the index out of bounds.
             </div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>index (Integer): an index</li>
             </ul>
             <div class="para">
-              Complexity: 
+              <span class="u2">Complexity:</span>
               Depends on implementation.
             </div>
           </div>
@@ -14190,12 +14191,12 @@
               <code class="inline">undefined</code>
               if the key is not found.
             </div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>key (Any object): a key</li>
             </ul>
             <div class="para">
-              Complexity: 
+              <span class="u2">Complexity:</span>
               Depends on implementation.
             </div>
           </div>
@@ -14203,7 +14204,7 @@
           <div style="font-size: medium;" class="header">6.2.3.4. MutableCollection</div>
           <div class="section">
             <div class="para">The base class for a collection that can be modified (elements can be added or removed).</div>
-            <div class="header">clear (  ): O(1)</div>
+            <div class="header">clear (  ) → O(1)</div>
             <div class="para">
               Removes all elements from the collection. Returns 
               <code class="inline">true</code>
@@ -14215,12 +14216,12 @@
               <code class="inline">true</code>
               if the operation was successful.
             </div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>element (any type): an element</li>
             </ul>
             <div class="para">
-              Complexity: 
+              <span class="u2">Complexity:</span>
               Depends on implementation.
             </div>
             <div class="header">delete ( element )</div>
@@ -14229,12 +14230,12 @@
               <code class="inline">true</code>
               if the operation was successful.
             </div>
-            <div class="para">Parameter:</div>
+            <div class="para u2">Parameter:</div>
             <ul>
               <li>element (any type): an element</li>
             </ul>
             <div class="para">
-              Complexity: 
+              <span class="u2">Complexity:</span>
               Depends on implementation.
             </div>
           </div>
@@ -14258,7 +14259,7 @@
               <code class="inline">Atomic</code>
               class is a wrapper, the value of that can be changed safely in a multi-thread script. 
             </div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               import &quot;atomic.goat&quot;;
@@ -14348,22 +14349,22 @@
             <div class="section">
               <div class="header">init ( value )</div>
               <div class="para">The constructor.</div>
-              <div class="para">Parameter:</div>
+              <div class="para u2">Parameter:</div>
               <ul>
                 <li>value (any type): an initial value</li>
               </ul>
-              <div class="para">Example:</div>
+              <div class="para u2">Example:</div>
               <div class="code">
                 
                 var a = new Atomic(0);
               </div>
               <div class="header">set ( value )</div>
               <div class="para">Sets a new value to the atomic object.</div>
-              <div class="para">Parameter:</div>
+              <div class="para u2">Parameter:</div>
               <ul>
                 <li>value (any type): a new value</li>
               </ul>
-              <div class="para">Example:</div>
+              <div class="para u2">Example:</div>
               <div class="code">
                 
                 var a = new Atomic(false);
@@ -14402,7 +14403,7 @@
                 <code class="inline">+</code>
                 operator.
               </div>
-              <div class="para">Parameter:</div>
+              <div class="para u2">Parameter:</div>
               <ul>
                 <li>summand (any object): a value to add</li>
               </ul>
@@ -14419,7 +14420,7 @@
               Suspended threads placed to queue and resume one by one as soon as thread that locks mutex released it.
             </div>
             <div class="para">Mutex is a complex wrapper around of critical section, it takes more resources, but anyway it is preferable construction if a critical block of code has more than several instructions.</div>
-            <div class="para">Example:</div>
+            <div class="para u2">Example:</div>
             <div class="code">
               
               import &quot;mutex.goat&quot;;
@@ -14646,7 +14647,7 @@
                 <div class="section">
                   <div class="header">toString ( indent )</div>
                   <div class="para">Converts XML tree to a string.</div>
-                  <div class="para">Parameter:</div>
+                  <div class="para u2">Parameter:</div>
                   <ul>
                     <li>indent (String): if specified, this indentation will be added before each child element, for better readability of the document. If not specified, a compact document will be generated without indentation.</li>
                   </ul>
@@ -14756,7 +14757,7 @@
                   </div>
                   <div class="header">findByTag ( tag )</div>
                   <div class="para">Returns an array contains children with the specified tag(s).</div>
-                  <div class="para">Parameter:</div>
+                  <div class="para u2">Parameter:</div>
                   <ul>
                     <li>tag (String | Array): A tag or an array of tags</li>
                   </ul>
@@ -14767,7 +14768,7 @@
                     <code class="inline">null</code>
                     if child not found.
                   </div>
-                  <div class="para">Parameter:</div>
+                  <div class="para u2">Parameter:</div>
                   <ul>
                     <li>tag (String | Array): A tag or an array of tags</li>
                   </ul>
@@ -14830,11 +14831,11 @@
             <div class="section">
               <div class="header">parse ( str )</div>
               <div class="para">Parse the string and returns an XML tree.</div>
-              <div class="para">Parameter:</div>
+              <div class="para u2">Parameter:</div>
               <ul>
                 <li>str (String): the source string</li>
               </ul>
-              <div class="para">Example:</div>
+              <div class="para u2">Example:</div>
               <div class="code">
                 
                 import &quot;xml.goat&quot;;
@@ -15873,7 +15874,7 @@
             <a href="#ref_150">Step-by-step debugging</a>
             section.
           </div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             goat.exe program.goat --debug
@@ -15906,7 +15907,7 @@
         <div class="header">--compile</div>
         <div class="para">
           <div class="para">Compile the script into bytecode, but do not execute it.</div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             goat.exe program.goat --compile
@@ -15928,7 +15929,7 @@
         <div class="header">--bin</div>
         <div class="para">
           <div class="para">Run a previously compiled script.</div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             goat.exe --bin program.goat.bin
@@ -15988,7 +15989,7 @@
             <code class="inline">&lt;program_name&gt;+.memory.txt</code>
             file.
           </div>
-          <div class="para">Example:</div>
+          <div class="para u2">Example:</div>
           <div class="code">
             
             goat.exe program.goat --dump-memory-usage-report

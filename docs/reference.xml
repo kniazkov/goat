@@ -57,18 +57,18 @@
             </h>
             <h name="--debug">
                 <p>After starting, you switch to debug mode, where you can add breakpoints and execute the program line by line. This mode is described in the <link>Step-by-step debugging</link> section.</p>
-                <p>Example:</p>
+                <u>Example:</u>
                 <c>goat.exe program.goat --debug</c>
             </h>
             <h name="--compile">
                 <p>Compile the script into bytecode, but do not execute it.</p>
-                <p>Example:</p>
+                <u>Example:</u>
                 <c>goat.exe program.goat --compile</c>
                 <p>As a result, a binary file <c>program.goat.bin</c> will be written.</p>
             </h>
             <h name="--bin">
                 <p>Run a previously compiled script.</p>
-                <p>Example:</p>
+                <u>Example:</u>
                 <c>goat.exe --bin program.goat.bin</c>
                 <p>Since the compilation procedure was performed earlier, loading prepared bytecode is faster. This will reduce the overall program execution time.</p>
             </h>
@@ -2185,7 +2185,7 @@
                         block of code to be executed if the condition1 is false and condition2 is false
                     }]]>
                 </c>
-                <p>Example:</p>
+                <u>Example:</u>
                 <c><![CDATA[
                     if (testscore < 50)
                     {
@@ -2560,7 +2560,7 @@
                         Block of code to handle errors
                     }]]>
                 </c>
-                <p>Example:</p>
+                <u>Example:</u>
                 <c><![CDATA[
                     try 
                     {
@@ -3218,7 +3218,7 @@
                 <c>var obj = prototype -&gt; description;</c>
                 <p>A <b>prototype</b> is an object from which properties (fields and methods) will be used if properties with such names are not found in the child object.</p>
                 <p>A <b>description</b> is an object that will be cloned before a prototype is attached to it. The description thus <b>extends</b> the prototype, and as a result, a new object is created that contains both its own properties and the properties of all its parents.</p>
-                <p>Example:</p>
+                <u>Example:</u>
                 <c><![CDATA[
                     // declare an object:
                     var A = { x: 1 };
@@ -5340,7 +5340,7 @@
             <s name="Multithreading">
                 <s name="Atomic">
                     <p>Atomic types are types that encapsulate a value whose access is guaranteed to not cause data races and can be used to synchronize memory accesses among different threads. The <c>Atomic</c> class is a wrapper, the value of that can be changed safely in a multi-thread script. </p>
-                    <p>Example:</p>
+                    <u>Example:</u>
                     <c><![CDATA[
                         import "atomic.goat";
 
@@ -5400,7 +5400,7 @@
                 <s name="Mutex">
                     <p>Mutex is primitive of synchronization. Like critical sections, it locks executing a code block by two threads at the same time. However, there is a difference: <b>in critical section, the interpreter does not switch threads</b> (it can be painful for some applications), <b>mutex in contrary only suspends concurrent threads but other threads continue to execute.</b> Suspended threads placed to queue and resume one by one as soon as thread that locks mutex released it.</p>
                     <p>Mutex is a complex wrapper around of critical section, it takes more resources, but anyway it is preferable construction if a critical block of code has more than several instructions.</p>
-                    <p>Example:</p>
+                    <u>Example:</u>
                     <c><![CDATA[
                         import "mutex.goat";
 
@@ -5966,7 +5966,7 @@
             </h>
             <h name="--debug and --run">
                 <p>After starting, you switch to debug mode, where you can add breakpoints and execute the program line by line. This mode is described in the <link>Step-by-step debugging</link> section.</p>
-                <p>Example:</p>
+                <u>Example:</u>
                 <c>goat.exe program.goat --debug</c>
                 <p>This option can be set as an environment variable <c>GOAT_DEBUG</c>.</p>
                 <p>After starting with the <c>--debug</c> option, the interpreter immediately enters debug mode. You should add breakpoints, and then enter <c>r</c> command to run the script. However, you can pre-set breakpoints directly in the script using the <c>debug</c> statement. If you have such statements and if you don't want to enter <c>r</c> command to run the script, add <c>--run</c> option and the script will be executed after launching until the first <c>debug</c> statement:</p>
@@ -5974,14 +5974,14 @@
             </h>
             <h name="--compile">
                 <p>Compile the script into bytecode, but do not execute it.</p>
-                <p>Example:</p>
+                <u>Example:</u>
                 <c>goat.exe program.goat --compile</c>
                 <p>As a result, a binary file <c>&lt;program_name&gt;+.bin</c> (in this case: <c>program.goat.bin</c>) will be written.  The binary is compressed to save space and is unpacked at each loading. To leave the file uncompressed (speeds uploading), use option <c>--do-not-compress</c>:</p>
                 <c>goat.exe program.goat --compile --do-not-compress</c>
             </h>
             <h name="--bin">
                 <p>Run a previously compiled script.</p>
-                <p>Example:</p>
+                <u>Example:</u>
                 <c>goat.exe --bin program.goat.bin</c>
                 <p>Since the compilation procedure was performed earlier, loading prepared bytecode is faster. This will reduce the overall program execution time.</p>
             </h>
@@ -6010,7 +6010,7 @@
             </h>
             <h name="--dump-memory-usage-report">
                 <p>Write memory usage report to <c>&lt;program_name&gt;+.memory.txt</c> file.</p>
-                <p>Example:</p>
+                <u>Example:</u>
                 <c>goat.exe program.goat --dump-memory-usage-report</c>
                 <p>A possible output (<c>program.goat.memory.txt</c>):</p>
                 <c><![CDATA[
