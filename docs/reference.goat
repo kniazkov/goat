@@ -332,11 +332,13 @@ var levelToFontSize = $(level)
     switch(level)
     {
         case 0:
-            return "xx-large";
+            return "24pt";
         case 1:
-            return "x-large";
+            return "20pt";
         case 2:
-            return "large";
+            return "16pt";
+        case 3:
+            return "14pt";
         default:
             return "medium";
     }
