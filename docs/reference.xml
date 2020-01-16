@@ -5675,6 +5675,98 @@
                         <d>Returns the head element from the queue or returns <c>undefined</c> if the queue is empty.</d>
                     </m>
                 </s>
+                <s name="Set">
+                    <p>The set data structure (<url>https://en.wikipedia.org/wiki/Set_(abstract_data_type)</url>) implementation. It defined in the <c>lib\set.goat</c> file.</p>
+                    <p>The set is associative structure. It can store unique values, without any order. The complexity of adding and searching operations is logarithmic (O(log(n)) - is even faster than linear.</p>
+                    <p>A less costly implementation of the set is the use of a regular Goat object. However, the object does not support the counter of elements and does not allow to delete elements.</p>
+                    <m name="size" descr="Returns size of the set, i.e. count of elements." complex="O(1)"/>
+                    <m name="empty" complex="O(1)">
+                        <d>Returns <c>true</c> if the set is empty.</d>
+                    </m>
+                    <m name="iterator" descr="Creates an iterator to enumerate all elements." complex="O(1)"/>
+                    <m name="contains" complex="O(log(n))">
+                        <d>Returns <c>true</c> if the set contains the element.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="toArray" complex="O(n)">
+                        <d>Returns an array contains all elements of the set.</d>
+                    </m>
+                    <m name="clear" complex="O(1)">
+                        <d>Removes all elements from the set.</d>
+                    </m>
+                    <m name="get" complex="O(log(n))">
+                        <d>Works as the<c>contains</c> method.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="delete" complex="O(log(n))">
+                        <d>Removes the element from the set. Returns <c>true</c> if the operation was successful.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="set" complex="O(log(n))">
+                        <d>Puts the element to the set.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="add" complex="O(log(n))">
+                        <d>Puts the element to the set and returns true.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                </s>
+                <s name="Map">
+                    <p>The map data structure (<url>https://en.wikipedia.org/wiki/Associative_array</url>) implementation. It defined in the <c>lib\map.goat</c> file.</p>
+                    <p>The map is associative structure. It composed of a collection of (key, value) pairs, such that each possible key appears at most once in the collection The complexity of adding and searching operations is logarithmic (O(log(n)).</p>
+                    <p>A less costly implementation of the map is the use of a regular Goat object. However, the object does not support the counter of elements and does not allow to delete elements.</p>
+                    <u>Example:</u>
+                    <c><![CDATA[
+                        import "map.goat";
+
+                        var m = new Map();
+
+                        m["one"] = 1;
+                        m["two"] = 2;
+                        m["three"] = 3;
+
+                        println(m.size());
+                        println(m["one"]);
+                        println(m["two"]);
+                        println(m["three"]);]]>
+                    </c>
+                    <m name="size" descr="Returns size of the map, i.e. count of elements." complex="O(1)"/>
+                    <m name="empty" complex="O(1)">
+                        <d>Returns <c>true</c> if the map is empty.</d>
+                    </m>
+                    <m name="iterator" complex="O(1)">
+                        <d>Creates an iterator to enumerate all <b>keys</b>.</d>
+                        <n>You can use the operator <c>[ ]</c> for getting a value from a map using a key.</n>
+                    </m>
+                    <m name="contains" complex="O(log(n))">
+                        <d>Returns <c>true</c> if the map contains the key.</d>
+                        <a name="key" type="any type" descr="a key"/>
+                    </m>
+                    <m name="toArray" complex="O(n)">
+                        <d>Returns an array contains all elements of the map.</d>
+                    </m>
+                    <m name="clear" complex="O(1)">
+                        <d>Removes all elements from the map.</d>
+                    </m>
+                    <m name="get" complex="O(log(n))">
+                        <d>Returns a value by the key.</d>
+                        <a name="key" type="any type" descr="a key"/>
+                    </m>
+                    <m name="delete" complex="O(log(n))">
+                        <d>Removes a pair found by the key from the map. Returns <c>true</c> if the operation was successful.</d>
+                        <a name="key" type="any type" descr="a key"/>
+                    </m>
+                    <m name="set" complex="O(log(n))">
+                        <d>Puts the element to the map.</d>
+                        <a name="key" type="any type" descr="a key"/>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="add" complex="O(log(n))">
+                        <d>Puts the element to the map and returns true.</d>
+                        <a name="key" type="any type" descr="a key"/>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                </s>
             </s>
             <s name="Multithreading">
                 <s name="Atomic">
