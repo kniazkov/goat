@@ -48,7 +48,7 @@
         <a href="#ref_212">Standard library</a>
       </li>
       <li>
-        <a href="#ref_253">Appendix</a>
+        <a href="#ref_254">Appendix</a>
       </li>
     </ul>
     <a name="ref_0"> </a>
@@ -138,7 +138,7 @@
         </div>
         <div class="para">
           Here is a short list of interpreter options. All options are described in the 
-          <a href="#ref_267">Appendix</a>
+          <a href="#ref_268">Appendix</a>
           section.
         </div>
         <div class="header">--lib</div>
@@ -14026,10 +14026,10 @@
             <a href="#ref_234">Collections</a>
           </li>
           <li>
-            <a href="#ref_243">Multithreading</a>
+            <a href="#ref_244">Multithreading</a>
           </li>
           <li>
-            <a href="#ref_246">Data formats</a>
+            <a href="#ref_247">Data formats</a>
           </li>
         </ul>
         <a name="ref_232"> </a>
@@ -14114,6 +14114,9 @@
             </li>
             <li>
               <a href="#ref_242">Stack</a>
+            </li>
+            <li>
+              <a href="#ref_243">Queue</a>
             </li>
           </ul>
           <div class="para">Collections are used to store data. Each collection saves data in some special order. Base prototypes (see diagram) contain methods common to each collection.</div>
@@ -14781,7 +14784,7 @@
           <div class="section">
             <div class="para">
               The stack data structure (
-              <a href="/https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">/https://en.wikipedia.org/wiki/Stack_(abstract_data_type)</a>
+              <a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">https://en.wikipedia.org/wiki/Stack_(abstract_data_type)</a>
               ) implementation. It defined in the 
               <code class="inline">lib\stack.goat</code>
               file.
@@ -14885,19 +14888,105 @@
               if the stack is empty.
             </div>
           </div>
+          <a name="ref_243"> </a>
+          <div style="font-size: 14pt;" class="header">6.2.3.9. Queue</div>
+          <div class="section">
+            <div class="para">
+              The queue data structure (
+              <a href="https://en.wikipedia.org/wiki/Queue_(abstract_data_type)">https://en.wikipedia.org/wiki/Queue_(abstract_data_type)</a>
+              ) implementation. It defined in the 
+              <code class="inline">lib\queue.goat</code>
+              file.
+            </div>
+            <div class="para">The queue works on a first-in-first-out basis. However, index access is also possible, that is, it is possible to read not only the last element of the queue.</div>
+            <div class="header">size (  ) → O(1)</div>
+            <div class="para">Returns size of the queue, i.e. count of elements.</div>
+            <div class="header">empty (  ) → O(1)</div>
+            <div class="para">
+              Returns 
+              <code class="inline">true</code>
+              if the queue is empty.
+            </div>
+            <div class="header">iterator (  ) → O(1)</div>
+            <div class="para">Creates an iterator to enumerate all elements.</div>
+            <div class="header">contains ( element ) → O(n)</div>
+            <div class="para">
+              Returns 
+              <code class="inline">true</code>
+              if the queue contains the element.
+            </div>
+            <div class="para u2">Parameter:</div>
+            <ul>
+              <li>element (any type): an element</li>
+            </ul>
+            <div class="header">toArray (  ) → O(n)</div>
+            <div class="para">Returns an array contains all elements of the queue.</div>
+            <div class="header">clear (  ) → O(1)</div>
+            <div class="para">Removes all elements from the queue.</div>
+            <div class="header">indexOf ( element ) → O(n)</div>
+            <div class="para">Returns index of the element of the queue. If the element is not found, the method returns -1.</div>
+            <div class="para u2">Parameter:</div>
+            <ul>
+              <li>element (any type): an element</li>
+            </ul>
+            <div class="header">get ( index ) → O(n)</div>
+            <div class="para">
+              Returns element by index or throws 
+              <code class="inline">IndexOutOfBounds</code>
+              exception if the index out of bounds. The head element of the queue is the first element.
+            </div>
+            <div class="para u2">Parameter:</div>
+            <ul>
+              <li>index (Integer): an index</li>
+            </ul>
+            <div class="header">delete ( element ) → O(n)</div>
+            <div class="para">
+              Removes the element from the queue. Returns 
+              <code class="inline">true</code>
+              if the operation was successful.
+            </div>
+            <div class="para u2">Parameter:</div>
+            <ul>
+              <li>element (any type): an element</li>
+            </ul>
+            <div class="header">push ( element ) → O(1)</div>
+            <div class="para">Puts the element at the end of the queue.</div>
+            <div class="para u2">Parameter:</div>
+            <ul>
+              <li>element (any type): an element</li>
+            </ul>
+            <div class="header">add ( element ) → O(1)</div>
+            <div class="para">Puts the element at the end of the queue and returns true.</div>
+            <div class="para u2">Parameter:</div>
+            <ul>
+              <li>element (any type): an element</li>
+            </ul>
+            <div class="header">pop (  ) → O(1)</div>
+            <div class="para">
+              Retrieves the head element from the queue or returns 
+              <code class="inline">undefined</code>
+              if the queue is empty.
+            </div>
+            <div class="header">peek (  ) → O(1)</div>
+            <div class="para">
+              Returns the head element from the queue or returns 
+              <code class="inline">undefined</code>
+              if the queue is empty.
+            </div>
+          </div>
         </div>
-        <a name="ref_243"> </a>
+        <a name="ref_244"> </a>
         <div style="font-size: 16pt;" class="header">6.2.4. Multithreading</div>
         <div class="section">
           <ul class="content">
             <li>
-              <a href="#ref_244">Atomic</a>
+              <a href="#ref_245">Atomic</a>
             </li>
             <li>
-              <a href="#ref_245">Mutex</a>
+              <a href="#ref_246">Mutex</a>
             </li>
           </ul>
-          <a name="ref_244"> </a>
+          <a name="ref_245"> </a>
           <div style="font-size: 14pt;" class="header">6.2.4.1. Atomic</div>
           <div class="section">
             <div class="para">
@@ -15055,7 +15144,7 @@
               </ul>
             </div>
           </div>
-          <a name="ref_245"> </a>
+          <a name="ref_246"> </a>
           <div style="font-size: 14pt;" class="header">6.2.4.2. Mutex</div>
           <div class="section">
             <div class="para">
@@ -15181,17 +15270,17 @@
             </div>
           </div>
         </div>
-        <a name="ref_246"> </a>
+        <a name="ref_247"> </a>
         <div style="font-size: 16pt;" class="header">6.2.5. Data formats</div>
         <div class="section">
           <div style="font-size: 14pt;" class="header">6.2.5.1. Xml</div>
           <div class="section">
             <ul class="content">
               <li>
-                <a href="#ref_247">Classes</a>
+                <a href="#ref_248">Classes</a>
               </li>
               <li>
-                <a href="#ref_252">Methods</a>
+                <a href="#ref_253">Methods</a>
               </li>
             </ul>
             <div class="para">
@@ -15200,30 +15289,30 @@
               .
             </div>
             <div class="para">The parser takes a string that contains the source document. If you need to parse the file, you must first read and decode it using other methods. The document is recognized as a whole, the output is a tree of XML elements. If the document contains an error, the parser throws an appropriate exception.</div>
-            <a name="ref_247"> </a>
+            <a name="ref_248"> </a>
             <div style="font-size: medium;" class="header">Classes</div>
             <div class="section">
               <ul class="content">
                 <li>
-                  <a href="#ref_248">Xml.Element</a>
+                  <a href="#ref_249">Xml.Element</a>
                 </li>
                 <li>
-                  <a href="#ref_251">Xml.Error</a>
+                  <a href="#ref_252">Xml.Error</a>
                 </li>
               </ul>
-              <a name="ref_248"> </a>
+              <a name="ref_249"> </a>
               <div style="font-size: medium;" class="header">Xml.Element</div>
               <div class="section">
                 <ul class="content">
                   <li>
-                    <a href="#ref_249">Fields</a>
+                    <a href="#ref_250">Fields</a>
                   </li>
                   <li>
-                    <a href="#ref_250">Methods</a>
+                    <a href="#ref_251">Methods</a>
                   </li>
                 </ul>
                 <div class="para">The class that contains the data of one XML element. An XML element can contain attributes and child elements, thus, each element is the root of the element tree. The XML parser returns one root element that contains the whole document as a tree of elements.</div>
-                <a name="ref_249"> </a>
+                <a name="ref_250"> </a>
                 <div style="font-size: medium;" class="header">Fields</div>
                 <div class="section">
                   <div class="header">tag</div>
@@ -15288,7 +15377,7 @@
                     </ul>
                   </div>
                 </div>
-                <a name="ref_250"> </a>
+                <a name="ref_251"> </a>
                 <div style="font-size: medium;" class="header">Methods</div>
                 <div class="section">
                   <div class="header">toString ( indent )</div>
@@ -15420,7 +15509,7 @@
                   </ul>
                 </div>
               </div>
-              <a name="ref_251"> </a>
+              <a name="ref_252"> </a>
               <div style="font-size: medium;" class="header">Xml.Error</div>
               <div class="section">
                 <div class="para">The class contains a description of the error that occurred in the case of parsing a non-valid document.</div>
@@ -15472,7 +15561,7 @@
                 </div>
               </div>
             </div>
-            <a name="ref_252"> </a>
+            <a name="ref_253"> </a>
             <div style="font-size: medium;" class="header">Methods</div>
             <div class="section">
               <div class="header">parse ( str )</div>
@@ -15504,56 +15593,56 @@
         </div>
       </div>
     </div>
-    <a name="ref_253"> </a>
+    <a name="ref_254"> </a>
     <div style="font-size: 24pt;" class="header">7. Appendix</div>
     <div class="section">
       <ul class="content">
         <li>
-          <a href="#ref_254">In comparison with JavaScript</a>
+          <a href="#ref_255">In comparison with JavaScript</a>
         </li>
         <li>
-          <a href="#ref_267">Command line options and environment variables</a>
+          <a href="#ref_268">Command line options and environment variables</a>
         </li>
       </ul>
-      <a name="ref_254"> </a>
+      <a name="ref_255"> </a>
       <div style="font-size: 20pt;" class="header">7.1. In comparison with JavaScript</div>
       <div class="section">
         <ul class="content">
           <li>
-            <a href="#ref_255">Identifiers</a>
+            <a href="#ref_256">Identifiers</a>
           </li>
           <li>
-            <a href="#ref_256">Keywords</a>
+            <a href="#ref_257">Keywords</a>
           </li>
           <li>
-            <a href="#ref_257">Primitive types</a>
+            <a href="#ref_258">Primitive types</a>
           </li>
           <li>
-            <a href="#ref_258">Scope</a>
+            <a href="#ref_259">Scope</a>
           </li>
           <li>
-            <a href="#ref_259">The &apos;this&apos; keyword</a>
+            <a href="#ref_260">The &apos;this&apos; keyword</a>
           </li>
           <li>
-            <a href="#ref_260">Operators</a>
+            <a href="#ref_261">Operators</a>
           </li>
           <li>
-            <a href="#ref_261">Operators overloading</a>
+            <a href="#ref_262">Operators overloading</a>
           </li>
           <li>
-            <a href="#ref_262">Multithreading</a>
+            <a href="#ref_263">Multithreading</a>
           </li>
           <li>
-            <a href="#ref_263">The &apos;new&apos; keyword and constructors</a>
+            <a href="#ref_264">The &apos;new&apos; keyword and constructors</a>
           </li>
           <li>
-            <a href="#ref_264">Inheritance</a>
+            <a href="#ref_265">Inheritance</a>
           </li>
           <li>
-            <a href="#ref_265">Multiple inheritance</a>
+            <a href="#ref_266">Multiple inheritance</a>
           </li>
           <li>
-            <a href="#ref_266">Syntactic sugar</a>
+            <a href="#ref_267">Syntactic sugar</a>
           </li>
         </ul>
         <div class="para">The Goat programming language based in general on JavaScript syntax, but it has some differences.</div>
@@ -15565,7 +15654,7 @@
           <li>You can create an object from more than one prototype.</li>
         </ul>
         <div class="para">Some samples are below.</div>
-        <a name="ref_255"> </a>
+        <a name="ref_256"> </a>
         <div style="font-size: 16pt;" class="header">7.1.1. Identifiers</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -15601,7 +15690,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_256"> </a>
+        <a name="ref_257"> </a>
         <div style="font-size: 16pt;" class="header">7.1.2. Keywords</div>
         <div class="section">
           <div class="para">The Goat programming language reserves several additional keywords:</div>
@@ -15639,7 +15728,7 @@
             </tr>
           </table>
         </div>
-        <a name="ref_257"> </a>
+        <a name="ref_258"> </a>
         <div style="font-size: 16pt;" class="header">7.1.3. Primitive types</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -15697,7 +15786,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_258"> </a>
+        <a name="ref_259"> </a>
         <div style="font-size: 16pt;" class="header">7.1.4. Scope</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -15778,7 +15867,7 @@
             <div class="para">But, if you re-declare a Goat variable in the same block, it will lose old value.</div>
           </div>
         </div>
-        <a name="ref_259"> </a>
+        <a name="ref_260"> </a>
         <div style="font-size: 16pt;" class="header">7.1.5. The &apos;this&apos; keyword</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -15867,7 +15956,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_260"> </a>
+        <a name="ref_261"> </a>
         <div style="font-size: 16pt;" class="header">7.1.6. Operators</div>
         <div class="section">
           <div class="para">
@@ -15914,7 +16003,7 @@
             </li>
           </ul>
         </div>
-        <a name="ref_261"> </a>
+        <a name="ref_262"> </a>
         <div style="font-size: 16pt;" class="header">7.1.7. Operators overloading</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16011,7 +16100,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_262"> </a>
+        <a name="ref_263"> </a>
         <div style="font-size: 16pt;" class="header">7.1.8. Multithreading</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16094,7 +16183,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_263"> </a>
+        <a name="ref_264"> </a>
         <div style="font-size: 16pt;" class="header">7.1.9. The &apos;new&apos; keyword and constructors</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16203,7 +16292,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_264"> </a>
+        <a name="ref_265"> </a>
         <div style="font-size: 16pt;" class="header">7.1.10. Inheritance</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16343,7 +16432,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_265"> </a>
+        <a name="ref_266"> </a>
         <div style="font-size: 16pt;" class="header">7.1.11. Multiple inheritance</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16399,7 +16488,7 @@
             <div class="para">The prototype traversal order for multiple inheritance is determined by the topological sorting of the prototype tree.</div>
           </div>
         </div>
-        <a name="ref_266"> </a>
+        <a name="ref_267"> </a>
         <div style="font-size: 16pt;" class="header">7.1.12. Syntactic sugar</div>
         <div class="section">
           <div style="font-size: 14pt;" class="header">7.1.12.1. Null conditional operator</div>
@@ -16429,7 +16518,7 @@
           </div>
         </div>
       </div>
-      <a name="ref_267"> </a>
+      <a name="ref_268"> </a>
       <div style="font-size: 20pt;" class="header">7.2. Command line options and environment variables</div>
       <div class="section">
         <div class="para">Here is the full list of command line options.</div>
