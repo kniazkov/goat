@@ -48,7 +48,7 @@
         <a href="#ref_212">Standard library</a>
       </li>
       <li>
-        <a href="#ref_256">Appendix</a>
+        <a href="#ref_265">Appendix</a>
       </li>
     </ul>
     <a name="ref_0"> </a>
@@ -138,7 +138,7 @@
         </div>
         <div class="para">
           Here is a short list of interpreter options. All options are described in the 
-          <a href="#ref_270">Appendix</a>
+          <a href="#ref_279">Appendix</a>
           section.
         </div>
         <div class="header">--lib</div>
@@ -14029,7 +14029,10 @@
             <a href="#ref_246">Multithreading</a>
           </li>
           <li>
-            <a href="#ref_249">Data formats</a>
+            <a href="#ref_249">Timer</a>
+          </li>
+          <li>
+            <a href="#ref_258">Data formats</a>
           </li>
         </ul>
         <a name="ref_232"> </a>
@@ -15460,16 +15463,223 @@
           </div>
         </div>
         <a name="ref_249"> </a>
-        <div style="font-size: 16pt;" class="header">6.2.5. Data formats</div>
+        <div style="font-size: 16pt;" class="header">6.2.5. Timer</div>
         <div class="section">
-          <div style="font-size: 14pt;" class="header">6.2.5.1. Xml</div>
+          <ul class="content">
+            <li>
+              <a href="#ref_250">Methods</a>
+            </li>
+            <li>
+              <a href="#ref_251">Classes</a>
+            </li>
+          </ul>
+          <div class="para">
+            Implementation of methods that once (after a specified time) or periodically start the execution of code in a separate thread. The classes and methods are defined in the 
+            <code class="inline">lib\timer.goat</code>
+            file.
+          </div>
+          <a name="ref_250"> </a>
+          <div style="font-size: 14pt;" class="header">6.2.5.1. Methods</div>
+          <div class="section">
+            <div class="header">Timer.setTimer ( callback, duration )</div>
+            <div class="para">Starts a callback in a separate thread after the specified time.</div>
+            <div class="para u2">Parameters:</div>
+            <ul>
+              <li>callback (Function | Thread): a callback</li>
+              <li>duration (Timer.Duration): a duration</li>
+            </ul>
+            <div class="para u2">Example:</div>
+            <div class="code">
+              
+              import &quot;timer.goat&quot;;
+              <br/>
+              
+              
+              <br/>
+              
+              Timer.setTimer($()
+              <br/>
+              
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              println(&quot;time has passed&quot;);
+              <br/>
+              
+              }, new Timer.Milliseconds(50));
+              <br/>
+              
+              
+              <br/>
+              
+              println(&quot;the timer has been set&quot;); 
+            </div>
+            <div class="para">If a function is passed as a callback parameter, it will be converted to a thread. A callback will be called immediately after the time runs out, and after current instruction executed. A callback always starts as a separate thread, that is, it will be executed simultaneously with other threads if they are not completed. If there is no active thread left, but a timer has been started, the interpreter will be in an idle state (do nothing) until the timer expires.</div>
+            <div class="header">Timer.setInterval ( callback, period )</div>
+            <div class="para">Starts a callback in a separate thread periodically.</div>
+            <div class="para u2">Parameters:</div>
+            <ul>
+              <li>callback (Function | Thread): a callback</li>
+              <li>period (Timer.Duration): a period</li>
+            </ul>
+            <div class="para u2">Example:</div>
+            <div class="code">
+              
+              import &quot;timer.goat&quot;;
+              <br/>
+              
+              
+              <br/>
+              
+              var x = 0;
+              <br/>
+              
+              
+              <br/>
+              
+              println(&quot;start&quot;);
+              <br/>
+              
+              var i = Timer.setInterval($()
+              <br/>
+              
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              x++;
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              println(x);
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              if (x == 10)
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              {
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              i.stop();
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              println(&quot;stop&quot;);
+              <br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              }
+              <br/>
+              
+              }, new Timer.Milliseconds(100)); 
+            </div>
+            <div class="para">
+              Returns an instance of 
+              <code class="inline">Timer.Interval</code>
+              (see below). If a function is passed as a callback parameter, it will be converted to a thread. A callback always starts as a separate thread. A callback is called periodically, but it is not called if the previous thread has not yet completed. Thus, the callback is called not more often than the system can allow. The number of ticks is calculated, that is, how many times a thread has been created, also calculated the number of skips, that is, how many times a thread has not been created due to the fact that the previous thread has not yet completed. All this data is written periodically to the returned 
+              <code class="inline">Timer.Interval</code>
+              object. The algorithm always tries to align the time so that the gap between the start of separated threads is the same.
+            </div>
+          </div>
+          <a name="ref_251"> </a>
+          <div style="font-size: 14pt;" class="header">6.2.5.2. Classes</div>
           <div class="section">
             <ul class="content">
               <li>
-                <a href="#ref_250">Classes</a>
+                <a href="#ref_252">Timer.Interval</a>
               </li>
               <li>
-                <a href="#ref_255">Methods</a>
+                <a href="#ref_253">Timer.Duration</a>
+              </li>
+              <li>
+                <a href="#ref_254">Timer.Seconds</a>
+              </li>
+              <li>
+                <a href="#ref_255">Timer.Milliseconds</a>
+              </li>
+              <li>
+                <a href="#ref_256">Timer.Microseconds</a>
+              </li>
+              <li>
+                <a href="#ref_257">Timer.Nanoseconds</a>
+              </li>
+            </ul>
+            <a name="ref_252"> </a>
+            <div style="font-size: medium;" class="header">Timer.Interval</div>
+            <div class="section">
+              <div class="para">
+                The object of this type returns by the 
+                <code class="inline">Timer.setInterval</code>
+                method. It has the method 
+                <code class="inline">stop()</code>
+                that stops periodic code execution.
+              </div>
+              <div class="para">Also, it has fields periodically recorded by the timer:</div>
+              <ul>
+                <li>
+                  <code class="inline">count</code>
+                  - the number of timer ticks, i.e. how many times a new thread has been created;
+                </li>
+                <li>
+                  <code class="inline">skipped</code>
+                  - the number of timer skips, i.e. how many times a new thread creation has been skipped because old one has not finished yet.
+                </li>
+              </ul>
+            </div>
+            <a name="ref_253"> </a>
+            <div style="font-size: medium;" class="header">Timer.Duration</div>
+            <div class="section">
+              <div class="para">
+                Base class that defines a duration (amount of elapsed time between two events). Has the method 
+                <code class="inline">getNanoseconds()</code>
+                that returns the duration converted to nanoseconds.
+              </div>
+            </div>
+            <a name="ref_254"> </a>
+            <div style="font-size: medium;" class="header">Timer.Seconds</div>
+            <div class="section">
+              <div class="para">
+                Derived from 
+                <code class="inline">Timer.Duration</code>
+                , determines time in seconds.
+              </div>
+            </div>
+            <a name="ref_255"> </a>
+            <div style="font-size: medium;" class="header">Timer.Milliseconds</div>
+            <div class="section">
+              <div class="para">
+                Derived from 
+                <code class="inline">Timer.Duration</code>
+                , determines time in milliseconds.
+              </div>
+            </div>
+            <a name="ref_256"> </a>
+            <div style="font-size: medium;" class="header">Timer.Microseconds</div>
+            <div class="section">
+              <div class="para">
+                Derived from 
+                <code class="inline">Timer.Duration</code>
+                , determines time in microseconds.
+              </div>
+            </div>
+            <a name="ref_257"> </a>
+            <div style="font-size: medium;" class="header">Timer.Nanoseconds</div>
+            <div class="section">
+              <div class="para">
+                Derived from 
+                <code class="inline">Timer.Duration</code>
+                , determines time in nanoseconds.
+              </div>
+            </div>
+          </div>
+        </div>
+        <a name="ref_258"> </a>
+        <div style="font-size: 16pt;" class="header">6.2.6. Data formats</div>
+        <div class="section">
+          <div style="font-size: 14pt;" class="header">6.2.6.1. Xml</div>
+          <div class="section">
+            <ul class="content">
+              <li>
+                <a href="#ref_259">Classes</a>
+              </li>
+              <li>
+                <a href="#ref_264">Methods</a>
               </li>
             </ul>
             <div class="para">
@@ -15478,30 +15688,30 @@
               .
             </div>
             <div class="para">The parser takes a string that contains the source document. If you need to parse the file, you must first read and decode it using other methods. The document is recognized as a whole, the output is a tree of XML elements. If the document contains an error, the parser throws an appropriate exception.</div>
-            <a name="ref_250"> </a>
+            <a name="ref_259"> </a>
             <div style="font-size: medium;" class="header">Classes</div>
             <div class="section">
               <ul class="content">
                 <li>
-                  <a href="#ref_251">Xml.Element</a>
+                  <a href="#ref_260">Xml.Element</a>
                 </li>
                 <li>
-                  <a href="#ref_254">Xml.Error</a>
+                  <a href="#ref_263">Xml.Error</a>
                 </li>
               </ul>
-              <a name="ref_251"> </a>
+              <a name="ref_260"> </a>
               <div style="font-size: medium;" class="header">Xml.Element</div>
               <div class="section">
                 <ul class="content">
                   <li>
-                    <a href="#ref_252">Fields</a>
+                    <a href="#ref_261">Fields</a>
                   </li>
                   <li>
-                    <a href="#ref_253">Methods</a>
+                    <a href="#ref_262">Methods</a>
                   </li>
                 </ul>
                 <div class="para">The class that contains the data of one XML element. An XML element can contain attributes and child elements, thus, each element is the root of the element tree. The XML parser returns one root element that contains the whole document as a tree of elements.</div>
-                <a name="ref_252"> </a>
+                <a name="ref_261"> </a>
                 <div style="font-size: medium;" class="header">Fields</div>
                 <div class="section">
                   <div class="header">tag</div>
@@ -15566,7 +15776,7 @@
                     </ul>
                   </div>
                 </div>
-                <a name="ref_253"> </a>
+                <a name="ref_262"> </a>
                 <div style="font-size: medium;" class="header">Methods</div>
                 <div class="section">
                   <div class="header">toString ( indent )</div>
@@ -15698,7 +15908,7 @@
                   </ul>
                 </div>
               </div>
-              <a name="ref_254"> </a>
+              <a name="ref_263"> </a>
               <div style="font-size: medium;" class="header">Xml.Error</div>
               <div class="section">
                 <div class="para">The class contains a description of the error that occurred in the case of parsing a non-valid document.</div>
@@ -15750,7 +15960,7 @@
                 </div>
               </div>
             </div>
-            <a name="ref_255"> </a>
+            <a name="ref_264"> </a>
             <div style="font-size: medium;" class="header">Methods</div>
             <div class="section">
               <div class="header">parse ( str )</div>
@@ -15782,56 +15992,56 @@
         </div>
       </div>
     </div>
-    <a name="ref_256"> </a>
+    <a name="ref_265"> </a>
     <div style="font-size: 24pt;" class="header">7. Appendix</div>
     <div class="section">
       <ul class="content">
         <li>
-          <a href="#ref_257">In comparison with JavaScript</a>
+          <a href="#ref_266">In comparison with JavaScript</a>
         </li>
         <li>
-          <a href="#ref_270">Command line options and environment variables</a>
+          <a href="#ref_279">Command line options and environment variables</a>
         </li>
       </ul>
-      <a name="ref_257"> </a>
+      <a name="ref_266"> </a>
       <div style="font-size: 20pt;" class="header">7.1. In comparison with JavaScript</div>
       <div class="section">
         <ul class="content">
           <li>
-            <a href="#ref_258">Identifiers</a>
+            <a href="#ref_267">Identifiers</a>
           </li>
           <li>
-            <a href="#ref_259">Keywords</a>
+            <a href="#ref_268">Keywords</a>
           </li>
           <li>
-            <a href="#ref_260">Primitive types</a>
+            <a href="#ref_269">Primitive types</a>
           </li>
           <li>
-            <a href="#ref_261">Scope</a>
+            <a href="#ref_270">Scope</a>
           </li>
           <li>
-            <a href="#ref_262">The &apos;this&apos; keyword</a>
+            <a href="#ref_271">The &apos;this&apos; keyword</a>
           </li>
           <li>
-            <a href="#ref_263">Operators</a>
+            <a href="#ref_272">Operators</a>
           </li>
           <li>
-            <a href="#ref_264">Operators overloading</a>
+            <a href="#ref_273">Operators overloading</a>
           </li>
           <li>
-            <a href="#ref_265">Multithreading</a>
+            <a href="#ref_274">Multithreading</a>
           </li>
           <li>
-            <a href="#ref_266">The &apos;new&apos; keyword and constructors</a>
+            <a href="#ref_275">The &apos;new&apos; keyword and constructors</a>
           </li>
           <li>
-            <a href="#ref_267">Inheritance</a>
+            <a href="#ref_276">Inheritance</a>
           </li>
           <li>
-            <a href="#ref_268">Multiple inheritance</a>
+            <a href="#ref_277">Multiple inheritance</a>
           </li>
           <li>
-            <a href="#ref_269">Syntactic sugar</a>
+            <a href="#ref_278">Syntactic sugar</a>
           </li>
         </ul>
         <div class="para">The Goat programming language based in general on JavaScript syntax, but it has some differences.</div>
@@ -15843,7 +16053,7 @@
           <li>You can create an object from more than one prototype.</li>
         </ul>
         <div class="para">Some samples are below.</div>
-        <a name="ref_258"> </a>
+        <a name="ref_267"> </a>
         <div style="font-size: 16pt;" class="header">7.1.1. Identifiers</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -15879,7 +16089,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_259"> </a>
+        <a name="ref_268"> </a>
         <div style="font-size: 16pt;" class="header">7.1.2. Keywords</div>
         <div class="section">
           <div class="para">The Goat programming language reserves several additional keywords:</div>
@@ -15917,7 +16127,7 @@
             </tr>
           </table>
         </div>
-        <a name="ref_260"> </a>
+        <a name="ref_269"> </a>
         <div style="font-size: 16pt;" class="header">7.1.3. Primitive types</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -15975,7 +16185,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_261"> </a>
+        <a name="ref_270"> </a>
         <div style="font-size: 16pt;" class="header">7.1.4. Scope</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16056,7 +16266,7 @@
             <div class="para">But, if you re-declare a Goat variable in the same block, it will lose old value.</div>
           </div>
         </div>
-        <a name="ref_262"> </a>
+        <a name="ref_271"> </a>
         <div style="font-size: 16pt;" class="header">7.1.5. The &apos;this&apos; keyword</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16145,7 +16355,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_263"> </a>
+        <a name="ref_272"> </a>
         <div style="font-size: 16pt;" class="header">7.1.6. Operators</div>
         <div class="section">
           <div class="para">
@@ -16192,7 +16402,7 @@
             </li>
           </ul>
         </div>
-        <a name="ref_264"> </a>
+        <a name="ref_273"> </a>
         <div style="font-size: 16pt;" class="header">7.1.7. Operators overloading</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16289,7 +16499,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_265"> </a>
+        <a name="ref_274"> </a>
         <div style="font-size: 16pt;" class="header">7.1.8. Multithreading</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16372,7 +16582,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_266"> </a>
+        <a name="ref_275"> </a>
         <div style="font-size: 16pt;" class="header">7.1.9. The &apos;new&apos; keyword and constructors</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16481,7 +16691,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_267"> </a>
+        <a name="ref_276"> </a>
         <div style="font-size: 16pt;" class="header">7.1.10. Inheritance</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16621,7 +16831,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_268"> </a>
+        <a name="ref_277"> </a>
         <div style="font-size: 16pt;" class="header">7.1.11. Multiple inheritance</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16677,7 +16887,7 @@
             <div class="para">The prototype traversal order for multiple inheritance is determined by the topological sorting of the prototype tree.</div>
           </div>
         </div>
-        <a name="ref_269"> </a>
+        <a name="ref_278"> </a>
         <div style="font-size: 16pt;" class="header">7.1.12. Syntactic sugar</div>
         <div class="section">
           <div style="font-size: 14pt;" class="header">7.1.12.1. Null conditional operator</div>
@@ -16707,7 +16917,7 @@
           </div>
         </div>
       </div>
-      <a name="ref_270"> </a>
+      <a name="ref_279"> </a>
       <div style="font-size: 20pt;" class="header">7.2. Command line options and environment variables</div>
       <div class="section">
         <div class="para">Here is the full list of command line options.</div>

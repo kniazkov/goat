@@ -5879,6 +5879,73 @@
                     </s>
                 </s>
             </s>
+            <s name="Timer">
+                <p>Implementation of methods that once (after a specified time) or periodically start the execution of code in a separate thread. The classes and methods are defined in the <c>lib\timer.goat</c> file.</p>
+                <s name="Methods">
+                    <m name="Timer.setTimer" descr="Starts a callback in a separate thread after the specified time.">
+                        <a  name="callback" type="Function | Thread" descr="a callback"/>
+                        <a  name="duration" type="Timer.Duration" descr="a duration"/>
+                        <e><![CDATA[
+                            import "timer.goat";
+
+                            Timer.setTimer($()
+                            {
+                                println("time has passed");
+                            }, new Timer.Milliseconds(50));
+
+                            println("the timer has been set"); ]]>
+                        </e>
+                        <n>If a function is passed as a callback parameter, it will be converted to a thread. A callback will be called immediately after the time runs out, and after current instruction executed. A callback always starts as a separate thread, that is, it will be executed simultaneously with other threads if they are not completed. If there is no active thread left, but a timer has been started, the interpreter will be in an idle state (do nothing) until the timer expires.</n>
+                    </m>
+                    <m name="Timer.setInterval" descr="Starts a callback in a separate thread periodically.">
+                        <a  name="callback" type="Function | Thread" descr="a callback"/>
+                        <a  name="period" type="Timer.Duration" descr="a period"/>
+                        <e><![CDATA[
+                            import "timer.goat";
+
+                            var x = 0;
+
+                            println("start");
+                            var i = Timer.setInterval($()
+                            {
+                                x++;
+                                println(x);
+                                if (x == 10)
+                                {
+                                    i.stop();
+                                    println("stop");
+                                }
+                            }, new Timer.Milliseconds(100)); ]]>
+                        </e>
+                        <n>Returns an instance of <c>Timer.Interval</c> (see below). If a function is passed as a callback parameter, it will be converted to a thread. A callback always starts as a separate thread. A callback is called periodically, but it is not called if the previous thread has not yet completed. Thus, the callback is called not more often than the system can allow. The number of ticks is calculated, that is, how many times a thread has been created, also calculated the number of skips, that is, how many times a thread has not been created due to the fact that the previous thread has not yet completed. All this data is written periodically to the returned <c>Timer.Interval</c> object. The algorithm always tries to align the time so that the gap between the start of separated threads is the same.</n>
+                    </m>
+                </s>
+                <s name="Classes">
+                    <s name="Timer.Interval">
+                        <p>The object of this type returns by the <c>Timer.setInterval</c> method. It has the method <c>stop()</c> that stops periodic code execution.</p>
+                        <p>Also, it has fields periodically recorded by the timer:</p>
+                        <l>
+                            <i><c>count</c> - the number of timer ticks, i.e. how many times a new thread has been created;</i>
+                            <i><c>skipped</c> - the number of timer skips, i.e. how many times a new thread creation has been skipped because old one has not finished yet.</i>
+                        </l>
+                    </s>
+                    <s name="Timer.Duration">
+                        <p>Base class that defines a duration (amount of elapsed time between two events). Has the method <c>getNanoseconds()</c> that returns the duration converted to nanoseconds.</p>
+                    </s>
+                    <s name="Timer.Seconds">
+                        <p>Derived from <c>Timer.Duration</c>, determines time in seconds.</p>
+                    </s>
+                    <s name="Timer.Milliseconds">
+                        <p>Derived from <c>Timer.Duration</c>, determines time in milliseconds.</p>
+                    </s>
+                    <s name="Timer.Microseconds">
+                        <p>Derived from <c>Timer.Duration</c>, determines time in microseconds.</p>
+                    </s>
+                    <s name="Timer.Nanoseconds">
+                        <p>Derived from <c>Timer.Duration</c>, determines time in nanoseconds.</p>
+                    </s>
+                </s>
+            </s>
             <s name="Data formats">
                 <s name="Xml">
                     <p>Simple XML parser. For more info about the XML format, please visit <url>https://en.wikipedia.org/wiki/XML</url>.</p>
