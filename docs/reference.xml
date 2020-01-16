@@ -5302,7 +5302,17 @@
                     <m name="empty" complex="O(1)">
                         <d>Returns <c>true</c> if the collection is empty.</d>
                     </m>
-                    <m name="iterator" descr="Creates an iterator to enumerate all elements." complex="O(1)"/>
+                    <m name="iterator" descr="Creates an iterator to enumerate all elements." complex="O(1)">
+                        <n>Defining the <c>iterator</c> method means you can use <c>for..in</c> operator for all collections.</n>
+                    </m>
+                    <u>Example:</u>
+                    <c><![CDATA[
+                        var collect = getCollection(); // some method that returns an instance of Collection (List, Array, etc)
+                        for (var element in collect)
+                        {
+                            // do something
+                        } ]]>
+                    </c>
                     <m name="contains">
                         <d>Returns <c>true</c> if the collection contains the element.</d>
                         <a name="element" type="any type" descr="an element"/>
@@ -5322,6 +5332,7 @@
                         <d>Returns element by index or throws <c>IndexOutOfBounds</c> exception if the index out of bounds.</d>
                         <a name="index" type="Integer" descr="an index"/>
                         <x>Depends on implementation.</x>
+                        <n>Defining the <c>get</c> method means you can use the <c>[ ]</c> operator for reading elements by index.</n>
                     </m>
                 </s>
                 <s name="AssociativeCollection">
@@ -5330,6 +5341,7 @@
                         <d>Returns element by key or <c>undefined</c> if the key is not found.</d>
                         <a name="key" type="Any object" descr="a key"/>
                         <x>Depends on implementation.</x>
+                        <n>Defining the <c>get</c> method means you can use the <c>[ ]</c> operator for reading elements by key.</n>
                     </m>
                 </s>
                 <s name="MutableCollection">
@@ -5351,6 +5363,7 @@
                 <s name="List">
                     <p>The doubly linked list (<url>https://en.wikipedia.org/wiki/Doubly_linked_list</url>) implementation. It defined in the <c>lib\list.goat</c> file.</p>
                     <p>A feature of such a collection is that the addition and removal of an element to any place in the list (even in the middle) is performed in constant time, regardless of the length of the list.</p>
+                    <pic title="A linked list structure">graph/linked_list.svg</pic>
                     <m name="size" descr="Returns size of the list, i.e. count of elements." complex="O(1)">
                         <e><![CDATA[
                             import "list.goat";
@@ -5363,7 +5376,7 @@
                         </e>
                     </m>
                     <m name="empty" complex="O(1)">
-                        <d>Returns <c>true</c> if the collection is empty.</d>
+                        <d>Returns <c>true</c> if the list is empty.</d>
                     </m>
                     <m name="iterator" descr="Creates an iterator to enumerate all elements." complex="O(1)"/>
                     <m name="contains" complex="O(n)">
@@ -5453,13 +5466,110 @@
                         <n>The item can be found previously by calling the <c>find</c> method or/and by moving through the item's chain.</n>
                     </m>
                     <m name="getFirst" complex="O(1)">
-                        <d>Returns the first element from the list but not removes it from the list.</d>
+                        <d>Returns the first element from the list without deleting it.</d>
                     </m>
                     <m name="peekf" complex="O(1)">
                         <d>Synonym for <c>getFirst</c>.</d>
                     </m>
                     <m name="getLast" complex="O(1)">
-                        <d>Returns the last element from the list but not removes it from the list.</d>
+                        <d>Returns the last element from the list without deleting it.</d>
+                    </m>
+                    <m name="peek" complex="O(1)">
+                        <d>Synonym for <c>getLast</c>.</d>
+                    </m>
+                </s>
+                <s name="Vector">
+                    <p>The vector data structure implementation. It defined in the <c>lib\vector.goat</c> file.</p>
+                    <p>The vector is a superstructure over an array. The vector supports all methods of the <c>MutableCollection</c> class, that is, it allows add and remove elements. A feature of the vector is quick access by index. In other words, vector elements are always next to each other.</p>
+                    <m name="size" descr="Returns size of the vector, i.e. count of elements." complex="O(1)">
+                        <e><![CDATA[
+                            import "vector.goat";
+
+                            var vec = new Vector();
+                            vec.push(0);
+                            vec.push(1);
+                            vec.push(2);
+                            print(vec.size()); // 3]]>
+                        </e>
+                    </m>
+                    <m name="empty" complex="O(1)">
+                        <d>Returns <c>true</c> if the vector is empty.</d>
+                    </m>
+                    <m name="iterator" descr="Creates an iterator to enumerate all elements." complex="O(1)"/>
+                    <m name="contains" complex="O(n)">
+                        <d>Returns <c>true</c> if the vector contains the element.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="toArray" complex="O(n)">
+                        <d>Returns an array contains all elements of the vector.</d>
+                    </m>
+                    <m name="clear" complex="O(1)">
+                        <d>Removes all elements from the vector.</d>
+                    </m>
+                    <m name="indexOf" complex="O(n)">
+                        <d>Returns index of the element of the vector. If the element is not found, the method returns -1.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="get" complex="O(1)">
+                        <d>Returns element by index or throws <c>IndexOutOfBounds</c> exception if the index out of bounds.</d>
+                        <a name="index" type="Integer" descr="an index"/>
+                    </m>
+                    <m name="set" complex="O(1)">
+                        <d>Sets element by index or throws <c>IndexOutOfBounds</c> exception if the index out of bounds.</d>
+                        <a name="index" type="Integer" descr="an index"/>
+                        <a name="element" type="any type" descr="an element"/>
+                        <n>Defining the <c>set</c> method means you can use the <c>[ ]</c> operator for writing elements by index.</n>
+                    </m>
+                    <m name="delete" complex="O(n)">
+                        <d>Removes the element from the vector. Returns <c>true</c> if the operation was successful.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="addFirst" complex="O(n)">
+                        <d>Adds the element to the beginning of the vector.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                        <n>This is a very slow operation for vectors.</n>
+                    </m>
+                    <m name="pushf" complex="O(1)">
+                        <d>Synonym for <c>addFirst</c>.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="addLast" complex="O(1)">
+                        <d>Adds the element to the end of the vector.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="push" complex="O(1)">
+                        <d>Synonym for <c>addLast</c>.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="add" complex="O(1)">
+                        <d>Synonym for <c>addLast</c> but always returns <c>true</c>.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="removeFirst" complex="O(n)">
+                        <d>Returns the first element from the vector and removes it from the vector.</d>
+                        <n>This is a very slow operation for vectors.</n>
+                    </m>
+                    <m name="popf" complex="O(1)">
+                        <d>Synonym for <c>removeFirst</c>.</d>
+                    </m>
+                    <m name="removeLast" complex="O(1)">
+                        <d>Returns the last element from the vector and removes it from the vector.</d>
+                    </m>
+                    <m name="pop" complex="O(1)">
+                        <d>Synonym for <c>removeLast</c>.</d>
+                    </m>
+                    <m name="remove" complex="O(n)">
+                        <d>Removes the element from the vector by the index. Returns the removed element.</d>
+                        <a name="index" type="Integer" descr="an index"/>
+                    </m>
+                    <m name="getFirst" complex="O(1)">
+                        <d>Returns the first element of the vector without deleting it.</d>
+                    </m>
+                    <m name="peekf" complex="O(1)">
+                        <d>Synonym for <c>getFirst</c>.</d>
+                    </m>
+                    <m name="getLast" complex="O(1)">
+                        <d>Returns the last element of the vector without deleting it.</d>
                     </m>
                     <m name="peek" complex="O(1)">
                         <d>Synonym for <c>getLast</c>.</d>

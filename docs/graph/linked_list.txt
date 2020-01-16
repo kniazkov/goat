@@ -1,0 +1,42 @@
+digraph graphname
+{
+    node [fontname="sans-serif", fontsize=10 shape=oval penwidth=0.7];
+    edge [fontname="sans-serif", fontsize=10 penwidth=0.7];
+    
+    count [label="count = 3"];
+    list_item_1 [label="list item 1"];
+    element_1 [label="element 1" shape="rect"];
+    previous_1 [label="previous"];
+    next_1 [label="next"];
+    null_1 [label="null" shape="rect"];
+    list_item_2 [label="list item 2"];
+    element_2 [label="element 2" shape="rect"];
+    previous_2 [label="previous"];
+    next_2 [label="next"];
+    list_item_3 [label="list item 3"];
+    element_3 [label="element 3" shape="rect"];
+    previous_3 [label="previous"];
+    next_3 [label="next"];
+    null_3 [label="null" shape="rect"];
+    
+    list->first;
+    list->last;
+    list->count;
+    first -> list_item_1;
+    list_item_1 -> element_1
+    list_item_1 -> previous_1;
+    list_item_1 -> next_1;
+    next_1 -> list_item_2;
+    previous_1 -> null_1;
+    list_item_2 -> element_2
+    list_item_2 -> previous_2;
+    list_item_2 -> next_2;
+    next_2 -> list_item_3;
+    previous_2 -> list_item_1;
+    list_item_3 -> element_3
+    list_item_3 -> previous_3;
+    list_item_3 -> next_3;
+    previous_3 -> list_item_2;
+    last-> list_item_3;
+    next_3 -> null_3;
+}
