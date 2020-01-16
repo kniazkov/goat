@@ -5575,6 +5575,61 @@
                         <d>Synonym for <c>getLast</c>.</d>
                     </m>
                 </s>
+                <s name="Stack">
+                    <p>The stack data structure (<url>https://en.wikipedia.org/wiki/Stack_(abstract_data_type)</url>) implementation. It defined in the <c>lib\stack.goat</c> file.</p>
+                    <p>The stack works on a first-in-last-out basis. However, index access is also possible, that is, it is possible to read not only the first element of the stack.</p>
+                    <m name="size" descr="Returns size of the stack, i.e. count of elements." complex="O(1)">
+                        <e><![CDATA[
+                            import "stack.goat";
+
+                            var stack = new Stack();
+                            stack.push(0);
+                            stack.push(1);
+                            stack.push(2);
+                            print(stack.size()); // 3]]>
+                        </e>
+                    </m>
+                    <m name="empty" complex="O(1)">
+                        <d>Returns <c>true</c> if the stack is empty.</d>
+                    </m>
+                    <m name="iterator" descr="Creates an iterator to enumerate all elements." complex="O(1)"/>
+                    <m name="contains" complex="O(n)">
+                        <d>Returns <c>true</c> if the stack contains the element.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="toArray" complex="O(n)">
+                        <d>Returns an array contains all elements of the stack.</d>
+                    </m>
+                    <m name="clear" complex="O(1)">
+                        <d>Removes all elements from the stack.</d>
+                    </m>
+                    <m name="indexOf" complex="O(n)">
+                        <d>Returns index of the element of the stack. If the element is not found, the method returns -1.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="get" complex="O(n)">
+                        <d>Returns element by index or throws <c>IndexOutOfBounds</c> exception if the index out of bounds. The top of the stack is the first element.</d>
+                        <a name="index" type="Integer" descr="an index"/>
+                    </m>
+                    <m name="delete" complex="O(n)">
+                        <d>Removes the element from the stack. Returns <c>true</c> if the operation was successful.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="push" complex="O(1)">
+                        <d>Puts the element to the top of the stack.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="add" complex="O(1)">
+                        <d>Puts the element to the top of the stack and returns true.</d>
+                        <a name="element" type="any type" descr="an element"/>
+                    </m>
+                    <m name="pop" complex="O(1)">
+                        <d>Retrieves the top element from the stack or returns <c>undefined</c> if the stack is empty.</d>
+                    </m>
+                    <m name="peek" complex="O(1)">
+                        <d>Returns the top element from the stack or returns <c>undefined</c> if the stack is empty.</d>
+                    </m>
+                </s>
             </s>
             <s name="Multithreading">
                 <s name="Atomic">
