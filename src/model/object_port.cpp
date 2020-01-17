@@ -138,7 +138,7 @@ namespace g0at
         class object_port_iterator : public object
         {
         public:
-            object_port_iterator(object_pool *pool, std::map<object*, hw_port*> ports)
+            object_port_iterator(object_pool *pool, std::map<object*, hw_port*> &ports)
                 : object(pool, pool->get_iterator_proto_instance())
             {
                 pair = ports.begin();
