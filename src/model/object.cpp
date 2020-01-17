@@ -243,6 +243,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_port *object::to_object_port()
+        {
+            return nullptr;
+        }
+
         bool object::less(const object *obj) const
         {
             return this < obj;

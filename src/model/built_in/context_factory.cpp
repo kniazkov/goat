@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "context_factory.h"
 #include "model/object_string.h"
 #include "model/object_program_arguments.h"
+#include "model/object_port.h"
 #include <cmath>
 
 namespace g0at
@@ -94,6 +95,9 @@ namespace g0at
 
                 tmp.set_object(new object_program_arguments(pool, args));
                 ctx->add_object(pool->get_static_string(L"parg"), tmp);
+
+                tmp.set_object(new object_port(pool));
+                ctx->add_object(pool->get_static_string(L"port"), tmp);
 
                 return pool->create_context(ctx);
             }
