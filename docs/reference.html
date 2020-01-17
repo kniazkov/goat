@@ -45,10 +45,10 @@
         <a href="#ref_154">Advanced programming</a>
       </li>
       <li>
-        <a href="#ref_212">Standard library</a>
+        <a href="#ref_213">Standard library</a>
       </li>
       <li>
-        <a href="#ref_265">Appendix</a>
+        <a href="#ref_266">Appendix</a>
       </li>
     </ul>
     <a name="ref_0"> </a>
@@ -138,7 +138,7 @@
         </div>
         <div class="para">
           Here is a short list of interpreter options. All options are described in the 
-          <a href="#ref_279">Appendix</a>
+          <a href="#ref_280">Appendix</a>
           section.
         </div>
         <div class="header">--lib</div>
@@ -3082,7 +3082,7 @@
           </div>
           <div class="para">
             Built-in functions are fully described in the 
-            <a href="#ref_214">appropriate</a>
+            <a href="#ref_215">appropriate</a>
             chapter.
           </div>
         </div>
@@ -7262,6 +7262,9 @@
         </li>
         <li>
           <a href="#ref_211">Command line arguments</a>
+        </li>
+        <li>
+          <a href="#ref_212">Hardware dependent data</a>
         </li>
       </ul>
       <div class="para">Forget everything you learned in school.</div>
@@ -12946,16 +12949,46 @@
           chapter). This object like a read-only array: you can read length of this and get an item by index, but can not modify it.
         </div>
       </div>
+      <a name="ref_212"> </a>
+      <div style="font-size: 20pt;" class="header">5.9. Hardware dependent data</div>
+      <div class="section">
+        <div style="font-size: 16pt;" class="header">5.9.1. Ports</div>
+        <div class="section">
+          <div class="para">A port is a variable in the address space representing the interface between the Goat runtime and computer or peripheral devices. The port list is different for various platforms.</div>
+          <div class="para">
+            The Goat context contains the special object named 
+            <code class="inline">port</code>
+            , each field of which linked to a hardware port. You can use the 
+            <code class="inline">[ ]</code>
+            operator for accessing a separate port, for example:
+          </div>
+          <div class="code">
+            
+            port[&quot;gpio0&quot;] = true;
+          </div>
+          <div class="para">
+            For each platform at least one port, 
+            <code class="inline">&quot;null&quot;</code>
+            , is defined, for debugging purposes. Writing to this port produces nothing, reading from this port always returns 
+            <code class="inline">null</code>
+            :
+          </div>
+          <div class="code">
+            
+            print(port[&quot;null&quot;]); // &quot;null&quot;
+          </div>
+        </div>
+      </div>
     </div>
-    <a name="ref_212"> </a>
+    <a name="ref_213"> </a>
     <div style="font-size: 24pt;" class="header">6. Standard library</div>
     <div class="section">
       <ul class="content">
         <li>
-          <a href="#ref_213">Internal (core) library</a>
+          <a href="#ref_214">Internal (core) library</a>
         </li>
         <li>
-          <a href="#ref_231">External library</a>
+          <a href="#ref_232">External library</a>
         </li>
       </ul>
       <div class="para">The standard library contains functions and classes for solving common tasks.</div>
@@ -12971,35 +13004,35 @@
         <code class="inline">import</code>
         keyword.
       </div>
-      <a name="ref_213"> </a>
+      <a name="ref_214"> </a>
       <div style="font-size: 20pt;" class="header">6.1. Internal (core) library</div>
       <div class="section">
         <ul class="content">
           <li>
-            <a href="#ref_214">Functions</a>
+            <a href="#ref_215">Functions</a>
           </li>
           <li>
-            <a href="#ref_218">Classes</a>
+            <a href="#ref_219">Classes</a>
           </li>
           <li>
-            <a href="#ref_230">Constants</a>
+            <a href="#ref_231">Constants</a>
           </li>
         </ul>
-        <a name="ref_214"> </a>
+        <a name="ref_215"> </a>
         <div style="font-size: 16pt;" class="header">6.1.1. Functions</div>
         <div class="section">
           <ul class="content">
             <li>
-              <a href="#ref_215">Input/output</a>
+              <a href="#ref_216">Input/output</a>
             </li>
             <li>
-              <a href="#ref_216">Mathematical</a>
+              <a href="#ref_217">Mathematical</a>
             </li>
             <li>
-              <a href="#ref_217">Other</a>
+              <a href="#ref_218">Other</a>
             </li>
           </ul>
-          <a name="ref_215"> </a>
+          <a name="ref_216"> </a>
           <div style="font-size: 14pt;" class="header">6.1.1.1. Input/output</div>
           <div class="section">
             <div class="header">print ( object )</div>
@@ -13123,11 +13156,11 @@
             </ul>
             <div class="para">
               See description of 
-              <a href="#ref_220">File</a>
+              <a href="#ref_221">File</a>
               class for more details.
             </div>
           </div>
-          <a name="ref_216"> </a>
+          <a name="ref_217"> </a>
           <div style="font-size: 14pt;" class="header">6.1.1.2. Mathematical</div>
           <div class="section">
             <div class="header">abs ( arg )</div>
@@ -13300,7 +13333,7 @@
               <li>arg (Real): a value</li>
             </ul>
           </div>
-          <a name="ref_217"> </a>
+          <a name="ref_218"> </a>
           <div style="font-size: 14pt;" class="header">6.1.1.3. Other</div>
           <div class="section">
             <div class="header">exit ( value )</div>
@@ -13430,29 +13463,29 @@
             </div>
           </div>
         </div>
-        <a name="ref_218"> </a>
+        <a name="ref_219"> </a>
         <div style="font-size: 16pt;" class="header">6.1.2. Classes</div>
         <div class="section">
           <ul class="content">
             <li>
-              <a href="#ref_219">Input/output</a>
+              <a href="#ref_220">Input/output</a>
             </li>
             <li>
-              <a href="#ref_223">Sequences</a>
+              <a href="#ref_224">Sequences</a>
             </li>
           </ul>
-          <a name="ref_219"> </a>
+          <a name="ref_220"> </a>
           <div style="font-size: 14pt;" class="header">6.1.2.1. Input/output</div>
           <div class="section">
-            <a name="ref_220"> </a>
+            <a name="ref_221"> </a>
             <div style="font-size: medium;" class="header">6.1.2.1.1. File</div>
             <div class="section">
               <ul class="content">
                 <li>
-                  <a href="#ref_221">Methods</a>
+                  <a href="#ref_222">Methods</a>
                 </li>
                 <li>
-                  <a href="#ref_222">Fields</a>
+                  <a href="#ref_223">Fields</a>
                 </li>
               </ul>
               <div class="para">The class for file reading/writing.</div>
@@ -13473,7 +13506,7 @@
                 <code class="inline">seek</code>
                 methods.
               </div>
-              <a name="ref_221"> </a>
+              <a name="ref_222"> </a>
               <div style="font-size: medium;" class="header">Methods</div>
               <div class="section">
                 <div class="header">read ( count )</div>
@@ -13481,7 +13514,7 @@
                   Reads a file and returns a 
                   <code class="inline">ByteArray</code>
                   object with data (see also: 
-                  <a href="#ref_224">ByteArray</a>
+                  <a href="#ref_225">ByteArray</a>
                   ).
                 </div>
                 <div class="para u2">Parameter:</div>
@@ -13643,7 +13676,7 @@
                   instance, the garbage collector cleans it; if not - the file will be closed at the end of the script execution. But each opened file takes some resources, and if you want to save memory, close the file manually if it is not needed more.
                 </div>
               </div>
-              <a name="ref_222"> </a>
+              <a name="ref_223"> </a>
               <div style="font-size: medium;" class="header">Fields</div>
               <div class="section">
                 <div class="header">File.Mode</div>
@@ -13721,26 +13754,26 @@
               </div>
             </div>
           </div>
-          <a name="ref_223"> </a>
+          <a name="ref_224"> </a>
           <div style="font-size: 14pt;" class="header">6.1.2.2. Sequences</div>
           <div class="section">
             <ul class="content">
               <li>
-                <a href="#ref_224">ByteArray</a>
+                <a href="#ref_225">ByteArray</a>
               </li>
               <li>
-                <a href="#ref_227">StringBuilder</a>
+                <a href="#ref_228">StringBuilder</a>
               </li>
             </ul>
-            <a name="ref_224"> </a>
+            <a name="ref_225"> </a>
             <div style="font-size: medium;" class="header">6.1.2.2.1. ByteArray</div>
             <div class="section">
               <ul class="content">
                 <li>
-                  <a href="#ref_225">Methods</a>
+                  <a href="#ref_226">Methods</a>
                 </li>
                 <li>
-                  <a href="#ref_226">Operators</a>
+                  <a href="#ref_227">Operators</a>
                 </li>
               </ul>
               <div class="para">The class for storing an array of bytes.</div>
@@ -13754,7 +13787,7 @@
                 class instead.
               </div>
               <div class="para">ByteArray class is used in files read/write operations.</div>
-              <a name="ref_225"> </a>
+              <a name="ref_226"> </a>
               <div style="font-size: medium;" class="header">Methods</div>
               <div class="section">
                 <div class="header">length (  )</div>
@@ -13803,7 +13836,7 @@
                   var text = raw.decode(&quot;utf8&quot;); // decode
                 </div>
               </div>
-              <a name="ref_226"> </a>
+              <a name="ref_227"> </a>
               <div style="font-size: medium;" class="header">Operators</div>
               <div class="section">
                 <div class="header">Operator [ ]</div>
@@ -13830,15 +13863,15 @@
                 </div>
               </div>
             </div>
-            <a name="ref_227"> </a>
+            <a name="ref_228"> </a>
             <div style="font-size: medium;" class="header">6.1.2.2.2. StringBuilder</div>
             <div class="section">
               <ul class="content">
                 <li>
-                  <a href="#ref_228">Methods</a>
+                  <a href="#ref_229">Methods</a>
                 </li>
                 <li>
-                  <a href="#ref_229">Operators</a>
+                  <a href="#ref_230">Operators</a>
                 </li>
               </ul>
               <div class="para">The class for strings constructing.</div>
@@ -13919,7 +13952,7 @@
               </div>
               <div class="para">Much better.</div>
               <div class="para">StringBuilder has an array to hold characters. This array grows when new items (characters, strings, etc) added. This class does not create a new string for each addition. Thus, the construction of a long string takes much less time and memory.</div>
-              <a name="ref_228"> </a>
+              <a name="ref_229"> </a>
               <div style="font-size: medium;" class="header">Methods</div>
               <div class="section">
                 <div class="header">add ( object )</div>
@@ -13974,7 +14007,7 @@
                 <div class="header">length (  )</div>
                 <div class="para">Returns the length of the sequence.</div>
               </div>
-              <a name="ref_229"> </a>
+              <a name="ref_230"> </a>
               <div style="font-size: medium;" class="header">Operators</div>
               <div class="section">
                 <div class="header">Operator &lt;&lt;</div>
@@ -13999,7 +14032,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_230"> </a>
+        <a name="ref_231"> </a>
         <div style="font-size: 16pt;" class="header">6.1.3. Constants</div>
         <div class="section">
           <div class="header">PI</div>
@@ -14012,30 +14045,30 @@
           </div>
         </div>
       </div>
-      <a name="ref_231"> </a>
+      <a name="ref_232"> </a>
       <div style="font-size: 20pt;" class="header">6.2. External library</div>
       <div class="section">
         <ul class="content">
           <li>
-            <a href="#ref_232">Algorithms</a>
+            <a href="#ref_233">Algorithms</a>
           </li>
           <li>
-            <a href="#ref_233">Input/output</a>
+            <a href="#ref_234">Input/output</a>
           </li>
           <li>
-            <a href="#ref_234">Collections</a>
+            <a href="#ref_235">Collections</a>
           </li>
           <li>
-            <a href="#ref_246">Multithreading</a>
+            <a href="#ref_247">Multithreading</a>
           </li>
           <li>
-            <a href="#ref_249">Timer</a>
+            <a href="#ref_250">Timer</a>
           </li>
           <li>
-            <a href="#ref_258">Data formats</a>
+            <a href="#ref_259">Data formats</a>
           </li>
         </ul>
-        <a name="ref_232"> </a>
+        <a name="ref_233"> </a>
         <div style="font-size: 16pt;" class="header">6.2.1. Algorithms</div>
         <div class="section">
           <div class="para">
@@ -14062,7 +14095,7 @@
             print(indexOf(a, &quot;test&quot;); // 1
           </div>
         </div>
-        <a name="ref_233"> </a>
+        <a name="ref_234"> </a>
         <div style="font-size: 16pt;" class="header">6.2.2. Input/output</div>
         <div class="section">
           <div style="font-size: 14pt;" class="header">6.2.2.1. Methods</div>
@@ -14090,42 +14123,42 @@
             </div>
           </div>
         </div>
-        <a name="ref_234"> </a>
+        <a name="ref_235"> </a>
         <div style="font-size: 16pt;" class="header">6.2.3. Collections</div>
         <div class="section">
           <ul class="content">
             <li>
-              <a href="#ref_235">Big O notation</a>
+              <a href="#ref_236">Big O notation</a>
             </li>
             <li>
-              <a href="#ref_236">Collection</a>
+              <a href="#ref_237">Collection</a>
             </li>
             <li>
-              <a href="#ref_237">IndexedCollection</a>
+              <a href="#ref_238">IndexedCollection</a>
             </li>
             <li>
-              <a href="#ref_238">AssociativeCollection</a>
+              <a href="#ref_239">AssociativeCollection</a>
             </li>
             <li>
-              <a href="#ref_239">MutableCollection</a>
+              <a href="#ref_240">MutableCollection</a>
             </li>
             <li>
-              <a href="#ref_240">List</a>
+              <a href="#ref_241">List</a>
             </li>
             <li>
-              <a href="#ref_241">Vector</a>
+              <a href="#ref_242">Vector</a>
             </li>
             <li>
-              <a href="#ref_242">Stack</a>
+              <a href="#ref_243">Stack</a>
             </li>
             <li>
-              <a href="#ref_243">Queue</a>
+              <a href="#ref_244">Queue</a>
             </li>
             <li>
-              <a href="#ref_244">Set</a>
+              <a href="#ref_245">Set</a>
             </li>
             <li>
-              <a href="#ref_245">Map</a>
+              <a href="#ref_246">Map</a>
             </li>
           </ul>
           <div class="para">Collections are used to store data. Each collection saves data in some special order. Base prototypes (see diagram) contain methods common to each collection.</div>
@@ -14137,7 +14170,7 @@
               Collections
             </p>
           </div>
-          <a name="ref_235"> </a>
+          <a name="ref_236"> </a>
           <div style="font-size: 14pt;" class="header">6.2.3.1. Big O notation</div>
           <div class="section">
             <div class="para">One of the features of collections is the different execution times of the same operations for different collections. For example, inserting at the beginning of a linked list is faster than inserting at the beginning of a vector, but getting a vector element by its index is faster than a similar operation in the list. Programmer must choose a suitable collection based on his goals.</div>
@@ -14170,7 +14203,7 @@
               </li>
             </ul>
           </div>
-          <a name="ref_236"> </a>
+          <a name="ref_237"> </a>
           <div style="font-size: 14pt;" class="header">6.2.3.2. Collection</div>
           <div class="section">
             <div class="para">
@@ -14229,7 +14262,7 @@
             <div class="header">toArray (  ) → O(n)</div>
             <div class="para">Returns an array contains all elements of the collection.</div>
           </div>
-          <a name="ref_237"> </a>
+          <a name="ref_238"> </a>
           <div style="font-size: 14pt;" class="header">6.2.3.3. IndexedCollection</div>
           <div class="section">
             <div class="para">
@@ -14265,7 +14298,7 @@
               operator for reading elements by index.
             </div>
           </div>
-          <a name="ref_238"> </a>
+          <a name="ref_239"> </a>
           <div style="font-size: 14pt;" class="header">6.2.3.4. AssociativeCollection</div>
           <div class="section">
             <div class="para">
@@ -14295,7 +14328,7 @@
               operator for reading elements by key.
             </div>
           </div>
-          <a name="ref_239"> </a>
+          <a name="ref_240"> </a>
           <div style="font-size: 14pt;" class="header">6.2.3.5. MutableCollection</div>
           <div class="section">
             <div class="para">The base class for a collection that can be modified (elements can be added or removed).</div>
@@ -14334,7 +14367,7 @@
               Depends on implementation.
             </div>
           </div>
-          <a name="ref_240"> </a>
+          <a name="ref_241"> </a>
           <div style="font-size: 14pt;" class="header">6.2.3.6. List</div>
           <div class="section">
             <div class="para">
@@ -14599,7 +14632,7 @@
               .
             </div>
           </div>
-          <a name="ref_241"> </a>
+          <a name="ref_242"> </a>
           <div style="font-size: 14pt;" class="header">6.2.3.7. Vector</div>
           <div class="section">
             <div class="para">
@@ -14788,7 +14821,7 @@
               .
             </div>
           </div>
-          <a name="ref_242"> </a>
+          <a name="ref_243"> </a>
           <div style="font-size: 14pt;" class="header">6.2.3.8. Stack</div>
           <div class="section">
             <div class="para">
@@ -14897,7 +14930,7 @@
               if the stack is empty.
             </div>
           </div>
-          <a name="ref_243"> </a>
+          <a name="ref_244"> </a>
           <div style="font-size: 14pt;" class="header">6.2.3.9. Queue</div>
           <div class="section">
             <div class="para">
@@ -14983,7 +15016,7 @@
               if the queue is empty.
             </div>
           </div>
-          <a name="ref_244"> </a>
+          <a name="ref_245"> </a>
           <div style="font-size: 14pt;" class="header">6.2.3.10. Set</div>
           <div class="section">
             <div class="para">
@@ -15052,7 +15085,7 @@
               <li>element (any type): an element</li>
             </ul>
           </div>
-          <a name="ref_245"> </a>
+          <a name="ref_246"> </a>
           <div style="font-size: 14pt;" class="header">6.2.3.11. Map</div>
           <div class="section">
             <div class="para">
@@ -15167,18 +15200,18 @@
             </ul>
           </div>
         </div>
-        <a name="ref_246"> </a>
+        <a name="ref_247"> </a>
         <div style="font-size: 16pt;" class="header">6.2.4. Multithreading</div>
         <div class="section">
           <ul class="content">
             <li>
-              <a href="#ref_247">Atomic</a>
+              <a href="#ref_248">Atomic</a>
             </li>
             <li>
-              <a href="#ref_248">Mutex</a>
+              <a href="#ref_249">Mutex</a>
             </li>
           </ul>
-          <a name="ref_247"> </a>
+          <a name="ref_248"> </a>
           <div style="font-size: 14pt;" class="header">6.2.4.1. Atomic</div>
           <div class="section">
             <div class="para">
@@ -15336,7 +15369,7 @@
               </ul>
             </div>
           </div>
-          <a name="ref_248"> </a>
+          <a name="ref_249"> </a>
           <div style="font-size: 14pt;" class="header">6.2.4.2. Mutex</div>
           <div class="section">
             <div class="para">
@@ -15462,15 +15495,15 @@
             </div>
           </div>
         </div>
-        <a name="ref_249"> </a>
+        <a name="ref_250"> </a>
         <div style="font-size: 16pt;" class="header">6.2.5. Timer</div>
         <div class="section">
           <ul class="content">
             <li>
-              <a href="#ref_250">Methods</a>
+              <a href="#ref_251">Methods</a>
             </li>
             <li>
-              <a href="#ref_251">Classes</a>
+              <a href="#ref_252">Classes</a>
             </li>
           </ul>
           <div class="para">
@@ -15478,7 +15511,7 @@
             <code class="inline">lib\timer.goat</code>
             file.
           </div>
-          <a name="ref_250"> </a>
+          <a name="ref_251"> </a>
           <div style="font-size: 14pt;" class="header">6.2.5.1. Methods</div>
           <div class="section">
             <div class="header">Timer.setTimer ( callback, duration )</div>
@@ -15577,30 +15610,30 @@
               object. The algorithm always tries to align the time so that the gap between the start of separated threads is the same.
             </div>
           </div>
-          <a name="ref_251"> </a>
+          <a name="ref_252"> </a>
           <div style="font-size: 14pt;" class="header">6.2.5.2. Classes</div>
           <div class="section">
             <ul class="content">
               <li>
-                <a href="#ref_252">Timer.Interval</a>
+                <a href="#ref_253">Timer.Interval</a>
               </li>
               <li>
-                <a href="#ref_253">Timer.Duration</a>
+                <a href="#ref_254">Timer.Duration</a>
               </li>
               <li>
-                <a href="#ref_254">Timer.Seconds</a>
+                <a href="#ref_255">Timer.Seconds</a>
               </li>
               <li>
-                <a href="#ref_255">Timer.Milliseconds</a>
+                <a href="#ref_256">Timer.Milliseconds</a>
               </li>
               <li>
-                <a href="#ref_256">Timer.Microseconds</a>
+                <a href="#ref_257">Timer.Microseconds</a>
               </li>
               <li>
-                <a href="#ref_257">Timer.Nanoseconds</a>
+                <a href="#ref_258">Timer.Nanoseconds</a>
               </li>
             </ul>
-            <a name="ref_252"> </a>
+            <a name="ref_253"> </a>
             <div style="font-size: medium;" class="header">Timer.Interval</div>
             <div class="section">
               <div class="para">
@@ -15622,7 +15655,7 @@
                 </li>
               </ul>
             </div>
-            <a name="ref_253"> </a>
+            <a name="ref_254"> </a>
             <div style="font-size: medium;" class="header">Timer.Duration</div>
             <div class="section">
               <div class="para">
@@ -15631,7 +15664,7 @@
                 that returns the duration converted to nanoseconds.
               </div>
             </div>
-            <a name="ref_254"> </a>
+            <a name="ref_255"> </a>
             <div style="font-size: medium;" class="header">Timer.Seconds</div>
             <div class="section">
               <div class="para">
@@ -15640,7 +15673,7 @@
                 , determines time in seconds.
               </div>
             </div>
-            <a name="ref_255"> </a>
+            <a name="ref_256"> </a>
             <div style="font-size: medium;" class="header">Timer.Milliseconds</div>
             <div class="section">
               <div class="para">
@@ -15649,7 +15682,7 @@
                 , determines time in milliseconds.
               </div>
             </div>
-            <a name="ref_256"> </a>
+            <a name="ref_257"> </a>
             <div style="font-size: medium;" class="header">Timer.Microseconds</div>
             <div class="section">
               <div class="para">
@@ -15658,7 +15691,7 @@
                 , determines time in microseconds.
               </div>
             </div>
-            <a name="ref_257"> </a>
+            <a name="ref_258"> </a>
             <div style="font-size: medium;" class="header">Timer.Nanoseconds</div>
             <div class="section">
               <div class="para">
@@ -15669,17 +15702,17 @@
             </div>
           </div>
         </div>
-        <a name="ref_258"> </a>
+        <a name="ref_259"> </a>
         <div style="font-size: 16pt;" class="header">6.2.6. Data formats</div>
         <div class="section">
           <div style="font-size: 14pt;" class="header">6.2.6.1. Xml</div>
           <div class="section">
             <ul class="content">
               <li>
-                <a href="#ref_259">Classes</a>
+                <a href="#ref_260">Classes</a>
               </li>
               <li>
-                <a href="#ref_264">Methods</a>
+                <a href="#ref_265">Methods</a>
               </li>
             </ul>
             <div class="para">
@@ -15688,30 +15721,30 @@
               .
             </div>
             <div class="para">The parser takes a string that contains the source document. If you need to parse the file, you must first read and decode it using other methods. The document is recognized as a whole, the output is a tree of XML elements. If the document contains an error, the parser throws an appropriate exception.</div>
-            <a name="ref_259"> </a>
+            <a name="ref_260"> </a>
             <div style="font-size: medium;" class="header">Classes</div>
             <div class="section">
               <ul class="content">
                 <li>
-                  <a href="#ref_260">Xml.Element</a>
+                  <a href="#ref_261">Xml.Element</a>
                 </li>
                 <li>
-                  <a href="#ref_263">Xml.Error</a>
+                  <a href="#ref_264">Xml.Error</a>
                 </li>
               </ul>
-              <a name="ref_260"> </a>
+              <a name="ref_261"> </a>
               <div style="font-size: medium;" class="header">Xml.Element</div>
               <div class="section">
                 <ul class="content">
                   <li>
-                    <a href="#ref_261">Fields</a>
+                    <a href="#ref_262">Fields</a>
                   </li>
                   <li>
-                    <a href="#ref_262">Methods</a>
+                    <a href="#ref_263">Methods</a>
                   </li>
                 </ul>
                 <div class="para">The class that contains the data of one XML element. An XML element can contain attributes and child elements, thus, each element is the root of the element tree. The XML parser returns one root element that contains the whole document as a tree of elements.</div>
-                <a name="ref_261"> </a>
+                <a name="ref_262"> </a>
                 <div style="font-size: medium;" class="header">Fields</div>
                 <div class="section">
                   <div class="header">tag</div>
@@ -15776,7 +15809,7 @@
                     </ul>
                   </div>
                 </div>
-                <a name="ref_262"> </a>
+                <a name="ref_263"> </a>
                 <div style="font-size: medium;" class="header">Methods</div>
                 <div class="section">
                   <div class="header">toString ( indent )</div>
@@ -15908,7 +15941,7 @@
                   </ul>
                 </div>
               </div>
-              <a name="ref_263"> </a>
+              <a name="ref_264"> </a>
               <div style="font-size: medium;" class="header">Xml.Error</div>
               <div class="section">
                 <div class="para">The class contains a description of the error that occurred in the case of parsing a non-valid document.</div>
@@ -15960,7 +15993,7 @@
                 </div>
               </div>
             </div>
-            <a name="ref_264"> </a>
+            <a name="ref_265"> </a>
             <div style="font-size: medium;" class="header">Methods</div>
             <div class="section">
               <div class="header">parse ( str )</div>
@@ -15992,56 +16025,56 @@
         </div>
       </div>
     </div>
-    <a name="ref_265"> </a>
+    <a name="ref_266"> </a>
     <div style="font-size: 24pt;" class="header">7. Appendix</div>
     <div class="section">
       <ul class="content">
         <li>
-          <a href="#ref_266">In comparison with JavaScript</a>
+          <a href="#ref_267">In comparison with JavaScript</a>
         </li>
         <li>
-          <a href="#ref_279">Command line options and environment variables</a>
+          <a href="#ref_280">Command line options and environment variables</a>
         </li>
       </ul>
-      <a name="ref_266"> </a>
+      <a name="ref_267"> </a>
       <div style="font-size: 20pt;" class="header">7.1. In comparison with JavaScript</div>
       <div class="section">
         <ul class="content">
           <li>
-            <a href="#ref_267">Identifiers</a>
+            <a href="#ref_268">Identifiers</a>
           </li>
           <li>
-            <a href="#ref_268">Keywords</a>
+            <a href="#ref_269">Keywords</a>
           </li>
           <li>
-            <a href="#ref_269">Primitive types</a>
+            <a href="#ref_270">Primitive types</a>
           </li>
           <li>
-            <a href="#ref_270">Scope</a>
+            <a href="#ref_271">Scope</a>
           </li>
           <li>
-            <a href="#ref_271">The &apos;this&apos; keyword</a>
+            <a href="#ref_272">The &apos;this&apos; keyword</a>
           </li>
           <li>
-            <a href="#ref_272">Operators</a>
+            <a href="#ref_273">Operators</a>
           </li>
           <li>
-            <a href="#ref_273">Operators overloading</a>
+            <a href="#ref_274">Operators overloading</a>
           </li>
           <li>
-            <a href="#ref_274">Multithreading</a>
+            <a href="#ref_275">Multithreading</a>
           </li>
           <li>
-            <a href="#ref_275">The &apos;new&apos; keyword and constructors</a>
+            <a href="#ref_276">The &apos;new&apos; keyword and constructors</a>
           </li>
           <li>
-            <a href="#ref_276">Inheritance</a>
+            <a href="#ref_277">Inheritance</a>
           </li>
           <li>
-            <a href="#ref_277">Multiple inheritance</a>
+            <a href="#ref_278">Multiple inheritance</a>
           </li>
           <li>
-            <a href="#ref_278">Syntactic sugar</a>
+            <a href="#ref_279">Syntactic sugar</a>
           </li>
         </ul>
         <div class="para">The Goat programming language based in general on JavaScript syntax, but it has some differences.</div>
@@ -16053,7 +16086,7 @@
           <li>You can create an object from more than one prototype.</li>
         </ul>
         <div class="para">Some samples are below.</div>
-        <a name="ref_267"> </a>
+        <a name="ref_268"> </a>
         <div style="font-size: 16pt;" class="header">7.1.1. Identifiers</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16089,7 +16122,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_268"> </a>
+        <a name="ref_269"> </a>
         <div style="font-size: 16pt;" class="header">7.1.2. Keywords</div>
         <div class="section">
           <div class="para">The Goat programming language reserves several additional keywords:</div>
@@ -16127,7 +16160,7 @@
             </tr>
           </table>
         </div>
-        <a name="ref_269"> </a>
+        <a name="ref_270"> </a>
         <div style="font-size: 16pt;" class="header">7.1.3. Primitive types</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16185,7 +16218,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_270"> </a>
+        <a name="ref_271"> </a>
         <div style="font-size: 16pt;" class="header">7.1.4. Scope</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16266,7 +16299,7 @@
             <div class="para">But, if you re-declare a Goat variable in the same block, it will lose old value.</div>
           </div>
         </div>
-        <a name="ref_271"> </a>
+        <a name="ref_272"> </a>
         <div style="font-size: 16pt;" class="header">7.1.5. The &apos;this&apos; keyword</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16355,7 +16388,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_272"> </a>
+        <a name="ref_273"> </a>
         <div style="font-size: 16pt;" class="header">7.1.6. Operators</div>
         <div class="section">
           <div class="para">
@@ -16402,7 +16435,7 @@
             </li>
           </ul>
         </div>
-        <a name="ref_273"> </a>
+        <a name="ref_274"> </a>
         <div style="font-size: 16pt;" class="header">7.1.7. Operators overloading</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16499,7 +16532,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_274"> </a>
+        <a name="ref_275"> </a>
         <div style="font-size: 16pt;" class="header">7.1.8. Multithreading</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16582,7 +16615,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_275"> </a>
+        <a name="ref_276"> </a>
         <div style="font-size: 16pt;" class="header">7.1.9. The &apos;new&apos; keyword and constructors</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16691,7 +16724,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_276"> </a>
+        <a name="ref_277"> </a>
         <div style="font-size: 16pt;" class="header">7.1.10. Inheritance</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16831,7 +16864,7 @@
             </div>
           </div>
         </div>
-        <a name="ref_277"> </a>
+        <a name="ref_278"> </a>
         <div style="font-size: 16pt;" class="header">7.1.11. Multiple inheritance</div>
         <div class="section">
           <div class="header">JavaScript</div>
@@ -16887,7 +16920,7 @@
             <div class="para">The prototype traversal order for multiple inheritance is determined by the topological sorting of the prototype tree.</div>
           </div>
         </div>
-        <a name="ref_278"> </a>
+        <a name="ref_279"> </a>
         <div style="font-size: 16pt;" class="header">7.1.12. Syntactic sugar</div>
         <div class="section">
           <div style="font-size: 14pt;" class="header">7.1.12.1. Null conditional operator</div>
@@ -16917,7 +16950,7 @@
           </div>
         </div>
       </div>
-      <a name="ref_279"> </a>
+      <a name="ref_280"> </a>
       <div style="font-size: 20pt;" class="header">7.2. Command line options and environment variables</div>
       <div class="section">
         <div class="para">Here is the full list of command line options.</div>

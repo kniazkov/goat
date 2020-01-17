@@ -4835,6 +4835,15 @@
             </c>
             <p>Note that the <c>parg</c> object is pseudo-array. It inherited from <c>ArrayLike</c> prototype (see <link>Prototypes of built-in types</link> chapter). This object like a read-only array: you can read length of this and get an item by index, but can not modify it.</p>
         </s>
+        <s name="Hardware dependent data">
+            <s name="Ports">
+                <p>A port is a variable in the address space representing the interface between the Goat runtime and computer or peripheral devices. The port list is different for various platforms.</p>
+                <p>The Goat context contains the special object named <c>port</c>, each field of which linked to a hardware port. You can use the <c>[ ]</c> operator for accessing a separate port, for example:</p>
+                <c>port["gpio0"] = true;</c>
+                <p>For each platform at least one port, <c>&quot;null&quot;</c>, is defined, for debugging purposes. Writing to this port produces nothing, reading from this port always returns <c>null</c>:</p>
+                <c>print(port[&quot;null&quot;]); // &quot;null&quot;</c>
+            </s>
+        </s>
     </s>
     
     <s name="Standard library">
