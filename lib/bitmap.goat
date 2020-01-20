@@ -91,8 +91,8 @@ var AbstractBitmap =
             for (var x = 0; x < r.w; x++)
             {
                 var c = this.get(x, y);
-                a.push(round(255 * c.g));
                 a.push(round(255 * c.b));
+                a.push(round(255 * c.g));
                 a.push(round(255 * c.r));
             }
         }
@@ -122,7 +122,7 @@ var Bitmap = AbstractBitmap ->
     {
         if (x < 0 || x >= w || y < 0 || y >= h)
             return new Color();
-        var i = y * h + x;
+        var i = y * w + x;
         var c = new Color();
         if (r[i].instanceof(Number))
         {
@@ -138,7 +138,7 @@ var Bitmap = AbstractBitmap ->
     {
         if (!(x < 0 || x >= w || y < 0 || y >= h))
         {
-            var i = y * h + x;
+            var i = y * w + x;
             r[i] = c.r;
             g[i] = c.g;
             b[i] = c.b;
