@@ -1,0 +1,8 @@
+import "struct.goat";
+
+var s = new Struct;
+s.declare("bfType", 2);
+s.declare("bfSize", 4);
+s["bfType"] = "BM";
+s["bfSize"] = 65534;
+println(s.toByteArray());
