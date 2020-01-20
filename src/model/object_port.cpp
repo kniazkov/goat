@@ -20,13 +20,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+#include "settings.h"
 #include "object_port.h"
 #include "object_string.h"
 #include "object_function_built_in.h"
 #include "object_exception.h"
 #include "thread.h"
 #include "lib/assert.h"
+#include "lib/gpio.h"
 #include "resource/strings.h"
+#include <sstream>
 
 namespace g0at
 {
@@ -35,12 +38,12 @@ namespace g0at
         /*
             Ports
         */
-        class port_null : public hw_port
+        class null_port : public hw_port
         {
         public:
             static hw_port *get_instance()
             {
-                static port_null instance;
+                static null_port instance;
                 return &instance;
             }
 
@@ -57,7 +60,40 @@ namespace g0at
             }
 
         private:
-            port_null()
+            null_port()
+            {
+            }
+        };
+
+        template <unsigned int N> class gpio_numbered_port : public hw_port
+        {
+        public:
+            static gpio_numbered_port *get_instance()
+            {
+                static gpio_numbered_port instance;
+                return &instance;
+            }
+
+            variable get(object_pool *pool) override
+            {
+                variable result;
+                result.set_boolean(lib::gpio_get(N));
+                return result;
+            }
+
+            bool set(variable value) override
+            {
+                bool boolean_value;
+                if (value.get_boolean(&boolean_value))
+                {
+                    lib::gpio_set(N, boolean_value);
+                    return true;
+                }
+                return false;
+            }
+
+        private:
+            gpio_numbered_port()
             {
             }
         };
@@ -68,8 +104,17 @@ namespace g0at
         object_port::object_port(object_pool *pool)
             : object(pool)
         {
-            // creating hardware dependent ports 
-            ports[pool->get_static_string(resource::str_null)] = port_null::get_instance(); 
+            ports[pool->get_static_string(resource::str_null)] = null_port::get_instance(); 
+
+            // creating hardware dependent ports
+#ifdef GPIO_ENABLE
+#ifdef GPIO_EMULATION
+            ports[pool->create_object_string(L"gpio0")] = gpio_numbered_port<0>::get_instance();
+            ports[pool->create_object_string(L"gpio1")] = gpio_numbered_port<1>::get_instance();
+            ports[pool->create_object_string(L"gpio2")] = gpio_numbered_port<2>::get_instance();
+            ports[pool->create_object_string(L"gpio3")] = gpio_numbered_port<3>::get_instance();
+#endif
+#endif            
         }
 
         object_port::~object_port()
@@ -154,7 +199,7 @@ namespace g0at
         class object_port_iterator : public object
         {
         public:
-            object_port_iterator(object_pool *pool, std::map<object*, hw_port*> &ports)
+            object_port_iterator(object_pool *pool, std::map<object*, hw_port*, object_comparator> &ports)
                 : object(pool, pool->get_iterator_proto_instance())
             {
                 pair = ports.begin();
@@ -186,7 +231,7 @@ namespace g0at
             }
 
         protected:
-            std::map<object*, hw_port*>::iterator pair,
+            std::map<object*, hw_port*, object_comparator>::iterator pair,
                 lastPair;
         };
 

@@ -20,11 +20,14 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "launcher/launcher.h"
-#include "lib/gpio.h"
+#pragma once
 
-int main(int argc, char **argv)
+namespace g0at
 {
-    g0at::lib::gpio_init();
-    return g0at::launcher::go(argc, argv);
-}
+    namespace lib
+    {
+        void gpio_init();
+        void gpio_set(unsigned int port, bool value);
+        bool gpio_get(unsigned int port);
+    };
+};

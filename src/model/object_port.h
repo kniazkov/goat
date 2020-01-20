@@ -51,7 +51,7 @@ namespace g0at
             void m_clone(thread *thr, int arg_count) override;
         
         private:
-            std::map<object*, hw_port*> ports;
+            std::map<object*, hw_port*, object_comparator> ports;
         };
     };
 };

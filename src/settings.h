@@ -25,3 +25,5 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #define MODEL_DEBUG
 //#define GC_DEBUG
 #define GC_DEFAULT_PARALLEL
+#define GPIO_ENABLE
+#define GPIO_EMULATION
