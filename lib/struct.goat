@@ -1,0 +1,105 @@
+/*
+
+Copyright (C) 2017-2020 Ivan Kniazkov
+
+This file is part of standard library for programming language
+codenamed "Goat" ("Goat standard library").
+
+Goat standard library is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat standard library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+var Struct =
+# {
+    init : $()
+    {
+        this.offset = 0;
+        this.map = { };
+        this.vector = [];
+    },
+
+    size : $()
+    {
+        return offset;
+    },
+
+    declare : $(name, size, initVal)
+    {
+        if (!this.map[name])
+        {
+            var item =
+            {
+                name : name,
+                size : size,
+                offset : offset,
+                value : initVal || 0
+            };
+            map[name] = item;
+            vector.push(item);
+            offset += size;
+        }
+    },
+
+    get : $(name, value)
+    {
+        var item = map[name];
+        return item?.value;
+    },
+
+    set : $(name, value)
+    {
+        var item = map[name];
+        if (item)
+            item.value = value;
+        return value;
+    },
+
+    toByteArray : $()
+    {
+        var result = new ByteArray();
+        for (var item in vector)
+        {
+            if (item.value.instanceof(String))
+            {
+                var i = 0;
+                var length = item.value.length();
+                for (; i < item.size && i < length; i++)
+                {
+                    var byte = item.value[i];
+                    result.push(byte > 255 ? 0 : Integer.valueof(byte));
+                }
+                while(i < length)
+                {
+                    result.push(0);
+                    i++;
+                }
+            }
+            else if (item.value.instanceof(Integer))
+            {
+                var value = item.value;
+                for (var i = 0; i < item.size; i++)
+                {
+                    result.push(value & 0xFF);
+                    value >>= 8;
+                }
+            }
+            else
+            {
+                for (var i = 0; i < item.size; i++)
+                    result.push(0);
+            }
+        }
+        return result;
+    }
+};
