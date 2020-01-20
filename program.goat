@@ -1,9 +1,9 @@
 import "bitmap.goat";
 
-var bmp = new Bitmap(640, 480);
+var bmp = new Bitmap(639, 479);
 bmp.set(0, 0, {r: 0, g: 0, b: 1});
-bmp.set(639, 0, {r: 0, g: 0, b: 1});
-bmp.set(0, 1, {r: 0, g: 0, b: 1});
+//bmp.set(639, 0, {r: 0, g: 0, b: 1});
+//bmp.set(0, 1, {r: 0, g: 0, b: 1});
 bmp.drawRect(100, 100, 300, 200, {r: 1, g: 0, b: 0});
 var file = open("image.bmp", File.Mode.WRITE);
 file.write(bmp.toByteArray());

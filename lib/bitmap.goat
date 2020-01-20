@@ -88,12 +88,19 @@ var AbstractBitmap =
         
         for (var y = r.h - 1; y >= 0; y--)
         {
+            var k = 0;
             for (var x = 0; x < r.w; x++)
             {
                 var c = this.get(x, y);
                 a.push(round(255 * c.b));
                 a.push(round(255 * c.g));
                 a.push(round(255 * c.r));
+                k += 3;
+            }
+            while (k % 4)
+            {
+                a.push(0);
+                k++;
             }
         }
 
