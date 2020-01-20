@@ -20,8 +20,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "gpio.h"
 #include "settings.h"
+#include "gpio.h"
+
+#ifdef GPIO_DEBUG
+#include "utils.h"
+#include <iostream>
+#endif
 
 namespace g0at
 {
@@ -31,6 +36,9 @@ namespace g0at
 
 #ifdef GPIO_EMULATION
         static const unsigned int gpio_count = 4;
+#ifdef GPIO_DEBUG
+        static int64_t gpio_time_start;
+#endif
 
         bool gpio_values[gpio_count];
 
@@ -38,12 +46,24 @@ namespace g0at
         {
             for (unsigned int i = 0; i < gpio_count; i++)
                 gpio_values[i] = false;
+#ifdef GPIO_DEBUG
+            gpio_time_start = get_time_ns();
+#endif
         }
 
         void gpio_set(unsigned int port, bool value)
         {
             if (port < gpio_count)
+            {
+#ifdef GPIO_DEBUG
+                if (gpio_values[port] != value)
+                {
+                    int64_t gpio_time = get_time_ns() - gpio_time_start;
+                    std::cout << "\n*** gpio " << port << '\t' << (value ? '1' : '0') << '\t' << gpio_time;
+                }
+#endif
                 gpio_values[port] = value;
+            }
         }
 
         bool gpio_get(unsigned int port)

@@ -1,2 +1,14 @@
-port["null"] = 666;
-println(port["null"]);
+import "timer.goat";
+
+var x = 0;
+
+println("start");
+var i = Timer.setInterval($()
+{
+    x++;
+    port["gpio0"] = !port["gpio0"];
+    if (x == 100)
+    {
+        i.stop();
+    }
+}, new Timer.Milliseconds(100));
