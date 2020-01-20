@@ -81,6 +81,22 @@ namespace g0at
             return this;
         }
 
+        void object_port::trace() 
+        {
+            for (auto pair : ports)
+            {
+                pair.first->mark();
+            }
+        }
+
+        void object_port::trace_parallel(object_pool *pool) 
+        {
+            for (auto pair : ports)
+            {
+                pair.first->mark_parallel(pool);
+            }
+        }
+
         void object_port::m_get(thread *thr, int arg_count)
         {
             if (arg_count < 1)

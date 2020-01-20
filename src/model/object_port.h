@@ -42,6 +42,8 @@ namespace g0at
             object_port(object_pool *pool);
             ~object_port();
             object_port * to_object_port() override;
+            void trace() override;
+            void trace_parallel(object_pool *pool) override;
 
             void m_get(thread *thr, int arg_count) override;
             void m_set(thread *thr, int arg_count) override;
