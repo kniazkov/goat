@@ -1,0 +1,96 @@
+/*
+
+Copyright (C) 2017-2020 Ivan Kniazkov
+
+This file is part of standard library for programming language
+codenamed "Goat" ("Goat standard library").
+
+Goat standard library is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat standard library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+import "type.goat";
+
+var AbstractBitmap =
+# {
+    get : $(x, y)
+    {
+        return new Color();
+    },
+
+    set : $(x, y, c)
+    {
+        return c;
+    },
+
+    size : $()
+    {
+        return new Rectangle();
+    }
+};
+
+var Bitmap = AbstractBitmap ->
+# {
+    init : $(w, h)
+    {
+        if (w > 0 && h > 0)
+        {
+            this.w = w;
+            this.h = h;
+            this.r = [];
+            this.g = [];
+            this.b = [];
+            this.a = [];
+        }
+        else
+            throw new Exception.IllegalArgument();
+    },
+
+    get : $(x, y)
+    {
+        if (x < 0 || x >= w || y < 0 || y >= h)
+            return new Color();
+        var i = y * h + x;
+        var c = new Color();
+        if (r[i].instanceof(Number))
+        {
+            c.r = r[i];
+            c.g = g[i];
+            c.b = b[i];
+            c.a = a[i];
+        }
+        return c;
+    },
+
+    set : $(x, y, c)
+    {
+        if (!(x < 0 || x >= w || y < 0 || y >= h))
+        {
+            var i = y * h + x;
+            r[i] = c.r;
+            g[i] = c.g;
+            b[i] = c.b;
+            a[i] = c.a || 0.0;            
+        }
+        return c;
+    },
+
+    size : $()
+    {
+        var r = new Rectangle();
+        r.w = w;
+        r.h = h;
+        return r;
+    }
+};

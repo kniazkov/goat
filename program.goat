@@ -1,14 +1,17 @@
-import "timer.goat";
+import "bitmap.goat";
 
-var x = 0;
-
-println("start");
-var i = Timer.setInterval($()
-{
-    x++;
-    port["gpio0"] = !port["gpio0"];
-    if (x == 100)
-    {
-        i.stop();
-    }
-}, new Timer.Milliseconds(100));
+var bmp = new Bitmap(640, 480);
+var c = bmp[639, 479];
+println("r: " + c.r);
+println("g: " + c.g);
+println("b: " + c.b);
+println("a: " + c.a);
+bmp[639, 479] = {r: 1, g: 0, b: 0};
+var c = bmp[639, 479];
+println("r: " + c.r);
+println("g: " + c.g);
+println("b: " + c.b);
+println("a: " + c.a);
+var r = bmp.size();
+println("w: " + r.w);
+println("h: " + r.h);
