@@ -1,8 +1,10 @@
-import "struct.goat";
+import "bitmap.goat";
 
-var s = new Struct;
-s.declare("bfType", 2);
-s.declare("bfSize", 4);
-s["bfType"] = "BM";
-s["bfSize"] = 65534;
-println(s.toByteArray());
+var bmp = new Bitmap(640, 480);
+bmp.set(0, 0, {r: 0, g: 0, b: 1});
+bmp.set(639, 0, {r: 0, g: 0, b: 1});
+bmp.set(0, 1, {r: 0, g: 0, b: 1});
+bmp.drawRect(100, 100, 300, 200, {r: 1, g: 0, b: 0});
+var file = open("image.bmp", File.Mode.WRITE);
+file.write(bmp.toByteArray());
+file.close();

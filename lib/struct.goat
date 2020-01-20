@@ -65,9 +65,10 @@ var Struct =
         return value;
     },
 
-    toByteArray : $()
+    toByteArray : $(result)
     {
-        var result = new ByteArray();
+        if (!result)
+            result = new ByteArray();
         for (var item in vector)
         {
             if (item.value.instanceof(String))
