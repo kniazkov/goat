@@ -168,6 +168,95 @@ var FullBitmap = Bitmap ->
     }
 };
 
+var Bmp1 = Bitmap ->
+# {
+    init : $(w, h)
+    {
+        if (w > 0 && h > 0)
+        {
+            this.w = w;
+            this.h = h;
+            this.data = new ByteArray();
+
+            var h1 = new Struct();
+            h1.declare("bfType",                2, "BM");
+            h1.declare("bfSize",                4);
+            h1.declare("bfReserved1",           2, 0);
+            h1.declare("bfReserved2",           2, 0);
+            h1.declare("bfOffBits",             4);
+
+            var h2 = new Struct();
+            h2.declare("biSize",                4, 40);
+            h2.declare("biWidth",               4, w);
+            h2.declare("biHeight",              4, h);
+            h2.declare("biPlanes",              2, 1);
+            h2.declare("biBitCount",            2, 1);
+            h2.declare("biCompression",         4, 0);
+            h2.declare("biSizeImage",           4, 0);
+            h2.declare("biXPelsPerMeter",       4, 0);
+            h2.declare("biYPelsPerMeter",       4, 0);
+            h2.declare("biClrUsed",             4, 0);
+            h2.declare("biClrImportant",        4, 0);
+
+            this.start = h1.size() + h2.size() + 8;
+            this.rowSize = w / 8 + ( w % 8 ? 1 : 0 );
+            while (rowSize % 4)
+                rowSize++;
+            var arraySize = rowSize * h;
+
+            h1["bfSize"] = start + arraySize;
+            h1["bfOffBits"] = start;
+            h1.toByteArray(data);
+            h2.toByteArray(data);
+            data.fill(0, 4);
+            data.fill(255, 4);
+            data.fill(0, arraySize);
+        }
+        else
+            throw new Exception.IllegalArgument();
+    },
+
+    get : $(x, y)
+    {
+        if (x < 0 || x >= w || y < 0 || y >= h)
+            return new Color();
+        var i = start + (h - y - 1) * rowSize + x / 8;
+        var v = Real.valueof(( data[i] >> (7 - x % 8) ) & 1);
+        var c = new Color();
+        c.r = v;
+        c.g = v;
+        c.b = v;
+        c.a = 0.0;
+        return c;
+    },
+
+    set : $(x, y, c)
+    {
+        if (!(x < 0 || x >= w || y < 0 || y >= h))
+        {
+            var i = start + (h - y - 1) * rowSize + x / 8;
+            if (c.r || c.g || c.b)
+                data[i] = data[i] | (1 << (7 - x % 8));
+            else
+                data[i] = data[i] & ((~(1 << (7 - x % 8))) & 255);
+        }
+        return c;
+    },
+
+    size : $()
+    {
+        var r = new Rectangle();
+        r.w = w;
+        r.h = h;
+        return r;
+    },
+
+    toByteArray : $()
+    {
+        return data;
+    }
+};
+
 var Bmp24 = Bitmap ->
 # {
     init : $(w, h)
@@ -179,24 +268,24 @@ var Bmp24 = Bitmap ->
             this.data = new ByteArray();
 
             var h1 = new Struct();
-            h1.declare("bfType", 2, "BM");
-            h1.declare("bfSize", 4);
-            h1.declare("bfReserved1", 2, 0);
-            h1.declare("bfReserved2", 2, 0);
-            h1.declare("bfOffBits", 4);
+            h1.declare("bfType",                2, "BM");
+            h1.declare("bfSize",                4);
+            h1.declare("bfReserved1",           2, 0);
+            h1.declare("bfReserved2",           2, 0);
+            h1.declare("bfOffBits",             4);
 
             var h2 = new Struct();
-            h2.declare("biSize", 4, 40);
-            h2.declare("biWidth", 4, w);
-            h2.declare("biHeight", 4, h);
-            h2.declare("biPlanes", 2, 1);
-            h2.declare("biBitCount", 2, 24);
-            h2.declare("biCompression", 4, 0);
-            h2.declare("biSizeImage", 4, 0);
-            h2.declare("biXPelsPerMeter", 4, 0);
-            h2.declare("biYPelsPerMeter", 4, 0);
-            h2.declare("biClrUsed", 4, 0);
-            h2.declare("biClrImportant", 4, 0);
+            h2.declare("biSize",                4, 40);
+            h2.declare("biWidth",               4, w);
+            h2.declare("biHeight",              4, h);
+            h2.declare("biPlanes",              2, 1);
+            h2.declare("biBitCount",            2, 24);
+            h2.declare("biCompression",         4, 0);
+            h2.declare("biSizeImage",           4, 0);
+            h2.declare("biXPelsPerMeter",       4, 0);
+            h2.declare("biYPelsPerMeter",       4, 0);
+            h2.declare("biClrUsed",             4, 0);
+            h2.declare("biClrImportant",        4, 0);
 
             this.start = h1.size() + h2.size();
             this.rowSize = 3 * w;
