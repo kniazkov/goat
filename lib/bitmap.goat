@@ -40,6 +40,63 @@ var Bitmap =
         return new Rectangle();
     },
 
+    drawLine : $(x1, y1, x2, y2, c)
+    {
+        var deltaX = abs(x2 - x1);
+        var deltaY = abs(y2 - y1);
+        var signX = x1 < x2 ? 1 : (-1);
+        var signY = y1 < y2 ? 1 : (-1);
+        var error = deltaX - deltaY;
+        this.set(x2, y2, c);
+        while(x1 != x2 || y1 != y2)
+        {
+            this.set(x1, y1, c);
+            var error2 = error * 2;
+            if(error2 > -deltaY) 
+            {
+                error -= deltaY;
+                x1 += signX;
+            }
+            if(error2 < deltaX) 
+            {
+                error += deltaX;
+                y1 += signY;
+            }
+        }
+    },
+
+    drawCircle : $(x0, y0, radius, c)
+    {
+        var x = 0;
+        var y = radius;
+        var delta = 1 - 2 * radius;
+        var error = 0;
+        while (true)
+        {
+            if (y < 0)
+                break;
+            this.set(x0 + x, y0 + y, c);
+            this.set(x0 + x, y0 - y, c);
+            this.set(x0 - x, y0 + y, c);
+            this.set(x0 - x, y0 - y, c);
+            error = 2 * (delta + y) - 1;
+            if(delta < 0 && error <= 0) {
+                ++x;
+                delta += 2 * x + 1;
+                continue;
+            }
+            error = 2 * (delta - x) - 1;
+            if(delta > 0 && error > 0) {
+                --y;
+                delta += 1 - 2 * y;
+                continue;
+            }
+            ++x;
+            delta += 2 * (x - y);
+            --y;
+        }
+    },
+
     drawRect : $(x1, y1, x2, y2, c)
     {
         for (var x = x1; x <= x2; x++)

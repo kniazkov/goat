@@ -1,21 +1,21 @@
 import "bitmap.goat";
+import "color.goat";
 
-var x = 100;
-var y = 100;
+var bmp = new Bmp24(1024, 768);
+bmp.drawLine(100, 100, 1000, 600, Red);
+bmp.drawLine(100, 500, 1000, 60, Green);
+bmp.drawCircle(320, 200, 150, Blue);
 
-var bmp = new Bmp24(x, y);
-var _x = x * 1.0;
-var _y = y * 1.0;
-for (var r = 0; r < x; r++)
+//var file = open("image.bmp", File.Mode.WRITE);
+//file.write(bmp.toByteArray());
+//fileclose();
+
+var a = bmp.toByteArray();
+var i, n = a.length();
+var k = 0;
+for (i = 0; i < n; i++)
 {
-    for (var g = 0; g < y; g++)
-    {
-        bmp.set(r, g, {r: r / _x, g: g / _y, b: 1 - g / _y});
-    }
+    if (a[i] != 0)
+        k++;
 }
-
-var file = open("image.bmp", File.Mode.WRITE);
-file.write(bmp.toByteArray());
-file.close();
-
-//println(bmp.toByteArray());
+println(k);
