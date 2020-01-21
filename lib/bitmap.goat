@@ -23,7 +23,7 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 import "type.goat";
 import "struct.goat";
 
-var AbstractBitmap =
+var Bitmap =
 # {
     get : $(x, y)
     {
@@ -53,62 +53,10 @@ var AbstractBitmap =
             this.set(x1, y, c);
             this.set(x2, y, c);
         }
-    },
-
-    toByteArray : $()
-    {
-        var r = this.size();
-
-        var h1 = new Struct();
-        h1.declare("bfType", 2, "BM");
-        h1.declare("bfSize", 4);
-        h1.declare("bfReserved1", 2, 0);
-        h1.declare("bfReserved2", 2, 0);
-        h1.declare("bfOffBits", 4);
-
-        var h2 = new Struct();
-        h2.declare("biSize", 4, 40);
-        h2.declare("biWidth", 4, r.w);
-        h2.declare("biHeight", 4, r.h);
-        h2.declare("biPlanes", 2, 1);
-        h2.declare("biBitCount", 2, 24);
-        h2.declare("biCompression", 4, 0);
-        h2.declare("biSizeImage", 4, 0);
-        h2.declare("biXPelsPerMeter", 4, 0);
-        h2.declare("biYPelsPerMeter", 4, 0);
-        h2.declare("biClrUsed", 4, 0);
-        h2.declare("biClrImportant", 4, 0);
-
-        h1["bfSize"] = h1.size() + h2.size() + 3 * r.w * r.h;
-        h1["bfOffBits"] = h1.size() + h2.size();
-
-        var a = new ByteArray();
-        h1.toByteArray(a);
-        h2.toByteArray(a);
-        
-        for (var y = r.h - 1; y >= 0; y--)
-        {
-            var k = 0;
-            for (var x = 0; x < r.w; x++)
-            {
-                var c = this.get(x, y);
-                a.push(round(255 * c.b));
-                a.push(round(255 * c.g));
-                a.push(round(255 * c.r));
-                k += 3;
-            }
-            while (k % 4)
-            {
-                a.push(0);
-                k++;
-            }
-        }
-
-        return a;
     }
 };
 
-var Bitmap = AbstractBitmap ->
+var FullBitmap = Bitmap ->
 # {
     init : $(w, h)
     {
@@ -160,5 +108,95 @@ var Bitmap = AbstractBitmap ->
         r.w = w;
         r.h = h;
         return r;
+    }
+};
+
+var Bmp24 = Bitmap ->
+# {
+    init : $(w, h)
+    {
+        if (w > 0 && h > 0)
+        {
+            this.w = w;
+            this.h = h;
+            this.data = new ByteArray();
+
+            var h1 = new Struct();
+            h1.declare("bfType", 2, "BM");
+            h1.declare("bfSize", 4);
+            h1.declare("bfReserved1", 2, 0);
+            h1.declare("bfReserved2", 2, 0);
+            h1.declare("bfOffBits", 4);
+
+            var h2 = new Struct();
+            h2.declare("biSize", 4, 40);
+            h2.declare("biWidth", 4, w);
+            h2.declare("biHeight", 4, h);
+            h2.declare("biPlanes", 2, 1);
+            h2.declare("biBitCount", 2, 24);
+            h2.declare("biCompression", 4, 0);
+            h2.declare("biSizeImage", 4, 0);
+            h2.declare("biXPelsPerMeter", 4, 0);
+            h2.declare("biYPelsPerMeter", 4, 0);
+            h2.declare("biClrUsed", 4, 0);
+            h2.declare("biClrImportant", 4, 0);
+
+            this.start = h1.size() + h2.size();
+            this.rowSize = 3 * w;
+            while (rowSize % 4)
+                rowSize++;
+            var arraySize = rowSize * h;
+
+            h1["bfSize"] = start + arraySize;
+            h1["bfOffBits"] = start;
+
+            h1.toByteArray(data);
+            h2.toByteArray(data);
+            
+            for (var i = 0; i < arraySize; i++)
+            {
+                data.push(0);
+            }
+        }
+        else
+            throw new Exception.IllegalArgument();
+    },
+
+    get : $(x, y)
+    {
+        if (x < 0 || x >= w || y < 0 || y >= h)
+            return new Color();
+        var i = start + (h - y - 1) * rowSize + x * 3;
+        var c = new Color();
+        c.r = data[i + 2] / 255.0;
+        c.g = data[i + 1] / 255.0;
+        c.b = data[i]     / 255.0;
+        c.a = 0.0;
+        return c;
+    },
+
+    set : $(x, y, c)
+    {
+        if (!(x < 0 || x >= w || y < 0 || y >= h))
+        {
+            var i = start + (h - y - 1) * rowSize + x * 3;
+            data[i + 2] = round(c.r * 255);
+            data[i + 1] = round(c.g * 255);
+            data[i]     = round(c.b * 255);
+        }
+        return c;
+    },
+
+    size : $()
+    {
+        var r = new Rectangle();
+        r.w = w;
+        r.h = h;
+        return r;
+    },
+
+    toByteArray : $()
+    {
+        return data;
     }
 };

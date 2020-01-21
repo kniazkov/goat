@@ -3,7 +3,7 @@ import "bitmap.goat";
 var x = 64;
 var y = 64;
 
-var bmp = new Bitmap(x, y);
+var bmp = new Bmp24(x, y);
 var _x = x * 1.0;
 var _y = y * 1.0;
 for (var r = 0; r < x; r++)
