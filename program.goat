@@ -18,4 +18,4 @@ var file = open("image.bmp", File.Mode.WRITE);
 file.write(bmp.toByteArray());
 file.close();
 
-println(bmp.toByteArray());
+//println(bmp.toByteArray());

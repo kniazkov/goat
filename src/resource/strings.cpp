@@ -96,6 +96,7 @@ namespace g0at
         std::wstring str_exception = L"exception";
         std::wstring str_string = L"string";
         std::wstring str_lock = L"lock";
+        std::wstring str_fill = L"fill";
 
         std::wstring str_Mode = L"Mode";
         std::wstring str_Origin = L"Origin";

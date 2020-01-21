@@ -226,6 +226,19 @@ namespace g0at
             thr->push(tmp);
         }
 
+        void object_byte_array::fill(uint8_t byte, int count)
+        {
+            if (count > 0)
+            {
+                vector.reserve(vector.size() + count);
+                while(count)
+                {
+                    vector.push_back(byte);
+                    count--;
+                }
+            }
+        }
+
         /*
             Prototype
         */
@@ -346,6 +359,29 @@ namespace g0at
             }
         };
 
+        class object_byte_array_fill : public object_byte_array_method
+        {
+        public:
+            object_byte_array_fill(object_pool *_pool)
+                : object_byte_array_method(_pool)
+            {
+            }
+            
+            bool payload(object_byte_array *this_ptr, thread *thr, int arg_count, variable *result) override
+            {
+                uint8_t byte;
+                int64_t count;
+                if (arg_count < 2 ||
+                    !thr->peek(0).get_byte(&byte) || !thr->peek(1).get_integer(&count) || count > INT32_MAX || count < 0)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+                this_ptr->fill(byte, (int)count);
+                return true;
+            }
+        };
+
         object_byte_array_proto::object_byte_array_proto(object_pool *pool)
             : object(pool)
         {
@@ -356,6 +392,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_length), new object_byte_array_length(pool));
             add_object(pool->get_static_string(resource::str_push), new object_byte_array_push(pool));
             add_object(pool->get_static_string(resource::str_decode), new object_byte_array_decode_utf8(pool));
+            add_object(pool->get_static_string(resource::str_fill), new object_byte_array_fill(pool));
             lock();
         }
 

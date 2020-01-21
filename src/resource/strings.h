@@ -98,6 +98,7 @@ namespace g0at
         extern std::wstring str_exception;
         extern std::wstring str_string;
         extern std::wstring str_lock;
+        extern std::wstring str_fill;
 
         extern std::wstring str_Mode;
         extern std::wstring str_Origin;

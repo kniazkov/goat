@@ -152,11 +152,7 @@ var Bmp24 = Bitmap ->
 
             h1.toByteArray(data);
             h2.toByteArray(data);
-            
-            for (var i = 0; i < arraySize; i++)
-            {
-                data.push(0);
-            }
+            data.fill(0, arraySize);
         }
         else
             throw new Exception.IllegalArgument();

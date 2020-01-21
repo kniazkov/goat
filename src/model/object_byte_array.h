@@ -38,6 +38,7 @@ namespace g0at
             object_byte_array(object_pool *pool, uint8_t *data, size_t size);
             object_byte_array *to_object_byte_array() override;
             std::wstring to_string() const override;
+            void fill(uint8_t byte, int count);
 
             void m_get(thread *thr, int arg_count) override;
             void m_set(thread *thr, int arg_count) override;
