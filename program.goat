@@ -1,12 +1,6 @@
-import "bitmap.goat";
-import "color.goat";
+import "stepper_motor.goat";
 
-var bmp = new Bmp1(1024, 768);
-//bmp[1, 0] = White;
-bmp.drawLine(100, 100, 1000, 600, Red);
-bmp.drawLine(100, 500, 1000, 60, Green);
-bmp.drawCircle(320, 200, 150, Blue);
-
-var file = open("image.bmp", File.Mode.WRITE);
-file.write(bmp.toByteArray());
-file.close();
+var smp = new StepperMotorParameters();
+smp.gpioStep = "gpio0";
+var motor = new StepperMotor(smp);
+//motor.setVelocity(1);
