@@ -27,8 +27,16 @@ namespace g0at
 {
     namespace model
     {
-        void stack::stack_is_empty() {
+        void stack::stack_is_empty()
+        {
             throw vm::stack_is_empty();
         }
+
+#ifdef STACK_DEBUG
+        void stack::uninitialized_value_on_the_stack()
+        {
+            throw vm::uninitialized_value_on_the_stack();
+        }
+#endif
     };
 };

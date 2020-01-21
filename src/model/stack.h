@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object.h"
+#include "settings.h"
 
 namespace g0at
 {
@@ -56,6 +57,10 @@ namespace g0at
 
             variable *push(variable &var)
             {
+#ifdef STACK_DEBUG
+                if (var.hndl == nullptr)
+                    uninitialized_value_on_the_stack();
+#endif                
                 item *it;
                 if (pool != nullptr)
                 {
@@ -75,6 +80,9 @@ namespace g0at
             }
 
             void stack_is_empty();
+#ifdef STACK_DEBUG
+            void uninitialized_value_on_the_stack();
+#endif
 
             variable pop()
             {

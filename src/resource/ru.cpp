@@ -372,6 +372,13 @@ namespace g0at
                 return L"пустой стек";
             }
 
+#ifdef STACK_DEBUG
+            std::wstring uninitialized_value_on_the_stack() override
+            {
+                return L"неинициализированное значение на стеке";
+            }
+#endif
+
 #ifdef GC_DEBUG
             std::wstring use_of_a_dead_object(std::wstring data) override
             {

@@ -100,6 +100,9 @@ namespace g0at
 
             virtual std::wstring vm_fault() = 0;
             virtual std::wstring stack_is_empty() = 0;
+#ifdef STACK_DEBUG
+            virtual std::wstring uninitialized_value_on_the_stack() = 0;
+#endif
 #ifdef GC_DEBUG
             virtual std::wstring use_of_a_dead_object(std::wstring data) = 0;
 #endif

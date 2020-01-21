@@ -97,18 +97,18 @@ namespace g0at
                                         switch(access_mode)
                                         {
                                             case file_access_mode::read:
-                                                stream = std::fopen(file_name_ascii.c_str(), "r");
+                                                stream = std::fopen(file_name_ascii.c_str(), "rb");
                                                 break;
                                             case file_access_mode::write:
-                                                stream = std::fopen(file_name_ascii.c_str(), "w");
+                                                stream = std::fopen(file_name_ascii.c_str(), "wb");
                                                 break;
                                             case file_access_mode::append:
-                                                stream = std::fopen(file_name_ascii.c_str(), "a");
+                                                stream = std::fopen(file_name_ascii.c_str(), "ab");
                                                 break;
                                             case file_access_mode::full:
-                                                stream = std::fopen(file_name_ascii.c_str(), "r+");
+                                                stream = std::fopen(file_name_ascii.c_str(), "rb+");
                                                 if (!stream) // does not exist - create new
-                                                    stream = std::fopen(file_name_ascii.c_str(), "w+");
+                                                    stream = std::fopen(file_name_ascii.c_str(), "wb+");
                                                 break;
                                             default:
                                                 assert(false);

@@ -378,6 +378,7 @@ namespace g0at
                     return false;
                 }
                 this_ptr->fill(byte, (int)count);
+                result->set_object(thr->pool->get_undefined_instance());
                 return true;
             }
         };

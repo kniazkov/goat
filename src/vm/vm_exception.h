@@ -47,6 +47,17 @@ namespace g0at
             }
         };
 
+#ifdef STACK_DEBUG
+        class uninitialized_value_on_the_stack : public vm_exception
+        {
+        public:
+            uninitialized_value_on_the_stack()
+                : vm_exception(global::resource->uninitialized_value_on_the_stack())
+            {
+            }
+        };
+#endif
+
 #ifdef GC_DEBUG
         class use_of_a_dead_object : public vm_exception
         {

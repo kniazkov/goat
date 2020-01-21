@@ -1,7 +1,7 @@
 import "bitmap.goat";
 
-var x = 64;
-var y = 64;
+var x = 100;
+var y = 100;
 
 var bmp = new Bmp24(x, y);
 var _x = x * 1.0;
