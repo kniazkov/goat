@@ -52,7 +52,6 @@ var StepperMotor =
 
     setVelocity : $(velocity)
     {
-        println(" setVelocity: " + velocity);
         if (velocity == 0)
         {
             if (interval)
@@ -105,6 +104,6 @@ var StepperMotor =
 
     getPosition : $()
     {
-        return position / params.scalingFactor;
+        return position / scalingFactor;
     }
 };
