@@ -1,0 +1,67 @@
+/*
+
+Copyright (C) 2017-2020 Ivan Kniazkov
+
+This file is part of standard library for programming language
+codenamed "Goat" ("Goat standard library").
+
+Goat standard library is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat standard library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+var Point =
+# {
+    X : 0.0,
+    Y : 0.0,
+    Z : 0.0
+};
+
+var linearInterpolator = $(p0, p1, resolution)
+{
+    var a = [];
+
+    // delta
+    var dX = Real.valueof(p1.X - p0.X);
+    var dY = Real.valueof(p1.Y - p0.Y);
+    var dZ = Real.valueof(p1.Z - p0.Z);
+
+    // distance
+    var l = sqrt(dX * dX + dY * dY + dZ * dZ);
+
+    // count
+    var cnt = round(l * resolution);
+    if (cnt == 0)
+    {
+        a.push(p1);
+        return;
+    }
+
+    // increments
+    var iX = dX / cnt;
+    var iY = dY / cnt;
+    var iZ = dZ / cnt;
+
+    // generate
+    while(cnt-- > 0)
+    {
+        var p = new Point();
+        p.X = p0.X + iX;
+        p.Y = p0.Y + iY;
+        p.Z = p0.Z + iZ;
+        a.push(p);
+        p0 = p;
+    }
+
+    return a;
+};

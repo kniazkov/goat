@@ -1,3 +1,9 @@
+import "cnc/interpolator.goat";
+
+var a = linearInterpolator({X : 0, Y : 0, Z : 0}, {X : 30, Y : 20, Z : 0}, 5);
+println(a);
+
+/*
 import "cnc/stepper_motor.goat";
 import "atomic.goat";
 
@@ -31,3 +37,4 @@ motor.setTargetPosition(3, 5);
 while(counter.get() != 2)
 {
 }
+*/
