@@ -203,6 +203,8 @@ namespace g0at
             aux_list->add_thread(new_thr);
             new_thr->is_active = false;
             thread_by_tid[tid] = new_thr;
+            while(delayed_threads.find(delay) != delayed_threads.end())
+                delay++;
             delayed_threads[delay] = tid;
             return new_thr;
         }

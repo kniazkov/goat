@@ -17,7 +17,7 @@ var motor = new StepperMotor(smp);
 var smp2 = new StepperMotorParameters();
 smp2.gpioStep = "gpio2";
 smp2.gpioDirection = "gpio3";
-smp2.scalingFactor = 1.5;
+smp2.scalingFactor = 1.0;
 smp2.listener = $(position)
 {
     println(" 2: " + position);
