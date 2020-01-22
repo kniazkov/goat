@@ -5,10 +5,11 @@ import "mutex.goat";
 import "bitmap.goat";
 import "color.goat";
 
-var points = linearInterpolator({X : 0, Y : 0, Z : 0}, {X : 30, Y : 20, Z : 0}, 5);
+var points = linearInterpolator({X : 0, Y : 0, Z : 0}, {X : 30, Y : 20, Z : 0}, 5)
+    + linearInterpolator({X : 30, Y : 20, Z : 0}, {X : 50, Y : 20, Z : 0}, 5);
 println(points.length());
 
-//exit(0);
+exit(0);
 
 var index = new Atomic(0);
 var p0 = { X : 0, Y : 0, Z : 0 };
@@ -86,7 +87,7 @@ smp2.scalingFactor = 10.0;
 smp2.listener = listener;
 motorY = new StepperMotor(smp2);
 
-var bmp = new Bmp1(400, 300);
+var bmp = new Bmp1(600, 300);
 
 nextStep();
 while(index.get() != null)

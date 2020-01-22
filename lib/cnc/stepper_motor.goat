@@ -95,7 +95,11 @@ var StepperMotor =
     {
         targetPosition = round(position * scalingFactor);
         if (targetPosition == this.position)
+        {
+            if (listener)
+                listener(this.position / scalingFactor);
             return;
+        }
         if (targetPosition > this.position)
             this.setVelocity(abs(velocity));
         else
