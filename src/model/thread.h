@@ -177,13 +177,14 @@ namespace g0at
                 {
                     data.restore_size(ctx->stack_size);
                     lock = ctx->lock;
+                    ctx->ret = nullptr;
+                    ctx = ctx->prev;
                 }
                 else
                 {
                     data.restore_size(0);
                     lock = 0;
                 }
-                ctx = ctx->prev;
             }
 
             thread *prev;
