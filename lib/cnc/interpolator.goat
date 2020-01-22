@@ -24,12 +24,30 @@ var Point =
 # {
     X : 0.0,
     Y : 0.0,
-    Z : 0.0
+    Z : 0.0,
+
+    distance : $(p0, p1)
+    {
+        if (!p1)
+        {
+            var dX = X - p0.X;
+            var dY = Y - p0.Y;
+            var dZ = Z - p0.Z;
+            return sqrt(dX * dX + dY * dY + dZ * dZ);
+        }
+        else
+        {
+            var dX = p1.X - p0.X;
+            var dY = p1.Y - p0.Y;
+            var dZ = p1.Z - p0.Z;
+            return sqrt(dX * dX + dY * dY + dZ * dZ);
+        }
+    }
 };
 
 var linearInterpolator = $(p0, p1, resolution)
 {
-    var a = [];
+    var q = [];
 
     // delta
     var dX = Real.valueof(p1.X - p0.X);
@@ -43,8 +61,8 @@ var linearInterpolator = $(p0, p1, resolution)
     var cnt = round(l * resolution);
     if (cnt == 0)
     {
-        a.push(p1);
-        return;
+        q.push(p1);
+        return q;
     }
 
     // increments
@@ -59,9 +77,58 @@ var linearInterpolator = $(p0, p1, resolution)
         p.X = p0.X + iX;
         p.Y = p0.Y + iY;
         p.Z = p0.Z + iZ;
-        a.push(p);
+        q.push(p);
         p0 = p;
     }
 
-    return a;
+    return q;
+};
+
+var circularInterpolator = $(p0, p1, c, cw, resolution)
+{
+    var q = [];
+
+    // radius
+    var r0 = Point.distance(p0, c);
+    var r1 = Point.distance(p1, c);
+
+    // angle
+    var a0 = atan2(p0.Y - c.Y, p0.X - c.X);
+    var a1 = atan2(p1.Y - c.Y, p1.X - c.X);
+    var dA = a1 - a0;
+    if (cw && dA > 0)
+        dA -= 2 * PI;
+    else if (!cw && dA < 0)
+        da += 2 * PI;
+
+    // distance
+    var l = abs(dA * (r0 + r1) / 2);
+
+    // count
+    var cnt = round(l * resolution);
+    if (cnt == 0)
+    {
+        q.push(p1);
+        return q;
+    }
+
+    // increments
+    var iR = (r1 - r0) / cnt;
+    var iA = dA / cnt;
+
+    // generate
+    var a = a0;
+    var r = r0;
+    while(cnt-- > 0)
+    {
+        var p = new Point();
+        r += iR;
+        a += iA;
+        p.X = cos(a) * r + c.X;
+        p.Y = sin(a) * r + c.Y;
+        p.Z = p0.Z;
+        q.push(p);
+    }
+
+    return q;
 };

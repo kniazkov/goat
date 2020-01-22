@@ -6,7 +6,9 @@ import "bitmap.goat";
 import "color.goat";
 
 var points = linearInterpolator({X : 0, Y : 0, Z : 0}, {X : 30, Y : 20, Z : 0}, 5)
-    + linearInterpolator({X : 30, Y : 20, Z : 0}, {X : 50, Y : 20, Z : 0}, 5);
+    + linearInterpolator({X : 30, Y : 20, Z : 0}, {X : 50, Y : 20, Z : 0}, 5)
+    + circularInterpolator( {X : 50, Y : 20, Z : 0}, {X : 10, Y : 20, Z : 0}, {X : 30, Y : 20, Z : 0}, true, 5 )
+    ;
 println(points.length());
 
 exit(0);
