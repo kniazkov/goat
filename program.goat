@@ -1,13 +1,33 @@
 import "cnc/stepper_motor.goat";
+import "atomic.goat";
+
+var counter = new Atomic(0);
 
 var smp = new StepperMotorParameters();
 smp.gpioStep = "gpio0";
 smp.gpioDirection = "gpio1";
-smp.scalingFactor = 4.0;
+smp.scalingFactor = 1.0;
 smp.listener = $(position)
 {
-    println("\n" + position);
+    println(" 1: " + position);
+    counter.inc();
 };
 var motor = new StepperMotor(smp);
-motor.setTargetPosition(10.3, 5);
 
+var smp2 = new StepperMotorParameters();
+smp2.gpioStep = "gpio2";
+smp2.gpioDirection = "gpio3";
+smp2.scalingFactor = 1.5;
+smp2.listener = $(position)
+{
+    println(" 2: " + position);
+    counter.inc();
+};
+var motor2 = new StepperMotor(smp2);
+
+motor2.setTargetPosition(-3, 5);
+motor.setTargetPosition(3, 5);
+
+//while(counter.get() != 2)
+//{
+//}

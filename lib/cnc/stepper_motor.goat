@@ -23,7 +23,7 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 import "timer.goat";
 
 var StepperMotorParameters =
-{
+# {
     gpioEnable : "null",
     gpioStep : "null",
     gpioDirection : "null",
@@ -38,7 +38,11 @@ var StepperMotor =
         if (!params.instanceof(StepperMotorParameters))
             throw new Exception.IllegalArgument();
 
-        this.params = params;
+        for (var key in params)
+        {
+            if (params.contains(key))
+                this[key] = params[key];
+        }
         this.position = 0;
         this.interval = null;
         this.period = 0;
@@ -48,6 +52,7 @@ var StepperMotor =
 
     setVelocity : $(velocity)
     {
+        println(" setVelocity: " + velocity);
         if (velocity == 0)
         {
             if (interval)
@@ -59,18 +64,18 @@ var StepperMotor =
             direction = 0;
             return;
         }
-        var period = round(500000 / params.scalingFactor / abs(velocity));
+        var period = round(500000 / scalingFactor / abs(velocity));
         var direction = velocity > 0 ? 1 : (-1);
         if (this.period == period && this.direction == direction)
             return;
         if (interval)
             interval.stop();
-        port[params.gpioDirection] = direction == 1;
-        var gpioStep = params.gpioStep;
+        port[gpioDirection] = direction == 1;
+        var gpioStep = gpioStep;
         interval = Timer.setInterval($()
         {
-            var value = port[params.gpioStep];
-            port[params.gpioStep] = !value;
+            var value = port[gpioStep];
+            port[gpioStep] = !value;
             if (value)
             {
                 position += direction;
@@ -80,7 +85,8 @@ var StepperMotor =
                     interval = null;
                     period = null;
                     direction = null;
-                    if (params.listener) params.listener(position / params.scalingFactor);
+                    if (listener)
+                        listener(position / scalingFactor);
                 }
             }
         }, new Timer.Microseconds(period));
@@ -88,7 +94,7 @@ var StepperMotor =
 
     setTargetPosition : $(position, velocity)
     {
-        targetPosition = round(position * params.scalingFactor);
+        targetPosition = round(position * scalingFactor);
         if (targetPosition == this.position)
             return;
         if (targetPosition > this.position)
