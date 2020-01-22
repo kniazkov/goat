@@ -1,0 +1,104 @@
+/*
+
+Copyright (C) 2017-2020 Ivan Kniazkov
+
+This file is part of standard library for programming language
+codenamed "Goat" ("Goat standard library").
+
+Goat standard library is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat standard library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+import "timer.goat";
+
+var StepperMotorParameters =
+{
+    gpioEnable : "null",
+    gpioStep : "null",
+    gpioDirection : "null",
+    scalingFactor : 1,
+    listener : null
+};
+
+var StepperMotor =
+# {
+    init : $(params)
+    {
+        if (!params.instanceof(StepperMotorParameters))
+            throw new Exception.IllegalArgument();
+
+        this.params = params;
+        this.position = 0;
+        this.interval = null;
+        this.period = 0;
+        this.direction = 0;
+        this.targetPosition = null;
+    },
+
+    setVelocity : $(velocity)
+    {
+        if (velocity == 0)
+        {
+            if (interval)
+            {
+                interval.stop();
+                interval = null;
+            }
+            period = 0;
+            direction = 0;
+            return;
+        }
+        var period = round(500000 / params.scalingFactor / abs(velocity));
+        var direction = velocity > 0 ? 1 : (-1);
+        if (this.period == period && this.direction == direction)
+            return;
+        if (interval)
+            interval.stop();
+        port[params.gpioDirection] = direction == 1;
+        var gpioStep = params.gpioStep;
+        interval = Timer.setInterval($()
+        {
+            var value = port[params.gpioStep];
+            port[params.gpioStep] = !value;
+            if (value)
+            {
+                position += direction;
+                if (targetPosition == position)
+                {
+                    interval.stop();
+                    interval = null;
+                    period = null;
+                    direction = null;
+                    if (params.listener) params.listener(position / params.scalingFactor);
+                }
+            }
+        }, new Timer.Microseconds(period));
+    },
+
+    setTargetPosition : $(position, velocity)
+    {
+        targetPosition = round(position * params.scalingFactor);
+        if (targetPosition == this.position)
+            return;
+        if (targetPosition > this.position)
+            this.setVelocity(abs(velocity));
+        else
+            this.setVelocity(-abs(velocity));
+    },
+
+    getPosition : $()
+    {
+        return position / params.scalingFactor;
+    }
+};

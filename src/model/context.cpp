@@ -20,8 +20,14 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+#include "settings.h"
 #include "context.h"
 #include "lib/assert.h"
+#ifdef GC_DEBUG
+#include "vm/vm_exception.h"
+#endif
+
+
 
 namespace g0at
 {
@@ -119,19 +125,45 @@ namespace g0at
         void context::trace()
         {
             if (prev)
+            {
+#ifdef GC_DEBUG
+                if (prev->is_died())
+                    throw vm::use_of_a_dead_object(prev->to_string());
+#endif
                 prev->mark();
+            }
 
             if (ret)
+            {
+#ifdef GC_DEBUG
+                object *obj = ret->get_object();
+                if (obj && obj->is_died())
+                    throw vm::use_of_a_dead_object(obj->to_string());
+#endif
                 ret->mark();
+            }
         }
 
         void context::trace_parallel(object_pool *pool)
         {
             if (prev)
+            {
+#ifdef GC_DEBUG
+                if (prev->is_died())
+                    throw vm::use_of_a_dead_object(prev->to_string());
+#endif
                 prev->mark_parallel(pool);
+            }
 
             if (ret)
+            {
+#ifdef GC_DEBUG
+                object *obj = ret->get_object();
+                if (obj && obj->is_died())
+                    throw vm::use_of_a_dead_object(obj->to_string());
+#endif
                 ret->mark_parallel(pool);
+            }
         }
     };
 };

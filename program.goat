@@ -1,6 +1,13 @@
-import "stepper_motor.goat";
+import "cnc/stepper_motor.goat";
 
 var smp = new StepperMotorParameters();
 smp.gpioStep = "gpio0";
+smp.gpioDirection = "gpio1";
+smp.scalingFactor = 4.0;
+smp.listener = $(position)
+{
+    println("\n" + position);
+};
 var motor = new StepperMotor(smp);
-//motor.setVelocity(1);
+motor.setTargetPosition(10.3, 5);
+
