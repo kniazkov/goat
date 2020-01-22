@@ -28,6 +28,6 @@ var motor2 = new StepperMotor(smp2);
 motor2.setTargetPosition(-3, 5);
 motor.setTargetPosition(3, 5);
 
-//while(counter.get() != 2)
-//{
-//}
+while(counter.get() != 2)
+{
+}
