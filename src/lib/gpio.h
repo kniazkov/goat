@@ -26,8 +26,20 @@ namespace g0at
 {
     namespace lib
     {
+        struct gpio_info
+        {
+            gpio_info(const unsigned int _count, const unsigned int *_port_numbers)
+                : count(_count), port_numbers(_port_numbers)
+            {
+            }
+
+            const unsigned int count;
+            const unsigned int *port_numbers; 
+        };
+
         void gpio_init();
-        void gpio_set(unsigned int port, bool value);
-        bool gpio_get(unsigned int port);
+        gpio_info gpio_get_info();
+        void gpio_set_value(unsigned int port, bool value);
+        bool gpio_get_value(unsigned int port);
     };
 };

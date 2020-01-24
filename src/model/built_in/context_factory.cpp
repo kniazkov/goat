@@ -96,8 +96,8 @@ namespace g0at
                 tmp.set_object(new object_program_arguments(pool, args));
                 ctx->add_object(pool->get_static_string(L"parg"), tmp);
 
-                tmp.set_object(new object_port(pool));
-                ctx->add_object(pool->get_static_string(L"port"), tmp);
+                tmp.set_object(new object_ports(pool));
+                ctx->add_object(pool->get_static_string(L"ports"), tmp);
 
                 return pool->create_context(ctx);
             }

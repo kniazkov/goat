@@ -28,30 +28,10 @@ namespace g0at
 {
     namespace model
     {
-        class hw_port
+        class object_ports : public object
         {
         public:
-            virtual ~hw_port() { }
-            virtual variable get(object_pool *pool) = 0;
-            virtual bool set(variable value) = 0;
-        };
-
-        class object_port : public object
-        {
-        public:
-            object_port(object_pool *pool);
-            ~object_port();
-            object_port * to_object_port() override;
-            void trace() override;
-            void trace_parallel(object_pool *pool) override;
-
-            void m_get(thread *thr, int arg_count) override;
-            void m_set(thread *thr, int arg_count) override;
-            void m_iterator(thread *thr, int arg_count) override;
-            void m_clone(thread *thr, int arg_count) override;
-        
-        private:
-            std::map<object*, hw_port*, object_comparator> ports;
+            object_ports(object_pool *pool);
         };
     };
 };

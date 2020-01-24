@@ -1,2 +1,2 @@
-port["null"] = 666;
-println(port["null"]);
+ports["null"].write(666);
+println(ports["null"].read());

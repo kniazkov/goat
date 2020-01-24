@@ -29,4 +29,4 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #define GPIO_ENABLE
 #define GPIO_EMULATION
-//#define GPIO_DEBUG
+#define GPIO_DEBUG

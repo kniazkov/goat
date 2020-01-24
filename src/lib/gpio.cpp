@@ -35,7 +35,9 @@ namespace g0at
 #ifdef GPIO_ENABLE
 
 #ifdef GPIO_EMULATION
-        static const unsigned int gpio_count = 4;
+#define GPIO_IMPLEMENTED
+        static const unsigned int gpio_port_numbers[] = {0, 1, 2, 3, 4, 5, 6, 7};
+        static const unsigned int gpio_count = sizeof(gpio_port_numbers) / sizeof(unsigned int);
 #ifdef GPIO_DEBUG
         static int64_t gpio_time_start;
 #endif
@@ -51,7 +53,12 @@ namespace g0at
 #endif
         }
 
-        void gpio_set(unsigned int port, bool value)
+        gpio_info gpio_get_info()
+        {
+            return gpio_info(gpio_count, gpio_port_numbers);
+        }
+
+        void gpio_set_value(unsigned int port, bool value)
         {
             if (port < gpio_count)
             {
@@ -66,22 +73,29 @@ namespace g0at
             }
         }
 
-        bool gpio_get(unsigned int port)
+        bool gpio_get_value(unsigned int port)
         {
             return port < gpio_count ? gpio_values[port] : false;
         }
-#endif
+#endif // GPIO_EMULATION
 
-#else // GPIO is not enabled
+#endif // GPIO_ENABLE
+
+#ifndef GPIO_IMPLEMENTED
         void gpio_init()
         {
         }
 
-        void gpio_set(unsigned int port, bool value)
+        gpio_info gpio_get_info()
+        {
+            return gpio_info(0, nullptr);
+        }
+
+        void gpio_set_value(unsigned int port, bool value)
         {
         }
 
-        bool gpio_get(unsigned int port)
+        bool gpio_get_value(unsigned int port)
         {
             return false;
         }
