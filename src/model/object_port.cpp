@@ -32,11 +32,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <sstream>
 #include <atomic>
 #include <thread>
+#include <chrono>
 
 namespace g0at
 {
     namespace model
     {
+        
         class object_port;
         
         static object_port *__first_port = nullptr;
@@ -343,6 +345,7 @@ namespace g0at
                 {
                     // wait
                 }
+                std::this_thread::sleep_for (std::chrono::seconds(1));
             }
         }
 
