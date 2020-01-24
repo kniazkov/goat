@@ -32,6 +32,7 @@ namespace g0at
         {
         public:
             object_ports(object_pool *pool);
+            ~object_ports();
         };
 
         class object_port_proto : public object

@@ -25,16 +25,23 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_string.h"
 #include "object_function_built_in.h"
 #include "object_exception.h"
-#include "thread.h"
 #include "lib/assert.h"
+#include "lib/utils.h"
 #include "lib/gpio.h"
 #include "resource/strings.h"
 #include <sstream>
+#include <atomic>
+#include <thread>
 
 namespace g0at
 {
     namespace model
     {
+        class object_port;
+        
+        static object_port *__first_port = nullptr;
+        static std::atomic_bool __pwm_started(false);
+
         class object_port : public object
         {
         public:
@@ -43,6 +50,47 @@ namespace g0at
             virtual void write(variable var) = 0;
             virtual void inc() = 0;
             virtual unsigned int bitwidth() = 0;
+            
+            void pulse(int64_t delay)
+            {
+                period.store(delay);
+                moment = lib::get_time_ns() + delay;
+                if (__pwm_started.load() == false)
+                {
+                    std::thread pwm = std::thread([]()
+                    {
+                        __pwm_started.store(true);
+                        bool flag;
+                        do
+                        {
+                            flag = false;
+                            int64_t time = lib::get_time_ns();
+                            object_port *port = __first_port;
+                            while (port)
+                            {
+                                int64_t period = port->period.load();
+                                if (period > 0)
+                                {
+                                    flag = true;
+                                    if (port->moment <= time)
+                                    {
+                                        port->inc();
+                                        port->moment += period;
+                                    }
+                                }
+                                port = port->next_port;
+                            }
+                        }
+                        while(flag);
+                        __pwm_started.store(false);
+                    });
+                    pwm.detach();
+                }
+            }
+
+            object_port *next_port;
+            std::atomic_int64_t period;
+            int64_t moment;
         };
 
         class object_port_method : public object_function_built_in
@@ -153,13 +201,48 @@ namespace g0at
             }
         };
 
+        class object_port_pulse : public object_port_method
+        {
+        public:
+            object_port_pulse(object_pool *_pool, object_port *_port)
+                : object_port_method(_pool, _port)
+            {
+            }
+
+            bool payload(thread *thr, int arg_count, variable *result) override
+            {
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+                variable value = thr->peek();
+                int64_t int_value;
+                if (!value.get_integer(&int_value) || int_value < 0)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+                port->pulse(int_value);
+                result->set_object(thr->pool->get_undefined_instance());
+                return true;
+            }
+        };
+
         object_port::object_port(object_pool *pool)
             : object(pool, pool->get_port_proto_instance())
         {
+            next_port = __first_port;
+            __first_port = this;
+
+            period.store(0);
+            moment = -1;
+
             add_object(pool->get_static_string(resource::str_read), new object_port_read(pool, this));
             add_object(pool->get_static_string(resource::str_write), new object_port_write(pool, this));
             add_object(pool->get_static_string(resource::str_bitwidth), new object_port_bitwidth(pool, this));
             add_object(pool->get_static_string(resource::str_inc), new object_port_inc(pool, this));
+            add_object(pool->get_static_string(resource::str_pulse), new object_port_pulse(pool, this));
             lock();
         }
 
@@ -246,6 +329,23 @@ namespace g0at
             lock();
         }
 
+        object_ports::~object_ports()
+        {
+            if (__pwm_started.load() == true)
+            {
+                object_port *port = __first_port;
+                while(port)
+                {
+                    port->period.store(0);
+                    port = port->next_port;
+                }
+                while(__pwm_started.load() == true)
+                {
+                    // wait
+                }
+            }
+        }
+
         object_port_proto::object_port_proto(object_pool *pool)
             : object(pool)
         {
@@ -258,6 +358,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_write), stub);
             add_object(pool->get_static_string(resource::str_bitwidth), stub);
             add_object(pool->get_static_string(resource::str_inc), stub);
+            add_object(pool->get_static_string(resource::str_pulse), stub);
             lock();
         }
 
