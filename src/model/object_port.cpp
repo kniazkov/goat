@@ -41,6 +41,7 @@ namespace g0at
             object_port(object_pool *pool);
             virtual void read(variable *pvar, object_pool *pool) = 0;
             virtual void write(variable var) = 0;
+            virtual unsigned int bitwidth() = 0;
         };
 
         class object_port_method : public object_function_built_in
@@ -98,6 +99,21 @@ namespace g0at
             }
         };
 
+        class object_port_bitwidth : public object_port_method
+        {
+        public:
+            object_port_bitwidth(object_pool *_pool, object_port *_port)
+                : object_port_method(_pool, _port)
+            {
+            }
+
+            bool payload(thread *thr, int arg_count, variable *result) override
+            {
+                result->set_integer(port->bitwidth());
+                return true;
+            }
+        };
+
         class object_port_write : public object_port_method
         {
         public:
@@ -125,6 +141,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_read), new object_port_read(pool, this));
             add_object(pool->get_static_string(resource::str_write), new object_port_write(pool, this));
+            add_object(pool->get_static_string(resource::str_bitwidth), new object_port_bitwidth(pool, this));
             lock();
         }
 
@@ -144,6 +161,11 @@ namespace g0at
             void write(variable var) override
             {
                 // do nothing
+            }
+
+            unsigned int bitwidth() override
+            {
+                return 0;
             }
         };
 
@@ -168,6 +190,11 @@ namespace g0at
                 {
                     lib::gpio_set_value(port_number, bool_value);
                 }
+            }
+
+            unsigned int bitwidth() override
+            {
+                return 1;
             }
 
         protected:
@@ -201,6 +228,7 @@ namespace g0at
             object *stub = new object_port_stub(pool, nullptr);
             add_object(pool->get_static_string(resource::str_read), stub);
             add_object(pool->get_static_string(resource::str_write), stub);
+            add_object(pool->get_static_string(resource::str_bitwidth), stub);
             lock();
         }
 
