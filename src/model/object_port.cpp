@@ -41,6 +41,7 @@ namespace g0at
             object_port(object_pool *pool);
             virtual void read(variable *pvar, object_pool *pool) = 0;
             virtual void write(variable var) = 0;
+            virtual void inc() = 0;
             virtual unsigned int bitwidth() = 0;
         };
 
@@ -99,21 +100,6 @@ namespace g0at
             }
         };
 
-        class object_port_bitwidth : public object_port_method
-        {
-        public:
-            object_port_bitwidth(object_pool *_pool, object_port *_port)
-                : object_port_method(_pool, _port)
-            {
-            }
-
-            bool payload(thread *thr, int arg_count, variable *result) override
-            {
-                result->set_integer(port->bitwidth());
-                return true;
-            }
-        };
-
         class object_port_write : public object_port_method
         {
         public:
@@ -136,12 +122,44 @@ namespace g0at
             }
         };
         
+        class object_port_bitwidth : public object_port_method
+        {
+        public:
+            object_port_bitwidth(object_pool *_pool, object_port *_port)
+                : object_port_method(_pool, _port)
+            {
+            }
+
+            bool payload(thread *thr, int arg_count, variable *result) override
+            {
+                result->set_integer(port->bitwidth());
+                return true;
+            }
+        };
+
+        class object_port_inc : public object_port_method
+        {
+        public:
+            object_port_inc(object_pool *_pool, object_port *_port)
+                : object_port_method(_pool, _port)
+            {
+            }
+
+            bool payload(thread *thr, int arg_count, variable *result) override
+            {
+                port->inc();
+                result->set_object(thr->pool->get_undefined_instance());
+                return true;
+            }
+        };
+
         object_port::object_port(object_pool *pool)
             : object(pool, pool->get_port_proto_instance())
         {
             add_object(pool->get_static_string(resource::str_read), new object_port_read(pool, this));
             add_object(pool->get_static_string(resource::str_write), new object_port_write(pool, this));
             add_object(pool->get_static_string(resource::str_bitwidth), new object_port_bitwidth(pool, this));
+            add_object(pool->get_static_string(resource::str_inc), new object_port_inc(pool, this));
             lock();
         }
 
@@ -166,6 +184,11 @@ namespace g0at
             unsigned int bitwidth() override
             {
                 return 0;
+            }
+
+            void inc() override
+            {
+                // do nothing
             }
         };
 
@@ -195,6 +218,11 @@ namespace g0at
             unsigned int bitwidth() override
             {
                 return 1;
+            }
+
+            void inc() override
+            {
+                lib::gpio_set_value(port_number, !lib::gpio_get_value(port_number));
             }
 
         protected:
@@ -229,6 +257,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_read), stub);
             add_object(pool->get_static_string(resource::str_write), stub);
             add_object(pool->get_static_string(resource::str_bitwidth), stub);
+            add_object(pool->get_static_string(resource::str_inc), stub);
             lock();
         }
 
