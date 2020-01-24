@@ -62,6 +62,7 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"StringBuilder"), pool->get_string_builder_proto_instance());
                 ctx->add_object(pool->get_static_string(L"ByteArray"), pool->get_byte_array_proto_instance());
                 ctx->add_object(pool->get_static_string(L"File"), pool->get_file_proto_instance());
+                ctx->add_object(pool->get_static_string(L"Port"), pool->get_port_proto_instance());
 
                 ctx->add_object(pool->get_static_string(L"print"), create_function_print());
                 ctx->add_object(pool->get_static_string(L"println"), create_function_println());

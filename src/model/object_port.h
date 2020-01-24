@@ -33,5 +33,15 @@ namespace g0at
         public:
             object_ports(object_pool *pool);
         };
+
+        class object_port_proto : public object
+        {
+        friend class object_pool;
+        protected:
+            object_port_proto(object_pool *pool);
+            void init(object_pool *pool);
+        public:
+            void op_new(thread *thr, int arg_count) override;
+        };
     };
 };

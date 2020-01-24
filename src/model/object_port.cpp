@@ -68,6 +68,21 @@ namespace g0at
             object_port *port;
         };
 
+        class object_port_stub : public object_port_method
+        {
+        public:
+            object_port_stub(object_pool *_pool, object_port *_port)
+                : object_port_method(_pool, _port)
+            {
+            }
+
+            bool payload(thread *thr, int arg_count, variable *result) override
+            {
+                thr->raise_exception(new object_exception_illegal_operation(thr->pool));
+                return false;
+            }
+        };
+
         class object_port_read : public object_port_method
         {
         public:
@@ -106,7 +121,7 @@ namespace g0at
         };
         
         object_port::object_port(object_pool *pool)
-            : object(pool)
+            : object(pool, pool->get_port_proto_instance())
         {
             add_object(pool->get_static_string(resource::str_read), new object_port_read(pool, this));
             add_object(pool->get_static_string(resource::str_write), new object_port_write(pool, this));
@@ -174,6 +189,24 @@ namespace g0at
             }
 #endif
             lock();
+        }
+
+        object_port_proto::object_port_proto(object_pool *pool)
+            : object(pool)
+        {
+        }
+
+        void object_port_proto::init(object_pool *pool)
+        {
+            object *stub = new object_port_stub(pool, nullptr);
+            add_object(pool->get_static_string(resource::str_read), stub);
+            add_object(pool->get_static_string(resource::str_write), stub);
+            lock();
+        }
+
+        void object_port_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->raise_exception(new object_exception_illegal_operation(thr->pool));
         }
     };
 };

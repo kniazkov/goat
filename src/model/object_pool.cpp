@@ -43,6 +43,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_string_builder.h"
 #include "object_byte_array.h"
 #include "object_file.h"
+#include "object_port.h"
 #include "operator_wrapper.h"
 #include "context.h"
 
@@ -85,6 +86,7 @@ namespace g0at
             string_builder_proto_instance = nullptr;
             byte_array_proto_instance = nullptr;
             file_proto_instance = nullptr;
+            port_proto_instance = nullptr;
             exception_illegal_argument_proto_instance = nullptr;
             exception_illegal_context_proto_instance = nullptr;
             exception_illegal_operation_proto_instance = nullptr;
@@ -174,6 +176,8 @@ namespace g0at
             byte_array_proto_instance = byte_array_proto;
             auto file_proto = new object_file_proto(this);
             file_proto_instance = file_proto;
+            auto port_proto = new object_port_proto(this);
+            port_proto_instance = port_proto;
             auto iterator_proto = new object_iterator_proto(this);
             iterator_proto_instance = iterator_proto;
             wrap_add_instance = new binary_operator_adapter<wrap_add>(this);
@@ -226,6 +230,7 @@ namespace g0at
             string_builder_proto->init(this);
             byte_array_proto->init(this);
             file_proto->init(this);
+            port_proto->init(this);
             auto exception_illegal_argument_proto = new object_exception_illegal_argument_proto(this);
             exception_illegal_argument_proto_instance = exception_illegal_argument_proto;
             auto exception_illegal_context_proto = new object_exception_illegal_context_proto(this);

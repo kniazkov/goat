@@ -118,6 +118,7 @@ namespace g0at
             object *get_string_builder_proto_instance() { return string_builder_proto_instance; }
             object *get_byte_array_proto_instance() { return byte_array_proto_instance; }
             object *get_file_proto_instance() { return file_proto_instance; }
+            object *get_port_proto_instance() { return port_proto_instance; }
 
             object *get_exception_illegal_argument_proto_instance() { return exception_illegal_argument_proto_instance; }
             object *get_exception_illegal_context_proto_instance() { return exception_illegal_context_proto_instance; }
@@ -227,6 +228,7 @@ namespace g0at
             object *string_builder_proto_instance;
             object *byte_array_proto_instance;
             object *file_proto_instance;
+            object *port_proto_instance;
 
             object *exception_illegal_argument_proto_instance;
             object *exception_illegal_context_proto_instance;
