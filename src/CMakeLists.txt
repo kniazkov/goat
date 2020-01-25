@@ -50,4 +50,5 @@ target_link_libraries(goat
     scanner
     source
     compiler_common
+    pthread
 )

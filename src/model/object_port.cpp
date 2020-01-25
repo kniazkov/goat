@@ -91,7 +91,7 @@ namespace g0at
             }
 
             object_port *next_port;
-            std::atomic_int64_t period;
+            std::atomic_llong period;
             int64_t moment;
         };
 
