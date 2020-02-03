@@ -1,0 +1,64 @@
+/*
+
+Copyright (C) 2017-2020 Ivan Kniazkov
+
+This file is part of standard library for programming language
+codenamed "Goat" ("Goat standard library").
+
+Goat standard library is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat standard library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+var Instruction =
+# {
+    G : null,
+    X : null,
+    Y : null,
+    Z : null,
+
+    toString : $()
+    {
+        var b = new StringBuilder();
+        if (this.G)
+        {
+            b << 'G' << (G < 10 ? "0" + G : G);
+        }
+
+        for (var k in ["X", "Y", "Z"])
+        {
+            if (this[k])
+            {
+                if (b.length() > 0)
+                    b << ' ';
+                b << k << this[k];
+            }
+        }
+
+        return b.string();
+    }
+};
+
+var parseGCode = $(string)
+{
+    if (!string.instanceof(String))
+        throw new Exception.IllegalArgument();
+    var result = [];
+    var lines = string.split("\n");
+    for (var line in lines)
+    {
+        line = line.trim();
+        println(line);
+    }
+    return result;
+};

@@ -1546,6 +1546,7 @@
                         var a = s.encode("utf8"); // 61 62 63 64 20 31 32 33 20 d0 a2 d0 b5 d1 81 d1 82]]>
                     </e>
                 </m>
+                <m name="trim" descr="Cuts whitespace at the beginning and end of the string. Newline markers and tabulators are whitespaces too."/>
                 <m name="valueof" descr="Converts any object to a string.">
                     <a name="object" type="any type" descr="an object"/>
                     <e><![CDATA[
@@ -4838,10 +4839,10 @@
         <s name="Hardware dependent data">
             <s name="Ports">
                 <p>A port is a variable in the address space representing the interface between the Goat runtime and computer or peripheral devices. The port list is different for various platforms.</p>
-                <p>The Goat context contains the special object named <c>port</c>, each field of which linked to a hardware port. You can use the <c>[ ]</c> operator for accessing a separate port, for example:</p>
-                <c>port["gpio0"] = true;</c>
+                <p>The Goat context contains the special object named <c>ports</c>, each field of which linked to a hardware port. You can use the <c>[ ]</c> operator for accessing a separate port, for example:</p>
+                <c>ports["gpio0"] = true;</c>
                 <p>For each platform at least one port, <c>&quot;null&quot;</c>, is defined, for debugging purposes. Writing to this port produces nothing, reading from this port always returns <c>null</c>:</p>
-                <c>print(port[&quot;null&quot;]); // &quot;null&quot;</c>
+                <c>print(ports[&quot;null&quot;]); // &quot;null&quot;</c>
             </s>
         </s>
     </s>

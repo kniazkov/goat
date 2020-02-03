@@ -362,6 +362,21 @@ namespace g0at
             }
         };
 
+        class object_string_trim : public object_string_method
+        {
+        public:
+            object_string_trim(object_pool *_pool)
+                : object_string_method(_pool)
+            {
+            }
+
+            bool payload(object_string *this_ptr, thread *thr, int arg_count, variable *result) override
+            {
+                result->set_object(thr->pool->create_object_string(lib::trim(this_ptr->get_data())));
+                return true;
+            }
+        };
+
         class object_string_encode : public object_string_method
         {
         public:
@@ -561,6 +576,7 @@ namespace g0at
         void object_string_proto::init(object_pool *pool)
         {
             add_object(pool->get_static_string(resource::str_length), new object_string_length(pool));
+            add_object(pool->get_static_string(resource::str_trim), new object_string_trim(pool));
             add_object(pool->get_static_string(resource::str_encode), new object_string_encode(pool));
             add_object(pool->get_static_string(resource::str_split), new object_string_split(pool));
             add_object(pool->get_static_string(resource::str_substr), new object_string_substr(pool));

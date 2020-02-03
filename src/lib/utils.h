@@ -77,6 +77,7 @@ namespace g0at
         std::wstring string_to_wstring(const char *str);
         std::string normalize_file_path(std::string path);
         std::string trim(std::string str);
+        std::wstring trim(std::wstring str);
         std::string get_line();
         bool ends_with(std::string const & value, std::string const & ending);
         uint8_t generate_random_number();
