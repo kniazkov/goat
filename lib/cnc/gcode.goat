@@ -112,7 +112,16 @@ var GCode =
                         }
                         else
                         {
-                            instr[descr.code] = intVal * sign;
+                            if (descr.mult)
+                            {
+                                if (!instr[descr.code])
+                                    instr[descr.code] = [];    
+                                instr[descr.code].push(intVal * sign);
+                            }
+                            else
+                            {
+                                instr[descr.code] = intVal * sign;
+                            }
                         }
                     }
                 }
@@ -126,38 +135,68 @@ var GCode =
     {
         ' ' : { code : null },
         '\t' : { code : null },
-        'g' : { code : "G", real : false },
-        'G' : { code : "G", real : false },
+        'g' : { code : "G", mult : true },
+        'G' : { code : "G", mult : true },
+        'm' : { code : "M", mult : true },
+        'M' : { code : "M", mult : true },
         'x' : { code : "X", real : true },
         'X' : { code : "X", real : true },
         'y' : { code : "Y", real : true },
         'Y' : { code : "Y", real : true },
         'z' : { code : "Z", real : true },
-        'Z' : { code : "Z", real : true }
+        'Z' : { code : "Z", real : true },
+        'i' : { code : "I", real : true },
+        'I' : { code : "I", real : true },
+        'j' : { code : "J", real : true },
+        'J' : { code : "J", real : true },
+        'f' : { code : "F", real : true },
+        'F' : { code : "F", real : true },
+        't' : { code : "T" },
+        'T' : { code : "T" }
     }, 
 
     Instruction :
     {
         G : null,
+        M : null,
         X : null,
         Y : null,
         Z : null,
+        I : null,
+        J : null,
+        F : null,
+        T : null,
 
         toString : $()
         {
             var b = new StringBuilder();
             if (this.G != null)
             {
-                b << 'G' << (G < 10 ? "0" + G : G);
+                for(var g in G)
+                {
+                    if (b.length() > 0)
+                        b << ' ';
+                    b << 'G' << (g < 10 ? "0" + g : g);
+                }
             }
 
-            for (var k in ["X", "Y", "Z"])
+            for (var k in ["X", "Y", "Z", "I", "J", "F", "T"])
             {
                 if (this[k] != null)
                 {
                     if (b.length() > 0)
                         b << ' ';
                     b << k << this[k];
+                }
+            }
+
+            if (this.M != null)
+            {
+                for(var m in M)
+                {
+                    if (b.length() > 0)
+                        b << ' ';
+                    b << 'M' << (m < 10 ? "0" + m : m);
                 }
             }
 
