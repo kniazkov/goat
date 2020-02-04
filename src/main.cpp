@@ -25,6 +25,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 int main(int argc, char **argv)
 {
-    g0at::lib::gpio_init();
+    if (!g0at::lib::gpio_init())
+        return -1;
+    
     return g0at::launcher::go(argc, argv);
 }

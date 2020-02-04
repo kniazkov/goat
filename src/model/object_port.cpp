@@ -38,25 +38,32 @@ namespace g0at
 {
     namespace model
     {
-        
-        class object_port;
-        
-        static object_port *__first_port = nullptr;
-        static std::atomic_bool __pwm_started(false);
-
         class object_port : public object
         {
         public:
             object_port(object_pool *pool);
+            object_port(object_pool *pool, object *proto);
             virtual void read(variable *pvar, object_pool *pool) = 0;
             virtual void write(variable var) = 0;
-            virtual void inc() = 0;
             virtual unsigned int bitwidth() = 0;
+        };
+
+        class object_boolean_port;
+        
+        static object_boolean_port *__first_port = nullptr;
+        static std::atomic_bool __pwm_started(false);
+
+        class object_boolean_port : public object_port
+        {
+        public:
+            object_boolean_port(object_pool *pool);
+            virtual void toggle() = 0;
             
-            void pulse(int64_t delay)
+            void pulse(int64_t _delay, int64_t _increment)
             {
-                period.store(delay);
-                moment = lib::get_time_ns() + delay;
+                period.store(_delay);
+                increment = _increment;
+                moment = lib::get_time_ns() + _delay;
                 if (__pwm_started.load() == false)
                 {
                     std::thread pwm = std::thread([]()
@@ -67,7 +74,7 @@ namespace g0at
                         {
                             flag = false;
                             int64_t time = lib::get_time_ns();
-                            object_port *port = __first_port;
+                            object_boolean_port *port = __first_port;
                             while (port)
                             {
                                 int64_t period = port->period.load();
@@ -76,7 +83,8 @@ namespace g0at
                                     flag = true;
                                     if (port->moment <= time)
                                     {
-                                        port->inc();
+                                        port->toggle();
+                                        port->counter.fetch_add(port->increment);
                                         port->moment += period;
                                     }
                                 }
@@ -90,9 +98,11 @@ namespace g0at
                 }
             }
 
-            object_port *next_port;
+            object_boolean_port *next_port;
             std::atomic_llong period;
+            std::atomic_llong counter;
             int64_t moment;
+            int64_t increment;
         };
 
         class object_port_method : public object_function_built_in
@@ -187,27 +197,52 @@ namespace g0at
             }
         };
 
-        class object_port_inc : public object_port_method
+        class object_boolean_port_method : public object_function_built_in
         {
         public:
-            object_port_inc(object_pool *_pool, object_port *_port)
-                : object_port_method(_pool, _port)
+            object_boolean_port_method(object_pool *_pool, object_boolean_port *_port)
+                : object_function_built_in(_pool), port(_port)
+            {
+            }
+
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                thr->pop();
+                variable result;
+                if (payload(thr, arg_count, &result))
+                {
+                    thr->pop(arg_count);
+                    thr->push(result);
+                }
+            }
+
+            virtual bool payload(thread *thr, int arg_count, variable *result) = 0;
+
+        protected:
+            object_boolean_port *port;
+        };
+
+        class object_port_toggle : public object_boolean_port_method
+        {
+        public:
+            object_port_toggle(object_pool *_pool, object_boolean_port *_port)
+                : object_boolean_port_method(_pool, _port)
             {
             }
 
             bool payload(thread *thr, int arg_count, variable *result) override
             {
-                port->inc();
+                port->toggle();
                 result->set_object(thr->pool->get_undefined_instance());
                 return true;
             }
         };
 
-        class object_port_pulse : public object_port_method
+        class object_port_pulse : public object_boolean_port_method
         {
         public:
-            object_port_pulse(object_pool *_pool, object_port *_port)
-                : object_port_method(_pool, _port)
+            object_port_pulse(object_pool *_pool, object_boolean_port *_port)
+                : object_boolean_port_method(_pool, _port)
             {
             }
 
@@ -218,15 +253,40 @@ namespace g0at
                     thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return false;
                 }
-                variable value = thr->peek();
-                int64_t int_value;
-                if (!value.get_integer(&int_value) || int_value < 0)
+                variable value = thr->peek(0);
+                int64_t delay;
+                if (!value.get_integer(&delay) || delay < 0)
                 {
                     thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return false;
                 }
-                port->pulse(int_value);
+                int64_t increment = 0;
+                if (arg_count > 1)
+                {
+                    value = thr->peek(1);
+                    if (!value.get_integer(&increment))
+                    {
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                        return false;
+                    }
+                }
+                port->pulse(delay, increment);
                 result->set_object(thr->pool->get_undefined_instance());
+                return true;
+            }
+        };
+
+        class object_port_count : public object_boolean_port_method
+        {
+        public:
+            object_port_count(object_pool *_pool, object_boolean_port *_port)
+                : object_boolean_port_method(_pool, _port)
+            {
+            }
+
+            bool payload(thread *thr, int arg_count, variable *result) override
+            {
+                result->set_integer(port->counter.load());
                 return true;
             }
         };
@@ -234,17 +294,34 @@ namespace g0at
         object_port::object_port(object_pool *pool)
             : object(pool, pool->get_port_proto_instance())
         {
+            add_object(pool->get_static_string(resource::str_read), new object_port_read(pool, this));
+            add_object(pool->get_static_string(resource::str_write), new object_port_write(pool, this));
+            add_object(pool->get_static_string(resource::str_bitwidth), new object_port_bitwidth(pool, this));
+            lock();
+        }
+
+        object_port::object_port(object_pool *pool, object *proto)
+            : object(pool, proto)
+        {
+            add_object(pool->get_static_string(resource::str_read), new object_port_read(pool, this));
+            add_object(pool->get_static_string(resource::str_write), new object_port_write(pool, this));
+            add_object(pool->get_static_string(resource::str_bitwidth), new object_port_bitwidth(pool, this));
+        }
+
+        object_boolean_port::object_boolean_port(object_pool *pool)
+            : object_port(pool, pool->get_gpio_proto_instance())
+        {
             next_port = __first_port;
             __first_port = this;
 
             period.store(0);
+            counter.store(0);
             moment = -1;
+            increment = 0;
 
-            add_object(pool->get_static_string(resource::str_read), new object_port_read(pool, this));
-            add_object(pool->get_static_string(resource::str_write), new object_port_write(pool, this));
-            add_object(pool->get_static_string(resource::str_bitwidth), new object_port_bitwidth(pool, this));
-            add_object(pool->get_static_string(resource::str_inc), new object_port_inc(pool, this));
+            add_object(pool->get_static_string(resource::str_toggle), new object_port_toggle(pool, this));
             add_object(pool->get_static_string(resource::str_pulse), new object_port_pulse(pool, this));
+            add_object(pool->get_static_string(resource::str_count), new object_port_count(pool, this));
             lock();
         }
 
@@ -270,19 +347,14 @@ namespace g0at
             {
                 return 0;
             }
-
-            void inc() override
-            {
-                // do nothing
-            }
         };
 
 #ifdef GPIO_ENABLE
-        class object_port_gpio : public object_port
+        class object_port_gpio : public object_boolean_port
         {
         public:
             object_port_gpio(object_pool *pool, unsigned int _port_number)
-                : object_port(pool), port_number(_port_number)
+                : object_boolean_port(pool), port_number(_port_number)
             {
             }
 
@@ -305,7 +377,7 @@ namespace g0at
                 return 1;
             }
 
-            void inc() override
+            void toggle() override
             {
                 lib::gpio_set_value(port_number, !lib::gpio_get_value(port_number));
             }
@@ -335,7 +407,7 @@ namespace g0at
         {
             if (__pwm_started.load() == true)
             {
-                object_port *port = __first_port;
+                object_boolean_port *port = __first_port;
                 while(port)
                 {
                     port->period.store(0);
@@ -360,12 +432,28 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_read), stub);
             add_object(pool->get_static_string(resource::str_write), stub);
             add_object(pool->get_static_string(resource::str_bitwidth), stub);
-            add_object(pool->get_static_string(resource::str_inc), stub);
-            add_object(pool->get_static_string(resource::str_pulse), stub);
             lock();
         }
 
         void object_port_proto::op_new(thread *thr, int arg_count)
+        {
+            thr->raise_exception(new object_exception_illegal_operation(thr->pool));
+        }
+
+        object_gpio_proto::object_gpio_proto(object_pool *pool)
+            : object(pool, pool->get_port_proto_instance())
+        {
+        }
+
+        void object_gpio_proto::init(object_pool *pool)
+        {
+            object *stub = new object_port_stub(pool, nullptr);
+            add_object(pool->get_static_string(resource::str_toggle), stub);
+            add_object(pool->get_static_string(resource::str_pulse), stub);
+            lock();
+        }
+
+        void object_gpio_proto::op_new(thread *thr, int arg_count)
         {
             thr->raise_exception(new object_exception_illegal_operation(thr->pool));
         }
