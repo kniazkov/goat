@@ -487,7 +487,7 @@ namespace g0at
             return c == ' ' || c == '\t' || c == '\n' || c == '\r';
         }
 
-        std::string trim(std::string str)
+        template <typename T> static T _trim(T str)
         {
             size_t size = str.size();
             if (size == 0)
@@ -502,7 +502,7 @@ namespace g0at
             }
 
             if (begin == size)
-                return "";
+                return T();
             
             size_t end = size - 1;
             while(end > begin)
@@ -513,6 +513,16 @@ namespace g0at
             }
 
             return str.substr(begin, end - begin + 1);
+        }
+
+        std::string trim(std::string str)
+        {
+            return _trim<std::string>(str);
+        }
+
+        std::wstring trim(std::wstring str)
+        {
+            return _trim<std::wstring>(str);
         }
 
         std::string get_line()

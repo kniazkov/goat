@@ -93,6 +93,7 @@ namespace g0at
         extern std::wstring str_eof;
         extern std::wstring str_getc;
         extern std::wstring str_split;
+        extern std::wstring str_trim;
         extern std::wstring str_substr;
         extern std::wstring str_valueof;
         extern std::wstring str_exception;

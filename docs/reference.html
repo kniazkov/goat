@@ -3828,6 +3828,8 @@
             
             var a = s.encode(&quot;utf8&quot;); // 61 62 63 64 20 31 32 33 20 d0 a2 d0 b5 d1 81 d1 82
           </div>
+          <div class="header">trim (  )</div>
+          <div class="para">Cuts whitespace at the beginning and end of the string. Newline markers and tabulators are whitespaces too.</div>
           <div class="header">valueof ( object )</div>
           <div class="para">Converts any object to a string.</div>
           <div class="para u2">Parameter:</div>
@@ -12957,14 +12959,14 @@
           <div class="para">A port is a variable in the address space representing the interface between the Goat runtime and computer or peripheral devices. The port list is different for various platforms.</div>
           <div class="para">
             The Goat context contains the special object named 
-            <code class="inline">port</code>
+            <code class="inline">ports</code>
             , each field of which linked to a hardware port. You can use the 
             <code class="inline">[ ]</code>
             operator for accessing a separate port, for example:
           </div>
           <div class="code">
             
-            port[&quot;gpio0&quot;] = true;
+            ports[&quot;gpio0&quot;] = true;
           </div>
           <div class="para">
             For each platform at least one port, 
@@ -12975,7 +12977,7 @@
           </div>
           <div class="code">
             
-            print(port[&quot;null&quot;]); // &quot;null&quot;
+            print(ports[&quot;null&quot;]); // &quot;null&quot;
           </div>
         </div>
       </div>

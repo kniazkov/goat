@@ -1,8 +1,9 @@
-import "timer.goat";
+exit();
 
-ports.gpio0.pulse(1000000000);
+import "cnc/gcode.goat";
+import "io.goat";
 
-Timer.setTimer($()
-{
-    println("done");
-}, new Timer.Seconds(5));
+var raw = load("gcode.txt");
+var source = raw.decode("utf8");
+
+parseGCode(source);
