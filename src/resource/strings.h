@@ -101,8 +101,9 @@ namespace g0at
         extern std::wstring str_lock;
         extern std::wstring str_fill;
         extern std::wstring str_bitwidth;
-        extern std::wstring str_inc;
+        extern std::wstring str_toggle;
         extern std::wstring str_pulse;
+        extern std::wstring str_count;
 
         extern std::wstring str_Mode;
         extern std::wstring str_Origin;

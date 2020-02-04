@@ -37,7 +37,7 @@ namespace g0at
             const unsigned int *port_numbers; 
         };
 
-        void gpio_init();
+        bool gpio_init();
         gpio_info gpio_get_info();
         void gpio_set_value(unsigned int port, bool value);
         bool gpio_get_value(unsigned int port);
