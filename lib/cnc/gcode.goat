@@ -22,57 +22,30 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 import "algorithm.goat";
 
-var Instruction =
+var GCode =
 # {
-    G : null,
-    X : null,
-    Y : null,
-    Z : null,
-
-    toString : $()
+    parse : $(string)
     {
-        var b = new StringBuilder();
-        if (this.G)
+        if (!string.instanceof(String))
+            throw new Exception.IllegalArgument();
+        var result = [];
+        var lines = string.split("\n");
+        var row = 0;
+        for (var line in lines)
         {
-            b << 'G' << (G < 10 ? "0" + G : G);
-        }
-
-        for (var k in ["X", "Y", "Z"])
-        {
-            if (this[k])
-            {
-                if (b.length() > 0)
-                    b << ' ';
-                b << k << this[k];
-            }
-        }
-
-        return b.string();
-    }
-};
-
-var parseGCode = $(string)
-{
-    if (!string.instanceof(String))
-        throw new Exception.IllegalArgument();
-    var result = [];
-    var lines = string.split("\n");
-    for (var line in lines)
-    {
-        line = line.trim();
-        var length = line.length();
-        if (length > 0)
-        {
-            if (indexOf(line, '(') != -1)
+            row++;
+            line = line.trim();
+            var n = line.length();
+            if (n > 0 && indexOf(line, '(') != -1)
             {
                 var tmp = new StringBuilder();
                 var flag = false;
-                for (var k = 0; k < length; k++)
+                for (var k = 0; k < n; k++)
                 {
                     if (flag)
                     {
                         if (line == '(')
-                            throw "Bad symbol";
+                            throw new GCode.Error(GCode.Error.ILLEGAL_CHARACTER, line, row, '(');
                         if (line[k] == ')')
                             flag = false;
                     }
@@ -86,13 +59,134 @@ var parseGCode = $(string)
                     }
                 }
                 if (flag)
-                    throw "Unclosed comment";
+                    throw new GCode.Error(GCode.Error.UNCLOSED_PARENTHESIS, line, row);
                 line = tmp.string();
-                length = line.length;
+                line = line.trim();
+                n = line.length();
+            }
+            if (n > 0)
+            {
+                var k = 0;
+                var instr = new GCode.Instruction();
+                while(k < n)
+                {
+                    var c = line[k++];
+                    var descr = _codes[c];
+                    if (!descr)
+                        throw new GCode.Error(GCode.Error.UNKNOWN_CODE, line, row, c);
+                    if (descr.code)
+                    {
+                        var intVal = 0;
+                        var sign = 1;
+                        c = k < n ? line[k] : null;
+                        if (c == '-')
+                        {
+                            sign = -1;
+                            k++;
+                            c = k < n ? line[k] : null;
+                        }
+                        if (!c || !(c >= '0' && c <= '9'))
+                            throw new GCode.Error(GCode.Error.ILLEGAL_SEQUENCE, line, row);
+                        do
+                        {
+                            intVal = intVal * 10 + Integer.valueof(c) - Integer.valueof('0');
+                            k++;
+                            c = k < n ? line[k] : null;
+                        } while(c && c >= '0' && c <= '9');
+                        if (c == '.')
+                        {
+                            if (!descr.real)
+                                throw new GCode.Error(GCode.Error.ILLEGAL_PARAMETER, line, row);
+                            var fractVal = 0;
+                            var divisor = 1;
+                            k++;
+                            c = k < n ? line[k] : null;
+                            while(c && c >= '0' && c <= '9')
+                            {
+                                fractVal = fractVal * 10 + Integer.valueof(c) - Integer.valueof('0');
+                                divisor = divisor * 10;
+                                k++;
+                                c = k < n ? line[k] : null;
+                            }
+                            instr[descr.code] = sign * (intVal + Real.valueof(fractVal) / divisor);
+                        }
+                        else
+                        {
+                            instr[descr.code] = intVal * sign;
+                        }
+                    }
+                }
+                result.push(instr);
+            }
+        }
+        return result;
+    },
+
+    _codes :
+    {
+        ' ' : { code : null },
+        '\t' : { code : null },
+        'g' : { code : "G", real : false },
+        'G' : { code : "G", real : false },
+        'x' : { code : "X", real : true },
+        'X' : { code : "X", real : true },
+        'y' : { code : "Y", real : true },
+        'Y' : { code : "Y", real : true },
+        'z' : { code : "Z", real : true },
+        'Z' : { code : "Z", real : true }
+    }, 
+
+    Instruction :
+    {
+        G : null,
+        X : null,
+        Y : null,
+        Z : null,
+
+        toString : $()
+        {
+            var b = new StringBuilder();
+            if (this.G != null)
+            {
+                b << 'G' << (G < 10 ? "0" + G : G);
             }
 
-            println(line);
+            for (var k in ["X", "Y", "Z"])
+            {
+                if (this[k] != null)
+                {
+                    if (b.length() > 0)
+                        b << ' ';
+                    b << k << this[k];
+                }
+            }
+
+            return b.string();
         }
+    },
+
+    Error : Exception ->
+    {
+        type : null,
+        line : null,
+        row : null,
+        data : null,
+        
+        init : $(type, line, row, data)
+        {
+            this.type = type;
+            this.line = line;
+            this.row = row;
+            this.data = data;
+        },
+        
+        ILLEGAL_CHARACTER : "illegal character",
+        ILLEGAL_SEQUENCE : "illegal sequence",
+        ILLEGAL_PARAMETER : "illegal parameter",
+        UNCLOSED_PARENTHESIS : "unclosed parenthesis",
+        UNKNOWN_CODE : "unknown code",
+        INCOMPATIBLE_CODE : "incompatible code"
     }
-    return result;
 };
+
+

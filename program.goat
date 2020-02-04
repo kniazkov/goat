@@ -5,6 +5,9 @@ import "io.goat";
 
 //var raw = load("gcode.txt");
 //var source = raw.decode("utf8");
-var source = "G( any comment )01 (another comment)X100";
+var source = "g00x0y0\ng1    X-100.1";
 
-parseGCode(source);
+for (var i in GCode.parse(source))
+{
+    println(i.toString());
+}
