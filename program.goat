@@ -1,9 +1,10 @@
-exit();
+//exit();
 
 import "cnc/gcode.goat";
 import "io.goat";
 
-var raw = load("gcode.txt");
-var source = raw.decode("utf8");
+//var raw = load("gcode.txt");
+//var source = raw.decode("utf8");
+var source = "G( any comment )01 (another comment)X100";
 
 parseGCode(source);

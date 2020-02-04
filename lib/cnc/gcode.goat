@@ -20,6 +20,8 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
+import "algorithm.goat";
+
 var Instruction =
 # {
     G : null,
@@ -58,7 +60,39 @@ var parseGCode = $(string)
     for (var line in lines)
     {
         line = line.trim();
-        println(line);
+        var length = line.length();
+        if (length > 0)
+        {
+            if (indexOf(line, '(') != -1)
+            {
+                var tmp = new StringBuilder();
+                var flag = false;
+                for (var k = 0; k < length; k++)
+                {
+                    if (flag)
+                    {
+                        if (line == '(')
+                            throw "Bad symbol";
+                        if (line[k] == ')')
+                            flag = false;
+                    }
+                    else
+                    {
+                        var c = line[k];
+                        if (c == '(')
+                            flag = true;
+                        else
+                            tmp << c;
+                    }
+                }
+                if (flag)
+                    throw "Unclosed comment";
+                line = tmp.string();
+                length = line.length;
+            }
+
+            println(line);
+        }
     }
     return result;
 };
