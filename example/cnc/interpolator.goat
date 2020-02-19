@@ -190,7 +190,7 @@ var Interpolator =
         if (cw && dA > 0)
             dA -= 2 * PI;
         else if (!cw && dA < 0)
-            da += 2 * PI;
+            dA += 2 * PI;
 
         // distance
         var l = abs(dA * (r0 + r1) / 2);

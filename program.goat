@@ -15,7 +15,7 @@ var p0 = new Interpolator.Point();
 p0.X = 0.0;
 p0.Y = 0.0;
 p0.Z = 0.0;
-var points = Interpolator.calculate(gcode, p0, 1);
+var points = Interpolator.calculate(gcode, p0, 3);
 println(points.length());
 
 var bmp = new Bmp24(2000, 1500);
