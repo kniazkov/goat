@@ -41,6 +41,7 @@ namespace g0at
             model::context *ctx = thr->pool->create_context(thr->ctx);
             ctx->address[0] = iid;
             ctx->address_type = model::context_address_type::catch_address;
+            ctx->this_ptr = thr->ctx->this_ptr;
             thr->set_context(ctx);
         }
     };

@@ -34,63 +34,70 @@ var Interpolator =
 
         for (var i in gcode)
         {
-            if (i.G)
+            try
             {
-                var rapid = false;
-                var linear = false;
-                var circular = false;
-                var clockwise = false;
-                
-                if (indexOf(i.G, 0) != -1)
+                if (i.G)
                 {
-                    linear = true;
-                    rapid = true;
-                }
-                else if (indexOf(i.G, 1) != -1)
-                {
-                    linear = true;
-                }
-                else if (indexOf(i.G, 2) != -1)
-                {
-                    circular = true;
-                    clockwise = true;
-                }
-                else if (indexOf(i.G, 3) != -1)
-                {
-                    circular = true;
-                }
+                    var rapid = false;
+                    var linear = false;
+                    var circular = false;
+                    var clockwise = false;
+                    
+                    if (indexOf(i.G, 0) != -1)
+                    {
+                        linear = true;
+                        rapid = true;
+                    }
+                    else if (indexOf(i.G, 1) != -1)
+                    {
+                        linear = true;
+                    }
+                    else if (indexOf(i.G, 2) != -1)
+                    {
+                        circular = true;
+                        clockwise = true;
+                    }
+                    else if (indexOf(i.G, 3) != -1)
+                    {
+                        circular = true;
+                    }
 
-                var sequence = null;
+                    var sequence = null;
 
-                if (linear)
-                {
-                    var p1 = new this.Point();
-                    p1.X = i.X || p0.X;
-                    p1.Y = i.Y || p0.Y;
-                    p1.Z = i.Z || p0.Z;
-                    sequence = this.linearInterpolator(p0, p1, resolution);
-                    p0 = p1;
-                }
-                else if (circular)
-                {
-                    var p1 = new this.Point();
-                    p1.X = i.X || p0.X;
-                    p1.Y = i.Y || p0.Y;
-                    p1.Z = i.Z || p0.Z;
-                    var p2 = new this.Point();
-                    p2.X = p0.X + (i.I || 0);
-                    p2.Y = p0.Y + (i.J || 0);
-                    p2.Z = p0.Z;
-                    sequence = this.circularInterpolator(p0, p1, p2, clockwise, resolution);
-                    p0 = p1;
-                }
+                    if (linear)
+                    {
+                        var p1 = new this.Point();
+                        p1.X = i.X || p0.X;
+                        p1.Y = i.Y || p0.Y;
+                        p1.Z = i.Z || p0.Z;
+                        sequence = this.linearInterpolator(p0, p1, resolution);
+                        p0 = p1;
+                    }
+                    else if (circular)
+                    {
+                        var p1 = new this.Point();
+                        p1.X = i.X || p0.X;
+                        p1.Y = i.Y || p0.Y;
+                        p1.Z = i.Z || p0.Z;
+                        var p2 = new this.Point();
+                        p2.X = p0.X + (i.I || 0);
+                        p2.Y = p0.Y + (i.J || 0);
+                        p2.Z = p0.Z;
+                        sequence = this.circularInterpolator(p0, p1, p2, clockwise, resolution);
+                        p0 = p1;
+                    }
 
-                for (var p in sequence)
-                {
-                    p.instruction = i;
-                    p.rapid = rapid;
-                    result.push(p);
+                    for (var p in sequence)
+                    {
+                        p.instruction = i;
+                        p.rapid = rapid;
+                        result.push(p);
+                    }
                 }
+            }
+            catch (e)
+            {
+                println("can't calculate: '" + i.toString() + "', " + e);
             }
         }
 
