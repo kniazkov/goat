@@ -1,8 +1,8 @@
 exit();
 
-import "cnc/gcode.goat";
+import "example/cnc/gcode.goat";
 import "io.goat";
-import "cnc/interpolator.goat";
+import "example/cnc/interpolator.goat";
 import "bitmap.goat";
 import "color.goat";
 
