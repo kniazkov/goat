@@ -20,115 +20,204 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-var Point =
-# {
-    X : 0.0,
-    Y : 0.0,
-    Z : 0.0,
+import "gcode.goat";
+import "algorithm.goat";
 
-    distance : $(p0, p1)
-    {
-        if (!p1)
-        {
-            var dX = X - p0.X;
-            var dY = Y - p0.Y;
-            var dZ = Z - p0.Z;
-            return sqrt(dX * dX + dY * dY + dZ * dZ);
-        }
-        else
-        {
-            var dX = p1.X - p0.X;
-            var dY = p1.Y - p0.Y;
-            var dZ = p1.Z - p0.Z;
-            return sqrt(dX * dX + dY * dY + dZ * dZ);
-        }
-    }
-};
-
-var linearInterpolator = $(p0, p1, resolution)
+var Interpolator = 
 {
-    var q = [];
-
-    // delta
-    var dX = Real.valueof(p1.X - p0.X);
-    var dY = Real.valueof(p1.Y - p0.Y);
-    var dZ = Real.valueof(p1.Z - p0.Z);
-
-    // distance
-    var l = sqrt(dX * dX + dY * dY + dZ * dZ);
-
-    // count
-    var cnt = round(l * resolution);
-    if (cnt == 0)
+    calculate : $(gcode, p0, resolution)
     {
-        q.push(p1);
+        if (!gcode.instanceof(Array))
+            throw new Exception.IllegalArgument();
+        
+        var result = [];
+
+        for (var i in gcode)
+        {
+            if (i.G)
+            {
+                var rapid = false;
+                var linear = false;
+                var circular = false;
+                var clockwise = false;
+                
+                if (indexOf(i.G, 0) != -1)
+                {
+                    linear = true;
+                    rapid = true;
+                }
+                else if (indexOf(i.G, 1) != -1)
+                {
+                    linear = true;
+                }
+                else if (indexOf(i.G, 2) != -1)
+                {
+                    circular = true;
+                    clockwise = true;
+                }
+                else if (indexOf(i.G, 3) != -1)
+                {
+                    circular = true;
+                }
+
+                var sequence = null;
+
+                if (linear)
+                {
+                    var p1 = new this.Point();
+                    p1.X = i.X || p0.X;
+                    p1.Y = i.Y || p0.Y;
+                    p1.Z = i.Z || p0.Z;
+                    sequence = this.linearInterpolator(p0, p1, resolution);
+                    p0 = p1;
+                }
+                else if (circular)
+                {
+                    var p1 = new this.Point();
+                    p1.X = i.X || p0.X;
+                    p1.Y = i.Y || p0.Y;
+                    p1.Z = i.Z || p0.Z;
+                    var p2 = new this.Point();
+                    p2.X = p0.X + (i.I || 0);
+                    p2.Y = p0.Y + (i.J || 0);
+                    p2.Z = p0.Z;
+                    sequence = this.circularInterpolator(p0, p1, p2, clockwise, resolution);
+                    p0 = p1;
+                }
+
+                for (var p in sequence)
+                {
+                    p.instruction = i;
+                    p.rapid = rapid;
+                    result.push(p);
+                }
+            }
+        }
+
+        return result;
+    },
+
+    Point :
+    {
+        instruction : null,
+        rapid : null,
+        percent : null,
+        X : 0.0,
+        Y : 0.0,
+        Z : 0.0,
+
+        distance : $(p0, p1)
+        {
+            if (!p1)
+            {
+                var dX = X - p0.X;
+                var dY = Y - p0.Y;
+                var dZ = Z - p0.Z;
+                return sqrt(dX * dX + dY * dY + dZ * dZ);
+            }
+            else
+            {
+                var dX = p1.X - p0.X;
+                var dY = p1.Y - p0.Y;
+                var dZ = p1.Z - p0.Z;
+                return sqrt(dX * dX + dY * dY + dZ * dZ);
+            }
+        }
+    },
+
+    linearInterpolator : $(p0, p1, resolution)
+    {
+        var q = [];
+
+        // delta
+        var dX = Real.valueof(p1.X - p0.X);
+        var dY = Real.valueof(p1.Y - p0.Y);
+        var dZ = Real.valueof(p1.Z - p0.Z);
+
+        // distance
+        var l = sqrt(dX * dX + dY * dY + dZ * dZ);
+
+        // count
+        var cnt = round(l * resolution);
+        if (cnt == 0)
+        {
+            q.push(p1);
+            p1.percent = 100.0;
+            return q;
+        }
+
+        // increments
+        var iX = dX / cnt;
+        var iY = dY / cnt;
+        var iZ = dZ / cnt;
+
+        // generate
+        var total = cnt;
+        while(cnt > 0)
+        {
+            var p = new this.Point();
+            p.percent = 100.0 * (total - cnt + 1) / total;
+            p.X = p0.X + iX;
+            p.Y = p0.Y + iY;
+            p.Z = p0.Z + iZ;
+            q.push(p);
+            p0 = p;
+            cnt--;
+        }
+
+        return q;
+    },
+
+    circularInterpolator : $(p0, p1, c, cw, resolution)
+    {
+        var q = [];
+
+        // radius
+        var r0 = this.Point.distance(p0, c);
+        var r1 = this.Point.distance(p1, c);
+
+        // angle
+        var a0 = atan2(p0.Y - c.Y, p0.X - c.X);
+        var a1 = atan2(p1.Y - c.Y, p1.X - c.X);
+        var dA = a1 - a0;
+        if (cw && dA > 0)
+            dA -= 2 * PI;
+        else if (!cw && dA < 0)
+            da += 2 * PI;
+
+        // distance
+        var l = abs(dA * (r0 + r1) / 2);
+
+        // count
+        var cnt = round(l * resolution);
+        if (cnt == 0)
+        {
+            q.push(p1);
+            p1.percent = 100.0;
+            return q;
+        }
+
+        // increments
+        var iR = (r1 - r0) / cnt;
+        var iA = dA / cnt;
+
+        // generate
+        var a = a0;
+        var r = r0;
+        var total = cnt;
+        while(cnt > 0)
+        {
+            var p = new this.Point();
+            r += iR;
+            a += iA;
+            p.percent = 100.0 * (total - cnt + 1) / total;
+            p.X = cos(a) * r + c.X;
+            p.Y = sin(a) * r + c.Y;
+            p.Z = p0.Z;
+            q.push(p);
+            cnt--;
+        }
+
         return q;
     }
-
-    // increments
-    var iX = dX / cnt;
-    var iY = dY / cnt;
-    var iZ = dZ / cnt;
-
-    // generate
-    while(cnt-- > 0)
-    {
-        var p = new Point();
-        p.X = p0.X + iX;
-        p.Y = p0.Y + iY;
-        p.Z = p0.Z + iZ;
-        q.push(p);
-        p0 = p;
-    }
-
-    return q;
-};
-
-var circularInterpolator = $(p0, p1, c, cw, resolution)
-{
-    var q = [];
-
-    // radius
-    var r0 = Point.distance(p0, c);
-    var r1 = Point.distance(p1, c);
-
-    // angle
-    var a0 = atan2(p0.Y - c.Y, p0.X - c.X);
-    var a1 = atan2(p1.Y - c.Y, p1.X - c.X);
-    var dA = a1 - a0;
-    if (cw && dA > 0)
-        dA -= 2 * PI;
-    else if (!cw && dA < 0)
-        da += 2 * PI;
-
-    // distance
-    var l = abs(dA * (r0 + r1) / 2);
-
-    // count
-    var cnt = round(l * resolution);
-    if (cnt == 0)
-    {
-        q.push(p1);
-        return q;
-    }
-
-    // increments
-    var iR = (r1 - r0) / cnt;
-    var iA = dA / cnt;
-
-    // generate
-    var a = a0;
-    var r = r0;
-    while(cnt-- > 0)
-    {
-        var p = new Point();
-        r += iR;
-        a += iA;
-        p.X = cos(a) * r + c.X;
-        p.Y = sin(a) * r + c.Y;
-        p.Z = p0.Z;
-        q.push(p);
-    }
-
-    return q;
 };
