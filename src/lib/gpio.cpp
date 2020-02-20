@@ -309,13 +309,6 @@ unsigned gpio_hardware_revision(void)
    return rev;
 }
 
-/* Returns the number of microseconds after system boot. Wraps around
-   after 1 hour 11 minutes 35 seconds.
-*/
-
-//uint32_t gpioTick(void) { return system_register[SYST_CLO]; }
-
-
 /* Map in registers. */
 
 static uint32_t * gpio_init_memory_map(int fd, uint32_t addr, uint32_t len)
