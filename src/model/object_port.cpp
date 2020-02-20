@@ -68,7 +68,9 @@ namespace g0at
                 {
                     std::thread pwm = std::thread([]()
                     {
-                        __pwm_started.store(true);
+                        if(__pwm_started.exchange(true))
+                            return;
+
                         bool flag;
                         do
                         {
