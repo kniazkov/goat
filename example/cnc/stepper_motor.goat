@@ -42,10 +42,15 @@ var StepperMotor =
         }
 
         ports[gpioEnable] = true;
+        this.targetVelocity = 0;
     },
 
     setVelocity : $(velocity)
     {
+        if (velocity == targetVelocity)
+            return;
+        targetVelocity = velocity;
+
         if (velocity == 0)
         {
             ports[gpioStep].pulse(0);

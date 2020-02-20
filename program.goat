@@ -1,51 +1,55 @@
-exit();
+//exit();
 
 import "stepper_motor.goat";
+import "positioning.goat";
 
 ports.init();
 
-var smp = new StepperMotorParameters();
-smp.gpioStep = "gpio0";
-smp.gpioDirection = "gpio1";
-smp.scalingFactor = 1.0;
+var smpX = new StepperMotorParameters();
+smpX.gpioStep = "gpio0";
+smpX.scalingFactor = 10.0;
+var axisX = new StepperMotor(smpX);
 
-var motor = new StepperMotor(smp);
-motor.setVelocity(1);
+var smpY = new StepperMotorParameters();
+smpY.gpioStep = "gpio1";
+smpY.scalingFactor = 10.0;
+var axisY = new StepperMotor(smpY);
 
-while(motor.getPosition() < 10)
-{
-}
+var smpZ = new StepperMotorParameters();
+smpZ.gpioStep = "gpio2";
+smpZ.scalingFactor = 10.0;
+var axisZ = new StepperMotor(smpZ);
 
-//motor.setVelocity(0);
+var positioning = new Positioning(axisX, axisY, axisZ, 3.0);
 
-/*
 import "gcode.goat";
 import "io.goat";
 import "interpolator.goat";
 import "bitmap.goat";
 import "color.goat";
 
-//var source = "g00 x100 y100\ng02 x300 i100";
-var raw = load("gcode.txt");
-var source = raw.decode("utf8");
+var source = "g00 x100 y100\ng02 x300 i100";
+//var raw = load("gcode.txt");
+//var source = raw.decode("utf8");
 var gcode = GCode.parse(source);
 println(gcode.length());
 var p0 = new Interpolator.Point();
 p0.X = 0.0;
 p0.Y = 0.0;
 p0.Z = 0.0;
-var points = Interpolator.calculate(gcode, p0, 3);
+var points = Interpolator.calculate(gcode, p0, 3.0);
 println(points.length());
 
 var bmp = new Bmp24(2000, 1500);
 for (var p1 in points)
 {
+    println("\r" + p1.instruction.toString() + ", " + round(p1.percent) + "%, X: " + axisX.getPosition() +", Y:" + axisY.getPosition());
+    positioning.moveTo(p1.X, p1.Y, p1.Z, 1);
     bmp.drawLine(round(p0.X * 5), 1500 - round(p0.Y * 5), round(p1.X * 5), 1500 - round(p1.Y * 5), p1.rapid ? Red : White);
     p0 = p1;
 }
 
 var arr = bmp.toByteArray();
-var file = open("image.bmp", File.Mode.WRITE);
-file.write(arr);
-file.close();
-*/
+//var file = open("image.bmp", File.Mode.WRITE);
+//file.write(arr);
+//file.close();
