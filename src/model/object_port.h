@@ -30,9 +30,13 @@ namespace g0at
     {
         class object_ports : public object
         {
+        friend class object_ports_init;
         public:
             object_ports(object_pool *pool);
             ~object_ports();
+
+        private:
+            bool initialized;
         };
 
         class object_port_proto : public object

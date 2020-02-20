@@ -387,20 +387,58 @@ namespace g0at
         };
 #endif
 
+        class object_ports_init : public object_function_built_in
+        {
+        public:
+            object_ports_init(object_pool *_pool, object_ports *_ports)
+                : object_function_built_in(_pool), ports(_ports)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode == call_mode::as_method)
+                    thr->pop();
+                thr->pop(arg_count);
+                variable result;
+                result.set_boolean(true);
+#ifdef GPIO_ENABLE
+                if (ports->initialized)
+                {
+                    result.set_boolean(true);
+                }
+                else if (lib::gpio_init())
+                {
+                    lib::gpio_info i = lib::gpio_get_info();
+                    for (unsigned int k = 0; k < i.count; k++)
+                    {
+                        std::wstringstream wss;
+                        wss << L"gpio" << i.port_numbers[k];
+                        ports->add_object(thr->pool->create_object_string(wss.str()), new object_port_gpio(thr->pool, i.port_numbers[k]));
+                    }
+                    ports->initialized = true;
+                    result.set_boolean(true);
+                }
+                else
+                {
+                    result.set_boolean(false);
+                }
+#else
+                result.set_boolean(true);
+#endif
+                thr->push(result);
+            }
+
+        private:
+            object_ports *ports;
+        };
+
         object_ports::object_ports(object_pool *pool)
             : object(pool)
         {
+            initialized = false;
             add_object(pool->get_static_string(resource::str_null), new object_port_null(pool));
-#ifdef GPIO_ENABLE
-            lib::gpio_info i = lib::gpio_get_info();
-            for (unsigned int k = 0; k < i.count; k++)
-            {
-                std::wstringstream wss;
-                wss << L"gpio" << i.port_numbers[k];
-                add_object(pool->create_object_string(wss.str()), new object_port_gpio(pool, i.port_numbers[k]));
-            }
-#endif
-            lock();
+            add_object(pool->get_static_string(resource::str_init), new object_ports_init(pool, this));
         }
 
         object_ports::~object_ports()
@@ -413,11 +451,12 @@ namespace g0at
                     port->period.store(0);
                     port = port->next_port;
                 }
+                 // dirty hack
                 while(__pwm_started.load() == true)
                 {
                     // wait
                 }
-                std::this_thread::sleep_for (std::chrono::seconds(1));
+                std::this_thread::sleep_for (std::chrono::milliseconds(250));
             }
         }
 

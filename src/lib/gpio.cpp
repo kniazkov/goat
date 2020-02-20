@@ -78,7 +78,7 @@ namespace g0at
                 if (gpio_values[port] != value)
                 {
                     int64_t gpio_time = get_time_ns() - gpio_time_start;
-                    std::cout << "\n*** gpio " << port << '\t' << (value ? '1' : '0') << '\t' << gpio_time;
+                    std::cout << "\n*** gpio " << port << '\t' << (value ? '1' : '0') << '\t' << gpio_time << std::flush;
                 }
 #endif
                 gpio_values[port] = value;
