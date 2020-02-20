@@ -20,15 +20,12 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-import "timer.goat";
-
 var StepperMotorParameters =
 # {
     gpioEnable : "null",
     gpioStep : "null",
     gpioDirection : "null",
-    scalingFactor : 1,
-    listener : null
+    scalingFactor : 1.0,
 };
 
 var StepperMotor =
@@ -43,71 +40,30 @@ var StepperMotor =
             if (params.contains(key))
                 this[key] = params[key];
         }
-        this.position = 0;
-        this.interval = null;
-        this.period = 0;
-        this.direction = 0;
-        this.targetPosition = null;
+
+        ports[gpioEnable] = true;
     },
 
     setVelocity : $(velocity)
     {
         if (velocity == 0)
         {
-            if (interval)
-            {
-                interval.stop();
-                interval = null;
-            }
-            period = 0;
-            direction = 0;
-            return;
+            ports[gpioStep].pulse(0);
         }
-        var period = round(500000 / scalingFactor / abs(velocity));
-        var direction = velocity > 0 ? 1 : (-1);
-        if (this.period == period && this.direction == direction)
-            return;
-        if (interval)
-            interval.stop();
-        port[gpioDirection] = direction == 1;
-        var gpioStep = gpioStep;
-        interval = Timer.setInterval($()
+        else if (velocity >= 0)
         {
-            var value = port[gpioStep];
-            port[gpioStep] = !value;
-            if (value)
-            {
-                position += direction;
-                if (targetPosition == position)
-                {
-                    interval.stop();
-                    interval = null;
-                    period = null;
-                    direction = null;
-                    if (listener)
-                        listener(position / scalingFactor);
-                }
-            }
-        }, new Timer.Microseconds(period));
-    },
-
-    setTargetPosition : $(position, velocity)
-    {
-        targetPosition = round(position * scalingFactor);
-        if (targetPosition == this.position)
-        {
-            if (listener)
-                listener(this.position / scalingFactor);
-            return;
+            ports[gpioDirection] = false;
+            ports[gpioStep].pulse(500000000 / round(velocity * scalingFactor), 1);
         }
-        if (targetPosition > this.position)
-            this.setVelocity(abs(velocity));
         else
-            this.setVelocity(-abs(velocity));
+        {
+            ports[gpioDirection] = true;
+            ports[gpioStep].pulse(-500000000 / round(velocity * scalingFactor), -1);
+        }
     },
 
     getPosition : $()
     {
-        return position / scalingFactor;
+        return ports[gpioStep].count() / 2.0 / scalingFactor;
     }
 };

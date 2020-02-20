@@ -1,5 +1,24 @@
 exit();
 
+import "stepper_motor.goat";
+
+ports.init();
+
+var smp = new StepperMotorParameters();
+smp.gpioStep = "gpio0";
+smp.gpioDirection = "gpio1";
+smp.scalingFactor = 1.0;
+
+var motor = new StepperMotor(smp);
+motor.setVelocity(1);
+
+while(motor.getPosition() < 10)
+{
+}
+
+//motor.setVelocity(0);
+
+/*
 import "gcode.goat";
 import "io.goat";
 import "interpolator.goat";
@@ -29,3 +48,4 @@ var arr = bmp.toByteArray();
 var file = open("image.bmp", File.Mode.WRITE);
 file.write(arr);
 file.close();
+*/
