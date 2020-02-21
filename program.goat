@@ -44,7 +44,7 @@ var bmp = new Bmp24(2000, 1500);
 for (var p1 in points)
 {
     println("\r" + p1.instruction.toString() + ", " + round(p1.percent) + "%, X: " + axisX.getPosition() +", Y:" + axisY.getPosition());
-    positioning.moveTo(p1.X, p1.Y, p1.Z, 1);
+    positioning.moveTo(p1.X, p1.Y, p1.Z, 5);
     bmp.drawLine(round(p0.X * 5), 1500 - round(p0.Y * 5), round(p1.X * 5), 1500 - round(p1.Y * 5), p1.rapid ? Red : White);
     p0 = p1;
 }

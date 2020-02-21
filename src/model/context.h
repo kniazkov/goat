@@ -67,6 +67,7 @@ namespace g0at
             int stack_size;
             int lock;
             int debug_level;
+            int position;
         };
     };
 };

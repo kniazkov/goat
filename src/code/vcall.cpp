@@ -61,6 +61,7 @@ namespace g0at
         bool _vcall::exec_debug(model::thread *thr, vm::debug_mode_info *debug_info)
         {
             exec(thr);
+            thr->ctx->position = debug_info->frame_begin;
             thr->ctx->debug_level++;
             return false;
         }

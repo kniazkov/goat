@@ -35,27 +35,27 @@ namespace g0at
     {
         context::context(object_pool *pool)
             : object(pool), prev(nullptr), this_ptr(nullptr), address_type(context_address_type::none),
-              ret(nullptr), stack_size(-1), lock(-1), debug_level(0)
+              ret(nullptr), stack_size(-1), lock(-1), debug_level(0), position(-1)
         {
         }
 
         context::context(object_pool *pool, context *proto)
             : object(pool, proto), prev(proto), this_ptr(nullptr), address_type(context_address_type::none),
-              ret(nullptr), stack_size(-1), lock(-1), debug_level(proto->debug_level)
+              ret(nullptr), stack_size(-1), lock(-1), debug_level(proto->debug_level), position(proto->position)
         {
             assert(proto != nullptr);
         }
 
         context::context(object_pool *pool, context *proto, context *parent)
             : object(pool, proto), prev(parent), this_ptr(nullptr), address_type(context_address_type::none),
-              ret(nullptr), stack_size(-1), lock(-1), debug_level(parent->debug_level)
+              ret(nullptr), stack_size(-1), lock(-1), debug_level(parent->debug_level), position(parent->position)
         {
             assert(proto != nullptr);
         }
 
         context::context(object_pool *pool, object *_this_ptr, context *proto, context *parent)
             : object(pool, _this_ptr, proto), prev(parent), this_ptr(_this_ptr), address_type(context_address_type::none),
-              ret(nullptr), stack_size(-1), lock(-1), debug_level(parent->debug_level)
+              ret(nullptr), stack_size(-1), lock(-1), debug_level(parent->debug_level), position(parent->position)
         {
             assert(this_ptr != nullptr);
             assert(proto != nullptr);
