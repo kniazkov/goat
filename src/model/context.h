@@ -24,6 +24,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object.h"
 #include "code/iid_t.h"
+#include "lib/pointer.h"
+#include "compiler/source/position.h"
 
 namespace g0at
 {
@@ -67,7 +69,7 @@ namespace g0at
             int stack_size;
             int lock;
             int debug_level;
-            int position;
+            lib::pointer<position> pos;
         };
     };
 };

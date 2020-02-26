@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "compiler/source/breakpoint.h"
 #include "lib/pointer.h"
+#include "compiler/source/source_manager.h"
 #include <vector>
 
 namespace g0at
@@ -33,11 +34,14 @@ namespace g0at
         class debug_mode_info
         {
         public:
-            debug_mode_info() :
+            debug_mode_info(source_manager *_listing) :
                 frame_begin(-1),
-                frame_end(-1)
+                frame_end(-1),
+                listing(_listing)
             {
             }
+
+            source_manager *get_listing() { return listing; };
 
             int frame_begin;
             int frame_end;
@@ -46,6 +50,8 @@ namespace g0at
         private:
             debug_mode_info(const debug_mode_info&) { }
             void operator=(const debug_mode_info&) { }
+            
+            source_manager *listing;
         };
     };
 };

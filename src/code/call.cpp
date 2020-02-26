@@ -57,7 +57,9 @@ namespace g0at
         bool _call::exec_debug(model::thread *thr, vm::debug_mode_info *debug_info)
         {
             exec(thr);
-            thr->ctx->position = debug_info->frame_begin;
+            source_manager *listing = debug_info->get_listing();
+            if (listing)
+                thr->ctx->pos = listing->get_position_by_absolute_position(debug_info->frame_begin);
             thr->ctx->debug_level++;
             return false;
         }

@@ -72,7 +72,8 @@ namespace g0at
                 }
                 else
                 {
-                    debug_mode_info debug_info;
+                    source_manager *listing = env->get_listing();
+                    debug_mode_info debug_info(listing);
                     if (!env->run_mode())
                     {
                         while(true)
@@ -86,7 +87,7 @@ namespace g0at
                             else if (line.find("b ") == 0)
                             {
                                 std::string request = lib::trim(line.substr(2));
-                                lib::pointer<breakpoint> bp = env->get_listing()->set_breakpoint(request);
+                                lib::pointer<breakpoint> bp = listing->set_breakpoint(request);
                                 if (bp)
                                 {
                                     std::cout << global::char_encoder->encode(global::resource->setting_breakpoint_at(bp->to_string())) << std::endl;
@@ -116,7 +117,6 @@ namespace g0at
                         bool suspend = instr->exec_debug(thr, &debug_info);
                         if (suspend)
                         {
-                            source_manager *listing = env->get_listing();
                             lib::pointer<position> pos = listing->get_position_by_absolute_position(debug_info.frame_begin);
                             std::wstring frag = listing->get_fragment(debug_info.frame_begin, debug_info.frame_end);
                             std::cout << '\n' << ticks << " -> " << global::char_encoder->encode(pos->to_string())
@@ -172,7 +172,7 @@ namespace g0at
                                 else if (line.find("b ") == 0)
                                 {
                                     std::string request = lib::trim(line.substr(2));
-                                    lib::pointer<breakpoint> bp = env->get_listing()->set_breakpoint(request);
+                                    lib::pointer<breakpoint> bp = listing->set_breakpoint(request);
                                     if (bp)
                                     {
                                         std::cout << global::char_encoder->encode(global::resource->setting_breakpoint_at(bp->to_string())) << std::endl;
