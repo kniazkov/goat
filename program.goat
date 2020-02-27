@@ -28,9 +28,9 @@ import "interpolator.goat";
 import "bitmap.goat";
 import "color.goat";
 
-var source = "g00 x100 y100\ng02 x300 i100";
-//var raw = load("gcode.txt");
-//var source = raw.decode("utf8");
+//var source = "g00 x100 y100\ng02 x300 i100";
+var raw = load("gcode.txt");
+var source = raw.decode("utf8");
 var gcode = GCode.parse(source);
 println(gcode.length());
 var p0 = new Interpolator.Point();
@@ -41,15 +41,24 @@ var points = Interpolator.calculate(gcode, p0, 3.0);
 println(points.length());
 
 var bmp = new Bmp24(2000, 1500);
-for (var p1 in points)
+for (var k = 0, kl = points.length(); k < kl; k++)
 {
-    println("\r" + p1.instruction.toString() + ", " + round(p1.percent) + "%, X: " + axisX.getPosition() +", Y:" + axisY.getPosition());
-    positioning.moveTo(p1.X, p1.Y, p1.Z, 5);
+    var p1 = points[k];
+    print("\r                                                                               ");
+    if (p1.percent == 100)
+    {
+        println("\r" + p1.instruction.toString());
+    }
+    else
+    {
+        print("\r" + (k + 1) + "/" + kl + ", \'" + p1.instruction.toString() + "\', " + round(p1.percent) + "%, X: " + axisX.getPosition() +", Y:" + axisY.getPosition());
+    }
+    positioning.moveTo(p1.X, p1.Y, p1.Z, 15);
     bmp.drawLine(round(p0.X * 5), 1500 - round(p0.Y * 5), round(p1.X * 5), 1500 - round(p1.Y * 5), p1.rapid ? Red : White);
     p0 = p1;
 }
 
 var arr = bmp.toByteArray();
-//var file = open("image.bmp", File.Mode.WRITE);
-//file.write(arr);
-//file.close();
+var file = open("image.bmp", File.Mode.WRITE);
+file.write(arr);
+file.close();
