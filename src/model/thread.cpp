@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/exception.h"
 #include "lib/utils.h"
 #include "process.h"
+#include <sstream>
 
 namespace g0at
 {
@@ -33,8 +34,13 @@ namespace g0at
         class unhandled_runtime_exception : public lib::exception
         {
         public:
-            unhandled_runtime_exception(std::wstring str)
-                : exception(global::resource->unhandled_exception(str))
+            unhandled_runtime_exception(std::wstring message)
+                : exception(global::resource->unhandled_exception(message))
+            {
+            }
+
+            unhandled_runtime_exception(std::wstring message, std::wstring call_stack)
+                : exception(global::resource->unhandled_exception(message + call_stack))
             {
             }
         };
@@ -42,7 +48,7 @@ namespace g0at
         thread::thread(process *_proc, thread_id _tid, context *_ctx, object_pool *_pool, variable *_ret)
             : proc(_proc), tid(_tid), is_active(true), prev(nullptr), next(nullptr), state(thread_state::pause),
               flow(thread_flow::direct), ctx(_ctx), pool(_pool), ret(_ret), runner(nullptr), lock(0),
-              debug_level(0), debug_state(thread_debug_state::do_not_stop)
+              debug_level(0), debug_state(thread_debug_state::do_not_stop), line(nullptr)
         {
             except.set_object(pool->get_undefined_instance());
         }
@@ -134,6 +140,11 @@ namespace g0at
                 
                 std::vector<std::wstring> call_stack;
                 lib::pointer<position> prev_pos = nullptr;
+                if (line)
+                {
+                    prev_pos = line;
+                    call_stack.push_back(line->to_string());
+                }
                 while(ctx_copy)
                 {
                     if (ctx_copy->pos && ctx_copy->pos != prev_pos)
@@ -144,7 +155,14 @@ namespace g0at
                     ctx_copy = ctx_copy->prev;
                 }
 
-                throw unhandled_runtime_exception(var.to_string());
+                if (call_stack.empty())
+                    throw unhandled_runtime_exception(var.to_string());
+
+                std::wstringstream builder;
+                for (std::wstring item : call_stack)
+                    builder << "\n  " << item;
+
+                throw unhandled_runtime_exception(var.to_string(), builder.str());
             }
         }
 

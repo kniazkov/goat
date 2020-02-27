@@ -202,6 +202,7 @@ namespace g0at
             int lock;
             int debug_level;
             thread_debug_state debug_state;
+            lib::pointer<position> line;
 
         protected:
             thread(const thread &) { }

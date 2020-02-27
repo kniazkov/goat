@@ -48,6 +48,10 @@ namespace g0at
             if (thr->debug_level > thr->ctx->debug_level)
                 thr->debug_level = thr->ctx->debug_level;
 
+            source_manager *listing = debug_info->get_listing();
+            if (listing)
+                thr->line = listing->get_position_by_absolute_position(begin);
+
             if (thr->debug_state == model::thread_debug_state::do_not_stop)
             {
                 for (auto bp : debug_info->breakpoints)
