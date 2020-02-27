@@ -51,19 +51,24 @@ var StepperMotor =
             return;
         targetVelocity = velocity;
 
-        if (velocity == 0)
+        var scaledVelocity = round(velocity * scalingFactor);
+        if (scaledVelocity == 0)
         {
             ports[gpioStep].pulse(0);
         }
-        else if (velocity >= 0)
-        {
-            ports[gpioDirection] = false;
-            ports[gpioStep].pulse(500000000 / round(velocity * scalingFactor), 1);
-        }
         else
         {
-            ports[gpioDirection] = true;
-            ports[gpioStep].pulse(-500000000 / round(velocity * scalingFactor), -1);
+            var period = 500000000 / scaledVelocity;
+            if (period >= 0)
+            {
+                ports[gpioDirection] = false;
+                ports[gpioStep].pulse(period,  1);
+            }
+            else
+            {
+                ports[gpioDirection] = true;
+                ports[gpioStep].pulse(-period, -1);
+            }
         }
     },
 

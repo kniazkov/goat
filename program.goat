@@ -1,13 +1,5 @@
-var test_func = $()
-{
-    return 1/0;
-};
+//exit();
 
-test_func();
-
-exit();
-
-/*
 import "stepper_motor.goat";
 import "positioning.goat";
 
@@ -61,4 +53,3 @@ var arr = bmp.toByteArray();
 //var file = open("image.bmp", File.Mode.WRITE);
 //file.write(arr);
 //file.close();
-*/
