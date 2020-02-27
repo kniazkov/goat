@@ -114,6 +114,7 @@ namespace g0at
             }
             else
             {
+                context *ctx_copy = ctx;
                 restore_context();
                 while (ctx)
                 {
@@ -130,6 +131,19 @@ namespace g0at
                             restore_context();
                     }
                 }
+                
+                std::vector<std::wstring> call_stack;
+                lib::pointer<position> prev_pos = nullptr;
+                while(ctx_copy)
+                {
+                    if (ctx_copy->pos && ctx_copy->pos != prev_pos)
+                    {
+                        prev_pos = ctx_copy->pos;
+                        call_stack.push_back(ctx_copy->pos->to_string());
+                    }
+                    ctx_copy = ctx_copy->prev;
+                }
+
                 throw unhandled_runtime_exception(var.to_string());
             }
         }
