@@ -25,7 +25,7 @@ import "algorithm.goat";
 
 var Interpolator = 
 {
-    calculate : $(gcode, p0, resolution)
+    calculate : $(gcode, p0, resolution, velocity)
     {
         if (!gcode.instanceof(Array))
             throw new Exception.IllegalArgument();
@@ -91,6 +91,7 @@ var Interpolator =
                     {
                         p.instruction = i;
                         p.rapid = rapid;
+                        p.V = velocity;
                         result.push(p);
                     }
                 }
@@ -112,6 +113,7 @@ var Interpolator =
         X : 0.0,
         Y : 0.0,
         Z : 0.0,
+        V : 0.0,
 
         distance : $(p0, p1)
         {

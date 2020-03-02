@@ -100,12 +100,13 @@ var Positioning =
 
     run : $(trajectory, callback)
     {
+
         for (var k = 0, kl = trajectory.length(); k < kl; k++)
         {
             var p = trajectory[k];
             if (callback)
                 callback(p);
-            positioning.moveTo(p.X, p.Y, p.Z, 15);
+            positioning.moveTo(p.X, p.Y, p.Z, p.V);
         }
     }
 };

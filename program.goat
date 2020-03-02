@@ -37,9 +37,10 @@ var p0 = new Interpolator.Point();
 p0.X = 0.0;
 p0.Y = 0.0;
 p0.Z = 0.0;
-var points = Interpolator.calculate(gcode, p0, 3.0);
+var points = Interpolator.calculate(gcode, p0, 3.0, 15.0);
 println(points.length());
 
+var bmp = new Bmp24(2000, 1500);
 positioning.run(points, $(p1)
 {
     print("\r                                                                               ");
@@ -51,30 +52,13 @@ positioning.run(points, $(p1)
     {
         print("\r \'" + p1.instruction.toString() + "\', " + round(p1.percent) + "%, X: " + axisX.getPosition() +", Y:" + axisY.getPosition());
     }
+    var c = new Color();
+    c.r = p1.V / 15.0;
+    bmp.drawLine(round(p0.X * 5), 1500 - round(p0.Y * 5), round(p1.X * 5), 1500 - round(p1.Y * 5), c);
     p0 = p1;
 });
-
-/*
-var bmp = new Bmp24(2000, 1500);
-for (var k = 0, kl = points.length(); k < kl; k++)
-{
-    var p1 = points[k];
-    print("\r                                                                               ");
-    if (p1.percent == 100)
-    {
-        println("\r" + p1.instruction.toString());
-    }
-    else
-    {
-        print("\r" + (k + 1) + "/" + kl + ", \'" + p1.instruction.toString() + "\', " + round(p1.percent) + "%, X: " + axisX.getPosition() +", Y:" + axisY.getPosition());
-    }
-    positioning.moveTo(p1.X, p1.Y, p1.Z, 15);
-    bmp.drawLine(round(p0.X * 5), 1500 - round(p0.Y * 5), round(p1.X * 5), 1500 - round(p1.Y * 5), p1.rapid ? Red : White);
-    p0 = p1;
-}
 
 var arr = bmp.toByteArray();
 var file = open("image.bmp", File.Mode.WRITE);
 file.write(arr);
 file.close();
-*/
