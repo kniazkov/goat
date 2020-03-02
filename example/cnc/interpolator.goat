@@ -137,6 +137,13 @@ var Interpolator =
                 this.calculateVelocity(aux[k - 1], aux[k], aux[k + 1], acceleration, 1);
             }
 
+            // calculate acceleration
+            this.calculateAcceleration(null, aux[0], aux[1], acceleration, 1);
+            for (var k = 2; k < count; k++)
+            {
+                this.calculateAcceleration(aux[k - 2], aux[k - 1], aux[k], acceleration, 1);
+            }
+
             points = aux;
         }
 
@@ -299,5 +306,46 @@ var Interpolator =
         }
 
         point.V = minVelocity;
+    },
+
+    calculateAcceleration : $(prev2, prev, point, acceleration, delta)
+    {
+        var V = point.V;
+        
+        if (V < prev.V)
+            return;
+
+        while (V > prev.V)
+        {
+            var vX0 = 0,
+                vY0 = 0,
+                vZ0 = 0;
+            if (prev2)
+            {
+                var t0 = prev.distance / prev.V;
+                vX0 = (prev.X - prev2.X) / t0;
+                vY0 = (prev.Y - prev2.Y) / t0;
+                vZ0 = (prev.Z - prev2.Z) / t0;
+            }
+
+            var t1 = point.distance / V;
+            var vX1 = (point.X - prev.X) / t1;
+            var vY1 = (point.Y - prev.Y) / t1;
+            var vZ1 = (point.Z - prev.Z) / t1;
+
+            var aX = (vX1 - vX0) / t1;
+            var aY = (vY1 - vY0) / t1;
+            var aZ = (vZ1 - vZ0) / t1;
+
+            if (abs(aX) < acceleration && abs(aY) < acceleration && abs(aZ) < acceleration)
+            {
+                point.V = V;
+                return;
+            }
+
+            V = V - delta;
+        }
+
+        point.V = prev.V;
     }
 };

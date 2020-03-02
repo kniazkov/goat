@@ -37,7 +37,7 @@ var p0 = new Interpolator.Point();
 p0.X = 0.0;
 p0.Y = 0.0;
 p0.Z = 0.0;
-var points = Interpolator.calculate(gcode, p0, 1.0, 15.0, 1.0);
+var points = Interpolator.calculate(gcode, p0, 1.0, 15.0, 15.0);
 println(points.length());
 //println(points);
 
