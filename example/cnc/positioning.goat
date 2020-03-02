@@ -35,28 +35,38 @@ var Positioning =
         this.minDistance = 1.0 / resolution;
     },
 
+    dir : $(n)
+    {
+        if (n == 0)
+            return 0;
+        else if (n < 0) return -1; else return 1;
+    },
+
     moveTo : $(X, Y, Z, V)
     {
         if (V <= 0)
             throw new Exception.IllegalArgument();
 
-        while(true)
+        // current position
+        var cX = axisX.getPosition();
+        var cY = axisY.getPosition();
+        var cZ = axisZ.getPosition();
+
+        // delta
+        var dX = X - cX;
+        var dY = Y - cY;
+        var dZ = Z - cZ;
+
+        // direction
+        var rX = dir(dX);
+        var rY = dir(dY);
+        var rZ = dir(dZ);       
+
+        // distance
+        var l = sqrt(dX * dX + dY * dY + dZ * dZ);
+
+        while(l > minDistance)
         {
-            // current position
-            var cX = axisX.getPosition();
-            var cY = axisY.getPosition();
-            var cZ = axisZ.getPosition();
-
-            // delta
-            var dX = X - cX;
-            var dY = Y - cY;
-            var dZ = Z - cZ;
-
-            // distance
-            var l = sqrt(dX * dX + dY * dY + dZ * dZ);
-            if (l <= minDistance)
-                return;
-
             // time
             var t = l / V;
 
@@ -69,6 +79,22 @@ var Positioning =
             axisX.setVelocity(vX);
             axisY.setVelocity(vY);
             axisZ.setVelocity(vZ);
+
+            // new position
+            cX = axisX.getPosition();
+            cY = axisY.getPosition();
+            cZ = axisZ.getPosition();
+
+            // new delta
+            dX = X - cX;
+            if (rX != dir(dX)) dX = 0;
+            dY = Y - cY;
+            if (rY != dir(dY)) dY = 0;
+            dZ = Z - cZ;
+            if (rZ != dir(dZ)) dZ = 0;
+
+            // new distance
+            l = sqrt(dX * dX + dY * dY + dZ * dZ);
         }
     }
 };

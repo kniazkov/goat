@@ -28,9 +28,9 @@ import "interpolator.goat";
 import "bitmap.goat";
 import "color.goat";
 
-//var source = "g00 x100 y100\ng02 x300 i100";
-var raw = load("gcode.txt");
-var source = raw.decode("utf8");
+var source = "g00 x100 y100\ng02 x300 i100";
+//var raw = load("gcode.txt");
+//var source = raw.decode("utf8");
 var gcode = GCode.parse(source);
 println(gcode.length());
 var p0 = new Interpolator.Point();
