@@ -134,14 +134,21 @@ var Interpolator =
             aux[count - 1].V = minVelocity;
             for (var k = 1; k < count - 1; k++)
             {
-                this.calculateVelocity(aux[k - 1], aux[k], aux[k + 1], acceleration, 1);
+                this.calculateVelocity(aux[k - 1], aux[k], aux[k + 1], acceleration, 0.1);
             }
 
             // calculate acceleration
-            this.calculateAcceleration(null, aux[0], aux[1], acceleration, 1);
+            this.calculateAcceleration(null, aux[0], aux[1], acceleration, 0.1);
             for (var k = 2; k < count; k++)
             {
-                this.calculateAcceleration(aux[k - 2], aux[k - 1], aux[k], acceleration, 1);
+                this.calculateAcceleration(aux[k - 2], aux[k - 1], aux[k], acceleration, 0.1);
+            }
+
+            // calculate deceleration
+            this.calculateDeceleration(aux[count - 2], aux[count - 1], null, acceleration, 0.1);
+            for (var k = count - 3; k >= 0; k--)
+            {
+               this.calculateDeceleration(aux[k], aux[k + 1], aux[k + 2], acceleration, 0.1);
             }
 
             points = aux;
@@ -347,5 +354,48 @@ var Interpolator =
         }
 
         point.V = prev.V;
+    },
+
+    calculateDeceleration : $(point, next, next2, acceleration, delta)
+    {
+        var V = next.V;
+        var V2 = minVelocity;
+        if (next2) V2 = next2.V;
+        
+        if (V < V2)
+            return;
+
+        while (V > V2)
+        {
+            var vX0 = 0,
+                vY0 = 0,
+                vZ0 = 0;
+            if (next2)
+            {
+                var t0 = next2.distance / V2;
+                vX0 = (next2.X - next.X) / t0;
+                vY0 = (next2.Y - next.Y) / t0;
+                vZ0 = (next2.Z - next.Z) / t0;
+            }
+
+            var t1 = next.distance / V;
+            var vX1 = (next.X - point.X) / t1;
+            var vY1 = (next.Y - point.Y) / t1;
+            var vZ1 = (next.Z - point.Z) / t1;
+
+            var aX = (vX1 - vX0) / t1;
+            var aY = (vY1 - vY0) / t1;
+            var aZ = (vZ1 - vZ0) / t1;
+
+            if (abs(aX) < acceleration && abs(aY) < acceleration && abs(aZ) < acceleration)
+            {
+                next.V = V;
+                return;
+            }
+
+            V = V - delta;
+        }
+
+        next.V = V2;
     }
 };
