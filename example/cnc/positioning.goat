@@ -96,5 +96,16 @@ var Positioning =
             // new distance
             l = sqrt(dX * dX + dY * dY + dZ * dZ);
         }
+    },
+
+    run : $(trajectory, callback)
+    {
+        for (var k = 0, kl = trajectory.length(); k < kl; k++)
+        {
+            var p = trajectory[k];
+            if (callback)
+                callback(p);
+            positioning.moveTo(p.X, p.Y, p.Z, 15);
+        }
     }
 };
