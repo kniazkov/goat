@@ -37,8 +37,9 @@ var p0 = new Interpolator.Point();
 p0.X = 0.0;
 p0.Y = 0.0;
 p0.Z = 0.0;
-var points = Interpolator.calculate(gcode, p0, 3.0, 15.0);
+var points = Interpolator.calculate(gcode, p0, 1.0, 15.0, 1.0);
 println(points.length());
+//println(points);
 
 var bmp = new Bmp24(2000, 1500);
 positioning.run(points, $(p1)
@@ -50,10 +51,13 @@ positioning.run(points, $(p1)
     }
     else
     {
-        print("\r \'" + p1.instruction.toString() + "\', " + round(p1.percent) + "%, X: " + axisX.getPosition() +", Y:" + axisY.getPosition());
+        print("\r \'" + p1.instruction.toString() + "\', " + round(p1.percent) +
+            "%, X: " + axisX.getPosition() + ", Y:" + axisY.getPosition() + 
+            ", V: " + p1.V);
     }
     var c = new Color();
     c.r = p1.V / 15.0;
+    c.b = 1.0 - c.r;
     bmp.drawLine(round(p0.X * 5), 1500 - round(p0.Y * 5), round(p1.X * 5), 1500 - round(p1.Y * 5), c);
     p0 = p1;
 });

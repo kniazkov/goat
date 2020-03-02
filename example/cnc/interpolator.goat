@@ -25,12 +25,14 @@ import "algorithm.goat";
 
 var Interpolator = 
 {
-    calculate : $(gcode, p0, resolution, velocity)
+    calculate : $(gcode, p0, resolution, velocity, acceleration)
     {
         if (!gcode.instanceof(Array))
             throw new Exception.IllegalArgument();
         
-        var result = [];
+        var points = [];
+
+        // 1. build array
 
         for (var i in gcode)
         {
@@ -92,7 +94,7 @@ var Interpolator =
                         p.instruction = i;
                         p.rapid = rapid;
                         p.V = velocity;
-                        result.push(p);
+                        points.push(p);
                     }
                 }
             }
@@ -102,7 +104,43 @@ var Interpolator =
             }
         }
 
-        return result;
+        // 2. calculate acceleration
+        
+        if (acceleration && points.length() >= 3)
+        {
+            // set distance and delete all points with zero distance
+            var aux = [];
+            var p0 = points[0];
+            p0.distance = 0;
+            aux.push(p0);
+            for (var k = 1, kl = points.length(); k < kl; k++)
+            {
+                var p1 = points[k];
+                var distance = p1.distance(p0);
+                if (distance != 0)
+                {
+                    p1.distance = distance;
+                    aux.push(p1);
+                }
+                p0 = p1;
+            }
+
+            var count = aux.length();
+            if (count < 3)
+                return points;
+
+            // calculate max velocity
+            aux[0].V = minVelocity;
+            aux[count - 1].V = minVelocity;
+            for (var k = 1; k < count - 1; k++)
+            {
+                this.calculateVelocity(aux[k - 1], aux[k], aux[k + 1], acceleration, 1);
+            }
+
+            points = aux;
+        }
+
+        return points;
     },
 
     Point :
@@ -228,5 +266,38 @@ var Interpolator =
         }
 
         return q;
+    },
+
+    minVelocity : 0.1,
+
+    calculateVelocity : $(prev, point, next, acceleration, delta)
+    {
+        var V = point.V;
+        while (V > minVelocity)
+        {
+            var t0 = point.distance / V;
+            var vX0 = (point.X - prev.X) / t0;
+            var vY0 = (point.Y - prev.Y) / t0;
+            var vZ0 = (point.Z - prev.Z) / t0;
+
+            var t1 = next.distance / V;
+            var vX1 = (next.X - point.X) / t1;
+            var vY1 = (next.Y - point.Y) / t1;
+            var vZ1 = (next.Z - point.Z) / t1;
+
+            var aX = (vX1 - vX0) / t1;
+            var aY = (vY1 - vY0) / t1;
+            var aZ = (vZ1 - vZ0) / t1;
+
+            if (abs(aX) < acceleration && abs(aY) < acceleration && abs(aZ) < acceleration)
+            {
+                point.V = V;
+                return;
+            }
+
+            V = V - delta;
+        }
+
+        point.V = minVelocity;
     }
 };
