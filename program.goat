@@ -28,16 +28,16 @@ import "interpolator.goat";
 import "bitmap.goat";
 import "color.goat";
 
-var source = "g00 x100 y100\ng02 x300 i100";
-//var raw = load("gcode.txt");
-//var source = raw.decode("utf8");
+//var source = "g00 x100 y100\ng02 x300 i100";
+var raw = load("gcode.txt");
+var source = raw.decode("utf8");
 var gcode = GCode.parse(source);
-println(gcode.length());
+println("Read lines: " + gcode.length());
 var p0 = new Interpolator.Point();
 p0.X = 0.0;
 p0.Y = 0.0;
 p0.Z = 0.0;
-var points = Interpolator.calculate(gcode, p0, 1.0, 15.0, 15.0);
+var points = Interpolator.calculate(gcode, p0, 5.0, 15.0, 15.0);
 println(points.length());
 //println(points);
 

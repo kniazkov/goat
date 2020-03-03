@@ -104,6 +104,8 @@ var Interpolator =
             }
         }
 
+        println("Built points: " + points.length());
+
         // 2. calculate acceleration
         
         if (acceleration && points.length() >= 3)
@@ -129,27 +131,37 @@ var Interpolator =
             if (count < 3)
                 return points;
 
+            println("Unique points: " + points.length());
+
             // calculate max velocity
             aux[0].V = minVelocity;
             aux[count - 1].V = minVelocity;
             for (var k = 1; k < count - 1; k++)
             {
+                if (k % 100 == 0)
+                    print("\rCalculating velocity: " + round( 100 * k / count ) + "%");
                 this.calculateVelocity(aux[k - 1], aux[k], aux[k + 1], acceleration, 0.1);
             }
+            println("\rCalculating velocity done.");
 
             // calculate acceleration
             this.calculateAcceleration(null, aux[0], aux[1], acceleration, 0.1);
             for (var k = 2; k < count; k++)
             {
+                if (k % 100 == 0)
+                    print("\rCalculating acceleration: " + round( 100 * k / count ) + "%");
                 this.calculateAcceleration(aux[k - 2], aux[k - 1], aux[k], acceleration, 0.1);
             }
+            println("\rCalculating acceleration done.");
 
             // calculate deceleration
-            this.calculateDeceleration(aux[count - 2], aux[count - 1], null, acceleration, 0.1);
             for (var k = count - 3; k >= 0; k--)
             {
+                if (k % 100 == 0)
+                    print("\rCalculating deceleration: " + round( 100 * k / count ) + "%");
                this.calculateDeceleration(aux[k], aux[k + 1], aux[k + 2], acceleration, 0.1);
             }
+            println("\rCalculating deceleration done.");
 
             points = aux;
         }
@@ -359,24 +371,17 @@ var Interpolator =
     calculateDeceleration : $(point, next, next2, acceleration, delta)
     {
         var V = next.V;
-        var V2 = minVelocity;
-        if (next2) V2 = next2.V;
+        var V2 = next2.V;
         
         if (V < V2)
             return;
 
         while (V > V2)
         {
-            var vX0 = 0,
-                vY0 = 0,
-                vZ0 = 0;
-            if (next2)
-            {
-                var t0 = next2.distance / V2;
-                vX0 = (next2.X - next.X) / t0;
-                vY0 = (next2.Y - next.Y) / t0;
-                vZ0 = (next2.Z - next.Z) / t0;
-            }
+            var t0 = next2.distance / V2;
+            var vX0 = (next2.X - next.X) / t0;
+            var vY0 = (next2.Y - next.Y) / t0;
+            var vZ0 = (next2.Z - next.Z) / t0;
 
             var t1 = next.distance / V;
             var vX1 = (next.X - point.X) / t1;
