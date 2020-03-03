@@ -298,13 +298,13 @@ var Interpolator =
 
     calculateVelocity : $(prev, point, next, acceleration)
     {
-        var range = this.calculateVelocityIteration(prev, point, next, point.V, acceleration, 5);
-        range = this.calculateVelocityIteration(prev, point, next, range.max, acceleration, 1);
-        range = this.calculateVelocityIteration(prev, point, next, range.max, acceleration, 0.1);
+        var range = this.calculateVelocityStep(prev, point, next, point.V, acceleration, 5);
+        range = this.calculateVelocityStep(prev, point, next, range.max, acceleration, 1);
+        range = this.calculateVelocityStep(prev, point, next, range.max, acceleration, 0.1);
         point.V = range.min;
     },
 
-    calculateVelocityIteration : $(prev, point, next, velocity, acceleration, delta)
+    calculateVelocityStep : $(prev, point, next, velocity, acceleration, delta)
     {
         var range =
         {
@@ -338,18 +338,32 @@ var Interpolator =
             velocity = velocity - delta;
         }
 
-        range.max = minVelocity;
         return range;
     },
 
-    calculateAcceleration : $(prev2, prev, point, acceleration, delta)
+    calculateAcceleration : $(prev2, prev, point, acceleration)
     {
-        var V = point.V;
-        
-        if (V < prev.V)
-            return;
+        var range = this.calculateAccelerationStep(prev2, prev, point, point.V, acceleration, 5);
+        if (range)
+        {
+            range = this.calculateAccelerationStep(prev2, prev, point, range.max, acceleration, 1);
+            range = this.calculateAccelerationStep(prev2, prev, point, range.max, acceleration, 0.1);
+            point.V = range.min;
+        }
+    },
 
-        while (V > prev.V)
+    calculateAccelerationStep : $(prev2, prev, point, velocity, acceleration, delta)
+    {
+        if (velocity < prev.V)
+            return null;
+
+        var range =
+        {
+            min : prev.V,
+            max : velocity
+        };
+
+        while (velocity > prev.V)
         {
             var vX0 = 0,
                 vY0 = 0,
@@ -362,7 +376,7 @@ var Interpolator =
                 vZ0 = (prev.Z - prev2.Z) / t0;
             }
 
-            var t1 = point.distance / V;
+            var t1 = point.distance / velocity;
             var vX1 = (point.X - prev.X) / t1;
             var vY1 = (point.Y - prev.Y) / t1;
             var vZ1 = (point.Z - prev.Z) / t1;
@@ -373,14 +387,15 @@ var Interpolator =
 
             if (abs(aX) < acceleration && abs(aY) < acceleration && abs(aZ) < acceleration)
             {
-                point.V = V;
-                return;
+                range.min = velocity;
+                return range;
             }
 
-            V = V - delta;
+            range.max = velocity;
+            velocity = velocity - delta;
         }
 
-        point.V = prev.V;
+        return range;
     },
 
     calculateDeceleration : $(point, next, next2, acceleration, delta)
