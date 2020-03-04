@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 import "gcode.goat";
 import "algorithm.goat";
+import "console.goat";
 
 var Interpolator = 
 {
@@ -102,12 +103,13 @@ var Interpolator =
             }
             catch (e)
             {
-                println("Can't calculate: '" + i.toString() + "', " + e);
+                Console.println("Can't calculate: '" + i.toString() + "', " + e);
             }
-            print("\rInterpolation: line " + (k + 1) + " from " + count +", points: " + points.length());
+            Console.print("\rInterpolation: line " + (k + 1) + " from " + count +", points: " + points.length());
         }
 
-        println("\nInterpolation done, points: " + points.length());
+        Console.cret();
+        Console.println("Interpolation done, resolution: " + resolution + " points per mm, points: " + points.length());
 
         // 2. calculate acceleration
         
@@ -118,23 +120,31 @@ var Interpolator =
             var p0 = points[0];
             p0.distance = 0;
             aux.push(p0);
+            var totalDistance = 0;
+            var minDistance = 1.0 / resolution / 2;
             for (var k = 1, kl = points.length(); k < kl; k++)
             {
                 var p1 = points[k];
                 var distance = p1.distance(p0);
-                if (distance != 0)
+                totalDistance += distance;
+                if (distance >= minDistance)
                 {
                     p1.distance = distance;
                     aux.push(p1);
                 }
                 p0 = p1;
+                if (k % 100 == 0)
+                {
+                    Console.cret();
+                    Console.print("Calculating distance: " + round( 1000 * k / kl ) / 10.0 + "%, total: " + round(10 * totalDistance) / 10.0 + " mm");
+                }
             }
-
             var count = aux.length();
+            Console.cret();
+            Console.println("Total distance: " + round(10 * totalDistance) / 10.0 + " mm, unique points: " + count);            
+
             if (count < 3)
                 return points;
-
-            println("Unique points: " + points.length());
 
             // calculate max velocity
             aux[0].V = minVelocity;
@@ -142,32 +152,63 @@ var Interpolator =
             for (var k = 1; k < count - 1; k++)
             {
                 if (k % 100 == 0)
-                    print("\rCalculating velocity: " + round( 100 * k / count ) + "%");
+                {
+                    Console.cret();
+                    Console.print("Calculating velocity: " + round( 1000 * k / count ) / 10.0 + "%");
+                }
                 this.calculateVelocity(aux[k - 1], aux[k], aux[k + 1], acceleration);
             }
-            println("\rCalculating velocity done.");
+            Console.cret();
+            Console.println("Calculating velocity done.");
 
             // calculate acceleration
             this.calculateAcceleration(null, aux[0], aux[1], acceleration, 0.1);
             for (var k = 2; k < count; k++)
             {
                 if (k % 100 == 0)
-                    print("\rCalculating acceleration: " + round( 100 * k / count ) + "%");
-                this.calculateAcceleration(aux[k - 2], aux[k - 1], aux[k], acceleration, 0.01);
+                {
+                    Console.cret();
+                    Console.print("Calculating acceleration: " + round( 1000 * k / count ) / 10.0 + "%");
+                }
+                this.calculateAcceleration(aux[k - 2], aux[k - 1], aux[k], acceleration);
             }
-            println("\rCalculating acceleration done.");
+            Console.cret();
+            Console.println("Calculating acceleration done.");
 
             // calculate deceleration
             for (var k = count - 3; k >= 0; k--)
             {
                 if (k % 100 == 0)
-                    print("\rCalculating deceleration: " + round( 100 * k / count ) + "%");
-               this.calculateDeceleration(aux[k], aux[k + 1], aux[k + 2], acceleration, 0.01);
+                {
+                    Console.cret();
+                    Console.print("\rCalculating deceleration: " + round( 1000 * (count - k) / count ) / 10.0 + "%");
+                }
+               this.calculateDeceleration(aux[k], aux[k + 1], aux[k + 2], acceleration);
             }
-            println("\rCalculating deceleration done.");
+            Console.cret();
+            Console.println("Calculating deceleration done.");
 
             points = aux;
         }
+
+        var time = 0;
+        for (var k = 0, kl = points.length(); k < kl; k++)
+        {
+            var p = points[k];
+            if (p.distance)
+            {
+                if (p.V)
+                    time += p.distance / p.V;
+            }
+
+            if (k % 100 == 0)
+            {
+                Console.cret();
+                Console.print("Calculating time: " + round( 1000 * k / kl ) / 10.0 + "%, total: " + round(time) + " sec");
+            }
+        }
+        Console.cret();
+        Console.println("Total time: " + round(time) + " sec");
 
         return points;
     },
