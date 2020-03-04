@@ -1,0 +1,59 @@
+/*
+
+Copyright (C) 2017-2020 Ivan Kniazkov
+
+This file is part of standard library for programming language
+codenamed "Goat" ("Goat standard library").
+
+Goat standard library is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat standard library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+var Console =
+{
+    _print : print,
+    _println : println,
+    _column : 0,
+
+    print : $(data)
+    {
+        var str = String.valueof(data);
+        for (var ch in str)
+        {
+            if (ch == '\r' || ch == '\n')
+                _column = 0;
+            else
+                _column++;
+        }
+        _print(str);
+    },
+
+    println : $(data)
+    {
+        _println(data);
+        _column = 0;
+    },
+
+    cret : $()
+    {
+        if (_column > 0)
+        {
+            _print('\r');
+            for (var i = 0; i < _column; i++)
+                _print(' ');
+            _print('\r');
+            _column = 0;
+        }
+    }
+};
