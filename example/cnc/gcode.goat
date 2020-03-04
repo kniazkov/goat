@@ -30,10 +30,11 @@ var GCode =
             throw new Exception.IllegalArgument();
         var result = [];
         var lines = string.split("\n");
-        var row = 0;
-        for (var line in lines)
+        var count = lines.length();
+        for (var row = 0; row < count; row++)
         {
-            row++;
+            print("\rParsing gcode: line " + (row + 1) + " from " + count);
+            var line = lines[row];
             line = line.trim();
             var n = line.length();
             if (n > 0 && indexOf(line, '(') != -1)
@@ -45,7 +46,7 @@ var GCode =
                     if (flag)
                     {
                         if (line == '(')
-                            throw new GCode.Error(GCode.Error.ILLEGAL_CHARACTER, line, row, '(');
+                            throw new GCode.Error(GCode.Error.ILLEGAL_CHARACTER, line, row + 1, '(');
                         if (line[k] == ')')
                             flag = false;
                     }
@@ -59,7 +60,7 @@ var GCode =
                     }
                 }
                 if (flag)
-                    throw new GCode.Error(GCode.Error.UNCLOSED_PARENTHESIS, line, row);
+                    throw new GCode.Error(GCode.Error.UNCLOSED_PARENTHESIS, line, row + 1);
                 line = tmp.string();
                 line = line.trim();
                 n = line.length();
@@ -73,7 +74,7 @@ var GCode =
                     var c = line[k++];
                     var descr = _codes[c];
                     if (!descr)
-                        throw new GCode.Error(GCode.Error.UNKNOWN_CODE, line, row, c);
+                        throw new GCode.Error(GCode.Error.UNKNOWN_CODE, line, row + 1, c);
                     if (descr.code)
                     {
                         var intVal = 0;
@@ -86,7 +87,7 @@ var GCode =
                             c = k < n ? line[k] : null;
                         }
                         if (!c || !(c >= '0' && c <= '9'))
-                            throw new GCode.Error(GCode.Error.ILLEGAL_SEQUENCE, line, row);
+                            throw new GCode.Error(GCode.Error.ILLEGAL_SEQUENCE, line, row + 1);
                         do
                         {
                             intVal = intVal * 10 + Integer.valueof(c) - Integer.valueof('0');
@@ -96,7 +97,7 @@ var GCode =
                         if (c == '.')
                         {
                             if (!descr.real)
-                                throw new GCode.Error(GCode.Error.ILLEGAL_PARAMETER, line, row);
+                                throw new GCode.Error(GCode.Error.ILLEGAL_PARAMETER, line, row + 1);
                             var fractVal = 0;
                             var divisor = 1;
                             k++;
@@ -128,6 +129,7 @@ var GCode =
                 result.push(instr);
             }
         }
+        println("\nParsing done, total lines: " + result.length());
         return result;
     },
 
