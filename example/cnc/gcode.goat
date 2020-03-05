@@ -135,6 +135,91 @@ var GCode =
         return result;
     },
 
+    optimize : $(src, resolution)
+    {
+        if (!src.instanceof(Array))
+            throw new Exception.IllegalArgument();
+
+        var count = src.length();
+
+        for (var k = 0; k < count; k++)
+        {
+            if (k % 100 == 0)
+            {
+                Console.cret();
+                Console.print("Optimization stage 1: " + round( 1000 * k / count ) / 10.0 + "%");
+            }
+            var i = src[k];
+            if (i.G)
+            {
+                if (i.X != null && i.Y != null && i.Z == null)
+                    i.moveXY = true;
+                else if (i.X == null && i.Y == null && i.Z != null)
+                    i.moveZ = true;
+            }
+        }
+        Console.cret();
+        Console.println("Optimization stage 1 done.");
+
+        if (count >= 4)
+        {
+            var minDistance = 1.0 / resolution;
+            var dst = [];
+            var k = 0;
+            var cases = 0;
+            while (k < count - 4)
+            {
+                if (k % 100 == 0)
+                {
+                    Console.cret();
+                    Console.print("Optimization stage 2: " + round( 1000 * k / count ) / 10.0 + "%, found cases:" + cases);
+                }
+                var flag = false;
+                var i0 = src[k];
+                if (i0.moveXY)
+                {
+                    var i1 = src[k + 1];
+                    if (i1.moveZ)
+                    {
+                        var i2 = src[k + 2];
+                        if (i2.moveXY)
+                        {
+                            var i3 = src[k + 3];
+                            if (i3.moveZ)
+                            {
+                                var dX = i2.X - i0.X;
+                                var dY = i2.Y - i0.Y;
+                                if (sqrt(dX * dX + dY * dY) < minDistance)
+                                {
+                                    flag = true;
+                                    cases++;
+                                    k += 4;
+                                    dst.push(i0);
+                                    dst.push(i3);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (!flag)
+                {
+                    dst.push(i0);
+                    k++;
+                }
+            }
+            while(k < count)
+            {
+                dst.push(src[k]);
+                k++;
+            }
+            Console.cret();
+            Console.println("Optimization stage 2 done, found cases: " + cases);
+            src = dst;
+        }
+
+        return src;
+    },
+
     _codes :
     {
         ' ' : { code : null },
@@ -170,6 +255,9 @@ var GCode =
         J : null,
         F : null,
         T : null,
+        
+        moveXY : false,
+        moveZ : false,
 
         toString : $()
         {
@@ -190,7 +278,7 @@ var GCode =
                 {
                     if (b.length() > 0)
                         b << ' ';
-                    b << k << this[k];
+                    b << k << round(100 * this[k]) / 100.0;
                 }
             }
 
