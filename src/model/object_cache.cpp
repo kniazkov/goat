@@ -54,20 +54,26 @@ namespace g0at
 
         object_string *object_cache::get_object(std::wstring name, object_pool *pool)
         {
+            object_string *obj = get_object_if_exists(name);
+            if (!obj)
+            {
+                int id = (int)objects.size();
+                obj = pool->create_object_string(name, id);
+                indexes.insert(std::pair<std::wstring, int>(name, id));
+                objects.push_back(obj);
+            }
+            return obj;
+        }
+
+        object_string *object_cache::get_object_if_exists(std::wstring name)
+        {
             auto iter = indexes.find(name);
             if (iter != indexes.end())
             {
                 int id = iter->second;
                 return objects.at(id);
             }
-            else
-            {
-                int id = (int)objects.size();
-                object_string *obj = pool->create_object_string(name, id);
-                indexes.insert(std::pair<std::wstring, int>(name, id));
-                objects.push_back(obj);
-                return obj;
-            }
+            return nullptr;
         }
 
         object_string *object_cache::get_object(int id)

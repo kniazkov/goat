@@ -83,13 +83,13 @@ namespace g0at
         /*
             String
         */
-        object_string::object_string(object_pool *pool, std::wstring _data)
-            : object(pool, pool->get_string_proto_instance()), data(_data), ids(-1)
+        object_string::object_string(object_pool *_pool, std::wstring _data)
+            : object(_pool, _pool->get_string_proto_instance()), pool(_pool), data(_data), ids(-1)
         {
         }
 
-        object_string::object_string(object_pool *pool, std::wstring _data, int _ids)
-            : object(pool, pool->get_string_proto_instance()), data(_data), ids(_ids)
+        object_string::object_string(object_pool *_pool, std::wstring _data, int _ids)
+            : object(_pool, _pool->get_string_proto_instance()), pool(_pool), data(_data), ids(_ids)
         {
         }
 
@@ -131,11 +131,32 @@ namespace g0at
         bool object_string::less(const object *obj) const
         {
             assert(obj->get_type() == object_type::string);
-            const object_string *str = static_cast<const object_string*>(obj);
-            if (ids < 0 || str->ids < 0)
-                return data < str->data;
-            else
-                return ids < str->ids;
+            const object_string *other = static_cast<const object_string*>(obj);
+
+            if (ids >= 0 && other->ids >= 0)
+            {
+                // first, compare indexes if possible
+                return ids < other->ids;
+            }
+
+            // bad case: find indexes
+            int my_ids = ids;
+            if (my_ids < 0)
+            {
+                object_string *synonym = pool->get_static_string(data);
+                my_ids = synonym->ids;
+                assert(my_ids >= 0);
+            }
+
+            int other_ids = other->ids;
+            if (other_ids < 0)
+            {
+                object_string *synonym = pool->get_static_string(other->data);
+                other_ids = synonym->ids;
+                assert(other_ids >= 0);
+            }
+
+            return my_ids < other_ids;
         }
 
         std::wstring object_string::to_string() const

@@ -32,8 +32,8 @@ namespace g0at
         {
         friend class object_pool;
         protected:
-            object_string(object_pool *pool, std::wstring _data);
-            object_string(object_pool *pool, std::wstring _data, int _ids);
+            object_string(object_pool *_pool, std::wstring _data);
+            object_string(object_pool *_pool, std::wstring _data, int _ids);
             void reinit(std::wstring _data);
             void reinit(std::wstring _data, int _ids);
             
@@ -64,6 +64,7 @@ namespace g0at
             std::wstring get_data() { return data; }
 
         protected:
+            object_pool *pool;
             std::wstring data;
             int ids;
 

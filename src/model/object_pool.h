@@ -181,6 +181,7 @@ namespace g0at
             void mark_all_static_strings() { static_strings.mark_all(); }
             void mark_all_static_strings_parallel() { static_strings.mark_all_parallel(this); }
             object_string *get_static_string(std::wstring name) { return static_strings.get_object(name, this); }
+            object_string *get_static_string_if_exists(std::wstring name) { return static_strings.get_object_if_exists(name); }
             object_string *get_static_string(int id) { return static_strings.get_object(id); }
             std::vector<std::wstring> get_strings_list() { return static_strings.get_strings_list(); }
             void merge_strings_list(std::vector<std::wstring> &identifiers_list) { static_strings.merge(identifiers_list, this); }

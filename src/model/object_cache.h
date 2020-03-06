@@ -39,6 +39,7 @@ namespace g0at
             object_cache();
             void merge(std::vector<std::wstring> &list, object_pool *pool);
             object_string *get_object(std::wstring name, object_pool *pool);
+            object_string *get_object_if_exists(std::wstring name);
             object_string *get_object(int id);
             std::vector<std::wstring> get_strings_list();
             void mark_all();
