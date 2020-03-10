@@ -61,12 +61,12 @@ var StepperMotor =
             var period = 500000000 / scaledVelocity;
             if (period >= 0)
             {
-                ports[gpioDirection] = false;
+                ports[gpioDirection].write(true);
                 ports[gpioStep].pulse(period,  1);
             }
             else
             {
-                ports[gpioDirection] = true;
+                ports[gpioDirection].write(false);
                 ports[gpioStep].pulse(-period, -1);
             }
         }

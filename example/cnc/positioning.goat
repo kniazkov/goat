@@ -24,12 +24,14 @@ import "stepper_motor.goat";
 
 var Positioning =
 # {
-    init : $(axisX, axisY, axisZ, resolution)
+    init : $(axisX1, axisX2, axisY, axisZ, resolution)
     {
-        if (!axisX.instanceof(StepperMotor) || !axisY.instanceof(StepperMotor) || !axisZ.instanceof(StepperMotor))
+        if (!axisX1.instanceof(StepperMotor) || !(axisX2 == void || axisX2.instanceof(StepperMotor)) ||
+                !axisY.instanceof(StepperMotor) || !axisZ.instanceof(StepperMotor))
             throw new Exception.IllegalArgument();
 
-        this.axisX = axisX;
+        this.axisX1 = axisX1;
+        this.axisX2 = axisX2;
         this.axisY = axisY;
         this.axisZ = axisZ;
         this.minDistance = 1.0 / resolution;
@@ -48,7 +50,7 @@ var Positioning =
             throw new Exception.IllegalArgument();
 
         // current position
-        var cX = axisX.getPosition();
+        var cX = axisX1.getPosition();
         var cY = axisY.getPosition();
         var cZ = axisZ.getPosition();
 
@@ -76,12 +78,13 @@ var Positioning =
             var vZ = dZ / t;
 
             // set 
-            axisX.setVelocity(vX);
+            axisX1.setVelocity(vX);
+            if (axisX2) axisX2.setVelocity(-vX);
             axisY.setVelocity(vY);
             axisZ.setVelocity(vZ);
 
             // new position
-            cX = axisX.getPosition();
+            cX = axisX1.getPosition();
             cY = axisY.getPosition();
             cZ = axisZ.getPosition();
 

@@ -47,7 +47,8 @@ namespace g0at
 
 #ifdef GPIO_EMULATION
 #define GPIO_IMPLEMENTED
-        static const unsigned int gpio_port_numbers[] = {0, 1, 2, 3, 4, 5, 6, 7};
+//      static const unsigned int gpio_port_numbers[] = {0, 1, 2, 3, 4, 5, 6, 7};
+        static const unsigned int gpio_port_numbers[] = {27, 4, 18, 23, 25, 12, 6, 13, 5, 17, 24, 22};
         static const unsigned int gpio_count = sizeof(gpio_port_numbers) / sizeof(unsigned int);
 #ifdef GPIO_DEBUG
         static int64_t gpio_time_start;

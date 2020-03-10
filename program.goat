@@ -3,24 +3,40 @@
 import "stepper_motor.goat";
 import "positioning.goat";
 
-ports.init();
+if (!ports.init())
+    exit();
 
-var smpX = new StepperMotorParameters();
-smpX.gpioStep = "gpio0";
-smpX.scalingFactor = 10.0;
-var axisX = new StepperMotor(smpX);
+ports.gpio4.pulse(0);
+
+var smpX1 = new StepperMotorParameters();
+smpX1.gpioEnable = "gpio23";
+smpX1.gpioStep = "gpio25";
+smpX1.gpioDirection = "gpio12";
+smpX1.scalingFactor = 213.93;
+var axisX1 = new StepperMotor(smpX1);
+
+var smpX2 = new StepperMotorParameters();
+smpX2.gpioEnable = "gpio6";
+smpX2.gpioStep = "gpio13";
+smpX2.gpioDirection = "gpio5";
+smpX2.scalingFactor = 213.93;
+var axisX2 = new StepperMotor(smpX2);
 
 var smpY = new StepperMotorParameters();
-smpY.gpioStep = "gpio1";
-smpY.scalingFactor = 10.0;
+smpY.gpioEnable = "gpio27";
+smpY.gpioStep = "gpio4";
+smpY.gpioDirection = "gpio18";
+smpY.scalingFactor = 213.93;
 var axisY = new StepperMotor(smpY);
 
 var smpZ = new StepperMotorParameters();
-smpZ.gpioStep = "gpio2";
-smpZ.scalingFactor = 10.0;
+smpZ.gpioEnable = "gpio17";
+smpZ.gpioStep = "gpio24";
+smpZ.gpioDirection = "gpio22";
+smpZ.scalingFactor = 6666.66;
 var axisZ = new StepperMotor(smpZ);
 
-var positioning = new Positioning(axisX, axisY, axisZ, 3.0);
+var positioning = new Positioning(axisX1, axisX2, axisY, axisZ, 5.0);
 
 import "gcode.goat";
 import "io.goat";
@@ -28,9 +44,9 @@ import "interpolator.goat";
 import "bitmap.goat";
 import "color.goat";
 
-//var source = "g00 x100 y100\ng02 x300 i100";
-var raw = load("gcode.txt");
-var source = raw.decode("utf8");
+var source = "g00 x100 y100";
+//var raw = load("gcode.txt");
+//var source = raw.decode("utf8");
 var gcode = GCode.parse(source);
 gcode = GCode.optimize(gcode, 5.0);
 var p0 = new Interpolator.Point();
@@ -50,7 +66,7 @@ positioning.run(points, $(p1)
     else
     {
         Console.print("\'" + p1.instruction.toString() + "\', " + round(p1.percent) +
-            "%, X: " + round(100 * axisX.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0 + 
+            "%, X: " + round(100 * axisX1.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0 + 
             ", V: " + p1.V);
     }
     var c = new Color();
