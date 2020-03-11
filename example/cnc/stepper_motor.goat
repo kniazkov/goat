@@ -41,7 +41,7 @@ var StepperMotor =
                 this[key] = params[key];
         }
 
-        ports[gpioEnable] = true;
+        ports[gpioEnable].write(true);
         this.targetVelocity = 0;
     },
 

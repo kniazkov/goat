@@ -419,6 +419,7 @@ namespace g0at
                         ports->add_object(thr->pool->create_object_string(wss.str()), new object_port_gpio(thr->pool, i.port_numbers[k]));
                     }
                     ports->initialized = true;
+                    ports->lock();
                     result.set_boolean(true);
                 }
                 else

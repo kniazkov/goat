@@ -176,8 +176,12 @@ namespace g0at
                 assert(this_ptr != nullptr);
                 object *key = thr->peek(0).to_object(thr->pool);
                 variable value = thr->peek(arg_count - 1).deref();
+                if (!this_ptr->add_object(key, value))
+                {
+                    thr->raise_exception(new object_exception_illegal_operation(thr->pool));
+                    return;
+                }
                 thr->pop(arg_count);
-                this_ptr->add_object(key, value);
                 thr->push(value);
             }
         };
