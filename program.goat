@@ -48,39 +48,60 @@ import "interpolator.goat";
 import "bitmap.goat";
 import "color.goat";
 
-var source = "g00 x100 y100";
+var bmp = new Bmp24(2000, 1500);
 //var raw = load("gcode.txt");
 //var source = raw.decode("utf8");
-var gcode = GCode.parse(source);
-gcode = GCode.optimize(gcode, resolution);
-var p0 = new Interpolator.Point();
-p0.X = 0.0;
-p0.Y = 0.0;
-p0.Z = 0.0;
-var points = Interpolator.calculate(gcode, p0, resolution, velocity, acceleration);
+//var source = "g00 x100 y100";
 
-var bmp = new Bmp24(2000, 1500);
-positioning.run(points, $(p1)
+while(true)
 {
-    Console.cret();
-    if (p1.percent == 100)
+    print("? ");
+    var source = gets();
+    source = source.trim();
+    if (source == "")
+        continue;
+    if (source == "q" || source == "quit")
+        break;
+
+    var gcode = null;
+    try
     {
-        Console.println(p1.instruction.toString());
+        gcode = GCode.parse(source);
     }
-    else
+    catch(e)
     {
-        Console.print("\'" + p1.instruction.toString() + "\', " + round(p1.percent) +
-            "%, X: " + round(100 * axisX1.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0 + 
-            ", V: " + p1.V);
+        println("\nCan't parse: " + e);
+        continue;
     }
-    var c = new Color();
-    c.r = p1.V / velocity;
-    c.b = 1.0 - c.r;
-    bmp.drawLine(round(p0.X * 5), 1500 - round(p0.Y * 5), round(p1.X * 5), 1500 - round(p1.Y * 5), c);
-    p0 = p1;
-});
-Console.println("Done.");
-var arr = bmp.toByteArray();
-var file = open("image.bmp", File.Mode.WRITE);
-file.write(arr);
-file.close();
+    gcode = GCode.optimize(gcode, resolution);
+    var p0 = new Interpolator.Point();
+    p0.X = axisX1.getPosition();
+    p0.Y = axisY.getPosition();
+    p0.Z = axisZ.getPosition();
+    var points = Interpolator.calculate(gcode, p0, resolution, velocity, acceleration);
+
+    positioning.run(points, $(p1)
+    {
+        Console.cret();
+        if (p1.percent == 100)
+        {
+            Console.println(p1.instruction.toString());
+        }
+        else
+        {
+            Console.print("\'" + p1.instruction.toString() + "\', " + round(p1.percent) +
+                "%, X: " + round(100 * axisX1.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0 + 
+                ", V: " + p1.V);
+        }
+        var c = new Color();
+        c.r = p1.V / velocity;
+        c.b = 1.0 - c.r;
+        bmp.drawLine(round(p0.X * 5), 1500 - round(p0.Y * 5), round(p1.X * 5), 1500 - round(p1.Y * 5), c);
+        p0 = p1;
+    });
+    Console.println("Done, X: " + round(100 * axisX1.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0);
+    var arr = bmp.toByteArray();
+    var file = open("image.bmp", File.Mode.WRITE);
+    file.write(arr);
+    file.close();
+}
