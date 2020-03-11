@@ -1,5 +1,9 @@
 //exit();
 
+var resolution = 5.0;
+var velocity = 30.0;
+var acceleration = 60.0;
+
 import "stepper_motor.goat";
 import "positioning.goat";
 
@@ -36,7 +40,7 @@ smpZ.gpioDirection = "gpio22";
 smpZ.scalingFactor = 6666.66;
 var axisZ = new StepperMotor(smpZ);
 
-var positioning = new Positioning(axisX1, axisX2, axisY, axisZ, 5.0);
+var positioning = new Positioning(axisX1, axisX2, axisY, axisZ, resolution);
 
 import "gcode.goat";
 import "io.goat";
@@ -48,12 +52,12 @@ var source = "g00 x100 y100";
 //var raw = load("gcode.txt");
 //var source = raw.decode("utf8");
 var gcode = GCode.parse(source);
-gcode = GCode.optimize(gcode, 5.0);
+gcode = GCode.optimize(gcode, resolution);
 var p0 = new Interpolator.Point();
 p0.X = 0.0;
 p0.Y = 0.0;
 p0.Z = 0.0;
-var points = Interpolator.calculate(gcode, p0, 5.0, 15.0, 15.0);
+var points = Interpolator.calculate(gcode, p0, resolution, velocity, acceleration);
 
 var bmp = new Bmp24(2000, 1500);
 positioning.run(points, $(p1)
@@ -70,7 +74,7 @@ positioning.run(points, $(p1)
             ", V: " + p1.V);
     }
     var c = new Color();
-    c.r = p1.V / 15.0;
+    c.r = p1.V / velocity;
     c.b = 1.0 - c.r;
     bmp.drawLine(round(p0.X * 5), 1500 - round(p0.Y * 5), round(p1.X * 5), 1500 - round(p1.Y * 5), c);
     p0 = p1;
