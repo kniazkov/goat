@@ -110,45 +110,56 @@ var Interpolator =
 
         Console.cret();
         Console.println("Interpolation done, resolution: " + resolution + " points per mm, points: " + points.length());
-
-        // 2. calculate acceleration
         
-        if (acceleration && points.length() >= 3)
+        // 2. set distance, unit vector and delete all points with zero distance
+
+        var aux = [];
+        var p0 = points[0];
+        p0.distance = 0;
+        p0.uX = 0;
+        p0.uY = 0;
+        p0.uZ = 0;
+        aux.push(p0);
+        var totalDistance = 0;
+        var minDistance = 1.0 / resolution / 2;
+        for (var k = 1, kl = points.length(); k < kl; k++)
         {
-            // set distance and delete all points with zero distance
-            var aux = [];
-            var p0 = points[0];
-            p0.distance = 0;
-            aux.push(p0);
-            var totalDistance = 0;
-            var minDistance = 1.0 / resolution / 2;
-            for (var k = 1, kl = points.length(); k < kl; k++)
+            var p1 = points[k];
+            var dX = p1.X - p0.X;
+            var dY = p1.Y - p0.Y;
+            var dZ = p1.Z - p0.Z;
+            var distance = sqrt(dX * dX + dY * dY + dZ * dZ);
+            totalDistance += distance;
+            if (distance >= minDistance)
             {
-                var p1 = points[k];
-                var distance = p1.distance(p0);
-                totalDistance += distance;
-                if (distance >= minDistance)
-                {
-                    p1.distance = distance;
-                    aux.push(p1);
-                }
-                p0 = p1;
-                if (k % 100 == 0)
-                {
-                    Console.cret();
-                    Console.print("Calculating distance: " + round( 1000 * k / kl ) / 10.0 + "%, total: " + round(10 * totalDistance) / 10.0 + " mm");
-                }
+                // distance
+                p1.distance = distance;
+                
+                // unit vector
+                p1.uX = dX / distance;
+                p1.uY = dY / distance;
+                p1.uZ = dZ / distance;
+                aux.push(p1);
             }
-            var count = aux.length();
-            Console.cret();
-            Console.println("Total distance: " + round(10 * totalDistance) / 10.0 + " mm, unique points: " + count);            
+            p0 = p1;
+            if (k % 100 == 0)
+            {
+                Console.cret();
+                Console.print("Calculating distance: " + round( 1000 * k / kl ) / 10.0 + "%, total: " + round(10 * totalDistance) / 10.0 + " mm");
+            }
+        }
+        points = aux;
+        var count = points.length();
+        Console.cret();
+        Console.println("Total distance: " + round(10 * totalDistance) / 10.0 + " mm, unique points: " + count);            
 
-            if (count < 3)
-                return points;
+        // 3. calculate acceleration
 
+        if (acceleration && count >= 3)
+        {
             // calculate max velocity
-            aux[0].V = minVelocity;
-            aux[count - 1].V = minVelocity;
+            points[0].V = minVelocity;
+            points[count - 1].V = minVelocity;
             for (var k = 1; k < count - 1; k++)
             {
                 if (k % 100 == 0)
@@ -156,13 +167,13 @@ var Interpolator =
                     Console.cret();
                     Console.print("Calculating velocity: " + round( 1000 * k / count ) / 10.0 + "%");
                 }
-                this.calculateVelocity(aux[k - 1], aux[k], aux[k + 1], acceleration);
+                this.calculateVelocity(points[k - 1], points[k], points[k + 1], acceleration);
             }
             Console.cret();
             Console.println("Calculating velocity done.");
 
             // calculate acceleration
-            this.calculateAcceleration(null, aux[0], aux[1], acceleration, 0.1);
+            this.calculateAcceleration(null, points[0], points[1], acceleration, 0.1);
             for (var k = 2; k < count; k++)
             {
                 if (k % 100 == 0)
@@ -170,7 +181,7 @@ var Interpolator =
                     Console.cret();
                     Console.print("Calculating acceleration: " + round( 1000 * k / count ) / 10.0 + "%");
                 }
-                this.calculateAcceleration(aux[k - 2], aux[k - 1], aux[k], acceleration);
+                this.calculateAcceleration(points[k - 2], points[k - 1], points[k], acceleration);
             }
             Console.cret();
             Console.println("Calculating acceleration done.");
@@ -183,28 +194,65 @@ var Interpolator =
                     Console.cret();
                     Console.print("\rCalculating deceleration: " + round( 1000 * (count - k) / count ) / 10.0 + "%");
                 }
-               this.calculateDeceleration(aux[k], aux[k + 1], aux[k + 2], acceleration);
+               this.calculateDeceleration(points[k], points[k + 1], points[k + 2], acceleration);
             }
             Console.cret();
             Console.println("Calculating deceleration done.");
-
-            points = aux;
         }
 
+        // 4. squeeze
+
+        if (count > 2)
+        {
+            var maxDistance = minDistance * 100;
+            var aux = [];
+            var k = 1;
+            var p0 = points[0];
+            var flag = true;
+            aux.push(p0);
+            while(k < count)
+            {
+                if (true)//if (k % 100 == 0)
+                {
+                    Console.cret();
+                    Console.print("Squeezing: " + round( 1000 * k / count ) / 10.0 + "%, points: " + aux.length());
+                }
+                var p1 = points[k];
+                // compare unit vectors && velocity
+                if (p0.distance >= maxDistance || p1.uX != p0.uX || p1.uY != p0.uY || p1.uZ != p0.uZ || p1.V != p0.V)
+                {
+                    if (!flag)
+                        aux.push(p0);
+                    aux.push(p1);
+                    flag = true;
+                }
+                else
+                {
+                    p1.distance = p1.distance + p0.distance;
+                    flag = false;
+                }
+                p0 = p1;
+                k++;
+            }
+            points = aux;
+            count = aux.length();
+            Console.cret();
+            Console.println("Squeezing done, points: " + count);
+        }
+
+        // 5. calculate time
+
         var time = 0;
-        for (var k = 0, kl = points.length(); k < kl; k++)
+        for (var k = 0; k < count; k++)
         {
             var p = points[k];
-            if (p.distance)
-            {
-                if (p.V)
-                    time += p.distance / p.V;
-            }
+            if (p.V)
+                time += p.distance / p.V;
 
             if (k % 100 == 0)
             {
                 Console.cret();
-                Console.print("Calculating time: " + round( 1000 * k / kl ) / 10.0 + "%, total: " + round(time) + " sec");
+                Console.print("Calculating time: " + round( 1000 * k / count ) / 10.0 + "%, total: " + round(time) + " sec");
             }
         }
         Console.cret();

@@ -55,8 +55,9 @@ var bmp = new Bmp24(2000, 1500);
 
 while(true)
 {
-    print("? ");
-    var source = gets();
+    //print("? ");
+    //var source = gets();
+    var source = "g00 x100 y100\ng02x300y100i100";
     source = source.trim();
     if (source == "")
         continue;
@@ -104,4 +105,5 @@ while(true)
     var file = open("image.bmp", File.Mode.WRITE);
     file.write(arr);
     file.close();
+    exit();
 }
