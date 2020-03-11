@@ -36,11 +36,17 @@ var Interpolator =
         // 1. build array
 
         var count = gcode.length();
+        var feedRate = velocity;
         for (var k = 0; k < count; k++)
         {
             var i = gcode[k];
             try
             {
+                if (i.F != null && i.F > 0)
+                {
+                    feedRate = i.F;
+                }
+                
                 if (i.G)
                 {
                     var rapid = false;
@@ -96,7 +102,7 @@ var Interpolator =
                     {
                         p.instruction = i;
                         p.rapid = rapid;
-                        p.V = velocity;
+                        p.V = feedRate;
                         points.push(p);
                     }
                 }

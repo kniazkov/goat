@@ -34,7 +34,7 @@ var Positioning =
         this.axisX2 = axisX2;
         this.axisY = axisY;
         this.axisZ = axisZ;
-        this.minDistance = 1.0 / resolution;
+        this.minDistance = 1.0 / resolution / 2;
     },
 
     dir : $(n)
