@@ -28,9 +28,11 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/assert.h"
 #include "lib/utils.h"
 #include "lib/gpio.h"
+#include "lib/spinlock.h"
 #include "resource/strings.h"
 #include <sstream>
 #include <atomic>
+#include <mutex>
 #include <thread>
 #include <chrono>
 
@@ -61,7 +63,8 @@ namespace g0at
             
             void pulse(int64_t _delay, int64_t _increment)
             {
-                period.store(_delay);
+                std::lock_guard<lib::spinlock>(this->latch);
+                period = _delay;
                 increment = _increment;
                 moment = lib::get_time_ns() + _delay;
                 if (__pwm_started.load() == false)
@@ -79,15 +82,15 @@ namespace g0at
                             object_boolean_port *port = __first_port;
                             while (port)
                             {
-                                int64_t period = port->period.load();
-                                if (period > 0)
+                                std::lock_guard<lib::spinlock>(port->latch);
+                                if (port->period)
                                 {
                                     flag = true;
                                     if (port->moment <= time)
                                     {
                                         port->toggle();
-                                        port->counter.fetch_add(port->increment);
-                                        port->moment += period;
+                                        port->counter += port->increment;
+                                        port->moment += port->period;
                                     }
                                 }
                                 port = port->next_port;
@@ -101,8 +104,9 @@ namespace g0at
             }
 
             object_boolean_port *next_port;
-            std::atomic_llong period;
-            std::atomic_llong counter;
+            lib::spinlock latch;
+            int64_t period;
+            int64_t counter;
             int64_t moment;
             int64_t increment;
         };
@@ -288,7 +292,8 @@ namespace g0at
 
             bool payload(thread *thr, int arg_count, variable *result) override
             {
-                result->set_integer(port->counter.load());
+                std::lock_guard<lib::spinlock>(port->latch);
+                result->set_integer(port->counter);
                 return true;
             }
         };
@@ -316,8 +321,8 @@ namespace g0at
             next_port = __first_port;
             __first_port = this;
 
-            period.store(0);
-            counter.store(0);
+            period = 0;
+            counter = 0;
             moment = -1;
             increment = 0;
 
@@ -451,7 +456,8 @@ namespace g0at
                 object_boolean_port *port = __first_port;
                 while(port)
                 {
-                    port->period.store(0);
+                    std::lock_guard<lib::spinlock>(port->latch);
+                    port->period = 0;
                     port = port->next_port;
                 }
                  // dirty hack
