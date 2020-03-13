@@ -61,11 +61,13 @@ namespace g0at
             object_boolean_port(object_pool *pool);
             virtual void toggle() = 0;
             
-            void pulse(int64_t _delay, int64_t _increment)
+            void pulse(int64_t _delay, int64_t _increment, bool _cutoff_exists, int64_t _cutoff)
             {
                 std::lock_guard<lib::spinlock>(this->latch);
                 period = _delay;
                 increment = _increment;
+                cutoff_exists = _cutoff_exists;
+                cutoff = _cutoff;
                 moment = lib::get_time_ns() + _delay;
                 if (__pwm_started.load() == false)
                 {
@@ -83,15 +85,10 @@ namespace g0at
                             while (port)
                             {
                                 std::lock_guard<lib::spinlock>(port->latch);
-                                if (port->period)
+                                if (port->period > 0)
                                 {
                                     flag = true;
-                                    if (port->moment <= time)
-                                    {
-                                        port->toggle();
-                                        port->counter += port->increment;
-                                        port->moment += port->period;
-                                    }
+                                    port->handle_timer(time);
                                 }
                                 port = port->next_port;
                             }
@@ -103,12 +100,48 @@ namespace g0at
                 }
             }
 
+            void handle_timer(int64_t time)
+            {
+                if (moment <= time)
+                {
+                    toggle();
+                    counter += increment;
+                    if (false == cutoff_exists)
+                    {
+                        moment += period;
+                    }
+                    else
+                    {
+                        if (increment == 0)
+                        {
+                            moment += period;
+                        }
+                        else if (increment > 0)
+                        {
+                            if (counter >= cutoff)
+                                period = 0;
+                            else
+                                moment += period;
+                        }
+                        else
+                        {
+                            if (counter <= cutoff)
+                                period = 0;
+                            else
+                                moment += period;
+                        }
+                    }
+                }
+            }
+
             object_boolean_port *next_port;
             lib::spinlock latch;
             int64_t period;
             int64_t counter;
             int64_t moment;
             int64_t increment;
+            bool cutoff_exists;
+            int64_t cutoff;
         };
 
         class object_port_method : public object_function_built_in
@@ -276,7 +309,19 @@ namespace g0at
                         return false;
                     }
                 }
-                port->pulse(delay, increment);
+                bool cutoff_enable = false;
+                int64_t cutoff = 0;
+                if (arg_count > 2)
+                {
+                    value = thr->peek(2);
+                    if (!value.get_integer(&cutoff))
+                    {
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                        return false;
+                    }
+                    cutoff_enable = true;
+                }
+                port->pulse(delay, increment, cutoff_enable, cutoff);
                 result->set_object(thr->pool->get_undefined_instance());
                 return true;
             }
@@ -325,6 +370,8 @@ namespace g0at
             counter = 0;
             moment = -1;
             increment = 0;
+            cutoff_exists = false;
+            cutoff = 0;
 
             add_object(pool->get_static_string(resource::str_toggle), new object_port_toggle(pool, this));
             add_object(pool->get_static_string(resource::str_pulse), new object_port_pulse(pool, this));
