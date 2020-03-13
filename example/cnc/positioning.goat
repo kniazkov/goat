@@ -78,10 +78,10 @@ var Positioning =
             var vZ = dZ / t;
 
             // set 
-            axisX1.setVelocity(vX);
-            if (axisX2) axisX2.setVelocity(-vX);
-            axisY.setVelocity(vY);
-            axisZ.setVelocity(vZ);
+            axisX1.setTargetPosition(X, vX);
+            if (axisX2) axisX2.setTargetPosition(-X, -vX);
+            axisY.setTargetPosition(Y, vY);
+            axisZ.setTargetPosition(Z, vZ);
 
             // new position
             cX = axisX1.getPosition();

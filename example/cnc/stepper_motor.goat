@@ -42,15 +42,18 @@ var StepperMotor =
         }
 
         ports[gpioEnable].write(true);
+        this.targetPosition = 0;
         this.targetVelocity = 0;
     },
 
-    setVelocity : $(velocity)
+    setTargetPosition : $(position, velocity)
     {
-        if (velocity == targetVelocity)
+        if (position == targetPosition && velocity == targetVelocity)
             return;
+        targetPosition = position;
         targetVelocity = velocity;
 
+        var scaledPosition = round(position * scalingFactor);
         var scaledVelocity = round(velocity * scalingFactor);
         if (scaledVelocity == 0)
         {
@@ -62,12 +65,12 @@ var StepperMotor =
             if (period >= 0)
             {
                 ports[gpioDirection].write(true);
-                ports[gpioStep].pulse(period,  1);
+                ports[gpioStep].pulse(period,  1, scaledPosition);
             }
             else
             {
                 ports[gpioDirection].write(false);
-                ports[gpioStep].pulse(-period, -1);
+                ports[gpioStep].pulse(-period, -1, scaledPosition);
             }
         }
     },
