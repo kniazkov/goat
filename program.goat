@@ -80,9 +80,11 @@ while(true)
     p0.Y = axisY.getPosition();
     p0.Z = axisZ.getPosition();
     var points = Interpolator.calculate(gcode, p0, resolution, velocity, acceleration);
+    var t0 = clock();
 
     positioning.run(points, $(p1)
     {
+        var t1 = clock();
         Console.cret();
         if (p1.percent == 100)
         {
@@ -90,15 +92,21 @@ while(true)
         }
         else
         {
-            Console.print("\'" + p1.instruction.toString() + "\', " + round(p1.percent) +
-                "%, X: " + round(100 * axisX1.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0 + 
-                ", V: " + p1.V);
+            var time = (t1 - t0) / 1000000000.0;
+            if (time > 0) {
+                var distance = Interpolator.Point.distance(p0, p1);
+                var velocity = distance / time;
+                Console.print("\'" + p1.instruction.toString() + "\', " + round(p1.percent) +
+                    "%, X: " + round(100 * axisX1.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0 + 
+                    ", V: " + round(10 * velocity) / 10.0);
+            }
         }
         var c = new Color();
         c.r = p1.V / velocity;
         c.b = 1.0 - c.r;
         bmp.drawLine(round(p0.X * 5), 1500 - round(p0.Y * 5), round(p1.X * 5), 1500 - round(p1.Y * 5), c);
         p0 = p1;
+        t0 = t1;
     });
     Console.println("Done, X: " + round(100 * axisX1.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0);
     var arr = bmp.toByteArray();
