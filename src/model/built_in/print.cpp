@@ -46,7 +46,7 @@ namespace g0at
                     {
                         if (mode == call_mode::as_method)
                             thr->pop();
-                        std::cout << global::char_encoder->encode(thr->peek().to_string());
+                        std::cout << global::char_encoder->encode(thr->peek().to_string()) << std::flush;
                         thr->pop(arg_count);
                         thr->push_undefined();
                         return;
