@@ -58,7 +58,7 @@ while(true)
     //print("? ");
     //var source = gets();
     //var source = "g00 x100 y100 f5\ng02x300y100i100";
-    var source = "g00 x100 y1 f1";
+    var source = "g00 x100 y0 f1";
     source = source.trim();
     if (source == "")
         continue;
@@ -84,7 +84,7 @@ while(true)
     var t00 = clock();
     var t0 = t00;
 
-    positioning.run(points, $(p1)
+    positioning.run(p0, points, $(p1)
     {
         var t1 = clock();
         Console.cret();

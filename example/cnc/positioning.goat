@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import "stepper_motor.goat";
+import "interpolator.goat";
 
 var Positioning =
 # {
@@ -34,7 +35,7 @@ var Positioning =
         this.axisX2 = axisX2;
         this.axisY = axisY;
         this.axisZ = axisZ;
-        this.minDistance = 1.0 / resolution / 10;
+        this.minDistance = 1.0 / resolution / 1.5;
     },
 
     dir : $(n)
@@ -44,10 +45,16 @@ var Positioning =
         else if (n < 0) return -1; else return 1;
     },
 
-    moveTo : $(X, Y, Z, V)
+    move : $(p0, p1)
     {
-        if (V <= 0)
-            throw new Exception.IllegalArgument();
+        if (p1.V == 0)
+            return;
+
+        // time
+        var l = Interpolator.Point.distance(p0, p1);
+        var t = l / p1.V;
+        if (t == 0)
+            return;
 
         // current position
         var cX = axisX1.getPosition();
@@ -55,63 +62,46 @@ var Positioning =
         var cZ = axisZ.getPosition();
 
         // delta
-        var dX = X - cX;
-        var dY = Y - cY;
-        var dZ = Z - cZ;
+        var dX = p1.X - cX;
+        var dY = p1.Y - cY;
+        var dZ = p1.Z - cZ;
 
-        // direction
-        var rX = dir(dX);
-        var rY = dir(dY);
-        var rZ = dir(dZ);       
+        // speed for each axis
+        var vX = dX / t;
+        var vY = dY / t;
+        var vZ = dZ / t;
 
-        // distance
-        var l = sqrt(dX * dX + dY * dY + dZ * dZ);
+        // set 
+        axisX1.setTargetPosition(p1.X, vX);
+        if (axisX2) axisX2.setTargetPosition(-p1.X, -vX);
+        axisY.setTargetPosition(p1.Y, vY);
+        axisZ.setTargetPosition(p1.Z, vZ);
 
-        Console.println("\n" + l + " " + (l / V) + " " + dX / (l / V) + " " + dY / (l / V));
-
-        while(l > minDistance)
-        {
-            // time
-            var t = l / V;
-
-            // speed for each axis
-            var vX = dX / t;
-            var vY = dY / t;
-            var vZ = dZ / t;
-
-            // set 
-            axisX1.setTargetPosition(X, vX);
-            if (axisX2) axisX2.setTargetPosition(-X, -vX);
-            axisY.setTargetPosition(Y, vY);
-            axisZ.setTargetPosition(Z, vZ);
-
+        do {
             // new position
             cX = axisX1.getPosition();
             cY = axisY.getPosition();
             cZ = axisZ.getPosition();
 
             // new delta
-            dX = X - cX;
-            if (rX != dir(dX)) dX = 0;
-            dY = Y - cY;
-            if (rY != dir(dY)) dY = 0;
-            dZ = Z - cZ;
-            if (rZ != dir(dZ)) dZ = 0;
+            dX = p1.X - cX;
+            dY = p1.Y - cY;
+            dZ = p1.Z - cZ;
 
             // new distance
             l = sqrt(dX * dX + dY * dY + dZ * dZ);
-        }
+        } while(l > minDistance);
     },
 
-    run : $(trajectory, callback)
+    run : $(p0, trajectory, callback)
     {
-
         for (var k = 0, kl = trajectory.length(); k < kl; k++)
         {
-            var p = trajectory[k];
+            var p1 = trajectory[k];
             if (callback)
-                callback(p);
-            positioning.moveTo(p.X, p.Y, p.Z, p.V);
+                callback(p1);
+            positioning.move(p0, p1);
+            p0 = p1;
         }
     }
 };
