@@ -72,25 +72,25 @@ var Positioning =
         var vZ = dZ / t;
 
         // set 
-        axisX1.setTargetPosition(p1.X, vX);
-        if (axisX2) axisX2.setTargetPosition(-p1.X, -vX);
-        axisY.setTargetPosition(p1.Y, vY);
-        axisZ.setTargetPosition(p1.Z, vZ);
+        if (axisX2)
+        {
+            axisX1.setTargetPosition(p1.X, vX);
+            axisX2.setTargetPosition(-p1.X, -vX);
+            axisY.setTargetPosition(p1.Y, vY);
+            axisZ.setTargetPosition(p1.Z, vZ);
 
-        do {
-            // new position
-            cX = axisX1.getPosition();
-            cY = axisY.getPosition();
-            cZ = axisZ.getPosition();
+            while(!(axisX1.onPosition() && axisX2.onPosition() && axisY.onPosition() && axisZ.onPosition))
+                ;
+        }
+        else
+        {
+            axisX1.setTargetPosition(p1.X, vX);
+            axisY.setTargetPosition(p1.Y, vY);
+            axisZ.setTargetPosition(p1.Z, vZ);
 
-            // new delta
-            dX = p1.X - cX;
-            dY = p1.Y - cY;
-            dZ = p1.Z - cZ;
-
-            // new distance
-            l = sqrt(dX * dX + dY * dY + dZ * dZ);
-        } while(l > minDistance);
+            while(!(axisX1.onPosition() && axisY.onPosition() && axisZ.onPosition))
+                ;
+        }
     },
 
     run : $(p0, trajectory, callback)

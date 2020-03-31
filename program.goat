@@ -1,6 +1,6 @@
 //exit();
 
-var resolution = 1.0;
+var resolution = 5.0;
 var velocity = 30.0;
 var acceleration = 60.0;
 
@@ -57,8 +57,8 @@ while(true)
 {
     //print("? ");
     //var source = gets();
-    //var source = "g00 x100 y100 f5\ng02x300y100i100";
-    var source = "g00 x100 y0 f1";
+    var source = "g00 x100 y100 f30\ng02x300y100i100";
+    //var source = "g00 x100 y100 f30";
     source = source.trim();
     if (source == "")
         continue;
