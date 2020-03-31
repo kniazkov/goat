@@ -1,6 +1,6 @@
 //exit();
 
-var resolution = 5.0;
+var resolution = 1.0;
 var velocity = 30.0;
 var acceleration = 60.0;
 
@@ -57,7 +57,8 @@ while(true)
 {
     //print("? ");
     //var source = gets();
-    var source = "g00 x100 y100\ng02x300y100i100";
+    //var source = "g00 x100 y100 f5\ng02x300y100i100";
+    var source = "g00 x100 y1 f1";
     source = source.trim();
     if (source == "")
         continue;
@@ -80,7 +81,8 @@ while(true)
     p0.Y = axisY.getPosition();
     p0.Z = axisZ.getPosition();
     var points = Interpolator.calculate(gcode, p0, resolution, velocity, acceleration);
-    var t0 = clock();
+    var t00 = clock();
+    var t0 = t00;
 
     positioning.run(points, $(p1)
     {
@@ -98,7 +100,7 @@ while(true)
                 var velocity = distance / time;
                 Console.print("\'" + p1.instruction.toString() + "\', " + round(p1.percent) +
                     "%, X: " + round(100 * axisX1.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0 + 
-                    ", V: " + round(10 * velocity) / 10.0);
+                    ", V: " + round(100 * velocity) / 100.0);
             }
         }
         var c = new Color();
@@ -108,7 +110,9 @@ while(true)
         p0 = p1;
         t0 = t1;
     });
-    Console.println("Done, X: " + round(100 * axisX1.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0);
+    var totalTime = (clock() - t00) / 1000000000.0;
+    Console.println("Done, X: " + round(100 * axisX1.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0 + ", time: " +
+        round(10 * totalTime) / 10.0);
     var arr = bmp.toByteArray();
     var file = open("image.bmp", File.Mode.WRITE);
     file.write(arr);

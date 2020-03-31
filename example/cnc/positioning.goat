@@ -34,7 +34,7 @@ var Positioning =
         this.axisX2 = axisX2;
         this.axisY = axisY;
         this.axisZ = axisZ;
-        this.minDistance = 1.0 / resolution / 2;
+        this.minDistance = 1.0 / resolution / 10;
     },
 
     dir : $(n)
@@ -66,6 +66,8 @@ var Positioning =
 
         // distance
         var l = sqrt(dX * dX + dY * dY + dZ * dZ);
+
+        Console.println("\n" + l + " " + (l / V) + " " + dX / (l / V) + " " + dY / (l / V));
 
         while(l > minDistance)
         {

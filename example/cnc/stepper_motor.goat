@@ -44,6 +44,7 @@ var StepperMotor =
         ports[gpioEnable].write(true);
         this.targetPosition = 0;
         this.targetVelocity = 0;
+        this.doubleScalingFactor = scalingFactor * 2.0;
     },
 
     setTargetPosition : $(position, velocity)
@@ -53,15 +54,15 @@ var StepperMotor =
         targetPosition = position;
         targetVelocity = velocity;
 
-        var scaledPosition = round(position * scalingFactor);
-        var scaledVelocity = round(velocity * scalingFactor);
+        var scaledPosition = round(position * doubleScalingFactor);
+        var scaledVelocity = round(velocity * doubleScalingFactor);
         if (scaledVelocity == 0)
         {
             ports[gpioStep].pulse(0);
         }
         else
         {
-            var period = 500000000 / scaledVelocity;
+            var period = 1000000000 / scaledVelocity;
             if (period >= 0)
             {
                 ports[gpioDirection].write(true);
@@ -77,6 +78,6 @@ var StepperMotor =
 
     getPosition : $()
     {
-        return ports[gpioStep].count() / 2.0 / scalingFactor;
+        return ports[gpioStep].count() / doubleScalingFactor;
     }
 };

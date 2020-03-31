@@ -208,7 +208,7 @@ var Interpolator =
 
         // 4. squeeze
 
-        if (false /*count > 2*/)
+        if (false /* count > 2 */)
         {
             var maxDistance = minDistance * 100;
             var aux = [];
