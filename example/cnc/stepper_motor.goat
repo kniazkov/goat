@@ -26,6 +26,8 @@ var StepperMotorParameters =
     gpioStep : "null",
     gpioDirection : "null",
     scalingFactor : 1.0,
+    bitEnabling : true,
+    forwardDirection : true
 };
 
 var StepperMotor =
@@ -46,6 +48,16 @@ var StepperMotor =
         this.scaledTargetPosition = 0;
         this.targetVelocity = 0;
         this.doubleScalingFactor = scalingFactor * 2.0;
+    },
+
+    powerOn : $()
+    {
+        ports[gpioEnable].write(bitEnabling);
+    },
+    
+    powerOff : $()
+    {
+        ports[gpioEnable].write(!bitEnabling);
     },
 
     setTargetPosition : $(position, velocity)

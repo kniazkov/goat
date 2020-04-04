@@ -94,7 +94,7 @@ namespace g0at
 
 #ifdef GPIO_RASPBERRY_PI
 #define GPIO_IMPLEMENTED
-        static const unsigned int gpio_port_numbers[] = {27, 4, 18, 23, 25, 12, 6, 13, 5};
+        static const unsigned int gpio_port_numbers[] = {27, 4, 18, 23, 25, 12, 6, 13, 5, 17, 24, 22};
         static const unsigned int gpio_count = sizeof(gpio_port_numbers) / sizeof(unsigned int);
 
         gpio_info gpio_get_info()

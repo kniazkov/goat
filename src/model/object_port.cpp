@@ -93,9 +93,9 @@ namespace g0at
                                 port = port->next_port;
                             }
                         }
-                        while(flag);
-                        __pwm_started.store(false);
-                    });
+                        while(__pwm_started.load() == true/*flag*/);
+                        //__pwm_started.store(false);
+                    }); 
                     pwm.detach();
                 }
             }
@@ -500,6 +500,7 @@ namespace g0at
         {
             if (__pwm_started.load() == true)
             {
+                __pwm_started.store(false);
                 object_boolean_port *port = __first_port;
                 while(port)
                 {
@@ -507,12 +508,12 @@ namespace g0at
                     port->period = 0;
                     port = port->next_port;
                 }
-                 // dirty hack
-                while(__pwm_started.load() == true)
-                {
+                // dirty hack
+                //while(__pwm_started.load() == true)
+                //{
                     // wait
-                }
-                std::this_thread::sleep_for (std::chrono::milliseconds(500));
+                //}
+                std::this_thread::sleep_for (std::chrono::milliseconds(1500));
             }
         }
 

@@ -78,18 +78,18 @@ var Interpolator =
                     if (linear)
                     {
                         var p1 = new this.Point();
-                        p1.X = i.X || p0.X;
-                        p1.Y = i.Y || p0.Y;
-                        p1.Z = i.Z || p0.Z;
+                        p1.X = i.X != null  ? i.X : p0.X;
+                        p1.Y = i.Y != null  ? i.Y : p0.Y;
+                        p1.Z = i.Z != null  ? i.Z : p0.Z;
                         sequence = this.linearInterpolator(p0, p1, resolution);
                         p0 = p1;
                     }
                     else if (circular)
                     {
                         var p1 = new this.Point();
-                        p1.X = i.X || p0.X;
-                        p1.Y = i.Y || p0.Y;
-                        p1.Z = i.Z || p0.Z;
+                        p1.X = i.X != null ? i.X : p0.X;
+                        p1.Y = i.Y != null ? i.Y : p0.Y;
+                        p1.Z = i.Z != null ? i.Z : p0.Z;
                         var p2 = new this.Point();
                         p2.X = p0.X + (i.I || 0);
                         p2.Y = p0.Y + (i.J || 0);

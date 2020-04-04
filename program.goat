@@ -17,6 +17,7 @@ smpX1.gpioEnable = "gpio23";
 smpX1.gpioStep = "gpio25";
 smpX1.gpioDirection = "gpio12";
 smpX1.scalingFactor = 213.93;
+smpX1.bitEnabling = false;
 var axisX1 = new StepperMotor(smpX1);
 
 var smpX2 = new StepperMotorParameters();
@@ -24,6 +25,7 @@ smpX2.gpioEnable = "gpio6";
 smpX2.gpioStep = "gpio13";
 smpX2.gpioDirection = "gpio5";
 smpX2.scalingFactor = 213.93;
+smpX2.bitEnabling = false;
 var axisX2 = new StepperMotor(smpX2);
 
 var smpY = new StepperMotorParameters();
@@ -31,6 +33,7 @@ smpY.gpioEnable = "gpio27";
 smpY.gpioStep = "gpio4";
 smpY.gpioDirection = "gpio18";
 smpY.scalingFactor = 213.93;
+smpY.bitEnabling = false;
 var axisY = new StepperMotor(smpY);
 
 var smpZ = new StepperMotorParameters();
@@ -38,6 +41,7 @@ smpZ.gpioEnable = "gpio17";
 smpZ.gpioStep = "gpio24";
 smpZ.gpioDirection = "gpio22";
 smpZ.scalingFactor = 6666.66;
+smpZ.bitEnabling = false;
 var axisZ = new StepperMotor(smpZ);
 
 var positioning = new Positioning(axisX1, axisX2, axisY, axisZ, resolution);
@@ -51,14 +55,17 @@ import "color.goat";
 var bmp = new Bmp24(2000, 1500);
 //var raw = load("gcode.txt");
 //var source = raw.decode("utf8");
-//var source = "g00 x100 y100";
+
+axisX1.powerOn();
+axisX2.powerOn();
+axisY.powerOn();
+axisZ.powerOn();
 
 while(true)
 {
     //print("? ");
     //var source = gets();
-    var source = "g00 x100 y100 f30\ng02x300y100i100";
-    //var source = "g00 x100 y100 f30";
+    var source = "g00 x100 y100 f5\ng01x0y0";
     source = source.trim();
     if (source == "")
         continue;
@@ -117,5 +124,10 @@ while(true)
     var file = open("image.bmp", File.Mode.WRITE);
     file.write(arr);
     file.close();
-    exit();
+    break;
 }
+
+axisX1.powerOff();
+axisX2.powerOff();
+axisY.powerOff();
+axisZ.powerOff();
