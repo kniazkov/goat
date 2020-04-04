@@ -18,6 +18,7 @@ smpX1.gpioStep = "gpio25";
 smpX1.gpioDirection = "gpio12";
 smpX1.scalingFactor = 213.93;
 smpX1.bitEnabling = false;
+smpX1.forwardDirection = false;
 var axisX1 = new StepperMotor(smpX1);
 
 var smpX2 = new StepperMotorParameters();
@@ -26,6 +27,7 @@ smpX2.gpioStep = "gpio13";
 smpX2.gpioDirection = "gpio5";
 smpX2.scalingFactor = 213.93;
 smpX2.bitEnabling = false;
+smpX2.forwardDirection = false;
 var axisX2 = new StepperMotor(smpX2);
 
 var smpY = new StepperMotorParameters();
@@ -34,6 +36,7 @@ smpY.gpioStep = "gpio4";
 smpY.gpioDirection = "gpio18";
 smpY.scalingFactor = 213.93;
 smpY.bitEnabling = false;
+smpY.forwardDirection = false;
 var axisY = new StepperMotor(smpY);
 
 var smpZ = new StepperMotorParameters();
@@ -42,6 +45,7 @@ smpZ.gpioStep = "gpio24";
 smpZ.gpioDirection = "gpio22";
 smpZ.scalingFactor = 6666.66;
 smpZ.bitEnabling = false;
+smpZ.forwardDirection = false;
 var axisZ = new StepperMotor(smpZ);
 
 var positioning = new Positioning(axisX1, axisX2, axisY, axisZ, resolution);
@@ -65,7 +69,7 @@ while(true)
 {
     //print("? ");
     //var source = gets();
-    var source = "g00 x100 y100 f5\ng01x0y0";
+    var source = "g00 x10 y10 f5\ng01x0y0";
     source = source.trim();
     if (source == "")
         continue;

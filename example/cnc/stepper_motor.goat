@@ -22,12 +22,15 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 var StepperMotorParameters =
 # {
-    gpioEnable : "null",
-    gpioStep : "null",
-    gpioDirection : "null",
-    scalingFactor : 1.0,
-    bitEnabling : true,
-    forwardDirection : true
+    init : $()
+    {
+        this.gpioEnable = "null";
+        this.gpioStep = "null";
+        this.gpioDirection = "null";
+        this.scalingFactor = 1.0;
+        this.bitEnabling = true;
+        this.forwardDirection = true;
+    }
 };
 
 var StepperMotor =
@@ -48,6 +51,7 @@ var StepperMotor =
         this.scaledTargetPosition = 0;
         this.targetVelocity = 0;
         this.doubleScalingFactor = scalingFactor * 2.0;
+        this.backwardDirection = !forwardDirection;
     },
 
     powerOn : $()
@@ -78,12 +82,12 @@ var StepperMotor =
             var period = 1000000000 / scaledVelocity;
             if (period >= 0)
             {
-                ports[gpioDirection].write(true);
+                ports[gpioDirection].write(forwardDirection);
                 ports[gpioStep].pulse(period,  1, scaledTargetPosition);
             }
             else
             {
-                ports[gpioDirection].write(false);
+                ports[gpioDirection].write(backwardDirection);
                 ports[gpioStep].pulse(-period, -1, scaledTargetPosition);
             }
         }
