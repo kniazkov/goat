@@ -102,7 +102,7 @@ namespace g0at
         extern std::wstring str_fill;
         extern std::wstring str_bitwidth;
         extern std::wstring str_toggle;
-        extern std::wstring str_pulse;
+        extern std::wstring str_schedule;
         extern std::wstring str_count;
 
         extern std::wstring str_Mode;

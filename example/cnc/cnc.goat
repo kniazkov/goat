@@ -1,0 +1,159 @@
+/*
+
+Copyright (C) 2017-2020 Ivan Kniazkov
+
+This file is part of interpreter of programming language
+codenamed "Goat" ("Goat interpreter").
+
+Goat interpreter is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat interpreter is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+//exit();
+
+var resolution = 5.0;
+var velocity = 30.0;
+var acceleration = 60.0;
+
+import "stepper_motor.goat";
+import "positioning.goat";
+
+if (!ports.init())
+    exit();
+
+ports.gpio4.pulse(0);
+
+var smpX1 = new StepperMotorParameters();
+smpX1.gpioEnable = "gpio23";
+smpX1.gpioStep = "gpio25";
+smpX1.gpioDirection = "gpio12";
+smpX1.scalingFactor = 213.93;
+smpX1.bitEnabling = false;
+smpX1.forwardDirection = false;
+var axisX1 = new StepperMotor(smpX1);
+
+var smpX2 = new StepperMotorParameters();
+smpX2.gpioEnable = "gpio6";
+smpX2.gpioStep = "gpio13";
+smpX2.gpioDirection = "gpio5";
+smpX2.scalingFactor = 213.93;
+smpX2.bitEnabling = false;
+smpX2.forwardDirection = false;
+var axisX2 = new StepperMotor(smpX2);
+
+var smpY = new StepperMotorParameters();
+smpY.gpioEnable = "gpio27";
+smpY.gpioStep = "gpio4";
+smpY.gpioDirection = "gpio18";
+smpY.scalingFactor = 213.93;
+smpY.bitEnabling = false;
+smpY.forwardDirection = false;
+var axisY = new StepperMotor(smpY);
+
+var smpZ = new StepperMotorParameters();
+smpZ.gpioEnable = "gpio17";
+smpZ.gpioStep = "gpio24";
+smpZ.gpioDirection = "gpio22";
+smpZ.scalingFactor = 6666.66;
+smpZ.bitEnabling = false;
+smpZ.forwardDirection = false;
+var axisZ = new StepperMotor(smpZ);
+
+var positioning = new Positioning(axisX1, axisX2, axisY, axisZ, resolution);
+
+import "gcode.goat";
+import "io.goat";
+import "interpolator.goat";
+import "bitmap.goat";
+import "color.goat";
+
+var bmp = new Bmp24(2000, 1500);
+//var raw = load("gcode.txt");
+//var source = raw.decode("utf8");
+
+axisX1.powerOn();
+axisX2.powerOn();
+axisY.powerOn();
+axisZ.powerOn();
+
+while(true)
+{
+    //print("? ");
+    //var source = gets();
+    var source = "g00 x10 y10 f5\ng01x0y0";
+    source = source.trim();
+    if (source == "")
+        continue;
+    if (source == "q" || source == "quit")
+        break;
+
+    var gcode = null;
+    try
+    {
+        gcode = GCode.parse(source);
+    }
+    catch(e)
+    {
+        println("\nCan't parse: " + e);
+        continue;
+    }
+    gcode = GCode.optimize(gcode, resolution);
+    var p0 = new Interpolator.Point();
+    p0.X = axisX1.getPosition();
+    p0.Y = axisY.getPosition();
+    p0.Z = axisZ.getPosition();
+    var points = Interpolator.calculate(gcode, p0, resolution, velocity, acceleration);
+    var t00 = clock();
+    var t0 = t00;
+
+    positioning.run(p0, points, $(p1)
+    {
+        var t1 = clock();
+        Console.cret();
+        if (p1.percent == 100)
+        {
+            Console.println(p1.instruction.toString());
+        }
+        else
+        {
+            var time = (t1 - t0) / 1000000000.0;
+            if (time > 0) {
+                var distance = Interpolator.Point.distance(p0, p1);
+                var velocity = distance / time;
+                Console.print("\'" + p1.instruction.toString() + "\', " + round(p1.percent) +
+                    "%, X: " + round(100 * axisX1.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0 + 
+                    ", V: " + round(100 * velocity) / 100.0);
+            }
+        }
+        var c = new Color();
+        c.r = p1.V / velocity;
+        c.b = 1.0 - c.r;
+        bmp.drawLine(round(p0.X * 5), 1500 - round(p0.Y * 5), round(p1.X * 5), 1500 - round(p1.Y * 5), c);
+        p0 = p1;
+        t0 = t1;
+    });
+    var totalTime = (clock() - t00) / 1000000000.0;
+    Console.println("Done, X: " + round(100 * axisX1.getPosition()) / 100.0 + ", Y: " + round(100 * axisY.getPosition()) / 100.0 + ", time: " +
+        round(10 * totalTime) / 10.0);
+    var arr = bmp.toByteArray();
+    var file = open("image.bmp", File.Mode.WRITE);
+    file.write(arr);
+    file.close();
+    break;
+}
+
+axisX1.powerOff();
+axisX2.powerOff();
+axisY.powerOff();
+axisZ.powerOff();

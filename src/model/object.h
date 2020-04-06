@@ -109,6 +109,7 @@ namespace g0at
             inline bool get_boolean(bool *pval);
             inline bool get_char(wchar_t *pval);
             inline bool get_byte(uint8_t *pval);
+            inline bool get_short(int16_t *pval);
 
             inline void op_add(thread *thr);
             inline void op_sub(thread *thr);
@@ -521,6 +522,20 @@ namespace g0at
                 if (val >= 0 && val <= 255)
                 {
                     *pval = (uint8_t)val;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        bool variable::get_short(int16_t *pval)
+        {
+            int64_t val;
+            if (get_integer(&val))
+            {
+                if (val >= -32768 && val <= 32767)
+                {
+                    *pval = (int16_t)val;
                     return true;
                 }
             }

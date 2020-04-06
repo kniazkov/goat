@@ -52,96 +52,33 @@ namespace g0at
 
         class object_boolean_port;
         
-        static object_boolean_port *__first_port = nullptr;
-        static std::atomic_bool __pwm_started(false);
+        static object_boolean_port *__ports = nullptr;
+        static std::atomic_bool     __pwm_busy(false);
+
+        struct boolean_port_action
+        {
+            int64_t timestamp;
+            bool value;
+            int16_t increment;
+
+            bool operator<(const boolean_port_action &other_action)
+            {
+                return timestamp < other_action.timestamp;
+            }
+        };
 
         class object_boolean_port : public object_port
         {
         public:
             object_boolean_port(object_pool *pool);
+            virtual void write(bool value) = 0;
             virtual void toggle() = 0;
             
-            void pulse(int64_t _delay, int64_t _increment, bool _cutoff_exists, int64_t _cutoff)
-            {
-                std::lock_guard<lib::spinlock>(this->latch);
-                period = _delay;
-                increment = _increment;
-                cutoff_exists = _cutoff_exists;
-                cutoff = _cutoff;
-                moment = lib::get_time_ns() + _delay;
-                if (__pwm_started.load() == false)
-                {
-                    std::thread pwm = std::thread([]()
-                    {
-                        if(__pwm_started.exchange(true))
-                            return;
-
-                        bool flag;
-                        do
-                        {
-                            flag = false;
-                            int64_t time = lib::get_time_ns();
-                            object_boolean_port *port = __first_port;
-                            while (port)
-                            {
-                                std::lock_guard<lib::spinlock>(port->latch);
-                                if (port->period > 0)
-                                {
-                                    flag = true;
-                                    port->handle_timer(time);
-                                }
-                                port = port->next_port;
-                            }
-                        }
-                        while(__pwm_started.load() == true/*flag*/);
-                        //__pwm_started.store(false);
-                    }); 
-                    pwm.detach();
-                }
-            }
-
-            void handle_timer(int64_t time)
-            {
-                if (moment <= time)
-                {
-                    toggle();
-                    counter += increment;
-                    if (false == cutoff_exists)
-                    {
-                        moment += period;
-                    }
-                    else
-                    {
-                        if (increment == 0)
-                        {
-                            moment += period;
-                        }
-                        else if (increment > 0)
-                        {
-                            if (counter >= cutoff)
-                                period = 0;
-                            else
-                                moment += period;
-                        }
-                        else
-                        {
-                            if (counter <= cutoff)
-                                period = 0;
-                            else
-                                moment += period;
-                        }
-                    }
-                }
-            }
-
             object_boolean_port *next_port;
             lib::spinlock latch;
-            int64_t period;
             int64_t counter;
-            int64_t moment;
-            int64_t increment;
-            bool cutoff_exists;
-            int64_t cutoff;
+            int index;
+            std::vector<boolean_port_action> actions;
         };
 
         class object_port_method : public object_function_built_in
@@ -277,51 +214,50 @@ namespace g0at
             }
         };
 
-        class object_port_pulse : public object_boolean_port_method
+        class object_port_schedule : public object_boolean_port_method
         {
         public:
-            object_port_pulse(object_pool *_pool, object_boolean_port *_port)
+            object_port_schedule(object_pool *_pool, object_boolean_port *_port)
                 : object_boolean_port_method(_pool, _port)
             {
             }
 
             bool payload(thread *thr, int arg_count, variable *result) override
             {
-                if (arg_count < 1)
+                if (__pwm_busy.load())
+                {
+                    thr->raise_exception(new object_exception_illegal_operation(thr->pool));
+                    return false;
+                }
+                if (arg_count < 2)
                 {
                     thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return false;
                 }
                 variable value = thr->peek(0);
-                int64_t delay;
-                if (!value.get_integer(&delay) || delay < 0)
+                boolean_port_action action;
+                if (!value.get_integer(&action.timestamp) || action.timestamp < 0)
                 {
                     thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return false;
                 }
-                int64_t increment = 0;
-                if (arg_count > 1)
+                value = thr->peek(1);
+                if (!value.get_boolean(&action.value))
                 {
-                    value = thr->peek(1);
-                    if (!value.get_integer(&increment))
-                    {
-                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
-                        return false;
-                    }
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
                 }
-                bool cutoff_enable = false;
-                int64_t cutoff = 0;
+                action.increment = 0;
                 if (arg_count > 2)
                 {
                     value = thr->peek(2);
-                    if (!value.get_integer(&cutoff))
+                    if (!value.get_short(&action.increment))
                     {
                         thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                         return false;
                     }
-                    cutoff_enable = true;
                 }
-                port->pulse(delay, increment, cutoff_enable, cutoff);
+                port->actions.push_back(action);
                 result->set_object(thr->pool->get_undefined_instance());
                 return true;
             }
@@ -363,18 +299,14 @@ namespace g0at
         object_boolean_port::object_boolean_port(object_pool *pool)
             : object_port(pool, pool->get_gpio_proto_instance())
         {
-            next_port = __first_port;
-            __first_port = this;
+            next_port = __ports;
+            __ports = this;
 
-            period = 0;
             counter = 0;
-            moment = -1;
-            increment = 0;
-            cutoff_exists = false;
-            cutoff = 0;
+            index = 0;
 
             add_object(pool->get_static_string(resource::str_toggle), new object_port_toggle(pool, this));
-            add_object(pool->get_static_string(resource::str_pulse), new object_port_pulse(pool, this));
+            add_object(pool->get_static_string(resource::str_schedule), new object_port_schedule(pool, this));
             add_object(pool->get_static_string(resource::str_count), new object_port_count(pool, this));
             lock();
         }
@@ -426,6 +358,11 @@ namespace g0at
                 }
             }
 
+            void write(bool value) override
+            {
+                lib::gpio_set_value(port_number, value);
+            }
+
             unsigned int bitwidth() override
             {
                 return 1;
@@ -455,7 +392,6 @@ namespace g0at
                     thr->pop();
                 thr->pop(arg_count);
                 variable result;
-                result.set_boolean(true);
 #ifdef GPIO_ENABLE
                 if (ports->initialized)
                 {
@@ -488,32 +424,86 @@ namespace g0at
             object_ports *ports;
         };
 
+        class object_ports_run : public object_function_built_in
+        {
+        public:
+            object_ports_run(object_pool *_pool, object_ports *_ports)
+                : object_function_built_in(_pool), ports(_ports)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode == call_mode::as_method)
+                    thr->pop();
+                thr->pop(arg_count);
+                variable result;
+                if (__pwm_busy.load() == false)
+                {
+                    std::thread pwm = std::thread([]()
+                    {
+                        if(__pwm_busy.exchange(true))
+                            return;
+                        int64_t start_time = lib::get_time_ns();
+                        bool flag;
+                        do
+                        {
+                            flag = false;
+                            int64_t time = lib::get_time_ns() - start_time;
+                            object_boolean_port *port = __ports;
+                            while (port)
+                            {
+                                if (port->index < port->actions.size())
+                                {
+                                    flag = true;
+                                    boolean_port_action &action = port->actions[port->index];
+                                    if (action.timestamp <= time)
+                                    {
+                                        std::lock_guard<lib::spinlock>(port->latch);
+                                        port->write(action.value);
+                                        port->counter += action.increment;
+                                        port->index++;
+                                    }
+                                }
+                                port = port->next_port;
+                            }
+                        }
+                        while(flag);
+                        __pwm_busy.store(false);
+                    });
+                    pwm.detach();
+                    result.set_boolean(true);
+                }
+                else
+                {
+                    result.set_boolean(false);
+                }
+                thr->push(result);
+            }
+
+        private:
+            object_ports *ports;
+        };
+
         object_ports::object_ports(object_pool *pool)
             : object(pool)
         {
             initialized = false;
             add_object(pool->get_static_string(resource::str_null), new object_port_null(pool));
             add_object(pool->get_static_string(resource::str_init), new object_ports_init(pool, this));
+            add_object(pool->get_static_string(resource::str_run), new object_ports_run(pool, this));
         }
 
         object_ports::~object_ports()
         {
-            if (__pwm_started.load() == true)
+            if (__pwm_busy.load() == true)
             {
-                __pwm_started.store(false);
-                object_boolean_port *port = __first_port;
-                while(port)
-                {
-                    std::lock_guard<lib::spinlock>(port->latch);
-                    port->period = 0;
-                    port = port->next_port;
-                }
                 // dirty hack
-                //while(__pwm_started.load() == true)
-                //{
+                while(__pwm_busy.load() == true)
+                {
                     // wait
-                //}
-                std::this_thread::sleep_for (std::chrono::milliseconds(1500));
+                }
+                std::this_thread::sleep_for (std::chrono::milliseconds(500));
             }
         }
 
@@ -545,7 +535,8 @@ namespace g0at
         {
             object *stub = new object_port_stub(pool, nullptr);
             add_object(pool->get_static_string(resource::str_toggle), stub);
-            add_object(pool->get_static_string(resource::str_pulse), stub);
+            add_object(pool->get_static_string(resource::str_schedule), stub);
+            add_object(pool->get_static_string(resource::str_count), stub);
             lock();
         }
 
@@ -556,3 +547,78 @@ namespace g0at
     };
 };
 
+#if 0
+            void pulse(int64_t _delay, int64_t _increment, bool _cutoff_exists, int64_t _cutoff)
+            {
+                std::lock_guard<lib::spinlock>(this->latch);
+                period = _delay;
+                increment = _increment;
+                cutoff_exists = _cutoff_exists;
+                cutoff = _cutoff;
+                moment = lib::get_time_ns() + _delay;
+                if (__pwm_started.load() == false)
+                {
+                    std::thread pwm = std::thread([]()
+                    {
+                        if(__pwm_started.exchange(true))
+                            return;
+
+                        bool flag;
+                        do
+                        {
+                            flag = false;
+                            int64_t time = lib::get_time_ns();
+                            object_boolean_port *port = __first_port;
+                            while (port)
+                            {
+                                std::lock_guard<lib::spinlock>(port->latch);
+                                if (port->period > 0)
+                                {
+                                    flag = true;
+                                    port->handle_timer(time);
+                                }
+                                port = port->next_port;
+                            }
+                        }
+                        while(__pwm_started.load() == true/*flag*/);
+                        //__pwm_started.store(false);
+                    }); 
+                    pwm.detach();
+                }
+            }
+
+            void handle_timer(int64_t time)
+            {
+                if (moment <= time)
+                {
+                    toggle();
+                    counter += increment;
+                    if (false == cutoff_exists)
+                    {
+                        moment += period;
+                    }
+                    else
+                    {
+                        if (increment == 0)
+                        {
+                            moment += period;
+                        }
+                        else if (increment > 0)
+                        {
+                            if (counter >= cutoff)
+                                period = 0;
+                            else
+                                moment += period;
+                        }
+                        else
+                        {
+                            if (counter <= cutoff)
+                                period = 0;
+                            else
+                                moment += period;
+                        }
+                    }
+                }
+            }
+
+#endif
