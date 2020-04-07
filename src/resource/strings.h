@@ -104,6 +104,7 @@ namespace g0at
         extern std::wstring str_toggle;
         extern std::wstring str_schedule;
         extern std::wstring str_count;
+        extern std::wstring str_busy;
 
         extern std::wstring str_Mode;
         extern std::wstring str_Origin;

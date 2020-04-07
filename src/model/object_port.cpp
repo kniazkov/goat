@@ -50,11 +50,6 @@ namespace g0at
             virtual unsigned int bitwidth() = 0;
         };
 
-        class object_boolean_port;
-        
-        static object_boolean_port *__ports = nullptr;
-        static std::atomic_bool     __pwm_busy(false);
-
         struct boolean_port_action
         {
             int64_t timestamp;
@@ -70,7 +65,7 @@ namespace g0at
         class object_boolean_port : public object_port
         {
         public:
-            object_boolean_port(object_pool *pool);
+            object_boolean_port(object_pool *pool, object_boolean_port **next);
             virtual void write(bool value) = 0;
             virtual void toggle() = 0;
             
@@ -224,11 +219,6 @@ namespace g0at
 
             bool payload(thread *thr, int arg_count, variable *result) override
             {
-                if (__pwm_busy.load())
-                {
-                    thr->raise_exception(new object_exception_illegal_operation(thr->pool));
-                    return false;
-                }
                 if (arg_count < 2)
                 {
                     thr->raise_exception(new object_exception_illegal_argument(thr->pool));
@@ -296,11 +286,11 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_bitwidth), new object_port_bitwidth(pool, this));
         }
 
-        object_boolean_port::object_boolean_port(object_pool *pool)
+        object_boolean_port::object_boolean_port(object_pool *pool, object_boolean_port **next)
             : object_port(pool, pool->get_gpio_proto_instance())
         {
-            next_port = __ports;
-            __ports = this;
+            next_port = *next;
+            *next = this;
 
             counter = 0;
             index = 0;
@@ -339,8 +329,8 @@ namespace g0at
         class object_port_gpio : public object_boolean_port
         {
         public:
-            object_port_gpio(object_pool *pool, unsigned int _port_number)
-                : object_boolean_port(pool), port_number(_port_number)
+            object_port_gpio(object_pool *pool, object_boolean_port **next, unsigned int _port_number)
+                : object_boolean_port(pool, next), port_number(_port_number)
             {
             }
 
@@ -404,7 +394,7 @@ namespace g0at
                     {
                         std::wstringstream wss;
                         wss << L"gpio" << i.port_numbers[k];
-                        ports->add_object(thr->pool->create_object_string(wss.str()), new object_port_gpio(thr->pool, i.port_numbers[k]));
+                        ports->add_object(thr->pool->create_object_string(wss.str()), new object_port_gpio(thr->pool, &ports->list, i.port_numbers[k]));
                     }
                     ports->initialized = true;
                     ports->lock();
@@ -438,19 +428,21 @@ namespace g0at
                     thr->pop();
                 thr->pop(arg_count);
                 variable result;
-                if (__pwm_busy.load() == false)
+                std::atomic_int64_t *pwm_timestamp = &ports->pwm_timestamp;
+                int64_t init_time = lib::get_time_ns();
+                if (pwm_timestamp->load() <= 0 // thread is done (< 0) or not started yet (0)
+                    && init_time != pwm_timestamp->exchange(init_time)) 
                 {
-                    std::thread pwm = std::thread([]()
+                    object_boolean_port *first_port = ports->list;
+                    std::thread pwm = std::thread([first_port, pwm_timestamp]()
                     {
-                        if(__pwm_busy.exchange(true))
-                            return;
                         int64_t start_time = lib::get_time_ns();
                         bool flag;
                         do
                         {
                             flag = false;
                             int64_t time = lib::get_time_ns() - start_time;
-                            object_boolean_port *port = __ports;
+                            object_boolean_port *port = first_port;
                             while (port)
                             {
                                 if (port->index < port->actions.size())
@@ -469,7 +461,7 @@ namespace g0at
                             }
                         }
                         while(flag);
-                        __pwm_busy.store(false);
+                        pwm_timestamp->store(-lib::get_time_ns());
                     });
                     pwm.detach();
                     result.set_boolean(true);
@@ -485,25 +477,57 @@ namespace g0at
             object_ports *ports;
         };
 
+        class object_ports_busy : public object_function_built_in
+        {
+        public:
+            object_ports_busy(object_pool *_pool, object_ports *_ports)
+                : object_function_built_in(_pool), ports(_ports)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode == call_mode::as_method)
+                    thr->pop();
+                thr->pop(arg_count);
+                variable result;
+                result.set_boolean(ports->pwm_timestamp.load() > 0);
+                thr->push(result);
+            }
+
+        private:
+            object_ports *ports;
+        };
+
         object_ports::object_ports(object_pool *pool)
             : object(pool)
         {
             initialized = false;
+            list = nullptr;
+            pwm_timestamp.store(0);
             add_object(pool->get_static_string(resource::str_null), new object_port_null(pool));
             add_object(pool->get_static_string(resource::str_init), new object_ports_init(pool, this));
             add_object(pool->get_static_string(resource::str_run), new object_ports_run(pool, this));
+            add_object(pool->get_static_string(resource::str_busy), new object_ports_busy(pool, this));
         }
 
         object_ports::~object_ports()
         {
-            if (__pwm_busy.load() == true)
+            // dirty hack
+            int64_t pwm_timestamp_value = pwm_timestamp.load();
+            while (pwm_timestamp_value > 0) // the pwm thread is running?..
             {
-                // dirty hack
-                while(__pwm_busy.load() == true)
+                // wait
+                std::this_thread::sleep_for (std::chrono::milliseconds(50));
+                pwm_timestamp_value = pwm_timestamp.load();
+            }
+            if (pwm_timestamp_value < 0) // the pwm thread was runned but now it finished?..
+            {
+                if (lib::get_time_ns() + pwm_timestamp_value < 500 * 1000000) // the pwm thread is finished but not so long ago?..
                 {
-                    // wait
+                    // wait a little longer
+                    std::this_thread::sleep_for (std::chrono::milliseconds(500));
                 }
-                std::this_thread::sleep_for (std::chrono::milliseconds(500));
             }
         }
 

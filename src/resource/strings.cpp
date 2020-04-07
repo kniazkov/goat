@@ -102,6 +102,7 @@ namespace g0at
         std::wstring str_toggle = L"toggle";
         std::wstring str_schedule = L"schedule";
         std::wstring str_count = L"count";
+        std::wstring str_busy = L"busy";
 
         std::wstring str_Mode = L"Mode";
         std::wstring str_Origin = L"Origin";

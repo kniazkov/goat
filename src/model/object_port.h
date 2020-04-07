@@ -23,20 +23,27 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object.h"
+#include <atomic>
 
 namespace g0at
 {
     namespace model
     {
+        class object_boolean_port;
+
         class object_ports : public object
         {
         friend class object_ports_init;
+        friend class object_ports_run;
+        friend class object_ports_busy;
         public:
             object_ports(object_pool *pool);
             ~object_ports();
 
         private:
             bool initialized;
+            object_boolean_port *list;
+            std::atomic_int64_t pwm_timestamp;
         };
 
         class object_port_proto : public object

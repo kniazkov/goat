@@ -13,8 +13,10 @@ for (var i = 0; i < count; i++)
     timestamp += increment;
     ports.gpio4.schedule(timestamp, value, 1);
 }
+println("started");
 ports.run();
-while(ports.gpio4.count() < count)
+while(ports.busy())
 {
 }
 ports.gpio27.write(true);
+println("done");
