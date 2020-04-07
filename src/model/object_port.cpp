@@ -31,7 +31,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/spinlock.h"
 #include "resource/strings.h"
 #include <sstream>
-#include <atomic>
+#include <algorithm>
 #include <mutex>
 #include <thread>
 #include <chrono>
@@ -253,6 +253,67 @@ namespace g0at
             }
         };
 
+        class object_port_pulse : public object_boolean_port_method
+        {
+        public:
+            object_port_pulse(object_pool *_pool, object_boolean_port *_port)
+                : object_boolean_port_method(_pool, _port)
+            {
+            }
+
+            bool payload(thread *thr, int arg_count, variable *result) override
+            {
+                if (arg_count < 3)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+                variable value = thr->peek(0);
+                int64_t start;
+                if (!value.get_integer(&start) || start < 0)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+                value = thr->peek(1);
+                int64_t interval;
+                if (!value.get_integer(&interval) || interval <= 0)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+                value = thr->peek(2);
+                int64_t count;
+                if (!value.get_integer(&count) || count < 0)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+                int16_t increment = 0;
+                if (arg_count > 3)
+                {
+                    value = thr->peek(3);
+                    if (!value.get_short(&increment))
+                    {
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                        return false;
+                    }
+                }
+                boolean_port_action action;
+                action.timestamp = start;
+                action.value = true; // TODO : is it always true?..
+                action.increment = increment;
+                for (int64_t i = 0; i < count; i++)
+                {
+                    port->actions.push_back(action);
+                    action.timestamp += interval;
+                    action.value = !action.value;
+                }
+                result->set_object(thr->pool->get_undefined_instance());
+                return true;
+            }
+        };
+
         class object_port_count : public object_boolean_port_method
         {
         public:
@@ -297,6 +358,7 @@ namespace g0at
 
             add_object(pool->get_static_string(resource::str_toggle), new object_port_toggle(pool, this));
             add_object(pool->get_static_string(resource::str_schedule), new object_port_schedule(pool, this));
+            add_object(pool->get_static_string(resource::str_pulse), new object_port_pulse(pool, this));
             add_object(pool->get_static_string(resource::str_count), new object_port_count(pool, this));
             lock();
         }
@@ -434,6 +496,12 @@ namespace g0at
                     && init_time != pwm_timestamp->exchange(init_time)) 
                 {
                     object_boolean_port *first_port = ports->list;
+                    object_boolean_port *port = first_port;
+                    while(port)
+                    {
+                        std::sort(port->actions.begin(), port->actions.end());
+                        port = port->next_port;
+                    }
                     std::thread pwm = std::thread([first_port, pwm_timestamp]()
                     {
                         int64_t start_time = lib::get_time_ns();
