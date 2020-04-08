@@ -104,6 +104,8 @@ namespace g0at
         std::wstring str_pulse = L"pulse";
         std::wstring str_count = L"count";
         std::wstring str_busy = L"busy";
+        std::wstring str_create = L"create";
+        std::wstring str_reset = L"reset";
 
         std::wstring str_Mode = L"Mode";
         std::wstring str_Origin = L"Origin";

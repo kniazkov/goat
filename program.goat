@@ -27,4 +27,5 @@ while(ports.busy())
 }
 ports.gpio23.write(true);
 ports.gpio6.write(true);
+ports.reset();
 println("done");

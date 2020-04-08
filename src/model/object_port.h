@@ -36,6 +36,8 @@ namespace g0at
         friend class object_ports_init;
         friend class object_ports_run;
         friend class object_ports_busy;
+        friend class object_ports_create;
+        friend class object_ports_reset;
         public:
             object_ports(object_pool *pool);
             ~object_ports();

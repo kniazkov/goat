@@ -244,6 +244,7 @@ namespace g0at
                         return false;
                     }
                 }
+                std::lock_guard<lib::spinlock>(port->latch);
                 port->actions.push_back(action);
                 result->set_object(thr->pool->get_undefined_instance());
                 return true;
@@ -300,6 +301,7 @@ namespace g0at
                 action.timestamp = start;
                 action.value = 0; // toggle
                 action.increment = increment;
+                std::lock_guard<lib::spinlock>(port->latch);
                 for (int64_t i = 0; i < count; i++)
                 {
                     port->actions.push_back(action);
@@ -426,6 +428,43 @@ namespace g0at
         };
 #endif
 
+        class object_port_virtual : public object_boolean_port
+        {
+        public:
+            object_port_virtual(object_pool *pool, object_boolean_port **next, unsigned int _port_number)
+                : object_boolean_port(pool, next), value(false)
+            {
+            }
+
+            void read(variable *pvar, object_pool *pool) override
+            {
+                pvar->set_boolean(value);
+            }
+
+            void write(variable var) override
+            {
+                var.get_boolean(&value);
+            }
+
+            void write(bool _value) override
+            {
+                value = _value;
+            }
+
+            unsigned int bitwidth() override
+            {
+                return 1;
+            }
+
+            void toggle() override
+            {
+                value = !value;
+            }
+
+        protected:
+            bool value;
+        };
+
         class object_ports_init : public object_function_built_in
         {
         public:
@@ -448,6 +487,7 @@ namespace g0at
                 else if (lib::gpio_init())
                 {
                     lib::gpio_info i = lib::gpio_get_info();
+                    ports->unlock();
                     for (unsigned int k = 0; k < i.count; k++)
                     {
                         std::wstringstream wss;
@@ -561,6 +601,34 @@ namespace g0at
             object_ports *ports;
         };
 
+        class object_ports_reset : public object_function_built_in
+        {
+        public:
+            object_ports_reset(object_pool *_pool, object_ports *_ports)
+                : object_function_built_in(_pool), ports(_ports)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode == call_mode::as_method)
+                    thr->pop();
+                thr->pop(arg_count);
+                object_boolean_port *port = ports->list;
+                while(port)
+                {
+                    std::lock_guard<lib::spinlock>(port->latch);
+                    port->index = 0;
+                    port->actions.clear();
+                    port = port->next_port;
+                }
+                thr->push_undefined();
+            }
+
+        private:
+            object_ports *ports;
+        };
+
         object_ports::object_ports(object_pool *pool)
             : object(pool)
         {
@@ -571,6 +639,8 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_init), new object_ports_init(pool, this));
             add_object(pool->get_static_string(resource::str_run), new object_ports_run(pool, this));
             add_object(pool->get_static_string(resource::str_busy), new object_ports_busy(pool, this));
+            add_object(pool->get_static_string(resource::str_reset), new object_ports_reset(pool, this));
+            lock();
         }
 
         object_ports::~object_ports()

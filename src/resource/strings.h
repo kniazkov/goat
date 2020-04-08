@@ -106,6 +106,8 @@ namespace g0at
         extern std::wstring str_pulse;
         extern std::wstring str_count;
         extern std::wstring str_busy;
+        extern std::wstring str_create;
+        extern std::wstring str_reset;
 
         extern std::wstring str_Mode;
         extern std::wstring str_Origin;

@@ -197,6 +197,7 @@ namespace g0at
             inline void unmark(bool flag);
             inline void sweep(object_pool *pool);
             void lock() { immutable = true; }
+            void unlock() { immutable = false; } // be careful with that axe, eugene
 #ifdef GC_DEBUG
             bool is_died() { return died; }
 #endif
