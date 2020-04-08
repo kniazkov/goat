@@ -1,45 +1,73 @@
+import "stepper_motor.goat";
+import "positioning.goat";
+
 if (!ports.init())
     exit();
 
-ports.create("progress");
+var smpX1 = new StepperMotorParameters();
+smpX1.gpioEnable = "gpio23";
+smpX1.gpioStep = "gpio25";
+smpX1.gpioDirection = "gpio12";
+smpX1.scalingFactor = 213.93;
+smpX1.bitEnabling = false;
+smpX1.forwardDirection = false;
+var axisX1 = new StepperMotor(smpX1);
 
-ports.gpio23.write(false);
-ports.gpio6.write(false);
-var count = 100000;
-var increment = 64000;
-var timestamp = 0;
-var value = false;
+var smpX2 = new StepperMotorParameters();
+smpX2.gpioEnable = "gpio6";
+smpX2.gpioStep = "gpio13";
+smpX2.gpioDirection = "gpio5";
+smpX2.scalingFactor = 213.93;
+smpX2.bitEnabling = false;
+smpX2.forwardDirection = false;
+var axisX2 = new StepperMotor(smpX2);
 
-ports.gpio12.schedule(timestamp, false);
-ports.gpio5.schedule(timestamp, true);
-ports.progress.schedule(timestamp, true, 1);
-ports.gpio25.pulse(timestamp + increment, increment, count, 1);
-ports.gpio13.pulse(timestamp + increment, increment, count, -1);
+var smpY = new StepperMotorParameters();
+smpY.gpioEnable = "gpio27";
+smpY.gpioStep = "gpio4";
+smpY.gpioDirection = "gpio18";
+smpY.scalingFactor = 213.93;
+smpY.bitEnabling = false;
+smpY.forwardDirection = false;
+var axisY = new StepperMotor(smpY);
 
-timestamp += increment * (count + 2);
+var smpZ = new StepperMotorParameters();
+smpZ.gpioEnable = "gpio17";
+smpZ.gpioStep = "gpio24";
+smpZ.gpioDirection = "gpio22";
+smpZ.scalingFactor = 6666.66;
+smpZ.bitEnabling = false;
+smpZ.forwardDirection = false;
+var axisZ = new StepperMotor(smpZ);
 
-ports.gpio12.schedule(timestamp, true);
-ports.gpio5.schedule(timestamp, false);
-ports.progress.schedule(timestamp, true, 1);
-ports.gpio25.pulse(timestamp + increment, increment, count, -1);
-ports.gpio13.pulse(timestamp + increment, increment, count, 1);
+axisX1.powerOn();
+axisX2.powerOn();
+axisY.powerOn();
+axisZ.powerOn();
 
-timestamp += increment * (count + 2);
-ports.progress.schedule(timestamp, true, 1);
+axisY.addTargetPosition(200, 5 * 1000000000);
+axisY.addTargetPosition(0, 2 * 5 * 1000000000);
+axisY.addTargetPosition(-200, 3 * 5 * 1000000000);
+axisY.addTargetPosition(0, 4 * 5 * 1000000000);
+
+axisX1.addTargetPosition(200, 2 * 5 * 1000000000);
+axisX2.addTargetPosition(-200, 2 * 5 * 1000000000);
+axisX1.addTargetPosition(200, 3 * 5 * 1000000000);
+axisX2.addTargetPosition(-200, 3 * 5 * 1000000000);
+axisX1.addTargetPosition(0, 4 * 5 * 1000000000);
+axisX2.addTargetPosition(0, 4 * 5 * 1000000000);
+
 
 println("started");
 ports.run();
-var prevProgress = 0;
 while(ports.busy())
 {
-    var progress = ports.progress.count();
-    if (progress != prevProgress)
-    {
-        prevProgress = progress;
-        println(progress);
-    }
+    println("" + round(axisX1.getPosition()) + " " + round(axisY.getPosition()));
 }
-ports.gpio23.write(true);
-ports.gpio6.write(true);
 ports.reset();
 println("done");
+
+axisX1.powerOff();
+axisX2.powerOff();
+axisY.powerOff();
+axisZ.powerOff();

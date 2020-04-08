@@ -46,12 +46,12 @@ var StepperMotor =
                 this[key] = params[key];
         }
 
-        ports[gpioEnable].write(true);
-        this.targetPosition = 0;
-        this.scaledTargetPosition = 0;
-        this.targetVelocity = 0;
-        this.doubleScalingFactor = scalingFactor * 2.0;
         this.backwardDirection = !forwardDirection;
+
+        this.savedPosition = 0;
+        this.savedScaledPosition = 0;        
+        this.savedTime = 0;    
+        this.savedDirection = null;
     },
 
     powerOn : $()
@@ -64,42 +64,64 @@ var StepperMotor =
         ports[gpioEnable].write(!bitEnabling);
     },
 
-    setTargetPosition : $(position, velocity)
+    getPosition : $()
     {
-        if (position == targetPosition && velocity == targetVelocity)
-            return;
-        targetPosition = position;
-        targetVelocity = velocity;
+        return ports[gpioStep].count() / scalingFactor / 2;
+    },
+    
+    addTargetPosition : $(position, time)
+    {
+        var deltaTime = time - savedTime;
+        if (deltaTime <= 0)
+            throw new Exception.IllegalArgument();
+        var startTime = savedTime;
 
-        scaledTargetPosition = round(position * doubleScalingFactor);
-        var scaledVelocity = round(velocity * doubleScalingFactor);
-        if (scaledVelocity == 0)
+        if (position == savedPosition)
         {
-            ports[gpioStep].pulse(0);
+            savedTime = time;
+            return;
+        }
+        
+        var scaledPosition = round(position * scalingFactor) * 2;
+        var steps = scaledPosition - savedScaledPosition;
+        if (steps == 0)
+        {
+            savedTime = time;
+            return;
+        }
+        savedPosition = position;
+        savedScaledPosition = scaledPosition;
+        var direction;
+        if (steps > 0)
+        {
+            direction = 1;
         }
         else
         {
-            var period = 1000000000 / scaledVelocity;
-            if (period >= 0)
-            {
-                ports[gpioDirection].write(forwardDirection);
-                ports[gpioStep].pulse(period,  1, scaledTargetPosition);
-            }
-            else
-            {
-                ports[gpioDirection].write(backwardDirection);
-                ports[gpioStep].pulse(-period, -1, scaledTargetPosition);
-            }
+            direction = -1;
+            steps = -steps;
         }
-    },
-
-    getPosition : $()
-    {
-        return ports[gpioStep].count() / doubleScalingFactor;
-    },
-
-    onPosition : $()
-    {
-        return ports[gpioStep].count() == scaledTargetPosition;
+        
+        var interval = round(deltaTime / steps);
+        savedTime = savedTime + interval * steps;
+        
+        if (direction > 0)
+        {
+            if (savedDirection != direction)
+            {
+                savedDirection = direction;
+                ports[gpioDirection].schedule(startTime, forwardDirection);
+            }
+            ports[gpioStep].pulse(startTime, interval, steps, 1);
+        }
+        else
+        {
+            if (savedDirection != direction)
+            {
+                savedDirection = direction;
+                ports[gpioDirection].schedule(startTime, backwardDirection);
+            }
+            ports[gpioStep].pulse(startTime, interval, steps, -1);
+        }
     }
 };
