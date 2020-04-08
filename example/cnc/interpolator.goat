@@ -206,54 +206,20 @@ var Interpolator =
             Console.println("Calculating deceleration done.");
         }
 
-        // 4. squeeze
-
-        if (false /* count > 2 */)
-        {
-            var maxDistance = minDistance * 100;
-            var aux = [];
-            var k = 1;
-            var p0 = points[0];
-            var flag = true;
-            aux.push(p0);
-            while(k < count)
-            {
-                if (true)//if (k % 100 == 0)
-                {
-                    Console.cret();
-                    Console.print("Squeezing: " + round( 1000 * k / count ) / 10.0 + "%, points: " + aux.length());
-                }
-                var p1 = points[k];
-                // compare unit vectors && velocity
-                if (p0.distance >= maxDistance || p1.uX != p0.uX || p1.uY != p0.uY || p1.uZ != p0.uZ || p1.V != p0.V)
-                {
-                    if (!flag)
-                        aux.push(p0);
-                    aux.push(p1);
-                    flag = true;
-                }
-                else
-                {
-                    p1.distance = p1.distance + p0.distance;
-                    flag = false;
-                }
-                p0 = p1;
-                k++;
-            }
-            points = aux;
-            count = aux.length();
-            Console.cret();
-            Console.println("Squeezing done, points: " + count);
-        }
-
-        // 5. calculate time
+        // 4. calculate time
 
         var time = 0;
         for (var k = 0; k < count; k++)
         {
             var p = points[k];
+            var dT = 0;
             if (p.V)
-                time += p.distance / p.V;
+            {
+                dT = p.distance / p.V;
+            }
+            time += dT;
+            p.dT = dT;
+            p.T = time;
 
             if (k % 100 == 0)
             {
@@ -276,6 +242,7 @@ var Interpolator =
         Y : 0.0,
         Z : 0.0,
         V : 0.0,
+        T : 0.0,
 
         distance : $(p0, p1)
         {

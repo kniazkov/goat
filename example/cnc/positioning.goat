@@ -21,11 +21,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import "stepper_motor.goat";
-import "interpolator.goat";
 
 var Positioning =
 # {
-    init : $(axisX1, axisX2, axisY, axisZ, resolution)
+    init : $(axisX1, axisX2, axisY, axisZ)
     {
         if (!axisX1.instanceof(StepperMotor) || !(axisX2 == void || axisX2.instanceof(StepperMotor)) ||
                 !axisY.instanceof(StepperMotor) || !axisZ.instanceof(StepperMotor))
@@ -35,73 +34,27 @@ var Positioning =
         this.axisX2 = axisX2;
         this.axisY = axisY;
         this.axisZ = axisZ;
-        this.minDistance = 1.0 / resolution / 1.5;
     },
 
-    dir : $(n)
+    schedule : $(trajectory)
     {
-        if (n == 0)
-            return 0;
-        else if (n < 0) return -1; else return 1;
-    },
-
-    move : $(p0, p1)
-    {
-        if (p1.V == 0)
-            return;
-
-        // time
-        var l = Interpolator.Point.distance(p0, p1);
-        var t = l / p1.V;
-        if (t == 0)
-            return;
-
-        // current position
-        var cX = axisX1.getPosition();
-        var cY = axisY.getPosition();
-        var cZ = axisZ.getPosition();
-
-        // delta
-        var dX = p1.X - cX;
-        var dY = p1.Y - cY;
-        var dZ = p1.Z - cZ;
-
-        // speed for each axis
-        var vX = dX / t;
-        var vY = dY / t;
-        var vZ = dZ / t;
-
-        // set 
-        if (axisX2)
+        ports.reset();
+        for (var p in trajectory)
         {
-            axisX1.setTargetPosition(p1.X, vX);
-            axisX2.setTargetPosition(-p1.X, -vX);
-            axisY.setTargetPosition(p1.Y, vY);
-            axisZ.setTargetPosition(p1.Z, vZ);
-
-            while(!(axisX1.onPosition() && axisX2.onPosition() && axisY.onPosition() && axisZ.onPosition))
-                ;
-        }
-        else
-        {
-            axisX1.setTargetPosition(p1.X, vX);
-            axisY.setTargetPosition(p1.Y, vY);
-            axisZ.setTargetPosition(p1.Z, vZ);
-
-            while(!(axisX1.onPosition() && axisY.onPosition() && axisZ.onPosition))
-                ;
+            var time = round(p.T * 1000000000);
+            axisX1.addTargetPosition(p.X, time);
+            if (axisX2) axisX2.addTargetPosition(-p.X, time);
+            axisY.addTargetPosition(p.Y, time);
+            axisZ.addTargetPosition(p.Z, time);
         }
     },
-
-    run : $(p0, trajectory, callback)
+    
+    run : $()
     {
-        for (var k = 0, kl = trajectory.length(); k < kl; k++)
+        ports.run();
+        while(ports.busy())
         {
-            var p1 = trajectory[k];
-            if (callback)
-                callback(p1);
-            positioning.move(p0, p1);
-            p0 = p1;
         }
+        ports.reset();
     }
 };

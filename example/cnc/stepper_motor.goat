@@ -30,6 +30,7 @@ var StepperMotorParameters =
         this.scalingFactor = 1.0;
         this.bitEnabling = true;
         this.forwardDirection = true;
+        this.minInterval = 25000;
     }
 };
 
@@ -73,7 +74,7 @@ var StepperMotor =
     {
         var deltaTime = time - savedTime;
         if (deltaTime <= 0)
-            throw new Exception.IllegalArgument();
+            return;
         var startTime = savedTime;
 
         if (position == savedPosition)
@@ -123,5 +124,11 @@ var StepperMotor =
             }
             ports[gpioStep].pulse(startTime, interval, steps, -1);
         }
+    },
+    
+    getMaxVelocity : $()
+    {
+        var stepsPerMm = scalingFactor * 2;
+        return minInterval / stepsPerMm;
     }
 };

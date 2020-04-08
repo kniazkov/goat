@@ -1,5 +1,12 @@
+var resolution = 5.0;
+var velocity = 50.0;
+var acceleration = 250.0;
+
 import "stepper_motor.goat";
 import "positioning.goat";
+import "gcode.goat";
+import "interpolator.goat";
+
 
 if (!ports.init())
     exit();
@@ -40,31 +47,33 @@ smpZ.bitEnabling = false;
 smpZ.forwardDirection = false;
 var axisZ = new StepperMotor(smpZ);
 
+var positioning = new Positioning(axisX1, axisX2, axisY, axisZ);
+
 axisX1.powerOn();
 axisX2.powerOn();
 axisY.powerOn();
 axisZ.powerOn();
 
-axisY.addTargetPosition(200, 5 * 1000000000);
-axisY.addTargetPosition(0, 2 * 5 * 1000000000);
-axisY.addTargetPosition(-200, 3 * 5 * 1000000000);
-axisY.addTargetPosition(0, 4 * 5 * 1000000000);
+var source = "g00 x10 y10 f50\n" +
+    "g01 y210\n" +
+    "g01 x210\n" +
+    "g02 y10 j-100\n" +
+    "g01 x10\n" +
+    "g00 x0 y0";
 
-axisX1.addTargetPosition(200, 2 * 5 * 1000000000);
-axisX2.addTargetPosition(-200, 2 * 5 * 1000000000);
-axisX1.addTargetPosition(200, 3 * 5 * 1000000000);
-axisX2.addTargetPosition(-200, 3 * 5 * 1000000000);
-axisX1.addTargetPosition(0, 4 * 5 * 1000000000);
-axisX2.addTargetPosition(0, 4 * 5 * 1000000000);
+//var source = "g00 x5\ng00 x0";
 
+var gcode = GCode.parse(source);
+gcode = GCode.optimize(gcode, resolution);
+var p0 = new Interpolator.Point();
+p0.X = axisX1.getPosition();
+p0.Y = axisY.getPosition();
+p0.Z = axisZ.getPosition();
+var points = Interpolator.calculate(gcode, p0, resolution, velocity, acceleration);
+positioning.schedule(points);
 
 println("started");
-ports.run();
-while(ports.busy())
-{
-    println("" + round(axisX1.getPosition()) + " " + round(axisY.getPosition()));
-}
-ports.reset();
+positioning.run();
 println("done");
 
 axisX1.powerOff();
