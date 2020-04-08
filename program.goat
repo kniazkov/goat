@@ -1,6 +1,8 @@
 if (!ports.init())
     exit();
 
+ports.create("progress");
+
 ports.gpio23.write(false);
 ports.gpio6.write(false);
 var count = 100000;
@@ -10,6 +12,7 @@ var value = false;
 
 ports.gpio12.schedule(timestamp, false);
 ports.gpio5.schedule(timestamp, true);
+ports.progress.schedule(timestamp, true, 1);
 ports.gpio25.pulse(timestamp + increment, increment, count, 1);
 ports.gpio13.pulse(timestamp + increment, increment, count, -1);
 
@@ -17,13 +20,24 @@ timestamp += increment * (count + 2);
 
 ports.gpio12.schedule(timestamp, true);
 ports.gpio5.schedule(timestamp, false);
+ports.progress.schedule(timestamp, true, 1);
 ports.gpio25.pulse(timestamp + increment, increment, count, -1);
 ports.gpio13.pulse(timestamp + increment, increment, count, 1);
 
+timestamp += increment * (count + 2);
+ports.progress.schedule(timestamp, true, 1);
+
 println("started");
 ports.run();
+var prevProgress = 0;
 while(ports.busy())
 {
+    var progress = ports.progress.count();
+    if (progress != prevProgress)
+    {
+        prevProgress = progress;
+        println(progress);
+    }
 }
 ports.gpio23.write(true);
 ports.gpio6.write(true);

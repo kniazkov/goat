@@ -431,7 +431,7 @@ namespace g0at
         class object_port_virtual : public object_boolean_port
         {
         public:
-            object_port_virtual(object_pool *pool, object_boolean_port **next, unsigned int _port_number)
+            object_port_virtual(object_pool *pool, object_boolean_port **next)
                 : object_boolean_port(pool, next), value(false)
             {
             }
@@ -601,6 +601,46 @@ namespace g0at
             object_ports *ports;
         };
 
+        class object_ports_create : public object_function_built_in
+        {
+        public:
+            object_ports_create(object_pool *_pool, object_ports *_ports)
+                : object_function_built_in(_pool), ports(_ports)
+            {
+            }
+            
+            void call(thread *thr, int arg_count, call_mode mode) override
+            {
+                if (mode == call_mode::as_method)
+                    thr->pop();
+                if (arg_count > 0)
+                {
+                    object *arg = thr->peek().get_object();
+                    if (arg)
+                    {
+                        object_string *arg_string = arg->to_object_string();
+                        if (arg_string)
+                        {
+                            std::wstring port_name = arg_string->get_data();
+                            if (port_name != L"")
+                            {
+                                ports->unlock();
+                                ports->add_object(thr->pool->create_object_string(port_name), new object_port_virtual(thr->pool, &ports->list));
+                                ports->lock();
+                                thr->pop(arg_count);
+                                thr->push_undefined();
+                                return;
+                            }
+                        }
+                    }
+                }
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+            }
+
+        private:
+            object_ports *ports;
+        };
+
         class object_ports_reset : public object_function_built_in
         {
         public:
@@ -639,6 +679,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_init), new object_ports_init(pool, this));
             add_object(pool->get_static_string(resource::str_run), new object_ports_run(pool, this));
             add_object(pool->get_static_string(resource::str_busy), new object_ports_busy(pool, this));
+            add_object(pool->get_static_string(resource::str_create), new object_ports_create(pool, this));
             add_object(pool->get_static_string(resource::str_reset), new object_ports_reset(pool, this));
             lock();
         }
