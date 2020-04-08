@@ -53,13 +53,8 @@ namespace g0at
         struct boolean_port_action
         {
             int64_t timestamp;
-            bool value;
+            int8_t value;
             int16_t increment;
-
-            bool operator<(const boolean_port_action &other_action)
-            {
-                return timestamp < other_action.timestamp;
-            }
         };
 
         class object_boolean_port : public object_port
@@ -232,11 +227,13 @@ namespace g0at
                     return false;
                 }
                 value = thr->peek(1);
-                if (!value.get_boolean(&action.value))
+                bool boolean_value;
+                if (!value.get_boolean(&boolean_value))
                 {
                     thr->raise_exception(new object_exception_illegal_argument(thr->pool));
                     return false;
                 }
+                action.value = boolean_value ? 1 : -1;
                 action.increment = 0;
                 if (arg_count > 2)
                 {
@@ -301,13 +298,12 @@ namespace g0at
                 }
                 boolean_port_action action;
                 action.timestamp = start;
-                action.value = true; // TODO : is it always true?..
+                action.value = 0; // toggle
                 action.increment = increment;
                 for (int64_t i = 0; i < count; i++)
                 {
                     port->actions.push_back(action);
                     action.timestamp += interval;
-                    action.value = !action.value;
                 }
                 result->set_object(thr->pool->get_undefined_instance());
                 return true;
@@ -497,11 +493,6 @@ namespace g0at
                 {
                     object_boolean_port *first_port = ports->list;
                     object_boolean_port *port = first_port;
-                    while(port)
-                    {
-                        std::sort(port->actions.begin(), port->actions.end());
-                        port = port->next_port;
-                    }
                     std::thread pwm = std::thread([first_port, pwm_timestamp]()
                     {
                         int64_t start_time = lib::get_time_ns();
@@ -520,7 +511,10 @@ namespace g0at
                                     if (action.timestamp <= time)
                                     {
                                         std::lock_guard<lib::spinlock>(port->latch);
-                                        port->write(action.value);
+                                        if (action.value)
+                                            port->write(action.value > 0 ? true : false);
+                                        else
+                                            port->toggle();
                                         port->counter += action.increment;
                                         port->index++;
                                     }
@@ -638,79 +632,3 @@ namespace g0at
         }
     };
 };
-
-#if 0
-            void pulse(int64_t _delay, int64_t _increment, bool _cutoff_exists, int64_t _cutoff)
-            {
-                std::lock_guard<lib::spinlock>(this->latch);
-                period = _delay;
-                increment = _increment;
-                cutoff_exists = _cutoff_exists;
-                cutoff = _cutoff;
-                moment = lib::get_time_ns() + _delay;
-                if (__pwm_started.load() == false)
-                {
-                    std::thread pwm = std::thread([]()
-                    {
-                        if(__pwm_started.exchange(true))
-                            return;
-
-                        bool flag;
-                        do
-                        {
-                            flag = false;
-                            int64_t time = lib::get_time_ns();
-                            object_boolean_port *port = __first_port;
-                            while (port)
-                            {
-                                std::lock_guard<lib::spinlock>(port->latch);
-                                if (port->period > 0)
-                                {
-                                    flag = true;
-                                    port->handle_timer(time);
-                                }
-                                port = port->next_port;
-                            }
-                        }
-                        while(__pwm_started.load() == true/*flag*/);
-                        //__pwm_started.store(false);
-                    }); 
-                    pwm.detach();
-                }
-            }
-
-            void handle_timer(int64_t time)
-            {
-                if (moment <= time)
-                {
-                    toggle();
-                    counter += increment;
-                    if (false == cutoff_exists)
-                    {
-                        moment += period;
-                    }
-                    else
-                    {
-                        if (increment == 0)
-                        {
-                            moment += period;
-                        }
-                        else if (increment > 0)
-                        {
-                            if (counter >= cutoff)
-                                period = 0;
-                            else
-                                moment += period;
-                        }
-                        else
-                        {
-                            if (counter <= cutoff)
-                                period = 0;
-                            else
-                                moment += period;
-                        }
-                    }
-                }
-            }
-
-#endif
