@@ -1,5 +1,4 @@
 var resolution = 5.0;
-var velocity = 50.0;
 var acceleration = 250.0;
 
 import "stepper_motor.goat";
@@ -60,7 +59,7 @@ var p0 = new Interpolator.Point();
 p0.X = axisX1.getPosition();
 p0.Y = axisY.getPosition();
 p0.Z = axisZ.getPosition();
-var points = Interpolator.calculate(gcode, p0, resolution, velocity, acceleration);
+var points = Interpolator.calculate(gcode, p0, resolution, axisX1.getMaxVelocity(), axisZ.getMaxVelocity(), acceleration);
 
 axisX1.powerOn();
 axisX2.powerOn();

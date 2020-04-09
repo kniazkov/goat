@@ -26,7 +26,7 @@ import "console.goat";
 
 var Interpolator = 
 {
-    calculate : $(gcode, p0, resolution, velocity, acceleration)
+    calculate : $(gcode, p0, resolution, vXY, vZ, acceleration)
     {
         if (!gcode.instanceof(Array))
             throw new Exception.IllegalArgument();
@@ -37,7 +37,7 @@ var Interpolator =
         // 1. build array
 
         var count = gcode.length();
-        var feedRate = velocity;
+        var feedRate = vXY;
         for (var k = 0; k < count; k++)
         {
             var i = gcode[k];
@@ -52,6 +52,7 @@ var Interpolator =
                 {
                     var rapid = false;
                     var linear = false;
+                    var moveZ = false;
                     var circular = false;
                     var clockwise = false;
                     
@@ -82,6 +83,8 @@ var Interpolator =
                         p1.X = i.X != null  ? i.X : p0.X;
                         p1.Y = i.Y != null  ? i.Y : p0.Y;
                         p1.Z = i.Z != null  ? i.Z : p0.Z;
+                        if (p1.Z != p0.Z)
+                            moveZ = true;
                         sequence = this.linearInterpolator(p0, p1, resolution);
                         p0 = p1;
                     }
@@ -99,11 +102,23 @@ var Interpolator =
                         p0 = p1;
                     }
 
+                    var fixedFeedRate = feedRate;
+                    if (moveZ)
+                    {
+                        if (feedRate > vZ)
+                            fixedFeedRate = vZ;
+                    }
+                    else
+                    {
+                        if (feedRate > vXY)
+                            fixedFeedRate = vXY;
+                    }
+                    
                     for (var p in sequence)
                     {
                         p.instruction = i;
                         p.rapid = rapid;
-                        p.V = feedRate;
+                        p.V = fixedFeedRate;
                         points.push(p);
                     }
                 }
