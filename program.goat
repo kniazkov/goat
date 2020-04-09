@@ -6,6 +6,7 @@ import "stepper_motor.goat";
 import "positioning.goat";
 import "gcode.goat";
 import "interpolator.goat";
+import "io.goat";
 
 
 if (!ports.init())
@@ -49,19 +50,9 @@ var axisZ = new StepperMotor(smpZ);
 
 var positioning = new Positioning(axisX1, axisX2, axisY, axisZ);
 
-axisX1.powerOn();
-axisX2.powerOn();
-axisY.powerOn();
-axisZ.powerOn();
 
-var source = "g00 x10 y10 f50\n" +
-    "g01 y210\n" +
-    "g01 x210\n" +
-    "g02 y10 j-100\n" +
-    "g01 x10\n" +
-    "g00 x0 y0";
-
-//var source = "g00 x5\ng00 x0";
+var raw = load("gcode.txt");
+var source = raw.decode("utf8");
 
 var gcode = GCode.parse(source);
 gcode = GCode.optimize(gcode, resolution);
@@ -70,11 +61,14 @@ p0.X = axisX1.getPosition();
 p0.Y = axisY.getPosition();
 p0.Z = axisZ.getPosition();
 var points = Interpolator.calculate(gcode, p0, resolution, velocity, acceleration);
-positioning.schedule(points);
 
-println("started");
-positioning.run();
-println("done");
+axisX1.powerOn();
+axisX2.powerOn();
+axisY.powerOn();
+axisZ.powerOn();
+
+positioning.schedule(points);
+positioning.run(points);
 
 axisX1.powerOff();
 axisX2.powerOff();

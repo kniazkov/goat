@@ -21,6 +21,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import "stepper_motor.goat";
+import "console.goat";
 
 var Positioning =
 # {
@@ -34,27 +35,81 @@ var Positioning =
         this.axisX2 = axisX2;
         this.axisY = axisY;
         this.axisZ = axisZ;
+        
+        ports.create("indicator");
     },
 
     schedule : $(trajectory)
     {
         ports.reset();
-        for (var p in trajectory)
+        for (var k = 0, count = trajectory.length(); k < count; k++)
         {
+            var p = trajectory[k];
+            if (k % 256 == 0)
+            {
+                Console.cret();
+                Console.print("Trajectory loading: " + round( 1000 * k / count ) / 10.0 + "%");
+            }
             var time = round(p.T * 1000000000);
             axisX1.addTargetPosition(p.X, time);
             if (axisX2) axisX2.addTargetPosition(-p.X, time);
             axisY.addTargetPosition(p.Y, time);
             axisZ.addTargetPosition(p.Z, time);
+            if (k < count - 1)
+            {
+                ports.indicator.schedule(time, true, 1);
+            }
         }
-    },
+        Console.cret();
+        Console.println("Trajectory loading done");
+     },
     
-    run : $()
+    run : $(trajectory)
     {
+        var count = trajectory.length();
+        if (count == 0)
+            return;
+        var totalTime = trajectory[count - 1].T;
+        var k0 = null;
+        Console.println("* Start");
+        var t00 = clock() / 1000000000.0;
+        var t0 = t00;
         ports.run();
         while(ports.busy())
         {
+            var k1 = ports.indicator.count();
+            if (k1 < count && k0 != k1)
+            {
+                k0 = k1;
+                var p = trajectory[k1];
+                if (p.percent == 100)
+                {
+                    t0 = t0 + 0.25;
+                    Console.cret();
+                    Console.println(p.instruction.toString());
+                }
+                else
+                {
+                    var t1 = clock() / 1000000000.0;
+                    var dt = t1 - t00;
+                    var percent = 100 * (dt / totalTime);
+                    var left = totalTime - dt;
+                    if (t1 > t0 + 0.25)
+                    {
+                        t0 = t0 + 0.25;
+                        var X = axisX1.getPosition();
+                        var Y = axisY.getPosition();
+                        var Z = axisZ.getPosition();
+                        Console.cret();
+                        Console.print("\'" + p.instruction.toString() + "\', %: " + round(10 * p.percent) / 10.0 +
+                            " / " + round(10 * percent) / 10.0 + " / " + round(left) + " s, X: " 
+                            + round(10 * X) / 10.0 + ", Y: " + round(10 * Y) / 10.0 + ", Z: " + round(10 * Z) / 10.0
+                        );
+                    }
+                }
+            }
         }
         ports.reset();
+        Console.println("* Finish");
     }
 };

@@ -34,7 +34,8 @@ var GCode =
         var count = lines.length();
         for (var row = 0; row < count; row++)
         {
-            Console.print("\rParsing gcode: line " + (row + 1) + " from " + count);
+            Console.cret();
+            Console.print("Parsing gcode: line " + (row + 1) + " from " + count);
             var line = lines[row];
             line = line.trim();
             var n = line.length();
@@ -147,7 +148,7 @@ var GCode =
             if (k % 100 == 0)
             {
                 Console.cret();
-                Console.print("Optimization stage 1: " + round( 1000 * k / count ) / 10.0 + "%");
+                Console.print("GCode optimization stage 1: " + round( 1000 * k / count ) / 10.0 + "%");
             }
             var i = src[k];
             if (i.G)
@@ -159,7 +160,7 @@ var GCode =
             }
         }
         Console.cret();
-        Console.println("Optimization stage 1 done.");
+        Console.println("GCode optimization stage 1 done");
 
         if (count >= 4)
         {
@@ -172,7 +173,7 @@ var GCode =
                 if (k % 100 == 0)
                 {
                     Console.cret();
-                    Console.print("Optimization stage 2: " + round( 1000 * k / count ) / 10.0 + "%, found cases:" + cases);
+                    Console.print("GCode optimization stage 2: " + round( 1000 * k / count ) / 10.0 + "%, found cases:" + cases);
                 }
                 var flag = false;
                 var i0 = src[k];
@@ -213,7 +214,7 @@ var GCode =
                 k++;
             }
             Console.cret();
-            Console.println("Optimization stage 2 done, found cases: " + cases);
+            Console.println("GCode optimization stage 2 done, found cases: " + cases);
             src = dst;
         }
 

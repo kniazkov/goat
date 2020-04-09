@@ -31,6 +31,7 @@ var Interpolator =
         if (!gcode.instanceof(Array))
             throw new Exception.IllegalArgument();
         
+        var t0 = clock();
         var points = [];
 
         // 1. build array
@@ -111,7 +112,8 @@ var Interpolator =
             {
                 Console.println("Can't calculate: '" + i.toString() + "', " + e);
             }
-            Console.print("\rInterpolation: line " + (k + 1) + " from " + count +", points: " + points.length());
+            Console.cret();
+            Console.print("Interpolation: line " + (k + 1) + " from " + count +", points: " + points.length());
         }
 
         Console.cret();
@@ -148,7 +150,7 @@ var Interpolator =
                 aux.push(p1);
             }
             p0 = p1;
-            if (k % 100 == 0)
+            if (k % 256 == 0)
             {
                 Console.cret();
                 Console.print("Calculating distance: " + round( 1000 * k / kl ) / 10.0 + "%, total: " + round(10 * totalDistance) / 10.0 + " mm");
@@ -168,7 +170,7 @@ var Interpolator =
             points[count - 1].V = minVelocity;
             for (var k = 1; k < count - 1; k++)
             {
-                if (k % 100 == 0)
+                if (k % 256 == 0)
                 {
                     Console.cret();
                     Console.print("Calculating velocity: " + round( 1000 * k / count ) / 10.0 + "%");
@@ -176,13 +178,13 @@ var Interpolator =
                 this.calculateVelocity(points[k - 1], points[k], points[k + 1], acceleration);
             }
             Console.cret();
-            Console.println("Calculating velocity done.");
+            Console.println("Calculating velocity done");
 
             // calculate acceleration
             this.calculateAcceleration(null, points[0], points[1], acceleration, 0.1);
             for (var k = 2; k < count; k++)
             {
-                if (k % 100 == 0)
+                if (k % 256 == 0)
                 {
                     Console.cret();
                     Console.print("Calculating acceleration: " + round( 1000 * k / count ) / 10.0 + "%");
@@ -190,12 +192,12 @@ var Interpolator =
                 this.calculateAcceleration(points[k - 2], points[k - 1], points[k], acceleration);
             }
             Console.cret();
-            Console.println("Calculating acceleration done.");
+            Console.println("Calculating acceleration done");
 
             // calculate deceleration
             for (var k = count - 3; k >= 0; k--)
             {
-                if (k % 100 == 0)
+                if (k % 256 == 0)
                 {
                     Console.cret();
                     Console.print("\rCalculating deceleration: " + round( 1000 * (count - k) / count ) / 10.0 + "%");
@@ -203,7 +205,7 @@ var Interpolator =
                this.calculateDeceleration(points[k], points[k + 1], points[k + 2], acceleration);
             }
             Console.cret();
-            Console.println("Calculating deceleration done.");
+            Console.println("Calculating deceleration done");
         }
 
         // 4. calculate time
@@ -221,14 +223,17 @@ var Interpolator =
             p.dT = dT;
             p.T = time;
 
-            if (k % 100 == 0)
+            if (k % 256 == 0)
             {
                 Console.cret();
                 Console.print("Calculating time: " + round( 1000 * k / count ) / 10.0 + "%, total: " + round(time) + " sec");
             }
         }
         Console.cret();
-        Console.println("Total time: " + round(time) + " sec");
+        Console.println("Total operating time: " + round(time) + " sec");
+        
+        var t1 = clock();
+        Console.println("Trajectory calculated, it took " + ((t1 - t0) / 1000000000) + " sec");
 
         return points;
     },
@@ -366,7 +371,6 @@ var Interpolator =
         var range = this.calculateVelocityApprox(prev, point, next, point.V, acceleration, 5);
         range = this.calculateVelocityApprox(prev, point, next, range.max, acceleration, 1);
         range = this.calculateVelocityApprox(prev, point, next, range.max, acceleration, 0.1);
-        range = this.calculateVelocityApprox(prev, point, next, range.max, acceleration, 0.01);
         point.V = range.min;
     },
 
@@ -414,7 +418,6 @@ var Interpolator =
         {
             range = this.calculateAccelerationApprox(prev2, prev, point, range.max, acceleration, 1);
             range = this.calculateAccelerationApprox(prev2, prev, point, range.max, acceleration, 0.1);
-            range = this.calculateAccelerationApprox(prev2, prev, point, range.max, acceleration, 0.01);
             point.V = range.min;
         }
     },
@@ -472,7 +475,6 @@ var Interpolator =
         {
             range = this.calculateDecelerationApprox(point, next, next2, range.max, acceleration, 1);
             range = this.calculateDecelerationApprox(point, next, next2, range.max, acceleration, 0.1);
-            range = this.calculateDecelerationApprox(point, next, next2, range.max, acceleration, 0.01);
             next.V = range.min;
         }
     },
