@@ -327,6 +327,23 @@ namespace g0at
                 return true;
             }
         };
+        
+        class object_port_reset : public object_boolean_port_method
+        {
+        public:
+            object_port_reset(object_pool *_pool, object_boolean_port *_port)
+                : object_boolean_port_method(_pool, _port)
+            {
+            }
+
+            bool payload(thread *thr, int arg_count, variable *result) override
+            {
+                std::lock_guard<lib::spinlock>(port->latch);
+                port->counter = 0;
+                result->set_object(thr->pool->get_undefined_instance());
+                return true;
+            }
+        };
 
         object_port::object_port(object_pool *pool)
             : object(pool, pool->get_port_proto_instance())
@@ -358,6 +375,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_schedule), new object_port_schedule(pool, this));
             add_object(pool->get_static_string(resource::str_pulse), new object_port_pulse(pool, this));
             add_object(pool->get_static_string(resource::str_count), new object_port_count(pool, this));
+            add_object(pool->get_static_string(resource::str_reset), new object_port_reset(pool, this));
             lock();
         }
 

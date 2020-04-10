@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 import "algorithm.goat";
 import "console.goat";
+import "queue.goat";
 
 var GCode =
 # {
@@ -145,7 +146,7 @@ var GCode =
 
         for (var k = 0; k < count; k++)
         {
-            if (k % 100 == 0)
+            if (k % 256 == 0)
             {
                 Console.cret();
                 Console.print("GCode optimization stage 1: " + round( 1000 * k / count ) / 10.0 + "%");
@@ -170,7 +171,7 @@ var GCode =
             var cases = 0;
             while (k < count - 4)
             {
-                if (k % 100 == 0)
+                if (k % 256 == 0)
                 {
                     Console.cret();
                     Console.print("GCode optimization stage 2: " + round( 1000 * k / count ) / 10.0 + "%, found cases:" + cases);
@@ -219,6 +220,31 @@ var GCode =
         }
 
         return src;
+    },
+    
+    split : $(src)
+    {
+        var count = src.length();
+        var result = new Queue();
+        var dst = null;
+        for (var k = 0; k < count; k++)
+        {
+            if (k % 256 == 0)
+            {
+                Console.cret();
+                Console.print("GCode splitting: " + round( 1000 * k / count ) / 10.0 + "%");
+            }
+            var i = src[k];
+            if (i.moveZ || dst == null)
+            {
+                dst = [];
+                result.push(dst);
+            }
+            dst.push(i);
+        }
+        Console.cret();
+        Console.println("GCode splitting done, segments: " + result.size());
+        return result;
     },
 
     _codes :

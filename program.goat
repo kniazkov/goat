@@ -1,5 +1,5 @@
 var resolution = 5.0;
-var acceleration = 250.0;
+var acceleration = 200.0;
 
 import "stepper_motor.goat";
 import "positioning.goat";
@@ -55,21 +55,89 @@ var source = raw.decode("utf8");
 
 var gcode = GCode.parse(source);
 gcode = GCode.optimize(gcode, resolution);
+var sections = GCode.split(gcode);
+
 var p0 = new Interpolator.Point();
 p0.X = axisX1.getPosition();
 p0.Y = axisY.getPosition();
 p0.Z = axisZ.getPosition();
-var points = Interpolator.calculate(gcode, p0, resolution, axisX1.getMaxVelocity(), axisZ.getMaxVelocity(), acceleration);
+
+var power = false;
+var trajectories = new Queue();
+while (!sections.empty())
+{
+    var section = sections.pop();
+    var points = Interpolator.calculate(section, p0, resolution, axisX1.getMaxVelocity(), axisZ.getMaxVelocity(), acceleration);
+    var count = points.length();
+    if (count > 0)
+    {
+        p0 = points[count - 1];
+        trajectories.push(points);
+        
+        if (!power)
+        {
+            axisX1.powerOn();
+            axisX2.powerOn();
+            axisY.powerOn();
+            axisZ.powerOn();
+            power = true;
+        }
+        if (!ports.busy())
+        {
+            var points = trajectories.pop();
+            positioning.schedule(points);
+            positioning.run(sections.empty() ? points : null);
+        }
+    }
+}
+
+while(ports.busy())
+{
+}
+
+while (!trajectories.empty())
+{
+    var points = trajectories.pop();
+    positioning.schedule(points);
+    positioning.run(points);
+}
+
+if (power)
+{
+    axisX1.powerOff();
+    axisX2.powerOff();
+    axisY.powerOff();
+    axisZ.powerOff();
+}
+
+/*
+var trajectories = new Queue();
+while (!sections.empty())
+{
+    var section = sections.pop();
+    var points = Interpolator.calculate(section, p0, resolution, axisX1.getMaxVelocity(), axisZ.getMaxVelocity(), acceleration);
+    var count = points.length();
+    if (count > 0)
+    {
+        p0 = points[count - 1];
+    }
+    trajectories.push(points);
+}
 
 axisX1.powerOn();
 axisX2.powerOn();
 axisY.powerOn();
 axisZ.powerOn();
 
-positioning.schedule(points);
-positioning.run(points);
+while (!trajectories.empty())
+{
+    var points = trajectories.pop();
+    positioning.schedule(points);
+    positioning.run(points);
+}
 
 axisX1.powerOff();
 axisX2.powerOff();
 axisY.powerOff();
 axisZ.powerOff();
+*/

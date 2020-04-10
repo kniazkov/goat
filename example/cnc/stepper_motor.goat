@@ -130,5 +130,10 @@ var StepperMotor =
     {
         var stepsPerMm = scalingFactor * 2;
         return minInterval / stepsPerMm;
+    },
+    
+    resetTime : $()
+    {
+        savedTime = 0;
     }
 };

@@ -131,8 +131,11 @@ var Interpolator =
             Console.print("Interpolation: line " + (k + 1) + " from " + count +", points: " + points.length());
         }
 
+        var count = points.length();
         Console.cret();
-        Console.println("Interpolation done, resolution: " + resolution + " points per mm, points: " + points.length());
+        Console.println("Interpolation done, resolution: " + resolution + " points per mm, points: " + count);
+        if (count == 0)
+            return [];
         
         // 2. set distance, unit vector and delete all points with zero distance
 
@@ -145,7 +148,7 @@ var Interpolator =
         aux.push(p0);
         var totalDistance = 0;
         var minDistance = 1.0 / resolution / 2;
-        for (var k = 1, kl = points.length(); k < kl; k++)
+        for (var k = 1; k < count; k++)
         {
             var p1 = points[k];
             var dX = p1.X - p0.X;
@@ -168,11 +171,11 @@ var Interpolator =
             if (k % 256 == 0)
             {
                 Console.cret();
-                Console.print("Calculating distance: " + round( 1000 * k / kl ) / 10.0 + "%, total: " + round(10 * totalDistance) / 10.0 + " mm");
+                Console.print("Calculating distance: " + round( 1000 * k / count ) / 10.0 + "%, total: " + round(10 * totalDistance) / 10.0 + " mm");
             }
         }
         points = aux;
-        var count = points.length();
+        count = points.length();
         Console.cret();
         Console.println("Total distance: " + round(10 * totalDistance) / 10.0 + " mm, unique points: " + count);            
 

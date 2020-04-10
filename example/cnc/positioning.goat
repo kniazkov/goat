@@ -41,7 +41,7 @@ var Positioning =
 
     schedule : $(trajectory)
     {
-        ports.reset();
+        this.reset();
         for (var k = 0, count = trajectory.length(); k < count; k++)
         {
             var p = trajectory[k];
@@ -62,10 +62,16 @@ var Positioning =
         }
         Console.cret();
         Console.println("Trajectory loading done");
-     },
+    },
     
     run : $(trajectory)
     {
+        if (!trajectory)
+        {
+            ports.run();
+            return;
+        }
+        
         var count = trajectory.length();
         if (count == 0)
             return;
@@ -109,7 +115,16 @@ var Positioning =
                 }
             }
         }
-        ports.reset();
         Console.println("* Finish");
+    },
+    
+    reset : $()
+    {
+        ports.reset();
+        ports.indicator.reset();
+        axisX1.resetTime();
+        if (axisX2) axisX2.resetTime();
+        axisY.resetTime();
+        axisZ.resetTime();
     }
 };
