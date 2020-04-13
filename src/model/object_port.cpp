@@ -717,7 +717,7 @@ namespace g0at
                 if (lib::get_time_ns() + pwm_timestamp_value < 500 * 1000000) // the pwm thread is finished but not so long ago?..
                 {
                     // wait a little longer
-                    std::this_thread::sleep_for (std::chrono::milliseconds(500));
+                    std::this_thread::sleep_for (std::chrono::seconds(1));
                 }
             }
         }

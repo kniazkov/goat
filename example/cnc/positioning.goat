@@ -90,19 +90,19 @@ var Positioning =
                 var p = trajectory[k1];
                 if (p.percent == 100)
                 {
-                    t0 = t0 + 0.25;
+                    t0 = p.T + t00;
                     Console.cret();
                     Console.println(p.instruction.toString());
                 }
                 else
                 {
                     var t1 = clock() / 1000000000.0;
-                    var dt = t1 - t00;
-                    var percent = 100 * (dt / totalTime);
-                    var left = totalTime - dt;
                     if (t1 > t0 + 0.25)
                     {
-                        t0 = t0 + 0.25;
+                        var dt = t1 - t00;
+                        var percent = 100 * (dt / totalTime);
+                        var left = totalTime - dt;
+                        t0 = p.T + t00;
                         var X = axisX1.getPosition();
                         var Y = axisY.getPosition();
                         var Z = axisZ.getPosition();
