@@ -1,11 +1,14 @@
 var resolution = 5.0;
 var acceleration = 200.0;
+var powerOnDelayNs = 3 * 1000000000;
 
 import "stepper_motor.goat";
 import "positioning.goat";
 import "gcode.goat";
 import "interpolator.goat";
 import "io.goat";
+import "queue.goat";
+import "atomic.goat";
 
 
 if (!ports.init())
@@ -64,32 +67,110 @@ p0.Z = axisZ.getPosition();
 
 var power = false;
 var trajectories = new Queue();
-while (!sections.empty())
+var calculated = new Atomic(false);
+
+var thrExecutor = $$()
 {
-    var section = sections.pop();
-    var points = Interpolator.calculate(section, p0, resolution, axisX1.getMaxVelocity(), axisZ.getMaxVelocity(), acceleration);
-    var count = points.length();
-    if (count > 0)
+    do
     {
-        p0 = points[count - 1];
-        trajectories.push(points);
-        
-        if (!power)
+        var points = null;
+        lock
         {
-            axisX1.powerOn();
-            axisX2.powerOn();
-            axisY.powerOn();
-            axisZ.powerOn();
-            power = true;
+            if (!trajectories.empty())
+                points = trajectories.pop();
         }
-        if (!ports.busy())
+        if (!points)
         {
-            var points = trajectories.pop();
+            if (false == calculated.get())
+                executor.suspend();
+            else
+                break;
+        }
+        else
+        {
+            var powerOnTimestamp = null;
+            if (!power)
+            {
+                axisX1.powerOn();
+                axisX2.powerOn();
+                axisY.powerOn();
+                axisZ.powerOn();
+                power = true;
+                powerOnTimestamp = clock();
+            }
+            
+            calculator.suspend();
             positioning.schedule(points);
-            positioning.run(sections.empty() ? points : null);
+            calculator.resume();
+            
+            if (powerOnTimestamp)
+            {
+                while(clock() - powerOnTimestamp < powerOnDelayNs)
+                {
+                }
+            }
+            
+            positioning.run();
+            while(ports.busy())
+            {
+                var thrPause = $$()
+                {
+                    executor.resume();
+                };
+                thrPause.delay(100000000);
+                executor.suspend();
+            }
+        }
+    } while(true);
+    
+    if (power)
+    {
+        axisX1.powerOff();
+        axisX2.powerOff();
+        axisY.powerOff();
+        axisZ.powerOff();
+    }
+};
+var executor = thrExecutor.run();
+
+var thrCalculator = $$()
+{
+    while (!sections.empty())
+    {
+        var section = sections.pop();
+        var points = Interpolator.calculate(section, p0, resolution, axisX1.getMaxVelocity(), axisZ.getMaxVelocity(), acceleration);
+        var count = points.length();
+        if (count > 0)
+        {
+            p0 = points[count - 1];
+            lock
+            {
+                trajectories.push(points);
+                executor.resume();
+            }
         }
     }
+    calculated.set(true);
+};
+var calculator = thrCalculator.run();
+
+
+/*
+if (!power)
+{
+    axisX1.powerOn();
+    axisX2.powerOn();
+    axisY.powerOn();
+    axisZ.powerOn();
+    power = true;
 }
+if (!ports.busy())
+{
+    var points = trajectories.pop();
+    positioning.schedule(points);
+    positioning.run(sections.empty() ? points : null);
+}
+
 
 while(ports.busy())
 {
@@ -110,34 +191,4 @@ if (power)
     axisZ.powerOff();
 }
 
-/*
-var trajectories = new Queue();
-while (!sections.empty())
-{
-    var section = sections.pop();
-    var points = Interpolator.calculate(section, p0, resolution, axisX1.getMaxVelocity(), axisZ.getMaxVelocity(), acceleration);
-    var count = points.length();
-    if (count > 0)
-    {
-        p0 = points[count - 1];
-    }
-    trajectories.push(points);
-}
-
-axisX1.powerOn();
-axisX2.powerOn();
-axisY.powerOn();
-axisZ.powerOn();
-
-while (!trajectories.empty())
-{
-    var points = trajectories.pop();
-    positioning.schedule(points);
-    positioning.run(points);
-}
-
-axisX1.powerOff();
-axisX2.powerOff();
-axisY.powerOff();
-axisZ.powerOff();
 */

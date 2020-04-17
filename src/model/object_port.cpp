@@ -32,7 +32,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "resource/strings.h"
 #include <sstream>
 #include <algorithm>
-#include <mutex>
 #include <thread>
 #include <chrono>
 
@@ -244,8 +243,9 @@ namespace g0at
                         return false;
                     }
                 }
-                std::lock_guard<lib::spinlock>(port->latch);
+                port->latch.lock();
                 port->actions.push_back(action);
+                port->latch.unlock();
                 result->set_object(thr->pool->get_undefined_instance());
                 return true;
             }
@@ -301,12 +301,13 @@ namespace g0at
                 action.timestamp = start;
                 action.value = 0; // toggle
                 action.increment = increment;
-                std::lock_guard<lib::spinlock>(port->latch);
+                port->latch.lock();
                 for (int64_t i = 0; i < count; i++)
                 {
                     port->actions.push_back(action);
                     action.timestamp += interval;
                 }
+                port->latch.unlock();
                 result->set_object(thr->pool->get_undefined_instance());
                 return true;
             }
@@ -322,8 +323,9 @@ namespace g0at
 
             bool payload(thread *thr, int arg_count, variable *result) override
             {
-                std::lock_guard<lib::spinlock>(port->latch);
+                port->latch.lock();
                 result->set_integer(port->counter);
+                port->latch.unlock();
                 return true;
             }
         };
@@ -338,8 +340,9 @@ namespace g0at
 
             bool payload(thread *thr, int arg_count, variable *result) override
             {
-                std::lock_guard<lib::spinlock>(port->latch);
+                port->latch.lock();
                 port->counter = 0;
+                port->latch.unlock();
                 result->set_object(thr->pool->get_undefined_instance());
                 return true;
             }
@@ -562,13 +565,13 @@ namespace g0at
                             object_boolean_port *port = first_port;
                             while (port)
                             {
+                                port->latch.lock();
                                 if (port->index < port->actions.size())
                                 {
                                     flag = true;
                                     boolean_port_action &action = port->actions[port->index];
                                     if (action.timestamp <= time)
                                     {
-                                        std::lock_guard<lib::spinlock>(port->latch);
                                         if (action.value)
                                             port->write(action.value > 0 ? true : false);
                                         else
@@ -577,6 +580,7 @@ namespace g0at
                                         port->index++;
                                     }
                                 }
+                                port->latch.unlock();
                                 port = port->next_port;
                             }
                         }
@@ -675,9 +679,10 @@ namespace g0at
                 object_boolean_port *port = ports->list;
                 while(port)
                 {
-                    std::lock_guard<lib::spinlock>(port->latch);
+                    port->latch.lock();
                     port->index = 0;
                     port->actions.clear();
+                    port->latch.unlock();
                     port = port->next_port;
                 }
                 thr->push_undefined();

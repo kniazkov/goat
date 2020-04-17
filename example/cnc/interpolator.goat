@@ -252,7 +252,7 @@ var Interpolator =
         Console.println("Total operating time: " + round(time) + " sec");
         
         var t1 = clock();
-        Console.println("Trajectory calculated, it took " + ((t1 - t0) / 1000000000) + " sec");
+        Console.println("Section calculated, it took " + ((t1 - t0) / 1000000000) + " sec");
 
         return points;
     },
