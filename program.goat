@@ -9,6 +9,7 @@ import "interpolator.goat";
 import "io.goat";
 import "queue.goat";
 import "atomic.goat";
+import "timer.goat";
 
 
 if (!ports.init())
@@ -74,6 +75,8 @@ var thrExecutor = $$()
     do
     {
         var points = null;
+        var flag;
+        
         lock
         {
             if (!trajectories.empty())
@@ -82,9 +85,15 @@ var thrExecutor = $$()
         if (!points)
         {
             if (false == calculated.get())
+            {
+                Console.cret();
+                Console.println("Executor suspended until the trajectory calculated");
                 executor.suspend();
+            }
             else
+            {
                 break;
+            }
         }
         else
         {
@@ -105,20 +114,54 @@ var thrExecutor = $$()
             
             if (powerOnTimestamp)
             {
+                flag = false;
                 while(clock() - powerOnTimestamp < powerOnDelayNs)
                 {
+                    if (!flag)
+                    {
+                        flag = true;
+                        Console.cret();
+                        Console.println("Executor is waiting while motors power on");
+                    }
                 }
             }
             
             positioning.run();
+            
+            flag = false;            
             while(ports.busy())
             {
-                var thrPause = $$()
+                if (false == calculated.get())
                 {
-                    executor.resume();
-                };
-                thrPause.delay(100000000);
-                executor.suspend();
+                    if (!flag)
+                    {
+                        flag = true;
+                        Console.cret();
+                        Console.println("Executor is working in the background");
+                    }
+                    /*
+                    Timer.setTimer($()
+                    {
+                        executor.resume();
+                    }, new Timer.Milliseconds(500));
+                    executor.suspend();
+                    */
+                    var thrPause = $$()
+                    {
+                        executor.resume();
+                    };
+                    thrPause.delay(250000000);
+                    executor.suspend();
+                }
+                else
+                {
+                    var status = positioning.getStatus();
+                    if (status)
+                    {
+                        Console.cret();
+                        Console.print(status);
+                    }
+                }
             }
         }
     } while(true);
@@ -130,13 +173,20 @@ var thrExecutor = $$()
         axisY.powerOff();
         axisZ.powerOff();
     }
+    Console.cret();
+    Console.println("Done");
 };
 var executor = thrExecutor.run();
 
 var thrCalculator = $$()
 {
+    var size = sections.size();
+    var k = 0;
     while (!sections.empty())
     {
+        k++;
+        Console.cret();
+        Console.println("Section " + k + " of " + size);
         var section = sections.pop();
         var points = Interpolator.calculate(section, p0, resolution, axisX1.getMaxVelocity(), axisZ.getMaxVelocity(), acceleration);
         var count = points.length();
@@ -146,7 +196,12 @@ var thrCalculator = $$()
             lock
             {
                 trajectories.push(points);
-                executor.resume();
+                if (!executor.works())
+                {
+                    Console.cret();
+                    Console.println("Executor resumed");
+                    executor.resume();
+                }
             }
         }
     }
@@ -154,41 +209,3 @@ var thrCalculator = $$()
 };
 var calculator = thrCalculator.run();
 
-
-/*
-if (!power)
-{
-    axisX1.powerOn();
-    axisX2.powerOn();
-    axisY.powerOn();
-    axisZ.powerOn();
-    power = true;
-}
-if (!ports.busy())
-{
-    var points = trajectories.pop();
-    positioning.schedule(points);
-    positioning.run(sections.empty() ? points : null);
-}
-
-
-while(ports.busy())
-{
-}
-
-while (!trajectories.empty())
-{
-    var points = trajectories.pop();
-    positioning.schedule(points);
-    positioning.run(points);
-}
-
-if (power)
-{
-    axisX1.powerOff();
-    axisX2.powerOff();
-    axisY.powerOff();
-    axisZ.powerOff();
-}
-
-*/

@@ -36,12 +36,16 @@ var Positioning =
         this.axisY = axisY;
         this.axisZ = axisZ;
         
+        this.trajectory = null;
+        this.status = null;
+        
         ports.create("indicator");
     },
 
     schedule : $(trajectory)
     {
         this.reset();
+        this.trajectory = trajectory;
         for (var k = 0, count = trajectory.length(); k < count; k++)
         {
             var p = trajectory[k];
@@ -64,67 +68,82 @@ var Positioning =
         Console.println("Trajectory loading done");
     },
     
-    run : $(trajectory)
+    run : $()
     {
         if (!trajectory)
-        {
-            ports.run();
             return;
-        }
         
         var count = trajectory.length();
         if (count == 0)
             return;
-        var totalTime = trajectory[count - 1].T;
-        var k0 = null;
-        Console.println("* Start");
-        var t00 = clock() / 1000000000.0;
-        var t0 = t00;
-        ports.run();
-        while(ports.busy())
+        
+        var time = clock() / 1000000000.0;
+        
+        status =
         {
-            var k1 = ports.indicator.count();
-            if (k1 < count && k0 != k1)
-            {
-                k0 = k1;
-                var p = trajectory[k1];
-                if (p.percent == 100)
-                {
-                    t0 = p.T + t00;
-                    Console.cret();
-                    Console.println(p.instruction.toString());
-                }
-                else
-                {
-                    var t1 = clock() / 1000000000.0;
-                    if (t1 > t0 + 0.25)
-                    {
-                        var dt = t1 - t00;
-                        var percent = 100 * (dt / totalTime);
-                        var left = totalTime - dt;
-                        t0 = p.T + t00;
-                        var X = axisX1.getPosition();
-                        var Y = axisY.getPosition();
-                        var Z = axisZ.getPosition();
-                        Console.cret();
-                        Console.print("\'" + p.instruction.toString() + "\', %: " + round(10 * p.percent) / 10.0 +
-                            " / " + round(10 * percent) / 10.0 + " / " + round(left) + " s, X: " 
-                            + round(10 * X) / 10.0 + ", Y: " + round(10 * Y) / 10.0 + ", Z: " + round(10 * Z) / 10.0
-                        );
-                    }
-                }
-            }
-        }
-        Console.println("* Finish");
+            count : count,
+            totalTime : trajectory[count - 1].T,
+            k0 : null,
+            t00 : time,
+            t0 : time
+        };
+        
+        ports.run();
     },
     
     reset : $()
     {
         ports.reset();
         ports.indicator.reset();
+        
         axisX1.resetTime();
         if (axisX2) axisX2.resetTime();
         axisY.resetTime();
         axisZ.resetTime();
+        
+        trajectory = null;
+        status = null;
+    },
+    
+    getStatus : $()
+    {
+        if (!status)
+            return null;
+        
+        var k1 = ports.indicator.count();
+        if (k1 < status.count && k1 != status.k0)
+        {
+            status.k0 = k1;
+            var p = trajectory[k1];
+            if (p.percent == 100)
+            {
+                status.t0 = p.T + status.t00;
+                return p.instruction.toString() + '\n';
+            }
+            else
+            {
+                var t1 = clock() / 1000000000.0;
+                if (t1 > status.t0 + 0.25)
+                {
+                    var dt = t1 - status.t00;
+                    var done = 100 * (dt / status.totalTime);
+                    var left = status.totalTime - dt;
+                    status.t0 = p.T + status.t00;
+                    
+                    var X = axisX1.getPosition();
+                    var Y = axisY.getPosition();
+                    var Z = axisZ.getPosition();
+                    
+                    return "\'" + p.instruction.toString() + "\', %: " + round(10 * p.percent) / 10.0 +
+                        " | " + round(10 * done) / 10.0 + " | " + round(left) + " s, X: " 
+                        + round(10 * X) / 10.0 + ", Y: " + round(10 * Y) / 10.0 + ", Z: " + round(10 * Z) / 10.0;
+                }
+                return null;
+            }
+        }
+        else
+        {
+            return null;
+        }
     }
 };

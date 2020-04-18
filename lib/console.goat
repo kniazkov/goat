@@ -20,65 +20,65 @@ with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-import "mutex.goat";
-
 var Console =
 {
-    _print : print,
-    _println : println,
-    _column : 0,
-    _latch : new Mutex(),
-    _lastThread : null,
+    sysPrint : print,
+    sysPrintln : println,
+    column : 0,
+    lastThread : null,
 
     print : $(data)
     {
-        _latch.lock();
-        var str = String.valueof(data);
-        for (var ch in str)
+        lock 
         {
-            if (ch == '\r' || ch == '\n')
-                _column = 0;
-            else
-                _column++;
+            var str = String.valueof(data);
+            for (var ch in str)
+            {
+                if (ch == '\r' || ch == '\n')
+                    column = 0;
+                else
+                    column++;
+            }
+            sysPrint(str);
+            lastThread = Thread.current();
         }
-        _print(str);
-        _lastThread = Thread.current();
-        _latch.unlock();
     },
 
     println : $(data)
     {
-        _latch.lock();
-        _println(data);
-        _column = 0;
-        _lastThread = Thread.current();
-        _latch.unlock();
+        lock
+        {
+            sysPrintln(data);
+            column = 0;
+            lastThread = Thread.current();
+        }
     },
 
     cret : $()
     {
-        _latch.lock();
-        var currentThread = Thread.current();
-        if (currentThread == _lastThread)
+        lock
         {
-            if (_column > 0)
+            var currentThread = Thread.current();
+            if (currentThread == lastThread)
             {
-                _print('\r');
-                for (var i = 0; i < _column; i++)
-                    _print(' ');
-                _print('\r');
-                _column = 0;
+                if (column > 0)
+                {
+                    sysPrint('\r');
+                    for (var i = 0; i < column; i++)
+                        sysPrint(' ');
+                    sysPrint('\r');
+                    column = 0;
+                }
+            }
+            else
+            {
+                lastThread = currentThread;
+                if (column > 0)
+                {
+                    sysPrint('\n');
+                    column = 0;
+                }
             }
         }
-        else
-        {
-            _lastThread = currentThread;
-            if (_column > 0)
-            {
-                _print('\n');
-                _column = 0;
-            }
-        }
-        _latch.unlock();
     }
 };
