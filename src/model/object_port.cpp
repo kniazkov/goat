@@ -302,6 +302,15 @@ namespace g0at
                 action.value = 0; // toggle
                 action.increment = increment;
                 port->latch.lock();
+                if (port->actions.capacity() < port->actions.size() + (size_t)count)
+                {
+                    size_t increment = 16 * 1024 * 1024;
+                    if ((size_t)count > increment)
+                        increment = (size_t)count;
+                    size_t new_capacity = port->actions.size() + increment;
+                    port->actions.reserve(new_capacity);
+                    
+                }
                 for (int64_t i = 0; i < count; i++)
                 {
                     port->actions.push_back(action);

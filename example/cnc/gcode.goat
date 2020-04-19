@@ -235,7 +235,12 @@ var GCode =
                 Console.print("GCode splitting: " + round( 1000 * k / count ) / 10.0 + "%");
             }
             var i = src[k];
-            if (i.moveZ || dst == null)
+            if (dst == null)
+            {
+                dst = [];
+                result.push(dst);
+            }
+            else if (i.moveZ && dst.length() >= 32)
             {
                 dst = [];
                 result.push(dst);
