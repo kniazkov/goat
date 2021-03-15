@@ -2799,7 +2799,7 @@
                             program.goat, 5.1
                         ?]]>
                     </c>
-                    <p>It's not planned to add a row number in the excepcion message since it decreases runtime efficency.</p>
+                    <p>It's not planned to add a row number in the exception message since it decreases runtime efficency.</p>
                 </s>
                 <s name="Commands in debugging mode">
                     <p>The interpreter is waiting for the command to be entered after the question mark. A command is one letter and possibly some auxiliary parameters, for example:</p>
