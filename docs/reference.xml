@@ -2790,6 +2790,17 @@
                         ?]]>
                     </c>
                 </s>
+                <s name="The '--debug --run' command line parameters together">
+                    <p>The program will be compiled and run in debug mode. The exceptions messages would be enriched with row numbers:</p>
+                    <c><![CDATA[
+                        C:\>goat.exe program.goat --debug --run
+                            unhandled exception: '"toString"' is not a method
+                            program.goat, 2.5
+                            program.goat, 5.1
+                        ?]]>
+                    </c>
+                    <p>It's not planned to add a row number in the exception message since it decreases runtime efficency.</p>
+                </s>
                 <s name="Commands in debugging mode">
                     <p>The interpreter is waiting for the command to be entered after the question mark. A command is one letter and possibly some auxiliary parameters, for example:</p>
                     <c><![CDATA[
