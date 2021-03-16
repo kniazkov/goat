@@ -2844,6 +2844,12 @@
                             <c>Inserts a <b>breakpoint</b>. The program will stop on position, specified by this command</c>
                         </r>
                         <r>
+                            <c><c>b line</c></c>
+                            <c></c>
+                            <c><c>b 10</c></c>
+                            <c>Inserts a breakpoint to the main file (name specified as a parameter of the interpreter)</c>
+                        </r>
+                        <r>
                             <c><c>r</c></c>
                             <c>run</c>
                             <c></c>

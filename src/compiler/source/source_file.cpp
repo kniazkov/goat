@@ -172,16 +172,25 @@ namespace g0at
     lib::pointer<breakpoint> source_file::set_breakpoint(std::string request)
     {
         size_t colon = request.find(':');
+        int line;
         if (colon == std::string::npos)
-            return nullptr;
+        {
+            if (offset > 0)
+                return nullptr;
 
-        std::string bp_file_name = lib::trim(request.substr(0, colon));
+            line = std::atoi(lib::trim(request).c_str());
+        }
+        else
+        {
+            std::string bp_file_name = lib::trim(request.substr(0, colon));
 
-        if (!lib::ends_with(file_name, bp_file_name))
-            return nullptr;
+            if (!lib::ends_with(file_name, bp_file_name))
+                return nullptr;
 
-        std::string bp_row = lib::trim(request.substr(colon + 1));
-        int line = std::atoi(bp_row.c_str());
+            std::string bp_row = lib::trim(request.substr(colon + 1));
+            line = std::atoi(bp_row.c_str());
+        }
+
         if (line < 1 || line - 2 >= (int)row_index.size())
             return nullptr;
 
