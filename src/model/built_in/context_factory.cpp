@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -100,6 +100,8 @@ namespace g0at
 
                 tmp.set_object(new object_ports(pool));
                 ctx->add_object(pool->get_static_string(L"ports"), tmp);
+
+                ctx->add_object(pool->get_static_string(L"System"), ctx);
 
                 return pool->create_context(ctx);
             }

@@ -1,7 +1,6 @@
-var i;
-var k = 0;
-for (i = 0; i < 1000000; i++)
-{
-    k--;
-}
-println(k);
+import "io.goat";
+
+var w = FileWriter.open("example.txt", "utf8");
+w.writeln("Yes!");
+w.writeln("It works");
+w.close();

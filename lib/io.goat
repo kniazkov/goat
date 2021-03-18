@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of standard library for programming language
 codenamed "Goat" ("Goat standard library").
@@ -32,4 +32,58 @@ var load = $(name)
     var data = file.read(size);
     file.close();
     return data;
+};
+
+var FileWriter =
+# {
+    file : null,
+
+    open : $(name, encoding)
+    {
+        var file = System.open(name, File.Mode.WRITE);
+        if (!file)
+            return null;
+
+        var obj = new FileWriter();
+        obj.file = file;
+        obj.encoding = encoding;
+        return obj;
+    },
+
+    write : $(data)
+    {
+        if (file)
+        {
+            if (data.instanceof(ByteArray))
+            {
+                file.write(data);
+            }
+            else
+            {
+                var str = String.valueof(data);
+                file.write(str.encode(encoding));
+            }
+        }
+    },
+
+    writeln : $(data)
+    {
+        this.write(data);
+        this.write('\n');
+    },
+
+    flush : $()
+    {
+        if (file)
+            file.flush();
+    },
+
+    close: $()
+    {
+        if (file)
+        {
+            file.close();
+            file = null;
+        }
+    }
 };
