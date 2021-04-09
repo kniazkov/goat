@@ -30,7 +30,12 @@ typedef struct
 {
     goat_allocator allocator;
     void *mem_info;
-} goat_native_environment;
+} goat_ext_environment;
+
+static __inline void * goat_alloc(goat_ext_environment* env, size_t size)
+{
+    return env->allocator(size, env->mem_info);
+}
 
 typedef enum
 {
@@ -43,22 +48,24 @@ typedef struct
     goat_type type;
 } goat_value;
 
+typedef goat_value * (*goat_ext_function)(goat_ext_environment* env, int argc, goat_value **argv);
+
 typedef struct
 {
     goat_type type;
     int64_t value;
 } goat_integer;
 
-static __inline goat_value * create_goat_unknown_value(goat_native_environment *env)
+static __inline goat_value * create_goat_unknown_value(goat_ext_environment *env)
 {
-    goat_value *obj = (goat_value*)env->allocator(sizeof(goat_value), env->mem_info);
+    goat_value *obj = (goat_value*)goat_alloc(env, sizeof(goat_value));
     obj->type = goat_type_unknown;
     return obj;
 }
 
-static __inline goat_value * create_goat_integer(goat_native_environment *env, int64_t value)
+static __inline goat_value * create_goat_integer(goat_ext_environment *env, int64_t value)
 {
-    goat_integer *obj = (goat_integer*)env->allocator(sizeof(goat_integer), env->mem_info);
+    goat_integer *obj = (goat_integer*)goat_alloc(env, sizeof(goat_integer));
     obj->type = goat_type_integer;
     obj->value = value;
     return (goat_value*)obj;

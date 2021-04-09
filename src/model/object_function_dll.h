@@ -35,14 +35,14 @@ namespace g0at
         class object_function_dll : public object_function
         {
         public:
-            object_function_dll(object_pool *_pool, object_dynamic_library *_library, void *_function_ptr);
+            object_function_dll(object_pool *_pool, object_dynamic_library *_library, goat_ext_function _ext_func);
             void call(thread *thr, int arg_count, call_mode mode) override;
             void trace() override;
             void trace_parallel(object_pool *pool) override;
         
         private:
             object_dynamic_library *library;
-            void *function_ptr;
+            goat_ext_function ext_func;
         };
     };
 };

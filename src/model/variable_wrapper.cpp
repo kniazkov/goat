@@ -61,7 +61,7 @@ namespace g0at
             return var.get_char(pval);
         }
 
-        goat_value * variable_wrapper::get_value(goat_native_environment *env)
+        goat_value * variable_wrapper::get_value(goat_ext_environment *env)
         {
             return var.get_value(env);
         }

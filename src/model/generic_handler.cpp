@@ -98,7 +98,7 @@ namespace g0at
                 return var->data.obj->get_char(pval);
             }
 
-            goat_value * get_value(variable *var, goat_native_environment *env) override
+            goat_value * get_value(variable *var, goat_ext_environment *env) override
             {
                 check(var);
                 return var->data.obj->get_value(env);

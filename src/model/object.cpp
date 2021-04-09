@@ -513,7 +513,7 @@ namespace g0at
             return false;
         }
 
-        goat_value * object::get_value(goat_native_environment *env)
+        goat_value * object::get_value(goat_ext_environment *env)
         {
             return create_goat_unknown_value(env);
         }

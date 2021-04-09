@@ -299,7 +299,7 @@ namespace g0at
                 return true;
             }
 
-            goat_value * get_value(variable *var, goat_native_environment *env) override
+            goat_value * get_value(variable *var, goat_ext_environment *env) override
             {
                 return create_goat_integer(env, var->data.i);
             }

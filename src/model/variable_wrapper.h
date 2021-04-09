@@ -40,7 +40,7 @@ namespace g0at
             bool get_real(double *pval) override;
             bool get_boolean(bool *pval) override;
             bool get_char(wchar_t *pval) override;
-            goat_value * get_value(goat_native_environment *env) override;
+            goat_value * get_value(goat_ext_environment *env) override;
 
             void op_add(thread *thr) override;
             void op_sub(thread *thr) override;

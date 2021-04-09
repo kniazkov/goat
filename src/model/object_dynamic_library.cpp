@@ -115,7 +115,7 @@ namespace g0at
                             std::string func_name_ascii = lib::wstring_to_ascii_string(func_name, &is_ascii);
                             if (is_ascii)
                             {
-                                void *func = library->get_loader()->load(func_name_ascii.c_str());
+                                goat_ext_function func = (goat_ext_function)library->get_loader()->load(func_name_ascii.c_str());
                                 if (func)
                                     result->set_object(new object_function_dll(thr->pool, library, func));
                                 else
