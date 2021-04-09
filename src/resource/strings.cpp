@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -106,6 +106,8 @@ namespace g0at
         std::wstring str_busy = L"busy";
         std::wstring str_create = L"create";
         std::wstring str_reset = L"reset";
+        std::wstring str_dll = L"dll";
+        std::wstring str_find = L"find";
 
         std::wstring str_Mode = L"Mode";
         std::wstring str_Origin = L"Origin";

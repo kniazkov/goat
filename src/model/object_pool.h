@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -120,6 +120,7 @@ namespace g0at
             object *get_file_proto_instance() { return file_proto_instance; }
             object *get_port_proto_instance() { return port_proto_instance; }
             object *get_gpio_proto_instance() { return gpio_proto_instance; }
+            object *get_dynamic_library_proto_instance() { return dynamic_library_proto_instance; }
 
             object *get_exception_illegal_argument_proto_instance() { return exception_illegal_argument_proto_instance; }
             object *get_exception_illegal_context_proto_instance() { return exception_illegal_context_proto_instance; }
@@ -232,6 +233,7 @@ namespace g0at
             object *file_proto_instance;
             object *port_proto_instance;
             object *gpio_proto_instance;
+            object *dynamic_library_proto_instance;
 
             object *exception_illegal_argument_proto_instance;
             object *exception_illegal_context_proto_instance;

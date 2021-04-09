@@ -1,6 +1,2 @@
-import "io.goat";
-
-var w = FileWriter.open("example.txt", "utf8");
-w.writeln("Yes!");
-w.writeln("It works");
-w.close();
+var dll = dlopen("ext/ext_lib.dll");
+print(dll);

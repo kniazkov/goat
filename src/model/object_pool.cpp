@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -44,6 +44,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_byte_array.h"
 #include "object_file.h"
 #include "object_port.h"
+#include "object_dynamic_library.h"
 #include "operator_wrapper.h"
 #include "context.h"
 
@@ -183,6 +184,8 @@ namespace g0at
             gpio_proto_instance = gpio_proto;
             auto iterator_proto = new object_iterator_proto(this);
             iterator_proto_instance = iterator_proto;
+            auto dynamic_library_proto = new object_dynamic_library_proto(this);
+            dynamic_library_proto_instance = dynamic_library_proto;
             wrap_add_instance = new binary_operator_adapter<wrap_add>(this);
             wrap_sub_instance = new binary_operator_adapter<wrap_sub>(this);
             wrap_pos_instance = new unary_operator_adapter<wrap_pos>(this);
@@ -235,6 +238,7 @@ namespace g0at
             file_proto->init(this);
             port_proto->init(this);
             gpio_proto->init(this);
+            dynamic_library_proto->init(this);
             auto exception_illegal_argument_proto = new object_exception_illegal_argument_proto(this);
             exception_illegal_argument_proto_instance = exception_illegal_argument_proto;
             auto exception_illegal_context_proto = new object_exception_illegal_context_proto(this);

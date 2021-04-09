@@ -247,6 +247,11 @@ namespace g0at
         {
             return nullptr;
         }
+        
+        object_dynamic_library *object::to_object_dynamic_library()
+        {
+            return nullptr;
+        }
 
         bool object::less(const object *obj) const
         {

@@ -3,7 +3,9 @@
  * gcc ext_lib.o --shared -o ext_lib.dll
  */
 
-int do_something(int x)
+#include <stdio.h>
+
+void do_something()
 {
-    return x * x + 1;
+    printf("it works.\n");
 }

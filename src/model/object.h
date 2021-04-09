@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -58,6 +58,7 @@ namespace g0at
         class object_byte_array;
         class object_file;
         class object_port;
+        class object_dynamic_library;
         class handler;
         enum class call_mode;
 
@@ -222,6 +223,7 @@ namespace g0at
             virtual object_byte_array *to_object_byte_array();
             virtual object_file *to_object_file();
             virtual object_port *to_object_port();
+            virtual object_dynamic_library *to_object_dynamic_library();
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
