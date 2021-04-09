@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "goat_data.h"
 #include "settings.h"
 #include "object_pool.h"
 #include "lib/pointer.h"
@@ -111,6 +112,8 @@ namespace g0at
             inline bool get_char(wchar_t *pval);
             inline bool get_byte(uint8_t *pval);
             inline bool get_short(int16_t *pval);
+
+            inline goat_value * get_value(goat_native_environment *env);
 
             inline void op_add(thread *thr);
             inline void op_sub(thread *thr);
@@ -251,6 +254,8 @@ namespace g0at
             virtual bool get_char(wchar_t *pval);
             virtual bool is_void();
 
+            virtual goat_value * get_value(goat_native_environment *env);
+
             virtual void op_new(thread *thr, int arg_count);
             virtual void op_add(thread *thr);
             virtual void op_sub(thread *thr);
@@ -352,6 +357,8 @@ namespace g0at
             virtual bool get_real(variable *var, double *val);
             virtual bool get_boolean(variable *var, bool *val);
             virtual bool get_char(variable *var, wchar_t *val);
+
+            virtual goat_value * get_value(variable *var, goat_native_environment *env);
 
             virtual void op_add(variable *var, thread *thr);
             virtual void op_sub(variable *var, thread *thr);
@@ -543,6 +550,11 @@ namespace g0at
                 }
             }
             return false;
+        }
+
+        goat_value * variable::get_value(goat_native_environment *env)
+        {
+            return hndl->get_value(this, env);
         }
 
         void variable::op_add(thread *thr)

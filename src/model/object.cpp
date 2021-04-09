@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -511,6 +511,11 @@ namespace g0at
         bool object::is_void()
         {
             return false;
+        }
+
+        goat_value * object::get_value(goat_native_environment *env)
+        {
+            return create_goat_unknown_value(env);
         }
 
         void object::op_new(thread *thr, int arg_count)

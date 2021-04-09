@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -59,6 +59,11 @@ namespace g0at
         bool variable_wrapper::get_char(wchar_t *pval)
         {
             return var.get_char(pval);
+        }
+
+        goat_value * variable_wrapper::get_value(goat_native_environment *env)
+        {
+            return var.get_value(env);
         }
 
         void variable_wrapper::op_add(thread *thr)
