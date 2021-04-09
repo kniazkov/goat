@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_string.h"
 #include "object_exception.h"
 #include "object_function_built_in.h"
+#include "object_function_dll.h"
 #include "lib/utils.h"
 #include "lib/assert.h"
 #include "resource/strings.h"
@@ -79,16 +80,15 @@ namespace g0at
                     thr->raise_exception(new object_exception_illegal_context(thr->pool));
                     return;
                 }
-                lib::dll_loader *loader = this_ptr_dll->get_loader();
                 variable result;
-                if (payload(thr, arg_count, loader, &result))
+                if (payload(thr, arg_count, this_ptr_dll, &result))
                 {
                     thr->pop(arg_count);
                     thr->push(result);
                 }
             }
 
-            virtual bool payload(thread *thr, int arg_count, lib::dll_loader *loader, variable *result) = 0;
+            virtual bool payload(thread *thr, int arg_count, object_dynamic_library *library, variable *result) = 0;
         };
 
         class object_dynamic_library_find : public object_dynamic_library_method
@@ -99,12 +99,11 @@ namespace g0at
             {
             }
             
-            bool payload(thread *thr, int arg_count, lib::dll_loader *loader, variable *result) override
+            bool payload(thread *thr, int arg_count, object_dynamic_library *library, variable *result) override
             {
                 if (arg_count > 0)
                 {
                     variable &arg_fname = thr->peek(0);
-                    thr->pop(arg_count);
                     object *arg_fname_obj = arg_fname.get_object();
                     if (arg_fname_obj)
                     {
@@ -116,8 +115,11 @@ namespace g0at
                             std::string func_name_ascii = lib::wstring_to_ascii_string(func_name, &is_ascii);
                             if (is_ascii)
                             {
-                                // TODO: finish it
-                                result->set_object(thr->pool->get_null_instance());
+                                void *func = library->get_loader()->load(func_name_ascii.c_str());
+                                if (func)
+                                    result->set_object(new object_function_dll(thr->pool, library, func));
+                                else
+                                    result->set_object(thr->pool->get_null_instance());
                                 return true;
                             }
                         }

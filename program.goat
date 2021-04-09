@@ -1,2 +1,5 @@
 var dll = dlopen("ext/ext_lib.dll");
-print(dll);
+println(dll);
+var fn = dll.find("do_something");
+println(fn);
+fn();
