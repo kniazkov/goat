@@ -62,7 +62,7 @@ namespace g0at
 #ifdef _WIN32
             return (void*)GetProcAddress((HMODULE)dll_instance, function_name.c_str());
 #else
-            return (void*)dlsym(dll, function_name.c_str());
+            return (void*)dlsym(dll_instance, function_name.c_str());
 #endif
         }
     }

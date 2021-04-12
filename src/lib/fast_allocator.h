@@ -22,7 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <cstdint>
+#include <cstddef>
 
 namespace g0at
 {
