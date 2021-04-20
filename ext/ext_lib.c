@@ -8,7 +8,17 @@
 
 goat_value * do_something(goat_ext_environment *env, int argc, goat_value **argv)
 {
-    printf("it works.\n");
-    goat_integer *v = (goat_integer*)argv[0];
-    return create_goat_integer(env, -(v->value + 1));
+    goat_array *a = (goat_array*)argv[0];
+    printf("it works: %d\n", a->size);
+    goat_array_item *i = a->first;
+    int64_t n = 0;
+    while(i)
+    {
+        if (i->data->type == goat_type_integer)
+        {
+            n += ((goat_integer*)(i->data))->value;
+        }
+        i = i->next;
+    }
+    return create_goat_integer(env, n);
 }

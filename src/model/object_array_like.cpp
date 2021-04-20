@@ -102,6 +102,17 @@ namespace g0at
             return wss.str();
         }
 
+        goat_value * object_array_like::get_value(goat_ext_environment *env)
+        {
+            goat_array *result = create_goat_array(env);
+            int length = get_length();
+            for (int i = 0; i < length; i++)
+            {
+                goat_array_push_back(env, result, get_item(i).get_value(env));
+            }
+            return &result->base;
+        }
+
         void object_array_like::m_get(thread *thr, int arg_count)
         {
             if (arg_count < 1)

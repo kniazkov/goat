@@ -2,5 +2,5 @@ var dll = dlopen("ext/ext_lib.dll");
 println(dll);
 var fn = dll.find("do_something");
 println(fn);
-var val = fn(1023);
+var val = fn([1, 2, "test", 3, 4]);
 println(val);

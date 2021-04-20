@@ -34,6 +34,7 @@ namespace g0at
             object_array_like(object_pool *pool, object *proto);
             object_array_like *to_object_array_like() override;
             std::wstring to_string() const override;
+            goat_value * get_value(goat_ext_environment *env) override;
 
             void m_get(thread *thr, int arg_count) override;
             void m_set(thread *thr, int arg_count) override;

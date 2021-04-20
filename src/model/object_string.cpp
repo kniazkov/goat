@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -117,7 +117,6 @@ namespace g0at
             ids = _ids;
         }
 
-
         object_type object_string::get_type() const
         {
             return object_type::string;
@@ -126,6 +125,11 @@ namespace g0at
         object_string *object_string::to_object_string()
         {
             return this;
+        }
+
+        goat_value * object_string::get_value(goat_ext_environment *env)
+        {
+            return create_goat_string_ext(env, data.c_str(), data.length());
         }
 
         bool object_string::less(const object *obj) const

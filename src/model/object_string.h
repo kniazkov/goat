@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -46,6 +46,7 @@ namespace g0at
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
             std::wstring to_string_notation() const override;
+            goat_value * get_value(goat_ext_environment *env) override;
             void op_add(thread *thr) override;
             void op_not(thread *thr) override;
             void op_bool(thread *thr) override;
