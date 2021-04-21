@@ -14,9 +14,9 @@ goat_value * do_something(goat_ext_environment *env, int argc, goat_value **argv
     int64_t n = 0;
     while(i)
     {
-        if (i->data->type == goat_type_integer)
+        if (is_goat_number(i->data))
         {
-            n += ((goat_integer*)(i->data))->value;
+            n += goat_value_to_int64(i->data);
         }
         i = i->next;
     }

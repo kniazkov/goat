@@ -70,6 +70,12 @@ namespace g0at
                 case goat_type_integer:
                     dst->set_integer(((goat_integer*)src)->value);
                     break;
+                case goat_type_real:
+                    dst->set_real(((goat_real*)src)->value);
+                    break;
+                case goat_type_char:
+                    dst->set_char(((goat_char*)src)->value);
+                    break;
                 case goat_type_string:
                     dst->set_object(pool->create_object_string(((goat_string*)src)->value));
                     break;

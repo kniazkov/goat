@@ -46,6 +46,8 @@ typedef enum
     goat_type_null,
     goat_type_boolean,
     goat_type_integer,
+    goat_type_real,
+    goat_type_char,
     goat_type_string,
     goat_type_array
 } goat_type;
@@ -68,6 +70,18 @@ typedef struct
     goat_value base;
     int64_t value;
 } goat_integer;
+
+typedef struct
+{
+    goat_value base;
+    double value;
+} goat_real;
+
+typedef struct
+{
+    goat_value base;
+    wchar_t value;
+} goat_char;
 
 typedef struct
 {
@@ -122,6 +136,22 @@ static __inline goat_value * create_goat_integer(goat_ext_environment *env, int6
     return (goat_value*)obj;
 }
 
+static __inline goat_value * create_goat_real(goat_ext_environment *env, double value)
+{
+    goat_real *obj = (goat_real*)goat_alloc(env, sizeof(goat_real));
+    obj->base.type = goat_type_real;
+    obj->value = value;
+    return (goat_value*)obj;
+}
+
+static __inline goat_value * create_goat_char(goat_ext_environment *env, wchar_t value)
+{
+    goat_char *obj = (goat_char*)goat_alloc(env, sizeof(goat_char));
+    obj->base.type = goat_type_char;
+    obj->value = value;
+    return (goat_value*)obj;
+}
+
 static __inline goat_value * create_goat_string_ext(goat_ext_environment *env, const wchar_t *value, size_t value_length)
 {
     goat_string *obj = (goat_string*)goat_alloc(env, sizeof(goat_string));
@@ -159,4 +189,27 @@ static __inline void goat_array_push_back(goat_ext_environment *env, goat_array*
         obj->first = item;
     obj->last = item;
     obj->size++;
+}
+
+static __inline bool is_goat_number(goat_value *obj)
+{
+    return obj->type == goat_type_integer || obj->type == goat_type_real;
+}
+
+static __inline int64_t goat_value_to_int64(goat_value *obj)
+{
+    if (obj->type == goat_type_integer)
+        return ((goat_integer*)obj)->value;
+    if (obj->type == goat_type_real)
+        return (int64_t)((goat_real*)obj)->value;
+    return 0;
+}
+
+static __inline double goat_value_to_double(goat_value *obj)
+{
+    if (obj->type == goat_type_integer)
+        return (double)((goat_integer*)obj)->value;
+    if (obj->type == goat_type_real)
+        return ((goat_real*)obj)->value;
+    return 0;
 }
