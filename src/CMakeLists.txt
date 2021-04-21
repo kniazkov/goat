@@ -52,4 +52,5 @@ target_link_libraries(goat
     compiler_common
     pthread
     atomic
+    ${CMAKE_DL_LIBS}
 )

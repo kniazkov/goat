@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdbool.h>
 #include <memory.h>
 #include <string.h>
+#include <stddef.h>
 
 typedef void * (*goat_allocator)(size_t size, void *mem_info);
 
