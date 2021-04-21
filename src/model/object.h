@@ -325,6 +325,7 @@ namespace g0at
             void reinit(object_pool *pool);
         public:
             virtual void m_clone(thread *thr, int arg_count) override;
+            virtual goat_value * get_value(goat_ext_environment *env) override;
         };
 
         class generic_proto : public object

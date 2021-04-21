@@ -93,6 +93,20 @@ namespace g0at
                     dst->set_object(array);
                     break;
                 }
+                case goat_type_object:
+                {
+                    object *object = pool->create_generic_object();
+                    goat_object_record *rec  = ((goat_object*)src)->first;
+                    while(rec)
+                    {
+                        variable var;
+                        value_to_variable(pool, rec->data, &var);
+                        object->add_object(pool->create_object_string(rec->key), var);
+                        rec = rec->next;
+                    }
+                    dst->set_object(object);
+                    break;                
+                }
                 default:
                     dst->set_object(pool->get_undefined_instance());
             }

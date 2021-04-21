@@ -49,7 +49,8 @@ typedef enum
     goat_type_real,
     goat_type_char,
     goat_type_string,
-    goat_type_array
+    goat_type_array,
+    goat_type_object
 } goat_type;
 
 typedef struct
@@ -105,6 +106,23 @@ typedef struct
     goat_array_item *last;
     int size;
 } goat_array;
+
+typedef struct goat_object_record goat_object_record;
+
+struct goat_object_record
+{
+    goat_object_record *next;
+    wchar_t *key;
+    size_t key_length;
+    goat_value *data;
+};
+
+typedef struct
+{
+    goat_value base;
+    goat_object_record *first;
+    goat_object_record *last;
+} goat_object;
 
 static __inline goat_value * create_goat_unknown_value(goat_ext_environment *env)
 {
@@ -189,6 +207,38 @@ static __inline void goat_array_push_back(goat_ext_environment *env, goat_array*
         obj->first = item;
     obj->last = item;
     obj->size++;
+}
+
+static __inline goat_object * create_goat_object(goat_ext_environment *env)
+{
+    goat_object *obj = (goat_object*)goat_alloc(env, sizeof(goat_object));
+    obj->base.type = goat_type_object;
+    obj->first = NULL;
+    obj->last = NULL;
+    return obj;
+}
+
+static __inline void goat_object_add_record_ext(goat_ext_environment *env, goat_object* obj, 
+    const wchar_t *key, size_t key_length, goat_value *value)
+{
+    goat_object_record *rec = (goat_object_record*)goat_alloc(env, sizeof(goat_object_record));
+    rec->key = (wchar_t*)goat_alloc(env, sizeof(wchar_t) * (key_length + 1));
+    memcpy(rec->key, key, sizeof(wchar_t) * key_length);
+    rec->key[key_length] = L'\0';
+    rec->key_length = key_length;
+    rec->data = value;
+    rec->next = NULL;
+    if (obj->last)
+        obj->last->next = rec;
+    else
+        obj->first = rec;
+    obj->last = rec;
+}
+
+static __inline void goat_object_add_record(goat_ext_environment *env, goat_object* obj,
+    const wchar_t *key, goat_value *value)
+{
+    goat_object_add_record_ext(env, obj, key, key ? wcslen(key) : 0, value);
 }
 
 static __inline bool is_goat_number(goat_value *obj)
