@@ -22,6 +22,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object_function_dll.h"
 #include "object_dynamic_library.h"
+#include "object_string.h"
+#include "object_array.h"
 #include "lib/fast_allocator.h"
 
 namespace g0at
@@ -49,6 +51,47 @@ namespace g0at
             return mem_info->alloc(size);
         }
 
+        static void value_to_variable(object_pool *pool, goat_value *src, variable *dst)
+        {
+            if (!src)
+            {
+                dst->set_object(pool->get_undefined_instance());
+                return;
+            }
+
+            switch (src->type)
+            {
+                case goat_type_null:
+                    dst->set_object(pool->get_null_instance());
+                    break;
+                case goat_type_boolean:
+                    dst->set_boolean(((goat_boolean*)src)->value);
+                    break;
+                case goat_type_integer:
+                    dst->set_integer(((goat_integer*)src)->value);
+                    break;
+                case goat_type_string:
+                    dst->set_object(pool->create_object_string(((goat_string*)src)->value));
+                    break;
+                case goat_type_array:
+                {
+                    object_array *array = pool->create_object_array();
+                    goat_array_item *item = ((goat_array*)src)->first;
+                    while(item)
+                    {
+                        variable var;
+                        value_to_variable(pool, item->data, &var);
+                        array->add_item(var);
+                        item = item->next;
+                    }
+                    dst->set_object(array);
+                    break;
+                }
+                default:
+                    dst->set_object(pool->get_undefined_instance());
+            }
+        }
+
         void object_function_dll::call(thread *thr, int arg_count, call_mode mode)
         {
             lib::fast_allocator tmp_memory(1024);
@@ -70,23 +113,9 @@ namespace g0at
                 thr->pop(arg_count);
             }
             goat_value *ret_val = ext_func(&env, arg_count, args);
-            if (ret_val)
-            {
-                variable result;
-                switch (ret_val->type)
-                {
-                    case goat_type_integer:
-                        result.set_integer(((goat_integer*)ret_val)->value);
-                        break;
-                    default:
-                        result.set_object(thr->pool->get_undefined_instance());
-                }
-                thr->push(result);
-            }
-            else
-            {            
-                thr->push_undefined();
-            }
+            variable result;
+            value_to_variable(thr->pool, ret_val, &result);
+            thr->push(result);
         }
     };
 };

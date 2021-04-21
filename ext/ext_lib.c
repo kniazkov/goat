@@ -20,5 +20,8 @@ goat_value * do_something(goat_ext_environment *env, int argc, goat_value **argv
         }
         i = i->next;
     }
-    return create_goat_integer(env, n);
+    goat_array *r = create_goat_array(env);
+    goat_array_push_back(env, r, create_goat_integer(env, n));
+    goat_array_push_back(env, r, argv[0]);
+    return &r->base;
 }

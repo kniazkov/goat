@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <stdint.h>
+#include <stdbool.h>
 #include <memory.h>
 #include <string.h>
 
@@ -42,6 +43,8 @@ static __inline void * goat_alloc(goat_ext_environment* env, size_t size)
 typedef enum
 {
     goat_type_unknown = 0,
+    goat_type_null,
+    goat_type_boolean,
     goat_type_integer,
     goat_type_string,
     goat_type_array
@@ -53,6 +56,12 @@ typedef struct
 } goat_value;
 
 typedef goat_value * (*goat_ext_function)(goat_ext_environment* env, int argc, goat_value **argv);
+
+typedef struct
+{
+    goat_value base;
+    bool value;
+} goat_boolean;
 
 typedef struct
 {
@@ -90,6 +99,21 @@ static __inline goat_value * create_goat_unknown_value(goat_ext_environment *env
     return obj;
 }
 
+static __inline goat_value * create_goat_null(goat_ext_environment *env)
+{
+    goat_value *obj = (goat_value*)goat_alloc(env, sizeof(goat_value));
+    obj->type = goat_type_null;
+    return obj;
+}
+
+static __inline goat_value * create_goat_boolean(goat_ext_environment *env, bool value)
+{
+    goat_boolean *obj = (goat_boolean*)goat_alloc(env, sizeof(goat_boolean));
+    obj->base.type = goat_type_boolean;
+    obj->value = value;
+    return (goat_value*)obj;
+}
+
 static __inline goat_value * create_goat_integer(goat_ext_environment *env, int64_t value)
 {
     goat_integer *obj = (goat_integer*)goat_alloc(env, sizeof(goat_integer));
@@ -102,7 +126,7 @@ static __inline goat_value * create_goat_string_ext(goat_ext_environment *env, c
 {
     goat_string *obj = (goat_string*)goat_alloc(env, sizeof(goat_string));
     obj->base.type = goat_type_string;
-    obj->value = (wchar_t*)goat_alloc(env, value_length + 1);
+    obj->value = (wchar_t*)goat_alloc(env, sizeof(wchar_t) * (value_length + 1));
     memcpy(obj->value, value, sizeof(wchar_t) * value_length);
     obj->value[value_length] = L'\0';
     obj->value_length = value_length;
