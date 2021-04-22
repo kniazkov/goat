@@ -39,7 +39,7 @@ namespace g0at
         public:
             object_null *to_object_null() override;
             std::wstring to_string() const override;
-            goat_value * get_value(goat_ext_environment *env) override;
+            goat_value * get_value(const goat_allocator *allocator) override;
             void op_not(thread *thr) override;
             void op_bool(thread *thr) override;
             void op_and(thread *thr) override;

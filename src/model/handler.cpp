@@ -65,9 +65,9 @@ namespace g0at
             return false;
         }
 
-        goat_value * handler::get_value(variable *var, goat_ext_environment *env)
+        goat_value * handler::get_value(variable *var, const goat_allocator *allocator)
         {
-            return create_goat_unknown_value(env);
+            return create_goat_unknown_value(allocator);
         }
             
         void handler::op_add(variable *var, thread *thr)

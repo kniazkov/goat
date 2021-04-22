@@ -232,9 +232,9 @@ namespace g0at
                 return true;
             }
 
-            goat_value * get_value(variable *var, goat_ext_environment *env) override
+            goat_value * get_value(variable *var, const goat_allocator *allocator) override
             {
-                return create_goat_char(env, var->data.c);
+                return create_goat_char(allocator, var->data.c);
             }
 
             void op_inc(variable *var, thread *thr)  override

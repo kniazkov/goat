@@ -513,9 +513,9 @@ namespace g0at
             return false;
         }
 
-        goat_value * object::get_value(goat_ext_environment *env)
+        goat_value * object::get_value(const goat_allocator *allocator)
         {
-            return create_goat_unknown_value(env);
+            return create_goat_unknown_value(allocator);
         }
 
         void object::op_new(thread *thr, int arg_count)

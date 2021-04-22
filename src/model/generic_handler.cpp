@@ -98,10 +98,10 @@ namespace g0at
                 return var->data.obj->get_char(pval);
             }
 
-            goat_value * get_value(variable *var, goat_ext_environment *env) override
+            goat_value * get_value(variable *var, const goat_allocator *allocator) override
             {
                 check(var);
-                return var->data.obj->get_value(env);
+                return var->data.obj->get_value(allocator);
             }
             
             void op_add(variable *var, thread *thr)  override

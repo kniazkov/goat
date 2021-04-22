@@ -124,7 +124,7 @@ namespace g0at
             }
         }
 
-        static void * ext_allocator(size_t size, lib::fast_allocator *memory_map)
+        static void * ext_allocator(lib::fast_allocator *memory_map, size_t size)
         {
             return memory_map->alloc(size);
         }
@@ -164,10 +164,13 @@ namespace g0at
         void object_function_dll::call(thread *thr, int arg_count, call_mode mode)
         {
             lib::fast_allocator tmp_memory(1024);
+            goat_allocator allocator = 
+            {
+                (goat_function_alloc)ext_allocator,
+                (void*)&tmp_memory
+            };
 
             goat_ext_environment env;
-            env.allocator = (goat_allocator)ext_allocator;
-            env.memory_map = (void*)(&tmp_memory);
             env.thread_runner = ext_thread_runner;
             if (runner_data == nullptr)
                 runner_data = new ext_thread_runner_data(thr->pool, thr->get_process());
@@ -181,11 +184,11 @@ namespace g0at
                 args = (goat_value**)tmp_memory.alloc(sizeof(goat_value*) * arg_count);
                 for (int i = 0; i < arg_count; i++)
                 {
-                    args[i] = thr->peek(i).get_value(&env);
+                    args[i] = thr->peek(i).get_value(&allocator);
                 }
                 thr->pop(arg_count);
             }
-            goat_value *ret_val = ext_func(&env, arg_count, args);
+            goat_value *ret_val = ext_func(&env, &allocator, arg_count, args);
             variable result;
             value_to_variable(thr->pool, ret_val, &result);
             thr->push(result);

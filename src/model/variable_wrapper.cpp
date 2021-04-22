@@ -61,9 +61,9 @@ namespace g0at
             return var.get_char(pval);
         }
 
-        goat_value * variable_wrapper::get_value(goat_ext_environment *env)
+        goat_value * variable_wrapper::get_value(const goat_allocator *allocator)
         {
-            return var.get_value(env);
+            return var.get_value(allocator);
         }
 
         void variable_wrapper::op_add(thread *thr)

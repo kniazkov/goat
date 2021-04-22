@@ -102,13 +102,13 @@ namespace g0at
             return wss.str();
         }
 
-        goat_value * object_array_like::get_value(goat_ext_environment *env)
+        goat_value * object_array_like::get_value(const goat_allocator *allocator)
         {
-            goat_array *result = create_goat_array(env);
+            goat_array *result = create_goat_array(allocator);
             int length = get_length();
             for (int i = 0; i < length; i++)
             {
-                goat_array_push_back(env, result, get_item(i).get_value(env));
+                goat_array_push_back(allocator, result, get_item(i).get_value(allocator));
             }
             return &result->base;
         }

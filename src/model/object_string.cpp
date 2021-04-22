@@ -127,9 +127,9 @@ namespace g0at
             return this;
         }
 
-        goat_value * object_string::get_value(goat_ext_environment *env)
+        goat_value * object_string::get_value(const goat_allocator *allocator)
         {
-            return create_goat_string_ext(env, data.c_str(), data.length());
+            return create_goat_string_ext(allocator, data.c_str(), data.length());
         }
 
         bool object_string::less(const object *obj) const

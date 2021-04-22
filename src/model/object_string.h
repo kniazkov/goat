@@ -46,7 +46,7 @@ namespace g0at
             bool less(const object *obj) const override;
             std::wstring to_string() const override;
             std::wstring to_string_notation() const override;
-            goat_value * get_value(goat_ext_environment *env) override;
+            goat_value * get_value(const goat_allocator *allocator) override;
             void op_add(thread *thr) override;
             void op_not(thread *thr) override;
             void op_bool(thread *thr) override;

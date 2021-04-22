@@ -31,21 +31,26 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 typedef struct goat_value goat_value;
 typedef struct goat_ext_environment goat_ext_environment;
 
-typedef goat_value * (*goat_ext_function)(goat_ext_environment* env, int argc, goat_value **argv);
-typedef void * (*goat_allocator)(size_t size, void *memory_map);
+typedef void * (*goat_function_alloc)(void *memory_map, size_t size);
+
+typedef struct 
+{
+    goat_function_alloc alloc;
+    void *memory_map;
+} goat_allocator;
+
+typedef goat_value * (*goat_ext_function)(goat_ext_environment* env, const goat_allocator *allocator, int argc, goat_value **argv);
 typedef bool (*goat_thread_runner)(void *thread_ptr, void *context, int argc, goat_value **argv);
 
 struct goat_ext_environment
 {
-    goat_allocator allocator;
-    void *memory_map;
     goat_thread_runner thread_runner;
     void *thread_runner_data;
 };
 
-static __inline void * goat_alloc(goat_ext_environment* env, size_t size)
+static __inline void * goat_alloc(const goat_allocator* allocator, size_t size)
 {
-    return env->allocator(size, env->memory_map);
+    return allocator->alloc(allocator->memory_map, size);
 }
 
 typedef enum
@@ -137,39 +142,39 @@ typedef struct
     void *ir_ptr;
 } goat_thread;
 
-static __inline goat_value * create_goat_unknown_value(goat_ext_environment *env)
+static __inline goat_value * create_goat_unknown_value(const goat_allocator *allocator)
 {
-    goat_value *obj = (goat_value*)goat_alloc(env, sizeof(goat_value));
+    goat_value *obj = (goat_value*)goat_alloc(allocator, sizeof(goat_value));
     obj->type = goat_type_unknown;
     return obj;
 }
 
-static __inline goat_value * create_goat_null(goat_ext_environment *env)
+static __inline goat_value * create_goat_null(const goat_allocator *allocator)
 {
-    goat_value *obj = (goat_value*)goat_alloc(env, sizeof(goat_value));
+    goat_value *obj = (goat_value*)goat_alloc(allocator, sizeof(goat_value));
     obj->type = goat_type_null;
     return obj;
 }
 
-static __inline goat_value * create_goat_boolean(goat_ext_environment *env, bool value)
+static __inline goat_value * create_goat_boolean(const goat_allocator *allocator, bool value)
 {
-    goat_boolean *obj = (goat_boolean*)goat_alloc(env, sizeof(goat_boolean));
+    goat_boolean *obj = (goat_boolean*)goat_alloc(allocator, sizeof(goat_boolean));
     obj->base.type = goat_type_boolean;
     obj->value = value;
     return (goat_value*)obj;
 }
 
-static __inline goat_value * create_goat_integer(goat_ext_environment *env, int64_t value)
+static __inline goat_value * create_goat_integer(const goat_allocator *allocator, int64_t value)
 {
-    goat_integer *obj = (goat_integer*)goat_alloc(env, sizeof(goat_integer));
+    goat_integer *obj = (goat_integer*)goat_alloc(allocator, sizeof(goat_integer));
     obj->base.type = goat_type_integer;
     obj->value = value;
     return (goat_value*)obj;
 }
 
-static __inline goat_value * create_goat_real(goat_ext_environment *env, double value)
+static __inline goat_value * create_goat_real(const goat_allocator *allocator, double value)
 {
-    goat_real *obj = (goat_real*)goat_alloc(env, sizeof(goat_real));
+    goat_real *obj = (goat_real*)goat_alloc(allocator, sizeof(goat_real));
     obj->base.type = goat_type_real;
     obj->value = value;
     return (goat_value*)obj;
@@ -198,33 +203,33 @@ static __inline double goat_value_to_double(goat_value *obj)
     return 0;
 }
 
-static __inline goat_value * create_goat_char(goat_ext_environment *env, wchar_t value)
+static __inline goat_value * create_goat_char(const goat_allocator *allocator, wchar_t value)
 {
-    goat_char *obj = (goat_char*)goat_alloc(env, sizeof(goat_char));
+    goat_char *obj = (goat_char*)goat_alloc(allocator, sizeof(goat_char));
     obj->base.type = goat_type_char;
     obj->value = value;
     return (goat_value*)obj;
 }
 
-static __inline goat_value * create_goat_string_ext(goat_ext_environment *env, const wchar_t *value, size_t value_length)
+static __inline goat_value * create_goat_string_ext(const goat_allocator *allocator, const wchar_t *value, size_t value_length)
 {
-    goat_string *obj = (goat_string*)goat_alloc(env, sizeof(goat_string));
+    goat_string *obj = (goat_string*)goat_alloc(allocator, sizeof(goat_string));
     obj->base.type = goat_type_string;
-    obj->value = (wchar_t*)goat_alloc(env, sizeof(wchar_t) * (value_length + 1));
+    obj->value = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (value_length + 1));
     memcpy(obj->value, value, sizeof(wchar_t) * value_length);
     obj->value[value_length] = L'\0';
     obj->value_length = value_length;
     return (goat_value*)obj;
 }
 
-static __inline goat_value * create_goat_string(goat_ext_environment *env, const wchar_t *value)
+static __inline goat_value * create_goat_string(const goat_allocator *allocator, const wchar_t *value)
 {
-    return create_goat_string_ext(env, value, value ? wcslen(value) : 0);
+    return create_goat_string_ext(allocator, value, value ? wcslen(value) : 0);
 }
 
-static __inline goat_array * create_goat_array(goat_ext_environment *env)
+static __inline goat_array * create_goat_array(const goat_allocator *allocator)
 {
-    goat_array *obj = (goat_array*)goat_alloc(env, sizeof(goat_array));
+    goat_array *obj = (goat_array*)goat_alloc(allocator, sizeof(goat_array));
     obj->base.type = goat_type_array;
     obj->first = NULL;
     obj->last = NULL;
@@ -232,9 +237,9 @@ static __inline goat_array * create_goat_array(goat_ext_environment *env)
     return obj;
 }
 
-static __inline void goat_array_push_back(goat_ext_environment *env, goat_array* obj, goat_value *value)
+static __inline void goat_array_push_back(const goat_allocator *allocator, goat_array* obj, goat_value *value)
 {
-    goat_array_item *item = (goat_array_item*)goat_alloc(env, sizeof(goat_array_item));
+    goat_array_item *item = (goat_array_item*)goat_alloc(allocator, sizeof(goat_array_item));
     item->data = value;
     item->next = NULL;
     if (obj->last)
@@ -245,20 +250,20 @@ static __inline void goat_array_push_back(goat_ext_environment *env, goat_array*
     obj->size++;
 }
 
-static __inline goat_object * create_goat_object(goat_ext_environment *env)
+static __inline goat_object * create_goat_object(const goat_allocator *allocator)
 {
-    goat_object *obj = (goat_object*)goat_alloc(env, sizeof(goat_object));
+    goat_object *obj = (goat_object*)goat_alloc(allocator, sizeof(goat_object));
     obj->base.type = goat_type_object;
     obj->first = NULL;
     obj->last = NULL;
     return obj;
 }
 
-static __inline void goat_object_add_record_ext(goat_ext_environment *env, goat_object* obj, 
+static __inline void goat_object_add_record_ext(const goat_allocator *allocator, goat_object* obj, 
     const wchar_t *key, size_t key_length, goat_value *value)
 {
-    goat_object_record *rec = (goat_object_record*)goat_alloc(env, sizeof(goat_object_record));
-    rec->key = (wchar_t*)goat_alloc(env, sizeof(wchar_t) * (key_length + 1));
+    goat_object_record *rec = (goat_object_record*)goat_alloc(allocator, sizeof(goat_object_record));
+    rec->key = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (key_length + 1));
     memcpy(rec->key, key, sizeof(wchar_t) * key_length);
     rec->key[key_length] = L'\0';
     rec->key_length = key_length;
@@ -271,15 +276,15 @@ static __inline void goat_object_add_record_ext(goat_ext_environment *env, goat_
     obj->last = rec;
 }
 
-static __inline void goat_object_add_record(goat_ext_environment *env, goat_object* obj,
+static __inline void goat_object_add_record(const goat_allocator *allocator, goat_object* obj,
     const wchar_t *key, goat_value *value)
 {
-    goat_object_add_record_ext(env, obj, key, key ? wcslen(key) : 0, value);
+    goat_object_add_record_ext(allocator, obj, key, key ? wcslen(key) : 0, value);
 }
 
-static __inline goat_value * create_goat_thread(goat_ext_environment *env, void *ir_ptr)
+static __inline goat_value * create_goat_thread(const goat_allocator *allocator, void *ir_ptr)
 {
-    goat_thread *obj = (goat_thread*)goat_alloc(env, sizeof(goat_thread));
+    goat_thread *obj = (goat_thread*)goat_alloc(allocator, sizeof(goat_thread));
     obj->base.type = goat_type_thread;
     obj->ir_ptr = ir_ptr;
     return (goat_value*)obj;

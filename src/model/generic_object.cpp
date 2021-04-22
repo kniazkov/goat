@@ -59,14 +59,14 @@ namespace g0at
             find_and_vcall(thr, arg_count, resource::str_clone);
         }
 
-        goat_value * generic_object::get_value(goat_ext_environment *env)
+        goat_value * generic_object::get_value(const goat_allocator *allocator)
         {
-            goat_object *result = create_goat_object(env);
+            goat_object *result = create_goat_object(allocator);
             for (auto pair : objects)
             {
                 std::wstring key = pair.first->to_string();
-                goat_value *value = pair.second.get_value(env);
-                goat_object_add_record_ext(env, result, key.c_str(), key.size(), value);
+                goat_value *value = pair.second.get_value(allocator);
+                goat_object_add_record_ext(allocator, result, key.c_str(), key.size(), value);
             }
             return &result->base;
         }

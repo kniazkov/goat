@@ -237,9 +237,9 @@ namespace g0at
                 return true;
             }
 
-            goat_value * get_value(variable *var, goat_ext_environment *env) override
+            goat_value * get_value(variable *var, const goat_allocator *allocator) override
             {
-                return create_goat_real(env, var->data.r);
+                return create_goat_real(allocator, var->data.r);
             }
             
             void op_add(variable *var, thread *thr)  override

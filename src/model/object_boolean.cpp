@@ -189,9 +189,9 @@ namespace g0at
                 return true;
             }
 
-            goat_value * get_value(variable *var, goat_ext_environment *env) override
+            goat_value * get_value(variable *var, const goat_allocator *allocator) override
             {
-                return create_goat_boolean(env, var->data.b);
+                return create_goat_boolean(allocator, var->data.b);
             }
             
             void op_not(variable *var, thread *thr)  override

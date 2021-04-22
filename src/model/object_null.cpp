@@ -53,9 +53,9 @@ namespace g0at
             return resource::str_null;
         }
 
-        goat_value * object_null::get_value(goat_ext_environment *env)
+        goat_value * object_null::get_value(const goat_allocator *allocator)
         {
-            return create_goat_null(env);
+            return create_goat_null(allocator);
         }
 
         void object_null::op_not(thread *thr)

@@ -51,9 +51,9 @@ namespace g0at
             return L"thread";
         }
 
-        goat_value * object_thread::get_value(goat_ext_environment *env)
+        goat_value * object_thread::get_value(const goat_allocator *allocator)
         {
-            return create_goat_thread(env, this);
+            return create_goat_thread(allocator, this);
         }
 
         /* 
