@@ -51,7 +51,8 @@ typedef enum
     goat_type_char,
     goat_type_string,
     goat_type_array,
-    goat_type_object
+    goat_type_object,
+    goat_type_thread
 } goat_type;
 
 typedef struct
@@ -124,6 +125,12 @@ typedef struct
     goat_object_record *first;
     goat_object_record *last;
 } goat_object;
+
+typedef struct
+{
+    goat_value base;
+    void *ir_ptr;
+} goat_thread;
 
 static __inline goat_value * create_goat_unknown_value(goat_ext_environment *env)
 {
@@ -240,6 +247,14 @@ static __inline void goat_object_add_record(goat_ext_environment *env, goat_obje
     const wchar_t *key, goat_value *value)
 {
     goat_object_add_record_ext(env, obj, key, key ? wcslen(key) : 0, value);
+}
+
+static __inline goat_value * create_goat_thread(goat_ext_environment *env, void *ir_ptr)
+{
+    goat_thread *obj = (goat_thread*)goat_alloc(env, sizeof(goat_thread));
+    obj->base.type = goat_type_thread;
+    obj->ir_ptr = ir_ptr;
+    return (goat_value*)obj;
 }
 
 static __inline bool is_goat_number(goat_value *obj)

@@ -107,6 +107,15 @@ namespace g0at
                     dst->set_object(object);
                     break;                
                 }
+                case goat_type_thread:
+                {
+                    object *obj = (object*)(((goat_thread*)src)->ir_ptr);
+                    if (pool->population.contains(obj) && obj->to_object_thread() != nullptr)
+                        dst->set_object((object*)((goat_thread*)src)->ir_ptr);
+                    else
+                        dst->set_object(pool->get_undefined_instance());
+                    break;
+                }
                 default:
                     dst->set_object(pool->get_undefined_instance());
             }

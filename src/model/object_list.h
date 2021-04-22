@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -38,6 +38,7 @@ namespace g0at
             object *remove();
             object *remove_first();
             void destroy_all();
+            bool contains(object *item);
 
             object *first;
             object *last;

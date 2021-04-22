@@ -1,8 +1,16 @@
+var thr = thread()
+{
+    for (var i = 0; i < 100; i++)
+    {
+        print('#');
+    }
+};
+
 var dll = dlopen("ext/ext_lib.dll");
 println(dll);
 var fn = dll.find("do_something");
 println(fn);
-var test = [1, 2, "test", 3.1, 4, null, true, false, '$', {one: 1, two: 2}];
+var test = [1, 2, "test", 3.1, 4, null, true, false, '$', {one: 1, two: 2}, thr];
 println(test);
 var val = fn(test);
 println(val);

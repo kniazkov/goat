@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -110,6 +110,18 @@ namespace g0at
             }
             first = nullptr;
             last = nullptr;
+        }
+
+        bool object_list::contains(object *item)
+        {
+            object *obj = first;
+            while(obj)
+            {
+                if (item == obj)
+                    return true;
+                obj = obj->next;
+            }
+            return false;
         }
     };
 };
