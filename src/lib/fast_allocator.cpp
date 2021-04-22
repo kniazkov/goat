@@ -31,6 +31,10 @@ namespace g0at
         {
             chunk_size = size;
             head = new memory_chunk(size);
+#ifndef NDEBUG
+            allocated_size = 0;
+            waste_size = size;
+#endif
         }
 
         fast_allocator::~fast_allocator()
@@ -53,18 +57,31 @@ namespace g0at
                 head->next = new_chunk;
                 void *block = new_chunk->alloc(size);
                 assert(block != nullptr);
+#ifndef NDEBUG
+                allocated_size += size;
+#endif
                 return block;
             }
             else
             {
                 void *block = head->alloc(size);
                 if (block)
+                {
+#ifndef NDEBUG
+                    allocated_size += size;
+                    waste_size -= size;
+#endif
                     return block;
+                }
                 memory_chunk *new_chunk = new memory_chunk(chunk_size);
                 new_chunk->next = head;
                 head = new_chunk;
                 block = head->alloc(size);
                 assert(block != nullptr);
+#ifndef NDEBUG
+                allocated_size += size;
+                waste_size = waste_size - size + chunk_size;
+#endif
                 return block; 
             }
         }

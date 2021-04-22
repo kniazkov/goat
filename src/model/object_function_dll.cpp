@@ -26,6 +26,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_array.h"
 #include "lib/fast_allocator.h"
 
+#include <iostream>
+
 namespace g0at
 {
     namespace model
@@ -49,6 +51,11 @@ namespace g0at
         static void * ext_allocator(size_t size, lib::fast_allocator *mem_info)
         {
             return mem_info->alloc(size);
+        }
+
+        static void ext_thread_runner(void *ir_ptr, int argc, goat_value **argv)
+        {
+            std::cout << "Thread was started";
         }
 
         static void value_to_variable(object_pool *pool, goat_value *src, variable *dst)
@@ -128,13 +135,14 @@ namespace g0at
             goat_ext_environment env;
             env.allocator = (goat_allocator)ext_allocator;
             env.mem_info = (void*)(&tmp_memory);
+            env.thread_runner = ext_thread_runner;
 
             if (mode == call_mode::as_method)
                 thr->pop();
             goat_value **args = nullptr;
             if (arg_count > 0)
             {
-                args = (goat_value**)tmp_memory.alloc(sizeof(goat_value*) + arg_count);
+                args = (goat_value**)tmp_memory.alloc(sizeof(goat_value*) * arg_count);
                 for (int i = 0; i < arg_count; i++)
                 {
                     args[i] = thr->peek(i).get_value(&env);

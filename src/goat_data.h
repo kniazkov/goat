@@ -28,13 +28,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <string.h>
 #include <stddef.h>
 
-typedef void * (*goat_allocator)(size_t size, void *mem_info);
+typedef struct goat_value goat_value;
+typedef struct goat_ext_environment goat_ext_environment;
 
-typedef struct 
+typedef goat_value * (*goat_ext_function)(goat_ext_environment* env, int argc, goat_value **argv);
+typedef void * (*goat_allocator)(size_t size, void *mem_info);
+typedef void (*goat_thread_runner)(void *thread_ptr, int argc, goat_value **argv);
+
+struct goat_ext_environment
 {
     goat_allocator allocator;
     void *mem_info;
-} goat_ext_environment;
+    goat_thread_runner thread_runner;
+};
 
 static __inline void * goat_alloc(goat_ext_environment* env, size_t size)
 {
@@ -55,12 +61,10 @@ typedef enum
     goat_type_thread
 } goat_type;
 
-typedef struct
+struct goat_value
 {
     goat_type type;
-} goat_value;
-
-typedef goat_value * (*goat_ext_function)(goat_ext_environment* env, int argc, goat_value **argv);
+};
 
 typedef struct
 {
@@ -170,6 +174,29 @@ static __inline goat_value * create_goat_real(goat_ext_environment *env, double 
     return (goat_value*)obj;
 }
 
+static __inline bool is_goat_number(goat_value *obj)
+{
+    return obj->type == goat_type_integer || obj->type == goat_type_real;
+}
+
+static __inline int64_t goat_value_to_int64(goat_value *obj)
+{
+    if (obj->type == goat_type_integer)
+        return ((goat_integer*)obj)->value;
+    if (obj->type == goat_type_real)
+        return (int64_t)((goat_real*)obj)->value;
+    return 0;
+}
+
+static __inline double goat_value_to_double(goat_value *obj)
+{
+    if (obj->type == goat_type_integer)
+        return (double)((goat_integer*)obj)->value;
+    if (obj->type == goat_type_real)
+        return ((goat_real*)obj)->value;
+    return 0;
+}
+
 static __inline goat_value * create_goat_char(goat_ext_environment *env, wchar_t value)
 {
     goat_char *obj = (goat_char*)goat_alloc(env, sizeof(goat_char));
@@ -257,25 +284,7 @@ static __inline goat_value * create_goat_thread(goat_ext_environment *env, void 
     return (goat_value*)obj;
 }
 
-static __inline bool is_goat_number(goat_value *obj)
+static __inline void run_goat_thread(goat_ext_environment* env, goat_thread *thread, int argc, goat_value **argv)
 {
-    return obj->type == goat_type_integer || obj->type == goat_type_real;
-}
-
-static __inline int64_t goat_value_to_int64(goat_value *obj)
-{
-    if (obj->type == goat_type_integer)
-        return ((goat_integer*)obj)->value;
-    if (obj->type == goat_type_real)
-        return (int64_t)((goat_real*)obj)->value;
-    return 0;
-}
-
-static __inline double goat_value_to_double(goat_value *obj)
-{
-    if (obj->type == goat_type_integer)
-        return (double)((goat_integer*)obj)->value;
-    if (obj->type == goat_type_real)
-        return ((goat_real*)obj)->value;
-    return 0;
+    env->thread_runner(thread->ir_ptr, argc, argv);
 }

@@ -69,6 +69,10 @@ namespace g0at
 
             size_t chunk_size;
             memory_chunk *head;
+#ifndef NDEBUG
+            size_t allocated_size;
+            size_t waste_size;
+#endif
 
             fast_allocator(const fast_allocator &)
             {

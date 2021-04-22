@@ -12,5 +12,5 @@ var fn = dll.find("do_something");
 println(fn);
 var test = [1, 2, "test", 3.1, 4, null, true, false, '$', {one: 1, two: 2}, thr];
 println(test);
-var val = fn(test);
+var val = fn(test, thr);
 println(val);
