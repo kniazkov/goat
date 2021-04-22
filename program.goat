@@ -1,8 +1,10 @@
-var thr = thread()
+var c = '$';
+
+var thr = thread(n)
 {
-    for (var i = 0; i < 100; i++)
+    for (var i = 0; i < n; i++)
     {
-        print('#');
+        print(c);
     }
 };
 

@@ -32,10 +32,19 @@ namespace g0at
          * @brief Wrapper for calling a function that implemented on C 
          *        and dynamically loaded from DLL file
          */
+        struct ext_thread_runner_data
+        {
+            object_pool *pool;
+            process *proc;
+
+            ext_thread_runner_data(object_pool *_pool, process *_proc) : pool(_pool), proc(_proc) { }
+        };
+
         class object_function_dll : public object_function
         {
         public:
             object_function_dll(object_pool *_pool, object_dynamic_library *_library, goat_ext_function _ext_func);
+            ~object_function_dll();
             void call(thread *thr, int arg_count, call_mode mode) override;
             void trace() override;
             void trace_parallel(object_pool *pool) override;
@@ -43,6 +52,7 @@ namespace g0at
         private:
             object_dynamic_library *library;
             goat_ext_function ext_func;
+            ext_thread_runner_data *runner_data;
         };
     };
 };

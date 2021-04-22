@@ -32,19 +32,20 @@ typedef struct goat_value goat_value;
 typedef struct goat_ext_environment goat_ext_environment;
 
 typedef goat_value * (*goat_ext_function)(goat_ext_environment* env, int argc, goat_value **argv);
-typedef void * (*goat_allocator)(size_t size, void *mem_info);
-typedef void (*goat_thread_runner)(void *thread_ptr, int argc, goat_value **argv);
+typedef void * (*goat_allocator)(size_t size, void *memory_map);
+typedef bool (*goat_thread_runner)(void *thread_ptr, void *context, int argc, goat_value **argv);
 
 struct goat_ext_environment
 {
     goat_allocator allocator;
-    void *mem_info;
+    void *memory_map;
     goat_thread_runner thread_runner;
+    void *thread_runner_data;
 };
 
 static __inline void * goat_alloc(goat_ext_environment* env, size_t size)
 {
-    return env->allocator(size, env->mem_info);
+    return env->allocator(size, env->memory_map);
 }
 
 typedef enum
@@ -284,7 +285,7 @@ static __inline goat_value * create_goat_thread(goat_ext_environment *env, void 
     return (goat_value*)obj;
 }
 
-static __inline void run_goat_thread(goat_ext_environment* env, goat_thread *thread, int argc, goat_value **argv)
+static __inline bool run_goat_thread(goat_ext_environment* env, goat_thread *thread, int argc, goat_value **argv)
 {
-    env->thread_runner(thread->ir_ptr, argc, argv);
+    return env->thread_runner(thread->ir_ptr, env->thread_runner_data, argc, argv);
 }

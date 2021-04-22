@@ -24,18 +24,24 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_dynamic_library.h"
 #include "object_string.h"
 #include "object_array.h"
+#include "object_thread.h"
+#include "process.h"
+#include "lib/assert.h"
 #include "lib/fast_allocator.h"
-
-#include <iostream>
 
 namespace g0at
 {
     namespace model
     {
         object_function_dll::object_function_dll(object_pool *_pool, object_dynamic_library *_library, goat_ext_function _ext_func)
-            : object_function(_pool), library(_library), ext_func(_ext_func)
+            : object_function(_pool), library(_library), ext_func(_ext_func), runner_data(nullptr)
         {
             lock();
+        }
+
+        object_function_dll::~object_function_dll()
+        {
+            delete runner_data;
         }
 
         void object_function_dll::trace()
@@ -46,16 +52,6 @@ namespace g0at
         void object_function_dll::trace_parallel(object_pool *pool)
         {
             library->mark_parallel(pool);
-        }
-
-        static void * ext_allocator(size_t size, lib::fast_allocator *mem_info)
-        {
-            return mem_info->alloc(size);
-        }
-
-        static void ext_thread_runner(void *ir_ptr, int argc, goat_value **argv)
-        {
-            std::cout << "Thread was started";
         }
 
         static void value_to_variable(object_pool *pool, goat_value *src, variable *dst)
@@ -128,14 +124,54 @@ namespace g0at
             }
         }
 
+        static void * ext_allocator(size_t size, lib::fast_allocator *memory_map)
+        {
+            return memory_map->alloc(size);
+        }
+
+        static bool ext_thread_runner(void *thread_ptr, void *thread_runner_data, int argc, goat_value **argv)
+        {
+            ext_thread_runner_data *data = (ext_thread_runner_data*)thread_runner_data;
+            assert(data != nullptr);
+            object *obj = (object*)thread_ptr;
+            if (!data->pool->population.contains(obj))
+                return false;
+            object_thread *obj_thread = obj->to_object_thread();
+            if (!obj_thread)
+                return false;
+            context *ctx = data->pool->create_context(obj_thread->get_proto_ctx());
+            ctx->address_type = context_address_type::stop;
+            int decl_arg_count = obj_thread->get_arg_names_count();
+            for (int i = 0; i < decl_arg_count; i++)
+            {
+                object *key = obj_thread->get_arg_name(i);
+                if (i < argc)
+                {
+                    variable arg;
+                    value_to_variable(data->pool, argv[i], &arg);
+                    ctx->add_object(key, arg);
+                }
+                else
+                    ctx->add_object(key, data->pool->get_undefined_instance());
+            }
+
+            thread *new_thr = data->proc->active_threads->create_thread(ctx, nullptr);
+            new_thr->state = thread_state::ok;
+            new_thr->iid = obj_thread->get_first_iid();
+            return true;
+        }
+
         void object_function_dll::call(thread *thr, int arg_count, call_mode mode)
         {
             lib::fast_allocator tmp_memory(1024);
 
             goat_ext_environment env;
             env.allocator = (goat_allocator)ext_allocator;
-            env.mem_info = (void*)(&tmp_memory);
+            env.memory_map = (void*)(&tmp_memory);
             env.thread_runner = ext_thread_runner;
+            if (runner_data == nullptr)
+                runner_data = new ext_thread_runner_data(thr->pool, thr->get_process());
+            env.thread_runner_data = (void*)runner_data;
 
             if (mode == call_mode::as_method)
                 thr->pop();

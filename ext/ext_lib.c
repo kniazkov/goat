@@ -24,8 +24,9 @@ goat_value * do_something(goat_ext_environment *env, int argc, goat_value **argv
     {
         if (argv[1]->type == goat_type_thread)
         {
+            goat_value *v1 = create_goat_integer(env, 10);
             goat_thread *thr = (goat_thread*)argv[1];
-            run_goat_thread(env, thr, 0, NULL);
+            run_goat_thread(env, thr, 1, &v1);
         }
     }
     goat_array *r = create_goat_array(env);
