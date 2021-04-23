@@ -29,23 +29,29 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <stddef.h>
 
 typedef struct goat_value goat_value;
-typedef struct goat_ext_environment goat_ext_environment;
+typedef struct goat_shell goat_shell;
+typedef struct goat_allocator goat_allocator;
+typedef struct goat_thread_runner goat_thread_runner;
 
+typedef goat_value * (*goat_ext_function)(const goat_shell* shell, const goat_allocator *allocator, int argc, goat_value **argv);
 typedef void * (*goat_function_alloc)(void *memory_map, size_t size);
+typedef bool (*goat_function_run_thread)(void *thread_ptr, void *thread_runner_data, int argc, goat_value **argv);
 
-typedef struct 
+struct goat_allocator
 {
     goat_function_alloc alloc;
     void *memory_map;
-} goat_allocator;
+};
 
-typedef goat_value * (*goat_ext_function)(goat_ext_environment* env, const goat_allocator *allocator, int argc, goat_value **argv);
-typedef bool (*goat_thread_runner)(void *thread_ptr, void *context, int argc, goat_value **argv);
-
-struct goat_ext_environment
+struct goat_thread_runner
 {
-    goat_thread_runner thread_runner;
-    void *thread_runner_data;
+    goat_function_run_thread run_thread;
+    void *data;
+};
+
+struct goat_shell
+{
+    const goat_thread_runner *thread_runner;
 };
 
 static __inline void * goat_alloc(const goat_allocator* allocator, size_t size)
@@ -290,7 +296,7 @@ static __inline goat_value * create_goat_thread(const goat_allocator *allocator,
     return (goat_value*)obj;
 }
 
-static __inline bool run_goat_thread(goat_ext_environment* env, goat_thread *thread, int argc, goat_value **argv)
+static __inline bool run_goat_thread(goat_thread_runner* runner, goat_thread *thread, int argc, goat_value **argv)
 {
-    return env->thread_runner(thread->ir_ptr, env->thread_runner_data, argc, argv);
+    return runner->run_thread(thread->ir_ptr, runner->data, argc, argv);
 }

@@ -34,7 +34,8 @@ namespace g0at
     namespace model
     {
         object_function_dll::object_function_dll(object_pool *_pool, object_dynamic_library *_library, goat_ext_function _ext_func)
-            : object_function(_pool), library(_library), ext_func(_ext_func), runner_data(nullptr)
+            : object_function(_pool), library(_library), ext_func(_ext_func),
+              shell(nullptr), runner(nullptr), runner_data(nullptr)
         {
             lock();
         }
@@ -42,6 +43,8 @@ namespace g0at
         object_function_dll::~object_function_dll()
         {
             delete runner_data;
+            delete runner;
+            delete shell;
         }
 
         void object_function_dll::trace()
@@ -170,11 +173,17 @@ namespace g0at
                 (void*)&tmp_memory
             };
 
-            goat_ext_environment env;
-            env.thread_runner = ext_thread_runner;
-            if (runner_data == nullptr)
+            if (!shell)
+            {
                 runner_data = new ext_thread_runner_data(thr->pool, thr->get_process());
-            env.thread_runner_data = (void*)runner_data;
+
+                runner = new goat_thread_runner();
+                runner->run_thread = ext_thread_runner;
+                runner->data = (void*)runner_data;
+                
+                shell = new goat_shell();
+                shell->thread_runner = runner;
+            }
 
             if (mode == call_mode::as_method)
                 thr->pop();
@@ -188,7 +197,7 @@ namespace g0at
                 }
                 thr->pop(arg_count);
             }
-            goat_value *ret_val = ext_func(&env, &allocator, arg_count, args);
+            goat_value *ret_val = ext_func(shell, &allocator, arg_count, args);
             variable result;
             value_to_variable(thr->pool, ret_val, &result);
             thr->push(result);
