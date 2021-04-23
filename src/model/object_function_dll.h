@@ -23,6 +23,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "object_function.h"
+#include "lib/fast_allocator.h"
+#include <set>
 
 namespace g0at
 {
@@ -37,8 +39,14 @@ namespace g0at
         {
             object_pool *pool;
             process *proc;
+            std::set<lib::fast_allocator*> allocators;
 
             ext_thread_runner_data(object_pool *_pool, process *_proc) : pool(_pool), proc(_proc) { }
+            ~ext_thread_runner_data()
+            {
+                for (auto allocator : allocators)
+                    delete allocator;
+            }
         };  
             
         class object_function_dll : public object_function

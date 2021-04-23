@@ -35,7 +35,9 @@ typedef struct goat_thread_runner goat_thread_runner;
 
 typedef goat_value * (*goat_ext_function)(const goat_shell* shell, const goat_allocator *allocator, int argc, goat_value **argv);
 typedef void * (*goat_function_alloc)(void *memory_map, size_t size);
-typedef bool (*goat_function_run_thread)(void *thread_ptr, void *thread_runner_data, int argc, goat_value **argv);
+typedef bool (*goat_function_run_thread)(void *thread_ptr, void *thread_runner_data,
+    const goat_allocator *allocator, int argc, goat_value **argv);
+typedef goat_allocator * (*goat_function_create_allocator)(void *thread_runner_data);
 
 struct goat_allocator
 {
@@ -45,6 +47,7 @@ struct goat_allocator
 
 struct goat_thread_runner
 {
+    goat_function_create_allocator create_allocator;
     goat_function_run_thread run_thread;
     void *data;
 };
@@ -296,7 +299,13 @@ static __inline goat_value * create_goat_thread(const goat_allocator *allocator,
     return (goat_value*)obj;
 }
 
-static __inline bool run_goat_thread(goat_thread_runner* runner, goat_thread *thread, int argc, goat_value **argv)
+static __inline bool run_goat_thread(const goat_thread_runner* runner, goat_thread *thread,
+    const goat_allocator *allocator, int argc, goat_value **argv)
 {
-    return runner->run_thread(thread->ir_ptr, runner->data, argc, argv);
+    return runner->run_thread(thread->ir_ptr, runner->data, allocator, argc, argv);
+}
+
+static __inline goat_allocator * create_goat_allocator(const goat_thread_runner* runner)
+{
+    return runner->create_allocator(runner->data);
 }

@@ -27,12 +27,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_thread.h"
 #include "process.h"
 #include "lib/assert.h"
-#include "lib/fast_allocator.h"
 
 namespace g0at
 {
     namespace model
     {
+        static const size_t memory_chunk_size = 1024;
+
         object_function_dll::object_function_dll(object_pool *_pool, object_dynamic_library *_library, goat_ext_function _ext_func)
             : object_function(_pool), library(_library), ext_func(_ext_func),
               shell(nullptr), runner(nullptr), runner_data(nullptr)
@@ -127,12 +128,25 @@ namespace g0at
             }
         }
 
-        static void * ext_allocator(lib::fast_allocator *memory_map, size_t size)
+        static void * ext_alloc(lib::fast_allocator *memory_map, size_t size)
         {
             return memory_map->alloc(size);
         }
 
-        static bool ext_thread_runner(void *thread_ptr, void *thread_runner_data, int argc, goat_value **argv)
+
+        static goat_allocator * ext_create_allocator(void *thread_runner_data)
+        {
+            ext_thread_runner_data *data = (ext_thread_runner_data*)thread_runner_data;
+            assert(data != nullptr);
+            lib::fast_allocator *low_level_allocator = new lib::fast_allocator(memory_chunk_size);
+            data->allocators.insert(low_level_allocator);
+            goat_allocator *allocator = (goat_allocator*)low_level_allocator->alloc(sizeof(goat_allocator));
+            allocator->alloc = (goat_function_alloc)ext_alloc;
+            allocator->memory_map = (void*)low_level_allocator;
+            return allocator;
+        }
+
+        static bool ext_thread_runner(void *thread_ptr, void *thread_runner_data, const goat_allocator *allocator, int arg_count, goat_value **arg_list)
         {
             ext_thread_runner_data *data = (ext_thread_runner_data*)thread_runner_data;
             assert(data != nullptr);
@@ -148,14 +162,20 @@ namespace g0at
             for (int i = 0; i < decl_arg_count; i++)
             {
                 object *key = obj_thread->get_arg_name(i);
-                if (i < argc)
+                if (i < arg_count)
                 {
                     variable arg;
-                    value_to_variable(data->pool, argv[i], &arg);
+                    value_to_variable(data->pool, arg_list[i], &arg);
                     ctx->add_object(key, arg);
                 }
                 else
                     ctx->add_object(key, data->pool->get_undefined_instance());
+            }
+            if (allocator)
+            {
+                lib::fast_allocator* low_level_allocator = (lib::fast_allocator*)allocator->memory_map;
+                data->allocators.erase(low_level_allocator);
+                delete low_level_allocator;
             }
 
             thread *new_thr = data->proc->active_threads->create_thread(ctx, nullptr);
@@ -166,10 +186,10 @@ namespace g0at
 
         void object_function_dll::call(thread *thr, int arg_count, call_mode mode)
         {
-            lib::fast_allocator tmp_memory(1024);
+            lib::fast_allocator tmp_memory(memory_chunk_size);
             goat_allocator allocator = 
             {
-                (goat_function_alloc)ext_allocator,
+                (goat_function_alloc)ext_alloc,
                 (void*)&tmp_memory
             };
 
@@ -178,6 +198,7 @@ namespace g0at
                 runner_data = new ext_thread_runner_data(thr->pool, thr->get_process());
 
                 runner = new goat_thread_runner();
+                runner->create_allocator = ext_create_allocator;
                 runner->run_thread = ext_thread_runner;
                 runner->data = (void*)runner_data;
                 
