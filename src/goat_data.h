@@ -25,7 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdint.h>
 #include <stdbool.h>
 #include <memory.h>
-#include <string.h>
+#include <wchar.h>
 #include <stddef.h>
 
 typedef struct goat_value goat_value;
