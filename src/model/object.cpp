@@ -243,6 +243,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_raw_data *object::to_object_raw_data()
+        {
+            return nullptr;
+        }
+        
         object_port *object::to_object_port()
         {
             return nullptr;

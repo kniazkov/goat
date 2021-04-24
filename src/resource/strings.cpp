@@ -108,6 +108,7 @@ namespace g0at
         std::wstring str_reset = L"reset";
         std::wstring str_dll = L"dll";
         std::wstring str_find = L"find";
+        std::wstring str_raw = L"raw";
 
         std::wstring str_Mode = L"Mode";
         std::wstring str_Origin = L"Origin";

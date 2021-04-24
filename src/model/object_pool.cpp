@@ -45,6 +45,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_file.h"
 #include "object_port.h"
 #include "object_dynamic_library.h"
+#include "object_raw_data.h"
 #include "operator_wrapper.h"
 #include "context.h"
 
@@ -89,6 +90,8 @@ namespace g0at
             file_proto_instance = nullptr;
             port_proto_instance = nullptr;
             gpio_proto_instance = nullptr;
+            dynamic_library_proto_instance = nullptr;
+            raw_data_proto_instance = nullptr;
             exception_illegal_argument_proto_instance = nullptr;
             exception_illegal_context_proto_instance = nullptr;
             exception_illegal_operation_proto_instance = nullptr;
@@ -186,6 +189,7 @@ namespace g0at
             iterator_proto_instance = iterator_proto;
             auto dynamic_library_proto = new object_dynamic_library_proto(this);
             dynamic_library_proto_instance = dynamic_library_proto;
+            raw_data_proto_instance = new object_raw_data_proto(this);
             wrap_add_instance = new binary_operator_adapter<wrap_add>(this);
             wrap_sub_instance = new binary_operator_adapter<wrap_sub>(this);
             wrap_pos_instance = new unary_operator_adapter<wrap_pos>(this);

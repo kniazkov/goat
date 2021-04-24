@@ -121,6 +121,7 @@ namespace g0at
             object *get_port_proto_instance() { return port_proto_instance; }
             object *get_gpio_proto_instance() { return gpio_proto_instance; }
             object *get_dynamic_library_proto_instance() { return dynamic_library_proto_instance; }
+            object *get_raw_data_proto_instance() { return raw_data_proto_instance; }
 
             object *get_exception_illegal_argument_proto_instance() { return exception_illegal_argument_proto_instance; }
             object *get_exception_illegal_context_proto_instance() { return exception_illegal_context_proto_instance; }
@@ -234,6 +235,7 @@ namespace g0at
             object *port_proto_instance;
             object *gpio_proto_instance;
             object *dynamic_library_proto_instance;
+            object *raw_data_proto_instance;
 
             object *exception_illegal_argument_proto_instance;
             object *exception_illegal_context_proto_instance;

@@ -60,6 +60,7 @@ namespace g0at
         class object_file;
         class object_port;
         class object_dynamic_library;
+        class object_raw_data;
         class handler;
         enum class call_mode;
 
@@ -227,6 +228,7 @@ namespace g0at
             virtual object_file *to_object_file();
             virtual object_port *to_object_port();
             virtual object_dynamic_library *to_object_dynamic_library();
+            virtual object_raw_data *to_object_raw_data();
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;

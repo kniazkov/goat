@@ -65,6 +65,7 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"Port"), pool->get_port_proto_instance());
                 ctx->add_object(pool->get_static_string(L"BooleanPort"), pool->get_gpio_proto_instance());
                 ctx->add_object(pool->get_static_string(L"DynamicLibrary"), pool->get_dynamic_library_proto_instance());
+                ctx->add_object(pool->get_static_string(L"RawData"), pool->get_raw_data_proto_instance());
 
                 ctx->add_object(pool->get_static_string(L"print"), create_function_print());
                 ctx->add_object(pool->get_static_string(L"println"), create_function_println());
