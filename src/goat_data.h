@@ -73,7 +73,8 @@ typedef enum
     goat_type_string,
     goat_type_array,
     goat_type_object,
-    goat_type_thread
+    goat_type_thread,
+    goat_type_raw_data
 } goat_type;
 
 struct goat_value
@@ -150,6 +151,13 @@ typedef struct
     goat_value base;
     void *ir_ptr;
 } goat_thread;
+
+typedef struct
+{
+    goat_value base;
+    void *raw_data;
+    const char *descriptor;
+} goat_raw_data;
 
 static __inline goat_value * create_goat_unknown_value(const goat_allocator *allocator)
 {
@@ -308,4 +316,14 @@ static __inline bool run_goat_thread(const goat_thread_runner* runner, goat_thre
 static __inline goat_allocator * create_goat_allocator(const goat_thread_runner* runner)
 {
     return runner->create_allocator(runner->data);
+}
+
+static __inline goat_value * create_goat_raw_data(const goat_allocator *allocator, void *raw_data,
+    const char *descriptor)
+{
+    goat_raw_data *obj = (goat_raw_data*)goat_alloc(allocator, sizeof(goat_raw_data));
+    obj->base.type = goat_type_raw_data;
+    obj->raw_data = raw_data;
+    obj->descriptor = descriptor;
+    return (goat_value*)obj;
 }

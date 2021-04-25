@@ -25,9 +25,13 @@ goat_value * do_something(const goat_shell *shell, const goat_allocator *allocat
         if (arg_list[1]->type == goat_type_thread)
         {
             goat_allocator *ta = create_goat_allocator(shell->thread_runner);
-            goat_value *v1 = create_goat_integer(ta, 13);
+            goat_value *list[] = {
+                create_goat_integer(ta, 13),
+                create_goat_raw_data(ta, (void*)"goat", "test")
+            };
             goat_thread *thr = (goat_thread*)arg_list[1];
-            run_goat_thread(shell->thread_runner, thr, ta, 1, &v1);
+
+            run_goat_thread(shell->thread_runner, thr, ta, 2, list);
         }
     }
     goat_array *r = create_goat_array(allocator);

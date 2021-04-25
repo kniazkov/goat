@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_string.h"
 #include "object_array.h"
 #include "object_thread.h"
+#include "object_raw_data.h"
 #include "process.h"
 #include "lib/assert.h"
 
@@ -121,6 +122,12 @@ namespace g0at
                         dst->set_object((object*)((goat_thread*)src)->ir_ptr);
                     else
                         dst->set_object(pool->get_undefined_instance());
+                    break;
+                }
+                case goat_type_raw_data:
+                {
+                    goat_raw_data *item = (goat_raw_data*)src;
+                    dst->set_object(new object_raw_data(pool, item->raw_data, item->descriptor));
                     break;
                 }
                 default:

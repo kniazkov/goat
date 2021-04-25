@@ -29,8 +29,9 @@ namespace g0at
 {
     namespace model
     {
-        object_raw_data::object_raw_data(object_pool *_pool, void *_raw_data)
-            : object(_pool, _pool->get_raw_data_proto_instance()), raw_data(_raw_data)
+        object_raw_data::object_raw_data(object_pool *_pool, void *_raw_data, const char *_descriptor)
+            : object(_pool, _pool->get_raw_data_proto_instance()), 
+              raw_data(_raw_data), descriptor(_descriptor)
         {
         }
 
@@ -42,6 +43,11 @@ namespace g0at
         std::wstring object_raw_data::to_string() const
         {
             return resource::str_raw;
+        }
+
+        goat_value * object_raw_data::get_value(const goat_allocator *allocator)
+        {
+            return create_goat_raw_data(allocator, raw_data, descriptor);
         }
 
         /*

@@ -31,12 +31,14 @@ namespace g0at
         class object_raw_data : public object
         {
         public:
-            object_raw_data(object_pool *_pool, void *_raw_data);
+            object_raw_data(object_pool *_pool, void *_raw_data, const char *_descriptor);
             object_raw_data *to_object_raw_data() override;
             std::wstring to_string() const override;
+            goat_value * get_value(const goat_allocator *allocator) override;
 
         private:
             void *raw_data;
+            const char *descriptor;
         };
 
         class object_raw_data_proto : public object
