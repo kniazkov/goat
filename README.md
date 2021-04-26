@@ -3,4 +3,4 @@
 
 The interpreter (engine) of the programming language is completely developed from scratch. The interpreter is a very small program and can be easily compiled and started on different platforms, including Windows and Linux (both x86 and ARM).
 
-Documentation available at http://g0at.info/head/docs/reference.html.
+Documentation available at http://g0at.info/data/goat/docs/reference.html.
