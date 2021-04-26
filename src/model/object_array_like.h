@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -34,6 +34,7 @@ namespace g0at
             object_array_like(object_pool *pool, object *proto);
             object_array_like *to_object_array_like() override;
             std::wstring to_string() const override;
+            goat_value * get_value(const goat_allocator *allocator) override;
 
             void m_get(thread *thr, int arg_count) override;
             void m_set(thread *thr, int arg_count) override;

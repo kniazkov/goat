@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2021 Ivan Kniazkov
+Copyright (C) 2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -22,31 +22,32 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "object.h"
+
 namespace g0at
 {
     namespace model
     {
-        class object;
-
-        class object_list
+        class object_raw_data : public object
         {
         public:
-            object_list();
-            void swap(object_list &other); 
-            void add(object *item);
-            void remove(object *item);
-            object *remove();
-            object *remove_first();
-            void destroy_all();
-            bool contains(object *item);
+            object_raw_data(object_pool *_pool, void *_raw_data, const char *_descriptor);
+            object_raw_data *to_object_raw_data() override;
+            std::wstring to_string() const override;
+            goat_value * get_value(const goat_allocator *allocator) override;
 
-            object *first;
-            object *last;
-            int count;
+        private:
+            void *raw_data;
+            const char *descriptor;
+        };
 
+        class object_raw_data_proto : public object
+        {
+        friend class object_pool;
         protected:
-            object_list(const object_list &) { }
-            void operator=(const object_list &) { }
+            object_raw_data_proto(object_pool *pool);
+        public:
+            void op_new(thread *thr, int arg_count) override;
         };
     };
 };

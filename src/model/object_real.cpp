@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -237,6 +237,11 @@ namespace g0at
                 return true;
             }
 
+            goat_value * get_value(variable *var, const goat_allocator *allocator) override
+            {
+                return create_goat_real(allocator, var->data.r);
+            }
+            
             void op_add(variable *var, thread *thr)  override
             {
                 binary_math_operation<lib::func::plus>(var, thr);

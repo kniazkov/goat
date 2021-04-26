@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "goat_data.h"
 #include "settings.h"
 #include "object_pool.h"
 #include "lib/pointer.h"
@@ -58,6 +59,8 @@ namespace g0at
         class object_byte_array;
         class object_file;
         class object_port;
+        class object_dynamic_library;
+        class object_raw_data;
         class handler;
         enum class call_mode;
 
@@ -110,6 +113,8 @@ namespace g0at
             inline bool get_char(wchar_t *pval);
             inline bool get_byte(uint8_t *pval);
             inline bool get_short(int16_t *pval);
+
+            inline goat_value * get_value(const goat_allocator *allocator);
 
             inline void op_add(thread *thr);
             inline void op_sub(thread *thr);
@@ -222,6 +227,8 @@ namespace g0at
             virtual object_byte_array *to_object_byte_array();
             virtual object_file *to_object_file();
             virtual object_port *to_object_port();
+            virtual object_dynamic_library *to_object_dynamic_library();
+            virtual object_raw_data *to_object_raw_data();
 
             virtual bool less(const object *obj) const;
             virtual std::wstring to_string() const;
@@ -248,6 +255,8 @@ namespace g0at
             virtual bool get_boolean(bool *pval);
             virtual bool get_char(wchar_t *pval);
             virtual bool is_void();
+
+            virtual goat_value * get_value(const goat_allocator *allocator);
 
             virtual void op_new(thread *thr, int arg_count);
             virtual void op_add(thread *thr);
@@ -318,6 +327,7 @@ namespace g0at
             void reinit(object_pool *pool);
         public:
             virtual void m_clone(thread *thr, int arg_count) override;
+            virtual goat_value * get_value(const goat_allocator *allocator) override;
         };
 
         class generic_proto : public object
@@ -350,6 +360,8 @@ namespace g0at
             virtual bool get_real(variable *var, double *val);
             virtual bool get_boolean(variable *var, bool *val);
             virtual bool get_char(variable *var, wchar_t *val);
+
+            virtual goat_value * get_value(variable *var, const goat_allocator *allocator);
 
             virtual void op_add(variable *var, thread *thr);
             virtual void op_sub(variable *var, thread *thr);
@@ -541,6 +553,11 @@ namespace g0at
                 }
             }
             return false;
+        }
+
+        goat_value * variable::get_value(const goat_allocator *allocator)
+        {
+            return hndl->get_value(this, allocator);
         }
 
         void variable::op_add(thread *thr)

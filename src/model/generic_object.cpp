@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -57,6 +57,18 @@ namespace g0at
         {
             // find and call own 'clone()' method
             find_and_vcall(thr, arg_count, resource::str_clone);
+        }
+
+        goat_value * generic_object::get_value(const goat_allocator *allocator)
+        {
+            goat_object *result = create_goat_object(allocator);
+            for (auto pair : objects)
+            {
+                std::wstring key = pair.first->to_string();
+                goat_value *value = pair.second.get_value(allocator);
+                goat_object_add_record_ext(allocator, result, key.c_str(), key.size(), value);
+            }
+            return &result->base;
         }
     };
 };

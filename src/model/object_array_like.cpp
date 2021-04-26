@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -100,6 +100,17 @@ namespace g0at
             }
             wss << L']';
             return wss.str();
+        }
+
+        goat_value * object_array_like::get_value(const goat_allocator *allocator)
+        {
+            goat_array *result = create_goat_array(allocator);
+            int length = get_length();
+            for (int i = 0; i < length; i++)
+            {
+                goat_array_push_back(allocator, result, get_item(i).get_value(allocator));
+            }
+            return &result->base;
         }
 
         void object_array_like::m_get(thread *thr, int arg_count)

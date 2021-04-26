@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -65,6 +65,11 @@ namespace g0at
             return false;
         }
 
+        goat_value * handler::get_value(variable *var, const goat_allocator *allocator)
+        {
+            return create_goat_unknown_value(allocator);
+        }
+            
         void handler::op_add(variable *var, thread *thr)
         {
             thr->raise_exception(new object_exception_operator_not_found(thr->pool, resource::str_oper_plus));

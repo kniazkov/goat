@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -85,6 +85,11 @@ namespace g0at
             bool get_char(variable *var, wchar_t *pval) override
             {
                 return var->data.ref->get_char(pval);
+            }
+            
+            goat_value * get_value(variable *var, const goat_allocator *allocator) override
+            {
+                return var->data.ref->get_value(allocator);
             }
             
             void op_add(variable *var, thread *thr)  override

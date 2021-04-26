@@ -1,6 +1,0 @@
-import "test_lib.goat";
-
-var test = function()
-{
-    return 7;
-};

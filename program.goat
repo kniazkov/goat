@@ -1,6 +1,19 @@
-import "io.goat";
+var c = '$';
 
-var w = FileWriter.open("example.txt", "utf8");
-w.writeln("Yes!");
-w.writeln("It works");
-w.close();
+var thr = thread(n, r)
+{
+    for (var i = 0; i < n; i++)
+    {
+        print(c);
+    }
+    print("\n" + r);
+};
+
+var dll = dlopen("ext/ext_lib.dll");
+println(dll);
+var fn = dll.find("do_something");
+println(fn);
+var test = [1, 2, "test", 3.1, 4, null, true, false, '$', {one: 1, two: 2}, thr];
+println(test);
+var val = fn(test, thr);
+println(val);

@@ -1,14 +1,1 @@
-rm ./goat -f
-rm ./program.goat.* -f
-rm ./*.png -f
-mkdir -p build
-cd build
-cmake ../src
-make -j1
-cd ..
-ls -l build/goat
-[ -f build/goat ] && cp build/goat .
-[ -f ./goat ] && ./goat program.goat --compile --dump-abstract-syntax-tree --dump-parse-tree --dump-assembler-code --lang=ru --lib=./lib
-[ -f ./program.goat.bin ] && ./goat --bin program.goat.bin --dump-memory-usage-report --heap-size=256 --lang=ru
-#[ -f ./program.goat.tokens.txt ] && dot -Tpng program.goat.tokens.txt -oprogram.goat.tokens.png
-#[ -f ./program.goat.ptree.txt ] && dot -Tpng program.goat.ptree.txt -oprogram.goat.ptree.png
+g++ -std=c++11 src/*.cpp src/code/*.cpp src/compiler/analyzer/*.cpp src/compiler/ast/*.cpp src/compiler/codegen/*.cpp src/compiler/common/*.cpp src/compiler/parser/*.cpp src/compiler/pt/*.cpp src/compiler/pt/root_scope/*.cpp  src/compiler/scanner/*.cpp src/compiler/source/*.cpp src/global/*.cpp src/launcher/*.cpp src/lib/*.cpp src/model/*.cpp src/model/built_in/*.cpp src/resource/*.cpp src/vm/*.cpp -Isrc -ldl -lpthread -g -o ./goat

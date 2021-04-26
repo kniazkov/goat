@@ -64,6 +64,8 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"File"), pool->get_file_proto_instance());
                 ctx->add_object(pool->get_static_string(L"Port"), pool->get_port_proto_instance());
                 ctx->add_object(pool->get_static_string(L"BooleanPort"), pool->get_gpio_proto_instance());
+                ctx->add_object(pool->get_static_string(L"DynamicLibrary"), pool->get_dynamic_library_proto_instance());
+                ctx->add_object(pool->get_static_string(L"RawData"), pool->get_raw_data_proto_instance());
 
                 ctx->add_object(pool->get_static_string(L"print"), create_function_print());
                 ctx->add_object(pool->get_static_string(L"println"), create_function_println());
@@ -89,6 +91,7 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"range"), create_function_range());
                 ctx->add_object(pool->get_static_string(L"uid"), create_function_uid());
                 ctx->add_object(pool->get_static_string(L"open"), create_function_open());
+                ctx->add_object(pool->get_static_string(L"dlopen"), create_function_dlopen());
                 ctx->add_object(pool->get_static_string(L"exec"), create_function_exec());
 
                 model::variable tmp;

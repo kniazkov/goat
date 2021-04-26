@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -243,7 +243,17 @@ namespace g0at
             return nullptr;
         }
 
+        object_raw_data *object::to_object_raw_data()
+        {
+            return nullptr;
+        }
+        
         object_port *object::to_object_port()
+        {
+            return nullptr;
+        }
+        
+        object_dynamic_library *object::to_object_dynamic_library()
         {
             return nullptr;
         }
@@ -506,6 +516,11 @@ namespace g0at
         bool object::is_void()
         {
             return false;
+        }
+
+        goat_value * object::get_value(const goat_allocator *allocator)
+        {
+            return create_goat_unknown_value(allocator);
         }
 
         void object::op_new(thread *thr, int arg_count)

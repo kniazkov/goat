@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -51,6 +51,11 @@ namespace g0at
         std::wstring object_null::to_string() const
         {
             return resource::str_null;
+        }
+
+        goat_value * object_null::get_value(const goat_allocator *allocator)
+        {
+            return create_goat_null(allocator);
         }
 
         void object_null::op_not(thread *thr)
