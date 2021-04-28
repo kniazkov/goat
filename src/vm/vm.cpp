@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -53,6 +53,7 @@ namespace g0at
             bool stop = false;
             try
             {
+                lib::gc *gc = env->get_gc();
                 if (!env->debug_mode())
                 {
                     while(!stop)
@@ -65,7 +66,7 @@ namespace g0at
                             ++thr->iid;
                             auto instr = code->get_instruction(iid);
                             instr->exec(thr);
-                            env->get_gc()->collect_garbage_if_necessary();
+                            gc->collect_garbage_if_necessary();
                             thr = proc->active_threads->switch_thread(&stop);
                         }
                     }
@@ -256,7 +257,7 @@ namespace g0at
                             // convert any value to real object
                             thr->peek().to_object(env->get_pool());
                         }
-                        env->get_gc()->collect_garbage_if_necessary();
+                        gc->collect_garbage_if_necessary();
                         thr = proc->active_threads->switch_thread(&stop);
                         ticks++;
                     }
