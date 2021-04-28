@@ -25,7 +25,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "gc.h"
 #include "model/process.h"
 #include "lib/ref_counter.h"
-#include "lib/pointer.h"
 #include "model/object_pool.h"
 #include "model/context.h"
 #include "model/thread.h"
@@ -43,7 +42,7 @@ namespace g0at
             ~environment();
 
             gc_type get_gc_type() { return gct; }
-            model::object_pool *get_pool() { return pool.get(); }
+            model::object_pool *get_pool() { return pool; }
             model::context *get_context() { return ctx; }
             model::process *get_process() { return proc; }
             lib::gc *get_gc() { return gc; }
@@ -53,7 +52,7 @@ namespace g0at
 
         protected:
             gc_type gct;
-            lib::pointer<model::object_pool> pool;
+            model::object_pool *pool;
             model::context *ctx;
             model::process *proc;
             lib::gc *gc;
