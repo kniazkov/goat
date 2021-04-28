@@ -1,0 +1,10 @@
+var dll = dlopen("../goat-web/goat-web.dll");
+var createServer = dll.find("create_server");
+var tick = dll.find("tick");
+
+var server = createServer(8001);
+println(server);
+while(true)
+{
+    tick(server);
+}
