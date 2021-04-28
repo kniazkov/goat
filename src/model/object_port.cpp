@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -556,7 +556,7 @@ namespace g0at
                     thr->pop();
                 thr->pop(arg_count);
                 variable result;
-                std::atomic_int64_t *pwm_timestamp = &ports->pwm_timestamp;
+                std::atomic<int64_t> *pwm_timestamp = &ports->pwm_timestamp;
                 int64_t init_time = lib::get_time_ns();
                 if (pwm_timestamp->load() <= 0 // thread is done (< 0) or not started yet (0)
                     && init_time != pwm_timestamp->exchange(init_time)) 

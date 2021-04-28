@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -45,7 +45,7 @@ namespace g0at
         private:
             bool initialized;
             object_boolean_port *list;
-            std::atomic_int64_t pwm_timestamp;
+            std::atomic<int64_t> pwm_timestamp;
         };
 
         class object_port_proto : public object
