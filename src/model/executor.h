@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -20,25 +20,16 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-#include "process.h"
-#include "thread.h"
+#pragma once
 
 namespace g0at
 {
     namespace model
     {
-        process::process(object_pool *_pool)
+        class executor
         {
-            pool = _pool;
-            exec = nullptr;
-            suspended_threads = new thread_list(this);
-            active_threads = new thread_list_ext(this, suspended_threads, pool);
-        }
-
-        process::~process()
-        {
-            delete active_threads;
-            delete suspended_threads;
-        }
+        public:
+            virtual ~executor() { }
+        };
     };
 };
