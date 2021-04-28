@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -37,6 +37,7 @@ namespace g0at
             void call(thread *thr, int arg_count, call_mode mode) override;
             void trace() override;
             void trace_parallel(object_pool *pool) override;
+            goat_value * get_value(const goat_allocator *allocator) override;
 
             code::iid_t get_first_iid() { return first_iid; }
             void add_arg_name(object *arg_name) { arg_names.push_back(arg_name); }

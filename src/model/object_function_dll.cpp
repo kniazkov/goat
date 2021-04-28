@@ -115,6 +115,15 @@ namespace g0at
                     dst->set_object(object);
                     break;                
                 }
+                case goat_type_function:
+                {
+                    object *obj = (object*)(((goat_function*)src)->ir_ptr);
+                    if (pool->population.contains(obj) && obj->to_object_function() != nullptr)
+                        dst->set_object((object*)((goat_function*)src)->ir_ptr);
+                    else
+                        dst->set_object(pool->get_undefined_instance());
+                    break;
+                }
                 case goat_type_thread:
                 {
                     object *obj = (object*)(((goat_thread*)src)->ir_ptr);

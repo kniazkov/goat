@@ -1,5 +1,10 @@
 var c = '$';
 
+var cb = $()
+{
+    println("The function was invoked");
+};
+
 var thr = thread(n, r)
 {
     for (var i = 0; i < n; i++)
@@ -13,7 +18,7 @@ var dll = dlopen("ext/ext_lib.dll");
 println(dll);
 var fn = dll.find("do_something");
 println(fn);
-var test = [1, 2, "test", 3.1, 4, null, true, false, '$', {one: 1, two: 2}, thr];
+var test = [1, 2, "test", 3.1, 4, null, true, false, '$', {one: 1, two: 2}, cb, thr];
 println(test);
 var val = fn(test, thr);
 println(val);
