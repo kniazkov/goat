@@ -26,6 +26,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_list.h"
 #include "object_cache.h"
 #include "lib/new.h"
+#include "lib/ref_counter.h"
 #include <string>
 #include <cstdint>
 
@@ -87,7 +88,7 @@ namespace g0at
             }
         };
 
-        class object_pool
+        class object_pool : public lib::ref_counter
         {
         public:
             object_pool(std::vector<std::wstring> &identifiers_list);
