@@ -44,7 +44,7 @@ namespace g0at
             gc_type get_gc_type() { return gct; }
             model::object_pool *get_pool() { return pool; }
             model::context *get_context() { return ctx; }
-            model::process *get_process() { return proc; }
+            model::process *get_main_process() { return main_proc; }
             lib::gc *get_gc() { return gc; }
             bool debug_mode() { return debug; }
             bool run_mode() { return run; }
@@ -54,7 +54,7 @@ namespace g0at
             gc_type gct;
             model::object_pool *pool;
             model::context *ctx;
-            model::process *proc;
+            model::process *main_proc;
             lib::gc *gc;
             bool debug;
             bool run;

@@ -36,13 +36,12 @@ namespace g0at
 {
     namespace vm
     {
-        int run(code::code *code, environment *env)
+        static model::variable run(code::code *code, environment *env, model::process *proc, code::iid_t instr_id)
         {
             model::variable ret;
-            model::process *proc = env->get_process();
             model::thread *thr = proc->active_threads->create_thread(env->get_context(), &ret);
             ret.set_object(env->get_pool()->get_undefined_instance());
-            thr->iid = code::iid_t(0);
+            thr->iid = instr_id;
             thr->next = thr;
             thr->state = model::thread_state::ok;
             bool stop = false;
@@ -258,21 +257,36 @@ namespace g0at
                     }
                 }
 
-                int ret_value = 0;
-                int64_t ret_value_int64;
-                if (ret.get_integer(&ret_value_int64) && ret_value_int64 >= INT_MIN && ret_value_int64 <= INT_MAX)
-                    ret_value = (int)ret_value_int64;
-
-                if (env->debug_mode() && !env->run_mode())
-                    std::cout << '\n' << global::char_encoder->encode(global::resource->program_terminated_with_exit_code(ret_value)) << '\n';
-
-                return ret_value;
+                return ret;
             }
             catch(const vm_exception &vmex)
             {
                 std::cerr << global::char_encoder->encode(code::disasm::to_string(code, thr->iid - 10, thr->iid)); 
                 throw;
             }
+        }
+
+        int run(code::code *code, environment *env)
+        {
+            model::variable ret = run(code, env, env->get_main_process(), code::iid_t(0));
+
+            int ret_value = 0;
+            int64_t ret_value_int64;
+            if (ret.get_integer(&ret_value_int64) && ret_value_int64 >= INT_MIN && ret_value_int64 <= INT_MAX)
+                ret_value = (int)ret_value_int64;
+
+            if (env->debug_mode() && !env->run_mode())
+                std::cout << '\n' << global::char_encoder->encode(global::resource->program_terminated_with_exit_code(ret_value)) << '\n';
+
+            return ret_value;
+        }
+
+        model::variable run_subprocess(code::code *code, environment *env, model::process *parent, code::iid_t instr_id)
+        {
+            model::process *proc = new model::process(parent, parent->pool);
+            model::variable ret = run(code, env, proc, instr_id);
+            delete proc;
+            return ret;
         }
     };
 };
