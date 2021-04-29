@@ -39,7 +39,7 @@ namespace g0at
         static model::variable run(code::code *code, environment *env, model::process *proc, code::iid_t instr_id)
         {
             model::variable ret;
-            model::thread *thr = proc->active_threads->create_thread(env->get_context(), &ret);
+            model::thread *thr = proc->active_threads->create_thread(env->get_context(), &ret, env->get_pool());
             ret.set_object(env->get_pool()->get_undefined_instance());
             thr->iid = instr_id;
             thr->next = thr;
@@ -283,7 +283,7 @@ namespace g0at
 
         model::variable run_subprocess(code::code *code, environment *env, model::process *parent, code::iid_t instr_id)
         {
-            model::process *proc = new model::process(parent, parent->pool);
+            model::process *proc = new model::process(parent);
             model::variable ret = run(code, env, proc, instr_id);
             delete proc;
             return ret;

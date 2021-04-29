@@ -107,7 +107,7 @@ namespace g0at
                     thr->pop(arg_count - decl_arg_count);
                 }
 
-                thread *new_thr = thr->get_process()->active_threads->create_thread(ctx, nullptr);
+                thread *new_thr = thr->get_process()->active_threads->create_thread(ctx, nullptr, thr->pool);
                 new_thr->state = thread_state::ok;
                 new_thr->iid = obj_thread->get_first_iid();
                 
@@ -164,7 +164,8 @@ namespace g0at
 
                 thr->pop(arg_count);
 
-                thread *new_thr = thr->get_process()->active_threads->create_delayed_thread(ctx, delay + lib::get_time_ns());
+                thread *new_thr = thr->get_process()->active_threads->
+                    create_delayed_thread(ctx, delay + lib::get_time_ns(), thr->pool);
                 new_thr->iid = obj_thread->get_first_iid();
                 
                 variable runner;

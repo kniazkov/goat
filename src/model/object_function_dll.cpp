@@ -194,7 +194,7 @@ namespace g0at
                 delete low_level_allocator;
             }
 
-            thread *new_thr = data->proc->active_threads->create_thread(ctx, nullptr);
+            thread *new_thr = data->proc->active_threads->create_thread(ctx, nullptr, data->pool);
             new_thr->state = thread_state::ok;
             new_thr->iid = obj_thread->get_first_iid();
             return true;

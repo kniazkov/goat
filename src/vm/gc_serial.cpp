@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/new.h"
 #include "model/context.h"
 #include "model/thread.h"
+#include "model/process.h"
 
 namespace g0at
 {
@@ -32,10 +33,10 @@ namespace g0at
         class gc_serial : public lib::gc
         {
         public:
-            gc_serial(model::process *_main_proc)
+            gc_serial(model::runtime *_runtime)
             {
                 count = 0;
-                main_proc = _main_proc;
+                runtime = _runtime;
                 prev_used_memory_size = lib::get_used_memory_size();
             }
 
@@ -74,15 +75,15 @@ namespace g0at
                 count++;
 
                 // mark
-                main_proc->pool->mark_all_static_strings();
-                mark_all(main_proc);
+                runtime->pool->mark_all_static_strings();
+                mark_all(runtime->main_proc);
 
                 // sweep
-                model::object *obj = main_proc->pool->population.first;
+                model::object *obj = runtime->pool->population.first;
                 while (obj)
                 {
                     model::object *next = obj->next;
-                    obj->sweep(main_proc->pool);
+                    obj->sweep(runtime->pool);
                     obj = next;
                 }
 
@@ -109,14 +110,14 @@ namespace g0at
             }
 
             int count;
-            model::process *main_proc;
+            model::runtime *runtime;
             size_t prev_used_memory_size;
             const size_t threshold = 1024 * sizeof(model::context) * 2;
         };
 
-        lib::gc * create_grabage_collector_serial(model::process *main_proc)
+        lib::gc * create_grabage_collector_serial(model::runtime *runtime)
         {
-            return new gc_serial(main_proc);
+            return new gc_serial(runtime);
         }
     };
 };

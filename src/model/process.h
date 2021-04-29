@@ -28,20 +28,16 @@ namespace g0at
 {
     namespace model
     {
-        class object_pool;
-        class thread_list;
         class thread_list_ext;
-        class executor;
+        class thread_list;
 
         class process
         {
         public:
-            process(process *_parent, object_pool *_pool);
+            process(process *_parent);
             ~process();
             const std::set<process*> & get_children() { return children; }
 
-            object_pool *pool;
-            executor *exec;
             thread_list_ext *active_threads;
             thread_list *suspended_threads;
 

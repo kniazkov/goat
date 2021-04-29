@@ -212,32 +212,32 @@ namespace g0at
                 thr->next->prev = thr->prev;
         }
 
-        thread_list_ext::thread_list_ext(process *_proc, thread_list *_aux_list, object_pool *_pool)
-            : thread_list(_proc), aux_list(_aux_list), pool(_pool), last_tid(-1)
+        thread_list_ext::thread_list_ext(process *_proc, thread_list *_aux_list)
+            : thread_list(_proc), aux_list(_aux_list), last_tid(-1)
         {
         }
 
-        thread * thread_list_ext::create_thread(context *_ctx, variable *_ret)
+        thread * thread_list_ext::create_thread(context *_ctx, variable *_ret, object_pool *_pool)
         {
             last_tid = thread_id(last_tid.as_int64() + 1);
             thread_id tid = last_tid;
-            thread *new_thr = new thread(proc, tid, _ctx, pool, _ret);
+            thread *new_thr = new thread(proc, tid, _ctx, _pool, _ret);
             add_thread(new_thr);
             thread_by_tid[tid] = new_thr;
             return new_thr;
         }
 
-        thread * thread_list_ext::create_delayed_thread(context *_ctx, int64_t delay)
+        thread * thread_list_ext::create_delayed_thread(context *_ctx, int64_t _delay, object_pool *_pool)
         {
             last_tid = thread_id(last_tid.as_int64() + 1);
             thread_id tid = last_tid;
-            thread *new_thr = new thread(proc, tid, _ctx, pool, nullptr);
+            thread *new_thr = new thread(proc, tid, _ctx, _pool, nullptr);
             aux_list->add_thread(new_thr);
             new_thr->is_active = false;
             thread_by_tid[tid] = new_thr;
-            while(delayed_threads.find(delay) != delayed_threads.end())
-                delay++;
-            delayed_threads[delay] = tid;
+            while(delayed_threads.find(_delay) != delayed_threads.end())
+                _delay++;
+            delayed_threads[_delay] = tid;
             return new_thr;
         }
 

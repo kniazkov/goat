@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/new.h"
 #include "model/context.h"
 #include "model/thread.h"
+#include "model/process.h"
 
 namespace g0at
 {
@@ -32,11 +33,11 @@ namespace g0at
         class gc_parallel : public lib::gc
         {
         public:
-            gc_parallel(model::process *_main_proc)
+            gc_parallel(model::runtime *_runtime)
             {
                 count = 0;
                 stage = 0;
-                main_proc = _main_proc;
+                runtime = _runtime;
                 prev_used_memory_size = lib::get_used_memory_size();
             }
 
@@ -72,12 +73,12 @@ namespace g0at
 
             void collect_garbage() override
             {
-                model::object_pool *pool = main_proc->pool;
+                model::object_pool *pool = runtime->pool;
                 if (stage == 0) {
                     count++;
                     stage++;
                     pool->mark_all_static_strings_parallel();
-                    mark_all_parallel(main_proc);
+                    mark_all_parallel(runtime->main_proc);
                     return;
                 }
 
@@ -128,14 +129,14 @@ namespace g0at
 
             int count;
             int stage;
-            model::process *main_proc;
+            model::runtime *runtime;
             size_t prev_used_memory_size;
             const size_t threshold = 1024 * sizeof(model::context) * 2;
         };
 
-        lib::gc * create_grabage_collector_parallel(model::process *main_proc)
+        lib::gc * create_grabage_collector_parallel(model::runtime *runtime)
         {
-            return new gc_parallel(main_proc);
+            return new gc_parallel(runtime);
         }
     };
 };

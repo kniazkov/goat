@@ -32,20 +32,21 @@ namespace g0at
             bool _debug, bool _run, source_manager *_listing, std::vector<char*> *args)
             : gct(_gc_type), debug(_debug), run(_run), listing(_listing)
         {
-            pool = new model::object_pool(_identifiers_list);
-            ctx = model::built_in::context_factory(pool).create_context(args);
-            main_proc = new model::process(nullptr, pool);
-            gc = create_garbage_collector(_gc_type, main_proc);
+            rt.pool = new model::object_pool(_identifiers_list);
+            ctx = model::built_in::context_factory(rt.pool).create_context(args);
+            rt.main_proc = new model::process(nullptr);
+            rt.exec = nullptr;
+            gc = create_garbage_collector(_gc_type, &rt);
             lib::set_garbage_collector(gc);
         }
 
         environment::~environment()
         {
-            pool->destroy_all();
+            rt.pool->destroy_all();
             lib::set_garbage_collector(nullptr);
             delete gc;
-            delete main_proc;
-            delete pool;
+            delete rt.main_proc;
+            delete rt.pool;
         }
     };
 };
