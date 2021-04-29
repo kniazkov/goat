@@ -36,12 +36,7 @@ namespace g0at
 {
     namespace vm
     {
-        vm::vm(lib::pointer<code::code> _code)
-            : code(_code)
-        {
-        }
-
-        int vm::run(environment *env)
+        int run(code::code *code, environment *env)
         {
             model::variable ret;
             model::process *proc = env->get_process();

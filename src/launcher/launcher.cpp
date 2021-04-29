@@ -172,8 +172,7 @@ namespace g0at
                 auto code = codegen::generator::generate(&name_cache, node_root, true);
                 node_root.reset();
                 env = new vm::environment(gct, code->get_identifiers_list(), false, true, &listing, &opt.args);
-                vm::vm vm(code);
-                ret_val = vm.run(env.get());
+                ret_val = vm::run(code.get(), env.get());
                 return ret_val;
             }
             catch (compilation_error &c_err)
@@ -240,8 +239,7 @@ namespace g0at
                     {
                         env->get_pool()->merge_strings_list(code->get_identifiers_list());
                     }
-                    vm::vm vm(code);
-                    ret_val = vm.run(env.get());
+                    ret_val = vm::run(code.get(), env.get());
                     std::cout << std::endl;
                     name_cache.reinit(env->get_pool()->get_strings_list());
                 }
@@ -271,9 +269,8 @@ namespace g0at
             {
                 lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code, true));
             }
-            vm::vm vm(code);
             env = new vm::environment(gct, code->get_identifiers_list(), opt.debug, true, nullptr, &opt.args);
-            ret_val = vm.run(env.get());
+            ret_val = vm::run(code.get(), env.get());
             if (opt.dump_memory_usage_report)
             {
                 dump_memory_usage_report(opt.prog_name, env.get());
@@ -311,9 +308,8 @@ namespace g0at
                 }
                 if (!opt.compile)
                 {
-                    vm::vm vm(code_2);
                     env = new vm::environment(gct, code_2->get_identifiers_list(), opt.debug, opt.run, &listing, &opt.args);
-                    ret_val = vm.run(env.get());
+                    ret_val = vm::run(code_2.get(), env.get());
                 }
                 else
                 {

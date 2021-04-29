@@ -30,18 +30,6 @@ namespace g0at
 {
     namespace vm
     {
-
-        class vm
-        {
-        public:
-            vm(lib::pointer<code::code> _code);
-            int run(environment *env);
-        
-        protected:
-            vm(const vm&) { }
-            void operator=(const vm&) { }
-
-            lib::pointer<code::code> code;
-        };
+        int run(code::code *code, environment *env);
     };
 };
