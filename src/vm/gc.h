@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -38,21 +38,21 @@ namespace g0at
             disabled
         };
 
-        lib::gc * create_grabage_collector_parallel(model::process *proc);
-        lib::gc * create_grabage_collector_serial(model::process *proc);
-        lib::gc * create_grabage_collector_debug(model::process *proc);
+        lib::gc * create_grabage_collector_parallel(model::process *main_proc);
+        lib::gc * create_grabage_collector_serial(model::process *main_proc);
+        lib::gc * create_grabage_collector_debug(model::process *main_proc);
         lib::gc * create_grabage_collector_disabled();
 
-        static inline lib::gc * create_garbage_collector(gc_type type, model::process *proc)
+        static inline lib::gc * create_garbage_collector(gc_type type, model::process *main_proc)
         {
             switch(type)
             {
                 case gc_type::parallel:
-                    return create_grabage_collector_parallel(proc);
+                    return create_grabage_collector_parallel(main_proc);
                 case gc_type::serial:
-                    return create_grabage_collector_serial(proc);
+                    return create_grabage_collector_serial(main_proc);
                 case gc_type::debug:
-                    return create_grabage_collector_debug(proc);
+                    return create_grabage_collector_debug(main_proc);
                 case gc_type::disabled:
                     return create_grabage_collector_disabled();
             }

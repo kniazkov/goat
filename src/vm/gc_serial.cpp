@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -32,10 +32,10 @@ namespace g0at
         class gc_serial : public lib::gc
         {
         public:
-            gc_serial(model::process *_proc)
+            gc_serial(model::process *_main_proc)
             {
                 count = 0;
-                proc = _proc;
+                main_proc = _main_proc;
                 prev_used_memory_size = lib::get_used_memory_size();
             }
 
@@ -74,15 +74,15 @@ namespace g0at
                 count++;
 
                 // mark
-                proc->pool->mark_all_static_strings();
-                mark_all(proc);
+                main_proc->pool->mark_all_static_strings();
+                mark_all(main_proc);
 
                 // sweep
-                model::object *obj = proc->pool->population.first;
+                model::object *obj = main_proc->pool->population.first;
                 while (obj)
                 {
                     model::object *next = obj->next;
-                    obj->sweep(proc->pool);
+                    obj->sweep(main_proc->pool);
                     obj = next;
                 }
 
@@ -109,14 +109,14 @@ namespace g0at
             }
 
             int count;
-            model::process *proc;
+            model::process *main_proc;
             size_t prev_used_memory_size;
             const size_t threshold = 1024 * sizeof(model::context) * 2;
         };
 
-        lib::gc * create_grabage_collector_serial(model::process *proc)
+        lib::gc * create_grabage_collector_serial(model::process *main_proc)
         {
-            return new gc_serial(proc);
+            return new gc_serial(main_proc);
         }
     };
 };

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -31,8 +31,8 @@ namespace g0at
         class gc_debug : public lib::gc
         {
         public:
-            gc_debug(model::process *_proc)
-                : count(0), proc(_proc)
+            gc_debug(model::process *_main_proc)
+                : count(0), main_proc(_main_proc)
             {
             }
 
@@ -71,15 +71,15 @@ namespace g0at
                 count++;
 
                 // mark
-                proc->pool->mark_all_static_strings();
-                mark_all(proc);
+                main_proc->pool->mark_all_static_strings();
+                mark_all(main_proc);
 
                 // sweep
-                model::object *obj = proc->pool->population.first;
+                model::object *obj = main_proc->pool->population.first;
                 while (obj)
                 {
                     model::object *next = obj->next;
-                    obj->sweep(proc->pool);
+                    obj->sweep(main_proc->pool);
                     obj = next;
                 }
             }
@@ -98,12 +98,12 @@ namespace g0at
             }
 
             int count;
-            model::process *proc;
+            model::process *main_proc;
         };
 
-        lib::gc * create_grabage_collector_debug(model::process *proc)
+        lib::gc * create_grabage_collector_debug(model::process *main_proc)
         {
-            return new gc_debug(proc);
+            return new gc_debug(main_proc);
         }
     };
 };
