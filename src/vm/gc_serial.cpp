@@ -39,20 +39,16 @@ namespace g0at
                 prev_used_memory_size = lib::get_used_memory_size();
             }
 
-            void collect_garbage() override
+            static void mark_all(model::process *proc)
             {
-                count++;
-
-                // mark
-                proc->pool->mark_all_static_strings();
                 model::thread *thr_start = proc->active_threads->get_current_thread();
                 model::thread *thr = thr_start;
                 if (thr)
                 {
                     do
                     {
-                        thr->mark_all();
-                        thr = thr->next;
+                         thr->mark_all();
+                         thr = thr->next;
                     } while(thr != thr_start);
                 }
                 thr_start = proc->suspended_threads->get_current_thread();
@@ -61,10 +57,25 @@ namespace g0at
                 {
                     do
                     {
-                        thr->mark_all();
-                        thr = thr->next;
+                         thr->mark_all();
+                         thr = thr->next;
                     } while(thr != thr_start);
                 }
+
+                const std::set<model::process*> &children_processes = proc->get_children();
+                for (model::process *child : children_processes)
+                {
+                    mark_all(child);
+                }
+            }
+
+            void collect_garbage() override
+            {
+                count++;
+
+                // mark
+                proc->pool->mark_all_static_strings();
+                mark_all(proc);
 
                 // sweep
                 model::object *obj = proc->pool->population.first;

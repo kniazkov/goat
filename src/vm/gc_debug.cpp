@@ -36,12 +36,8 @@ namespace g0at
             {
             }
 
-            void collect_garbage() override
+            static void mark_all(model::process *proc)
             {
-                count++;
-
-                // mark
-                proc->pool->mark_all_static_strings();
                 model::thread *thr_start = proc->active_threads->get_current_thread();
                 model::thread *thr = thr_start;
                 if (thr)
@@ -62,6 +58,21 @@ namespace g0at
                          thr = thr->next;
                     } while(thr != thr_start);
                 }
+
+                const std::set<model::process*> &children_processes = proc->get_children();
+                for (model::process *child : children_processes)
+                {
+                    mark_all(child);
+                }
+            }
+
+            void collect_garbage() override
+            {
+                count++;
+
+                // mark
+                proc->pool->mark_all_static_strings();
+                mark_all(proc);
 
                 // sweep
                 model::object *obj = proc->pool->population.first;

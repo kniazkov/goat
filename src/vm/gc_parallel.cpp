@@ -40,32 +40,43 @@ namespace g0at
                 prev_used_memory_size = lib::get_used_memory_size();
             }
 
+            static void mark_all_parallel(model::process *proc)
+            {
+                model::thread *thr_start = proc->active_threads->get_current_thread();
+                model::thread *thr = thr_start;
+                if (thr)
+                {
+                    do
+                    {
+                         thr->mark_all_parallel();
+                         thr = thr->next;
+                    } while(thr != thr_start);
+                }
+                thr_start = proc->suspended_threads->get_current_thread();
+                thr = thr_start;
+                if (thr)
+                {
+                    do
+                    {
+                         thr->mark_all_parallel();
+                         thr = thr->next;
+                    } while(thr != thr_start);
+                }
+
+                const std::set<model::process*> &children_processes = proc->get_children();
+                for (model::process *child : children_processes)
+                {
+                    mark_all_parallel(child);
+                }
+            }
+
             void collect_garbage() override
             {
                 if (stage == 0) {
                     count++;
-                    proc->pool->mark_all_static_strings_parallel();
-                    model::thread *thr_start = proc->active_threads->get_current_thread();
-                    model::thread *thr = thr_start;
-                    if (thr)
-                    {
-                        do
-                        {
-                            thr->mark_all_parallel();
-                            thr = thr->next;
-                        } while(thr != thr_start);
-                    }
-                    thr_start = proc->suspended_threads->get_current_thread();
-                    thr = thr_start;
-                    if (thr)
-                    {
-                        do
-                        {
-                            thr->mark_all_parallel();
-                            thr = thr->next;
-                        } while(thr != thr_start);
-                    }
                     stage++;
+                    proc->pool->mark_all_static_strings_parallel();
+                    mark_all_parallel(proc);
                     return;
                 }
 

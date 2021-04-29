@@ -27,8 +27,14 @@ namespace g0at
 {
     namespace model
     {
-        process::process(object_pool *_pool)
+        process::process(process *_parent, object_pool *_pool)
         {
+            parent = _parent;
+            if (parent)
+            {
+                parent->children.insert(this);
+            }
+
             pool = _pool;
             exec = nullptr;
             suspended_threads = new thread_list(this);
@@ -37,6 +43,11 @@ namespace g0at
 
         process::~process()
         {
+            if (parent)
+            {
+                parent->children.erase(this);
+            }
+
             delete active_threads;
             delete suspended_threads;
         }

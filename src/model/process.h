@@ -22,6 +22,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include <set>
+
 namespace g0at
 {
     namespace model
@@ -34,8 +36,9 @@ namespace g0at
         class process
         {
         public:
-            process(object_pool *_pool);
+            process(process *_parent, object_pool *_pool);
             ~process();
+            const std::set<process*> & get_children() { return children; }
 
             object_pool *pool;
             executor *exec;
@@ -43,6 +46,9 @@ namespace g0at
             thread_list *suspended_threads;
 
         private:
+            process *parent;
+            std::set<process*> children;
+
             process(const process&) { }
             void operator=(const process& ) { }
         };
