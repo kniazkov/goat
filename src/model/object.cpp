@@ -163,6 +163,11 @@ namespace g0at
             return nullptr;
         }
 
+        object_function_user_defined *object::to_object_function_user_defined()
+        {
+            return nullptr;
+        }
+
         object_thread *object::to_object_thread()
         {
             return nullptr;

@@ -34,6 +34,7 @@ namespace g0at
         {
         public:
             object_function_user_defined(object_pool *pool, code::iid_t _first_iid, context *_proto_ctx);
+            object_function_user_defined * to_object_function_user_defined() override;
             void call(thread *thr, int arg_count, call_mode mode) override;
             void trace() override;
             void trace_parallel(object_pool *pool) override;

@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/disasm.h"
 #include "lib/assert.h"
 #include "lib/utils.h"
+#include "model/executor.h"
 #include <iostream>
 #include <sstream>
 #include <climits>
@@ -36,6 +37,29 @@ namespace g0at
 {
     namespace vm
     {
+        static model::variable run(code::code *code, environment *env, model::process *proc, code::iid_t instr_id);
+
+        class executor_impl : public model::executor
+        {
+        public:
+            executor_impl(code::code *_code, environment *_env) :
+                code(_code), env(_env)
+            {
+            }
+
+            model::variable call_a_function_as_a_subprocess(model::process *parent, code::iid_t instr_id) override
+            {
+                model::process *proc = new model::process(env->get_runtime(), parent);
+                model::variable ret = run(code, env, proc, instr_id);
+                delete proc;
+                return ret;
+            }
+
+        private:
+            code::code *code;
+            environment *env;
+        };
+
         static model::variable run(code::code *code, environment *env, model::process *proc, code::iid_t instr_id)
         {
             model::variable ret;
@@ -268,7 +292,11 @@ namespace g0at
 
         int run(code::code *code, environment *env)
         {
+            executor_impl exec(code, env);
+            model::runtime *rt = env->get_runtime();
+            rt->exec = &exec;
             model::variable ret = run(code, env, env->get_main_process(), code::iid_t(0));
+            rt->exec = nullptr;
 
             int ret_value = 0;
             int64_t ret_value_int64;
@@ -281,12 +309,5 @@ namespace g0at
             return ret_value;
         }
 
-        model::variable run_subprocess(code::code *code, environment *env, model::process *parent, code::iid_t instr_id)
-        {
-            model::process *proc = new model::process(env->get_runtime(), parent);
-            model::variable ret = run(code, env, proc, instr_id);
-            delete proc;
-            return ret;
-        }
     };
 };

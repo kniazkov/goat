@@ -31,10 +31,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 typedef struct goat_value goat_value;
 typedef struct goat_shell goat_shell;
 typedef struct goat_allocator goat_allocator;
+typedef struct goat_function_caller goat_function_caller;
 typedef struct goat_thread_runner goat_thread_runner;
 
 typedef goat_value * (*goat_ext_function)(const goat_shell* shell, const goat_allocator *allocator, int argc, goat_value **argv);
 typedef void * (*goat_function_alloc)(void *memory_map, size_t size);
+typedef goat_value * (*goat_function_call_function)(void *function_ptr, void *function_caller_data,
+    const goat_allocator *allocator, int argc, goat_value **argv);
 typedef bool (*goat_function_run_thread)(void *thread_ptr, void *thread_runner_data,
     const goat_allocator *allocator, int argc, goat_value **argv);
 typedef goat_allocator * (*goat_function_create_allocator)(void *thread_runner_data);
@@ -43,6 +46,12 @@ struct goat_allocator
 {
     goat_function_alloc alloc;
     void *memory_map;
+};
+
+struct goat_function_caller
+{
+    goat_function_call_function call_function;
+    void *data;
 };
 
 struct goat_thread_runner
@@ -54,6 +63,7 @@ struct goat_thread_runner
 
 struct goat_shell
 {
+    const goat_function_caller *function_caller;
     const goat_thread_runner *thread_runner;
 };
 
@@ -312,6 +322,12 @@ static __inline goat_value * create_goat_function(const goat_allocator *allocato
     obj->base.type = goat_type_function;
     obj->ir_ptr = ir_ptr;
     return (goat_value*)obj;
+}
+
+static __inline goat_value * call_goat_function(const goat_function_caller* caller, goat_function *func,
+    const goat_allocator *allocator, int argc, goat_value **argv)
+{
+    return caller->call_function(func->ir_ptr, caller->data, allocator, argc, argv);
 }
 
 static __inline goat_value * create_goat_thread(const goat_allocator *allocator, void *ir_ptr)

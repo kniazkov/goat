@@ -22,6 +22,10 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "object.h"
+#include "process.h"
+#include "code/code.h"
+
 namespace g0at
 {
     namespace model
@@ -29,6 +33,7 @@ namespace g0at
         class executor
         {
         public:
+            virtual variable call_a_function_as_a_subprocess(process *parent, code::iid_t instr_id) = 0;
             virtual ~executor() { }
         };
     };

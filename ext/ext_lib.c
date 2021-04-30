@@ -34,6 +34,21 @@ goat_value * do_something(const goat_shell *shell, const goat_allocator *allocat
             run_goat_thread(shell->thread_runner, thr, ta, 2, list);
         }
     }
+    
+    if (arg_count > 2)
+    {
+        if (arg_list[2]->type == goat_type_function)
+        {
+            goat_value *list[] = {
+                create_goat_integer(allocator, 7),
+                create_goat_string(allocator, L"value")
+            };
+            goat_function *func = (goat_function*)arg_list[2];
+
+            call_goat_function(shell->function_caller, func, allocator, 2, list);
+        }
+    }
+
     goat_array *r = create_goat_array(allocator);
     goat_array_push_back(allocator, r, create_goat_integer(allocator, n));
     goat_array_push_back(allocator, r, arg_list[0]);

@@ -27,6 +27,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_thread.h"
 #include "object_raw_data.h"
 #include "process.h"
+#include "runtime.h"
+#include "executor.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -37,7 +39,7 @@ namespace g0at
 
         object_function_dll::object_function_dll(object_pool *_pool, object_dynamic_library *_library, goat_ext_function _ext_func)
             : object_function(_pool), library(_library), ext_func(_ext_func),
-              shell(nullptr), runner(nullptr), runner_data(nullptr)
+              shell(nullptr), runner_data(nullptr)
         {
             lock();
         }
@@ -45,7 +47,8 @@ namespace g0at
         object_function_dll::~object_function_dll()
         {
             delete runner_data;
-            delete runner;
+            delete shell->thread_runner;
+            delete shell->function_caller;
             delete shell;
         }
 
@@ -162,17 +165,24 @@ namespace g0at
             return allocator;
         }
 
-        static bool ext_thread_runner(void *thread_ptr, void *thread_runner_data, const goat_allocator *allocator, int arg_count, goat_value **arg_list)
+        static goat_value * ext_function_caller(void *function_ptr, void *function_caller_data,
+            const goat_allocator *allocator, int arg_count, goat_value **arg_list)
         {
-            ext_thread_runner_data *data = (ext_thread_runner_data*)thread_runner_data;
-            assert(data != nullptr);
-            object *obj = (object*)thread_ptr;
-            if (!data->pool->population.contains(obj))
-                return false;
-            object_thread *obj_thread = obj->to_object_thread();
-            if (!obj_thread)
-                return false;
-            context *ctx = data->pool->create_context(obj_thread->get_proto_ctx());
+            process *proc = (process*)function_caller_data;
+            assert(proc != nullptr);
+            runtime *rt = proc->get_runtime();
+            object_pool *pool = rt->pool;
+            object *obj = (object*)function_ptr;
+            if (!pool->population.contains(obj))
+                return create_goat_unknown_value(allocator);
+            object_function_user_defined *obj_function = obj->to_object_function_user_defined();
+            if (!obj_function)
+                return create_goat_unknown_value(allocator);
+
+            variable ret_val = rt->exec->call_a_function_as_a_subprocess(proc, obj_function->get_first_iid());
+            return ret_val.get_value(allocator);
+            /*
+            context *ctx = pool->create_context(obj_thread->get_proto_ctx());
             ctx->address_type = context_address_type::stop;
             int decl_arg_count = obj_thread->get_arg_names_count();
             for (int i = 0; i < decl_arg_count; i++)
@@ -181,11 +191,46 @@ namespace g0at
                 if (i < arg_count)
                 {
                     variable arg;
-                    value_to_variable(data->pool, arg_list[i], &arg);
+                    value_to_variable(pool, arg_list[i], &arg);
                     ctx->add_object(key, arg);
                 }
                 else
-                    ctx->add_object(key, data->pool->get_undefined_instance());
+                    ctx->add_object(key, pool->get_undefined_instance());
+            }
+
+            thread *new_thr = data->proc->active_threads->create_thread(ctx, nullptr, pool);
+            new_thr->state = thread_state::ok;
+            new_thr->iid = obj_thread->get_first_iid();
+            return true;
+            */
+        }
+
+        static bool ext_thread_runner(void *thread_ptr, void *thread_runner_data,
+            const goat_allocator *allocator, int arg_count, goat_value **arg_list)
+        {
+            ext_thread_runner_data *data = (ext_thread_runner_data*)thread_runner_data;
+            object_pool *pool = data->proc->get_runtime()->pool;
+            assert(data != nullptr);
+            object *obj = (object*)thread_ptr;
+            if (!pool->population.contains(obj))
+                return false;
+            object_thread *obj_thread = obj->to_object_thread();
+            if (!obj_thread)
+                return false;
+            context *ctx = pool->create_context(obj_thread->get_proto_ctx());
+            ctx->address_type = context_address_type::stop;
+            int decl_arg_count = obj_thread->get_arg_names_count();
+            for (int i = 0; i < decl_arg_count; i++)
+            {
+                object *key = obj_thread->get_arg_name(i);
+                if (i < arg_count)
+                {
+                    variable arg;
+                    value_to_variable(pool, arg_list[i], &arg);
+                    ctx->add_object(key, arg);
+                }
+                else
+                    ctx->add_object(key, pool->get_undefined_instance());
             }
             if (allocator)
             {
@@ -194,7 +239,7 @@ namespace g0at
                 delete low_level_allocator;
             }
 
-            thread *new_thr = data->proc->active_threads->create_thread(ctx, nullptr, data->pool);
+            thread *new_thr = data->proc->active_threads->create_thread(ctx, nullptr, pool);
             new_thr->state = thread_state::ok;
             new_thr->iid = obj_thread->get_first_iid();
             return true;
@@ -211,14 +256,21 @@ namespace g0at
 
             if (!shell)
             {
-                runner_data = new ext_thread_runner_data(thr->pool, thr->get_process());
+                process *process = thr->get_process();
 
-                runner = new goat_thread_runner();
+                goat_function_caller *caller = new goat_function_caller();
+                caller->call_function = ext_function_caller;
+                caller->data = (void*)process;
+
+                runner_data = new ext_thread_runner_data(process);
+
+                goat_thread_runner *runner = new goat_thread_runner();
                 runner->create_allocator = ext_create_allocator;
                 runner->run_thread = ext_thread_runner;
                 runner->data = (void*)runner_data;
                 
                 shell = new goat_shell();
+                shell->function_caller = caller;
                 shell->thread_runner = runner;
             }
 

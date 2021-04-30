@@ -33,6 +33,11 @@ namespace g0at
             assert(_first_iid.valid());
         }
 
+        object_function_user_defined * object_function_user_defined::to_object_function_user_defined()
+        {
+            return this;
+        }
+
         void object_function_user_defined::call(thread *thr, int arg_count, call_mode mode)
         {
             // prepare a new context
