@@ -27,8 +27,9 @@ namespace g0at
 {
     namespace model
     {
-        process::process(process *_parent)
+        process::process(runtime *_owner, process *_parent)
         {
+            owner = _owner;
             parent = _parent;
             if (parent)
             {

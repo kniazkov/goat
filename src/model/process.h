@@ -30,18 +30,21 @@ namespace g0at
     {
         class thread_list_ext;
         class thread_list;
+        struct runtime;
 
         class process
         {
         public:
-            process(process *_parent);
+            process(runtime *_owner, process *_parent);
             ~process();
             const std::set<process*> & get_children() { return children; }
+            runtime *get_runtime() { return owner; }
 
             thread_list_ext *active_threads;
             thread_list *suspended_threads;
 
         private:
+            runtime *owner;
             process *parent;
             std::set<process*> children;
 

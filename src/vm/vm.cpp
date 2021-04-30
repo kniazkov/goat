@@ -283,7 +283,7 @@ namespace g0at
 
         model::variable run_subprocess(code::code *code, environment *env, model::process *parent, code::iid_t instr_id)
         {
-            model::process *proc = new model::process(parent);
+            model::process *proc = new model::process(env->get_runtime(), parent);
             model::variable ret = run(code, env, proc, instr_id);
             delete proc;
             return ret;
