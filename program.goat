@@ -4,10 +4,10 @@ var go_go_go = function()
 
     var xx = 0;
 
-    var cb = $()
+    var cb = $(yy, tt)
     {
-        println("The function was invoked");
-        xx++;
+        println("The function was invoked with parameters: " + yy + " and " + tt);
+        xx += yy;
     };
 
     var thr = thread(n, r)

@@ -181,16 +181,10 @@ namespace g0at
 
             context *ctx = pool->create_context(obj_function->get_proto_ctx());
             ctx->address_type = context_address_type::stop;
-
-            variable ret_val = rt->exec->call_a_function_as_a_subprocess(proc, ctx, obj_function->get_first_iid());
-            return ret_val.get_value(allocator);
-            /*
-            context *ctx = pool->create_context(obj_thread->get_proto_ctx());
-            ctx->address_type = context_address_type::stop;
-            int decl_arg_count = obj_thread->get_arg_names_count();
+            int decl_arg_count = obj_function->get_arg_names_count();
             for (int i = 0; i < decl_arg_count; i++)
             {
-                object *key = obj_thread->get_arg_name(i);
+                object *key = obj_function->get_arg_name(i);
                 if (i < arg_count)
                 {
                     variable arg;
@@ -201,11 +195,8 @@ namespace g0at
                     ctx->add_object(key, pool->get_undefined_instance());
             }
 
-            thread *new_thr = data->proc->active_threads->create_thread(ctx, nullptr, pool);
-            new_thr->state = thread_state::ok;
-            new_thr->iid = obj_thread->get_first_iid();
-            return true;
-            */
+            variable ret_val = rt->exec->call_a_function_as_a_subprocess(proc, ctx, obj_function->get_first_iid());
+            return ret_val.get_value(allocator);
         }
 
         static bool ext_thread_runner(void *thread_ptr, void *thread_runner_data,
