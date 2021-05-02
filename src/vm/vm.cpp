@@ -37,7 +37,8 @@ namespace g0at
 {
     namespace vm
     {
-        static model::variable run(code::code *code, environment *env, model::process *proc, code::iid_t instr_id);
+        static model::variable run(code::code *code, environment *env, model::process *proc,
+            model::context *ctx, code::iid_t instr_id);
 
         class executor_impl : public model::executor
         {
@@ -47,10 +48,10 @@ namespace g0at
             {
             }
 
-            model::variable call_a_function_as_a_subprocess(model::process *parent, code::iid_t instr_id) override
+            model::variable call_a_function_as_a_subprocess(model::process *parent, model::context *ctx, code::iid_t instr_id) override
             {
                 model::process *proc = new model::process(env->get_runtime(), parent);
-                model::variable ret = run(code, env, proc, instr_id);
+                model::variable ret = run(code, env, proc, ctx, instr_id);
                 delete proc;
                 return ret;
             }
@@ -60,10 +61,11 @@ namespace g0at
             environment *env;
         };
 
-        static model::variable run(code::code *code, environment *env, model::process *proc, code::iid_t instr_id)
+        static model::variable run(code::code *code, environment *env, model::process *proc,
+            model::context *ctx, code::iid_t instr_id)
         {
             model::variable ret;
-            model::thread *thr = proc->active_threads->create_thread(env->get_context(), &ret, env->get_pool());
+            model::thread *thr = proc->active_threads->create_thread(ctx, &ret, env->get_pool());
             ret.set_object(env->get_pool()->get_undefined_instance());
             thr->iid = instr_id;
             thr->next = thr;
@@ -295,7 +297,7 @@ namespace g0at
             executor_impl exec(code, env);
             model::runtime *rt = env->get_runtime();
             rt->exec = &exec;
-            model::variable ret = run(code, env, env->get_main_process(), code::iid_t(0));
+            model::variable ret = run(code, env, env->get_main_process(), env->get_context(), code::iid_t(0));
             rt->exec = nullptr;
 
             int ret_value = 0;

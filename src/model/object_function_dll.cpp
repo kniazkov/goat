@@ -179,7 +179,10 @@ namespace g0at
             if (!obj_function)
                 return create_goat_unknown_value(allocator);
 
-            variable ret_val = rt->exec->call_a_function_as_a_subprocess(proc, obj_function->get_first_iid());
+            context *ctx = pool->create_context(obj_function->get_proto_ctx());
+            ctx->address_type = context_address_type::stop;
+
+            variable ret_val = rt->exec->call_a_function_as_a_subprocess(proc, ctx, obj_function->get_first_iid());
             return ret_val.get_value(allocator);
             /*
             context *ctx = pool->create_context(obj_thread->get_proto_ctx());

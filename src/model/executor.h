@@ -33,7 +33,7 @@ namespace g0at
         class executor
         {
         public:
-            virtual variable call_a_function_as_a_subprocess(process *parent, code::iid_t instr_id) = 0;
+            virtual variable call_a_function_as_a_subprocess(process *parent, context *ctx, code::iid_t instr_id) = 0;
             virtual ~executor() { }
         };
     };

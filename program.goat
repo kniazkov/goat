@@ -1,24 +1,33 @@
-var c = '$';
-
-var cb = $()
+var go_go_go = function()
 {
-    println("The function was invoked");
-};
+    var c = '$';
 
-var thr = thread(n, r)
-{
-    for (var i = 0; i < n; i++)
+    var xx = 0;
+
+    var cb = $()
     {
-        print(c);
-    }
-    print("\n" + r);
+        println("The function was invoked");
+        xx++;
+    };
+
+    var thr = thread(n, r)
+    {
+        for (var i = 0; i < n; i++)
+        {
+            print(c);
+        }
+        print("\n" + r);
+    };
+
+    var dll = dlopen("ext/ext_lib.dll");
+    println(dll);
+    var fn = dll.find("do_something");
+    println(fn);
+    var test = [1, 2, "test", 3.1, 4, null, true, false, '$', {one: 1, two: 2}, cb, thr];
+    println(test);
+    var val = fn(test, thr, cb);
+    println(xx);
+    println(val);
 };
 
-var dll = dlopen("ext/ext_lib.dll");
-println(dll);
-var fn = dll.find("do_something");
-println(fn);
-var test = [1, 2, "test", 3.1, 4, null, true, false, '$', {one: 1, two: 2}, cb, thr];
-println(test);
-var val = fn(test, thr, cb);
-println(val);
+go_go_go();
