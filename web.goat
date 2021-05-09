@@ -2,7 +2,12 @@ var dll = dlopen("../goat-web/goat-web.dll");
 var createServer = dll.find("create_server");
 var tick = dll.find("tick");
 
-var server = createServer(8001);
+var cb = $(request)
+{
+    println("An event handled: " + request);
+};
+
+var server = createServer(8001, cb);
 println(server);
 while(true)
 {

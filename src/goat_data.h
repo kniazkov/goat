@@ -25,6 +25,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdint.h>
 #include <stdbool.h>
 #include <memory.h>
+#include <string.h>
 #include <wchar.h>
 #include <stddef.h>
 
@@ -243,6 +244,24 @@ static __inline goat_value * create_goat_char(const goat_allocator *allocator, w
     obj->base.type = goat_type_char;
     obj->value = value;
     return (goat_value*)obj;
+}
+
+static __inline goat_value * create_goat_string_from_c_string_ext(const goat_allocator *allocator, const char *value, size_t value_length)
+{
+    goat_string *obj = (goat_string*)goat_alloc(allocator, sizeof(goat_string));
+    size_t i;
+    obj->base.type = goat_type_string;
+    obj->value = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (value_length + 1));
+    for(i = 0; i < value_length; i++)
+        obj->value[i] = (wchar_t)value[i];
+    obj->value[value_length] = L'\0';
+    obj->value_length = value_length;
+    return (goat_value*)obj;
+}
+
+static __inline goat_value * create_goat_string_from_c_string(const goat_allocator *allocator, const char *value)
+{
+    return create_goat_string_from_c_string_ext(allocator, value, value ? strlen(value) : 0);
 }
 
 static __inline goat_value * create_goat_string_ext(const goat_allocator *allocator, const wchar_t *value, size_t value_length)
