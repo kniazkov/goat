@@ -129,7 +129,15 @@ namespace g0at
 
         goat_value * object_string::get_value(const goat_allocator *allocator)
         {
+#if 0
             return create_goat_string_ext(allocator, data.c_str(), data.length());
+#else
+            goat_string *result = (goat_string*)goat_alloc(allocator, sizeof(goat_string));
+            result->base.type = goat_type_string;
+            result->value = data.c_str();
+            result->value_length = data.length();
+            return (goat_value*)result;
+#endif
         }
 
         bool object_string::less(const object *obj) const

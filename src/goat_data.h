@@ -121,7 +121,7 @@ typedef struct
 typedef struct
 {
     goat_value base;
-    wchar_t *value;
+    const wchar_t *value;
     size_t value_length;
 } goat_string;
 
@@ -251,10 +251,11 @@ static __inline goat_value * create_goat_string_from_c_string_ext(const goat_all
     goat_string *obj = (goat_string*)goat_alloc(allocator, sizeof(goat_string));
     size_t i;
     obj->base.type = goat_type_string;
-    obj->value = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (value_length + 1));
+    wchar_t *buff = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (value_length + 1));
     for(i = 0; i < value_length; i++)
-        obj->value[i] = (wchar_t)value[i];
-    obj->value[value_length] = L'\0';
+        buff[i] = (wchar_t)value[i];
+    buff[value_length] = L'\0';
+    obj->value = buff;
     obj->value_length = value_length;
     return (goat_value*)obj;
 }
@@ -268,9 +269,10 @@ static __inline goat_value * create_goat_string_ext(const goat_allocator *alloca
 {
     goat_string *obj = (goat_string*)goat_alloc(allocator, sizeof(goat_string));
     obj->base.type = goat_type_string;
-    obj->value = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (value_length + 1));
-    memcpy(obj->value, value, sizeof(wchar_t) * value_length);
-    obj->value[value_length] = L'\0';
+    wchar_t *buff = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (value_length + 1));
+    memcpy(buff, value, sizeof(wchar_t) * value_length);
+    buff[value_length] = L'\0';
+    obj->value = buff;
     obj->value_length = value_length;
     return (goat_value*)obj;
 }
