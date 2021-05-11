@@ -84,6 +84,7 @@ typedef enum
     goat_type_string,
     goat_type_array,
     goat_type_object,
+    goat_type_byte_array,
     goat_type_function,
     goat_type_thread,
     goat_type_raw_data
@@ -157,6 +158,13 @@ typedef struct
     goat_object_record *first;
     goat_object_record *last;
 } goat_object;
+
+typedef struct
+{
+    goat_value base;
+    const uint8_t *data;
+    size_t length;
+} goat_byte_array;
 
 typedef struct
 {
@@ -343,6 +351,24 @@ static __inline void goat_object_add_record(const goat_allocator *allocator, goa
     const wchar_t *key, goat_value *value)
 {
     goat_object_add_record_ext(allocator, obj, true, key, key ? wcslen(key) : 0, value);
+}
+
+static __inline goat_value * create_goat_byte_array(const goat_allocator *allocator, bool copy_data, const uint8_t *data, size_t length)
+{
+    goat_byte_array *obj = (goat_byte_array*)goat_alloc(allocator, sizeof(goat_byte_array));
+    obj->base.type = goat_type_byte_array;
+    if (copy_data)
+    {
+        uint8_t *copy = (uint8_t*)goat_alloc(allocator, length);
+        memcpy(copy, data, length);
+        obj->data = copy;
+    }
+    else
+    {
+        obj->data = data;
+    }
+    obj->length = length;
+    return (goat_value*)obj;
 }
 
 static __inline goat_value * create_goat_function(const goat_allocator *allocator, void *ir_ptr)
