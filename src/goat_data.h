@@ -146,7 +146,7 @@ typedef struct goat_object_record goat_object_record;
 struct goat_object_record
 {
     goat_object_record *next;
-    wchar_t *key;
+    const wchar_t *key;
     size_t key_length;
     goat_value *data;
 };
@@ -315,12 +315,20 @@ static __inline goat_object * create_goat_object(const goat_allocator *allocator
 }
 
 static __inline void goat_object_add_record_ext(const goat_allocator *allocator, goat_object* obj, 
-    const wchar_t *key, size_t key_length, goat_value *value)
+    bool copy_key, const wchar_t *key, size_t key_length, goat_value *value)
 {
     goat_object_record *rec = (goat_object_record*)goat_alloc(allocator, sizeof(goat_object_record));
-    rec->key = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (key_length + 1));
-    memcpy(rec->key, key, sizeof(wchar_t) * key_length);
-    rec->key[key_length] = L'\0';
+    if (copy_key)
+    {
+        wchar_t *copy = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (key_length + 1));
+        memcpy(copy, key, sizeof(wchar_t) * key_length);
+        copy[key_length] = L'\0';
+        rec->key = copy;
+    }
+    else
+    {
+        rec->key = key;
+    }
     rec->key_length = key_length;
     rec->data = value;
     rec->next = NULL;
@@ -334,7 +342,7 @@ static __inline void goat_object_add_record_ext(const goat_allocator *allocator,
 static __inline void goat_object_add_record(const goat_allocator *allocator, goat_object* obj,
     const wchar_t *key, goat_value *value)
 {
-    goat_object_add_record_ext(allocator, obj, key, key ? wcslen(key) : 0, value);
+    goat_object_add_record_ext(allocator, obj, true, key, key ? wcslen(key) : 0, value);
 }
 
 static __inline goat_value * create_goat_function(const goat_allocator *allocator, void *ir_ptr)
