@@ -149,7 +149,7 @@ struct goat_object_record
     goat_object_record *next;
     const wchar_t *key;
     size_t key_length;
-    goat_value *data;
+    goat_value *value;
 };
 
 typedef struct
@@ -338,7 +338,7 @@ static __inline void goat_object_add_record_ext(const goat_allocator *allocator,
         rec->key = key;
     }
     rec->key_length = key_length;
-    rec->data = value;
+    rec->value = value;
     rec->next = NULL;
     if (obj->last)
         obj->last->next = rec;

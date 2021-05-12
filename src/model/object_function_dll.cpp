@@ -111,7 +111,7 @@ namespace g0at
                     while(rec)
                     {
                         variable var;
-                        value_to_variable(pool, rec->data, &var);
+                        value_to_variable(pool, rec->value, &var);
                         object->add_object(pool->create_object_string(rec->key), var);
                         rec = rec->next;
                     }
