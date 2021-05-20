@@ -31,6 +31,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "executor.h"
 #include "lib/assert.h"
 
+
 namespace g0at
 {
     namespace model
@@ -152,7 +153,6 @@ namespace g0at
             return memory_map->alloc(size);
         }
 
-
         static goat_allocator * ext_create_allocator(void *thread_runner_data)
         {
             ext_thread_runner_data *data = (ext_thread_runner_data*)thread_runner_data;
@@ -173,7 +173,7 @@ namespace g0at
             runtime *rt = proc->get_runtime();
             object_pool *pool = rt->pool;
             object *obj = (object*)function_ptr;
-            if (!pool->population.contains(obj))
+            if (false == (pool->population.contains(obj) || pool->gc_deferred.contains(obj) || pool->gc_processed.contains(obj)))
                 return create_goat_unknown_value(allocator);
             object_function_user_defined *obj_function = obj->to_object_function_user_defined();
             if (!obj_function)
@@ -196,7 +196,8 @@ namespace g0at
             }
 
             variable ret_val = rt->exec->call_a_function_as_a_subprocess(proc, ctx, obj_function->get_first_iid());
-            return ret_val.get_value(allocator);
+            goat_value *result =  ret_val.get_value(allocator);
+            return result;
         }
 
         static bool ext_thread_runner(void *thread_ptr, void *thread_runner_data,

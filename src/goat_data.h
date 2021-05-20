@@ -75,7 +75,8 @@ static __inline void * goat_alloc(const goat_allocator* allocator, size_t size)
 
 typedef enum
 {
-    goat_type_unknown = 0,
+    goat_type_invalid = 0,
+    goat_type_unknown,
     goat_type_null,
     goat_type_boolean,
     goat_type_integer,

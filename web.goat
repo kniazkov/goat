@@ -6,6 +6,9 @@ var counter = 0;
 
 var cb = $(request)
 {
+    if (request.query == "")
+        return null;
+
     counter++;
     //println("An event handled: " + request);
     var response = 
