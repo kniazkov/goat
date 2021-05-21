@@ -1,27 +1,51 @@
-var dll = dlopen("../goat-web/goat-web.dll");
-var createServer = dll.find("create_server");
-var tick = dll.find("tick");
+var HttpServer =
+$()
+{
+    var dll = dlopen("../goat-web/goat-web.dll");
+    var extCreate = dll.bind("create_server");
+    var extTick = dll.bind("tick");
+
+    var obj = { };
+
+    obj.create = $(port, handler)
+    {
+        var callback = $(request)
+        {
+            return handler();
+        };
+
+        var instance = extCreate(port, callback);
+
+        if (!instance)
+            return null;
+
+        var obj = {};
+        obj.tick = $()
+        {
+            extTick(instance);
+        };
+        return obj;
+    };
+
+    return obj;
+}();
+
+//////////////////////////////////////////////
 
 var counter = 0;
 
-var cb = $(request)
+var server = HttpServer.create(8001, $()
 {
-    if (request.query == "")
-        return null;
-
     counter++;
-    //println("An event handled: " + request);
-    var response = 
-        "Counter value: " + counter;
+
+    var response = "Counter value: " + counter;
     return {
         content: response.encode("utf8"),
-        type: "text/html"
+        type: "plain/text"
     };
-};
+});
 
-var server = createServer(8001, cb);
-println(server);
 while(true)
 {
-    tick(server);
+    server.tick();
 }

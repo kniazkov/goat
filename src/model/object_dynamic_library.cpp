@@ -137,7 +137,7 @@ namespace g0at
 
         void object_dynamic_library_proto::init(object_pool *pool)
         {
-            add_object(pool->get_static_string(resource::str_find), new object_dynamic_library_find(pool));
+            add_object(pool->get_static_string(resource::str_bind), new object_dynamic_library_find(pool));
             lock();
         }
 
