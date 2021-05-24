@@ -5,13 +5,90 @@ $()
     var extCreate = dll.bind("create_server");
     var extTick = dll.bind("tick");
 
+    var isUrlEncoded = $(url)
+    {
+        var i, 
+            l = url.length();
+        for (i = 0; i < l; i++)
+        {
+            var c = url[i];
+            if (c == '%' || c == '+')
+                return true;
+        }
+        return false;
+    };
+
+    var decodeHex = $(c)
+    {
+        if (c >= '0' && c <= '9')
+            return Integer.valueof(c) - Integer.valueof('0');
+        if (c >= 'a' && c <= 'f')
+            return Integer.valueof(c) - Integer.valueof('a') + 10;
+        if (c >= 'A' && c <= 'F')
+            return Integer.valueof(c) - Integer.valueof('A') + 10;
+    };
+
+    var decodeUrl = $(url)
+    {
+        var i = 0, 
+            l = url.length();
+        var buff = new StringBuilder();
+        while(i < l)
+        {
+            var c = url[i];
+            if (c == '+')
+            {
+                buff << ' ';
+            }
+            else if (c == '%')
+            {
+                var c1 = url[++i];
+                var c2 = url[++i];
+                var b1 = (decodeHex(c1) << 4) + decodeHex(c2);
+                if (b1 < 128)
+                {
+                    buff << Char.valueof(b1);
+                }
+                else
+                {
+                    ++i;
+                    var c3 = url[++i];
+                    var c4 = url[++i];
+                    var b2 = (decodeHex(c3) << 4) + decodeHex(c4);
+                    buff << Char.valueof(((b1 & 31) << 6) + (b2 & 63));
+                }
+            }
+            else
+            {
+                buff << c;
+            }
+            i++;
+        }
+        return buff.string();
+    };
+
     var obj = { };
 
     obj.create = $(port, handler)
     {
         var callback = $(request)
         {
-            return handler();
+            var params = {};
+            if (request.query != "")
+            {
+                for (var param in request.query.split('&'))
+                {
+                    var pair = param.split('=');
+                    var key = pair[0];
+                    if (isUrlEncoded(key))
+                        key = decodeUrl(key);
+                    var value = pair[1];
+                    if (isUrlEncoded(value))
+                        value = decodeUrl(value);
+                    params[key] = value;
+                }
+            }
+            return handler(params);
         };
 
         var instance = extCreate(port, callback);
@@ -34,14 +111,16 @@ $()
 
 var counter = 0;
 
-var server = HttpServer.create(8001, $()
+var server = HttpServer.create(8001, $(request)
 {
+    println("request: " + request);
+
     counter++;
 
     var response = "Counter value: " + counter;
     return {
         content: response.encode("utf8"),
-        type: "plain/text"
+        type: "text/html"
     };
 });
 
