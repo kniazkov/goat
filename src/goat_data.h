@@ -255,16 +255,21 @@ static __inline goat_value * create_goat_char(const goat_allocator *allocator, w
     return (goat_value*)obj;
 }
 
-static __inline goat_value * create_goat_string_from_c_string_ext(const goat_allocator *allocator, const char *value, size_t value_length)
+static __inline wchar_t * create_wide_string_from_string(const goat_allocator *allocator, const char *value, size_t value_length)
 {
-    goat_string *obj = (goat_string*)goat_alloc(allocator, sizeof(goat_string));
     size_t i;
-    obj->base.type = goat_type_string;
     wchar_t *buff = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (value_length + 1));
     for(i = 0; i < value_length; i++)
         buff[i] = (wchar_t)value[i];
     buff[value_length] = L'\0';
-    obj->value = buff;
+    return buff;
+}
+
+static __inline goat_value * create_goat_string_from_c_string_ext(const goat_allocator *allocator, const char *value, size_t value_length)
+{
+    goat_string *obj = (goat_string*)goat_alloc(allocator, sizeof(goat_string));
+    obj->base.type = goat_type_string;
+    obj->value = create_wide_string_from_string(allocator, value, value_length);
     obj->value_length = value_length;
     return (goat_value*)obj;
 }

@@ -547,11 +547,24 @@ namespace g0at
                     return true;
                 }
 
+                size_t first_pos = 0;
+                if (arg_count > 1)
+                {
+                    int64_t first_pos_arg;
+                    bool first_pos_is_integer = thr->peek(1).get_integer(&first_pos_arg);
+                    if (!first_pos_is_integer || first_pos_arg < 0 || first_pos_arg > UINT32_MAX)
+                    {
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                        return false;
+                    }
+                    first_pos = (size_t)first_pos_arg;
+                }
+
                 variable arg = thr->peek();
                 wchar_t char_arg;
                 if (arg.get_char(&char_arg))
                 {
-                    size_t i = value.find(char_arg);
+                    size_t i = value.find(char_arg, first_pos);
                     result->set_integer(i != std::string::npos ? (int64_t)i : -1);
                     return true;
                 }
@@ -566,7 +579,7 @@ namespace g0at
                         size_t arg_len = string_arg.size();
                         if (arg_len > 0)
                         {
-                            size_t i = value.find(string_arg);
+                            size_t i = value.find(string_arg, first_pos);
                             result->set_integer(i != std::string::npos ? (int64_t)i : -1);
                             return true;
                         }

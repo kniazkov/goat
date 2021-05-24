@@ -88,10 +88,25 @@ $()
                     params[key] = value;
                 }
             }
-            if (request.body != "")
+
+            if (body != "")
             {
-                println(request.body);
+                var contentType = request.headers["Content-Type"];
+                if (contentType && contentType.find("multipart/form-data") >= 0)
+                {
+                    var boundaryIdx = contentType.find("boundary=");
+                    if (boundaryIdx >= 0)
+                    {
+                        var boundary = contentType.substr(boundaryIdx + 9);
+                        println(boundary);
+                        var parts = request.body.split("--" + boundary);
+                        println(parts);
+                    }
+                }
             }
+
+            //println(request.body);
+
             return handler(params);
         };
 
