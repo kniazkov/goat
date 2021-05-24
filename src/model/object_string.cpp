@@ -524,6 +524,60 @@ namespace g0at
             }
         };
 
+        class object_string_find : public object_string_method
+        {
+        public:
+            object_string_find(object_pool *_pool)
+                : object_string_method(_pool)
+            {
+            }
+
+            bool payload(object_string *this_ptr, thread *thr, int arg_count, variable *result) override
+            {
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+
+                std::wstring value = this_ptr->get_data();
+
+                if (value == L"") {
+                    result->set_integer(-1);
+                    return true;
+                }
+
+                variable arg = thr->peek();
+                wchar_t char_arg;
+                if (arg.get_char(&char_arg))
+                {
+                    size_t i = value.find(char_arg);
+                    result->set_integer(i != std::string::npos ? (int64_t)i : -1);
+                    return true;
+                }
+
+                object *obj_arg = arg.get_object();
+                if (obj_arg)
+                {
+                    object_string *obj_string_arg = obj_arg->to_object_string();
+                    if (obj_string_arg)
+                    {
+                        std::wstring string_arg = obj_string_arg->get_data();
+                        size_t arg_len = string_arg.size();
+                        if (arg_len > 0)
+                        {
+                            size_t i = value.find(string_arg);
+                            result->set_integer(i != std::string::npos ? (int64_t)i : -1);
+                            return true;
+                        }
+                    }
+                }
+
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                return false;
+            }
+        };
+
         class object_string_substr : public object_string_method
         {
         public:
@@ -612,6 +666,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_trim), new object_string_trim(pool));
             add_object(pool->get_static_string(resource::str_encode), new object_string_encode(pool));
             add_object(pool->get_static_string(resource::str_split), new object_string_split(pool));
+            add_object(pool->get_static_string(resource::str_find), new object_string_find(pool));
             add_object(pool->get_static_string(resource::str_substr), new object_string_substr(pool));
             add_object(pool->get_static_string(resource::str_valueof), new object_string_valueof(pool));
             add_object(pool->get_static_string(resource::str_oper_plus), pool->get_wrap_add_instance());
