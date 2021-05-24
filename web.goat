@@ -74,9 +74,9 @@ $()
         var callback = $(request)
         {
             var params = {};
-            if (request.query != "")
+            if (request.queryString != "")
             {
-                for (var param in request.query.split('&'))
+                for (var param in request.queryString.split('&'))
                 {
                     var pair = param.split('=');
                     var key = pair[0];
@@ -87,6 +87,10 @@ $()
                         value = decodeUrl(value);
                     params[key] = value;
                 }
+            }
+            if (request.body != "")
+            {
+                println(request.body);
             }
             return handler(params);
         };
