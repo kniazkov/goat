@@ -67,19 +67,19 @@ $()
         return buff.string();
     };
 
-    var findNextMultipartSection = $(buffer, boundary, startIndex)
+    var findSample = $(buffer, sample, startIndex)
     {
         var i = startIndex,
             j,
             il = buffer.length(),
-            jl = boundary.length();
+            jl = sample.length();
 
         while(i < il - jl)
         {
             var found = true;
             for (j = 0; j < jl; j++)
             {
-                if (Char.valueof(buffer[i + j]) != boundary[j])
+                if (Char.valueof(buffer[i + j]) != sample[j])
                 {
                     found = false;
                     break;
@@ -89,11 +89,24 @@ $()
                 return i;
             i++;
         }
+        return -1;
     };
 
-    var splitByBoundary = $(buffer, boundary)
+    var splitBuffer = $(buffer, sample)
     {
-        
+        var result = [];
+        var i = 0,
+            j,
+            l = sample.length();
+        j = findSample(buffer, sample, i);
+        while(j != -1)
+        {
+            result.push(buffer.slice(i, j - i)); 
+            i = j + l;
+            j = findSample(buffer, sample, i);
+        }
+        result.push(buffer.slice(i));
+        return result;
     };
 
     var obj = { };
@@ -128,8 +141,21 @@ $()
                     {
                         var boundary = contentType.substr(boundaryIdx + 9);
                         println(boundary);
-                        var x = findNextMultipartSection(request.body, boundary, 0);
-                        println(x);
+                        for(var part in splitBuffer(request.body, "--" + boundary))
+                        {
+                            if (part.length() > 16)
+                            {
+                                var separatorIdx = findSample(part, "\r\n\r\n", 0);
+                                if (separatorIdx >= 0)
+                                {
+                                    var headers = part.slice(0, separatorIdx);
+                                    headers = headers.decode("utf8");
+                                    var data = part.slice(separatorIdx + 4, part.length() - separatorIdx - 6);
+                                    println(headers);
+                                    println(data);
+                                }
+                            }
+                        }
                     }
                 }
             }

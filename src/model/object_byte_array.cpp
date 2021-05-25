@@ -406,6 +406,39 @@ namespace g0at
                                 return true;
                             }
 
+                            if (encoding == L"ascii")
+                            {
+                                wchar_t wildcard = L'?';
+                                if (arg_count > 1)
+                                {
+                                    if (!thr->peek(1).get_char(&wildcard))
+                                    {
+                                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                                        return false;
+                                    }
+                                }
+                                const char *data = (const char*)this_ptr->get_data();
+                                int length = this_ptr->get_length();
+                                std::wstringstream wss;
+                                while(length)
+                                {
+                                    if (*data >= 0)
+                                    {
+                                        wchar_t wch = (wchar_t)*data;
+                                        wss << wch;
+                                    }
+                                    else
+                                    {
+                                        wss << wildcard;
+                                    }
+                                    data++;
+                                    length--;
+                                }
+
+                                result->set_object(thr->pool->create_object_string(wss.str()));
+                                return true;
+                            }
+
                             result->set_object(thr->pool->get_undefined_instance());
                             return true;
                         }
