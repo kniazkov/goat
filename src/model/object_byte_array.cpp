@@ -323,6 +323,58 @@ namespace g0at
             }
         };
 
+        class object_byte_array_slice : public object_byte_array_method
+        {
+        public:
+            object_byte_array_slice(object_pool *_pool)
+                : object_byte_array_method(_pool)
+            {
+            }
+            
+            bool payload(object_byte_array *this_ptr, thread *thr, int arg_count, variable *result) override
+            {
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+
+                int64_t begin;
+                if (!thr->peek(0).get_integer(&begin) || begin > INT32_MAX)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+                uint8_t * data = this_ptr->get_data();
+                int64_t size = (int64_t)this_ptr->get_length();
+                if (begin >= size) begin = size;
+                else if (begin < 0) begin = 0;
+
+                int64_t count;
+                if (arg_count > 1)
+                {
+                    if (!thr->peek(1).get_integer(&count) || count > INT32_MAX)
+                    {
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                        return false;
+                    }
+                    if (count > size - begin) count = size - begin;
+                    else if (count < 0) count = 0;                    
+                }
+                else
+                {
+                    count = size - begin;
+                }
+                
+                if (count == 0)
+                    result->set_object(new object_byte_array(thr->pool));
+                else
+                    result->set_object(new object_byte_array(thr->pool, data + begin, (size_t)count));
+
+                return true;
+            }
+        };
+
         class object_byte_array_decode_utf8 : public object_byte_array_method
         {
         public:
@@ -397,6 +449,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_length), new object_byte_array_length(pool));
             add_object(pool->get_static_string(resource::str_push), new object_byte_array_push(pool));
+            add_object(pool->get_static_string(resource::str_slice), new object_byte_array_slice(pool));
             add_object(pool->get_static_string(resource::str_decode), new object_byte_array_decode_utf8(pool));
             add_object(pool->get_static_string(resource::str_fill), new object_byte_array_fill(pool));
             lock();
