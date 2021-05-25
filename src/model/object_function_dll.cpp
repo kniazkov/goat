@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "object_dynamic_library.h"
 #include "object_string.h"
 #include "object_array.h"
+#include "object_byte_array.h"
 #include "object_thread.h"
 #include "object_raw_data.h"
 #include "process.h"
@@ -118,6 +119,13 @@ namespace g0at
                     }
                     dst->set_object(object);
                     break;                
+                }
+                case goat_type_byte_array:
+                {
+                    goat_byte_array *array = (goat_byte_array*)src;
+                    object_byte_array *object = new object_byte_array(pool, array->data, array->length);
+                    dst->set_object(object);
+                    break;           
                 }
                 case goat_type_function:
                 {

@@ -102,7 +102,7 @@ namespace g0at
             }
         }
 
-        object_byte_array::object_byte_array(object_pool *pool, uint8_t *data, size_t size)
+        object_byte_array::object_byte_array(object_pool *pool, const uint8_t *data, size_t size)
             : object(pool, pool->get_byte_array_proto_instance())
         {
             vector.reserve(size);

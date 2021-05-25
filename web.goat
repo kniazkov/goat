@@ -67,6 +67,35 @@ $()
         return buff.string();
     };
 
+    var findNextMultipartSection = $(buffer, boundary, startIndex)
+    {
+        var i = startIndex,
+            j,
+            il = buffer.length(),
+            jl = boundary.length();
+
+        while(i < il - jl)
+        {
+            var found = true;
+            for (j = 0; j < jl; j++)
+            {
+                if (Char.valueof(buffer[i + j]) != boundary[j])
+                {
+                    found = false;
+                    break;
+                }
+            }
+            if (found)
+                return i;
+            i++;
+        }
+    };
+
+    var splitByBoundary = $(buffer, boundary)
+    {
+        
+    };
+
     var obj = { };
 
     obj.create = $(port, handler)
@@ -89,7 +118,7 @@ $()
                 }
             }
 
-            if (body != "")
+            if (request.body.length() > 0)
             {
                 var contentType = request.headers["Content-Type"];
                 if (contentType && contentType.find("multipart/form-data") >= 0)
@@ -99,13 +128,11 @@ $()
                     {
                         var boundary = contentType.substr(boundaryIdx + 9);
                         println(boundary);
-                        var parts = request.body.split("--" + boundary);
-                        println(parts);
+                        var x = findNextMultipartSection(request.body, boundary, 0);
+                        println(x);
                     }
                 }
             }
-
-            //println(request.body);
 
             return handler(params);
         };
