@@ -109,13 +109,32 @@ $()
         return result;
     };
 
+    var dataPrefix = "Content-Disposition: form-data;";
+
     var obj = { };
 
     obj.create = $(port, handler)
     {
         var callback = $(request)
         {
-            var params = {};
+            var parameters = {};
+
+            var addParameter = $(key, value)
+            {
+                var data = parameters[key];
+                if (data)
+                {
+                    if (data.instanceof(Array))
+                        data.push(value);
+                    else
+                        parameters[key] = [data, value];
+                }
+                else
+                {
+                    parameters[key] = value;
+                }
+            };
+
             if (request.queryString != "")
             {
                 for (var param in request.queryString.split('&'))
@@ -127,7 +146,7 @@ $()
                     var value = pair[1];
                     if (isUrlEncoded(value))
                         value = decodeUrl(value);
-                    params[key] = value;
+                    addParameter(key, value);
                 }
             }
 
@@ -140,27 +159,75 @@ $()
                     if (boundaryIdx >= 0)
                     {
                         var boundary = contentType.substr(boundaryIdx + 9);
-                        println(boundary);
                         for(var part in splitBuffer(request.body, "--" + boundary))
                         {
-                            if (part.length() > 16)
+                            do
                             {
+                                if (part.length() < 16)
+                                    break;
+
                                 var separatorIdx = findSample(part, "\r\n\r\n", 0);
-                                if (separatorIdx >= 0)
+                                if (separatorIdx < 0)
+                                    break;
+
+                                var headers = part.slice(0, separatorIdx);
+                                headers = headers.decode("utf8");
+
+                                var dataPrefixIdx = headers.find(dataPrefix);
+                                if (dataPrefixIdx < 0)
+                                    break;
+
+                                var nameBegin = headers.find("name=\"", dataPrefixIdx + dataPrefix.length());
+                                if (nameBegin < 0)
+                                    break;
+                                var nameEnd = headers.find('\"', nameBegin + 6);
+                                if (nameEnd < 0)
+                                    break;
+                                var name = headers.substr(nameBegin + 6, nameEnd - nameBegin - 6);
+
+                                var fileName = null;
+                                var contentType = null;
+                                var fileNameBegin = headers.find("filename=\"", nameEnd + 1);
+                                if (fileNameBegin > 0)
                                 {
-                                    var headers = part.slice(0, separatorIdx);
-                                    headers = headers.decode("utf8");
-                                    var data = part.slice(separatorIdx + 4, part.length() - separatorIdx - 6);
-                                    println(headers);
-                                    println(data);
+                                    var fileNameEnd = headers.find('\"', fileNameBegin + 10);
+                                    if (fileNameEnd > 0)
+                                    {
+                                        fileName = headers.substr(fileNameBegin + 10,
+                                            fileNameEnd - fileNameBegin - 10);
+
+                                        var ctIdx = headers.find("Content-Type: ");
+                                        if (ctIdx >= 0)
+                                        {
+                                            var ctBegin = ctIdx + 14;
+                                            var ctEnd = headers.find('\r', ctBegin + 1);
+                                            if (ctEnd == -1)
+                                                ctEnd = headers.length();
+                                            contentType = headers.substr(ctBegin, ctEnd - ctBegin);
+                                        }
+                                    }
                                 }
-                            }
+
+                                var data = part.slice(separatorIdx + 4, part.length() - separatorIdx - 6);
+
+                                if (!fileName)
+                                    addParameter(name, data.decode("utf8"));
+                                else
+                                {
+                                    addParameter(name,
+                                    {
+                                        fileName : fileName,
+                                        contentType : contentType,
+                                        data : data
+                                    });
+                                }
+                            } while(false);
                         }
                     }
                 }
             }
 
-            return handler(params);
+            return handler(parameters);
         };
 
         var instance = extCreate(port, callback);
