@@ -37,9 +37,12 @@ namespace g0at
         {
             class dlopen : public object_function_built_in
             {
+            private:
+                std::vector<std::string> *lib_path;
+
             public:
-                dlopen(object_pool *_pool)
-                    : object_function_built_in(_pool)
+                dlopen(object_pool *_pool, std::vector<std::string> *_lib_path)
+                    : object_function_built_in(_pool), lib_path(_lib_path)
                 {
                 }
                 
@@ -62,13 +65,29 @@ namespace g0at
                                 std::string file_name_ascii = lib::wstring_to_ascii_string(file_name, &is_ascii);
                                 if (is_ascii)
                                 {
-                                    variable result;
-                                    lib::dll_loader *loader = lib::dll_loader::open(file_name_ascii.c_str());
-                                    if (loader)
-                                        result.set_object(new object_dynamic_library(thr->pool, loader));
-                                    else
-                                        result.set_object(thr->pool->get_undefined_instance());
-                                    thr->push(result);
+                                    bool found = false;
+                                    std::string full_path;
+                                    for(size_t i = 0, size = lib_path->size(); i < size; i++)
+                                    {
+                                        full_path = lib::normalize_file_path(lib_path->at(i) + '/' + file_name_ascii);
+                                        if (lib::file_exists(full_path.c_str()))
+                                        {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    if (found)
+                                    {
+                                        lib::dll_loader *loader = lib::dll_loader::open(full_path.c_str());
+                                        if (loader)
+                                        {
+                                            variable result;
+                                            result.set_object(new object_dynamic_library(thr->pool, loader));
+                                            thr->push(result);
+                                            return;
+                                        }
+                                    }
+                                    thr->push_undefined();
                                     return;
                                 } // is_ascii
                             } // arg_fname_obj_str
@@ -78,9 +97,9 @@ namespace g0at
                 }
             };
 
-            object *context_factory::create_function_dlopen()
+            object *context_factory::create_function_dlopen(std::vector<std::string> *lib_path)
             {
-                return new dlopen(pool);
+                return new dlopen(pool, lib_path);
             }
         };
     };

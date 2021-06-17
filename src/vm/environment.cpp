@@ -29,11 +29,11 @@ namespace g0at
     namespace vm
     {
         environment::environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list,
-            bool _debug, bool _run, source_manager *_listing, std::vector<char*> *args)
+            bool _debug, bool _run, source_manager *_listing, std::vector<char*> *args, std::vector<std::string> *lib_path)
             : gct(_gc_type), debug(_debug), run(_run), listing(_listing)
         {
             rt.pool = new model::object_pool(_identifiers_list);
-            ctx = model::built_in::context_factory(rt.pool).create_context(args);
+            ctx = model::built_in::context_factory(rt.pool).create_context(args, lib_path);
             rt.main_proc = new model::process(&rt, nullptr);
             rt.exec = nullptr;
             gc = create_garbage_collector(_gc_type, &rt);

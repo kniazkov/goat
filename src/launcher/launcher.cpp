@@ -171,7 +171,7 @@ namespace g0at
                 tok_root.reset();
                 auto code = codegen::generator::generate(&name_cache, node_root, true);
                 node_root.reset();
-                env = new vm::environment(gct, code->get_identifiers_list(), false, true, &listing, &opt.args);
+                env = new vm::environment(gct, code->get_identifiers_list(), false, true, &listing, &opt.args, &opt.lib_path);
                 ret_val = vm::run(code.get(), env.get());
                 return ret_val;
             }
@@ -233,7 +233,7 @@ namespace g0at
                     }
                     if (!env)
                     {
-                        env = new vm::environment(gct, code->get_identifiers_list(), false, true, &listing, nullptr);
+                        env = new vm::environment(gct, code->get_identifiers_list(), false, true, &listing, nullptr, &opt.lib_path);
                     }
                     else
                     {
@@ -269,7 +269,7 @@ namespace g0at
             {
                 lib::dump_file(opt.prog_name, "asm", code::disasm::to_string(code, true));
             }
-            env = new vm::environment(gct, code->get_identifiers_list(), opt.debug, true, nullptr, &opt.args);
+            env = new vm::environment(gct, code->get_identifiers_list(), opt.debug, true, nullptr, &opt.args, &opt.lib_path);
             ret_val = vm::run(code.get(), env.get());
             if (opt.dump_memory_usage_report)
             {
@@ -308,7 +308,7 @@ namespace g0at
                 }
                 if (!opt.compile)
                 {
-                    env = new vm::environment(gct, code_2->get_identifiers_list(), opt.debug, opt.run, &listing, &opt.args);
+                    env = new vm::environment(gct, code_2->get_identifiers_list(), opt.debug, opt.run, &listing, &opt.args, &opt.lib_path);
                     ret_val = vm::run(code_2.get(), env.get());
                 }
                 else
