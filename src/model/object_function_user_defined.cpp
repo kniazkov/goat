@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -31,6 +31,11 @@ namespace g0at
             : object_function(pool), first_iid(_first_iid), proto_ctx(_proto_ctx)
         {
             assert(_first_iid.valid());
+        }
+
+        object_function_user_defined * object_function_user_defined::to_object_function_user_defined()
+        {
+            return this;
         }
 
         void object_function_user_defined::call(thread *thr, int arg_count, call_mode mode)
@@ -104,6 +109,11 @@ namespace g0at
             {
                 arg->mark_parallel(pool);
             }
+        }
+
+        goat_value * object_function_user_defined::get_value(const goat_allocator *allocator)
+        {
+            return create_goat_function(allocator, this);
         }
     };
 };

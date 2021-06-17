@@ -109,8 +109,10 @@ namespace g0at
         extern std::wstring str_create;
         extern std::wstring str_reset;
         extern std::wstring str_dll;
-        extern std::wstring str_find;
+        extern std::wstring str_bind;
         extern std::wstring str_raw;
+        extern std::wstring str_find;
+        extern std::wstring str_slice;
 
         extern std::wstring str_Mode;
         extern std::wstring str_Origin;

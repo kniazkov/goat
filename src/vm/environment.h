@@ -38,13 +38,15 @@ namespace g0at
         {
         public:
             environment(gc_type _gc_type, std::vector<std::wstring> &_identifiers_list,
-                bool _debug, bool _run, source_manager *_listing, std::vector<char*> *args);
+                bool _debug, bool _run, source_manager *_listing, std::vector<char*> *args,
+                std::vector<std::string> *lib_path);
             ~environment();
 
             gc_type get_gc_type() { return gct; }
-            model::object_pool *get_pool() { return pool; }
+            model::object_pool *get_pool() { return rt.pool; }
             model::context *get_context() { return ctx; }
-            model::process *get_process() { return proc; }
+            model::process *get_main_process() { return rt.main_proc; }
+            model::runtime *get_runtime() { return &rt; }
             lib::gc *get_gc() { return gc; }
             bool debug_mode() { return debug; }
             bool run_mode() { return run; }
@@ -52,9 +54,8 @@ namespace g0at
 
         protected:
             gc_type gct;
-            model::object_pool *pool;
             model::context *ctx;
-            model::process *proc;
+            model::runtime rt;
             lib::gc *gc;
             bool debug;
             bool run;

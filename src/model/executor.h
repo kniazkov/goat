@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -22,14 +22,19 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include "environment.h"
+#include "object.h"
+#include "process.h"
 #include "code/code.h"
-#include "lib/pointer.h"
 
 namespace g0at
 {
-    namespace vm
+    namespace model
     {
-        int run(code::code *code, environment *env);
+        class executor
+        {
+        public:
+            virtual variable call_a_function_as_a_subprocess(process *parent, context *ctx, code::iid_t instr_id) = 0;
+            virtual ~executor() { }
+        };
     };
 };

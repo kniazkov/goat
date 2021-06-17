@@ -46,26 +46,29 @@ namespace g0at
             }
             else
             {
-                thr->restore_context();
-                while (thr->ctx)
+                if (thr->ctx->address_type != model::context_address_type::stop)
                 {
-                    switch(thr->ctx->address_type)
+                    thr->restore_context();
+                    while (thr->ctx)
                     {
-                        case model::context_address_type::ret_address :
-                            if (thr->ctx->ret)
-                                *(thr->ctx->ret) = val;
-                            thr->iid = thr->ctx->address[0];
-                            thr->restore_context();
-                            assert(thr->ctx != nullptr);
-                            return;
-                        case model::context_address_type::fin_address :
-                            if (thr->ctx->ret)
-                                *(thr->ctx->ret) = val;
-                            thr->flow = model::thread_flow::descent_return;
-                            thr->iid = thr->ctx->address[0];
-                            return;
-                        default:
-                            thr->restore_context();
+                        switch(thr->ctx->address_type)
+                        {
+                            case model::context_address_type::ret_address :
+                                if (thr->ctx->ret)
+                                    *(thr->ctx->ret) = val;
+                                thr->iid = thr->ctx->address[0];
+                                thr->restore_context();
+                                assert(thr->ctx != nullptr);
+                                return;
+                            case model::context_address_type::fin_address :
+                                if (thr->ctx->ret)
+                                    *(thr->ctx->ret) = val;
+                                thr->flow = model::thread_flow::descent_return;
+                                thr->iid = thr->ctx->address[0];
+                                return;
+                            default:
+                                thr->restore_context();
+                        }
                     }
                 }
                 thr->state = model::thread_state::zombie;

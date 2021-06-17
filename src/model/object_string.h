@@ -62,7 +62,7 @@ namespace g0at
             void m_set(thread *thr, int arg_count) override;
             void m_iterator(thread *thr, int arg_count) override;
 
-            std::wstring get_data() { return data; }
+            std::wstring &get_data() { return data; }
 
         protected:
             object_pool *pool;

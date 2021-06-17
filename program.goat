@@ -1,19 +1,21 @@
-var c = '$';
+import "web_server.goat";
 
-var thr = thread(n, r)
+var counter = 0;
+
+var server = HttpServer.create(8001, $(request)
 {
-    for (var i = 0; i < n; i++)
-    {
-        print(c);
-    }
-    print("\n" + r);
-};
+    println("request: " + request);
 
-var dll = dlopen("ext/ext_lib.dll");
-println(dll);
-var fn = dll.find("do_something");
-println(fn);
-var test = [1, 2, "test", 3.1, 4, null, true, false, '$', {one: 1, two: 2}, thr];
-println(test);
-var val = fn(test, thr);
-println(val);
+    counter++;
+
+    var response = "Counter value: " + counter;
+    return {
+        content: response.encode("utf8"),
+        type: "text/html"
+    };
+});
+
+while(true)
+{
+    server.tick();
+}

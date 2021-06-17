@@ -237,9 +237,9 @@ namespace g0at
         class thread_list_ext : public thread_list
         {
         public:
-            thread_list_ext(process *_proc, thread_list *_aux_list, object_pool *_pool);
-            thread *create_thread(context *_ctx, variable *_ret);
-            thread *create_delayed_thread(context *_ctx, int64_t delay);
+            thread_list_ext(process *_proc, thread_list *_aux_list);
+            thread *create_thread(context *_ctx, variable *_ret, object_pool *_pool);
+            thread *create_delayed_thread(context *_ctx, int64_t _delay, object_pool *_pool);
             thread *switch_thread(bool *stop);
             thread *process_delayed_threads();
 
@@ -253,7 +253,6 @@ namespace g0at
             thread_list_ext(const thread_list_ext &) : thread_list(nullptr) { }
             void operator=(const thread_list_ext &) { }
 
-            object_pool *pool;
             thread_list *aux_list;
             std::map<thread_id, thread*> thread_by_tid;
             std::map<int64_t, thread_id> delayed_threads;

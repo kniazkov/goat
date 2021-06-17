@@ -129,7 +129,15 @@ namespace g0at
 
         goat_value * object_string::get_value(const goat_allocator *allocator)
         {
+#if 0
             return create_goat_string_ext(allocator, data.c_str(), data.length());
+#else
+            goat_string *result = (goat_string*)goat_alloc(allocator, sizeof(goat_string));
+            result->base.type = goat_type_string;
+            result->value = data.c_str();
+            result->value_length = data.length();
+            return (goat_value*)result;
+#endif
         }
 
         bool object_string::less(const object *obj) const
@@ -516,6 +524,73 @@ namespace g0at
             }
         };
 
+        class object_string_find : public object_string_method
+        {
+        public:
+            object_string_find(object_pool *_pool)
+                : object_string_method(_pool)
+            {
+            }
+
+            bool payload(object_string *this_ptr, thread *thr, int arg_count, variable *result) override
+            {
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+
+                std::wstring value = this_ptr->get_data();
+
+                if (value == L"") {
+                    result->set_integer(-1);
+                    return true;
+                }
+
+                size_t first_pos = 0;
+                if (arg_count > 1)
+                {
+                    int64_t first_pos_arg;
+                    bool first_pos_is_integer = thr->peek(1).get_integer(&first_pos_arg);
+                    if (!first_pos_is_integer || first_pos_arg < 0 || first_pos_arg > UINT32_MAX)
+                    {
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                        return false;
+                    }
+                    first_pos = (size_t)first_pos_arg;
+                }
+
+                variable arg = thr->peek();
+                wchar_t char_arg;
+                if (arg.get_char(&char_arg))
+                {
+                    size_t i = value.find(char_arg, first_pos);
+                    result->set_integer(i != std::string::npos ? (int64_t)i : -1);
+                    return true;
+                }
+
+                object *obj_arg = arg.get_object();
+                if (obj_arg)
+                {
+                    object_string *obj_string_arg = obj_arg->to_object_string();
+                    if (obj_string_arg)
+                    {
+                        std::wstring string_arg = obj_string_arg->get_data();
+                        size_t arg_len = string_arg.size();
+                        if (arg_len > 0)
+                        {
+                            size_t i = value.find(string_arg, first_pos);
+                            result->set_integer(i != std::string::npos ? (int64_t)i : -1);
+                            return true;
+                        }
+                    }
+                }
+
+                thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                return false;
+            }
+        };
+
         class object_string_substr : public object_string_method
         {
         public:
@@ -604,6 +679,7 @@ namespace g0at
             add_object(pool->get_static_string(resource::str_trim), new object_string_trim(pool));
             add_object(pool->get_static_string(resource::str_encode), new object_string_encode(pool));
             add_object(pool->get_static_string(resource::str_split), new object_string_split(pool));
+            add_object(pool->get_static_string(resource::str_find), new object_string_find(pool));
             add_object(pool->get_static_string(resource::str_substr), new object_string_substr(pool));
             add_object(pool->get_static_string(resource::str_valueof), new object_string_valueof(pool));
             add_object(pool->get_static_string(resource::str_oper_plus), pool->get_wrap_add_instance());

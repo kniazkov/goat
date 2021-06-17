@@ -37,7 +37,7 @@ namespace g0at
             {
             }
 
-            context *context_factory::create_context(std::vector<char*> *args)
+            context *context_factory::create_context(std::vector<char*> *args, std::vector<std::string> *lib_path)
             {
                 context *ctx = pool->create_context();
 
@@ -91,7 +91,7 @@ namespace g0at
                 ctx->add_object(pool->get_static_string(L"range"), create_function_range());
                 ctx->add_object(pool->get_static_string(L"uid"), create_function_uid());
                 ctx->add_object(pool->get_static_string(L"open"), create_function_open());
-                ctx->add_object(pool->get_static_string(L"dlopen"), create_function_dlopen());
+                ctx->add_object(pool->get_static_string(L"dlopen"), create_function_dlopen(lib_path));
                 ctx->add_object(pool->get_static_string(L"exec"), create_function_exec());
 
                 model::variable tmp;

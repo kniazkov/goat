@@ -25,16 +25,20 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdint.h>
 #include <stdbool.h>
 #include <memory.h>
+#include <string.h>
 #include <wchar.h>
 #include <stddef.h>
 
 typedef struct goat_value goat_value;
 typedef struct goat_shell goat_shell;
 typedef struct goat_allocator goat_allocator;
+typedef struct goat_function_caller goat_function_caller;
 typedef struct goat_thread_runner goat_thread_runner;
 
 typedef goat_value * (*goat_ext_function)(const goat_shell* shell, const goat_allocator *allocator, int argc, goat_value **argv);
 typedef void * (*goat_function_alloc)(void *memory_map, size_t size);
+typedef goat_value * (*goat_function_call_function)(void *function_ptr, void *function_caller_data,
+    const goat_allocator *allocator, int argc, goat_value **argv);
 typedef bool (*goat_function_run_thread)(void *thread_ptr, void *thread_runner_data,
     const goat_allocator *allocator, int argc, goat_value **argv);
 typedef goat_allocator * (*goat_function_create_allocator)(void *thread_runner_data);
@@ -43,6 +47,12 @@ struct goat_allocator
 {
     goat_function_alloc alloc;
     void *memory_map;
+};
+
+struct goat_function_caller
+{
+    goat_function_call_function call_function;
+    void *data;
 };
 
 struct goat_thread_runner
@@ -54,6 +64,7 @@ struct goat_thread_runner
 
 struct goat_shell
 {
+    const goat_function_caller *function_caller;
     const goat_thread_runner *thread_runner;
 };
 
@@ -64,7 +75,8 @@ static __inline void * goat_alloc(const goat_allocator* allocator, size_t size)
 
 typedef enum
 {
-    goat_type_unknown = 0,
+    goat_type_invalid = 0,
+    goat_type_unknown,
     goat_type_null,
     goat_type_boolean,
     goat_type_integer,
@@ -73,6 +85,8 @@ typedef enum
     goat_type_string,
     goat_type_array,
     goat_type_object,
+    goat_type_byte_array,
+    goat_type_function,
     goat_type_thread,
     goat_type_raw_data
 } goat_type;
@@ -109,7 +123,7 @@ typedef struct
 typedef struct
 {
     goat_value base;
-    wchar_t *value;
+    const wchar_t *value;
     size_t value_length;
 } goat_string;
 
@@ -134,9 +148,9 @@ typedef struct goat_object_record goat_object_record;
 struct goat_object_record
 {
     goat_object_record *next;
-    wchar_t *key;
+    const wchar_t *key;
     size_t key_length;
-    goat_value *data;
+    goat_value *value;
 };
 
 typedef struct
@@ -145,6 +159,19 @@ typedef struct
     goat_object_record *first;
     goat_object_record *last;
 } goat_object;
+
+typedef struct
+{
+    goat_value base;
+    const uint8_t *data;
+    size_t length;
+} goat_byte_array;
+
+typedef struct
+{
+    goat_value base;
+    void *ir_ptr;
+} goat_function;
 
 typedef struct
 {
@@ -228,13 +255,38 @@ static __inline goat_value * create_goat_char(const goat_allocator *allocator, w
     return (goat_value*)obj;
 }
 
+static __inline wchar_t * create_wide_string_from_string(const goat_allocator *allocator, const char *value, size_t value_length)
+{
+    size_t i;
+    wchar_t *buff = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (value_length + 1));
+    for(i = 0; i < value_length; i++)
+        buff[i] = (wchar_t)value[i];
+    buff[value_length] = L'\0';
+    return buff;
+}
+
+static __inline goat_value * create_goat_string_from_c_string_ext(const goat_allocator *allocator, const char *value, size_t value_length)
+{
+    goat_string *obj = (goat_string*)goat_alloc(allocator, sizeof(goat_string));
+    obj->base.type = goat_type_string;
+    obj->value = create_wide_string_from_string(allocator, value, value_length);
+    obj->value_length = value_length;
+    return (goat_value*)obj;
+}
+
+static __inline goat_value * create_goat_string_from_c_string(const goat_allocator *allocator, const char *value)
+{
+    return create_goat_string_from_c_string_ext(allocator, value, value ? strlen(value) : 0);
+}
+
 static __inline goat_value * create_goat_string_ext(const goat_allocator *allocator, const wchar_t *value, size_t value_length)
 {
     goat_string *obj = (goat_string*)goat_alloc(allocator, sizeof(goat_string));
     obj->base.type = goat_type_string;
-    obj->value = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (value_length + 1));
-    memcpy(obj->value, value, sizeof(wchar_t) * value_length);
-    obj->value[value_length] = L'\0';
+    wchar_t *buff = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (value_length + 1));
+    memcpy(buff, value, sizeof(wchar_t) * value_length);
+    buff[value_length] = L'\0';
+    obj->value = buff;
     obj->value_length = value_length;
     return (goat_value*)obj;
 }
@@ -277,14 +329,22 @@ static __inline goat_object * create_goat_object(const goat_allocator *allocator
 }
 
 static __inline void goat_object_add_record_ext(const goat_allocator *allocator, goat_object* obj, 
-    const wchar_t *key, size_t key_length, goat_value *value)
+    bool copy_key, const wchar_t *key, size_t key_length, goat_value *value)
 {
     goat_object_record *rec = (goat_object_record*)goat_alloc(allocator, sizeof(goat_object_record));
-    rec->key = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (key_length + 1));
-    memcpy(rec->key, key, sizeof(wchar_t) * key_length);
-    rec->key[key_length] = L'\0';
+    if (copy_key)
+    {
+        wchar_t *copy = (wchar_t*)goat_alloc(allocator, sizeof(wchar_t) * (key_length + 1));
+        memcpy(copy, key, sizeof(wchar_t) * key_length);
+        copy[key_length] = L'\0';
+        rec->key = copy;
+    }
+    else
+    {
+        rec->key = key;
+    }
     rec->key_length = key_length;
-    rec->data = value;
+    rec->value = value;
     rec->next = NULL;
     if (obj->last)
         obj->last->next = rec;
@@ -296,7 +356,39 @@ static __inline void goat_object_add_record_ext(const goat_allocator *allocator,
 static __inline void goat_object_add_record(const goat_allocator *allocator, goat_object* obj,
     const wchar_t *key, goat_value *value)
 {
-    goat_object_add_record_ext(allocator, obj, key, key ? wcslen(key) : 0, value);
+    goat_object_add_record_ext(allocator, obj, true, key, key ? wcslen(key) : 0, value);
+}
+
+static __inline goat_value * create_goat_byte_array(const goat_allocator *allocator, bool copy_data, const uint8_t *data, size_t length)
+{
+    goat_byte_array *obj = (goat_byte_array*)goat_alloc(allocator, sizeof(goat_byte_array));
+    obj->base.type = goat_type_byte_array;
+    if (copy_data)
+    {
+        uint8_t *copy = (uint8_t*)goat_alloc(allocator, length);
+        memcpy(copy, data, length);
+        obj->data = copy;
+    }
+    else
+    {
+        obj->data = data;
+    }
+    obj->length = length;
+    return (goat_value*)obj;
+}
+
+static __inline goat_value * create_goat_function(const goat_allocator *allocator, void *ir_ptr)
+{
+    goat_function *obj = (goat_function*)goat_alloc(allocator, sizeof(goat_function));
+    obj->base.type = goat_type_function;
+    obj->ir_ptr = ir_ptr;
+    return (goat_value*)obj;
+}
+
+static __inline goat_value * call_goat_function(const goat_function_caller* caller, goat_function *func,
+    const goat_allocator *allocator, int argc, goat_value **argv)
+{
+    return caller->call_function(func->ir_ptr, caller->data, allocator, argc, argv);
 }
 
 static __inline goat_value * create_goat_thread(const goat_allocator *allocator, void *ir_ptr)

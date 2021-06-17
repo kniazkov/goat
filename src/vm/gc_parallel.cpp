@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -24,6 +24,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/new.h"
 #include "model/context.h"
 #include "model/thread.h"
+#include "model/process.h"
 
 namespace g0at
 {
@@ -32,63 +33,75 @@ namespace g0at
         class gc_parallel : public lib::gc
         {
         public:
-            gc_parallel(model::process *_proc)
+            gc_parallel(model::runtime *_runtime)
             {
                 count = 0;
                 stage = 0;
-                proc = _proc;
+                runtime = _runtime;
                 prev_used_memory_size = lib::get_used_memory_size();
+            }
+
+            static void mark_all_parallel(model::process *proc)
+            {
+                model::thread *thr_start = proc->active_threads->get_current_thread();
+                model::thread *thr = thr_start;
+                if (thr)
+                {
+                    do
+                    {
+                         thr->mark_all_parallel();
+                         thr = thr->next;
+                    } while(thr != thr_start);
+                }
+                thr_start = proc->suspended_threads->get_current_thread();
+                thr = thr_start;
+                if (thr)
+                {
+                    do
+                    {
+                         thr->mark_all_parallel();
+                         thr = thr->next;
+                    } while(thr != thr_start);
+                }
+
+                const std::set<model::process*> &children_processes = proc->get_children();
+                for (model::process *child : children_processes)
+                {
+                    mark_all_parallel(child);
+                }
             }
 
             void collect_garbage() override
             {
+                model::object_pool *pool = runtime->pool;
                 if (stage == 0) {
                     count++;
-                    proc->pool->mark_all_static_strings_parallel();
-                    model::thread *thr_start = proc->active_threads->get_current_thread();
-                    model::thread *thr = thr_start;
-                    if (thr)
-                    {
-                        do
-                        {
-                            thr->mark_all_parallel();
-                            thr = thr->next;
-                        } while(thr != thr_start);
-                    }
-                    thr_start = proc->suspended_threads->get_current_thread();
-                    thr = thr_start;
-                    if (thr)
-                    {
-                        do
-                        {
-                            thr->mark_all_parallel();
-                            thr = thr->next;
-                        } while(thr != thr_start);
-                    }
                     stage++;
+                    pool->mark_all_static_strings_parallel();
+                    mark_all_parallel(runtime->main_proc);
                     return;
                 }
 
                 if (stage == 1) {
-                    for (int i = 0; i < 10 && proc->pool->gc_deferred.count > 0; i++)
-                        proc->pool->gc_deferred.first->mark_parallel(proc->pool);
-                    if (proc->pool->gc_deferred.count == 0)
+                    for (int i = 0; i < 10 && pool->gc_deferred.count > 0; i++)
+                        pool->gc_deferred.first->mark_parallel(pool);
+                    if (pool->gc_deferred.count == 0)
                         stage++;
                     return;
                 }
 
                 if (stage == 2) {
-                    model::object *obj = proc->pool->population.first;
+                    model::object *obj = pool->population.first;
                     while (obj)
                     {
                         model::object *next = obj->next;
-                        obj->sweep(proc->pool);
+                        obj->sweep(pool);
                         obj = next;
                     }
-                    while(proc->pool->gc_processed.count) {
-                        obj = proc->pool->gc_processed.remove_first();
+                    while(pool->gc_processed.count) {
+                        obj = pool->gc_processed.remove_first();
                         obj->unmark(false);
-                        proc->pool->population.add(obj);
+                        pool->population.add(obj);
                     }
                     stage = 0;
                     prev_used_memory_size = lib::get_used_memory_size() - lib::get_cached_memory_size();
@@ -116,14 +129,14 @@ namespace g0at
 
             int count;
             int stage;
-            model::process *proc;
+            model::runtime *runtime;
             size_t prev_used_memory_size;
             const size_t threshold = 1024 * sizeof(model::context) * 2;
         };
 
-        lib::gc * create_grabage_collector_parallel(model::process *proc)
+        lib::gc * create_grabage_collector_parallel(model::runtime *runtime)
         {
-            return new gc_parallel(proc);
+            return new gc_parallel(runtime);
         }
     };
 };

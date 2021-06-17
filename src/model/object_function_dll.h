@@ -30,18 +30,12 @@ namespace g0at
 {
     namespace model
     {
-        /**
-         * @brief Wrapper for calling a function that implemented on C 
-         *        and dynamically loaded from DLL file
-         */
-
         struct ext_thread_runner_data
         {
-            object_pool *pool;
             process *proc;
             std::set<lib::fast_allocator*> allocators;
 
-            ext_thread_runner_data(object_pool *_pool, process *_proc) : pool(_pool), proc(_proc) { }
+            ext_thread_runner_data(process *_proc) : proc(_proc) { }
             ~ext_thread_runner_data()
             {
                 for (auto allocator : allocators)
@@ -49,6 +43,10 @@ namespace g0at
             }
         };  
             
+        /**
+         * @brief Wrapper for calling a function that implemented on C 
+         *        and dynamically loaded from DLL file
+         */
         class object_function_dll : public object_function
         {
         public:
@@ -63,7 +61,6 @@ namespace g0at
             goat_ext_function ext_func;
 
             goat_shell *shell;
-            goat_thread_runner *runner;
             ext_thread_runner_data *runner_data;
         };
     };

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -23,6 +23,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "gc.h"
 #include "model/object_pool.h"
 #include "model/thread.h"
+#include "model/process.h"
 
 namespace g0at
 {
@@ -31,17 +32,13 @@ namespace g0at
         class gc_debug : public lib::gc
         {
         public:
-            gc_debug(model::process *_proc)
-                : count(0), proc(_proc)
+            gc_debug(model::runtime *_runtime)
+                : count(0), runtime(_runtime)
             {
             }
 
-            void collect_garbage() override
+            static void mark_all(model::process *proc)
             {
-                count++;
-
-                // mark
-                proc->pool->mark_all_static_strings();
                 model::thread *thr_start = proc->active_threads->get_current_thread();
                 model::thread *thr = thr_start;
                 if (thr)
@@ -63,12 +60,27 @@ namespace g0at
                     } while(thr != thr_start);
                 }
 
+                const std::set<model::process*> &children_processes = proc->get_children();
+                for (model::process *child : children_processes)
+                {
+                    mark_all(child);
+                }
+            }
+
+            void collect_garbage() override
+            {
+                count++;
+
+                // mark
+                runtime->pool->mark_all_static_strings();
+                mark_all(runtime->main_proc);
+
                 // sweep
-                model::object *obj = proc->pool->population.first;
+                model::object *obj = runtime->pool->population.first;
                 while (obj)
                 {
                     model::object *next = obj->next;
-                    obj->sweep(proc->pool);
+                    obj->sweep(runtime->pool);
                     obj = next;
                 }
             }
@@ -87,12 +99,12 @@ namespace g0at
             }
 
             int count;
-            model::process *proc;
+            model::runtime *runtime;
         };
 
-        lib::gc * create_grabage_collector_debug(model::process *proc)
+        lib::gc * create_grabage_collector_debug(model::runtime *runtume)
         {
-            return new gc_debug(proc);
+            return new gc_debug(runtume);
         }
     };
 };

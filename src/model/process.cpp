@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -27,15 +27,26 @@ namespace g0at
 {
     namespace model
     {
-        process::process(object_pool *_pool)
+        process::process(runtime *_owner, process *_parent)
         {
-            pool = _pool;
+            owner = _owner;
+            parent = _parent;
+            if (parent)
+            {
+                parent->children.insert(this);
+            }
+
             suspended_threads = new thread_list(this);
-            active_threads = new thread_list_ext(this, suspended_threads, pool);
+            active_threads = new thread_list_ext(this, suspended_threads);
         }
 
         process::~process()
         {
+            if (parent)
+            {
+                parent->children.erase(this);
+            }
+
             delete active_threads;
             delete suspended_threads;
         }

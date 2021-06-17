@@ -42,6 +42,7 @@ namespace g0at
         class object;
         class object_string;
         class object_function;
+        class object_function_user_defined;
         class object_thread;
         class object_integer;
         class object_real;
@@ -210,6 +211,7 @@ namespace g0at
             virtual object_type get_type() const;
             virtual object_string *to_object_string();
             virtual object_function *to_object_function();
+            virtual object_function_user_defined *to_object_function_user_defined();
             virtual object_thread *to_object_thread();
             virtual object_integer *to_object_integer();
             virtual object_real *to_object_real();

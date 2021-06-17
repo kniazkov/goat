@@ -35,7 +35,7 @@ namespace g0at
             {
             public:
                 context_factory(object_pool *_pool);
-                context *create_context(std::vector<char*> *args);
+                context *create_context(std::vector<char*> *args, std::vector<std::string> *lib_path);
 
             protected:
                 object *create_function_print();
@@ -62,7 +62,7 @@ namespace g0at
                 object *create_function_range();
                 object *create_function_uid();
                 object *create_function_open();
-                object *create_function_dlopen();
+                object *create_function_dlopen(std::vector<std::string> *lib_path);
                 object *create_function_exec();
 
                 object_pool *pool;

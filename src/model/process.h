@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -22,25 +22,32 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include <set>
+
 namespace g0at
 {
     namespace model
     {
-        class object_pool;
-        class thread_list;
         class thread_list_ext;
+        class thread_list;
+        struct runtime;
 
         class process
         {
         public:
-            process(object_pool *_pool);
+            process(runtime *_owner, process *_parent);
             ~process();
+            const std::set<process*> & get_children() { return children; }
+            runtime *get_runtime() { return owner; }
 
-            object_pool *pool;
             thread_list_ext *active_threads;
             thread_list *suspended_threads;
 
         private:
+            runtime *owner;
+            process *parent;
+            std::set<process*> children;
+
             process(const process&) { }
             void operator=(const process& ) { }
         };

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -28,6 +28,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "code/disasm.h"
 #include "lib/assert.h"
 #include "lib/utils.h"
+#include "model/executor.h"
 #include <iostream>
 #include <sstream>
 #include <climits>
@@ -36,23 +37,43 @@ namespace g0at
 {
     namespace vm
     {
-        vm::vm(lib::pointer<code::code> _code)
-            : code(_code)
-        {
-        }
+        static model::variable run(code::code *code, environment *env, model::process *proc,
+            model::context *ctx, code::iid_t instr_id);
 
-        int vm::run(environment *env)
+        class executor_impl : public model::executor
+        {
+        public:
+            executor_impl(code::code *_code, environment *_env) :
+                code(_code), env(_env)
+            {
+            }
+
+            model::variable call_a_function_as_a_subprocess(model::process *parent, model::context *ctx, code::iid_t instr_id) override
+            {
+                model::process *proc = new model::process(env->get_runtime(), parent);
+                model::variable ret = run(code, env, proc, ctx, instr_id);
+                delete proc;
+                return ret;
+            }
+
+        private:
+            code::code *code;
+            environment *env;
+        };
+
+        static model::variable run(code::code *code, environment *env, model::process *proc,
+            model::context *ctx, code::iid_t instr_id)
         {
             model::variable ret;
-            model::process *proc = env->get_process();
-            model::thread *thr = proc->active_threads->create_thread(env->get_context(), &ret);
+            model::thread *thr = proc->active_threads->create_thread(ctx, &ret, env->get_pool());
             ret.set_object(env->get_pool()->get_undefined_instance());
-            thr->iid = code::iid_t(0);
+            thr->iid = instr_id;
             thr->next = thr;
             thr->state = model::thread_state::ok;
             bool stop = false;
             try
             {
+                lib::gc *gc = env->get_gc();
                 if (!env->debug_mode())
                 {
                     while(!stop)
@@ -65,7 +86,7 @@ namespace g0at
                             ++thr->iid;
                             auto instr = code->get_instruction(iid);
                             instr->exec(thr);
-                            env->get_gc()->collect_garbage_if_necessary();
+                            gc->collect_garbage_if_necessary();
                             thr = proc->active_threads->switch_thread(&stop);
                         }
                     }
@@ -256,21 +277,13 @@ namespace g0at
                             // convert any value to real object
                             thr->peek().to_object(env->get_pool());
                         }
-                        env->get_gc()->collect_garbage_if_necessary();
+                        gc->collect_garbage_if_necessary();
                         thr = proc->active_threads->switch_thread(&stop);
                         ticks++;
                     }
                 }
 
-                int ret_value = 0;
-                int64_t ret_value_int64;
-                if (ret.get_integer(&ret_value_int64) && ret_value_int64 >= INT_MIN && ret_value_int64 <= INT_MAX)
-                    ret_value = (int)ret_value_int64;
-
-                if (env->debug_mode() && !env->run_mode())
-                    std::cout << '\n' << global::char_encoder->encode(global::resource->program_terminated_with_exit_code(ret_value)) << '\n';
-
-                return ret_value;
+                return ret;
             }
             catch(const vm_exception &vmex)
             {
@@ -278,5 +291,25 @@ namespace g0at
                 throw;
             }
         }
+
+        int run(code::code *code, environment *env)
+        {
+            executor_impl exec(code, env);
+            model::runtime *rt = env->get_runtime();
+            rt->exec = &exec;
+            model::variable ret = run(code, env, env->get_main_process(), env->get_context(), code::iid_t(0));
+            rt->exec = nullptr;
+
+            int ret_value = 0;
+            int64_t ret_value_int64;
+            if (ret.get_integer(&ret_value_int64) && ret_value_int64 >= INT_MIN && ret_value_int64 <= INT_MAX)
+                ret_value = (int)ret_value_int64;
+
+            if (env->debug_mode() && !env->run_mode())
+                std::cout << '\n' << global::char_encoder->encode(global::resource->program_terminated_with_exit_code(ret_value)) << '\n';
+
+            return ret_value;
+        }
+
     };
 };

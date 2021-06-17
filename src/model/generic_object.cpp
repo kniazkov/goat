@@ -22,6 +22,7 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object.h"
 #include "object_pool.h"
+#include "object_string.h"
 #include "resource/strings.h"
 #include "lib/assert.h"
 
@@ -64,9 +65,18 @@ namespace g0at
             goat_object *result = create_goat_object(allocator);
             for (auto pair : objects)
             {
-                std::wstring key = pair.first->to_string();
                 goat_value *value = pair.second.get_value(allocator);
-                goat_object_add_record_ext(allocator, result, key.c_str(), key.size(), value);
+                object_string *key_obj_string = pair.first->to_object_string();
+                if (key_obj_string)
+                {
+                    std::wstring &key = key_obj_string->get_data();
+                    goat_object_add_record_ext(allocator, result, false, key.c_str(), key.size(), value);
+                }
+                else
+                {
+                    std::wstring key = pair.first->to_string();
+                    goat_object_add_record_ext(allocator, result, true, key.c_str(), key.size(), value);
+                }
             }
             return &result->base;
         }

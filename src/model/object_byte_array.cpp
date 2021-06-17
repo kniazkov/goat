@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -102,7 +102,7 @@ namespace g0at
             }
         }
 
-        object_byte_array::object_byte_array(object_pool *pool, uint8_t *data, size_t size)
+        object_byte_array::object_byte_array(object_pool *pool, const uint8_t *data, size_t size)
             : object(pool, pool->get_byte_array_proto_instance())
         {
             vector.reserve(size);
@@ -127,6 +127,11 @@ namespace g0at
                 wss << (wchar_t)(hi > 9 ? L'a' + hi - 10 : L'0' + hi) << (wchar_t)(low > 9 ? L'a' + low - 10 : L'0' + low);
             }
             return wss.str();
+        }
+
+        goat_value * object_byte_array::get_value(const goat_allocator *allocator)
+        {
+            return create_goat_byte_array(allocator, false, &vector[0], vector.size());
         }
 
         void object_byte_array::m_get(thread *thr, int arg_count)
@@ -318,6 +323,58 @@ namespace g0at
             }
         };
 
+        class object_byte_array_slice : public object_byte_array_method
+        {
+        public:
+            object_byte_array_slice(object_pool *_pool)
+                : object_byte_array_method(_pool)
+            {
+            }
+            
+            bool payload(object_byte_array *this_ptr, thread *thr, int arg_count, variable *result) override
+            {
+                if (arg_count < 1)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+
+                int64_t begin;
+                if (!thr->peek(0).get_integer(&begin) || begin > INT32_MAX)
+                {
+                    thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                    return false;
+                }
+                uint8_t * data = this_ptr->get_data();
+                int64_t size = (int64_t)this_ptr->get_length();
+                if (begin >= size) begin = size;
+                else if (begin < 0) begin = 0;
+
+                int64_t count;
+                if (arg_count > 1)
+                {
+                    if (!thr->peek(1).get_integer(&count) || count > INT32_MAX)
+                    {
+                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                        return false;
+                    }
+                    if (count > size - begin) count = size - begin;
+                    else if (count < 0) count = 0;                    
+                }
+                else
+                {
+                    count = size - begin;
+                }
+                
+                if (count == 0)
+                    result->set_object(new object_byte_array(thr->pool));
+                else
+                    result->set_object(new object_byte_array(thr->pool, data + begin, (size_t)count));
+
+                return true;
+            }
+        };
+
         class object_byte_array_decode_utf8 : public object_byte_array_method
         {
         public:
@@ -346,6 +403,39 @@ namespace g0at
                                 std::string data((char*)this_ptr->get_data(), this_ptr->get_length());
                                 std::wstring decoded_data = lib::decode_utf8(data);
                                 result->set_object(thr->pool->create_object_string(decoded_data));
+                                return true;
+                            }
+
+                            if (encoding == L"ascii")
+                            {
+                                wchar_t wildcard = L'?';
+                                if (arg_count > 1)
+                                {
+                                    if (!thr->peek(1).get_char(&wildcard))
+                                    {
+                                        thr->raise_exception(new object_exception_illegal_argument(thr->pool));
+                                        return false;
+                                    }
+                                }
+                                const char *data = (const char*)this_ptr->get_data();
+                                int length = this_ptr->get_length();
+                                std::wstringstream wss;
+                                while(length)
+                                {
+                                    if (*data >= 0)
+                                    {
+                                        wchar_t wch = (wchar_t)*data;
+                                        wss << wch;
+                                    }
+                                    else
+                                    {
+                                        wss << wildcard;
+                                    }
+                                    data++;
+                                    length--;
+                                }
+
+                                result->set_object(thr->pool->create_object_string(wss.str()));
                                 return true;
                             }
 
@@ -392,6 +482,7 @@ namespace g0at
         {
             add_object(pool->get_static_string(resource::str_length), new object_byte_array_length(pool));
             add_object(pool->get_static_string(resource::str_push), new object_byte_array_push(pool));
+            add_object(pool->get_static_string(resource::str_slice), new object_byte_array_slice(pool));
             add_object(pool->get_static_string(resource::str_decode), new object_byte_array_decode_utf8(pool));
             add_object(pool->get_static_string(resource::str_fill), new object_byte_array_fill(pool));
             lock();
