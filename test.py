@@ -63,12 +63,14 @@ for dir in ([os.path.join(d, o) for o in sorted(os.listdir(d)) if ((select == Fa
 		out_0 = os.path.join(dir, "output.txt")
 		if os.path.isfile(out_0) :
 			out_0 = open(out_0, "rb").read()
+			out_0_s = str(out_0).replace("\\r", "")
 			out = True
 		else :
 			out_0 = "nothing"
 		err_0 = os.path.join(dir, "error.txt")
 		if os.path.isfile(err_0) :
 			err_0 = open(err_0, "rb").read()
+			err_0_s = str(err_0).replace("\\r", "")
 			err = True
 		else :
 			err_0 = "nothing"
@@ -81,6 +83,8 @@ for dir in ([os.path.join(d, o) for o in sorted(os.listdir(d)) if ((select == Fa
 			proc = subprocess.Popen([interpreter, prog, "--lib=./lib"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		try :
 			out_1, err_1 = proc.communicate(timeout=9)
+			out_1_s = str(out_1).replace("\\r", "")
+			err_1_s = str(err_1).replace("\\r", "")
 		except subprocess.TimeoutExpired:
 			proc.kill()
 			terminated = True
@@ -89,16 +93,16 @@ for dir in ([os.path.join(d, o) for o in sorted(os.listdir(d)) if ((select == Fa
 		totalTime = totalTime + (end - begin)
 		strTime = ("%.3f" % (end - begin))
 		if not terminated :
-			if (out and (out_0 != out_1)) or (out != True and len(out_1) > 0):
-				print("out 0: " + str(out_0))
-				print("out 1: " + str(out_1))
+			if (out and (out_0_s != out_1_s)) or (out != True and len(out_1) > 0):
+				print("out 0: " + out_0_s)
+				print("out 1: " + out_1_s)
 				actual = open(os.path.join(dir, "output_act.txt"), "wb")
 				actual.write(out_1)
 				actual.close()
 				equal = False
-			if (err and (err_0 != err_1)) or (err != True and len(err_1) > 0):
-				print("err 0: " + str(err_0))
-				print("err 1: " + str(err_1))
+			if (err and (err_0_s != err_1_s)) or (err != True and len(err_1) > 0):
+				print("err 0: " + err_0_s)
+				print("err 1: " + err_1_s)
 				actual = open(os.path.join(dir, "error_act.txt"), "wb")
 				actual.write(err_1)
 				actual.close()
