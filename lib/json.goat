@@ -1,0 +1,359 @@
+/*
+
+Copyright (C) 2021 Ivan Kniazkov
+
+This file is part of standard library for programming language
+codenamed "Goat" ("Goat standard library").
+
+Goat standard library is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat standard library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+var Json =
+{
+    parse : $(string)
+    {
+        var source = new Json.Source(string);
+        return Json.parseElement(source);
+    },
+
+    stringify : $(obj)
+    {
+        if (obj.instanceof(Number) || obj.instanceof(Boolean) || obj == null)
+            return "" + obj;
+        if (obj.instanceof(String))
+            return "\"" + Json.escape(obj) + '"';
+
+        var builder = new StringBuilder();
+        if (obj.instanceof(Array))
+        {
+            builder << '[';
+            var i, l = obj.length();
+            for (var i = 0; i < l; i++)
+            {
+                if (i)
+                    builder << ',';
+                builder << Json.stringify(obj[i]);
+            }        
+            builder << ']';
+        }
+        else
+        {
+            var flag = false;
+            builder << '{';
+            for (var key in obj.keys())
+            {
+                if (flag)
+                    builder << ',';
+                flag = true;
+                builder << "\"" + Json.escape("" + key) + "\":" + Json.stringify(obj[key]);
+            }
+            builder << '}';
+        }
+        return builder.string();
+    },
+
+    escape : $(string)
+    {
+        var builder = new StringBuilder();
+        for (var char in string)
+        {
+            switch(char)
+            {
+                case '\"':
+                    builder << "\\\""; break;
+                case '\\':
+                    builder << "\\\\"; break;
+                case '\n':
+                    builder << "\\n"; break;
+                case '\r':
+                    builder << "\\r"; break;
+                case '\t':
+                    builder << "\\t"; break;
+                default:
+                    builder << char;
+            }
+        }
+        return builder.string();
+    },
+
+    isSpace : $(char)
+    {
+        return char == ' ' || char == '\n' || char == '\r' || char == '\t';
+    },
+
+    isLetter : $(char)
+	{
+		return (char >= 'A' && char <= 'Z') || (char >= 'a' && char <= 'z') || char == '_';
+	}, 
+	
+	isDigit : $(char)
+	{
+		return char >= '0' && char <= '9';
+	},
+
+    Source :
+    {
+        init : $(string)
+        {
+            this.data = string;
+            this.idx = 0;
+            this.maxIdx = string.length();
+        },
+
+        get : $()
+        {
+            if (idx < maxIdx)
+                return data[idx];
+            return 0;
+        },
+
+        next: $()
+        {
+            if (idx < maxIdx)
+            {
+                idx++;
+                if (idx < maxIdx)
+                    return data[idx];
+            }
+            return 0;
+        },
+
+        getNotSpace : $()
+        {
+            var char = this.get();
+            while(Json.isSpace(char)) char = this.next();
+            return char;
+        },
+
+        nextNotSpace : $()
+        {
+            var char = this.next();
+            while(Json.isSpace(char)) char = this.next();
+            return char;
+        }
+    },
+
+    parseElement : $(source)
+    {
+        var char = source.getNotSpace();
+
+        switch(char)
+        {
+            case 0:
+                return void;
+
+            case '{':
+                source.next();
+                return Json.parseObject(source);
+
+            case '[':
+                source.next();
+                return Json.parseArray(source);
+
+            case '"':
+                source.next();
+                return Json.parseString(source);
+
+            case '-':
+                char = source.next();
+                if (Json.isDigit(char))
+                    return Json.parseNumber(source, true);
+        }
+
+        if (Json.isDigit(char))
+        {
+            return Json.parseNumber(source, false);
+        }
+
+        if (Json.isLetter(char))
+        {
+            var builder = new StringBuilder();
+            do
+            {
+                builder << char;
+                char = source.next();
+            } while(isLetter(char));
+            switch(builder.string())
+            {
+                case "true":
+                    return true;
+                case "false":
+                    return false;
+                case "null":
+                    return null;
+            }
+        }
+
+        return void;
+    },
+
+	parseObject : $(source)
+	{
+		var result = {};
+		var count = 0;
+		
+		while(true)
+		{
+			var char = source.getNotSpace();
+						
+			if (char == 0)
+				return void;
+
+			if (char == '}')
+			{
+				source.next();
+				return result;
+			}
+
+			if (count > 0)
+			{
+				if (char != ',')
+					return void;
+				char = source.nextNotSpace();
+				if (char == 0)
+					return void;
+			}
+
+			var name = "";
+			if (char == '"')
+			{
+				source.next();
+				name = Json.parseString(source);
+			}
+			else if (Json.isLetter(char))
+			{
+				var builder = new StringBuilder();
+				do
+				{
+					builder << char;
+					char = source.next();
+				} while(Json.isLetter(char) || Json.isDigit(char));
+				name = builder.string();
+			}
+			if (!name)
+				return void;
+			char = source.getNotSpace();
+			if (char != ':')
+				return void;
+			char = source.nextNotSpace();
+			if (char == 0)
+				return void;
+			var element = Json.parseElement(source);
+			if (element == void)
+				return void;
+			result[name] = element;
+			count++;
+		}
+	},
+
+    parseArray: $(source)
+    {
+		var result = [];
+		var count = 0;
+		
+		while(true)
+		{
+			var char = source.getNotSpace();
+						
+			if (char == 0)
+				return void;
+
+			if (char == ']')
+			{
+				source.next();
+				return result;
+			}
+
+			if (count > 0)
+			{
+				if (char != ',')
+					return void;
+				char = source.nextNotSpace();
+				if (char == 0)
+					return void;
+			}
+
+			var element = Json.parseElement(source);
+			if (void == element)
+				return void;
+			result.push(element);
+			count++;
+		}
+    },
+
+    parseString : $(source)
+    {
+        var char = source.get();
+        var builder = new StringBuilder();
+        while(char != '"' && char != 0)
+        {
+            if (char != '\\')
+            {
+                builder << char;
+            }
+            else
+            {
+                char = source.next();
+                switch(char)
+                {
+                    case 'n':
+                        builder << "\n"; break;
+                    case 'r':
+                        builder << "\r"; break;
+                    case 't':
+                        builder << "\t"; break;
+                    default:
+                        builder << char;
+                }
+            }
+            char = source.next();
+        }
+        if (char == 0) return void;
+        source.next();
+        return builder.string();
+    },
+
+    parseNumber : $(source, negative)
+    {
+        var char = source.get();
+        var builder = new StringBuilder();
+        var result = void;
+        do
+        {
+            builder << char;
+            char = source.next();
+        } while(Json.isDigit(char));
+        if (char != '.')
+        {
+            result = Integer.valueof(builder.string());
+        }
+        else
+        {
+            builder << char;
+            char = source.next();
+            if (Json.isDigit(char))
+            {
+                do
+                {
+                    builder << char;
+                    char = source.next();
+                } while(Json.isDigit(char));
+            }
+            result = Real.valueof(builder.string());
+        }
+        if (negative) return -result;
+        return result;
+    }
+};
