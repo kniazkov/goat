@@ -1,0 +1,84 @@
+/*
+
+Copyright (C) 2021 Ivan Kniazkov
+
+This file is part of standard library for programming language
+codenamed "Goat" ("Goat standard library").
+
+Goat standard library is free software: you can redistribute it and/or
+modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Goat standard library is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with Goat standard library.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+var Json =
+{
+    stringify : $(obj)
+    {
+        if (obj.instanceof(Number) || obj.instanceof(Boolean) || obj == null)
+            return "" + obj;
+        if (obj.instanceof(String))
+            return "\"" + Json.escape(obj) + '"';
+
+        var builder = new StringBuilder();
+        if (obj.instanceof(Array))
+        {
+            builder << '[';
+            var i, l = obj.length();
+            for (var i = 0; i < l; i++)
+            {
+                if (i)
+                    builder << ',';
+                builder << Json.stringify(obj[i]);
+            }        
+            builder << ']';
+        }
+        else
+        {
+            var flag = false;
+            builder << '{';
+            for (var key in obj.keys())
+            {
+                if (flag)
+                    builder << ',';
+                flag = true;
+                builder << "\"" + Json.escape("" + key) + "\":" + Json.stringify(obj[key]);
+            }
+            builder << '}';
+        }
+        return builder.string();
+    },
+
+    escape : $(string)
+    {
+        var builder = new StringBuilder();
+        for (var char in string)
+        {
+            switch(char)
+            {
+                case '\"':
+                    builder << "\\\""; break;
+                case '\\':
+                    builder << "\\\\"; break;
+                case '\n':
+                    builder << "\\n"; break;
+                case '\r':
+                    builder << "\\r"; break;
+                case '\t':
+                    builder << "\\t"; break;
+                default:
+                    builder << char;
+            }
+        }
+        return builder.string();
+    }
+};

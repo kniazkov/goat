@@ -1,21 +1,12 @@
-import "web_server.goat";
+import "json.goat";
 
-var counter = 0;
-
-var server = HttpServer.create(8001, $(request)
+var obj = 
 {
-    println("request: " + request);
+    x: 10,
+    y: 20,
+    s: "test",
+    a: [1, 2, 3.3, true, false, null, "test", { v: "\t\t\t" }],
+    "z\t": {  }
+};
 
-    counter++;
-
-    var response = "Counter value: " + counter;
-    return {
-        content: response.encode("utf8"),
-        type: "text/html"
-    };
-});
-
-while(true)
-{
-    server.tick();
-}
+println(Json.stringify(obj));
