@@ -1,12 +1,1 @@
-import "json.goat";
-
-var obj = 
-{
-    x: 10,
-    y: 20,
-    s: "test",
-    a: [1, 2, 3.3, true, false, null, "test", { v: "\t\t\t" }],
-    "z\t": {  }
-};
-
-println(Json.stringify(obj));
+println("ok.");
