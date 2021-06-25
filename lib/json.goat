@@ -28,8 +28,11 @@ var Json =
         return Json.parseElement(source);
     },
 
-    stringify : $(obj)
+    stringify : $(obj, indent)
     {
+        if (indent)
+            return Json.stringifyWithIndents(obj, indent, "");
+
         if (obj.instanceof(Number) || obj.instanceof(Boolean) || obj == null)
             return "" + obj;
         if (obj.instanceof(String))
@@ -40,7 +43,7 @@ var Json =
         {
             builder << '[';
             var i, l = obj.length();
-            for (var i = 0; i < l; i++)
+            for (i = 0; i < l; i++)
             {
                 if (i)
                     builder << ',';
@@ -60,6 +63,49 @@ var Json =
                 builder << "\"" + Json.escape("" + key) + "\":" + Json.stringify(obj[key]);
             }
             builder << '}';
+        }
+        return builder.string();
+    },
+
+    stringifyWithIndents : $(obj, i0, indent)
+    {
+        if (obj.instanceof(Number) || obj.instanceof(Boolean) || obj == null)
+            return "" + obj;
+        if (obj.instanceof(String))
+            return "\"" + Json.escape(obj) + '"';
+        
+        var builder = new StringBuilder();
+        if (obj.instanceof(Array))
+        {
+            var l = obj.length();
+            if (l == 0)
+                return "[]";
+            builder << '[';
+            var i, i1 = indent + i0;
+            for (i = 0; i < l; i++)
+            {
+                if (i)
+                    builder << ',';
+                builder << "\n" + i1 + Json.stringifyWithIndents(obj[i], i0, i1);
+            }        
+            builder << "\n" + indent + ']';
+        }
+        else
+        {
+            var flag = false;
+            var keys = obj.keys();
+            if (keys.length() == 0)
+                return "{}";
+            builder << '{';
+            var i1 = indent + i0;
+            for (var key in keys)
+            {
+                if (flag)
+                    builder << ',';
+                flag = true;
+                builder << "\n" + i1 + "\"" + Json.escape("" + key) + "\": " + Json.stringifyWithIndents(obj[key], i0, i1);
+            }
+            builder << "\n" + indent + '}';
         }
         return builder.string();
     },
