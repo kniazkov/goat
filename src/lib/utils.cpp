@@ -538,8 +538,7 @@ namespace g0at
             return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
         }
 
-        std::random_device random_device;
-        std::mt19937 random_generator(random_device()); 
+        std::mt19937 random_generator(get_time_ns()); 
         std::uniform_int_distribution<> random_distrubution(0, 255);
 
         uint8_t generate_random_number()
