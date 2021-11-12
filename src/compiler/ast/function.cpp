@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -36,12 +36,20 @@ namespace g0at
         function::function(keyword *_kw, brackets_pair *_args, brackets_pair *_body, function_type _type)
         {
             assert((_kw->to_keyword_function() != nullptr && _type == function_type::function) || (_kw->to_keyword_thread() != nullptr && _type == function_type::thread));
-            assert(_args->get_symbol() == L'(');
-            assert(_body->get_symbol() == L'{');
             frag.begin = _kw->get_fragment().begin;
-            frag.end = _body->get_fragment().end;
-            args_raw.swap(_args->get_raw_list());
-            raw.swap(_body->get_raw_list());
+            frag.end = _kw->get_fragment().begin;
+            if (_args != nullptr)
+            {
+                assert(_args->get_symbol() == L'(');
+                frag.end = _args->get_fragment().end;
+                args_raw.swap(_args->get_raw_list());
+            }
+            if (_body != nullptr)
+            {
+                assert(_body->get_symbol() == L'{');
+                frag.end = _body->get_fragment().end;
+                raw.swap(_body->get_raw_list());
+            }
             type = _type;
         }
 

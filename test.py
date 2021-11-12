@@ -1,4 +1,4 @@
-# Copyright (C) 2017-2020 Ivan Kniazkov
+# Copyright (C) 2017-2021 Ivan Kniazkov
 
 # This file is part of interpreter of programming language
 # codenamed "Goat" ("Goat interpreter").
@@ -67,6 +67,7 @@ for dir in ([os.path.join(d, o) for o in sorted(os.listdir(d)) if ((select == Fa
 			out = True
 		else :
 			out_0 = "nothing"
+			out_0_s = "nothing"
 		err_0 = os.path.join(dir, "error.txt")
 		if os.path.isfile(err_0) :
 			err_0 = open(err_0, "rb").read()
@@ -74,6 +75,7 @@ for dir in ([os.path.join(d, o) for o in sorted(os.listdir(d)) if ((select == Fa
 			err = True
 		else :
 			err_0 = "nothing"
+			err_0_s = "nothing"
 		equal = True
 		terminated = False
 		begin = time.time()

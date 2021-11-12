@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2020 Ivan Kniazkov
+Copyright (C) 2017-2021 Ivan Kniazkov
 
 This file is part of interpreter of programming language
 codenamed "Goat" ("Goat interpreter").
@@ -30,3 +30,13 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #define GPIO_ENABLE
 #define GPIO_EMULATION
 //#define GPIO_DEBUG
+
+/**
+ * Allows you to describe functions without argument block or (and)
+ * without body, for example:
+ * 
+ * var f = $ { return 2 + 3; }; // without arguments
+ * var f = $ (); // without a body
+ * var f = $; // empty function (does nothing)
+ */
+#define FEATURE_SHORT_FUNC_DECLARATION

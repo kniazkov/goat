@@ -55,23 +55,56 @@ namespace g0at
                 }
                 assert(kw != nullptr);
 
+                ast::brackets_pair *args = nullptr;
+                ast::brackets_pair *body = nullptr;
+
+#ifdef FEATURE_SHORT_FUNC_DECLARATION
+                ast::token *last_tok = kw;
+
+                if (last_tok->next)
+                {
+                    args = last_tok->next->to_brackets_pair();
+                    if (args) {
+                        if (args->get_symbol() == L'(')
+                            last_tok = args;
+                        else
+                            args = nullptr;
+                    }
+                }
+
+                if (last_tok->next)
+                {
+                    body = last_tok->next->to_brackets_pair();
+                    if (body) {
+                        if (body->get_symbol() == L'{')
+                            last_tok = body;
+                        else
+                            body = nullptr;
+                    }
+                }
+
+                lib::pointer<ast::function> func  = new ast::function(kw, args, body, type);
+                lib::pointer<ast::declare_function> decl_func = new ast::declare_function(func);
+                kw->replace(last_tok, decl_func.cast<ast::token>());
+#else
                 if (!kw->next)
                     throw expected_an_argument_list(kw->get_fragment().end);
 
-                ast::brackets_pair *args = kw->next->to_brackets_pair();
+                args = kw->next->to_brackets_pair();
                 if (!args || args->get_symbol() != L'(')
                     throw expected_an_argument_list(kw->next->get_fragment().begin);
 
                 if (!args->next)
                     throw expected_a_function_body(args->get_fragment().end);
 
-                ast::brackets_pair *body = args->next->to_brackets_pair();
+                body = args->next->to_brackets_pair();
                 if (!body || body->get_symbol() != L'{')
                     throw expected_a_function_body(args->next->get_fragment().begin);
 
                 lib::pointer<ast::function> func  = new ast::function(kw, args, body, type);
                 lib::pointer<ast::declare_function> decl_func = new ast::declare_function(func);
                 kw->replace(body, decl_func.cast<ast::token>());
+#endif
                 data->expressions.add(decl_func.get());
                 data->functions.push_back(func.get());
                 return false;
