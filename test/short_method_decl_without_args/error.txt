@@ -1,0 +1,3 @@
+println("ok".);
+             ^
+program.goat, 1.14: expected an identifier after '.' operator
