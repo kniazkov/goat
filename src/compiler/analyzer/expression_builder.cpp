@@ -152,6 +152,8 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/pt/ternary.h"
 #include "compiler/ast/protection.h"
 #include "compiler/pt/protection.h"
+#include "compiler/ast/statement_expression.h"
+#include "compiler/pt/statement_return.h"
 
 namespace g0at
 {
@@ -298,13 +300,47 @@ namespace g0at
 
             auto body = tok_func->get_body();
             tok = body->first;
-            while(tok)
+            if (tok)
             {
-                statement_builder visitor;
-                tok->accept(&visitor);
-                assert(visitor.has_stmt());
-                node_func->add_stmt(visitor.get_stmt());
-                tok = tok->next;
+                /* All statements except the last one are converted as is */
+                while(tok.get() != body->last)
+                {
+                    statement_builder visitor;
+                    tok->accept(&visitor);
+                    assert(visitor.has_stmt());
+                    node_func->add_stmt(visitor.get_stmt());
+                    tok = tok->next;
+                }
+                ast::statement_expression *stexpr = tok->to_statement_expression();
+                if (!stexpr)
+                {
+                    /* If last statement is not expression, it converted as is */
+                    statement_builder visitor;
+                    tok->accept(&visitor);
+                    assert(visitor.has_stmt());
+                    node_func->add_stmt(visitor.get_stmt());
+                    tok = tok->next;
+                }
+                else
+                {
+                    /* 
+                       Otherwise, the last expression is converted to a return statement,
+                       so we can compile such code: 
+                       
+                          var f = { expr };
+
+                       It will be converted to the following code:
+
+                          var f = { return expr };
+                    
+                       Thus, the last evaluated expression is returned from the function
+                       and can be used in the caller method.
+                    */
+                    expression_builder visitor;
+                    stexpr->get_expression()->accept(&visitor);
+                    assert(visitor.has_expr());
+                    node_func->add_stmt(new pt::statement_return(stexpr->get_fragment(), visitor.get_expr()));
+                }
             }
 
             expr = new pt::declare_function(node_func);
