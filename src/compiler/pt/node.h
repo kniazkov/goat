@@ -27,7 +27,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 #include "compiler/source/fragment.h"
 #include "lib/ref_counter.h"
 #include "lib/pointer.h"
-#include "compiler/analyzer/scope_builder.h"
 
 namespace g0at
 {
@@ -122,7 +121,6 @@ namespace g0at
 
         class node : public lib::ref_counter
         {
-        friend class g0at::analyzer::scope_builder;
         public:
             node(fragment _frag);
             virtual ~node();
@@ -215,15 +213,9 @@ namespace g0at
             virtual protection *to_protection();
             
             fragment get_fragment() { return frag; }
-            lib::pointer<scope> get_scope() { return sk; }
-            
-        protected:
-            //void set_fragment(fragment _frag) { frag = _frag; }
-            void set_scope(lib::pointer<scope> _sk) { sk = _sk; }
 
         private:
             fragment frag;
-            lib::pointer<scope> sk;
         };
     };
 };

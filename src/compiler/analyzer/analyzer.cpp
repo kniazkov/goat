@@ -22,9 +22,6 @@ with Goat interpreter.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "analyzer.h"
 #include "statement_builder.h"
-#include "scope_builder.h"
-#include "symbol_builder.h"
-#include "compiler/pt/root_scope/root_scope.h"
 #include "lib/assert.h"
 
 namespace g0at
@@ -63,17 +60,6 @@ namespace g0at
                 root_node->add_stmt(b0.get_stmt());
                 tok = tok->next;
             }
-
-            // root scope
-            lib::pointer<pt::root_scope::root_scope> root_scope = new pt::root_scope::root_scope();
-
-            // create scope for each node
-            scope_builder b1(root_scope.cast<pt::scope>());
-            root_node->accept(&b1);
-
-            // create symbols
-            symbol_builder b2(root_scope.get());
-            b2.traverse(root_node);
         }
     };
 };

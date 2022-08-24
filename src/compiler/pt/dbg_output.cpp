@@ -169,14 +169,17 @@ namespace g0at
 
         void dbg_output::link_node_common_info(node *leaf)
         {
+#if 0            
             auto sk = leaf->get_scope();
             if (sk)
             {
                 int node_sk_id = print_scope_node_if_needed(sk.get());
                 link(node_sk_id, id, edge_style::scope_to_node);
             }
+#endif
         }
 
+#if 0            
         int dbg_output::print_scope_node_if_needed(scope *sk)
         {
             auto iter = env.scope_nodes.find(sk);
@@ -256,6 +259,7 @@ namespace g0at
                 return out_sk.id;
             }
         }
+#endif
 
         void dbg_output::link(int pred_id, int succ_id, edge_style style)
         {

@@ -61,5 +61,317 @@ namespace g0at
             ref->get_object()->accept(rgen);
             code->add_instruction(new code::_set(args_count + 1));
         }
+
+        void lvalue_generator::visit(pt::function *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::static_string *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::function_call *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_expression *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::addition *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::integer *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::subtraction *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::negation *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::value_void *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::value_undefined *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::value_null *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::declare_variable *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::assignment *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::real *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::declare_function *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_return *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::node_object *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::value_true *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::value_false *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::is_equal_to *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::is_not_equal_to *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_while *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::method_call *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::this_ptr *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::node_array *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_block *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_if *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_throw *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_try *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::inheritance *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::character *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_for *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::is_less_than *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_empty *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::operator_new *ref)
+        {;
+        }
+
+        void lvalue_generator::visit(pt::prefix_increment *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_lock *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_for_in *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_do_while *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_break *ref)
+        {;
+        }
+
+        void lvalue_generator::visit(pt::statement_continue *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_switch *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::suffix_increment *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::prefix_decrement *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::suffix_decrement *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::multiplication *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::exponentiation *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::division *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::remainder *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::unary_plus *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::logical_not *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::bitwise_not *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::operator_bool *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::left_shift *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::signed_right_shift *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::zero_fill_right_shift *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::is_less_than_or_equal_to *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::is_greater_than *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::is_greater_than_or_equal_to *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::bitwise_and *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::bitwise_or *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::bitwise_xor *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::logical_and *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::logical_or *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::assignment_by_sum *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::assignment_by_difference *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::assignment_by_product *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::assignment_by_quotient *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::assignment_by_remainder *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::assignment_by_left_shift *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::assignment_by_signed_right_shift *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::assignment_by_zero_fill_right_shift *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::assignment_by_bitwise_and *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::assignment_by_bitwise_or *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::assignment_by_bitwise_xor *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::ternary *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::statement_debug *ref)
+        {
+        }
+
+        void lvalue_generator::visit(pt::protection *ref)
+        {
+        }
     };
 };
